@@ -94,7 +94,7 @@ public class Monster : MonoBehaviour
             monsterRigidbody2D.velocity = Vector2.zero;
             monsterAnimator.SetTrigger("Died");
 
-            GameManager.Instance.ReceiveValue("MonsterKill", 1);
+            GameManager.Instance.AcquireKillCount();
             GameManager.Instance.currentRoom.roomData.CheckMonsterCount();
             GameManager.Instance.monsters.Remove(gameObject);
             DropItem(transform.position);
@@ -116,17 +116,17 @@ public class Monster : MonoBehaviour
         for (int i = Random.Range(1, 4); i > 0; i--)
         {         
             Vector3 randPos1 = new Vector3(Random.Range(-1f, 2f), Random.Range(-1f, 2f), 0);
-            ObjectManager.Instance.GetQueue(PoolType.Exp, transform).GetComponent<DraggedObject>().waitPosition = diedPosition + randPos1;
+            ObjectManager.Instance.GetQueue(PoolType.Exp, transform).GetComponent<Loot>().waitPosition = diedPosition + randPos1;
 
             Vector3 randPos2 = new Vector3(Random.Range(-1f, 2f), Random.Range(-1f, 2f), 0);
-            ObjectManager.Instance.GetQueue(PoolType.Nyang, transform).GetComponent<DraggedObject>().waitPosition = diedPosition + randPos2;
+            ObjectManager.Instance.GetQueue(PoolType.Nyang, transform).GetComponent<Loot>().waitPosition = diedPosition + randPos2;
         }
 
         if (GameManager.Instance.currentRoom.roomData.isCleared)
         {
             Vector3 randPos1 = new Vector3(Random.Range(-1f, 2f), Random.Range(-1f, 2f), 0);
             GameObject g = ObjectManager.Instance.GetQueue(PoolType.Item, transform);
-            g.GetComponent<DraggedObject>().waitPosition = diedPosition + randPos1;
+            g.GetComponent<Loot>().waitPosition = diedPosition + randPos1;
             g.GetComponent<ItemGameObject>().SetItem(GameManager.Instance.itemBuffer.items[Random.Range(0, GameManager.Instance.itemBuffer.items.Length)]);
         }
     }
