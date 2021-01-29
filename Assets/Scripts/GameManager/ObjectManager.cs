@@ -6,7 +6,8 @@ public enum PoolType
 {
     Nothing,
     AnimatedText,
-    DefaultAttack,
+    PlayerDefaultAttack,
+    PlayerDefaultAttack2,
     Slime1,
     Slime2,
     BossMonster,

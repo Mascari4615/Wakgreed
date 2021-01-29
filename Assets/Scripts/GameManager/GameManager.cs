@@ -10,10 +10,8 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     [HideInInspector] public static GameManager Instance { get { return instance; } }
 
-    public Player player = null;
+    public Traveller player = null;
     public ItemBuffer itemBuffer = null;
-
-    [SerializeField] JoyStick joyStick = null;
 
     [HideInInspector] public int nyang = 0;
     [HideInInspector] public int monsterKill = 0;
@@ -66,10 +64,10 @@ public class GameManager : MonoBehaviour
     public GameObject bloodingPanel = null;
 
     [SerializeField] private GameObject miniMapCamera = null;
-    [SerializeField] private GameObject abilityPanel = null;
-    [SerializeField] private GameObject[] abilityButton = null;
-    [SerializeField] private AudioSource abilityChooseAudioSource = null;
-    private int abilityStack = 0;
+    [SerializeField] private GameObject selectAbilityPanel = null;
+    [SerializeField] private GameObject[] selectAbilityButton = null;
+    [SerializeField] private AudioSource selectAbilityAudioSource = null;
+    private int selectAbilityStack = 0;
 
     IEnumerator coroutine = null;
 
@@ -101,7 +99,7 @@ public class GameManager : MonoBehaviour
         } // 뒤로가기 버튼을 눌렀을 때, 정지Panel이 @비활성화 돼있다면, 재개
     }
 
-    public void OpenBag()
+    public void OpenAndCloseBag()
     {
         if (isFighting)
         {
@@ -286,6 +284,13 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         fadePanelAnimator.SetTrigger("FadeIn");
         currentRoom.roomData.enabled = true;
+
+        if (currentRoom.roomData.isCleared == false)
+        {
+            bagPanel.SetActive(false);
+            mapPanel.SetActive(false);
+        }
+
         yield return new WaitForSecondsRealtime(0.2f);
         fadePanel.SetActive(false);
     }
@@ -351,44 +356,48 @@ public class GameManager : MonoBehaviour
 
         miniMapCamera.transform.position = new Vector3(0, 0, -100);
 
+        isFighting = false;
         currentStageNumber = -1; 
         gameOverPanel.SetActive(false);
         gamePanel.SetActive(true);
     }
 
-    public void ReceiveValue(string type, int amount)
+    public void AcquireNyang(int amount)
     {
-        switch (type)
-        {
-            case "MonsterKill" :
-                monsterKill += amount;
-                monsterKillText.text = monsterKill + "";
-            break;
-
-            case "Nyang" :
-                nyang += amount;
-                nyangText.text = nyang + "";
-            break;
-                
-            default:
-                Debug.Log("ERROR : GameManager.ReciveValue");
-            break;
-        }
+        nyang += amount;
+        nyangText.text = nyang.ToString();
     }
 
-    public void OpenMapPanel()
+    public void AcquireKillCount()
     {
-        if (mapPanel.activeSelf == true)
+        monsterKill++;
+        monsterKillText.text = monsterKill.ToString();
+    }
+
+    public void OpenAndCloseMap()
+    {
+        if (isFighting)
         {
-            mapPanel.SetActive(false);
+            StopCoroutine(coroutine);
+            coroutine = NoticeText("전투 중에는 열 수 없습니다.", 1.5f);
+            StartCoroutine(coroutine);
         }
-        else if (mapPanel.activeSelf == false)
+        else
         {
-            // 왼쪽 위 0
-            if (mapGridLayoutGroup != null)
-                mapGridLayoutGroup.transform.localPosition = Vector3.zero;
-            mapPanel.SetActive(true);
-        }
+            StopCoroutine(coroutine);
+
+            if (mapPanel.activeSelf == true)
+            {
+                mapPanel.SetActive(false);
+            }
+            else if (mapPanel.activeSelf == false)
+            {
+                // 왼쪽 위 0
+                if (mapGridLayoutGroup != null)
+                    mapGridLayoutGroup.transform.localPosition = Vector3.zero;
+                mapPanel.SetActive(true);
+            }
+        }    
     }
 
     public void Interaction()
@@ -410,16 +419,16 @@ public class GameManager : MonoBehaviour
     public void LevelUp()
     {
         ObjectManager.Instance.GetQueue(PoolType.Smoke, player.gameObject.transform);
-        abilityStack++;
-        abilityPanel.SetActive(true);
+        selectAbilityStack++;
+        selectAbilityPanel.SetActive(true);
 
         // abilityButton[]
     }
 
     public void ChooseAbility(int i)
     {
-        abilityChooseAudioSource.Play();
-        abilityStack--;
+        selectAbilityAudioSource.Play();
+        selectAbilityStack--;
 
         switch (i)
         {
@@ -437,13 +446,13 @@ public class GameManager : MonoBehaviour
             break;
         }
 
-        if (abilityStack > 0)
+        if (selectAbilityStack > 0)
         {
-            abilityPanel.SetActive(true);
+            selectAbilityPanel.SetActive(true);
         }
         else
         {
-            abilityPanel.SetActive(false);
+            selectAbilityPanel.SetActive(false);
         }  
     }
 }

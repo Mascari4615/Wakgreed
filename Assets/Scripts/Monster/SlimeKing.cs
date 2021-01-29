@@ -13,9 +13,7 @@ public class SlimeKing : Monster
     [SerializeField] private GameObject attack222 = null;
     [SerializeField] private GameObject asdasdasd = null;
 
-
-     [SerializeField] private GameObject attack333333 = null;
-    [SerializeField] private GameObject qweqweqwe = null;
+    [SerializeField] private GameObject attack333333 = null;
     private float force = 2000;
     int rand = 0;
     int rand1 = 0;
