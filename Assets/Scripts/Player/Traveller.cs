@@ -7,18 +7,13 @@ using Cinemachine;
 
 public class Traveller : MonoBehaviour
 {
-    [Header("Player Components")]
-    public Rigidbody2D playerRB = null;
-    [SerializeField] protected GameObject attackPosParent = null;
-    public Transform attackPos = null;
-    [SerializeField] protected Transform weaponPos = null;
-    protected Animator animator = null;
-    protected AudioSource audioSource = null;
-    protected SpriteRenderer spriteRenderer = null;
+    // SingleTon
+    private static Traveller instance;
+    [HideInInspector] public static Traveller Instance { get { return instance; } }
 
-    [Header("Player Stats")]
-    public int ad = 0;
-    public int criticalChance = 0;
+    // Stat
+    [HideInInspector] public int ad = 0;
+    [HideInInspector] public int criticalChance = 0;
     protected int hp = 0;
     protected int hpMax = 0;
     protected int exp = 0;
@@ -27,12 +22,7 @@ public class Traveller : MonoBehaviour
     protected float moveSpeed = 0;
     protected float attackCoolTime = 0;
 
-    [Header("Stuff")]
-    [SerializeField] protected AudioClip[] audioClips = new AudioClip[3];
-    [SerializeField] protected JoyStick joyStick = null;
-    [SerializeField] protected CinemachineTargetGroup cinemachineTargetGroup = null;
-    [SerializeField] protected CinemachineImpulseSource cinemachineImpulseSource = null;
-    [SerializeField] protected float attackPosGap = 1f;
+    // Stuff
     protected float h = 0;
     protected float v = 0;
     protected bool isInputAttack;
@@ -41,24 +31,50 @@ public class Traveller : MonoBehaviour
     protected bool isReadyToAttack = false;
     protected bool isBleeding = false;
     protected int targetIndex = 4444;
+    protected float attackPosGap = 1.5f;
 
-    public List<Item> inventory = new List<Item>();
+    // GameObject, Component
+    [SerializeField] protected GameObject legacyOfTheHero;
 
-    protected void Awake()
+    [HideInInspector] public Rigidbody2D playerRB;
+    protected Animator animator;
+    protected AudioSource audioSource;
+    protected SpriteRenderer spriteRenderer;
+    [SerializeField] protected Transform attackPositionParent;
+    [SerializeField] public Transform attackPosition;
+    [SerializeField] protected Transform weaponPosition;
+    [SerializeField] protected AudioClip[] attackAudioClips;
+    [SerializeField] protected JoyStick joyStick;
+    [SerializeField] protected CinemachineTargetGroup cinemachineTargetGroup;
+    [SerializeField] protected Image hpBar;
+    [SerializeField] protected Text hpText;
+    [SerializeField] protected Image expBar;
+    [SerializeField] protected Text expText;
+    [SerializeField] protected Text levelText ;  
+    [SerializeField] protected GameObject bloodingPanel;
+
+    public Dictionary<Item, int> inventory = new Dictionary<Item, int>();
+
+    protected virtual void Awake()
     {
-        GameManager.Instance.player = this;
-        cinemachineTargetGroup.m_Targets[0].target = transform;
-
         playerRB = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+    }
 
+    protected void OnEnable()
+    {
+        print("Enable");
+        instance = this;
+        cinemachineTargetGroup.m_Targets[0].target = transform;
         Initialize();
     }
 
     public void Initialize()
     {
+        print("Initialize");
+
         hp = 100;
         hpMax = hp;
         ad = 30;
@@ -68,30 +84,26 @@ public class Traveller : MonoBehaviour
         exp = 0;
         level = 0;
         criticalChance = 5;
+
+        transform.position = Vector3.zero;
         
         playerRB.bodyType = RigidbodyType2D.Dynamic;
-        GameManager.Instance.nearInteractionObject = GameManager.InteractionObjext.None;
+        InteractionManager.Instance.nearInteractionObject = InteractiveObjectType.None;
 
         inventory.Clear();
 
         animator.SetBool("Run", false);
 
-        GameManager.Instance.hpBar.fillAmount = (float)hp / hpMax;
-        GameManager.Instance.hpText.text = hp + " / " + hpMax;
+        hpBar.fillAmount = (float)hp / hpMax;
+        hpText.text = hp + " / " + hpMax;
 
-        GameManager.Instance.expBar.fillAmount = (float)exp / necessaryExp;
-        GameManager.Instance.levelText.text = "Lv. " + level;
-        GameManager.Instance.expText.text = Mathf.Floor((float)exp / necessaryExp * 100) + "%";
+        expBar.fillAmount = (float)exp / necessaryExp;
+        levelText.text = "Lv. " + level;
+        expText.text = Mathf.Floor((float)exp / necessaryExp * 100) + "%";
     }
 
-    public virtual void Update()
-    {
-        if (Time.timeScale != 1)
-        {
-            GameManager.Instance.mapPanel.SetActive(false);
-            return;
-        }
-        
+    protected virtual void Update()
+    { 
         Move();
 
         if (isReadyToAttack == false)
@@ -112,11 +124,6 @@ public class Traveller : MonoBehaviour
 
         Targeting();
 
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            GameManager.Instance.Interaction();
-        }
-
         if (isBleeding)
         {
             if (t1 < 1f)
@@ -133,14 +140,14 @@ public class Traveller : MonoBehaviour
         }
     }
 
-    public virtual void Move()
+    protected virtual void Move()
     {
         h = joyStick.inputValue.x;
         v = joyStick.inputValue.y;
 
         if (joyStick.isDraging)
         {
-            playerRB.velocity = new Vector2(h, v) * moveSpeed;      
+            playerRB.velocity = new Vector2(h, v).normalized * moveSpeed;      
             animator.SetBool("Run", true);       
         }
         else
@@ -158,9 +165,10 @@ public class Traveller : MonoBehaviour
     {
         isInputAttack = false;
     }
-    public virtual void Attack()
+    protected virtual void Attack()
     {
-        
+        audioSource.clip = attackAudioClips[Random.Range(0, attackAudioClips.Length)];
+        audioSource.Play();
     }
 
     protected void Targeting()
@@ -197,8 +205,8 @@ public class Traveller : MonoBehaviour
         if (targetIndex == 4444)
         {
             cinemachineTargetGroup.m_Targets[1].target = null;
-            attackPosParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(joyStick.inputValue.y, joyStick.inputValue.x) * Mathf.Rad2Deg - 90);
-            attackPos.transform.localPosition = new Vector3(0, attackPosGap, 0);
+            attackPositionParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(joyStick.inputValue.y, joyStick.inputValue.x) * Mathf.Rad2Deg - 90);
+            attackPosition.transform.localPosition = new Vector3(0, attackPosGap, 0);
 
             if (h > 0)
             {
@@ -214,7 +222,7 @@ public class Traveller : MonoBehaviour
             Debug.DrawRay(transform.position, GameManager.Instance.monsters[targetIndex].transform.position - transform.position, Color.red);
 
             cinemachineTargetGroup.m_Targets[1].target = GameManager.Instance.monsters[targetIndex].transform;
-            attackPosParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(transform.position.y - GameManager.Instance.monsters[targetIndex].transform.position.y, transform.position.x - GameManager.Instance.monsters[targetIndex].transform.position.x) * Mathf.Rad2Deg + 90);
+            attackPositionParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(transform.position.y - GameManager.Instance.monsters[targetIndex].transform.position.y, transform.position.x - GameManager.Instance.monsters[targetIndex].transform.position.x) * Mathf.Rad2Deg + 90);
 
             if (GameManager.Instance.monsters[targetIndex].transform.position.x >= transform.position.x)
             {
@@ -233,19 +241,22 @@ public class Traveller : MonoBehaviour
         {
             return;
         }
-
-        GameManager.Instance.bloodingPanel.SetActive(false);
-        GameManager.Instance.bloodingPanel.SetActive(true);
+        
+        bloodingPanel.SetActive(false);
+        bloodingPanel.SetActive(true);
         isBleeding = true;
         // ObjectManager.Instance.GetQueue(PoolType.animatedText, transform.position, damage + "", Color.red);
         hp -= damage;
-        GameManager.Instance.hpBar.fillAmount = (float)hp / hpMax;
-        GameManager.Instance.hpText.text = hp + " / " + hpMax;
+        hpBar.fillAmount = (float)hp / hpMax;
+        hpText.text = hp + " / " + hpMax;
 
         if (hp <= 0)
         {
-            GameManager.Instance.hpBar.fillAmount = 0;
-            GameManager.Instance.hpText.text = 0 + " / " + hpMax;
+            Debug.Log("* Don't lose hope.");
+            Instantiate(legacyOfTheHero, transform);
+
+            hpBar.fillAmount = 0;
+            hpText.text = 0 + " / " + hpMax;
 
             animator.SetTrigger("Died");
             
@@ -262,33 +273,21 @@ public class Traveller : MonoBehaviour
         
         if (exp >= necessaryExp)
         {
-            GameManager.Instance.LevelUp();
+            LevelUp();
             level += 1;
             exp = 0;
             necessaryExp += 150;  
         }
 
-        GameManager.Instance.expBar.fillAmount = (float)exp / necessaryExp;
-        GameManager.Instance.levelText.text = "Lv. " + level;
-        GameManager.Instance.expText.text = Mathf.Floor((float)exp / necessaryExp * 100) + "%";
+        expBar.fillAmount = (float)exp / necessaryExp;
+        levelText.text = "Lv. " + level;
+        expText.text = Mathf.Floor((float)exp / necessaryExp * 100) + "%";
     }
 
-    protected void OnCollisionStay2D(Collision2D other)
+    protected void LevelUp()
     {
-        if (other.gameObject.CompareTag("Monster"))
-        {
-            ReceiveDamage(other.gameObject.GetComponent<Monster>().ad);
-            // Debug.Log(other.gameObject.name +", " + other.gameObject.GetComponent<Monster>().ad + "데미지 피격");
-        }
-    }
-
-    protected void OnTriggerStay2D(Collider2D other)
-    {
-        if (other.CompareTag("Monster"))
-        {
-            ReceiveDamage(other.GetComponentInParent<Monster>().ad);
-            // Debug.Log(other.gameObject.name +", " + other.gameObject.GetComponent<Monster>().ad + "데미지 피격");
-        }
+        ObjectManager.Instance.GetQueue(PoolType.Smoke, transform);
+        AbilityManager.Instance.LevelUp();
     }
 
     protected void OnTriggerEnter2D(Collider2D other)
@@ -296,11 +295,6 @@ public class Traveller : MonoBehaviour
         string tag = other.tag;
         switch (tag)
         {
-            case "Portal":
-                GameManager.Instance.attackButton.SetActive(false);
-                GameManager.Instance.interactionButton.SetActive(true);
-                GameManager.Instance.nearInteractionObject = GameManager.InteractionObjext.Portal;  
-                break;
             case "UpperDoor":
                 StartCoroutine(GameManager.Instance.MigrateRoom("Up"));    
                 break;
@@ -313,16 +307,6 @@ public class Traveller : MonoBehaviour
             case "RightDoor":
                 StartCoroutine(GameManager.Instance.MigrateRoom("Right"));
                 break;
-        }
-    }
-
-    protected void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.tag == "Portal")
-        {
-            GameManager.Instance.interactionButton.SetActive(false);
-            GameManager.Instance.attackButton.SetActive(true);
-            GameManager.Instance.nearInteractionObject = GameManager.InteractionObjext.None;
         }
     }
 }

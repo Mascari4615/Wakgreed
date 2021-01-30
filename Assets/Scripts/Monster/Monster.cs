@@ -7,6 +7,7 @@ public class Monster : MonoBehaviour
     [SerializeField] protected int _hp, _ad; // 초기 값, 인스펙터에서 _안보임
     [HideInInspector] public int hp, ad; // 실제 값
 
+    protected bool isBoss = false;
     protected bool isAlive = true;
     private float lastTime;
     
@@ -66,12 +67,25 @@ public class Monster : MonoBehaviour
         } 
     }
 
+    protected virtual void Attack()
+    {
+
+    }
+
+    protected void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Traveller.Instance.ReceiveDamage(ad);
+        }
+    }
+
     public virtual void ReceiveDamage(int damage)
     {
         int rand = Random.Range(0, 100);
         string type = "";
         
-        if (rand < GameManager.Instance.player.criticalChance)
+        if (rand < Traveller.Instance.criticalChance)
         {
             damage *= 2;
             type = "Critical";
@@ -95,7 +109,8 @@ public class Monster : MonoBehaviour
             monsterAnimator.SetTrigger("Died");
 
             GameManager.Instance.AcquireKillCount();
-            GameManager.Instance.currentRoom.roomData.CheckMonsterCount();
+            if (isBoss) GameManager.Instance.currentRoom.roomData.BossClear();
+            else GameManager.Instance.currentRoom.roomData.CheckMonsterCount();
             GameManager.Instance.monsters.Remove(gameObject);
             DropItem(transform.position);
 
@@ -126,8 +141,8 @@ public class Monster : MonoBehaviour
         {
             Vector3 randPos1 = new Vector3(Random.Range(-1f, 2f), Random.Range(-1f, 2f), 0);
             GameObject g = ObjectManager.Instance.GetQueue(PoolType.Item, transform);
-            g.GetComponent<Loot>().waitPosition = diedPosition + randPos1;
-            g.GetComponent<ItemGameObject>().SetItem(GameManager.Instance.itemBuffer.items[Random.Range(0, GameManager.Instance.itemBuffer.items.Length)]);
+            g.GetComponent<ItemGameObject>().waitPosition = diedPosition + randPos1;
+            g.GetComponent<ItemGameObject>().SetItem(ItemDataBase.Instance.items[Random.Range(0, ItemDataBase.Instance.items.Length)]);
         }
     }
 }

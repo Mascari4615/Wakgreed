@@ -6,7 +6,6 @@ public class Slime1 : Monster
 {
     protected override void OnEnable()
     {
-        int i = GameManager.Instance.currentStageNumber;
         base.OnEnable();
         StartCoroutine("ChangeDirection");
     }

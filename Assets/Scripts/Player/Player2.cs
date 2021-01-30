@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class Player2 : Traveller
 {
-    public override void Update()
+    protected override void Update()
     {
-        weaponPos.rotation = attackPosParent.transform.rotation;
         base.Update();
+        
+        weaponPosition.rotation = attackPositionParent.transform.rotation;    
     }
 
-    public override void Attack()
+    protected override void Attack()
     {
-        ObjectManager.Instance.GetQueue(PoolType.PlayerDefaultAttack2, attackPos);
+        base.Attack();
+
+        ObjectManager.Instance.GetQueue(PoolType.PlayerDefaultAttack2, attackPosition);
     }
 }

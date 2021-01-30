@@ -12,7 +12,7 @@ public class Arrow : MonoBehaviour
 
     void OnEnable()
     {
-        direction = (GameManager.Instance.player.attackPos.transform.position - GameManager.Instance.player.transform.position).normalized;
+        direction = (Traveller.Instance.attackPosition.transform.position - Traveller.Instance.transform.position).normalized;
     }
 
     void Update()
@@ -32,7 +32,7 @@ public class Arrow : MonoBehaviour
         {
             if (other.gameObject.TryGetComponent<Monster>(out Monster monster))
             {
-                monster.ReceiveDamage(GameManager.Instance.player.ad);
+                monster.ReceiveDamage(Traveller.Instance.ad);
             }
         }
     }

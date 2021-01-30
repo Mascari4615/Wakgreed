@@ -24,7 +24,7 @@ public class SwordSlash : MonoBehaviour
         {
             if (other.gameObject.TryGetComponent<Monster>(out Monster monster))
             {
-                monster.ReceiveDamage(GameManager.Instance.player.ad);
+                monster.ReceiveDamage(Traveller.Instance.ad);
             }
         }
     }
