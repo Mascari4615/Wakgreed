@@ -9,9 +9,9 @@ public class Slime2 : Monster
     private float attackCoolTime = 0;
     private bool isTargeting = false;
     [SerializeField] private GameObject slime = null;
+
     protected override void OnEnable()
     {
-        int i = GameManager.Instance.currentStageNumber;
         base.OnEnable();
 
         isReadyToAttack = false;
@@ -28,7 +28,7 @@ public class Slime2 : Monster
         Targeting();
     }
 
-    void Attack()
+    protected override void Attack()
     {
         if (isReadyToAttack == false)
         {
@@ -53,7 +53,6 @@ public class Slime2 : Monster
             {
                 t = 0;
                 slime.transform.localPosition = new Vector3(0, 0, -5);
-                slime.GetComponent<ProjectiveObject>().SetDirection();
                 slime.SetActive(true);
                 isReadyToAttack = false;
             }
@@ -62,7 +61,7 @@ public class Slime2 : Monster
 
     private void Targeting()
     {
-        RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, GameManager.Instance.player.transform.position - transform.position, Vector2.Distance(transform.position, GameManager.Instance.player.transform.position), LayerMask.NameToLayer("Everything"));
+        RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, Traveller.Instance.transform.position - transform.position, Vector2.Distance(transform.position, Traveller.Instance.transform.position), LayerMask.NameToLayer("Everything"));
         for (int j = 0; j < hit.Length; j++)
         {
             if (hit[j].transform.CompareTag("Wall"))
@@ -78,9 +77,9 @@ public class Slime2 : Monster
  
         if (isTargeting)
         {
-            Debug.DrawRay(transform.position, GameManager.Instance.player.transform.position - transform.position, Color.red);
+            Debug.DrawRay(transform.position, Traveller.Instance.transform.position - transform.position, Color.red);
 
-            if (GameManager.Instance.player.transform.position.x > transform.position.x)
+            if (Traveller.Instance.transform.position.x > transform.position.x)
             {
                 spriteRenderer.flipX = false;
             }
