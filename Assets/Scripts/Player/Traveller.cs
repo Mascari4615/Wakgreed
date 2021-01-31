@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using Cinemachine;
+using UnityEngine.EventSystems;
 
 public class Traveller : MonoBehaviour
 {
@@ -14,71 +14,144 @@ public class Traveller : MonoBehaviour
     // Stat
     [HideInInspector] public int ad = 0;
     [HideInInspector] public int criticalChance = 0;
-    protected int hp = 0;
-    protected int hpMax = 0;
-    protected int exp = 0;
-    protected int necessaryExp = 0;
-    protected int level = 0;
-    protected float moveSpeed = 0;
-    protected float attackCoolTime = 0;
+    private int hp = 0;
+    private int hpMax = 0;
+    private int exp = 0;
+    private int necessaryExp = 0;
+    private int level = 0;
+    private float moveSpeed = 0;
+
+    private const float coolDown = 1f;
+    private float currentCoolDown = 0f;
+    private bool isHealthy = true;
+    
+    private const float basicAttackCoolDown = 0.3f;
+    private float currentBasicAttackCoolDown = 0f;
+    private bool isBasicAttackReady = true;
+    private bool isInputtingBasicAttack = false;
+
+    private const float skill0CoolDown = 3f;
+    private float currenSkill0CoolDown = 0f;
+    private bool isSkill0Ready = true;
+    private bool isInputtingSkill0 = false;
+
+    private const float skill1CoolDown = 3f;
+    private float currenSkill1CoolDown = 0f;
+    private bool isSkill1Ready = true;
+    private bool isInputtingSkill1 = false;
+
+    private const float skill2CoolDown = 3f;
+    private float currenSkill2CoolDown = 0f;
+    private bool isSkill2Ready = true;
+    private bool isInputtingSkill2 = false;
 
     // Stuff
     protected float h = 0;
-    protected float v = 0;
-    protected bool isInputAttack;
-    protected float t = 0;
-    protected float t1 = 0;
-    protected bool isReadyToAttack = false;
-    protected bool isBleeding = false;
-    protected int targetIndex = 4444;
-    protected float attackPosGap = 1.5f;
+    private float v = 0;
+    
+    private GameObject target;
+    private float attackPosGap = 1.5f;
 
     // GameObject, Component
-    [SerializeField] protected GameObject legacyOfTheHero;
+    [SerializeField] private GameObject legacyOfTheHero;
 
     [HideInInspector] public Rigidbody2D playerRB;
-    protected Animator animator;
-    protected AudioSource audioSource;
-    protected SpriteRenderer spriteRenderer;
+    private Animator animator;
+    private AudioSource audioSource;
+    private SpriteRenderer spriteRenderer;
     [SerializeField] protected Transform attackPositionParent;
     [SerializeField] public Transform attackPosition;
     [SerializeField] protected Transform weaponPosition;
-    [SerializeField] protected AudioClip[] attackAudioClips;
+    [SerializeField] private AudioClip[] basicAttackAudioClips;
+    [SerializeField] private AudioClip[] skill0AudioClips;
+    [SerializeField] private AudioClip[] skill1AudioClips;
+    [SerializeField] private AudioClip[] skill2AudioClips;
     [SerializeField] protected JoyStick joyStick;
-    [SerializeField] protected CinemachineTargetGroup cinemachineTargetGroup;
-    [SerializeField] protected Image hpBar;
-    [SerializeField] protected Text hpText;
-    [SerializeField] protected Image expBar;
-    [SerializeField] protected Text expText;
-    [SerializeField] protected Text levelText ;  
-    [SerializeField] protected GameObject bloodingPanel;
+    [SerializeField] private EventTrigger basicAttackButtonEventTrigger;
+    [SerializeField] private EventTrigger skill0ButtonEventTrigger;
+    [SerializeField] private EventTrigger skill1ButtonEventTrigger;
+    [SerializeField] private EventTrigger skill2ButtonEventTrigger;
+    [SerializeField] private CinemachineTargetGroup cinemachineTargetGroup;
+    [SerializeField] private Image hpBar;
+    [SerializeField] private Text hpText;
+    [SerializeField] private Image expBar;
+    [SerializeField] private Text expText;
+    [SerializeField] private Text levelText ;  
+    [SerializeField] private GameObject bloodingPanel;
 
     public Dictionary<Item, int> inventory = new Dictionary<Item, int>();
 
+    EventTrigger.Entry basicAttackPointerDown = new EventTrigger.Entry();
+    EventTrigger.Entry basicAttackPointerEnter = new EventTrigger.Entry();
+    EventTrigger.Entry basicAttackPointerUp = new EventTrigger.Entry();
+    EventTrigger.Entry basicAttackPointerExit = new EventTrigger.Entry();
+
+    EventTrigger.Entry skill0PointerDown = new EventTrigger.Entry();
+    EventTrigger.Entry skill1PointerDown = new EventTrigger.Entry();
+    EventTrigger.Entry skill2PointerDown = new EventTrigger.Entry();
+
     protected virtual void Awake()
     {
+        Debug.Log(name + " : Awake");
+
         playerRB = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        basicAttackPointerDown.eventID = EventTriggerType.PointerDown;
+        basicAttackPointerDown.callback.AddListener((PointerEventData) => {isInputtingBasicAttack = true;});
+        basicAttackPointerEnter.eventID = EventTriggerType.PointerEnter;
+        basicAttackPointerEnter.callback.AddListener((PointerEventData) => {isInputtingBasicAttack = true;});
+        basicAttackPointerExit.eventID = EventTriggerType.PointerExit;
+        basicAttackPointerExit.callback.AddListener((PointerEventData) => {isInputtingBasicAttack = false;});
+        basicAttackPointerUp.eventID = EventTriggerType.PointerUp;
+        basicAttackPointerUp.callback.AddListener((PointerEventData) => {isInputtingBasicAttack = false;});
+
+        skill0PointerDown.eventID = EventTriggerType.PointerDown;
+        skill0PointerDown.callback.AddListener((PointerEventData) => {isInputtingSkill0 = true;});
+        skill1PointerDown.eventID = EventTriggerType.PointerDown;
+        skill1PointerDown.callback.AddListener((PointerEventData) => {isInputtingSkill1 = true;});
+        skill2PointerDown.eventID = EventTriggerType.PointerDown;
+        skill2PointerDown.callback.AddListener((PointerEventData) => {isInputtingSkill2 = true;});
+
+        attackPosition.transform.position = new Vector3(0, attackPosGap, 0);
     }
 
-    protected void OnEnable()
+    private void OnEnable()
     {
-        print("Enable");
+        Debug.Log(name + " : OnEnable");
+
         instance = this;
         cinemachineTargetGroup.m_Targets[0].target = transform;
+
+        basicAttackButtonEventTrigger.triggers.Clear();
+        basicAttackButtonEventTrigger.triggers.Add(basicAttackPointerDown);
+        //basicAttackButtonEventTrigger.triggers.Add(basicAttackPointerEnter);
+        //basicAttackButtonEventTrigger.triggers.Add(basicAttackPointerExit);
+        basicAttackButtonEventTrigger.triggers.Add(basicAttackPointerUp);
+
+        skill0ButtonEventTrigger.triggers.Clear();
+        skill0ButtonEventTrigger.triggers.Add(skill0PointerDown);
+
+        skill1ButtonEventTrigger.triggers.Clear();
+        skill1ButtonEventTrigger.triggers.Add(skill1PointerDown);
+
+        skill2ButtonEventTrigger.triggers.Clear();
+        skill2ButtonEventTrigger.triggers.Add(skill2PointerDown);
+
         Initialize();
     }
 
     public void Initialize()
     {
-        print("Initialize");
+        Debug.Log(name + " : Initialize");
 
         hp = 100;
         hpMax = hp;
         ad = 30;
-        attackCoolTime = 0.3f;
+        currentCoolDown = coolDown;
+        currentBasicAttackCoolDown = basicAttackCoolDown;
         moveSpeed = 8;
         necessaryExp = 100;
         exp = 0;
@@ -103,39 +176,37 @@ public class Traveller : MonoBehaviour
     }
 
     protected virtual void Update()
-    { 
+    {
         Move();
-
-        if (isReadyToAttack == false)
-        {
-            t += Time.deltaTime;
-            if (t >= attackCoolTime)
-            {
-                t = 0;
-                isReadyToAttack = true;
-            }
-        }
-
-        if ((isInputAttack || Input.GetKey(KeyCode.Space)) && isReadyToAttack)
-        {
-            Attack();
-            isReadyToAttack = false;
-        }
-
         Targeting();
 
-        if (isBleeding)
+        CheckCoolDown(ref isBasicAttackReady, ref currentBasicAttackCoolDown, basicAttackCoolDown);
+        if (isInputtingBasicAttack && isBasicAttackReady) BasicAttack();
+
+        CheckCoolDown(ref isHealthy, ref currentCoolDown, coolDown);
+        if (isHealthy == true) spriteRenderer.color = new Color(1, 1, 1, 1);
+        else if (isHealthy == false) spriteRenderer.color = new Color(1, 1, 1, (float)100 / 255);
+
+        CheckCoolDown(ref isSkill0Ready, ref currenSkill0CoolDown, skill0CoolDown);
+        if (isInputtingSkill0 && isSkill0Ready) Skill0();
+        else isInputtingSkill0 = false;
+        CheckCoolDown(ref isSkill1Ready, ref currenSkill1CoolDown, skill1CoolDown);
+        if (isInputtingSkill1 && isSkill1Ready) Skill1();
+        else isInputtingSkill1 = false;
+        CheckCoolDown(ref isSkill2Ready, ref currenSkill2CoolDown, skill2CoolDown);
+        if (isInputtingSkill2 && isSkill2Ready) Skill2();
+        else isInputtingSkill2 = false;
+    }
+
+    private void CheckCoolDown(ref bool coolDownTarget, ref float currentCoolDown, float coolDown)
+    {
+        if (coolDownTarget == false)
         {
-            if (t1 < 1f)
+            currentCoolDown += Time.deltaTime;
+            if (currentCoolDown >= coolDown)
             {
-                spriteRenderer.color = new Color(1, 1, 1, (float)100 / 255);
-                t1 += Time.deltaTime;
-            }
-            else
-            {
-                spriteRenderer.color = new Color(1, 1, 1, 1);
-                isBleeding = false;
-                t1 = 0;
+                coolDownTarget = true;
+                currentCoolDown = 0;
             }
         }
     }
@@ -144,153 +215,159 @@ public class Traveller : MonoBehaviour
     {
         h = joyStick.inputValue.x;
         v = joyStick.inputValue.y;
+        Vector3 moveDirection = new Vector2(h, v).normalized;
 
-        if (joyStick.isDraging)
+        if (joyStick.isDraging == true)
         {
-            playerRB.velocity = new Vector2(h, v).normalized * moveSpeed;      
+            playerRB.velocity = moveDirection * moveSpeed;      
             animator.SetBool("Run", true);       
         }
-        else
+        else if (joyStick.isDraging == false)
         {
             playerRB.velocity = Vector2.zero;
             animator.SetBool("Run", false);
         }
+
+        if (target != null)
+        {
+            if (target.transform.position.x >= transform.position.x) transform.localScale = new Vector3(1, 1, 1); //오른쪽
+            else if (target.transform.position.x < transform.position.x) transform.localScale = new Vector3(-1, 1, 1); // 왼쪽
+        }
+        else if (target == null)
+        {
+            if (h > 0) transform.localScale = new Vector3(1, 1, 1);       
+            else if (h < 0) transform.localScale = new Vector3(-1, 1, 1);
+        }
     }
 
-    public void AttackButtonDown()
+    protected virtual void BasicAttack()
     {
-        isInputAttack = true;
-    }
-    public void AttackButtonUp()
-    {
-        isInputAttack = false;
-    }
-    protected virtual void Attack()
-    {
-        audioSource.clip = attackAudioClips[Random.Range(0, attackAudioClips.Length)];
+        Debug.Log(name + " : Attack");
+        audioSource.clip = basicAttackAudioClips[Random.Range(0, basicAttackAudioClips.Length)];
         audioSource.Play();
+
+        isBasicAttackReady = false;
     }
 
-    protected void Targeting()
+    protected virtual void Skill0()
+    {
+        Debug.Log(name + " : Skill0");
+        audioSource.clip = skill0AudioClips[Random.Range(0, skill0AudioClips.Length)];
+        audioSource.Play();
+
+        isSkill0Ready = false;
+    }
+
+    protected virtual void Skill1()
+    {
+        Debug.Log(name + " : Skill1");
+        audioSource.clip = skill1AudioClips[Random.Range(0, skill1AudioClips.Length)];
+        audioSource.Play();
+
+        isSkill1Ready = false;
+    }
+
+    protected virtual void Skill2()
+    {
+        Debug.Log(name + " : Skill2");
+        audioSource.clip = skill2AudioClips[Random.Range(0, skill2AudioClips.Length)];
+        audioSource.Play();
+
+        isSkill2Ready = false;
+    }
+
+    private void Targeting()
     {
         if (GameManager.Instance.monsters.Count > 0)
         {
-            targetIndex = 4444;
+            float targetDist = 4444;
             float currentDist = 0;
-            float targetDist = 15;
-            
-            for (int i = 0; i < GameManager.Instance.monsters.Count; i++)
+
+            foreach (var monster in GameManager.Instance.monsters)
             {
-                currentDist = Vector2.Distance(transform.position, GameManager.Instance.monsters[i].transform.position);
-                RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, GameManager.Instance.monsters[i].transform.position - transform.position, currentDist, LayerMask.NameToLayer("Everything"));
-                for (int j = 0; j < hit.Length; j++)
+                currentDist = Vector2.Distance(transform.position, monster.transform.position);
+                RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, monster.transform.position - transform.position, currentDist, LayerMask.NameToLayer("Everything"));
+
+                foreach (var hitObject in hit)
                 {
-                    if (hit[j].transform.CompareTag("Wall"))
+                    if (hitObject.transform.CompareTag("Wall")) break;
+                    else if (hitObject.transform.CompareTag("Monster") && (currentDist < targetDist))
                     {
-                        break;
-                    }
-                    else if (hit[j].transform.CompareTag("Monster") && (targetDist >= currentDist))
-                    {                     
-                        targetIndex = i;
-                        targetDist = currentDist; 
+                        target = monster;
+                        targetDist = currentDist;
                     }
                 }
             }
+
+            cinemachineTargetGroup.m_Targets[1].target = target.transform;
+            attackPositionParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(transform.position.y - target.transform.position.y, transform.position.x - target.transform.position.x) * Mathf.Rad2Deg + 90);
+
+            Debug.DrawRay(transform.position, target.transform.position - transform.position, Color.red);           
         }
         else
         {
-            targetIndex = 4444; // 타겟팅 안됨
-        }
+            target = null;
 
-        if (targetIndex == 4444)
-        {
             cinemachineTargetGroup.m_Targets[1].target = null;
             attackPositionParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(joyStick.inputValue.y, joyStick.inputValue.x) * Mathf.Rad2Deg - 90);
-            attackPosition.transform.localPosition = new Vector3(0, attackPosGap, 0);
-
-            if (h > 0)
-            {
-                transform.localScale = new Vector3(1, 1, 1);       
-            }
-            else if (h < 0)
-            {
-                transform.localScale = new Vector3(-1, 1, 1);
-            }
-        }
-        else
-        {
-            Debug.DrawRay(transform.position, GameManager.Instance.monsters[targetIndex].transform.position - transform.position, Color.red);
-
-            cinemachineTargetGroup.m_Targets[1].target = GameManager.Instance.monsters[targetIndex].transform;
-            attackPositionParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(transform.position.y - GameManager.Instance.monsters[targetIndex].transform.position.y, transform.position.x - GameManager.Instance.monsters[targetIndex].transform.position.x) * Mathf.Rad2Deg + 90);
-
-            if (GameManager.Instance.monsters[targetIndex].transform.position.x >= transform.position.x)
-            {
-                transform.localScale = new Vector3(1, 1, 1);
-            }
-            else
-            {
-                transform.localScale = new Vector3(-1, 1, 1);
-            }
         }
     }
 
     public void ReceiveDamage(int damage)
     {
-        if (isBleeding)
-        {
-            return;
-        }
+        if (isHealthy == false) return;
         
         bloodingPanel.SetActive(false);
         bloodingPanel.SetActive(true);
-        isBleeding = true;
+        isHealthy = false;
+
         // ObjectManager.Instance.GetQueue(PoolType.animatedText, transform.position, damage + "", Color.red);
+
         hp -= damage;
+        if (hp <= 0) Collapse();
+
         hpBar.fillAmount = (float)hp / hpMax;
-        hpText.text = hp + " / " + hpMax;
+        hpText.text = hp + $" / " + hpMax;
+    }
 
-        if (hp <= 0)
-        {
-            Debug.Log("* Don't lose hope.");
-            Instantiate(legacyOfTheHero, transform);
+    private void Collapse()
+    {
+        Debug.Log(name + " : Collapse");
+        Debug.Log("* Don't lose hope.");
+        Instantiate(legacyOfTheHero, transform);
 
-            hpBar.fillAmount = 0;
-            hpText.text = 0 + " / " + hpMax;
+        hpBar.fillAmount = 0;
+        hpText.text = 0 + " / " + hpMax;
 
-            animator.SetTrigger("Died");
-            
-            playerRB.bodyType = RigidbodyType2D.Static;
+        animator.SetTrigger("Collapse");
+        
+        playerRB.bodyType = RigidbodyType2D.Static;
 
-            StartCoroutine(GameManager.Instance.GameOver());
-            this.enabled = false;
-        }
+        StartCoroutine(GameManager.Instance.GameOver());
+        this.enabled = false;
     }
 
     public void AcquireExp(int expValue)
     {
         exp += expValue;
-        
-        if (exp >= necessaryExp)
-        {
-            LevelUp();
-            level += 1;
-            exp = 0;
-            necessaryExp += 150;  
-        }
+        if (exp >= necessaryExp) LevelUp();
 
         expBar.fillAmount = (float)exp / necessaryExp;
         levelText.text = "Lv. " + level;
         expText.text = Mathf.Floor((float)exp / necessaryExp * 100) + "%";
     }
 
-    protected void LevelUp()
+    private void LevelUp()
     {
+        level += 1;
+        exp = 0;
+        necessaryExp += 150; 
+        
         ObjectManager.Instance.GetQueue(PoolType.Smoke, transform);
         AbilityManager.Instance.LevelUp();
     }
 
-    protected void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         string tag = other.tag;
         switch (tag)
