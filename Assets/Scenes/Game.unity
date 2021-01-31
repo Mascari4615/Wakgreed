@@ -924,71 +924,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 909484127}
-          m_TargetAssemblyTypeName: 
-          m_MethodName: AttackButtonDown
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 909484127}
-          m_TargetAssemblyTypeName: 
-          m_MethodName: AttackButtonDown
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 3
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 909484127}
-          m_TargetAssemblyTypeName: 
-          m_MethodName: AttackButtonUp
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 909484127}
-          m_TargetAssemblyTypeName: 
-          m_MethodName: AttackButtonUp
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+  m_Delegates: []
 --- !u!1 &34218612
 GameObject:
   m_ObjectHideFlags: 0
@@ -2608,8 +2544,9 @@ GameObject:
   - component: {fileID: 140178023}
   - component: {fileID: 140178022}
   - component: {fileID: 140178021}
+  - component: {fileID: 140178024}
   m_Layer: 5
-  m_Name: Btn _ Skill3
+  m_Name: Btn _ Skill2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2729,6 +2666,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 140178019}
   m_CullTransparentMesh: 0
+--- !u!114 &140178024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140178019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
 --- !u!1 &140679827
 GameObject:
   m_ObjectHideFlags: 0
@@ -8190,9 +8140,19 @@ MonoBehaviour:
   attackPositionParent: {fileID: 226036791}
   attackPosition: {fileID: 1171262670}
   weaponPosition: {fileID: 1580654012}
-  attackAudioClips:
+  basicAttackAudioClips:
+  - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
+  skill0AudioClips:
+  - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
+  skill1AudioClips:
+  - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
+  skill2AudioClips:
   - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
   joyStick: {fileID: 1522652458}
+  basicAttackButtonEventTrigger: {fileID: 28418794}
+  skill0ButtonEventTrigger: {fileID: 664357281}
+  skill1ButtonEventTrigger: {fileID: 1739543050}
+  skill2ButtonEventTrigger: {fileID: 140178024}
   cinemachineTargetGroup: {fileID: 1974556998}
   hpBar: {fileID: 818451172}
   hpText: {fileID: 873446278}
@@ -16007,8 +15967,9 @@ GameObject:
   - component: {fileID: 664357280}
   - component: {fileID: 664357279}
   - component: {fileID: 664357278}
+  - component: {fileID: 664357281}
   m_Layer: 5
-  m_Name: Btn _ SKill1
+  m_Name: Btn _ SKill0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16128,6 +16089,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 664357276}
   m_CullTransparentMesh: 0
+--- !u!114 &664357281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 664357276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
 --- !u!1 &665172595
 GameObject:
   m_ObjectHideFlags: 0
@@ -20161,11 +20135,21 @@ MonoBehaviour:
   attackPositionParent: {fileID: 2013410261}
   attackPosition: {fileID: 1021397560}
   weaponPosition: {fileID: 246422212}
-  attackAudioClips:
+  basicAttackAudioClips:
   - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
-  - {fileID: 8300000, guid: 18ad0d717de3d244280871a7b1eff6fe, type: 3}
-  - {fileID: 8300000, guid: a32b9e310d995fb4783947c6f3af2d6c, type: 3}
+  - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
+  - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
+  skill0AudioClips:
+  - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
+  skill1AudioClips:
+  - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
+  skill2AudioClips:
+  - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
   joyStick: {fileID: 1522652458}
+  basicAttackButtonEventTrigger: {fileID: 28418794}
+  skill0ButtonEventTrigger: {fileID: 664357281}
+  skill1ButtonEventTrigger: {fileID: 1739543050}
+  skill2ButtonEventTrigger: {fileID: 140178024}
   cinemachineTargetGroup: {fileID: 1974556998}
   hpBar: {fileID: 818451172}
   hpText: {fileID: 873446278}
@@ -22317,7 +22301,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1021397559}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_Children: []
   m_Father: {fileID: 2013410261}
@@ -25093,7 +25077,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1171262669}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_Children: []
   m_Father: {fileID: 226036791}
@@ -35750,8 +35734,9 @@ GameObject:
   - component: {fileID: 1739543049}
   - component: {fileID: 1739543048}
   - component: {fileID: 1739543047}
+  - component: {fileID: 1739543050}
   m_Layer: 5
-  m_Name: Btn _ Skill2
+  m_Name: Btn _ Skill1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35871,6 +35856,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1739543045}
   m_CullTransparentMesh: 0
+--- !u!114 &1739543050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1739543045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
 --- !u!1 &1746893156
 GameObject:
   m_ObjectHideFlags: 0

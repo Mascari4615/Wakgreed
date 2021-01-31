@@ -77,19 +77,10 @@ public class Slime2 : Monster
  
         if (isTargeting)
         {
-            Debug.DrawRay(transform.position, Traveller.Instance.transform.position - transform.position, Color.red);
+            Debug.DrawRay(transform.position, Traveller.Instance.transform.position - transform.position, Color.green);
 
-            if (Traveller.Instance.transform.position.x > transform.position.x)
-            {
-                spriteRenderer.flipX = false;
-            }
-            else
-            {
-                spriteRenderer.flipX = true;
-            }
-            
-            //attackPosParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(joyStick.inputValue.y, joyStick.inputValue.x) * Mathf.Rad2Deg - 90);
-            //attackPos.transform.localPosition = new Vector3(0, attackPosGap, 0);
+            if (Traveller.Instance.transform.position.x > transform.position.x) spriteRenderer.flipX = false;
+            else if  (Traveller.Instance.transform.position.x < transform.position.x) spriteRenderer.flipX = true;
         }
     }
 

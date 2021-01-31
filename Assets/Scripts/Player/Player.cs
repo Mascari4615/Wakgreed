@@ -30,9 +30,9 @@ public class Player : Traveller
         }
     }
 
-    protected override void Attack()
+    protected override void BasicAttack()
     {
-        base.Attack();
+        base.BasicAttack();
         
         if (weaponRot == 0)
         {
@@ -48,5 +48,20 @@ public class Player : Traveller
         }
         ObjectManager.Instance.GetQueue(PoolType.PlayerDefaultAttack, attackPosition);
         cinemachineImpulseSource.GenerateImpulse();
+    }
+
+    protected override void Skill0()
+    {
+        base.Skill0();
+    }
+
+    protected override void Skill1()
+    {
+        base.Skill1();
+    }
+
+    protected override void Skill2()
+    {
+        base.Skill2();
     }
 }
