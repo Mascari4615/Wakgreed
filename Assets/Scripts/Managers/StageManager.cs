@@ -1,12 +1,12 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 public class RoomMold
 {
     public RoomData roomData = new RoomData();
 
     public int x, y;
-    private bool wantsUpperRoom, wantsLowerRoom, wantsLeftRoom, wantsRightRoom = false;
     public bool[] isDoorOpen = new bool[4];
 
     public RoomMold(int _x, int _y) // 선언과 동시에 실행되는 함수
@@ -19,38 +19,33 @@ public class RoomMold
 
     public void GenerateRoomStack()
     {
-        if (Random.Range(0, 2) == 0 && y != StageManager.Instace.roomMoldLength - 1) wantsUpperRoom = true;
-        if (Random.Range(0, 2) == 0 && y != 0) wantsLowerRoom = true;
-        if (Random.Range(0, 2) == 0 && x != 0) wantsLeftRoom = true;
-        if (Random.Range(0, 2) == 0 && x != StageManager.Instace.roomMoldLength - 1) wantsRightRoom = true;
-        
-        if (wantsUpperRoom) StageManager.Instace.roomStackQueue.Enqueue(new RoomStack(x, y, "Up"));
-        if (wantsLowerRoom) StageManager.Instace.roomStackQueue.Enqueue(new RoomStack(x, y, "Down"));
-        if (wantsLeftRoom) StageManager.Instace.roomStackQueue.Enqueue(new RoomStack(x, y, "Left"));
-        if (wantsRightRoom) StageManager.Instace.roomStackQueue.Enqueue(new RoomStack(x, y, "Right"));
+        if (Random.Range(0, 2) == 0 && y != StageManager.Instace.roomMoldLength - 1) StageManager.Instace.roomStackQueue.Enqueue(new RoomStack(x, y, "Up"));
+        if (Random.Range(0, 2) == 0 && y != 0) StageManager.Instace.roomStackQueue.Enqueue(new RoomStack(x, y, "Down"));
+        if (Random.Range(0, 2) == 0 && x != 0) StageManager.Instace.roomStackQueue.Enqueue(new RoomStack(x, y, "Left"));
+        if (Random.Range(0, 2) == 0 && x != StageManager.Instace.roomMoldLength - 1) StageManager.Instace.roomStackQueue.Enqueue(new RoomStack(x, y, "Right"));
     }
 }
+
 public class RoomStack
-{
-    public int originalX, originalY, totalX, totalY = 0;
-    public string direction = "";
-    public RoomStack(int x, int y, string _direction) // 선언과 동시에 실행되는 함수
     {
-        originalX = x;
-        originalY = y;
-        totalX = x;
-        totalY = y;
-        direction = _direction;
-        
-        switch(direction)
+        public int originalX, originalY, totalX, totalY = 0;
+        public string direction = "";
+
+        public RoomStack(int x, int y, string _direction) // 선언과 동시에 실행되는 함수
         {
-            case "Up" : totalY = y + 1; break;
-            case "Down" : totalY = y - 1; break;
-            case "Left" : totalX = x - 1; break;
-            case "Right" : totalX = x + 1; break;
+            originalX = x;
+            originalY = y;
+            totalX = x;
+            totalY = y;
+            direction = _direction;
+            
+            if (direction == "Up") totalY = y + 1;
+            else if (direction == "Down") totalY = y - 1;
+            else if (direction == "Left") totalX = x - 1;
+            else if (direction == "Right")totalX = x + 1;
         }
     }
-}
+
 public class StageManager : MonoBehaviour
 {
     private static StageManager instance = null;
@@ -62,13 +57,13 @@ public class StageManager : MonoBehaviour
 
     [HideInInspector] public GameObject stage;
     [HideInInspector] public StageData stageData;
-    private RoomMold[,] roomMolds = new RoomMold[0,0];
+    private RoomMold[,] roomMolds = new RoomMold[0, 0];
     private int roomCount = 0;
     [HideInInspector] public Queue<RoomStack> roomStackQueue = new Queue<RoomStack>();
     private RoomData[] roomDatas = new RoomData[0]; 
     private List<RoomData> roomDataList = new List<RoomData>();
     private List<RoomMold> roomList = new List<RoomMold>();
-    private Dictionary<string, RoomMold> roomDictionary = new Dictionary<string, RoomMold>();
+    public Dictionary<int[], RoomMold> roomDictionary = new Dictionary<int[], RoomMold>();
 
     void Awake()
     {
@@ -79,9 +74,11 @@ public class StageManager : MonoBehaviour
     {
         if (stage != null)
             Destroy(stage.gameObject);
+
         stage = null;
         stageData = null;
         roomMolds.Initialize();
+        roomMolds = new RoomMold[roomMoldLength, roomMoldLength];
         roomCount = 0;
         roomStackQueue.Clear();
         roomDatas.Initialize();
@@ -98,138 +95,99 @@ public class StageManager : MonoBehaviour
         stageData = stage.GetComponent<StageData>();
         roomDatas = stageData.roomDatas;
 
-        for (int i = 0; i < roomDatas.Length; i++) // 방 데이터 리스트에, 현재 스테이지의 방 데이터 배열을 대입
-            roomDataList.Add(roomDatas[i]);
+        roomDataList = new List<RoomData>(roomDatas);
+        // 방 데이터 리스트에, 현재 스테이지의 방 데이터 배열을 대입
 
-        // Debug.Log("----- Generating RoomMold Structure -----");
-        roomMolds = new RoomMold[roomMoldLength, roomMoldLength]; // 방 구조를 저장할 배열 생성
+        // (Length - 1) / 2 안하고 Length / 2 하는 이유 : 
+        // 예를 들어 Length 3이면 전자의 경우 2, 후자의 경우 1.5 가 되는데, 배열은 0부터 시작하니까 가운데가 [1, 1]임. 근데 전자 즉 [2, 2] 는 아니고, 배열 index는 정수라 1.5라는 값이 들어가면 1로 바뀌어서 [1, 1]이 되버림.
 
-        roomMolds[roomMoldLength / 2, roomMoldLength / 2] = new RoomMold(roomMoldLength / 2, roomMoldLength / 2); // 가운데에 가장 기본 방 생성
-        roomList.Add(roomMolds[roomMoldLength / 2, roomMoldLength / 2]); // 방 리스트에 넣음
+        // 가운데에 가장 기본 방 생성, 방 리스트에 넣기
+        roomMolds[roomMoldLength / 2, roomMoldLength / 2] = new RoomMold(roomMoldLength / 2, roomMoldLength / 2);
+        roomList.Add(roomMolds[roomMoldLength / 2, roomMoldLength / 2]);
         roomCount = maxRoomCount - 1; // 최대로 생성할 방 개수 설정, 위에서 하나 생성했으니 -1
-        // Debug.Log("First Room : " + roomMoldLength / 2 + "_" + roomMoldLength / 2);
-
-        // Debug.Log("----- Start Coroutine GenerateRoom() -----");
-        StartCoroutine("GenerateRoom"); // 방 생성 시작
+        
+        GenerateRoom(); // 방 생성 시작
     }
 
-    IEnumerator GenerateRoom()
+    private void GenerateRoom()
     {
-        if (roomCount <= 0) // 만약 생성할 수 있는 방 개수가 0 이하면, 방 생성 멈추기 + 결과 보여주기
-        { 
-            // Debug.Log("----- Stop Corotine GeneratedRoom() -----");
-            StopCoroutine("GenerateRoom");
-            AfterRoomMoldsGenerated();
-        }
-        else
+        while (roomCount > 0)
         {
-            // Debug.Log("Try to Generate Room...");
-            if (roomStackQueue.Count > 0)
-            {
-                RoomStack stack = roomStackQueue.Dequeue();
-                if (roomMolds[stack.totalX, stack.totalY] == null)
-                {
-                    roomMolds[stack.totalX, stack.totalY] = new RoomMold(stack.totalX, stack.totalY);
-                    switch (stack.direction)
-                    {
-                        case "Up" :
-                            roomMolds[stack.originalX, stack.originalY].isDoorOpen[0] = true;
-                            roomMolds[stack.totalX, stack.totalY].isDoorOpen[1] = true;
-                            break;
-                        
-                        case "Down" :
-                            roomMolds[stack.originalX, stack.originalY].isDoorOpen[1] = true;
-                            roomMolds[stack.totalX, stack.totalY].isDoorOpen[0] = true;
-                            break;
-
-                        case "Left" :
-                            roomMolds[stack.originalX, stack.originalY].isDoorOpen[2] = true;
-                            roomMolds[stack.totalX, stack.totalY].isDoorOpen[3] = true;
-                            break;
-
-                        case "Right" :
-                            roomMolds[stack.originalX, stack.originalY].isDoorOpen[3] = true;
-                            roomMolds[stack.totalX, stack.totalY].isDoorOpen[2] = true;
-                            break;
-                    }
-                    roomList.Add(roomMolds[stack.totalX, stack.totalY]);
-                    roomCount--;
-                    // Debug.Log("Success" + stack.totalX + "_" + stack.totalY);
-                }
-            }
-            else
+            if (roomStackQueue.Count == 0)
             {
                 roomList[Random.Range(0, roomList.Count)].GenerateRoomStack();
+                continue;
             }
-            yield return 0;
-            StartCoroutine("GenerateRoom");
-        }
-    }
+            
+            RoomStack stack = roomStackQueue.Dequeue();
 
-    private void AfterRoomMoldsGenerated() // 방 구조가 만들어진 후 실행
-    {
+            if (roomMolds[stack.totalX, stack.totalY] != null) continue;
+            
+            roomMolds[stack.totalX, stack.totalY] = new RoomMold(stack.totalX, stack.totalY);
+            int origin = 0;
+            int total = 0;;
+
+            if (stack.direction == "Up") {origin = 0; total = 1;}
+            else if (stack.direction == "Down") {origin = 1; total = 0;}
+            else if (stack.direction == "Left") {origin = 2; total = 3;}
+            else if (stack.direction == "Right") {origin = 3; total = 2;}
+    
+            roomMolds[stack.originalX, stack.originalY].isDoorOpen[origin] = true;
+            roomMolds[stack.totalX, stack.totalY].isDoorOpen[total] = true;
+
+            roomList.Add(roomMolds[stack.totalX, stack.totalY]);
+            roomCount--;
+        }
+
         PrintRoomMolds();
 
-        string spawnRoomCoordinate = null;
         int roomListCount = roomList.Count;
+        int[] spawnRoomCoordinate = new int[]{};
 
-        // Debug.Log("RoomList Count : " + roomList.Count);
-        // Debug.Log("RoomDataList Count : " + roomDataList.Count);
         for (int i = 0; i < roomListCount; i++) // 랜덤한 방 그릇에 랜덤한 방 데이터 대입
-        {
-            int roomIndex = Random.Range(0, roomList.Count); // 방 구조용
+        {      
+            int roomListIndex = Random.Range(0, roomList.Count); // 방 구조용
             int roomDataIndex = Random.Range(0, roomDataList.Count); // 방 데이터용
 
             if (i == 0) // 0 --- 스폰
             {
-                roomIndex = 0;
-                roomDataIndex = 0;
-
-                roomList[roomIndex].roomData = roomDataList[roomDataIndex];
- 
-                spawnRoomCoordinate = roomList[roomIndex].x + "_" + roomList[roomIndex].y;
+                roomListIndex = 0;
+                roomDataIndex = 0;;
+                roomList[roomListIndex].roomData = roomDataList[roomDataIndex];
+                spawnRoomCoordinate = new int[]{roomList[roomListIndex].x, roomList[roomListIndex].y};
             }
             else if (i < 3) // 1 2 --- 포탈/보스 상점
             {
                 roomDataIndex = 0;
-
-                roomList[roomIndex].roomData = roomDataList[roomDataIndex];
+                roomList[roomListIndex].roomData = roomDataList[roomDataIndex];
             }
             else // 나머지
             {
-                roomList[roomIndex].roomData = roomDataList[roomDataIndex];
+                roomList[roomListIndex].roomData = roomDataList[roomDataIndex];
             }
-            
-            // # 열어야 할 문 열기
-            if (roomList[roomIndex].isDoorOpen[0])
-                roomList[roomIndex].roomData.isDoorOpen[0] = true;
-            if (roomList[roomIndex].isDoorOpen[1])
-                roomList[roomIndex].roomData.isDoorOpen[1] = true;
-            if (roomList[roomIndex].isDoorOpen[2])
-                roomList[roomIndex].roomData.isDoorOpen[2] = true;
-            if (roomList[roomIndex].isDoorOpen[3])
-                roomList[roomIndex].roomData.isDoorOpen[3] = true;
 
-            // # 방 딕셔너리에 방 리스트 추가하고, 삭제하기
-            // Debug.Log(roomList[roomIndex].x + "_" +roomList[roomIndex].y); // # 생성된 방 체크
-            roomDictionary.Add(roomList[roomIndex].x + "_" +roomList[roomIndex].y, roomList[roomIndex]);
-            roomList.RemoveAt(roomIndex);
+            // # 열어야 할 문 열기
+            if (roomList[roomListIndex].isDoorOpen[0]) roomList[roomListIndex].roomData.isDoorOpen[0] = true;
+            if (roomList[roomListIndex].isDoorOpen[1]) roomList[roomListIndex].roomData.isDoorOpen[1] = true;
+            if (roomList[roomListIndex].isDoorOpen[2]) roomList[roomListIndex].roomData.isDoorOpen[2] = true;
+            if (roomList[roomListIndex].isDoorOpen[3]) roomList[roomListIndex].roomData.isDoorOpen[3] = true;
+
+            // # 방 딕셔너리에 방 리스트 먼저 추가하고, 삭제하기
+            roomDictionary.Add(new int[]{roomList[roomListIndex].x, roomList[roomListIndex].y}, roomList[roomListIndex]);
+            Debug.Log(roomDictionary[new int[]{roomList[roomListIndex].x, roomList[roomListIndex].y}]);
+            roomList.RemoveAt(roomListIndex);
             roomDataList.RemoveAt(roomDataIndex);
         }
-        // Debug.Log("Spawn Room : " + spawnRoomCoordinate);
-        // Debug.Log("Dictionary Count : " + roomDictionary.Count);
-
-        StartCoroutine(GameManager.Instance.StartStage(roomDictionary, spawnRoomCoordinate));
+        StartCoroutine(GameManager.Instance.StartStage(spawnRoomCoordinate));
     }
-    
+
     private void PrintRoomMolds()
     {
-        string s = null;
+        string s = "";
 
         // X축 번호 위쪽
         s += "A _ ";
-        for (int i = 0; i < roomMoldLength; i++)
-            s += i + " ";
+        for (int i = 0; i < roomMoldLength; i++) s += i + " ";
 
         // Y축 번호 왼쪽, 방 그릇 유무, Y축 번호 오른쪽
         s += "\n";
@@ -238,20 +196,17 @@ public class StageManager : MonoBehaviour
             s += j + " _ ";
             for (int k = 0; k < roomMoldLength; k++)
             {
-                if(roomMolds[k, j] != null)
-                    s += "O ";
-                else
-                    s += "X ";
+                if(roomMolds[k, j] != null) s += "O ";
+                else s += "X ";
             }
             s += " " + j + "\n";
         }
         
         // X축 번호 아래쪽
         s += "A _ ";
-        for (int l = 0; l < roomMoldLength; l++)
-            s += l + " ";
+        for (int l = 0; l < roomMoldLength; l++) s += l + " ";
             
-        // Debug.Log(s);
+        Debug.Log(s);
     }
 }
 

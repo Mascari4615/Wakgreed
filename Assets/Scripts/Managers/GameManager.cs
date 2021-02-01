@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public bool isFighting = false;
     private int currentStageNumber = -1;
 
-    private Dictionary<string, RoomMold> roomDictionary = new Dictionary<string, RoomMold>();
+    private Dictionary<int[], RoomMold> roomDictionary = new Dictionary<int[], RoomMold>();
     [HideInInspector] public RoomMold currentRoom;
     
     [SerializeField] private GameObject gamePanel;
@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
         coroutine = NoticeText("전투 중에는 열 수 없습니다.", 1.5f);
+        roomDictionary = StageManager.Instace.roomDictionary;
     }
 
     void Update()
@@ -117,10 +118,9 @@ public class GameManager : MonoBehaviour
         StageManager.Instace.GenerateStage(currentStageNumber);
     }
 
-    public IEnumerator StartStage(Dictionary<string, RoomMold> _roomDictionary, string spawnRoomCoordinate)
+    public IEnumerator StartStage(int[] spawnRoom)
     {
-        roomDictionary = _roomDictionary;
-        currentRoom = roomDictionary[spawnRoomCoordinate];
+        currentRoom = roomDictionary[spawnRoom];
         InitialzeMap();
         
         Traveller.Instance.transform.position = new Vector3(currentRoom.roomData.transform.position.x, currentRoom.roomData.transform.position.y, 0);
@@ -171,45 +171,45 @@ public class GameManager : MonoBehaviour
         roomUiArray[currentRoom.x, currentRoom.y].transform.Find("2").gameObject.SetActive(true);
       
         // # 현재 방과 연결된 방 && 들어가지 않았던 방 > 진한 회색
-        if (currentRoom.isDoorOpen[0] && !roomDictionary[x + "_" + (y + 1)].roomData.isCleared)
+        if (currentRoom.isDoorOpen[0] && !roomDictionary[new int[]{x, y + 1}].roomData.isCleared)
         {
             roomUiArray[x, y].transform.Find("Up").gameObject.SetActive(true);
             roomUiArray[x, y + 1].transform.Find("Down").gameObject.SetActive(true);
 
-            if (roomDictionary[x + "_" + (y + 1)].roomData.roomType == RoomData.RoomType.Boss)
+            if (roomDictionary[new int[]{x, y + 1}].roomData.roomType == RoomData.RoomType.Boss)
             {
                 roomUiArray[x, y + 1].transform.Find("Boss").gameObject.SetActive(true);
             }
         }
 
-        if (currentRoom.isDoorOpen[1] && !roomDictionary[x + "_" + (y - 1)].roomData.isCleared)
+        if (currentRoom.isDoorOpen[1] && !roomDictionary[new int[]{x, y - 1}].roomData.isCleared)
         {
             roomUiArray[x, y].transform.Find("Down").gameObject.SetActive(true);
             roomUiArray[x, y - 1].transform.Find("Up").gameObject.SetActive(true);
 
-            if (roomDictionary[x + "_" + (y - 1)].roomData.roomType == RoomData.RoomType.Boss)
+            if (roomDictionary[new int[]{x, y - 1}].roomData.roomType == RoomData.RoomType.Boss)
             {
                 roomUiArray[x, y - 1].transform.Find("Boss").gameObject.SetActive(true);
             }
         }  
 
-        if (currentRoom.isDoorOpen[2] && !roomDictionary[(x - 1) + "_" + y].roomData.isCleared)
+        if (currentRoom.isDoorOpen[2] && !roomDictionary[new int[]{x - 1, y}].roomData.isCleared)
         {
             roomUiArray[x, y].transform.Find("Left").gameObject.SetActive(true);
             roomUiArray[x - 1, y].transform.Find("Right").gameObject.SetActive(true);
 
-            if (roomDictionary[(x - 1) + "_" + y].roomData.roomType == RoomData.RoomType.Boss)
+            if (roomDictionary[new int[]{x - 1, y}].roomData.roomType == RoomData.RoomType.Boss)
             {
                 roomUiArray[x - 1, y].transform.Find("Boss").gameObject.SetActive(true);
             }
         }
 
-        if (currentRoom.isDoorOpen[3] && !roomDictionary[(x + 1) + "_" + y].roomData.isCleared)
+        if (currentRoom.isDoorOpen[3] && !roomDictionary[new int[]{x + 1, y}].roomData.isCleared)
         {
             roomUiArray[x, y].transform.Find("Right").gameObject.SetActive(true);
             roomUiArray[x + 1, y].transform.Find("Left").gameObject.SetActive(true);
 
-            if (roomDictionary[(x + 1) + "_" + y].roomData.roomType == RoomData.RoomType.Boss)
+            if (roomDictionary[new int[]{x + 1, y}].roomData.roomType == RoomData.RoomType.Boss)
             {
                 roomUiArray[x + 1, y].transform.Find("Boss").gameObject.SetActive(true);
             }
@@ -228,22 +228,22 @@ public class GameManager : MonoBehaviour
         switch (direction) 
         {
             case "Up" :
-                currentRoom = roomDictionary[currentRoom.x + "_" + (currentRoom.y + 1)];
+                currentRoom = roomDictionary[new int[]{currentRoom.x, currentRoom.y + 1}];
                 Traveller.Instance.transform.position = new Vector3(currentRoom.roomData.doors[1].transform.position.x, currentRoom.roomData.doors[1].transform.position.y, 0) + Vector3.up * 2f;
             break;
 
             case "Down" :
-                currentRoom = roomDictionary[currentRoom.x + "_" + (currentRoom.y - 1)];
+                currentRoom = roomDictionary[new int[]{currentRoom.x, currentRoom.y - 1}];
                 Traveller.Instance.transform.position = new Vector3(currentRoom.roomData.doors[0].transform.position.x, currentRoom.roomData.doors[0].transform.position.y, 0) + Vector3.down * 2f;
             break;
 
             case "Left" :
-                currentRoom = roomDictionary[(currentRoom.x - 1) + "_" + currentRoom.y];
+                currentRoom = roomDictionary[new int[]{currentRoom.x - 1, currentRoom.y}];
                 Traveller.Instance.transform.position = new Vector3(currentRoom.roomData.doors[3].transform.position.x, currentRoom.roomData.doors[3].transform.position.y, 0) + Vector3.left * 2f;
             break;
 
             case "Right" :
-                currentRoom = roomDictionary[(currentRoom.x + 1) + "_" + currentRoom.y];
+                currentRoom = roomDictionary[new int[]{currentRoom.x + 1, currentRoom.y}];
                 Traveller.Instance.transform.position = new Vector3(currentRoom.roomData.doors[2].transform.position.x, currentRoom.roomData.doors[2].transform.position.y, 0) + Vector3.right * 2f;
             break;
             

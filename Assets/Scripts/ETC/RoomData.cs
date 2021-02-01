@@ -9,11 +9,11 @@ public class RoomData : MonoBehaviour
     [HideInInspector] public bool isCleared = false;
     [SerializeField] private int monsterCount = 0;
     private int currentMonsterCount = 0;
-    public GameObject[] doors = new GameObject[4];
+    public GameObject[] doors;
     public bool[] isDoorOpen = new bool[4];
-    [SerializeField] private GameObject[] doorHiders = new GameObject[4];
-    [SerializeField] private Transform[] monsterSpawnPoint = new Transform[0];
-    [SerializeField] private Transform[] interactionObjectSpawnPoint = new Transform[0];
+    [SerializeField] private GameObject[] doorHiders;
+    [SerializeField] private Transform[] monsterSpawnPoint;
+    [SerializeField] private Transform[] interactionObjectSpawnPoint;
     [SerializeField] private GameObject portal;
 
     void Awake()
