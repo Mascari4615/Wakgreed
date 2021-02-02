@@ -19,28 +19,28 @@ public class Traveller : MonoBehaviour
     private int exp = 0;
     private int necessaryExp = 0;
     private int level = 0;
-    private float moveSpeed = 0;
+    public float moveSpeed = 0;
 
     private const float coolDown = 1f;
     private float currentCoolDown = 0f;
     private bool isHealthy = true;
     
-    private const float basicAttackCoolDown = 0.3f;
+    public float basicAttackCoolDown = 0.3f;
     private float currentBasicAttackCoolDown = 0f;
     private bool isBasicAttackReady = true;
     private bool isInputtingBasicAttack = false;
 
-    private const float skill0CoolDown = 3f;
+    private float skill0CoolDown = 3f;
     private float currenSkill0CoolDown = 0f;
     private bool isSkill0Ready = true;
     private bool isInputtingSkill0 = false;
 
-    private const float skill1CoolDown = 3f;
+    private float skill1CoolDown = 3f;
     private float currenSkill1CoolDown = 0f;
     private bool isSkill1Ready = true;
     private bool isInputtingSkill1 = false;
 
-    private const float skill2CoolDown = 3f;
+    private float skill2CoolDown = 3f;
     private float currenSkill2CoolDown = 0f;
     private bool isSkill2Ready = true;
     private bool isInputtingSkill2 = false;
@@ -147,9 +147,9 @@ public class Traveller : MonoBehaviour
     {
         Debug.Log(name + " : Initialize");
 
-        hp = 100;
+        hp = 30;
         hpMax = hp;
-        ad = 30;
+        ad = 3;
         currentCoolDown = coolDown;
         currentBasicAttackCoolDown = basicAttackCoolDown;
         moveSpeed = 8;
@@ -280,6 +280,7 @@ public class Traveller : MonoBehaviour
     {
         if (GameManager.Instance.monsters.Count > 0)
         {
+            target = null;
             float targetDist = 4444;
             float currentDist = 0;
 
@@ -308,14 +309,13 @@ public class Traveller : MonoBehaviour
         {
             cinemachineTargetGroup.m_Targets[1].target = target.transform;
             attackPositionParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(transform.position.y - target.transform.position.y, transform.position.x - target.transform.position.x) * Mathf.Rad2Deg + 90);
+            Debug.DrawRay(transform.position, target.transform.position - transform.position, Color.red);
         }
         else
         {
             cinemachineTargetGroup.m_Targets[1].target = null;
             attackPositionParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(joyStick.inputValue.y, joyStick.inputValue.x) * Mathf.Rad2Deg - 90);
         }
-        
-        Debug.DrawRay(transform.position, target.transform.position - transform.position, Color.red);
     }
 
     public void ReceiveDamage(int damage)

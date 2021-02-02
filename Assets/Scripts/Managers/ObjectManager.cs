@@ -75,6 +75,18 @@ public class ObjectManager : MonoBehaviour
         targetObject.SetActive(false); 
     }
 
+    public void InsertAll()
+    {
+        for (int i = 0; i < monsterParent.transform.childCount; i++)
+        {
+            InsertQueue(monsterParent.transform.GetChild(i).GetComponent<PoolingObject>().poolType, monsterParent.transform.GetChild(i).gameObject);
+        }
+        for (int i = 0; i < elseParent.transform.childCount; i++)
+        {
+            InsertQueue(elseParent.transform.GetChild(i).GetComponent<PoolingObject>().poolType, elseParent.transform.GetChild(i).gameObject);
+        }
+    }
+
     public GameObject GetQueue(PoolType poolObjectType, Transform createTransform)
     {
         GameObject targetObject = poolDataDictionary[poolObjectType].Dequeue();

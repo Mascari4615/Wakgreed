@@ -201,7 +201,10 @@ public class StageManager : MonoBehaviour
 
     public void DestroyStage()
     {
-        
+        for (int i = 0; i < stageGrid.transform.childCount; i++)
+        {
+            Destroy(stageGrid.transform.GetChild(i).gameObject);
+        }
     }
 }
 
