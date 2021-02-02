@@ -19,11 +19,11 @@ public class SpeedWagonManager : MonoBehaviour
         instance = this;
     }
 
-    public IEnumerator StageSpeedWagon(int currentStageNumber)
+    public IEnumerator StageSpeedWagon(int currentStageID)
     {
         stageSpeedWagon.SetActive(true);
-        stageNumberText.text = currentStageNumber.ToString();
-        stageNameText.text = StageManager.Instace.stageData.stageName;
+        stageNumberText.text = currentStageID.ToString();
+        stageNameText.text = StageDataBase.Instance.stages[currentStageID].name;
         yield return new WaitForSeconds(2f);
         stageSpeedWagon.SetActive(false);
     }
@@ -33,11 +33,9 @@ public class SpeedWagonManager : MonoBehaviour
         GameObject.Find("SlimeKing(Clone)").GetComponent<SlimeKing>().enabled = false;
         GameObject.Find("SlimeKing(Clone)").transform.Find("CM Camera1").GetComponent<CinemachineVirtualCamera>().Priority = 100;
         Traveller.Instance.playerRB.bodyType = RigidbodyType2D.Static;
-        Traveller.Instance.enabled = false;
         bossSpeedWagon.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(3f);
         bossSpeedWagon.gameObject.SetActive(false);
-        Traveller.Instance.enabled = true;
         Traveller.Instance.playerRB.bodyType = RigidbodyType2D.Dynamic;
         GameObject.Find("SlimeKing(Clone)").transform.Find("CM Camera1").GetComponent<CinemachineVirtualCamera>().Priority = 0;
         GameObject.Find("SlimeKing(Clone)").GetComponent<SlimeKing>().enabled = true;

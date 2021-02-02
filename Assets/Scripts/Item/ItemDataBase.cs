@@ -9,11 +9,6 @@ public class Item
     public string itemName = "";
     public string itemDescription = "";
     public Sprite itemSprite = null;
-
-    public void Effect()
-    {
-        Debug.Log("Effect!");
-    }
 }
 
 public class ItemDataBase : MonoBehaviour

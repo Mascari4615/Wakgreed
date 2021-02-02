@@ -181,7 +181,7 @@ public class Traveller : MonoBehaviour
         Targeting();
 
         CheckCoolDown(ref isBasicAttackReady, ref currentBasicAttackCoolDown, basicAttackCoolDown);
-        if (isInputtingBasicAttack && isBasicAttackReady) BasicAttack();
+        if ((isInputtingBasicAttack || Input.GetKeyDown(KeyCode.Space)) && isBasicAttackReady) BasicAttack();
 
         CheckCoolDown(ref isHealthy, ref currentCoolDown, coolDown);
         if (isHealthy == true) spriteRenderer.color = new Color(1, 1, 1, 1);
@@ -297,20 +297,25 @@ public class Traveller : MonoBehaviour
                         targetDist = currentDist;
                     }
                 }
-            }
-
-            cinemachineTargetGroup.m_Targets[1].target = target.transform;
-            attackPositionParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(transform.position.y - target.transform.position.y, transform.position.x - target.transform.position.x) * Mathf.Rad2Deg + 90);
-
-            Debug.DrawRay(transform.position, target.transform.position - transform.position, Color.red);           
+            }           
         }
         else
         {
             target = null;
+        }
 
+        if (target != null) 
+        {
+            cinemachineTargetGroup.m_Targets[1].target = target.transform;
+            attackPositionParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(transform.position.y - target.transform.position.y, transform.position.x - target.transform.position.x) * Mathf.Rad2Deg + 90);
+        }
+        else
+        {
             cinemachineTargetGroup.m_Targets[1].target = null;
             attackPositionParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(joyStick.inputValue.y, joyStick.inputValue.x) * Mathf.Rad2Deg - 90);
         }
+        
+        Debug.DrawRay(transform.position, target.transform.position - transform.position, Color.red);
     }
 
     public void ReceiveDamage(int damage)
