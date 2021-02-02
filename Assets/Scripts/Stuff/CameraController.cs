@@ -5,7 +5,6 @@ using Cinemachine;
 
 public class CameraController : MonoBehaviour
 {
-    public CinemachineTargetGroup cinemachineTargetGroup;
     private float t1, t2;
 
     void Awake()

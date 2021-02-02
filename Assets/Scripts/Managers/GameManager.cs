@@ -11,11 +11,10 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public int nyang = 0;
     [HideInInspector] public int monsterKill = 0;
-    [HideInInspector] public bool isStageCleared = false;
     [HideInInspector] public bool isFighting = false;
     private int currentStageNumber = -1;
 
-    private Dictionary<int[], RoomMold> roomDictionary = new Dictionary<int[], RoomMold>();
+    private Dictionary<Vector2, RoomMold> roomDictionary = new Dictionary<Vector2, RoomMold>();
     [HideInInspector] public RoomMold currentRoom;
     
     [SerializeField] private GameObject gamePanel;
@@ -42,59 +41,40 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text noticeText;
     [HideInInspector] public List<GameObject> monsters;
     
-    private IEnumerator coroutine;
     [SerializeField] private GameObject monsterPool;
 
-    void Awake()
+    private void Awake()
     {
         instance = this;
-        coroutine = NoticeText("전투 중에는 열 수 없습니다.", 1.5f);
-        roomDictionary = StageManager.Instace.roomDictionary;
     }
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) // 뒤로가기 버튼을 눌렀을 때, 정지 및 재개 ★ Time을 통한 실질적인 게임 정지 및 재개
-        {
-            PauseGame();
-        }
+        // 뒤로가기 버튼을 눌렀을 때, 정지 및 재개 ★ Time을 통한 실질적인 게임 정지 및 재개
+        if (Input.GetKeyDown(KeyCode.Escape)) PauseGame();
     }
 
     public void PauseGame()
     {
-        if (pausePanel.activeSelf == true) 
-        {
-            Time.timeScale = 1;
-            pausePanel.SetActive(false); // 뒤로가기 버튼을 눌렀을 때, 정지Panel이 @활성화 돼있다면, 일시정지
-        }
-        else if (pausePanel.activeSelf == false) 
-        {
-            Time.timeScale = 0;
-            mapPanel.SetActive(false);
-            pausePanel.SetActive(true);
-        } // 뒤로가기 버튼을 눌렀을 때, 정지Panel이 @비활성화 돼있다면, 재개
+        if (Time.timeScale == 1) Time.timeScale = 0;
+        else if (Time.timeScale == 0) Time.timeScale = 1;
+
+        mapPanel.SetActive(false);
+        pausePanel.SetActive(!pausePanel.activeSelf);
     }
 
     public void OpenAndCloseBag()
     {
         if (isFighting)
         {
-            StopCoroutine(coroutine);
-            coroutine = NoticeText("전투 중에는 열 수 없습니다.", 1.5f);
-            StartCoroutine(coroutine);
+            StopCoroutine(NoticeText("전투 중에는 열 수 없습니다.", 1.5f));
+            StartCoroutine(NoticeText("전투 중에는 열 수 없습니다.", 1.5f));
         }
         else
         {
-            StopCoroutine(coroutine);
+            StopCoroutine(NoticeText("전투 중에는 열 수 없습니다.", 1.5f));
 
-            if (bagPanel.activeSelf == true)
-            {
-                bagPanel.SetActive(false);
-            }
-            else if (bagPanel.activeSelf == false)
-            {
-                bagPanel.SetActive(true);
-            }
+            bagPanel.SetActive(!bagPanel.activeSelf);
         }
     }
 
@@ -111,22 +91,19 @@ public class GameManager : MonoBehaviour
         fadePanel.SetActive(true);
         yield return new WaitForSecondsRealtime(0.2f);
 
-        // player.gameObject.SetActive(false);
-
-        isStageCleared = false;
-        currentStageNumber ++;
+        currentStageNumber++;
         StageManager.Instace.GenerateStage(currentStageNumber);
     }
 
-    public IEnumerator StartStage(int[] spawnRoom)
+    public IEnumerator StartStage(Vector2 spawnRoom, Dictionary<Vector2, RoomMold> asd)
     {
+        roomDictionary = asd;
         currentRoom = roomDictionary[spawnRoom];
         InitialzeMap();
         
-        Traveller.Instance.transform.position = new Vector3(currentRoom.roomData.transform.position.x, currentRoom.roomData.transform.position.y, 0);
+        Traveller.Instance.transform.position = new Vector3(currentRoom.x - 2, currentRoom.y + 1, 0) * 100;
         currentRoom.roomData.enabled = true;
-        // player.gameObject.SetActive(true);
-        miniMapCamera.transform.position = new Vector3(currentRoom.roomData.transform.position.x, currentRoom.roomData.transform.position.y, -100);
+        miniMapCamera.transform.position = new Vector3(currentRoom.x - 2, currentRoom.y + 1, -1) * 100;
 
         yield return new WaitForSecondsRealtime(0.5f);
         fadePanelAnimator.SetTrigger("FadeIn");
@@ -138,21 +115,26 @@ public class GameManager : MonoBehaviour
 
     public void InitialzeMap()
     {     
-        mapGridLayoutGroup.constraintCount = StageManager.Instace.roomMoldLength;
+        mapGridLayoutGroup.constraintCount = StageManager.Instace.roomLength;
+        roomUiArray = new GameObject[StageManager.Instace.roomLength, StageManager.Instace.roomLength];
 
-        roomUiArray = null;
-        roomUiArray = new GameObject[StageManager.Instace.roomMoldLength, StageManager.Instace.roomMoldLength];
+        for (int i = 0; i < mapGridLayoutGroup.transform.childCount; i++)
+        {
+            if (i <= StageManager.Instace.roomLength * StageManager.Instace.roomLength)
+                mapGridLayoutGroup.transform.GetChild(i).gameObject.SetActive(true);
+            else if (i > StageManager.Instace.roomLength * StageManager.Instace.roomLength)
+                mapGridLayoutGroup.transform.GetChild(i).gameObject.SetActive(false);
+
+            for (int j = 0; j < mapGridLayoutGroup.transform.GetChild(i).transform.childCount; j++)
+                mapGridLayoutGroup.transform.GetChild(i).transform.GetChild(j).gameObject.SetActive(false);
+        }
 
         int c = 0;
-        for (int i = StageManager.Instace.roomMoldLength - 1; i >= 0; i--)
+        for (int i = StageManager.Instace.roomLength - 1; i >= 0; i--)
         {
-            for (int j = 0; j < StageManager.Instace.roomMoldLength; j++)
+            for (int j = 0; j < StageManager.Instace.roomLength; j++)
             {
                 roomUiArray[j, i] = mapGridLayoutGroup.transform.GetChild(c).gameObject;
-                for (int k = 0; k < mapGridLayoutGroup.transform.GetChild(c).transform.childCount; k++)
-                {           
-                    mapGridLayoutGroup.transform.GetChild(c).transform.GetChild(k).gameObject.SetActive(false);
-                }
                 c++;
             }
         }
@@ -162,57 +144,36 @@ public class GameManager : MonoBehaviour
 
     private void UpdateMap()
     {  
-        int x = currentRoom.x;
-        int y = currentRoom.y;
-
         // # 현재 방 > 밝은 회색
         roomUiArray[currentRoom.x, currentRoom.y].transform.Find("CurrentRoom").gameObject.SetActive(true);
-        roomUiArray[currentRoom.x, currentRoom.y].transform.Find("1").gameObject.SetActive(true);
-        roomUiArray[currentRoom.x, currentRoom.y].transform.Find("2").gameObject.SetActive(true);
+        roomUiArray[currentRoom.x, currentRoom.y].transform.Find("StageTheme").gameObject.SetActive(true);
       
         // # 현재 방과 연결된 방 && 들어가지 않았던 방 > 진한 회색
-        if (currentRoom.isDoorOpen[0] && !roomDictionary[new int[]{x, y + 1}].roomData.isCleared)
+        UpdateRoomUI(0, currentRoom.x, currentRoom.y);
+        UpdateRoomUI(1, currentRoom.x, currentRoom.y);
+        UpdateRoomUI(2, currentRoom.x, currentRoom.y);
+        UpdateRoomUI(3, currentRoom.x, currentRoom.y);
+    }
+
+    private void UpdateRoomUI(int doorIndex, int originX, int originY)
+    {
+        int totalX = originX;
+        int totalY = originY;
+        string originDoor = "";
+        string totalDoor = "";
+
+        if (doorIndex == 0) {totalY++; originDoor = "Up"; totalDoor = "Down";}
+        else if (doorIndex == 1) {totalY--; originDoor = "Down"; totalDoor = "Up";}
+        else if (doorIndex == 2) {totalX--; originDoor = "Left"; totalDoor = "Right";}
+        else if (doorIndex == 3) {totalX++; originDoor = "Right"; totalDoor = "Left";}
+
+        if (currentRoom.isDoorOpen[doorIndex] && !roomDictionary[new Vector2(totalX, totalY)].roomData.isCleared)
         {
-            roomUiArray[x, y].transform.Find("Up").gameObject.SetActive(true);
-            roomUiArray[x, y + 1].transform.Find("Down").gameObject.SetActive(true);
+            roomUiArray[originX, originY].transform.Find(originDoor).gameObject.SetActive(true);
+            roomUiArray[totalX, totalY].transform.Find(totalDoor).gameObject.SetActive(true);
 
-            if (roomDictionary[new int[]{x, y + 1}].roomData.roomType == RoomData.RoomType.Boss)
-            {
-                roomUiArray[x, y + 1].transform.Find("Boss").gameObject.SetActive(true);
-            }
-        }
-
-        if (currentRoom.isDoorOpen[1] && !roomDictionary[new int[]{x, y - 1}].roomData.isCleared)
-        {
-            roomUiArray[x, y].transform.Find("Down").gameObject.SetActive(true);
-            roomUiArray[x, y - 1].transform.Find("Up").gameObject.SetActive(true);
-
-            if (roomDictionary[new int[]{x, y - 1}].roomData.roomType == RoomData.RoomType.Boss)
-            {
-                roomUiArray[x, y - 1].transform.Find("Boss").gameObject.SetActive(true);
-            }
-        }  
-
-        if (currentRoom.isDoorOpen[2] && !roomDictionary[new int[]{x - 1, y}].roomData.isCleared)
-        {
-            roomUiArray[x, y].transform.Find("Left").gameObject.SetActive(true);
-            roomUiArray[x - 1, y].transform.Find("Right").gameObject.SetActive(true);
-
-            if (roomDictionary[new int[]{x - 1, y}].roomData.roomType == RoomData.RoomType.Boss)
-            {
-                roomUiArray[x - 1, y].transform.Find("Boss").gameObject.SetActive(true);
-            }
-        }
-
-        if (currentRoom.isDoorOpen[3] && !roomDictionary[new int[]{x + 1, y}].roomData.isCleared)
-        {
-            roomUiArray[x, y].transform.Find("Right").gameObject.SetActive(true);
-            roomUiArray[x + 1, y].transform.Find("Left").gameObject.SetActive(true);
-
-            if (roomDictionary[new int[]{x + 1, y}].roomData.roomType == RoomData.RoomType.Boss)
-            {
-                roomUiArray[x + 1, y].transform.Find("Boss").gameObject.SetActive(true);
-            }
+            if (roomDictionary[new Vector2(totalX, totalY)].roomData.roomType == RoomData.RoomType.Boss)
+                roomUiArray[totalX, totalY].transform.Find("Boss").gameObject.SetActive(true);
         }
     }
     
@@ -220,51 +181,35 @@ public class GameManager : MonoBehaviour
     {
         fadePanel.SetActive(true);
         yield return new WaitForSecondsRealtime(0.2f);
-        Time.timeScale = 0;
 
         roomUiArray[currentRoom.x, currentRoom.y].transform.Find("CurrentRoom").gameObject.SetActive(false);
 
         // #_ 이동하는 방향의 방으로 이동
-        switch (direction) 
-        {
-            case "Up" :
-                currentRoom = roomDictionary[new int[]{currentRoom.x, currentRoom.y + 1}];
-                Traveller.Instance.transform.position = new Vector3(currentRoom.roomData.doors[1].transform.position.x, currentRoom.roomData.doors[1].transform.position.y, 0) + Vector3.up * 2f;
-            break;
+        int totalX = currentRoom.x;
+        int totalY = currentRoom.y;
+        int totalDoorIndex = 0;
+        Vector3 asd = Vector2.zero;
 
-            case "Down" :
-                currentRoom = roomDictionary[new int[]{currentRoom.x, currentRoom.y - 1}];
-                Traveller.Instance.transform.position = new Vector3(currentRoom.roomData.doors[0].transform.position.x, currentRoom.roomData.doors[0].transform.position.y, 0) + Vector3.down * 2f;
-            break;
+        if (direction == "Up") {totalY++; totalDoorIndex = 1; asd = Vector2.up;}
+        else if (direction == "Down") {totalY--; totalDoorIndex = 0; asd = Vector2.down;}
+        else if (direction == "Left") {totalX--; totalDoorIndex = 3; asd = Vector2.left;}
+        else if (direction == "Right") {totalX++; totalDoorIndex = 2; asd = Vector2.right;}
 
-            case "Left" :
-                currentRoom = roomDictionary[new int[]{currentRoom.x - 1, currentRoom.y}];
-                Traveller.Instance.transform.position = new Vector3(currentRoom.roomData.doors[3].transform.position.x, currentRoom.roomData.doors[3].transform.position.y, 0) + Vector3.left * 2f;
-            break;
-
-            case "Right" :
-                currentRoom = roomDictionary[new int[]{currentRoom.x + 1, currentRoom.y}];
-                Traveller.Instance.transform.position = new Vector3(currentRoom.roomData.doors[2].transform.position.x, currentRoom.roomData.doors[2].transform.position.y, 0) + Vector3.right * 2f;
-            break;
-            
-            default :
-                Debug.Log("ERROR : GameManager.MigrateRoom");
-            break;
-        }
-
+        currentRoom = roomDictionary[new Vector2(totalX, totalY)];
+        Transform totalDoorTransform = currentRoom.roomData.doors[totalDoorIndex].transform;
+        Traveller.Instance.transform.position = new Vector3(totalDoorTransform.position.x, totalDoorTransform.position.y, 0) + asd * 2f;
         miniMapCamera.transform.position = new Vector3(currentRoom.roomData.transform.position.x, currentRoom.roomData.transform.position.y, -100);
 
         UpdateMap();
-        
-        Time.timeScale = 1;
-        fadePanelAnimator.SetTrigger("FadeIn");
-        currentRoom.roomData.enabled = true;
 
         if (currentRoom.roomData.isCleared == false)
         {
             bagPanel.SetActive(false);
             mapPanel.SetActive(false);
         }
+        
+        fadePanelAnimator.SetTrigger("FadeIn");
+        currentRoom.roomData.enabled = true;
 
         yield return new WaitForSecondsRealtime(0.2f);
         fadePanel.SetActive(false);
@@ -283,6 +228,8 @@ public class GameManager : MonoBehaviour
     
     public void Recall()
     {
+        StageManager.Instace.DestroyStage();
+
         StopCoroutine(SpeedWagonManager.Instance.BossSpeedWagon());
         StopCoroutine(SpeedWagonManager.Instance.StageSpeedWagon(currentStageNumber));
         StopCoroutine(SpeedWagonManager.Instance.RoomClearSpeedWagon());
@@ -294,7 +241,6 @@ public class GameManager : MonoBehaviour
 
         Traveller.Instance.enabled = true;
         Traveller.Instance.gameObject.SetActive(true);
-        Traveller.Instance.Initialize();
 
         miniMapCamera.transform.position = new Vector3(0, 0, -100);
 
@@ -323,25 +269,14 @@ public class GameManager : MonoBehaviour
     {
         if (isFighting)
         {
-            StopCoroutine(coroutine);
-            coroutine = NoticeText("전투 중에는 열 수 없습니다.", 1.5f);
-            StartCoroutine(coroutine);
+            StopCoroutine(NoticeText("전투 중에는 열 수 없습니다.", 1.5f));
+            StartCoroutine(NoticeText("전투 중에는 열 수 없습니다.", 1.5f));
         }
         else
         {
-            StopCoroutine(coroutine);
+            StopCoroutine(NoticeText("전투 중에는 열 수 없습니다.", 1.5f));
 
-            if (mapPanel.activeSelf == true)
-            {
-                mapPanel.SetActive(false);
-            }
-            else if (mapPanel.activeSelf == false)
-            {
-                // 왼쪽 위 0
-                if (mapGridLayoutGroup != null)
-                    mapGridLayoutGroup.transform.localPosition = Vector3.zero;
-                mapPanel.SetActive(true);
-            }
+            mapPanel.SetActive(!mapPanel.activeSelf);
         }    
     }
 

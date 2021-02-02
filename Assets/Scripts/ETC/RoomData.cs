@@ -16,17 +16,6 @@ public class RoomData : MonoBehaviour
     [SerializeField] private Transform[] interactionObjectSpawnPoint;
     [SerializeField] private GameObject portal;
 
-    void Awake()
-    { 
-        isDoorOpen.SetValue(false, 0);
-        isDoorOpen.SetValue(false, 1);
-        isDoorOpen.SetValue(false, 2);
-        isDoorOpen.SetValue(false, 3);
-        
-        if (roomType == RoomType.Spawn)
-            isCleared = true;
-    }
-
     void OnEnable()
     {
         doors[0].SetActive(isDoorOpen[0]);
@@ -36,6 +25,7 @@ public class RoomData : MonoBehaviour
 
         if (roomType == RoomType.Spawn)
         {
+            isCleared = true;
             doorHiders[0].SetActive(!isDoorOpen[0]);
             doorHiders[1].SetActive(!isDoorOpen[1]);
             doorHiders[2].SetActive(!isDoorOpen[2]);
@@ -49,22 +39,24 @@ public class RoomData : MonoBehaviour
                 monsterCount = 0;
             }
             currentMonsterCount = monsterCount;
-            StartCoroutine("StartWave");
+            StartCoroutine(StartWave());
         }  
     }
 
     public void CheckMonsterCount()
     {
         if (roomType == RoomType.Boss) return;
+
         currentMonsterCount--;
         if (currentMonsterCount <= 0) RoomClear();        
     }
 
     public void BossClear()
     {
-        StartCoroutine(SpeedWagonManager.Instance.RoomClearSpeedWagon()); // 보스 클리어 연출
+        // StartCoroutine(SpeedWagonManager.Instance.RoomClearSpeedWagon()); // 보스 클리어 연출
         portal.gameObject.SetActive(true);
         RoomClear();
+        Debug.Log("asd");
     }
 
     void RoomClear()
@@ -79,12 +71,11 @@ public class RoomData : MonoBehaviour
 
         //Vector3 summonPosition = new Vector3(transform.position.x, transform.position.y, 0);
         // ObjectManager.Instance.GetQueue(PoolType.itemBox, summonPosition);
-        
+        Debug.Log("erf");
         StartCoroutine(SpeedWagonManager.Instance.RoomClearSpeedWagon());
     }
 
-
-    IEnumerator StartWave() // @ 방 마다 다른 패턴 > 개별 스크립트로 오버라이딩을 통해 구현 할 것인지, 인덱스를 두어 오버로딩으로 구현 할 것인지
+    IEnumerator StartWave()
     {
         doorHiders[0].SetActive(true);
         doorHiders[1].SetActive(true);
