@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public int nyang = 0;
     [HideInInspector] public int monsterKill = 0;
     [HideInInspector] public bool isFighting = false;
-    private int currentStageNumber = -1;
+    public int currentStageID = -1;
 
     private Dictionary<Vector2, RoomMold> roomDictionary = new Dictionary<Vector2, RoomMold>();
     [HideInInspector] public RoomMold currentRoom;
@@ -42,6 +43,11 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public List<GameObject> monsters;
     
     [SerializeField] private GameObject monsterPool;
+
+    [SerializeField] private GameObject stageSpeedWagon = null;
+    [SerializeField] private Text stageNumberText, stageNameText = null;
+    [SerializeField] private GameObject bossSpeedWagon = null;
+    [SerializeField] private GameObject roomClearSpeedWagon = null;
 
     private void Awake()
     {
@@ -91,8 +97,8 @@ public class GameManager : MonoBehaviour
         fadePanel.SetActive(true);
         yield return new WaitForSecondsRealtime(0.2f);
 
-        currentStageNumber++;
-        StageManager.Instace.GenerateStage(currentStageNumber);
+        currentStageID++;
+        StageManager.Instace.GenerateStage(currentStageID);
     }
 
     public IEnumerator StartStage(Vector2 spawnRoom, Dictionary<Vector2, RoomMold> asd)
@@ -108,7 +114,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.5f);
         fadePanelAnimator.SetTrigger("FadeIn");
         yield return new WaitForSecondsRealtime(0.1f);
-        StartCoroutine(SpeedWagonManager.Instance.StageSpeedWagon(currentStageNumber));
+        StartCoroutine("StageSpeedWagon");
         yield return new WaitForSecondsRealtime(0.1f);
         fadePanel.SetActive(false);
     }
@@ -229,23 +235,24 @@ public class GameManager : MonoBehaviour
     public void Recall()
     {
         StageManager.Instace.DestroyStage();
+        Traveller.Instance.gameObject.SetActive(false);
 
-        StopCoroutine(SpeedWagonManager.Instance.BossSpeedWagon());
-        StopCoroutine(SpeedWagonManager.Instance.StageSpeedWagon(currentStageNumber));
-        StopCoroutine(SpeedWagonManager.Instance.RoomClearSpeedWagon());
+        StopCoroutine("BossSpeedWagon");
+        bossSpeedWagon.SetActive(false);
+        StopCoroutine("StageSpeedWagon");
+        stageSpeedWagon.SetActive(false);
+        StopCoroutine("RoomClearSpeedWagon");
+        roomClearSpeedWagon.SetActive(false);
 
-        for (int i = 0; i < monsterPool.transform.childCount; i++)
-        {
-            monsterPool.transform.GetChild(i).GetComponent<Monster>().InsertQueue();
-        }
+        ObjectManager.Instance.InsertAll();
+        monsters.Clear();
 
-        Traveller.Instance.enabled = true;
         Traveller.Instance.gameObject.SetActive(true);
 
         miniMapCamera.transform.position = new Vector3(0, 0, -100);
 
         isFighting = false;
-        currentStageNumber = -1; 
+        currentStageID = -1; 
         pausePanel.SetActive(false);
         gameOverPanel.SetActive(false);
         gamePanel.SetActive(true);
@@ -284,5 +291,34 @@ public class GameManager : MonoBehaviour
     { 
         Debug.Log("Quitting Game...");
         Application.Quit();
+    }
+
+    private IEnumerator StageSpeedWagon()
+    {
+        stageSpeedWagon.SetActive(true);
+        stageNumberText.text = currentStageID.ToString();
+        stageNameText.text = StageDataBase.Instance.stages[currentStageID].name;
+        yield return new WaitForSeconds(2f);
+        stageSpeedWagon.SetActive(false);
+    }
+
+    public IEnumerator BossSpeedWagon()
+    {
+        GameObject.Find("SlimeKing(Clone)").GetComponent<SlimeKing>().enabled = false;
+        GameObject.Find("SlimeKing(Clone)").transform.Find("CM Camera1").GetComponent<CinemachineVirtualCamera>().Priority = 100;
+        Traveller.Instance.playerRB.bodyType = RigidbodyType2D.Static;
+        bossSpeedWagon.gameObject.SetActive(true);
+        yield return new WaitForSecondsRealtime(3f);
+        bossSpeedWagon.gameObject.SetActive(false);
+        Traveller.Instance.playerRB.bodyType = RigidbodyType2D.Dynamic;
+        GameObject.Find("SlimeKing(Clone)").transform.Find("CM Camera1").GetComponent<CinemachineVirtualCamera>().Priority = 0;
+        GameObject.Find("SlimeKing(Clone)").GetComponent<SlimeKing>().enabled = true;
+    }
+
+    public IEnumerator RoomClearSpeedWagon()
+    {
+        roomClearSpeedWagon.gameObject.SetActive(true);
+        yield return new WaitForSecondsRealtime(2f);
+        roomClearSpeedWagon.gameObject.SetActive(false);
     }
 }

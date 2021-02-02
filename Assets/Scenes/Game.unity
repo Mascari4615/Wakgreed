@@ -1045,7 +1045,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1286079531}
-  - {fileID: 1415047704}
   - {fileID: 1835220634}
   - {fileID: 1872159118}
   - {fileID: 1364190443}
@@ -19298,7 +19297,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 45245032}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &853685284
 GameObject:
@@ -21196,7 +21195,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 45245032}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &920730314
 MonoBehaviour:
@@ -21245,7 +21244,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 45245032}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &922958308
 MonoBehaviour:
@@ -27444,6 +27443,7 @@ MonoBehaviour:
   nyang: 0
   monsterKill: 0
   isFighting: 0
+  currentStageID: -1
   gamePanel: {fileID: 1210154864}
   monsterKillText: {fileID: 490110364}
   nyangText: {fileID: 1046652016}
@@ -27462,6 +27462,11 @@ MonoBehaviour:
   noticeText: {fileID: 1819339134}
   monsters: []
   monsterPool: {fileID: 1507624713}
+  stageSpeedWagon: {fileID: 1287715882}
+  stageNumberText: {fileID: 1967667830}
+  stageNameText: {fileID: 175614645}
+  bossSpeedWagon: {fileID: 215755431}
+  roomClearSpeedWagon: {fileID: 1372195108}
 --- !u!1 &1287715882
 GameObject:
   m_ObjectHideFlags: 0
@@ -29740,7 +29745,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 45245032}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1364190444
 MonoBehaviour:
@@ -30962,54 +30967,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1410276580}
   m_CullTransparentMesh: 0
---- !u!1 &1415047703
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1415047704}
-  - component: {fileID: 1415047705}
-  m_Layer: 0
-  m_Name: Manager _ SpeedWagon
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1415047704
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1415047703}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 45245032}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1415047705
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1415047703}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8bcd705ccfac0d449e044b8aeee7dac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stageSpeedWagon: {fileID: 1287715882}
-  stageNumberText: {fileID: 1967667830}
-  stageNameText: {fileID: 175614645}
-  bossSpeedWagon: {fileID: 1372195108}
-  roomClearSpeedWagon: {fileID: 1372195108}
 --- !u!1 &1421170670
 GameObject:
   m_ObjectHideFlags: 0
@@ -32651,7 +32608,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 45245032}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1518636564
 GameObject:
@@ -32847,7 +32804,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 45245032}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1519818846
 MonoBehaviour:
@@ -38326,7 +38283,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 45245032}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1835220635
 MonoBehaviour:
@@ -71175,7 +71132,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 45245032}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1872159119
 MonoBehaviour:

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8470063552259385252}
   - component: {fileID: 6776308193049228234}
   - component: {fileID: 6461419092144045159}
+  - component: {fileID: 4770543654188259192}
   m_Layer: 0
   m_Name: AnnimatedText
   m_TagString: Untagged
@@ -217,6 +218,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &4770543654188259192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8470063552259385253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adbd2402367b72342a34f86a3488182a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolType: 1
 --- !u!1 &8470063552261723350
 GameObject:
   m_ObjectHideFlags: 0

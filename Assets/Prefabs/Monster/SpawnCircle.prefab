@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7366604295532254451}
   - component: {fileID: 7366604295532254450}
   - component: {fileID: 1243303364112199924}
+  - component: {fileID: 6373608172240560832}
   m_Layer: 0
   m_Name: SpawnCircle
   m_TagString: Untagged
@@ -96,4 +97,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   t2: 0.7
+  poolType: 10
+--- !u!114 &6373608172240560832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7366604295532254448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adbd2402367b72342a34f86a3488182a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   poolType: 10

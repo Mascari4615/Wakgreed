@@ -72,7 +72,7 @@ public class RoomData : MonoBehaviour
         //Vector3 summonPosition = new Vector3(transform.position.x, transform.position.y, 0);
         // ObjectManager.Instance.GetQueue(PoolType.itemBox, summonPosition);
         Debug.Log("erf");
-        StartCoroutine(SpeedWagonManager.Instance.RoomClearSpeedWagon());
+        StartCoroutine(GameManager.Instance.RoomClearSpeedWagon());
     }
 
     IEnumerator StartWave()
@@ -87,7 +87,7 @@ public class RoomData : MonoBehaviour
             Vector3 summonPosition = new Vector3(monsterSpawnPoint[0].position.x, monsterSpawnPoint[0].position.y, 0);
 
             GameManager.Instance.monsters.Add(ObjectManager.Instance.GetQueue(PoolType.BossMonster, summonPosition));
-            StartCoroutine(SpeedWagonManager.Instance.BossSpeedWagon());     
+            StartCoroutine(GameManager.Instance.BossSpeedWagon());     
         }
         else
         {
