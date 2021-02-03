@@ -10,11 +10,11 @@ public class Traveller : MonoBehaviour
     private static Traveller instance;
     [HideInInspector] public static Traveller Instance { get { return instance; } }
 
-    private const int DEFAULT_HP_MAX = 44;
+    private const int DEFAULT_HP_MAX = 30;
     private int hpMax;
     private int hp;
 
-    private const int DEFAULT_AD = 4;
+    private const int DEFAULT_AD = 3;
     [HideInInspector] public int ad;
 
     private const int DEFAULT_CRITICAL_CHANCE = 0;
@@ -168,6 +168,7 @@ public class Traveller : MonoBehaviour
        
         playerRB.bodyType = RigidbodyType2D.Dynamic;
         cinemachineTargetGroup.m_Targets[0].target = transform;
+        animator.SetTrigger("WakeUp");
         animator.SetBool("Run", false);
 
         InteractionManager.Instance.nearInteractionObject = InteractiveObjectType.None;
@@ -208,17 +209,17 @@ public class Traveller : MonoBehaviour
         if (isHealthy == true) spriteRenderer.color = Color.white;
         else if (isHealthy == false) spriteRenderer.color = new Color(1, 1, 1, (float)100 / 255);
 
-        if ((isInputtingAttack || Input.GetKeyDown(KeyCode.Space)) && canAttack) Attack();
-        else isInputtingAttack = false;
+        if ((isInputtingAttack || Input.GetKey(KeyCode.Space)) && canAttack) Attack();
+        isInputtingAttack = false;
 
         if (isInputtingSkill0 && canUseSkill0) Skill0();
-        else isInputtingSkill0 = false;
+        isInputtingSkill0 = false;
 
         if (isInputtingSkill1 && canUseSkill1) Skill1();
-        else isInputtingSkill1 = false;
+        isInputtingSkill1 = false;
 
         if (isInputtingSkill2 && canUseSkill2) Skill2();
-        else isInputtingSkill2 = false;
+        isInputtingSkill2 = false;
     }
 
     private void CheckCoolDown(ref bool coolDownTarget, ref float currentCoolDown, float coolDown)
@@ -374,14 +375,15 @@ public class Traveller : MonoBehaviour
 
         expBar.fillAmount = (float)exp / requiredExp;
         expText.text = Mathf.Floor((float)exp / requiredExp * 100) + "%";
-        levelText.text = $"Lv. {level}";
     }
 
     private void LevelUp()
     {
         level++;
-        exp = requiredExp - exp;
+        exp = exp - requiredExp;
         requiredExp += 100; 
+
+        levelText.text = $"Lv. {level}";
         
         ObjectManager.Instance.GetQueue(PoolType.Smoke, transform);
         AbilityManager.Instance.LevelUp();

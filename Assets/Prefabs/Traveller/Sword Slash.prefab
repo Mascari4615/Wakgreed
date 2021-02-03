@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5480426951036399305}
   - component: {fileID: 5480426951036399306}
+  - component: {fileID: -6214554596661203177}
   - component: {fileID: 5480426951036399304}
   - component: {fileID: 5480426951036399307}
   - component: {fileID: 2833350631724209270}
-  - component: {fileID: -6214554596661203177}
   m_Layer: 0
   m_Name: Sword Slash
   m_TagString: Attack
@@ -48,6 +48,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   t2: 0.1
+  poolType: 2
+--- !u!114 &-6214554596661203177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5480426951036399311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adbd2402367b72342a34f86a3488182a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   poolType: 2
 --- !u!212 &5480426951036399304
 SpriteRenderer:
@@ -146,16 +159,3 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &-6214554596661203177
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5480426951036399311}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adbd2402367b72342a34f86a3488182a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolType: 2

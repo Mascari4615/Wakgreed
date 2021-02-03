@@ -7,7 +7,7 @@ public class AbilityManager : MonoBehaviour
     private static AbilityManager instance;
     public static AbilityManager Instance { get { return instance; } }
 
-    [SerializeField] private GameObject selectAbilityPanel;
+    public GameObject selectAbilityPanel;
     [SerializeField] private GameObject[] selectAbilityButton;
     [SerializeField] private AudioSource selectAbilityAudioSource;
     private int selectAbilityStack = 0;
