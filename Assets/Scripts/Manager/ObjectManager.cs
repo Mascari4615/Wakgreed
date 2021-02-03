@@ -69,6 +69,20 @@ public class ObjectManager : MonoBehaviour
         }
     }
 
+    private void AddQueue(PoolType poolObjectType)
+    {
+        for (int i = 0; i < poolDatas.Length; i++)
+        {
+            if (poolDatas[i].poolObjectType == poolObjectType)
+            {
+                GameObject go = Instantiate(poolDatas[i].poolObject);
+                go.transform.SetParent(elseParent);
+                InsertQueue(poolObjectType, go);
+                break;
+            }
+        }
+    }
+
     public void InsertQueue(PoolType poolObjectType, GameObject targetObject)
     {
         poolDataDictionary[poolObjectType].Enqueue(targetObject);
@@ -89,6 +103,8 @@ public class ObjectManager : MonoBehaviour
 
     public GameObject GetQueue(PoolType poolObjectType, Transform createTransform)
     {
+        if (poolDataDictionary[poolObjectType].Count == 0) AddQueue(poolObjectType);
+
         GameObject targetObject = poolDataDictionary[poolObjectType].Dequeue();
         targetObject.transform.position = createTransform.position;
         targetObject.transform.rotation = createTransform.rotation;
@@ -98,6 +114,8 @@ public class ObjectManager : MonoBehaviour
     
     public GameObject GetQueue(PoolType poolObjectType, Vector3 createPos)
     {
+        if (poolDataDictionary[poolObjectType].Count == 0) AddQueue(poolObjectType);
+
         GameObject targetObject = poolDataDictionary[poolObjectType].Dequeue();
         targetObject.transform.position = createPos;
         targetObject.SetActive(true);
@@ -106,6 +124,8 @@ public class ObjectManager : MonoBehaviour
 
     public GameObject GetQueue(PoolType poolObjectType, Vector3 createPos, string text, string type)
     {
+        if (poolDataDictionary[poolObjectType].Count == 0) AddQueue(poolObjectType);
+
         GameObject targetObject = poolDataDictionary[poolObjectType].Dequeue();
         targetObject.transform.position = createPos;
         targetObject.GetComponent<DamageText>().text = text;

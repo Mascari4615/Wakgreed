@@ -11,9 +11,9 @@ public class Player2 : Traveller
         weaponPosition.rotation = attackPositionParent.transform.rotation;    
     }
 
-    protected override void BasicAttack()
+    protected override void Attack()
     {
-        base.BasicAttack();
+        base.Attack();
 
         ObjectManager.Instance.GetQueue(PoolType.PlayerDefaultAttack2, attackPosition);
     }

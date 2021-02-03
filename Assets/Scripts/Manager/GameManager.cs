@@ -226,7 +226,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("GameOver");
         // 플레이어 스크립트에서 hp <= 0, Died 감지 > 마지막 처리 후 플레이어 스크립트 비활성화
         yield return new WaitForSeconds(2f); // 2초 동안 Player Died/Recall 애니메이션 실행
-        Traveller.Instance.gameObject.SetActive(false);
 
         gamePanel.SetActive(false); // 게임 Panel @비활성화
         gameOverPanel.SetActive(true); // 게임 결과 Panel @활성화
@@ -235,7 +234,6 @@ public class GameManager : MonoBehaviour
     public void Recall()
     {
         StageManager.Instace.DestroyStage();
-        Traveller.Instance.gameObject.SetActive(false);
 
         StopCoroutine("BossSpeedWagon");
         bossSpeedWagon.SetActive(false);
@@ -247,7 +245,8 @@ public class GameManager : MonoBehaviour
         ObjectManager.Instance.InsertAll();
         monsters.Clear();
 
-        Traveller.Instance.gameObject.SetActive(true);
+        Traveller.Instance.enabled = true;
+        Traveller.Instance.Initialize();
 
         miniMapCamera.transform.position = new Vector3(0, 0, -100);
 
@@ -306,11 +305,11 @@ public class GameManager : MonoBehaviour
     {
         GameObject.Find("SlimeKing(Clone)").GetComponent<SlimeKing>().enabled = false;
         GameObject.Find("SlimeKing(Clone)").transform.Find("CM Camera1").GetComponent<CinemachineVirtualCamera>().Priority = 100;
-        Traveller.Instance.playerRB.bodyType = RigidbodyType2D.Static;
+        Traveller.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         bossSpeedWagon.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(3f);
         bossSpeedWagon.gameObject.SetActive(false);
-        Traveller.Instance.playerRB.bodyType = RigidbodyType2D.Dynamic;
+        Traveller.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         GameObject.Find("SlimeKing(Clone)").transform.Find("CM Camera1").GetComponent<CinemachineVirtualCamera>().Priority = 0;
         GameObject.Find("SlimeKing(Clone)").GetComponent<SlimeKing>().enabled = true;
     }

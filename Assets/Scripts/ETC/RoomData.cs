@@ -53,10 +53,9 @@ public class RoomData : MonoBehaviour
 
     public void BossClear()
     {
-        // StartCoroutine(SpeedWagonManager.Instance.RoomClearSpeedWagon()); // 보스 클리어 연출
+        // 보스 클리어 연출
         portal.gameObject.SetActive(true);
         RoomClear();
-        Debug.Log("asd");
     }
 
     void RoomClear()
@@ -69,9 +68,8 @@ public class RoomData : MonoBehaviour
         doorHiders[2].SetActive(!isDoorOpen[2]);
         doorHiders[3].SetActive(!isDoorOpen[3]);       
 
-        //Vector3 summonPosition = new Vector3(transform.position.x, transform.position.y, 0);
+        // Vector3 summonPosition = new Vector3(transform.position.x, transform.position.y, 0);
         // ObjectManager.Instance.GetQueue(PoolType.itemBox, summonPosition);
-        Debug.Log("erf");
         StartCoroutine(GameManager.Instance.RoomClearSpeedWagon());
     }
 

@@ -129,7 +129,7 @@ public class Monster : MonoBehaviour
     {
         ObjectManager.Instance.GetQueue(PoolType.Smoke, diedPosition);
 
-        for (int i = Random.Range(1, 11); i > 0; i--)
+        for (int i = Random.Range(3, 6); i > 0; i--)
         {         
             Vector3 randPos1 = new Vector3(Random.Range(-1f, 2f), Random.Range(-1f, 2f), 0);
             ObjectManager.Instance.GetQueue(PoolType.Exp, transform).GetComponent<Loot>().waitPosition = diedPosition + randPos1;

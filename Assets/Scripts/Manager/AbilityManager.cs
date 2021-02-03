@@ -35,13 +35,13 @@ public class AbilityManager : MonoBehaviour
         switch (i)
         {
             case 0 :
-                Traveller.Instance.ad += 2;
+                Traveller.Instance.ad += 1;
             break;
             case 1 :
-                Traveller.Instance.criticalChance += 20;
+                Traveller.Instance.criticalChance += 15;
             break;
             case 2 :
-                Traveller.Instance.basicAttackCoolDown = Traveller.Instance.basicAttackCoolDown * 0.7f;
+                Traveller.Instance.attackCoolDown = Traveller.Instance.attackCoolDown * 0.9f;
             break;
         }
 

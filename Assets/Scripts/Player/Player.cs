@@ -16,9 +16,9 @@ public class Player : Traveller
         cinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
     }
 
-    protected override void Move()
+    protected override void Update()
     {
-        base.Move();
+        base.Update();
         
         if (h > 0)
         {
@@ -30,9 +30,9 @@ public class Player : Traveller
         }
     }
 
-    protected override void BasicAttack()
+    protected override void Attack()
     {
-        base.BasicAttack();
+        base.Attack();
         
         if (weaponRot == 0)
         {

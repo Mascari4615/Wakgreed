@@ -9,7 +9,7 @@ public class ExpOrb : Loot
         if (other.CompareTag("Player"))
         {
             ObjectManager.Instance.InsertQueue(PoolType.Exp, gameObject);
-            Traveller.Instance.AcquireExp(Random.Range(20, 31));
+            Traveller.Instance.AcquireExp(Random.Range(10, 21));
         }      
     }
 }

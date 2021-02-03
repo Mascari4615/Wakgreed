@@ -113,7 +113,7 @@ public class SlimeKing : Monster
                         {
                             ObjectManager.Instance.monsterParent.GetChild(i).GetComponent<Monster>().monsterRigidbody2D.AddForce((transform.position - ObjectManager.Instance.monsterParent.GetChild(i).transform.position).normalized * 200);
                         }
-                        Traveller.Instance.playerRB.AddForce((transform.position - Traveller.Instance.transform.position).normalized * 200);
+                        Traveller.Instance.GetComponent<Rigidbody2D>().AddForce((transform.position - Traveller.Instance.transform.position).normalized * 200);
                     }
                     if (t > 9)
                     {
