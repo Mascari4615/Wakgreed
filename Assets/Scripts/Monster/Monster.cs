@@ -110,8 +110,8 @@ public class Monster : MonoBehaviour
             monsterAnimator.SetTrigger("Died");
 
             GameManager.Instance.AcquireKillCount();
-            if (isBoss) GameManager.Instance.currentRoom.roomData.BossClear();
-            else GameManager.Instance.currentRoom.roomData.CheckMonsterCount();
+            if (isBoss) GameManager.Instance.currentRoom.BossClear();
+            else GameManager.Instance.currentRoom.CheckMonsterCount();
             GameManager.Instance.monsters.Remove(gameObject);
             DropItem(transform.position);
 
@@ -138,7 +138,7 @@ public class Monster : MonoBehaviour
             ObjectManager.Instance.GetQueue(PoolType.Nyang, transform).GetComponent<Loot>().waitPosition = diedPosition + randPos2;
         }
 
-        if (GameManager.Instance.currentRoom.roomData.isCleared)
+        if (GameManager.Instance.currentRoom.isCleared)
         {
             Vector3 randPos1 = new Vector3(Random.Range(-1f, 2f), Random.Range(-1f, 2f), 0);
             GameObject g = ObjectManager.Instance.GetQueue(PoolType.Item, transform);

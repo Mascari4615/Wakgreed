@@ -13,10 +13,12 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public int nyang = 0;
     [HideInInspector] public int monsterKill = 0;
     [HideInInspector] public bool isFighting = false;
-    public int currentStageID = -1;
+    private int currentStageID = -1;
+    [SerializeField] private int maxRoomCount = 0;
+    [SerializeField] private int roomMoldLength = 0;
 
-    private Dictionary<Vector2, RoomMold> roomDictionary = new Dictionary<Vector2, RoomMold>();
-    [HideInInspector] public RoomMold currentRoom;
+    private Dictionary<Vector2, Room> roomDictionary = new Dictionary<Vector2, Room>();
+    [HideInInspector] public Room currentRoom;
     
     [SerializeField] private GameObject gamePanel;
     [SerializeField] private Text monsterKillText;
@@ -98,17 +100,17 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.2f);
 
         currentStageID++;
-        StageManager.Instace.GenerateStage(currentStageID);
+        StageManager.Instace.GenerateStage(currentStageID, roomMoldLength, maxRoomCount);
     }
 
-    public IEnumerator StartStage(Vector2 spawnRoom, Dictionary<Vector2, RoomMold> asd)
+    public IEnumerator StartStage(Vector2 spawnRoom, Dictionary<Vector2, Room> asd)
     {
         roomDictionary = asd;
         currentRoom = roomDictionary[spawnRoom];
         InitialzeMap();
         
         Traveller.Instance.transform.position = new Vector3(currentRoom.x - 2, currentRoom.y + 1, 0) * 100;
-        currentRoom.roomData.enabled = true;
+        currentRoom.enabled = true;
         miniMapCamera.transform.position = new Vector3(currentRoom.x - 2, currentRoom.y + 1, -1) * 100;
 
         yield return new WaitForSecondsRealtime(0.5f);
@@ -121,14 +123,14 @@ public class GameManager : MonoBehaviour
 
     public void InitialzeMap()
     {     
-        mapGridLayoutGroup.constraintCount = StageManager.Instace.roomLength;
-        roomUiArray = new GameObject[StageManager.Instace.roomLength, StageManager.Instace.roomLength];
+        mapGridLayoutGroup.constraintCount = roomMoldLength;
+        roomUiArray = new GameObject[roomMoldLength, roomMoldLength];
 
         for (int i = 0; i < mapGridLayoutGroup.transform.childCount; i++)
         {
-            if (i <= StageManager.Instace.roomLength * StageManager.Instace.roomLength)
+            if (i <= roomMoldLength * roomMoldLength)
                 mapGridLayoutGroup.transform.GetChild(i).gameObject.SetActive(true);
-            else if (i > StageManager.Instace.roomLength * StageManager.Instace.roomLength)
+            else if (i > roomMoldLength * roomMoldLength)
                 mapGridLayoutGroup.transform.GetChild(i).gameObject.SetActive(false);
 
             for (int j = 0; j < mapGridLayoutGroup.transform.GetChild(i).transform.childCount; j++)
@@ -136,9 +138,9 @@ public class GameManager : MonoBehaviour
         }
 
         int c = 0;
-        for (int i = StageManager.Instace.roomLength - 1; i >= 0; i--)
+        for (int i = roomMoldLength - 1; i >= 0; i--)
         {
-            for (int j = 0; j < StageManager.Instace.roomLength; j++)
+            for (int j = 0; j < roomMoldLength; j++)
             {
                 roomUiArray[j, i] = mapGridLayoutGroup.transform.GetChild(c).gameObject;
                 c++;
@@ -173,12 +175,12 @@ public class GameManager : MonoBehaviour
         else if (doorIndex == 2) {totalX--; originDoor = "Left"; totalDoor = "Right";}
         else if (doorIndex == 3) {totalX++; originDoor = "Right"; totalDoor = "Left";}
 
-        if (currentRoom.isDoorOpen[doorIndex] && !roomDictionary[new Vector2(totalX, totalY)].roomData.isCleared)
+        if (currentRoom.isDoorOpen[doorIndex] && !roomDictionary[new Vector2(totalX, totalY)].isCleared)
         {
             roomUiArray[originX, originY].transform.Find(originDoor).gameObject.SetActive(true);
             roomUiArray[totalX, totalY].transform.Find(totalDoor).gameObject.SetActive(true);
 
-            if (roomDictionary[new Vector2(totalX, totalY)].roomData.roomType == RoomData.RoomType.Boss)
+            if (roomDictionary[new Vector2(totalX, totalY)].roomType == RoomType.Boss)
                 roomUiArray[totalX, totalY].transform.Find("Boss").gameObject.SetActive(true);
         }
     }
@@ -202,20 +204,20 @@ public class GameManager : MonoBehaviour
         else if (direction == "Right") {totalX++; totalDoorIndex = 2; asd = Vector2.right;}
 
         currentRoom = roomDictionary[new Vector2(totalX, totalY)];
-        Transform totalDoorTransform = currentRoom.roomData.doors[totalDoorIndex].transform;
+        Transform totalDoorTransform = currentRoom.doors[totalDoorIndex].transform;
         Traveller.Instance.transform.position = new Vector3(totalDoorTransform.position.x, totalDoorTransform.position.y, 0) + asd * 2f;
-        miniMapCamera.transform.position = new Vector3(currentRoom.roomData.transform.position.x, currentRoom.roomData.transform.position.y, -100);
+        miniMapCamera.transform.position = new Vector3(currentRoom.transform.position.x, currentRoom.transform.position.y, -100);
 
         UpdateMap();
 
-        if (currentRoom.roomData.isCleared == false)
+        if (currentRoom.isCleared == false)
         {
             bagPanel.SetActive(false);
             mapPanel.SetActive(false);
         }
         
         fadePanelAnimator.SetTrigger("FadeIn");
-        currentRoom.roomData.enabled = true;
+        currentRoom.enabled = true;
 
         yield return new WaitForSecondsRealtime(0.2f);
         fadePanel.SetActive(false);
@@ -242,7 +244,11 @@ public class GameManager : MonoBehaviour
         StopCoroutine("RoomClearSpeedWagon");
         roomClearSpeedWagon.SetActive(false);
 
+        AbilityManager.Instance.selectAbilityPanel.SetActive(false);
+
         ObjectManager.Instance.InsertAll();
+        StageManager.Instace.DestroyStage();
+        UpdateMap();
         monsters.Clear();
 
         Traveller.Instance.enabled = true;

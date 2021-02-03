@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1118161000}
   - component: {fileID: 1118161003}
   - component: {fileID: 1118161002}
-  - component: {fileID: 1118161001}
   m_Layer: 0
   m_Name: TMP SubMesh [CookieRun Black SDF Material + LiberationSans SDF Atlas]
   m_TagString: Untagged
@@ -82,26 +81,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1118160999}
   m_Mesh: {fileID: 0}
---- !u!114 &1118161001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1118160999}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07994bfe8b0e4adb97d706de5dea48d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_spriteAsset: {fileID: 0}
-  m_material: {fileID: 0}
-  m_sharedMaterial: {fileID: 0}
-  m_isDefaultMaterial: 0
-  m_padding: 8.828947
-  m_renderer: {fileID: 1118161003}
-  m_TextComponent: {fileID: 1375248783}
 --- !u!1 &1375248781
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,7 +91,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1375248782}
   - component: {fileID: 1375248784}
-  - component: {fileID: 1375248786}
   - component: {fileID: 1375248783}
   m_Layer: 0
   m_Name: GameObject
@@ -134,7 +112,7 @@ RectTransform:
   m_Children:
   - {fileID: 1118161000}
   m_Father: {fileID: 8410601780864657785}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -182,14 +160,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1375248786
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1375248781}
-  m_Mesh: {fileID: 0}
 --- !u!114 &1375248783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,7 +203,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -245,9 +215,9 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
-  m_textAlignment: 514
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -311,7 +281,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8410601780864657785}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4639846027212235481
 SpriteRenderer:
@@ -394,8 +364,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 4.5, y: 4.5, z: 1}
   m_Children:
-  - {fileID: 8506505340056327610}
   - {fileID: 1375248782}
+  - {fileID: 8506505340056327610}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
