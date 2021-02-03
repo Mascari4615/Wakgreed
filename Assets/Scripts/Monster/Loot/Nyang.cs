@@ -9,7 +9,7 @@ public class Nyang : Loot
         if (other.CompareTag("Player"))
         {
             ObjectManager.Instance.InsertQueue(PoolType.Nyang, gameObject);
-            GameManager.Instance.AcquireNyang(Random.Range(10, 51)); 
+            GameManager.Instance.AcquireNyang(Random.Range(8, 17)); 
         }
     }
 }

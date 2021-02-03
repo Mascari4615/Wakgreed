@@ -7599,14 +7599,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ad: 0
   criticalChance: 0
-  legacyOfTheHero: {fileID: 1291899886370076561, guid: e00235a593461aa4fba67ab820e6a98c,
-    type: 3}
-  playerRB: {fileID: 0}
+  moveSpeed: 0
+  attackCoolDown: 0
   attackPositionParent: {fileID: 226036791}
   attackPosition: {fileID: 1171262670}
   weaponPosition: {fileID: 1580654012}
-  basicAttackAudioClips:
+  attackAudioClips:
   - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
+  - {fileID: 8300000, guid: 18ad0d717de3d244280871a7b1eff6fe, type: 3}
+  - {fileID: 8300000, guid: a32b9e310d995fb4783947c6f3af2d6c, type: 3}
   skill0AudioClips:
   - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
   skill1AudioClips:
@@ -7614,10 +7615,6 @@ MonoBehaviour:
   skill2AudioClips:
   - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
   joyStick: {fileID: 1522652458}
-  basicAttackButtonEventTrigger: {fileID: 28418794}
-  skill0ButtonEventTrigger: {fileID: 664357281}
-  skill1ButtonEventTrigger: {fileID: 1739543050}
-  skill2ButtonEventTrigger: {fileID: 140178024}
   cinemachineTargetGroup: {fileID: 1974556998}
   hpBar: {fileID: 818451172}
   hpText: {fileID: 873446278}
@@ -7625,6 +7622,10 @@ MonoBehaviour:
   expText: {fileID: 227105317}
   levelText: {fileID: 75248683}
   bloodingPanel: {fileID: 1995771716}
+  attackButtonEventTrigger: {fileID: 28418794}
+  skill0ButtonEventTrigger: {fileID: 664357281}
+  skill1ButtonEventTrigger: {fileID: 1739543050}
+  skill2ButtonEventTrigger: {fileID: 140178024}
 --- !u!4 &422786909
 Transform:
   m_ObjectHideFlags: 0
@@ -20960,16 +20961,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ad: 30
   criticalChance: 5
-  legacyOfTheHero: {fileID: 1291899886370076561, guid: e00235a593461aa4fba67ab820e6a98c,
-    type: 3}
-  playerRB: {fileID: 909484126}
+  moveSpeed: 0
+  attackCoolDown: 0
   attackPositionParent: {fileID: 2013410261}
   attackPosition: {fileID: 1021397560}
   weaponPosition: {fileID: 246422212}
-  basicAttackAudioClips:
+  attackAudioClips:
   - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
-  - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
-  - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
+  - {fileID: 8300000, guid: 18ad0d717de3d244280871a7b1eff6fe, type: 3}
+  - {fileID: 8300000, guid: a32b9e310d995fb4783947c6f3af2d6c, type: 3}
   skill0AudioClips:
   - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
   skill1AudioClips:
@@ -20977,10 +20977,6 @@ MonoBehaviour:
   skill2AudioClips:
   - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
   joyStick: {fileID: 1522652458}
-  basicAttackButtonEventTrigger: {fileID: 28418794}
-  skill0ButtonEventTrigger: {fileID: 664357281}
-  skill1ButtonEventTrigger: {fileID: 1739543050}
-  skill2ButtonEventTrigger: {fileID: 140178024}
   cinemachineTargetGroup: {fileID: 1974556998}
   hpBar: {fileID: 818451172}
   hpText: {fileID: 873446278}
@@ -20988,6 +20984,10 @@ MonoBehaviour:
   expText: {fileID: 227105317}
   levelText: {fileID: 75248683}
   bloodingPanel: {fileID: 1995771716}
+  attackButtonEventTrigger: {fileID: 28418794}
+  skill0ButtonEventTrigger: {fileID: 664357281}
+  skill1ButtonEventTrigger: {fileID: 1739543050}
+  skill2ButtonEventTrigger: {fileID: 140178024}
 --- !u!95 &909484128
 Animator:
   serializedVersion: 3
@@ -32819,11 +32819,67 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stages:
-  - id: 0
-    name: "\uC232"
+  - id: 1
+    name: "\uC232 - \uD558\uB098"
     comment: "\uBAA8\uD5D8\uC774 \uC2DC\uC791\uB418\uB294 \uACF3"
-    prefab: {fileID: 1826957252049458957, guid: d3ffcb305f090d24da5492c3f9a0e378,
-      type: 3}
+    roomDatas:
+    - {fileID: 2047645665446818480, guid: 4c6885afeca1cb747ab620f205ee5eec, type: 3}
+    - {fileID: 3950161548445016716, guid: a793f2dd49e0ad243aea73341b60b527, type: 3}
+    - {fileID: 6814900457927608923, guid: 227be3e5aa592f74e9e04c134883ce5c, type: 3}
+    - {fileID: 6540108878314596956, guid: 6bba1e9406e266746bf9e0a0c534b807, type: 3}
+    - {fileID: 5889132381049245711, guid: c4d8b5e365e1c924fb0ed601476e9505, type: 3}
+    - {fileID: 6541603714492728976, guid: 6dcb758c27042924895a03a0d450f69d, type: 3}
+    - {fileID: 2385523793903735774, guid: a69967d0e99de1a489071c5db6306ca8, type: 3}
+    - {fileID: 3197975017862094172, guid: 692f2a0b39735fe4f95191b42c0a030f, type: 3}
+    - {fileID: 6988784089197883832, guid: 9ac608da611c5af45811d98c0c6fcb0b, type: 3}
+    - {fileID: 1618811715144824148, guid: 9131e6fdd0841fb4c88e75e98af0cd76, type: 3}
+    - {fileID: 5527194026748386421, guid: 3c44a664e8c86cf4d90f97b94cf9bee3, type: 3}
+    - {fileID: 3766711017137720307, guid: 8be35a7046dd39949b770a4bfc18ae40, type: 3}
+    - {fileID: 1546853353736515605, guid: bbe65d937582daa43b2b5c859ca31d15, type: 3}
+    - {fileID: 8502103012617433899, guid: 3e73b48c3efbe3940a88625ea52aca23, type: 3}
+    - {fileID: 366281068895259178, guid: fdb592b05d37b834ead9263d2c9ddbb3, type: 3}
+    - {fileID: 8825939589886584384, guid: 59aeb0ba28dedff43bcddb6eadbc126d, type: 3}
+    - {fileID: 1281971606152123544, guid: 4752931372ec14a45844cba1cb803342, type: 3}
+    - {fileID: 594876413790222184, guid: d3f9108bc16403f45b36c7d035b42518, type: 3}
+    - {fileID: 727973908043450360, guid: 3ffc79dd5382ada4f8bb21752a6351c7, type: 3}
+    - {fileID: 7406320019742941235, guid: 0ab8faaad078ce84c885027286f5c3b1, type: 3}
+    - {fileID: 324964121641777303, guid: 563ea0001d8b4834499e8c91aa6fa2b3, type: 3}
+    - {fileID: 8163445334327960920, guid: 428997c0d3472ba4aaccc5c066206885, type: 3}
+    - {fileID: 72988249358100164, guid: d4ef0343bc9da2f4eb707e82103b82e9, type: 3}
+    - {fileID: 5961378900447147290, guid: c4226750fdfc06d4fbfdb4954acc7291, type: 3}
+    - {fileID: 4744773709778932943, guid: d0d3d7fd3339df744abdf82f95d26766, type: 3}
+  - id: 2
+    name: "\uC232 - \uB458"
+    comment: "\uC775\uC219\uD574\uC9C0\uACE0 \uC788\uB2E4"
+    roomDatas:
+    - {fileID: 2047645665446818480, guid: 4c6885afeca1cb747ab620f205ee5eec, type: 3}
+    - {fileID: 3950161548445016716, guid: a793f2dd49e0ad243aea73341b60b527, type: 3}
+    - {fileID: 6814900457927608923, guid: 227be3e5aa592f74e9e04c134883ce5c, type: 3}
+    - {fileID: 6540108878314596956, guid: 6bba1e9406e266746bf9e0a0c534b807, type: 3}
+    - {fileID: 5889132381049245711, guid: c4d8b5e365e1c924fb0ed601476e9505, type: 3}
+    - {fileID: 6541603714492728976, guid: 6dcb758c27042924895a03a0d450f69d, type: 3}
+    - {fileID: 2385523793903735774, guid: a69967d0e99de1a489071c5db6306ca8, type: 3}
+    - {fileID: 3197975017862094172, guid: 692f2a0b39735fe4f95191b42c0a030f, type: 3}
+    - {fileID: 6988784089197883832, guid: 9ac608da611c5af45811d98c0c6fcb0b, type: 3}
+    - {fileID: 1618811715144824148, guid: 9131e6fdd0841fb4c88e75e98af0cd76, type: 3}
+    - {fileID: 5527194026748386421, guid: 3c44a664e8c86cf4d90f97b94cf9bee3, type: 3}
+    - {fileID: 3766711017137720307, guid: 8be35a7046dd39949b770a4bfc18ae40, type: 3}
+    - {fileID: 1546853353736515605, guid: bbe65d937582daa43b2b5c859ca31d15, type: 3}
+    - {fileID: 8502103012617433899, guid: 3e73b48c3efbe3940a88625ea52aca23, type: 3}
+    - {fileID: 366281068895259178, guid: fdb592b05d37b834ead9263d2c9ddbb3, type: 3}
+    - {fileID: 8825939589886584384, guid: 59aeb0ba28dedff43bcddb6eadbc126d, type: 3}
+    - {fileID: 1281971606152123544, guid: 4752931372ec14a45844cba1cb803342, type: 3}
+    - {fileID: 594876413790222184, guid: d3f9108bc16403f45b36c7d035b42518, type: 3}
+    - {fileID: 727973908043450360, guid: 3ffc79dd5382ada4f8bb21752a6351c7, type: 3}
+    - {fileID: 7406320019742941235, guid: 0ab8faaad078ce84c885027286f5c3b1, type: 3}
+    - {fileID: 324964121641777303, guid: 563ea0001d8b4834499e8c91aa6fa2b3, type: 3}
+    - {fileID: 8163445334327960920, guid: 428997c0d3472ba4aaccc5c066206885, type: 3}
+    - {fileID: 72988249358100164, guid: d4ef0343bc9da2f4eb707e82103b82e9, type: 3}
+    - {fileID: 5961378900447147290, guid: c4226750fdfc06d4fbfdb4954acc7291, type: 3}
+    - {fileID: 4744773709778932943, guid: d0d3d7fd3339df744abdf82f95d26766, type: 3}
+  - id: 3
+    name: "\uC232 - \uC14B"
+    comment: "\uCC98\uC74C\uC774\uC790 \uB9C8\uC9C0\uB9C9"
     roomDatas:
     - {fileID: 2047645665446818480, guid: 4c6885afeca1cb747ab620f205ee5eec, type: 3}
     - {fileID: 3950161548445016716, guid: a793f2dd49e0ad243aea73341b60b527, type: 3}

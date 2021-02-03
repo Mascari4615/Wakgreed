@@ -8,7 +8,6 @@ public class Stage
     public int id;
     public string name = "저장된 StageName Data 없음";
     public string comment = "저장된 StageComment Data 없음";
-    public GameObject prefab;
     public RoomData[] roomDatas;
 }
 
