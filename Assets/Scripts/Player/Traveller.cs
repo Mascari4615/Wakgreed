@@ -59,7 +59,7 @@ public class Traveller : MonoBehaviour
     protected float h = 0;
     private float v = 0;
 
-    private float attackPosGap = 1.5f;
+    // private float attackPosGap = 1.5f;
 
     // GameObject, Component
     private Rigidbody2D playerRB;
@@ -197,6 +197,8 @@ public class Traveller : MonoBehaviour
 
     protected virtual void Update()
     {
+        if (Time.timeScale == 0) return;
+
         Move();
         Targeting();
 
@@ -210,16 +212,16 @@ public class Traveller : MonoBehaviour
         else if (isHealthy == false) spriteRenderer.color = new Color(1, 1, 1, (float)100 / 255);
 
         if ((isInputtingAttack || Input.GetKey(KeyCode.Space)) && canAttack) Attack();
-        isInputtingAttack = false;
+        else isInputtingAttack = false;
 
         if (isInputtingSkill0 && canUseSkill0) Skill0();
-        isInputtingSkill0 = false;
+        else isInputtingSkill0 = false;
 
         if (isInputtingSkill1 && canUseSkill1) Skill1();
-        isInputtingSkill1 = false;
+        else isInputtingSkill1 = false;
 
         if (isInputtingSkill2 && canUseSkill2) Skill2();
-        isInputtingSkill2 = false;
+        else isInputtingSkill2 = false;
     }
 
     private void CheckCoolDown(ref bool coolDownTarget, ref float currentCoolDown, float coolDown)

@@ -13,9 +13,10 @@ public class InteractionManager : MonoBehaviour
 {
     private static InteractionManager instance;
     [HideInInspector] public static InteractionManager Instance { get { return instance; } }
-    
-    public GameObject interactionButton = null;
-    public GameObject attackButton = null;
+
+    public GameObject button;
+    public GameObject interactionIcon = null;
+    public GameObject attackIcon = null;
     [HideInInspector] public InteractiveObjectType nearInteractionObject = InteractiveObjectType.None;
 
     // TravellerChanger
@@ -28,7 +29,7 @@ public class InteractionManager : MonoBehaviour
 
     public void Interaction()
     {
-        interactionButton.SetActive(false);
+        interactionIcon.SetActive(false);
 
         if (nearInteractionObject == InteractiveObjectType.Portal)
         {

@@ -6,6 +6,7 @@ public class Archer : Traveller
 {
     protected override void Update()
     {
+        if (Time.timeScale == 0) return;
         base.Update();
         
         weaponPosition.rotation = attackPositionParent.transform.rotation;    

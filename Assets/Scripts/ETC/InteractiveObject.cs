@@ -11,8 +11,8 @@ public class InteractiveObject : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            InteractionManager.Instance.interactionButton.SetActive(true);
-            InteractionManager.Instance.attackButton.SetActive(false);
+            InteractionManager.Instance.interactionIcon.SetActive(true);
+            InteractionManager.Instance.attackIcon.SetActive(false);
             InteractionManager.Instance.nearInteractionObject = interactiveObjectType;
         }  
     }
@@ -21,8 +21,8 @@ public class InteractiveObject : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            InteractionManager.Instance.interactionButton.SetActive(true);
-            InteractionManager.Instance.attackButton.SetActive(false);
+            InteractionManager.Instance.interactionIcon.SetActive(true);
+            InteractionManager.Instance.attackIcon.SetActive(false);
             InteractionManager.Instance.nearInteractionObject = interactiveObjectType;
         }  
     }
@@ -31,8 +31,8 @@ public class InteractiveObject : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            InteractionManager.Instance.interactionButton.SetActive(false);
-            InteractionManager.Instance.attackButton.SetActive(true);
+            InteractionManager.Instance.interactionIcon.SetActive(false);
+            InteractionManager.Instance.attackIcon.SetActive(true);
             InteractionManager.Instance.nearInteractionObject = InteractiveObjectType.None;
         }     
     }
@@ -41,8 +41,8 @@ public class InteractiveObject : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            InteractionManager.Instance.interactionButton.SetActive(false);
-            InteractionManager.Instance.attackButton.SetActive(true);
+            InteractionManager.Instance.interactionIcon.SetActive(false);
+            InteractionManager.Instance.attackIcon.SetActive(true);
             InteractionManager.Instance.nearInteractionObject = InteractiveObjectType.None;
         }  
     }
