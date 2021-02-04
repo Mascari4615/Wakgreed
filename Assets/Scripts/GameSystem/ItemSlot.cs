@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class ItemSlot : MonoBehaviour
 {
+
+    private Item item;
+
+    public void SetItem(Item _item)
+    {
+        item = _item;
+    }
+    
     public void SetItemSlot(Sprite sprite, int count)
     {
         transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().sprite = sprite;

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ItemInventory : MonoBehaviour
 {
-    public GameObject grid;
+    [SerializeField] private GameObject grid;
+    
     public void Initialize()
     {
         List<Item> temp_inventory = new List<Item>();

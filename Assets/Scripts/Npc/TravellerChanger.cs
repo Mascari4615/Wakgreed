@@ -4,31 +4,32 @@ using UnityEngine;
 
 public class TravellerChanger : InteractiveObject
 {
-    private GameObject currentTravellerGameObject = null;
-    [SerializeField] private GameObject sword;
-    [SerializeField] private GameObject bow;
+    [SerializeField] private GameObject travellerChangePanel;
+    private GameObject currentTravellerGameObject;
+    [SerializeField] private GameObject travellerGameObjectsParent;
+    private GameObject[] travellerGameObjects;
 
     private void Awake()
     {
         interactiveObjectType = InteractiveObjectType.TravellerChanger;
-        currentTravellerGameObject = sword;
+        currentTravellerGameObject = Traveller.Instance.gameObject;
+        travellerGameObjects = new GameObject[travellerGameObjectsParent.transform.childCount];
+
+        for (int i = 0; i < travellerGameObjectsParent.transform.childCount; i++)
+        {
+            travellerGameObjects.SetValue(travellerGameObjectsParent.transform.GetChild(i).gameObject, i);
+        }
     }
 
-    public void ChangeTraveller(int travellerType)
+    public void ChangeTraveller(int travellerIndex)
     {
         currentTravellerGameObject.SetActive(false);
-
-        switch (travellerType)
-        {
-            case 0:
-            currentTravellerGameObject = sword;
-            break;
-
-            case 1:
-            currentTravellerGameObject = bow;
-            break;
-        }
-
+        currentTravellerGameObject = travellerGameObjects[travellerIndex];
         currentTravellerGameObject.SetActive(true);
+    }
+
+    public override void Interaction()
+    {
+        travellerChangePanel.SetActive(true);
     }
 }

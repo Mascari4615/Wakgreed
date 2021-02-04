@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
-
 public class CameraController : MonoBehaviour
 {
     private float t1, t2;
