@@ -5,10 +5,18 @@ using UnityEngine.UI;
 using Cinemachine;
 using UnityEngine.EventSystems;
 
+public enum TravellerClass
+{
+    Knight,
+    Archer
+}
+
 public class Traveller : MonoBehaviour
 {
     private static Traveller instance;
     [HideInInspector] public static Traveller Instance { get { return instance; } }
+
+    public TravellerClass travellerClass;
 
     private const int DEFAULT_HP_MAX = 30;
     private int hpMax;
@@ -50,18 +58,16 @@ public class Traveller : MonoBehaviour
     private bool canUseSkill0 = true;
     private bool canUseSkill1 = true;
     private bool canUseSkill2 = true;
+    private bool canInteraction = false;
 
     private bool isInputtingAttack = false;
-    private bool isInputtingSkill0 = false;
-    private bool isInputtingSkill1 = false;
-    private bool isInputtingSkill2 = false;
+    private bool isInputtingInteraction = false;
 
     protected float h = 0;
     private float v = 0;
 
     // private float attackPosGap = 1.5f;
 
-    // GameObject, Component
     private Rigidbody2D playerRB;
     private Animator animator;
     private AudioSource audioSource;
@@ -81,6 +87,8 @@ public class Traveller : MonoBehaviour
     [SerializeField] private Text expText;
     [SerializeField] private Text levelText ;  
     [SerializeField] private GameObject bloodingPanel;
+    public GameObject interactionIcon = null;
+    public GameObject attackIcon = null;
 
     [SerializeField] private EventTrigger attackButtonEventTrigger;
     [SerializeField] private EventTrigger skill0ButtonEventTrigger;
@@ -96,6 +104,7 @@ public class Traveller : MonoBehaviour
 
     private GameObject target;
     public Dictionary<Item, int> inventory = new Dictionary<Item, int>();
+    private GameObject nearInteractiveObject;
 
     protected virtual void Awake()
     {
@@ -112,7 +121,7 @@ public class Traveller : MonoBehaviour
         // attackPointerEnter.eventID = EventTriggerType.PointerEnter;
         attackPointerUp.eventID = EventTriggerType.PointerUp;
         // attackPointerExit.eventID = EventTriggerType.PointerExit;
-        attackPointerDown.callback.AddListener((PointerEventData) => {isInputtingAttack = true;});
+        attackPointerDown.callback.AddListener((PointerEventData) => {isInputtingAttack = true; isInputtingInteraction = true;});
         // attackPointerEnter.callback.AddListener((PointerEventData) => {isInputtingattack = true;});
         attackPointerUp.callback.AddListener((PointerEventData) => {isInputtingAttack = false;});
         // attackPointerExit.callback.AddListener((PointerEventData) => {isInputtingattack = false;});
@@ -120,9 +129,9 @@ public class Traveller : MonoBehaviour
         skill0PointerDown.eventID = EventTriggerType.PointerDown;
         skill1PointerDown.eventID = EventTriggerType.PointerDown;
         skill2PointerDown.eventID = EventTriggerType.PointerDown;
-        skill0PointerDown.callback.AddListener((PointerEventData) => {isInputtingSkill0 = true;});
-        skill1PointerDown.callback.AddListener((PointerEventData) => {isInputtingSkill1 = true;});
-        skill2PointerDown.callback.AddListener((PointerEventData) => {isInputtingSkill2 = true;});
+        skill0PointerDown.callback.AddListener((PointerEventData) => {if (canUseSkill0) Skill0();});
+        skill1PointerDown.callback.AddListener((PointerEventData) => {if (canUseSkill1) Skill1();});
+        skill2PointerDown.callback.AddListener((PointerEventData) => {if (canUseSkill2) Skill2();});
     }
 
     private void OnEnable()
@@ -159,10 +168,9 @@ public class Traveller : MonoBehaviour
         canUseSkill0 = true;
         canUseSkill1 = true;
         canUseSkill2 = true;
+        canInteraction = false;
         isInputtingAttack = false;
-        isInputtingSkill0 = false;
-        isInputtingSkill1 = false;
-        isInputtingSkill2 = false;
+        isInputtingInteraction = false;
         h = 0;
         v = 0;
        
@@ -171,7 +179,6 @@ public class Traveller : MonoBehaviour
         animator.SetTrigger("WakeUp");
         animator.SetBool("Run", false);
 
-        InteractionManager.Instance.nearInteractionObject = InteractiveObjectType.None;
         inventory.Clear();
 
         hpBar.fillAmount = (float)hp / hpMax;
@@ -211,17 +218,9 @@ public class Traveller : MonoBehaviour
         if (isHealthy == true) spriteRenderer.color = Color.white;
         else if (isHealthy == false) spriteRenderer.color = new Color(1, 1, 1, (float)100 / 255);
 
-        if ((isInputtingAttack || Input.GetKey(KeyCode.Space)) && canAttack) Attack();
-        else isInputtingAttack = false;
-
-        if (isInputtingSkill0 && canUseSkill0) Skill0();
-        else isInputtingSkill0 = false;
-
-        if (isInputtingSkill1 && canUseSkill1) Skill1();
-        else isInputtingSkill1 = false;
-
-        if (isInputtingSkill2 && canUseSkill2) Skill2();
-        else isInputtingSkill2 = false;
+        if (isInputtingInteraction && canInteraction) {Interaction(); isInputtingAttack = false;}
+        else if ((isInputtingAttack || Input.GetKey(KeyCode.Space)) && canAttack) Attack();
+        isInputtingInteraction = false;
     }
 
     private void CheckCoolDown(ref bool coolDownTarget, ref float currentCoolDown, float coolDown)
@@ -300,6 +299,11 @@ public class Traveller : MonoBehaviour
         audioSource.clip = skill2AudioClips[Random.Range(0, skill2AudioClips.Length)];
         audioSource.Play();
         canUseSkill2 = false;
+    }
+
+    private void Interaction()
+    {
+        nearInteractiveObject.GetComponent<InteractiveObject>().Interaction();
     }
 
     private void Targeting()
@@ -397,5 +401,46 @@ public class Traveller : MonoBehaviour
         else if (other.CompareTag("LowerDoor")) StartCoroutine(GameManager.Instance.MigrateRoom("Down")); 
         else if (other.CompareTag("LeftDoor")) StartCoroutine(GameManager.Instance.MigrateRoom("Left")); 
         else if (other.CompareTag("RightDoor")) StartCoroutine(GameManager.Instance.MigrateRoom("Right")); 
+
+        if (other.CompareTag("InteractiveObject"))
+        {
+            nearInteractiveObject = other.gameObject;
+            canInteraction = true;
+            interactionIcon.SetActive(true);
+            attackIcon.SetActive(false);
+        }  
+    }
+
+    protected virtual void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("InteractiveObject"))
+        {
+            nearInteractiveObject = other.gameObject;
+            canInteraction = true;
+            Instance.interactionIcon.SetActive(true);
+            Instance.attackIcon.SetActive(false);
+        }  
+    }
+
+    protected virtual void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("InteractiveObject"))
+        {
+            nearInteractiveObject = other.gameObject;
+            canInteraction = false;
+            interactionIcon.SetActive(false);
+            attackIcon.SetActive(true);
+        }     
+    }
+
+    protected virtual void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("InteractiveObject"))
+        {
+            nearInteractiveObject = other.gameObject;
+            canInteraction = false;
+            interactionIcon.SetActive(false);
+            attackIcon.SetActive(true);
+        }  
     }
 }

@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < mapGridLayoutGroup.transform.childCount; i++)
         {
-            if (i <= roomMoldLength * roomMoldLength)
+            if (i <= roomMoldLength * roomMoldLength - 1)
                 mapGridLayoutGroup.transform.GetChild(i).gameObject.SetActive(true);
             else if (i > roomMoldLength * roomMoldLength)
                 mapGridLayoutGroup.transform.GetChild(i).gameObject.SetActive(false);

@@ -126,8 +126,8 @@ public class StageManager : MonoBehaviour
     {
         if (Random.Range(0, 3) == 0 && y != roomMoldLength - 1) roomStackStack.Push(new RoomStack(x, y, "Up"));
         if (Random.Range(0, 3) == 0 && y != 0) roomStackStack.Push(new RoomStack(x, y, "Down"));
-        if (Random.Range(0, 3) == 0 && x != 0) roomStackStack.Push(new RoomStack(x, y, "Left"));
-        if (Random.Range(0, 3) == 0 && x != roomMoldLength - 1) roomStackStack.Push(new RoomStack(x, y, "Right"));
+        if (Random.Range(0, 2) == 0 && x != 0) roomStackStack.Push(new RoomStack(x, y, "Left"));
+        if (Random.Range(0, 2) == 0 && x != roomMoldLength - 1) roomStackStack.Push(new RoomStack(x, y, "Right"));
     }
 }
 

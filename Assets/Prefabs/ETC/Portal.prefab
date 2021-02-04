@@ -250,6 +250,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 1375248784}
   m_maskType: 0
+  _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
 --- !u!1 &1443640510995182390
@@ -348,7 +349,7 @@ GameObject:
   - component: {fileID: 8665538209687454969}
   m_Layer: 0
   m_Name: Portal
-  m_TagString: Portal
+  m_TagString: InteractiveObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -432,6 +433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a57b7ef01c728e459426fa86b18266f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactiveObjectType: 1
   interactionIcon: {fileID: 1375248784}
 --- !u!61 &8665538209687454969
 BoxCollider2D:
