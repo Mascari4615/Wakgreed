@@ -18,6 +18,7 @@ public class Knight : Traveller
 
     protected override void Update()
     {
+        if (Time.timeScale == 0) return;
         base.Update();
         
         if (h > 0)
