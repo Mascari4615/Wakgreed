@@ -13,12 +13,17 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public int nyang = 0;
     [HideInInspector] public int monsterKill = 0;
     [HideInInspector] public bool isFighting = false;
-    private int currentStageID = -1;
+    private int currentStageID = 0;
     [SerializeField] private int maxRoomCount = 0;
     [SerializeField] private int roomMoldLength = 0;
-
+    private List<Room> roomList = new List<Room>();
     private Dictionary<Vector2, Room> roomDictionary = new Dictionary<Vector2, Room>();
     [HideInInspector] public Room currentRoom;
+
+    [SerializeField] private GameObject stageGrid;
+    private int roomCount = 0;
+    // private Queue<RoomStack> roomStackQueue = new Queue<RoomStack>();
+    private List<Room> roomDatas = new List<Room>();
     
     [SerializeField] private GameObject gamePanel;
     [SerializeField] private Text monsterKillText;
@@ -30,11 +35,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject pausePanel;
     
     [SerializeField] private GameObject mapPanel;
-    [SerializeField] private ScrollRect scrollRect;
-    [SerializeField] GameObject mapGridLayoutGroupPreFab;
     [SerializeField] GridLayoutGroup mapGridLayoutGroup;
-    [SerializeField] GameObject roomUi;
-    private GameObject[,] roomUiArray;   
+    private Dictionary<Vector2, GameObject> roomUiDictionary = new Dictionary<Vector2, GameObject>();  
 
     [SerializeField] private GameObject fadePanel;
     [SerializeField] private Animator fadePanelAnimator;
@@ -43,13 +45,11 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Text noticeText;
     [HideInInspector] public List<GameObject> monsters;
-    
-    [SerializeField] private GameObject monsterPool;
-
-    [SerializeField] private GameObject stageSpeedWagon = null;
-    [SerializeField] private Text stageNumberText, stageNameText = null;
-    [SerializeField] private GameObject bossSpeedWagon = null;
-    [SerializeField] private GameObject roomClearSpeedWagon = null;
+    [SerializeField] private GameObject stageSpeedWagon;
+    [SerializeField] private Text stageNumberText, stageNameText;
+    [SerializeField] private GameObject bossSpeedWagon;
+    [SerializeField] private GameObject roomClearSpeedWagon;
+    [SerializeField] private GameObject undo;
 
     private void Awake()
     {
@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         // 뒤로가기 버튼을 눌렀을 때, 정지 및 재개 ★ Time을 통한 실질적인 게임 정지 및 재개
+        // # 정지 > 귀환 (StopCoroutine) 오류 가능성 : 따라서 플래그를 통해 현재 정지 시킬 수 있는지 확인해야함
         if (Input.GetKeyDown(KeyCode.Escape)) PauseGame();
     }
 
@@ -90,60 +91,101 @@ public class GameManager : MonoBehaviour
     {
         noticeText.text = text;
         noticeText.gameObject.SetActive(true);
-        yield return new WaitForSecondsRealtime(time);
+        yield return new WaitForSeconds(time);
         noticeText.gameObject.SetActive(false);
     }
 
     public IEnumerator EnterPortal()
     {
         fadePanel.SetActive(true);
-        yield return new WaitForSecondsRealtime(0.2f);
+        yield return new WaitForSeconds(0.2f);
+
+        undo.SetActive(false);
 
         currentStageID++;
-        StageManager.Instace.GenerateStage(currentStageID, roomMoldLength, maxRoomCount);
+        GenerateStage(currentStageID);
     }
 
-    public IEnumerator StartStage(Vector2 spawnRoom, Dictionary<Vector2, Room> asd)
+    private void GenerateStage(int stageIndex) // 스테이지 만들기 시작
     {
-        roomDictionary = asd;
-        currentRoom = roomDictionary[spawnRoom];
+        DestroyStage();
+        roomCount = maxRoomCount;
+        roomList.Clear();
+        roomDatas = new List<Room>(StageDataBase.Instance.stages[stageIndex].roomDatas); 
+        roomDictionary.Clear();
+
+        GenerateRoom(Vector2.zero , true);
+
+        while (roomCount > 0)
+        {
+            Vector2 randomRoomCoordinate = roomList[Random.Range(0, roomList.Count)].coordinate;
+            if (randomRoomCoordinate.y != (roomMoldLength - 1) / 2) GenerateRoomAndLink(randomRoomCoordinate, Vector2.up, 0, 1);
+            if (randomRoomCoordinate.y != -(roomMoldLength - 1) / 2) GenerateRoomAndLink(randomRoomCoordinate, Vector2.down, 1, 0);
+            if (randomRoomCoordinate.x != -(roomMoldLength - 1) / 2) GenerateRoomAndLink(randomRoomCoordinate, Vector2.left, 2, 3);
+            if (randomRoomCoordinate.x != (roomMoldLength - 1) / 2) GenerateRoomAndLink(randomRoomCoordinate, Vector2.right, 3, 2);
+        }
+
+        StartCoroutine(StartStage());
+    }
+
+    private void GenerateRoom(Vector2 coordinate, bool isFirstTry = false)
+    {
+        int roomDataIndex = isFirstTry ? 0 : Random.Range(0, roomDatas.Count);
+        Room r = Instantiate(roomDatas[roomDataIndex].gameObject, stageGrid.transform).GetComponent<Room>();
+        r.transform.localPosition = coordinate * 100;
+        r.SetRoomCoordinate(coordinate);
+        roomList.Add(r);
+        roomDictionary.Add(coordinate, r);
+        roomDatas.RemoveAt(roomDataIndex);
+        roomCount--;
+    }
+
+    private void GenerateRoomAndLink(Vector2 originalCoordinate, Vector2 direction, int originalRoomDoorIndex, int totalRoomDoorIndex)
+    {
+        Vector2 totalCoordinate = originalCoordinate + direction;
+        if (roomCount <= 0 || Random.Range(0, 2) == 0 || roomDictionary.ContainsKey(totalCoordinate)) return;
+        GenerateRoom(totalCoordinate);
+        roomDictionary[originalCoordinate].isDoorOpen[originalRoomDoorIndex] = true;
+        roomDictionary[totalCoordinate].isDoorOpen[totalRoomDoorIndex] = true;
+    }
+
+    private IEnumerator StartStage()
+    {  
+        currentRoom = roomDictionary[Vector2.zero];
+        currentRoom.Enter();
         InitialzeMap();
         
-        Traveller.Instance.transform.position = new Vector3(currentRoom.x - 2, currentRoom.y + 1, 0) * 100;
-        currentRoom.enabled = true;
-        miniMapCamera.transform.position = new Vector3(currentRoom.x - 2, currentRoom.y + 1, -1) * 100;
+        Traveller.Instance.transform.position = new Vector3(currentRoom.coordinate.x, currentRoom.coordinate.y, 0) * 100;
+        miniMapCamera.transform.position = new Vector3(currentRoom.coordinate.x, currentRoom.coordinate.y, -1) * 100;
 
-        yield return new WaitForSecondsRealtime(0.5f);
         fadePanelAnimator.SetTrigger("FadeIn");
-        yield return new WaitForSecondsRealtime(0.1f);
         StartCoroutine("StageSpeedWagon");
-        yield return new WaitForSecondsRealtime(0.1f);
+        yield return new WaitForSeconds(0.2f);
         fadePanel.SetActive(false);
     }
 
     public void InitialzeMap()
     {     
         mapGridLayoutGroup.constraintCount = roomMoldLength;
-        roomUiArray = new GameObject[roomMoldLength, roomMoldLength];
+        roomUiDictionary = new Dictionary<Vector2, GameObject>();
 
         for (int i = 0; i < mapGridLayoutGroup.transform.childCount; i++)
         {
             if (i <= roomMoldLength * roomMoldLength - 1)
                 mapGridLayoutGroup.transform.GetChild(i).gameObject.SetActive(true);
-            else if (i > roomMoldLength * roomMoldLength)
+            else if (i > roomMoldLength * roomMoldLength - 1)
                 mapGridLayoutGroup.transform.GetChild(i).gameObject.SetActive(false);
 
             for (int j = 0; j < mapGridLayoutGroup.transform.GetChild(i).transform.childCount; j++)
                 mapGridLayoutGroup.transform.GetChild(i).transform.GetChild(j).gameObject.SetActive(false);
         }
 
-        int c = 0;
-        for (int i = roomMoldLength - 1; i >= 0; i--)
+        int childIndex = 0;
+        for (int y = (roomMoldLength - 1) / 2; y >= -(roomMoldLength - 1) / 2; y--)
         {
-            for (int j = 0; j < roomMoldLength; j++)
+            for (int x = -(roomMoldLength - 1) / 2; x <= (roomMoldLength - 1) / 2; x++, childIndex++)
             {
-                roomUiArray[j, i] = mapGridLayoutGroup.transform.GetChild(c).gameObject;
-                c++;
+                roomUiDictionary.Add(new Vector2(x, y), mapGridLayoutGroup.transform.GetChild(childIndex).gameObject);
             }
         }
 
@@ -152,74 +194,59 @@ public class GameManager : MonoBehaviour
 
     private void UpdateMap()
     {  
-        // # 현재 방 > 밝은 회색
-        roomUiArray[currentRoom.x, currentRoom.y].transform.Find("CurrentRoom").gameObject.SetActive(true);
-        roomUiArray[currentRoom.x, currentRoom.y].transform.Find("StageTheme").gameObject.SetActive(true);
+        roomUiDictionary[currentRoom.coordinate].transform.Find("CurrentRoom").gameObject.SetActive(true);
+        roomUiDictionary[currentRoom.coordinate].transform.Find("StageTheme").gameObject.SetActive(true);
       
-        // # 현재 방과 연결된 방 && 들어가지 않았던 방 > 진한 회색
-        UpdateRoomUI(0, currentRoom.x, currentRoom.y);
-        UpdateRoomUI(1, currentRoom.x, currentRoom.y);
-        UpdateRoomUI(2, currentRoom.x, currentRoom.y);
-        UpdateRoomUI(3, currentRoom.x, currentRoom.y);
+        UpdateRoomUI(0);
+        UpdateRoomUI(1);
+        UpdateRoomUI(2);
+        UpdateRoomUI(3);
     }
 
-    private void UpdateRoomUI(int doorIndex, int originX, int originY)
+    private void UpdateRoomUI(int doorIndex)
     {
-        int totalX = originX;
-        int totalY = originY;
+        Vector2 totalCoordinate = currentRoom.coordinate;
         string originDoor = "";
         string totalDoor = "";
 
-        if (doorIndex == 0) {totalY++; originDoor = "Up"; totalDoor = "Down";}
-        else if (doorIndex == 1) {totalY--; originDoor = "Down"; totalDoor = "Up";}
-        else if (doorIndex == 2) {totalX--; originDoor = "Left"; totalDoor = "Right";}
-        else if (doorIndex == 3) {totalX++; originDoor = "Right"; totalDoor = "Left";}
+        if (doorIndex == 0) {totalCoordinate.y++; originDoor = "Up"; totalDoor = "Down";}
+        else if (doorIndex == 1) {totalCoordinate.y--; originDoor = "Down"; totalDoor = "Up";}
+        else if (doorIndex == 2) {totalCoordinate.x--; originDoor = "Left"; totalDoor = "Right";}
+        else if (doorIndex == 3) {totalCoordinate.x++; originDoor = "Right"; totalDoor = "Left";}
 
-        if (currentRoom.isDoorOpen[doorIndex] && !roomDictionary[new Vector2(totalX, totalY)].isCleared)
+        if (currentRoom.isDoorOpen[doorIndex] && !roomDictionary[totalCoordinate].isCleared)
         {
-            roomUiArray[originX, originY].transform.Find(originDoor).gameObject.SetActive(true);
-            roomUiArray[totalX, totalY].transform.Find(totalDoor).gameObject.SetActive(true);
+            roomUiDictionary[currentRoom.coordinate].transform.Find(originDoor).gameObject.SetActive(true);
+            roomUiDictionary[totalCoordinate].transform.Find(totalDoor).gameObject.SetActive(true);
 
-            if (roomDictionary[new Vector2(totalX, totalY)].roomType == RoomType.Boss)
-                roomUiArray[totalX, totalY].transform.Find("Boss").gameObject.SetActive(true);
+            if (roomDictionary[totalCoordinate].roomType == RoomType.Boss)
+                roomUiDictionary[totalCoordinate].transform.Find("Boss").gameObject.SetActive(true);
         }
     }
     
-    public IEnumerator MigrateRoom(string direction)
+    public IEnumerator MigrateRoom(Vector2 moveDirection, int totalDoorIndex)
     {
         fadePanel.SetActive(true);
-        yield return new WaitForSecondsRealtime(0.2f);
+        yield return new WaitForSeconds(0.2f);
 
-        roomUiArray[currentRoom.x, currentRoom.y].transform.Find("CurrentRoom").gameObject.SetActive(false);
+        roomUiDictionary[currentRoom.coordinate].transform.Find("CurrentRoom").gameObject.SetActive(false);
 
-        // #_ 이동하는 방향의 방으로 이동
-        int totalX = currentRoom.x;
-        int totalY = currentRoom.y;
-        int totalDoorIndex = 0;
-        Vector3 asd = Vector2.zero;
-
-        if (direction == "Up") {totalY++; totalDoorIndex = 1; asd = Vector2.up;}
-        else if (direction == "Down") {totalY--; totalDoorIndex = 0; asd = Vector2.down;}
-        else if (direction == "Left") {totalX--; totalDoorIndex = 3; asd = Vector2.left;}
-        else if (direction == "Right") {totalX++; totalDoorIndex = 2; asd = Vector2.right;}
-
-        currentRoom = roomDictionary[new Vector2(totalX, totalY)];
-        Transform totalDoorTransform = currentRoom.doors[totalDoorIndex].transform;
-        Traveller.Instance.transform.position = new Vector3(totalDoorTransform.position.x, totalDoorTransform.position.y, 0) + asd * 2f;
-        miniMapCamera.transform.position = new Vector3(currentRoom.transform.position.x, currentRoom.transform.position.y, -100);
+        currentRoom = roomDictionary[currentRoom.coordinate + moveDirection];
+        Traveller.Instance.transform.position = new Vector3(currentRoom.doors[totalDoorIndex].transform.position.x, currentRoom.doors[totalDoorIndex].transform.position.y, 0) + (Vector3)moveDirection * 2f;
+        miniMapCamera.transform.position = new Vector3(currentRoom.coordinate.x, currentRoom.coordinate.y, -1) * 100;
 
         UpdateMap();
 
         if (currentRoom.isCleared == false)
         {
             bagPanel.SetActive(false);
-            mapPanel.SetActive(false);
+            mapPanel.SetActive(false);  
         }
+        currentRoom.Enter();
         
         fadePanelAnimator.SetTrigger("FadeIn");
-        currentRoom.enabled = true;
 
-        yield return new WaitForSecondsRealtime(0.2f);
+        yield return new WaitForSeconds(0.2f);
         fadePanel.SetActive(false);
     }
 
@@ -235,7 +262,8 @@ public class GameManager : MonoBehaviour
     
     public void Recall()
     {
-        StageManager.Instace.DestroyStage();
+        DestroyStage();
+        undo.SetActive(true);
 
         StopCoroutine("BossSpeedWagon");
         bossSpeedWagon.SetActive(false);
@@ -247,8 +275,7 @@ public class GameManager : MonoBehaviour
         AbilityManager.Instance.selectAbilityPanel.SetActive(false);
 
         ObjectManager.Instance.InsertAll();
-        StageManager.Instace.DestroyStage();
-        UpdateMap();
+        // UpdateMap();
         monsters.Clear();
 
         Traveller.Instance.enabled = true;
@@ -257,7 +284,6 @@ public class GameManager : MonoBehaviour
         miniMapCamera.transform.position = new Vector3(0, 0, -100);
 
         isFighting = false;
-        currentStageID = -1; 
         pausePanel.SetActive(false);
         gameOverPanel.SetActive(false);
         gamePanel.SetActive(true);
@@ -325,5 +351,13 @@ public class GameManager : MonoBehaviour
         roomClearSpeedWagon.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(2f);
         roomClearSpeedWagon.gameObject.SetActive(false);
+    }
+    
+    public void DestroyStage()
+    {
+        for (int i = 0; i < stageGrid.transform.childCount; i++)
+        {
+            Destroy(stageGrid.transform.GetChild(i).gameObject);
+        }
     }
 }

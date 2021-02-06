@@ -50,7 +50,6 @@ public class Monster : MonoBehaviour
             lastTime += Time.deltaTime;
             if (lastTime >= 0.3f)
             {
-                Debug.Log("IQ");
                 InsertQueue();
             }
             return;

@@ -383,6 +383,7 @@ public class Traveller : MonoBehaviour
         expText.text = Mathf.Floor((float)exp / requiredExp * 100) + "%";
     }
 
+    [ContextMenu("LevelUp")]
     private void LevelUp()
     {
         level++;
@@ -397,10 +398,10 @@ public class Traveller : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("UpperDoor")) StartCoroutine(GameManager.Instance.MigrateRoom("Up"));
-        else if (other.CompareTag("LowerDoor")) StartCoroutine(GameManager.Instance.MigrateRoom("Down")); 
-        else if (other.CompareTag("LeftDoor")) StartCoroutine(GameManager.Instance.MigrateRoom("Left")); 
-        else if (other.CompareTag("RightDoor")) StartCoroutine(GameManager.Instance.MigrateRoom("Right")); 
+        if (other.CompareTag("UpperDoor")) StartCoroutine(GameManager.Instance.MigrateRoom(Vector2.up, 1));
+        else if (other.CompareTag("LowerDoor")) StartCoroutine(GameManager.Instance.MigrateRoom(Vector2.down, 0)); 
+        else if (other.CompareTag("LeftDoor")) StartCoroutine(GameManager.Instance.MigrateRoom(Vector2.left, 3)); 
+        else if (other.CompareTag("RightDoor")) StartCoroutine(GameManager.Instance.MigrateRoom(Vector2.right, 2)); 
 
         if (other.CompareTag("InteractiveObject"))
         {
