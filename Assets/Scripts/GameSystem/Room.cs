@@ -14,37 +14,40 @@ public enum RoomType
 
 public class Room : MonoBehaviour
 {
-    [HideInInspector] public Vector2 coordinate {get; private set;}
+    public Vector2 coordinate { get; private set; }
     public RoomType roomType = RoomType.Normal;
-    [HideInInspector] public bool isCleared = false;
-    [HideInInspector] public bool isVisited = false;
-    [SerializeField] private int monsterCount = 0;
-    private int currentMonsterCount = 0;
+    public bool isCleared { get; private set; } = false;
+    public bool isVisited { get; private set; } = false;
+    public bool[] isConnectToNearbyRoom { get; private set; } = { false, false, false, false };
+    [SerializeField] private int monsterCount;
+    private int currentMonsterCount;
     public GameObject[] doors;
-    [HideInInspector] public bool[] isDoorOpen = new bool[4];
     [SerializeField] private GameObject[] doorHiders;
     [SerializeField] private Transform[] monsterSpawnPoint;
     [SerializeField] private GameObject portal;
 
-    public void SetRoomCoordinate(Vector2 _coordinate)
+    public void Initialize(Vector2 _coordinate, bool[] _isConnectToNearbyRoom)
     {
         coordinate = _coordinate;
+        isConnectToNearbyRoom = _isConnectToNearbyRoom;
+        transform.localPosition = coordinate * 100;
+
+        doors[0].SetActive(isConnectToNearbyRoom[0]);
+        doors[1].SetActive(isConnectToNearbyRoom[1]);
+        doors[2].SetActive(isConnectToNearbyRoom[2]);
+        doors[3].SetActive(isConnectToNearbyRoom[3]);
     }
 
     public void Enter()
     {
-        doors[0].SetActive(isDoorOpen[0]);
-        doors[1].SetActive(isDoorOpen[1]);
-        doors[2].SetActive(isDoorOpen[2]);
-        doors[3].SetActive(isDoorOpen[3]);
-
+        Debug.Log($"{name} : Enter");
         if (roomType == RoomType.Spawn)
         {
             isCleared = true;
-            doorHiders[0].SetActive(!isDoorOpen[0]);
-            doorHiders[1].SetActive(!isDoorOpen[1]);
-            doorHiders[2].SetActive(!isDoorOpen[2]);
-            doorHiders[3].SetActive(!isDoorOpen[3]);
+            doorHiders[0].SetActive(!isConnectToNearbyRoom[0]);
+            doorHiders[1].SetActive(!isConnectToNearbyRoom[1]);
+            doorHiders[2].SetActive(!isConnectToNearbyRoom[2]);
+            doorHiders[3].SetActive(!isConnectToNearbyRoom[3]);
         }
         else if (isCleared == false)
         {
@@ -54,6 +57,8 @@ public class Room : MonoBehaviour
 
     private IEnumerator StartWave()
     {
+        Debug.Log($"---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----");
+        Debug.Log($"{name} : StartWave");
         GameManager.Instance.isFighting = true;
         if (roomType == RoomType.Boss)
         { 
@@ -102,13 +107,14 @@ public class Room : MonoBehaviour
     public void CheckMonsterCount()
     {
         if (roomType == RoomType.Boss) return;
-
         currentMonsterCount--;
+        Debug.Log($"{name} : MonsterCount {currentMonsterCount}");
         if (currentMonsterCount <= 0) RoomClear();        
     }
 
     public void BossClear()
     {
+        Debug.Log($"{name} : BossClear");
         // 보스 클리어 연출
         portal.gameObject.SetActive(true);
         RoomClear();
@@ -116,13 +122,15 @@ public class Room : MonoBehaviour
 
     private void RoomClear()
     {
+        Debug.Log($"{name} : RoomClear");
+        Debug.Log($"---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----");
         GameManager.Instance.isFighting = false;
         isCleared = true;
 
-        doorHiders[0].SetActive(!isDoorOpen[0]);
-        doorHiders[1].SetActive(!isDoorOpen[1]);
-        doorHiders[2].SetActive(!isDoorOpen[2]);
-        doorHiders[3].SetActive(!isDoorOpen[3]);       
+        doorHiders[0].SetActive(!isConnectToNearbyRoom[0]);
+        doorHiders[1].SetActive(!isConnectToNearbyRoom[1]);
+        doorHiders[2].SetActive(!isConnectToNearbyRoom[2]);
+        doorHiders[3].SetActive(!isConnectToNearbyRoom[3]);       
 
         StartCoroutine(GameManager.Instance.RoomClearSpeedWagon());
     }

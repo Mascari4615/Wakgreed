@@ -140,8 +140,9 @@ public class SlimeKing : Monster
         }
     }
 
-    public override void InsertQueue()
+    protected override void InsertQueue()
     {
+        base.InsertQueue();
         ObjectManager.Instance.InsertQueue(PoolType.BossMonster, gameObject);
     }
 }
