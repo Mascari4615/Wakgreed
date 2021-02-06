@@ -9,39 +9,29 @@ public enum RoomType
     Boss, 
     Shop, 
     Interaction, 
-    Normal 
+    Normal,
 }
 
 public class Room : MonoBehaviour
 {
-    public int x, y;
-
-    public void SetRoomCoordinate(int _x, int _y)
-    {
-        x = _x;
-        y = _y;
-    }
-
+    [HideInInspector] public Vector2 coordinate {get; private set;}
     public RoomType roomType = RoomType.Normal;
     [HideInInspector] public bool isCleared = false;
+    [HideInInspector] public bool isVisited = false;
     [SerializeField] private int monsterCount = 0;
     private int currentMonsterCount = 0;
     public GameObject[] doors;
-    public bool[] isDoorOpen = new bool[4];
+    [HideInInspector] public bool[] isDoorOpen = new bool[4];
     [SerializeField] private GameObject[] doorHiders;
     [SerializeField] private Transform[] monsterSpawnPoint;
-    [SerializeField] private Transform[] interactionObjectSpawnPoint;
     [SerializeField] private GameObject portal;
 
-    void Awake()
+    public void SetRoomCoordinate(Vector2 _coordinate)
     {
-doors[0].SetActive(isDoorOpen[0]);
-        doors[1].SetActive(isDoorOpen[1]);
-        doors[2].SetActive(isDoorOpen[2]);
-        doors[3].SetActive(isDoorOpen[3]);
+        coordinate = _coordinate;
     }
 
-    void OnEnable()
+    public void Enter()
     {
         doors[0].SetActive(isDoorOpen[0]);
         doors[1].SetActive(isDoorOpen[1]);
@@ -56,50 +46,21 @@ doors[0].SetActive(isDoorOpen[0]);
             doorHiders[2].SetActive(!isDoorOpen[2]);
             doorHiders[3].SetActive(!isDoorOpen[3]);
         }
-        else
+        else if (isCleared == false)
         {
-            GameManager.Instance.isFighting = true;
-            if (roomType == RoomType.Boss)
-            { 
-                monsterCount = 0;
-            }
-            currentMonsterCount = monsterCount;
             StartCoroutine(StartWave());
-        }  
+        }
     }
 
-    public void CheckMonsterCount()
+    private IEnumerator StartWave()
     {
-        if (roomType == RoomType.Boss) return;
+        GameManager.Instance.isFighting = true;
+        if (roomType == RoomType.Boss)
+        { 
+            monsterCount = 0;
+        }
+        currentMonsterCount = monsterCount;
 
-        currentMonsterCount--;
-        if (currentMonsterCount <= 0) RoomClear();        
-    }
-
-    public void BossClear()
-    {
-        // 보스 클리어 연출
-        portal.gameObject.SetActive(true);
-        RoomClear();
-    }
-
-    void RoomClear()
-    {
-        GameManager.Instance.isFighting = false;
-        isCleared = true;
-
-        doorHiders[0].SetActive(!isDoorOpen[0]);
-        doorHiders[1].SetActive(!isDoorOpen[1]);
-        doorHiders[2].SetActive(!isDoorOpen[2]);
-        doorHiders[3].SetActive(!isDoorOpen[3]);       
-
-        // Vector3 summonPosition = new Vector3(transform.position.x, transform.position.y, 0);
-        // ObjectManager.Instance.GetQueue(PoolType.itemBox, summonPosition);
-        StartCoroutine(GameManager.Instance.RoomClearSpeedWagon());
-    }
-
-    IEnumerator StartWave()
-    {
         doorHiders[0].SetActive(true);
         doorHiders[1].SetActive(true);
         doorHiders[2].SetActive(true);
@@ -136,5 +97,33 @@ doors[0].SetActive(isDoorOpen[0]);
                 GameManager.Instance.monsters.Add(ObjectManager.Instance.GetQueue(targetMonster, summonPosition));
             }   
         }
+    }
+
+    public void CheckMonsterCount()
+    {
+        if (roomType == RoomType.Boss) return;
+
+        currentMonsterCount--;
+        if (currentMonsterCount <= 0) RoomClear();        
+    }
+
+    public void BossClear()
+    {
+        // 보스 클리어 연출
+        portal.gameObject.SetActive(true);
+        RoomClear();
+    }
+
+    private void RoomClear()
+    {
+        GameManager.Instance.isFighting = false;
+        isCleared = true;
+
+        doorHiders[0].SetActive(!isDoorOpen[0]);
+        doorHiders[1].SetActive(!isDoorOpen[1]);
+        doorHiders[2].SetActive(!isDoorOpen[2]);
+        doorHiders[3].SetActive(!isDoorOpen[3]);       
+
+        StartCoroutine(GameManager.Instance.RoomClearSpeedWagon());
     }
 }
