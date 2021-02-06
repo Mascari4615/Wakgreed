@@ -34,6 +34,7 @@ public class ItemGameObject : Loot
                 inventory.Add(ItemDataBase.Instance.items[itemID], 1);
             }
 
+            Debug.Log($"{name} : InsertQueue");
             ObjectManager.Instance.InsertQueue(PoolType.Item, gameObject);
         }       
     }

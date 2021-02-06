@@ -10,20 +10,30 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     [HideInInspector] public static GameManager Instance { get { return instance; } }
 
-    [HideInInspector] public int nyang = 0;
-    [HideInInspector] public int monsterKill = 0;
-    [HideInInspector] public bool isFighting = false;
-    private int currentStageID = 0;
-    [SerializeField] private int maxRoomCount = 0;
-    [SerializeField] private int roomMoldLength = 0;
-    private List<Room> roomList = new List<Room>();
-    private Dictionary<Vector2, Room> roomDictionary = new Dictionary<Vector2, Room>();
-    [HideInInspector] public Room currentRoom;
+    public int nyang { get; private set; } = 0;
+    public int monsterKill { get; private set; } = 0;
 
-    [SerializeField] private GameObject stageGrid;
-    private int roomCount = 0;
-    // private Queue<RoomStack> roomStackQueue = new Queue<RoomStack>();
+    [HideInInspector] public bool isFighting = false;
+    private int currentStageID = -1;
+
+    [SerializeField] private int roomCount = 0;
+    [SerializeField] private int stageEdgeLength = 0;
+    private Dictionary<Vector2, Room> roomDictionary = new Dictionary<Vector2, Room>();
+    private List<RoomMold> roomMolds = new List<RoomMold>();
+    private class RoomMold
+    {
+        public Vector2 coordinate { get; set; }
+        public bool[] isConnectToNearbyRoom = {false, false, false, false};
+    }
     private List<Room> roomDatas = new List<Room>();
+    private Stack<RoomMoldStack> roomMoldStackStack = new Stack<RoomMoldStack>();
+    private class RoomMoldStack
+    {
+        public RoomMold originalRoomMold { get; set; }
+        public Vector2 direction { get; set; }
+    }
+    public Room currentRoom { get; private set; }
+    [SerializeField] private GameObject stageGrid;
     
     [SerializeField] private GameObject gamePanel;
     [SerializeField] private Text monsterKillText;
@@ -35,7 +45,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject pausePanel;
     
     [SerializeField] private GameObject mapPanel;
-    [SerializeField] GridLayoutGroup mapGridLayoutGroup;
+    [SerializeField] private GridLayoutGroup mapGridLayoutGroup;
+    [SerializeField] private RectTransform scrollRectBackGround; 
     private Dictionary<Vector2, GameObject> roomUiDictionary = new Dictionary<Vector2, GameObject>();  
 
     [SerializeField] private GameObject fadePanel;
@@ -46,7 +57,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text noticeText;
     [HideInInspector] public List<GameObject> monsters;
     [SerializeField] private GameObject stageSpeedWagon;
-    [SerializeField] private Text stageNumberText, stageNameText;
+    [SerializeField] private Text stageNumberText, stageNameText, stageCommentText;
     [SerializeField] private GameObject bossSpeedWagon;
     [SerializeField] private GameObject roomClearSpeedWagon;
     [SerializeField] private GameObject undo;
@@ -109,44 +120,76 @@ public class GameManager : MonoBehaviour
     private void GenerateStage(int stageIndex) // 스테이지 만들기 시작
     {
         DestroyStage();
-        roomCount = maxRoomCount;
-        roomList.Clear();
+        roomMolds.Clear();
         roomDatas = new List<Room>(StageDataBase.Instance.stages[stageIndex].roomDatas); 
         roomDictionary.Clear();
 
-        GenerateRoom(Vector2.zero , true);
+        roomMolds.Add(new RoomMold(){coordinate = Vector2.zero});
 
-        while (roomCount > 0)
+        while (roomMolds.Count < roomCount)
         {
-            Vector2 randomRoomCoordinate = roomList[Random.Range(0, roomList.Count)].coordinate;
-            if (randomRoomCoordinate.y != (roomMoldLength - 1) / 2) GenerateRoomAndLink(randomRoomCoordinate, Vector2.up, 0, 1);
-            if (randomRoomCoordinate.y != -(roomMoldLength - 1) / 2) GenerateRoomAndLink(randomRoomCoordinate, Vector2.down, 1, 0);
-            if (randomRoomCoordinate.x != -(roomMoldLength - 1) / 2) GenerateRoomAndLink(randomRoomCoordinate, Vector2.left, 2, 3);
-            if (randomRoomCoordinate.x != (roomMoldLength - 1) / 2) GenerateRoomAndLink(randomRoomCoordinate, Vector2.right, 3, 2);
+            RoomMold randomRoomMold = roomMolds[Random.Range(0, roomMolds.Count)];
+
+            if (roomMoldStackStack.Count == 0)
+                GenerateRoomMoldStack(randomRoomMold);
+            RoomMoldStack roomMoldStack = roomMoldStackStack.Pop();
+            GenerateRoomMold(roomMoldStack.originalRoomMold, roomMoldStack.direction);
+
+            // GenerateRoomMold(randomRoomMold, Vector2.up);
+            // GenerateRoomMold(randomRoomMold, Vector2.down);
+            // GenerateRoomMold(randomRoomMold, Vector2.left);
+            // GenerateRoomMold(randomRoomMold, Vector2.right);
+        }
+        
+        for (int i = 0; i < roomCount; i++)
+        {      
+            int roomMoldIndex = (i == 0) ? 0 : Random.Range(0, roomMolds.Count);
+            int roomDataIndex = (i <= 1) ? 0 : Random.Range(0, roomDatas.Count);
+
+            Room r = Instantiate(roomDatas[roomDataIndex].gameObject, stageGrid.transform).GetComponent<Room>();
+            r.Initialize(roomMolds[roomMoldIndex].coordinate, roomMolds[roomMoldIndex].isConnectToNearbyRoom);
+            
+            roomMolds.RemoveAt(roomMoldIndex);
+            roomDatas.RemoveAt(roomDataIndex);
+            roomDictionary.Add(r.coordinate, r);
         }
 
         StartCoroutine(StartStage());
     }
 
-    private void GenerateRoom(Vector2 coordinate, bool isFirstTry = false)
+    private void GenerateRoomMold(RoomMold originalRoomMold, Vector2 direction)
     {
-        int roomDataIndex = isFirstTry ? 0 : Random.Range(0, roomDatas.Count);
-        Room r = Instantiate(roomDatas[roomDataIndex].gameObject, stageGrid.transform).GetComponent<Room>();
-        r.transform.localPosition = coordinate * 100;
-        r.SetRoomCoordinate(coordinate);
-        roomList.Add(r);
-        roomDictionary.Add(coordinate, r);
-        roomDatas.RemoveAt(roomDataIndex);
-        roomCount--;
+        if (roomMolds.Count <= 0 || Random.Range(0, 2) == 0) return;
+
+        int originalRoomDoorIndex = 0;
+        int totalRoomDoorIndex = 0;
+        if (direction == Vector2.up && originalRoomMold.coordinate.y != (stageEdgeLength - 1) / 2) { originalRoomDoorIndex = 0; totalRoomDoorIndex = 1; }
+        else if (direction == Vector2.down && originalRoomMold.coordinate.y != -(stageEdgeLength - 1) / 2) { originalRoomDoorIndex = 1; totalRoomDoorIndex = 0; }
+        else if (direction == Vector2.left && originalRoomMold.coordinate.x != -(stageEdgeLength - 1) / 2) { originalRoomDoorIndex = 2; totalRoomDoorIndex = 3; }
+        else if (direction == Vector2.right && originalRoomMold.coordinate.x != (stageEdgeLength - 1) / 2) { originalRoomDoorIndex = 3; totalRoomDoorIndex = 2; }
+        else return;
+        
+        Vector2 totalCoordinate = originalRoomMold.coordinate + direction;
+        foreach (var roomMold in roomMolds)
+        {
+            if (roomMold.coordinate == totalCoordinate) return;
+        }
+
+        RoomMold totalRoomMold = new RoomMold(){ coordinate = totalCoordinate };
+        roomMolds.Add(totalRoomMold);
+        originalRoomMold.isConnectToNearbyRoom[originalRoomDoorIndex] = true;
+        totalRoomMold.isConnectToNearbyRoom[totalRoomDoorIndex] = true;
+
+        //
+        GenerateRoomMoldStack(totalRoomMold);
     }
 
-    private void GenerateRoomAndLink(Vector2 originalCoordinate, Vector2 direction, int originalRoomDoorIndex, int totalRoomDoorIndex)
+    private void GenerateRoomMoldStack(RoomMold _originalRoomMold)
     {
-        Vector2 totalCoordinate = originalCoordinate + direction;
-        if (roomCount <= 0 || Random.Range(0, 2) == 0 || roomDictionary.ContainsKey(totalCoordinate)) return;
-        GenerateRoom(totalCoordinate);
-        roomDictionary[originalCoordinate].isDoorOpen[originalRoomDoorIndex] = true;
-        roomDictionary[totalCoordinate].isDoorOpen[totalRoomDoorIndex] = true;
+        roomMoldStackStack.Push(new RoomMoldStack(){originalRoomMold = _originalRoomMold, direction = Vector2.up});
+        roomMoldStackStack.Push(new RoomMoldStack(){originalRoomMold = _originalRoomMold, direction = Vector2.down});
+        roomMoldStackStack.Push(new RoomMoldStack(){originalRoomMold = _originalRoomMold, direction = Vector2.left});
+        roomMoldStackStack.Push(new RoomMoldStack(){originalRoomMold = _originalRoomMold, direction = Vector2.right});
     }
 
     private IEnumerator StartStage()
@@ -166,14 +209,14 @@ public class GameManager : MonoBehaviour
 
     public void InitialzeMap()
     {     
-        mapGridLayoutGroup.constraintCount = roomMoldLength;
+        mapGridLayoutGroup.constraintCount = stageEdgeLength;
         roomUiDictionary = new Dictionary<Vector2, GameObject>();
 
         for (int i = 0; i < mapGridLayoutGroup.transform.childCount; i++)
         {
-            if (i <= roomMoldLength * roomMoldLength - 1)
+            if (i <= stageEdgeLength * stageEdgeLength - 1)
                 mapGridLayoutGroup.transform.GetChild(i).gameObject.SetActive(true);
-            else if (i > roomMoldLength * roomMoldLength - 1)
+            else if (i > stageEdgeLength * stageEdgeLength - 1)
                 mapGridLayoutGroup.transform.GetChild(i).gameObject.SetActive(false);
 
             for (int j = 0; j < mapGridLayoutGroup.transform.GetChild(i).transform.childCount; j++)
@@ -181,9 +224,9 @@ public class GameManager : MonoBehaviour
         }
 
         int childIndex = 0;
-        for (int y = (roomMoldLength - 1) / 2; y >= -(roomMoldLength - 1) / 2; y--)
+        for (int y = (stageEdgeLength - 1) / 2; y >= -(stageEdgeLength - 1) / 2; y--)
         {
-            for (int x = -(roomMoldLength - 1) / 2; x <= (roomMoldLength - 1) / 2; x++, childIndex++)
+            for (int x = -(stageEdgeLength - 1) / 2; x <= (stageEdgeLength - 1) / 2; x++, childIndex++)
             {
                 roomUiDictionary.Add(new Vector2(x, y), mapGridLayoutGroup.transform.GetChild(childIndex).gameObject);
             }
@@ -194,36 +237,38 @@ public class GameManager : MonoBehaviour
 
     private void UpdateMap()
     {  
+        scrollRectBackGround.localPosition = -currentRoom.coordinate * 175;
+        roomUiDictionary[currentRoom.coordinate].GetComponent<Image>().enabled = true;
         roomUiDictionary[currentRoom.coordinate].transform.Find("CurrentRoom").gameObject.SetActive(true);
         roomUiDictionary[currentRoom.coordinate].transform.Find("StageTheme").gameObject.SetActive(true);
-      
-        UpdateRoomUI(0);
-        UpdateRoomUI(1);
-        UpdateRoomUI(2);
-        UpdateRoomUI(3);
-    }
 
-    private void UpdateRoomUI(int doorIndex)
-    {
-        Vector2 totalCoordinate = currentRoom.coordinate;
-        string originDoor = "";
-        string totalDoor = "";
-
-        if (doorIndex == 0) {totalCoordinate.y++; originDoor = "Up"; totalDoor = "Down";}
-        else if (doorIndex == 1) {totalCoordinate.y--; originDoor = "Down"; totalDoor = "Up";}
-        else if (doorIndex == 2) {totalCoordinate.x--; originDoor = "Left"; totalDoor = "Right";}
-        else if (doorIndex == 3) {totalCoordinate.x++; originDoor = "Right"; totalDoor = "Left";}
-
-        if (currentRoom.isDoorOpen[doorIndex] && !roomDictionary[totalCoordinate].isCleared)
+        for (int i = 0; i < 4; i++)
         {
-            roomUiDictionary[currentRoom.coordinate].transform.Find(originDoor).gameObject.SetActive(true);
-            roomUiDictionary[totalCoordinate].transform.Find(totalDoor).gameObject.SetActive(true);
+            Vector2 totalCoordinate = currentRoom.coordinate;
+            string originDoor = "";
+            string totalDoor = "";
+     
+            if (i == 0) {totalCoordinate.y++; originDoor = "Up"; totalDoor = "Down";}
+            else if (i == 1) {totalCoordinate.y--; originDoor = "Down"; totalDoor = "Up";}
+            else if (i == 2) {totalCoordinate.x--; originDoor = "Left"; totalDoor = "Right";}
+            else if (i == 3) {totalCoordinate.x++; originDoor = "Right"; totalDoor = "Left";}
 
-            if (roomDictionary[totalCoordinate].roomType == RoomType.Boss)
-                roomUiDictionary[totalCoordinate].transform.Find("Boss").gameObject.SetActive(true);
+            Debug.Log($"{currentRoom.coordinate}, {totalCoordinate}, {i}");
+
+            if (currentRoom.isConnectToNearbyRoom[i])
+            {  
+                roomUiDictionary[currentRoom.coordinate].transform.Find(originDoor).gameObject.SetActive(true);
+                roomUiDictionary[totalCoordinate].GetComponent<Image>().enabled = true;
+                roomUiDictionary[totalCoordinate].transform.Find(totalDoor).gameObject.SetActive(true);
+
+                if (roomDictionary[totalCoordinate].roomType == RoomType.Boss)
+                    roomUiDictionary[totalCoordinate].transform.Find("Boss").gameObject.SetActive(true);
+                else if (roomDictionary[totalCoordinate].roomType == RoomType.Spawn)
+                    roomUiDictionary[totalCoordinate].transform.Find("Spawn").gameObject.SetActive(true);
+            }
         }
     }
-    
+
     public IEnumerator MigrateRoom(Vector2 moveDirection, int totalDoorIndex)
     {
         fadePanel.SetActive(true);
@@ -264,6 +309,7 @@ public class GameManager : MonoBehaviour
     {
         DestroyStage();
         undo.SetActive(true);
+        currentStageID = -1;
 
         StopCoroutine("BossSpeedWagon");
         bossSpeedWagon.SetActive(false);
@@ -314,6 +360,7 @@ public class GameManager : MonoBehaviour
         {
             StopCoroutine(NoticeText("전투 중에는 열 수 없습니다.", 1.5f));
 
+            UpdateMap();
             mapPanel.SetActive(!mapPanel.activeSelf);
         }    
     }
@@ -327,8 +374,9 @@ public class GameManager : MonoBehaviour
     private IEnumerator StageSpeedWagon()
     {
         stageSpeedWagon.SetActive(true);
-        stageNumberText.text = currentStageID.ToString();
-        stageNameText.text = StageDataBase.Instance.stages[currentStageID].name;
+        stageNumberText.text = $"1-{StageDataBase.Instance.stages[currentStageID].id}";
+        stageNameText.text = $"::{StageDataBase.Instance.stages[currentStageID].name}::";
+        stageCommentText.text= $"::{StageDataBase.Instance.stages[currentStageID].comment}::";
         yield return new WaitForSeconds(2f);
         stageSpeedWagon.SetActive(false);
     }

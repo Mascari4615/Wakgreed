@@ -15,7 +15,6 @@ public class Monster : MonoBehaviour
     [SerializeField] protected float _moveSpeed;
     [HideInInspector] public float moveSpeed;
 
-    protected Vector3 direction = Vector3.zero;
     //private bool isHpBarSideEffectOn = false;
     
     [SerializeField] protected Animator monsterAnimator = null;
@@ -31,6 +30,7 @@ public class Monster : MonoBehaviour
 
     protected virtual void OnEnable()
     {
+        Debug.Log($"{name} : OnEnable");
         isAlive = true;
         lastTime = 0;
         hp = _hp;
@@ -119,9 +119,9 @@ public class Monster : MonoBehaviour
         }  
     }
 
-    public virtual void InsertQueue()
+    protected virtual void InsertQueue()
     {
-
+        Debug.Log($"{name} : InsertQueue");
     }
     
     protected void DropItem(Vector3 diedPosition)

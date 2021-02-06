@@ -84,8 +84,9 @@ public class Slime2 : Monster
         }
     }
 
-    public override void InsertQueue()
+    protected override void InsertQueue()
     {
+        base.InsertQueue();
         ObjectManager.Instance.InsertQueue(PoolType.Slime2, gameObject);
     }
 }

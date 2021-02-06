@@ -28,7 +28,7 @@ public class Traveller : MonoBehaviour
     private const int DEFAULT_CRITICAL_CHANCE = 0;
     [HideInInspector] public int criticalChance;
 
-    private const int DEFAULT_MOVE_SPEED = 8;
+    private const int DEFAULT_MOVE_SPEED = 6;
     [HideInInspector] public float moveSpeed;
 
     private int exp;
@@ -142,6 +142,7 @@ public class Traveller : MonoBehaviour
 
     public void Initialize()
     {
+        Debug.Log(name + " : Initialize");
         instance = this;
 
         transform.position = Vector3.zero;
@@ -277,6 +278,7 @@ public class Traveller : MonoBehaviour
     protected virtual void Skill0()
     {
         Debug.Log(name + " : Skill0");
+        hp += 300;
 
         audioSource.clip = skill0AudioClips[Random.Range(0, skill0AudioClips.Length)];
         audioSource.Play();
@@ -286,6 +288,7 @@ public class Traveller : MonoBehaviour
     protected virtual void Skill1()
     {
         Debug.Log(name + " : Skill1");
+        ad += 500;
 
         audioSource.clip = skill1AudioClips[Random.Range(0, skill1AudioClips.Length)];
         audioSource.Play();
@@ -295,6 +298,7 @@ public class Traveller : MonoBehaviour
     protected virtual void Skill2()
     {
         Debug.Log(name + " : Skill2");
+        LevelUp();
 
         audioSource.clip = skill2AudioClips[Random.Range(0, skill2AudioClips.Length)];
         audioSource.Play();
@@ -303,6 +307,7 @@ public class Traveller : MonoBehaviour
 
     private void Interaction()
     {
+        Debug.Log(name + " : Interaction");
         nearInteractiveObject.GetComponent<InteractiveObject>().Interaction();
     }
 
