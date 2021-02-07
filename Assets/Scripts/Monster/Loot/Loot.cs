@@ -40,7 +40,7 @@ public class Loot : MonoBehaviour
         {
             moveSpeed += Time.deltaTime;
             circleCollider2D.enabled = true;
-            transform.position = Vector3.Lerp(transform.position, Traveller.Instance.transform.position, moveSpeed); 
+            transform.position = Vector3.Lerp(transform.position, TravellerController.Instance.transform.position, moveSpeed); 
         }      
     }
 

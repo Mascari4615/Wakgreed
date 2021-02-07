@@ -56,12 +56,12 @@ public class SlimeKing : Monster
                     {
                         spawnPosParent.gameObject.SetActive(true);
                         rand1 = Random.Range(-40, 41);
-                        spawnPosParent.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(transform.position.y - Traveller.Instance.transform.position.y,  transform.position.x - Traveller.Instance.transform.position.x) * Mathf.Rad2Deg - 90 + rand1);
+                        spawnPosParent.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(transform.position.y - TravellerController.Instance.transform.position.y,  transform.position.x - TravellerController.Instance.transform.position.x) * Mathf.Rad2Deg - 90 + rand1);
                     }
                     t += Time.deltaTime;
                     if (t < 1.5f)
                     {          
-                        spawnPosParent.rotation = Quaternion.Euler(0, 0, Mathf.Lerp(Mathf.Atan2(transform.position.y - Traveller.Instance.transform.position.y,  transform.position.x - Traveller.Instance.transform.position.x) * Mathf.Rad2Deg - 90 + rand1, Mathf.Atan2(transform.position.y - Traveller.Instance.transform.position.y,  transform.position.x - Traveller.Instance.transform.position.x) * Mathf.Rad2Deg - 90, t * 0.3f));
+                        spawnPosParent.rotation = Quaternion.Euler(0, 0, Mathf.Lerp(Mathf.Atan2(transform.position.y - TravellerController.Instance.transform.position.y,  transform.position.x - TravellerController.Instance.transform.position.x) * Mathf.Rad2Deg - 90 + rand1, Mathf.Atan2(transform.position.y - TravellerController.Instance.transform.position.y,  transform.position.x - TravellerController.Instance.transform.position.x) * Mathf.Rad2Deg - 90, t * 0.3f));
                     }
                     else if (t >= 1.5f)
                     {
@@ -82,7 +82,7 @@ public class SlimeKing : Monster
                     if (t == 0)
                     {
                         attack222.SetActive(true);
-                        attack222.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(transform.position.y - Traveller.Instance.transform.position.y,  transform.position.x - Traveller.Instance.transform.position.x) * Mathf.Rad2Deg - 90 );
+                        attack222.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(transform.position.y - TravellerController.Instance.transform.position.y,  transform.position.x - TravellerController.Instance.transform.position.x) * Mathf.Rad2Deg - 90 );
                     }
                     t += Time.deltaTime;
                     if (t < 3 && t >= 1)
@@ -113,7 +113,7 @@ public class SlimeKing : Monster
                         {
                             ObjectManager.Instance.monsterParent.GetChild(i).GetComponent<Monster>().monsterRigidbody2D.AddForce((transform.position - ObjectManager.Instance.monsterParent.GetChild(i).transform.position).normalized * 200);
                         }
-                        Traveller.Instance.GetComponent<Rigidbody2D>().AddForce((transform.position - Traveller.Instance.transform.position).normalized * 200);
+                        TravellerController.Instance.GetComponent<Rigidbody2D>().AddForce((transform.position - TravellerController.Instance.transform.position).normalized * 200);
                     }
                     if (t > 9)
                     {

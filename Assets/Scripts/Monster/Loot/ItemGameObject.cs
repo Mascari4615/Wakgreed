@@ -7,9 +7,9 @@ public class ItemGameObject : Loot
     [HideInInspector] public int itemID;
     public void SetItem(Item item)
     {
-        itemID = item.itemID;
-        this.name = item.itemName;
-        GetComponent<SpriteRenderer>().sprite = item.itemSprite; 
+        itemID = item.ID;
+        this.name = item.iName;
+        GetComponent<SpriteRenderer>().sprite = item.sprite; 
     }
 
     public override void OnEnable()
@@ -23,7 +23,7 @@ public class ItemGameObject : Loot
     {
         if (other.CompareTag("Player"))
         {
-            Dictionary<Item, int> inventory = Traveller.Instance.inventory;
+            Dictionary<Item, int> inventory = TravellerController.Instance.traveller.inventory;
  
             if (inventory.ContainsKey(ItemDataBase.Instance.items[itemID]))
             {

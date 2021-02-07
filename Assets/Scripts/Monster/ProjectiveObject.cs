@@ -19,14 +19,14 @@ public class ProjectiveObject : MonoBehaviour
 
     void SetDirection()
     {
-        direction = (Traveller.Instance.transform.position - transform.position).normalized;
+        direction = (TravellerController.Instance.transform.position - transform.position).normalized;
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Traveller.Instance.ReceiveDamage(5);
+            TravellerController.Instance.traveller.ReceiveDamage(5);
             gameObject.SetActive(false);
         }   
     }

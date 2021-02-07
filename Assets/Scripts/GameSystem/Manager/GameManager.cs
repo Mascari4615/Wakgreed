@@ -5,6 +5,12 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Cinemachine;
 
+public enum TravellerStat
+{
+    AD,
+    AS
+}
+
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
@@ -190,7 +196,7 @@ public class GameManager : MonoBehaviour
         currentRoom.Enter();
         InitialzeMap();
         
-        Traveller.Instance.transform.position = new Vector3(currentRoom.coordinate.x, currentRoom.coordinate.y, 0) * 100;
+        TravellerController.Instance.transform.position = new Vector3(currentRoom.coordinate.x, currentRoom.coordinate.y, 0) * 100;
         miniMapCamera.transform.position = new Vector3(currentRoom.coordinate.x, currentRoom.coordinate.y, -1) * 100;
 
         fadePanelAnimator.SetTrigger("FadeIn");
@@ -269,7 +275,7 @@ public class GameManager : MonoBehaviour
         roomUiDictionary[currentRoom.coordinate].transform.Find("CurrentRoom").gameObject.SetActive(false);
 
         currentRoom = roomDictionary[currentRoom.coordinate + moveDirection];
-        Traveller.Instance.transform.position = new Vector3(currentRoom.doors[totalDoorIndex].transform.position.x, currentRoom.doors[totalDoorIndex].transform.position.y, 0) + (Vector3)moveDirection * 2f;
+        TravellerController.Instance.transform.position = new Vector3(currentRoom.doors[totalDoorIndex].transform.position.x, currentRoom.doors[totalDoorIndex].transform.position.y, 0) + (Vector3)moveDirection * 2f;
         miniMapCamera.transform.position = new Vector3(currentRoom.coordinate.x, currentRoom.coordinate.y, -1) * 100;
 
         UpdateMap();
@@ -313,8 +319,7 @@ public class GameManager : MonoBehaviour
         // UpdateMap();
         monsters.Clear();
 
-        Traveller.Instance.enabled = true;
-        Traveller.Instance.Initialize();
+        TravellerController.Instance.enabled = true;
 
         miniMapCamera.transform.position = new Vector3(0, 0, -100);
 
@@ -389,11 +394,11 @@ public class GameManager : MonoBehaviour
     {
         GameObject.Find("SlimeKing(Clone)").GetComponent<SlimeKing>().enabled = false;
         GameObject.Find("SlimeKing(Clone)").transform.Find("CM Camera1").GetComponent<CinemachineVirtualCamera>().Priority = 100;
-        Traveller.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        TravellerController.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         bossSpeedWagon.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(3f);
         bossSpeedWagon.gameObject.SetActive(false);
-        Traveller.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        TravellerController.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         GameObject.Find("SlimeKing(Clone)").transform.Find("CM Camera1").GetComponent<CinemachineVirtualCamera>().Priority = 0;
         GameObject.Find("SlimeKing(Clone)").GetComponent<SlimeKing>().enabled = true;
     }

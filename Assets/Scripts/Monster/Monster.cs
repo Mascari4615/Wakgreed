@@ -76,7 +76,7 @@ public class Monster : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Traveller.Instance.ReceiveDamage(ad);
+            TravellerController.Instance.traveller.ReceiveDamage(ad);
         }
     }
 
@@ -85,7 +85,7 @@ public class Monster : MonoBehaviour
         int rand = Random.Range(0, 100);
         string type = "";
         
-        if (rand < Traveller.Instance.criticalChance)
+        if (rand < TravellerController.Instance.traveller.criticalChance)
         {
             damage *= 2;
             type = "Critical";

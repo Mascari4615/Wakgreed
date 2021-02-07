@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfd3f40ae4862674ba4f83870e907d1d, type: 3}
+  m_Name: Knight
+  m_EditorClassIdentifier: 
+  tName: "\uAE30\uC0AC"
+  maxHP: 30
+  baseAD: 2
+  baseAS: 0.625
+  baseCriticalChance: 0
+  baseMoveSpeed: 6
+  abillity0CoolDown: 1
+  abillity1CoolDown: 1
+  abillity2CoolDown: 1
+  basicAttackAudioClips:
+  - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
+  - {fileID: 8300000, guid: 18ad0d717de3d244280871a7b1eff6fe, type: 3}
+  - {fileID: 8300000, guid: a32b9e310d995fb4783947c6f3af2d6c, type: 3}
+  abillity0AudioClips:
+  - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
+  abillity1AudioClips:
+  - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
+  abillity2AudioClips:
+  - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
+  h: -0.67315125
+  attackPositionParent: {fileID: 0}
+  attackPosition: {fileID: 0}
+  weaponPosition: {fileID: 0}
+  joyStick: {fileID: 0}
+  travellerController: {fileID: 0}
+  travellerFunctions: {fileID: 11400000, guid: 6617fc2db4880a24e9d6683151e6add6, type: 2}
