@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public bool isFighting = false;
     private int currentStageID = -1;
+    [HideInInspector] public List<GameObject> monsters;
 
     [SerializeField] private int roomCount = 0;
     [SerializeField] private int stageEdgeLength = 0;
@@ -30,7 +31,9 @@ public class GameManager : MonoBehaviour
     private class RoomMoldStack
     {
         public RoomMold originalRoomMold { get; set; }
-        public Vector2 direction { get; set; }
+        public Vector2 totalRoomMoldCoordinante { get; set; }
+        public int originalRoomDoorIndex { get; set; }
+        public int totalRoomDoorIndex { get; set; }
     }
     public Room currentRoom { get; private set; }
     [SerializeField] private GameObject stageGrid;
@@ -54,12 +57,12 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject bagPanel;
 
-    [SerializeField] private Text noticeText;
-    [HideInInspector] public List<GameObject> monsters;
     [SerializeField] private GameObject stageSpeedWagon;
     [SerializeField] private Text stageNumberText, stageNameText, stageCommentText;
     [SerializeField] private GameObject bossSpeedWagon;
     [SerializeField] private GameObject roomClearSpeedWagon;
+    [SerializeField] private Text noticeText;
+
     [SerializeField] private GameObject undo;
 
     private void Awake()
@@ -83,29 +86,6 @@ public class GameManager : MonoBehaviour
         pausePanel.SetActive(!pausePanel.activeSelf);
     }
 
-    public void OpenAndCloseBag()
-    {
-        if (isFighting)
-        {
-            StopCoroutine(NoticeText("전투 중에는 열 수 없습니다.", 1.5f));
-            StartCoroutine(NoticeText("전투 중에는 열 수 없습니다.", 1.5f));
-        }
-        else
-        {
-            StopCoroutine(NoticeText("전투 중에는 열 수 없습니다.", 1.5f));
-
-            bagPanel.SetActive(!bagPanel.activeSelf);
-        }
-    }
-
-    private IEnumerator NoticeText(string text, float time)
-    {
-        noticeText.text = text;
-        noticeText.gameObject.SetActive(true);
-        yield return new WaitForSeconds(time);
-        noticeText.gameObject.SetActive(false);
-    }
-
     public IEnumerator EnterPortal()
     {
         fadePanel.SetActive(true);
@@ -117,38 +97,58 @@ public class GameManager : MonoBehaviour
         GenerateStage(currentStageID);
     }
 
-    private void GenerateStage(int stageIndex) // 스테이지 만들기 시작
+    private void GenerateStage(int stageIndex)
     {
+        Debug.Log("GenerateStage ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----");
         DestroyStage();
         roomMolds.Clear();
-        roomDatas = new List<Room>(StageDataBase.Instance.stages[stageIndex].roomDatas); 
+        roomDatas = new List<Room>(StageDataBase.Instance.stages[stageIndex].roomDatas);
+        roomMoldStackStack.Clear();
         roomDictionary.Clear();
 
         roomMolds.Add(new RoomMold(){coordinate = Vector2.zero});
 
         while (roomMolds.Count < roomCount)
         {
-            RoomMold randomRoomMold = roomMolds[Random.Range(0, roomMolds.Count)];
+            if (roomMoldStackStack.Count == 0) 
+            {
+                GenerateRoomMoldStack(roomMolds[Random.Range(0, roomMolds.Count)]);
+                continue;
+            }
 
-            if (roomMoldStackStack.Count == 0)
-                GenerateRoomMoldStack(randomRoomMold);
             RoomMoldStack roomMoldStack = roomMoldStackStack.Pop();
-            GenerateRoomMold(roomMoldStack.originalRoomMold, roomMoldStack.direction);
+            
+            foreach (RoomMold roomMold in roomMolds)
+                if (roomMold.coordinate == roomMoldStack.totalRoomMoldCoordinante)
+                    goto CONTINUE;
+            RoomMold totalRoomMold = new RoomMold(){coordinate = roomMoldStack.totalRoomMoldCoordinante};
+            RoomMold originalRoomMold = roomMoldStack.originalRoomMold;
+            
+            originalRoomMold.isConnectToNearbyRoom[roomMoldStack.originalRoomDoorIndex] = true;
+            totalRoomMold.isConnectToNearbyRoom[roomMoldStack.totalRoomDoorIndex] = true;
+            
+            Debug.Log($"roomMoldsAdd : {totalRoomMold.coordinate}");
+            roomMolds.Add(totalRoomMold);
+            GenerateRoomMoldStack(totalRoomMold);
 
-            // GenerateRoomMold(randomRoomMold, Vector2.up);
-            // GenerateRoomMold(randomRoomMold, Vector2.down);
-            // GenerateRoomMold(randomRoomMold, Vector2.left);
-            // GenerateRoomMold(randomRoomMold, Vector2.right);
+            CONTINUE:;
+        }
+
+        foreach (var item in roomMolds)
+        {
+            Debug.Log(item.coordinate);
         }
         
         for (int i = 0; i < roomCount; i++)
         {      
             int roomMoldIndex = (i == 0) ? 0 : Random.Range(0, roomMolds.Count);
             int roomDataIndex = (i <= 1) ? 0 : Random.Range(0, roomDatas.Count);
+            Debug.Log($"roomMolds : {roomMolds.Count} - {roomMoldIndex}, roomDatas : {roomDatas.Count} - {roomDataIndex}");
 
             Room r = Instantiate(roomDatas[roomDataIndex].gameObject, stageGrid.transform).GetComponent<Room>();
             r.Initialize(roomMolds[roomMoldIndex].coordinate, roomMolds[roomMoldIndex].isConnectToNearbyRoom);
             
+            Debug.Log($"i : {i}, roomMold : {roomMolds[roomMoldIndex].coordinate}, r : {r.coordinate}");
             roomMolds.RemoveAt(roomMoldIndex);
             roomDatas.RemoveAt(roomDataIndex);
             roomDictionary.Add(r.coordinate, r);
@@ -157,39 +157,31 @@ public class GameManager : MonoBehaviour
         StartCoroutine(StartStage());
     }
 
-    private void GenerateRoomMold(RoomMold originalRoomMold, Vector2 direction)
+    private void GenerateRoomMoldStack(RoomMold originalRoomMold)
     {
-        if (roomMolds.Count <= 0 || Random.Range(0, 2) == 0) return;
-
-        int originalRoomDoorIndex = 0;
-        int totalRoomDoorIndex = 0;
-        if (direction == Vector2.up && originalRoomMold.coordinate.y != (stageEdgeLength - 1) / 2) { originalRoomDoorIndex = 0; totalRoomDoorIndex = 1; }
-        else if (direction == Vector2.down && originalRoomMold.coordinate.y != -(stageEdgeLength - 1) / 2) { originalRoomDoorIndex = 1; totalRoomDoorIndex = 0; }
-        else if (direction == Vector2.left && originalRoomMold.coordinate.x != -(stageEdgeLength - 1) / 2) { originalRoomDoorIndex = 2; totalRoomDoorIndex = 3; }
-        else if (direction == Vector2.right && originalRoomMold.coordinate.x != (stageEdgeLength - 1) / 2) { originalRoomDoorIndex = 3; totalRoomDoorIndex = 2; }
-        else return;
-        
-        Vector2 totalCoordinate = originalRoomMold.coordinate + direction;
-        foreach (var roomMold in roomMolds)
+        for (int i = 0; i < 4; i++)
         {
-            if (roomMold.coordinate == totalCoordinate) return;
-        }
+            Vector2 totalRoomMoldCoordinante = originalRoomMold.coordinate + 
+            ((i == 0) ? Vector2.up : (i == 1) ? Vector2.down : (i == 2) ? Vector2.left : Vector2.right);
 
-        RoomMold totalRoomMold = new RoomMold(){ coordinate = totalCoordinate };
-        roomMolds.Add(totalRoomMold);
-        originalRoomMold.isConnectToNearbyRoom[originalRoomDoorIndex] = true;
-        totalRoomMold.isConnectToNearbyRoom[totalRoomDoorIndex] = true;
+            if (Random.Range(0, 2) == 0) continue;
 
-        //
-        GenerateRoomMoldStack(totalRoomMold);
+            if (i == 0 && originalRoomMold.coordinate.y == (stageEdgeLength - 1) / 2) continue;
+            else if (i == 1 && originalRoomMold.coordinate.y == -(stageEdgeLength - 1) / 2) continue;
+            else if (i == 2 && originalRoomMold.coordinate.x == -(stageEdgeLength - 1) / 2) continue;
+            else if (i == 3 && originalRoomMold.coordinate.x == (stageEdgeLength - 1) / 2) continue;
+
+            roomMoldStackStack.Push(new RoomMoldStack(){originalRoomMold = originalRoomMold, totalRoomMoldCoordinante = totalRoomMoldCoordinante, 
+            originalRoomDoorIndex = i, totalRoomDoorIndex = (i == 0) ? 1 : (i == 1) ? 0 : (i == 2) ? 3 : 2});
+        }    
     }
 
-    private void GenerateRoomMoldStack(RoomMold _originalRoomMold)
+    private void DestroyStage()
     {
-        roomMoldStackStack.Push(new RoomMoldStack(){originalRoomMold = _originalRoomMold, direction = Vector2.up});
-        roomMoldStackStack.Push(new RoomMoldStack(){originalRoomMold = _originalRoomMold, direction = Vector2.down});
-        roomMoldStackStack.Push(new RoomMoldStack(){originalRoomMold = _originalRoomMold, direction = Vector2.left});
-        roomMoldStackStack.Push(new RoomMoldStack(){originalRoomMold = _originalRoomMold, direction = Vector2.right});
+        for (int i = 0; i < stageGrid.transform.childCount; i++)
+        {
+            Destroy(stageGrid.transform.GetChild(i).gameObject);
+        }
     }
 
     private IEnumerator StartStage()
@@ -207,7 +199,7 @@ public class GameManager : MonoBehaviour
         fadePanel.SetActive(false);
     }
 
-    public void InitialzeMap()
+    private void InitialzeMap()
     {     
         mapGridLayoutGroup.constraintCount = stageEdgeLength;
         roomUiDictionary = new Dictionary<Vector2, GameObject>();
@@ -282,6 +274,8 @@ public class GameManager : MonoBehaviour
 
         UpdateMap();
 
+        StopAllSpeedWagons();
+
         if (currentRoom.isCleared == false)
         {
             bagPanel.SetActive(false);
@@ -311,12 +305,7 @@ public class GameManager : MonoBehaviour
         undo.SetActive(true);
         currentStageID = -1;
 
-        StopCoroutine("BossSpeedWagon");
-        bossSpeedWagon.SetActive(false);
-        StopCoroutine("StageSpeedWagon");
-        stageSpeedWagon.SetActive(false);
-        StopCoroutine("RoomClearSpeedWagon");
-        roomClearSpeedWagon.SetActive(false);
+        StopAllSpeedWagons();
 
         AbilityManager.Instance.selectAbilityPanel.SetActive(false);
 
@@ -349,6 +338,21 @@ public class GameManager : MonoBehaviour
         monsterKillText.text = monsterKill.ToString();
     }
 
+    public void OpenAndCloseBag()
+    {
+        if (isFighting)
+        {
+            StopCoroutine(NoticeText("전투 중에는 열 수 없습니다.", 1.5f));
+            StartCoroutine(NoticeText("전투 중에는 열 수 없습니다.", 1.5f));
+        }
+        else
+        {
+            StopCoroutine(NoticeText("전투 중에는 열 수 없습니다.", 1.5f));
+
+            bagPanel.SetActive(!bagPanel.activeSelf);
+        }
+    }
+
     public void OpenAndCloseMap()
     {
         if (isFighting)
@@ -360,7 +364,7 @@ public class GameManager : MonoBehaviour
         {
             StopCoroutine(NoticeText("전투 중에는 열 수 없습니다.", 1.5f));
 
-            UpdateMap();
+            scrollRectBackGround.localPosition = -currentRoom.coordinate * 175;
             mapPanel.SetActive(!mapPanel.activeSelf);
         }    
     }
@@ -400,12 +404,24 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(2f);
         roomClearSpeedWagon.gameObject.SetActive(false);
     }
-    
-    public void DestroyStage()
+
+    private IEnumerator NoticeText(string text, float time)
     {
-        for (int i = 0; i < stageGrid.transform.childCount; i++)
-        {
-            Destroy(stageGrid.transform.GetChild(i).gameObject);
-        }
+        noticeText.text = text;
+        noticeText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(time);
+        noticeText.gameObject.SetActive(false);
+    }
+
+    private void StopAllSpeedWagons()
+    {
+        StopCoroutine("BossSpeedWagon");
+        bossSpeedWagon.SetActive(false);
+        StopCoroutine("StageSpeedWagon");
+        stageSpeedWagon.SetActive(false);
+        StopCoroutine("RoomClearSpeedWagon");
+        roomClearSpeedWagon.SetActive(false);
+        StopCoroutine(NoticeText("전투 중에는 열 수 없습니다.", 1.5f));
+        noticeText.gameObject.SetActive(false);
     }
 }

@@ -22,7 +22,7 @@ public class Traveller : MonoBehaviour
     private int hpMax;
     private int hp;
 
-    private const int DEFAULT_AD = 3;
+    private const int DEFAULT_AD = 1;
     [HideInInspector] public int ad;
 
     private const int DEFAULT_CRITICAL_CHANCE = 0;
@@ -39,7 +39,7 @@ public class Traveller : MonoBehaviour
     private float currentCoolDown;
     private bool isHealthy = true;
 
-    private const float DEFAULT_ATTACK_COOL_DOWN = 0.3f;
+    private const float DEFAULT_ATTACK_COOL_DOWN = 0.625f;
     private const float DEFAULT_SKILL_0_COOL_DOWN = 3f;
     private const float DEFAULT_SKILL_1_COOL_DOWN = 3f;
     private const float DEFAULT_SKILL_2_COOL_DOWN = 3f;
@@ -108,7 +108,7 @@ public class Traveller : MonoBehaviour
 
     protected virtual void Awake()
     {
-        Debug.Log(name + " : Awake");
+        Debug.Log($"{name} : Awake");
 
         // attackPosition.transform.position = new Vector3(0, attackPosGap, 0);
 

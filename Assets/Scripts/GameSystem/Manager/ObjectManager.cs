@@ -22,8 +22,9 @@ public class ObjectManager : MonoBehaviour
 {
     private static ObjectManager instance = null;
     public static ObjectManager Instance { get { return instance; } }
-    private Dictionary<PoolType, Queue<GameObject>> poolDataDictionary = new Dictionary<PoolType, Queue<GameObject>>(); 
-    [System.Serializable] private class PoolData
+     
+    [System.Serializable]
+    private class PoolData
     {
         [SerializeField] private PoolType _poolObjectType = PoolType.Nothing;
         [SerializeField] private GameObject _poolObject = null;
@@ -35,6 +36,7 @@ public class ObjectManager : MonoBehaviour
         public int poolObjectAmount { get { return _poolObjectAmount; } }
         public Queue<GameObject> poolObjectQueue { get { return _poolObjectQueue; } }
     }
+    private Dictionary<PoolType, Queue<GameObject>> poolDataDictionary = new Dictionary<PoolType, Queue<GameObject>>();
     [SerializeField] private PoolData[] poolDatas = null;
     public Transform monsterParent = null;
     [SerializeField] private Transform elseParent = null;
