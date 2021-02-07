@@ -28227,12 +28227,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d9a289c19ce8bd49befd028cd5e10fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nyang: 0
-  monsterKill: 0
   isFighting: 0
-  maxRoomCount: 15
-  roomMoldLength: 5
-  currentRoom: {fileID: 0}
+  monsters: []
+  roomCount: 25
+  stageEdgeLength: 5
   stageGrid: {fileID: 1926094442}
   gamePanel: {fileID: 1210154864}
   monsterKillText: {fileID: 490110364}
@@ -28246,14 +28244,13 @@ MonoBehaviour:
   fadePanel: {fileID: 1152246134}
   fadePanelAnimator: {fileID: 1152246136}
   bagPanel: {fileID: 706538655}
-  noticeText: {fileID: 1819339134}
-  monsters: []
   stageSpeedWagon: {fileID: 1287715882}
   stageNumberText: {fileID: 1967667830}
   stageNameText: {fileID: 175614645}
   stageCommentText: {fileID: 553521894}
   bossSpeedWagon: {fileID: 215755431}
   roomClearSpeedWagon: {fileID: 1372195108}
+  noticeText: {fileID: 1819339134}
   undo: {fileID: 1122586570}
 --- !u!1 &1287715882
 GameObject:
