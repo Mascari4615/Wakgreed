@@ -12,7 +12,7 @@ public class TravellerChanger : InteractiveObject
     private void Awake()
     {
         interactiveObjectType = InteractiveObjectType.TravellerChanger;
-        currentTravellerGameObject = Traveller.Instance.gameObject;
+        currentTravellerGameObject = TravellerController.Instance.gameObject;
         travellerGameObjects = new GameObject[travellerGameObjectsParent.transform.childCount];
 
         for (int i = 0; i < travellerGameObjectsParent.transform.childCount; i++)

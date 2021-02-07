@@ -61,7 +61,7 @@ public class Slime2 : Monster
 
     private void Targeting()
     {
-        RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, Traveller.Instance.transform.position - transform.position, Vector2.Distance(transform.position, Traveller.Instance.transform.position), LayerMask.NameToLayer("Everything"));
+        RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, TravellerController.Instance.transform.position - transform.position, Vector2.Distance(transform.position, TravellerController.Instance.transform.position), LayerMask.NameToLayer("Everything"));
         for (int j = 0; j < hit.Length; j++)
         {
             if (hit[j].transform.CompareTag("Wall"))
@@ -77,10 +77,10 @@ public class Slime2 : Monster
  
         if (isTargeting)
         {
-            Debug.DrawRay(transform.position, Traveller.Instance.transform.position - transform.position, Color.green);
+            Debug.DrawRay(transform.position, TravellerController.Instance.transform.position - transform.position, Color.green);
 
-            if (Traveller.Instance.transform.position.x > transform.position.x) spriteRenderer.flipX = false;
-            else if  (Traveller.Instance.transform.position.x < transform.position.x) spriteRenderer.flipX = true;
+            if (TravellerController.Instance.transform.position.x > transform.position.x) spriteRenderer.flipX = false;
+            else if  (TravellerController.Instance.transform.position.x < transform.position.x) spriteRenderer.flipX = true;
         }
     }
 
