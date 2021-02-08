@@ -20,6 +20,16 @@ public class GameManager : MonoBehaviour
     public int monsterKill { get; private set; } = 0;
 
     [HideInInspector] public bool isFighting = false;
+    [SerializeField] private GameEvent OnFightStart;
+    [SerializeField] private GameEvent OnFightEnd;
+    public void SetFighting(bool asd)
+    {
+        if (asd == true) OnFightStart.Raise();
+        else if (asd == false) OnFightEnd.Raise();
+
+        isFighting = asd;
+    }
+
     private int currentStageID = -1;
     [SerializeField] private EnemyRunTimeSet monsters;
     [SerializeField] private StageDataBuffer stageDataBuffer;
