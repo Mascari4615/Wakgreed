@@ -10,4 +10,9 @@ public class ItemEffectAddStatInt : ItemEffect
     {
         stat.RuntimeValue += value;
     }
+
+    public override void Return()
+    {
+        
+    }
 }

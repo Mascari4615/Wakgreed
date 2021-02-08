@@ -72,6 +72,14 @@ public class TravellerController : MonoBehaviour
     private TravellerFunctions travellerFunctions;
     [SerializeField] private EnemyRunTimeSet monsters;
 
+    [ContextMenu("Test")]
+    public void Test()
+    {
+        int i = Random.Range(0, inventory.Items.Count);
+        inventory.Items[i].OnRemove();
+        inventory.Items.RemoveAt(i);
+    }
+
     public void ChangeTraveller(int index)
     {
         traveller = travellers[index];
@@ -242,7 +250,7 @@ public class TravellerController : MonoBehaviour
     private void Targeting()
     {
         target = null;
-        float targetDist = 4444;
+        float targetDist = 15;
         float currentDist = 0;
         
         if (monsters.Items.Count > 0)

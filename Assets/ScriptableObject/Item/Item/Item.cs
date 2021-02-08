@@ -16,4 +16,11 @@ public class Item : ScriptableObject
             effects[i].Effect();
         }
     }
+    public void OnRemove()
+    {
+        for (int i = 0; i < effects.Length; i++)
+        {
+            effects[i].Return();
+        }
+    }
 }

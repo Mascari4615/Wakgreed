@@ -9,12 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51998ee379aec30418d528014809ce18, type: 3}
-  m_Name: 0005_
+  m_Script: {fileID: 11500000, guid: 3f506410698646a48abb44d2f4067924, type: 3}
+  m_Name: ItemEffectRoomBuffTest
   m_EditorClassIdentifier: 
-  ID: 0
-  name: 
-  description: 
-  comment: 
-  sprite: {fileID: 0}
-  effects: []
+  OnFightStart: {fileID: 11400000, guid: 102b00aeb784de54da6c9f81e04ef8de, type: 2}
+  OnFightEnd: {fileID: 11400000, guid: 05de025d5d8880c4ba240a5384475e1f, type: 2}
