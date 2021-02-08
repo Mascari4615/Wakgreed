@@ -60,7 +60,7 @@ public class Room : MonoBehaviour
     {
         Debug.Log($"---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----");
         Debug.Log($"{name} : StartWave");
-        GameManager.Instance.isFighting = true;
+        GameManager.Instance.SetFighting(true);
         if (roomType == RoomType.Boss)
         { 
             monsterCount = 0;
@@ -125,7 +125,7 @@ public class Room : MonoBehaviour
     {
         Debug.Log($"{name} : RoomClear");
         Debug.Log($"---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----");
-        GameManager.Instance.isFighting = false;
+        GameManager.Instance.SetFighting(false);
         isCleared = true;
 
         doorHiders[0].SetActive(!isConnectToNearbyRoom[0]);
