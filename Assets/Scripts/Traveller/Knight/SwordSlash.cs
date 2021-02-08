@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SwordSlash : MonoBehaviour
 {
+    [SerializeField] private IntVariable AD;
     private float t1 = 0f;
     [SerializeField] private float t2 = 0f;
     [SerializeField] private PoolType poolType = PoolType.Nothing;
@@ -24,7 +25,7 @@ public class SwordSlash : MonoBehaviour
         {
             if (other.gameObject.TryGetComponent<Monster>(out Monster monster))
             {
-                monster.ReceiveDamage(TravellerController.Instance.traveller.AD);
+                monster.ReceiveDamage(AD.RuntimeValue);
             }
         }
     }

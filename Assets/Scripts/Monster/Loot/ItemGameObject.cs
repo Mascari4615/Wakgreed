@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class ItemGameObject : Loot
 {
-    [HideInInspector] public int itemID;
-    public void SetItem(Item item)
-    {
-        itemID = item.ID;
-        this.name = item.iName;
-        GetComponent<SpriteRenderer>().sprite = item.sprite; 
-    }
+    [SerializeField] private ItemDataBuffer itemDataBuffer;
+    [SerializeField] private Inventory inventory;
+    private Item item;
 
     public override void OnEnable()
     {
         base.OnEnable();
 
+        item = itemDataBuffer.Items[Random.Range(0, itemDataBuffer.Items.Length)];
         waitTime = 1f;
     }
 
@@ -23,16 +20,16 @@ public class ItemGameObject : Loot
     {
         if (other.CompareTag("Player"))
         {
-            Dictionary<Item, int> inventory = TravellerController.Instance.traveller.inventory;
- 
-            if (inventory.ContainsKey(ItemDataBase.Instance.items[itemID]))
+            if (inventory.Items.Contains(item))
             {
-                inventory[ItemDataBase.Instance.items[itemID]]++;
+                inventory.Items[inventory.Items.IndexOf(item)].count++;
             }
             else
             {
-                inventory.Add(ItemDataBase.Instance.items[itemID], 1);
+                inventory.Items.Add(item);
             }
+
+            item.OnEquip();
 
             Debug.Log($"{name} : InsertQueue");
             ObjectManager.Instance.InsertQueue(PoolType.Item, gameObject);

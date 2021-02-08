@@ -25,6 +25,7 @@ public class Room : MonoBehaviour
     [SerializeField] private GameObject[] doorHiders;
     [SerializeField] private Transform[] monsterSpawnPoint;
     [SerializeField] private GameObject portal;
+    [SerializeField] private EnemyRunTimeSet enemyRunTimeSet;
 
     public void Initialize(Vector2 _coordinate, bool[] _isConnectToNearbyRoom)
     {
@@ -75,7 +76,7 @@ public class Room : MonoBehaviour
         {
             Vector3 summonPosition = new Vector3(monsterSpawnPoint[0].position.x, monsterSpawnPoint[0].position.y, 0);
 
-            GameManager.Instance.monsters.Add(ObjectManager.Instance.GetQueue(PoolType.BossMonster, summonPosition));
+            enemyRunTimeSet.Add(ObjectManager.Instance.GetQueue(PoolType.BossMonster, summonPosition));
             StartCoroutine(GameManager.Instance.BossSpeedWagon());     
         }
         else
@@ -99,7 +100,7 @@ public class Room : MonoBehaviour
                 {
                     targetMonster = PoolType.Slime2;
                 }
-                GameManager.Instance.monsters.Add(ObjectManager.Instance.GetQueue(targetMonster, summonPosition));
+                enemyRunTimeSet.Add(ObjectManager.Instance.GetQueue(targetMonster, summonPosition));
             }   
         }
     }
