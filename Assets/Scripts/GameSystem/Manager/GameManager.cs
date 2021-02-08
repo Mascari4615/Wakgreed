@@ -21,7 +21,8 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public bool isFighting = false;
     private int currentStageID = -1;
-    [HideInInspector] public List<GameObject> monsters;
+    [SerializeField] private EnemyRunTimeSet monsters;
+    [SerializeField] private StageDataBuffer stageDataBuffer;
 
     [SerializeField] private int roomCount = 0;
     [SerializeField] private int stageEdgeLength = 0;
@@ -108,7 +109,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("GenerateStage ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----");
         DestroyStage();
         roomMolds.Clear();
-        roomDatas = new List<Room>(StageDataBase.Instance.stages[stageIndex].roomDatas);
+        roomDatas = new List<Room>(stageDataBuffer.Items[stageIndex].roomDatas);
         roomMoldStackStack.Clear();
         roomDictionary.Clear();
 
@@ -133,7 +134,7 @@ public class GameManager : MonoBehaviour
             originalRoomMold.isConnectToNearbyRoom[roomMoldStack.originalRoomDoorIndex] = true;
             totalRoomMold.isConnectToNearbyRoom[roomMoldStack.totalRoomDoorIndex] = true;
             
-            Debug.Log($"roomMoldsAdd : {totalRoomMold.coordinate}");
+            // Debug.Log($"roomMoldsAdd : {totalRoomMold.coordinate}");
             roomMolds.Add(totalRoomMold);
             GenerateRoomMoldStack(totalRoomMold);
 
@@ -149,12 +150,12 @@ public class GameManager : MonoBehaviour
         {      
             int roomMoldIndex = (i == 0) ? 0 : Random.Range(0, roomMolds.Count);
             int roomDataIndex = (i <= 1) ? 0 : Random.Range(0, roomDatas.Count);
-            Debug.Log($"roomMolds : {roomMolds.Count} - {roomMoldIndex}, roomDatas : {roomDatas.Count} - {roomDataIndex}");
+            // Debug.Log($"roomMolds : {roomMolds.Count} - {roomMoldIndex}, roomDatas : {roomDatas.Count} - {roomDataIndex}");
 
             Room r = Instantiate(roomDatas[roomDataIndex].gameObject, stageGrid.transform).GetComponent<Room>();
             r.Initialize(roomMolds[roomMoldIndex].coordinate, roomMolds[roomMoldIndex].isConnectToNearbyRoom);
             
-            Debug.Log($"i : {i}, roomMold : {roomMolds[roomMoldIndex].coordinate}, r : {r.coordinate}");
+            // Debug.Log($"i : {i}, roomMold : {roomMolds[roomMoldIndex].coordinate}, r : {r.coordinate}");
             roomMolds.RemoveAt(roomMoldIndex);
             roomDatas.RemoveAt(roomDataIndex);
             roomDictionary.Add(r.coordinate, r);
@@ -317,7 +318,7 @@ public class GameManager : MonoBehaviour
 
         ObjectManager.Instance.InsertAll();
         // UpdateMap();
-        monsters.Clear();
+        monsters.Items.Clear();
 
         TravellerController.Instance.enabled = true;
 
@@ -383,9 +384,9 @@ public class GameManager : MonoBehaviour
     private IEnumerator StageSpeedWagon()
     {
         stageSpeedWagon.SetActive(true);
-        stageNumberText.text = $"1-{StageDataBase.Instance.stages[currentStageID].id}";
-        stageNameText.text = $"::{StageDataBase.Instance.stages[currentStageID].name}::";
-        stageCommentText.text= $"::{StageDataBase.Instance.stages[currentStageID].comment}::";
+        stageNumberText.text = $"1-{stageDataBuffer.Items[currentStageID].id}";
+        stageNameText.text = $"::{stageDataBuffer.Items[currentStageID].name}::";
+        stageCommentText.text= $"::{stageDataBuffer.Items[currentStageID].comment}::";
         yield return new WaitForSeconds(2f);
         stageSpeedWagon.SetActive(false);
     }

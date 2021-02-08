@@ -779,7 +779,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b787e381ad246f94f8f79c499e1f8777, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hp: 30
+  TravellerCriticalChance: {fileID: 11400000, guid: 300f8b12c04c18a45a8f73a08c3ab38b,
+    type: 2}
+  enemyRunTimeSet: {fileID: 11400000, guid: a6c452a7d99b74e4cbdf1473b31cdf07, type: 2}
+  _hp: 8
   _ad: 1
   hp: 0
   ad: 0

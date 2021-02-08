@@ -1005,7 +1005,7 @@ GameObject:
   - component: {fileID: 28418791}
   - component: {fileID: 28418794}
   m_Layer: 5
-  m_Name: Btn _ Attack
+  m_Name: Btn _ BasicAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1396,7 +1396,6 @@ Transform:
   m_Children:
   - {fileID: 1773864154}
   - {fileID: 862818875}
-  - {fileID: 2086784995}
   - {fileID: 1428326217}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -3401,7 +3400,7 @@ GameObject:
   - component: {fileID: 140178021}
   - component: {fileID: 140178024}
   m_Layer: 5
-  m_Name: Btn _ Skill2
+  m_Name: Btn _ Ability2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3471,9 +3470,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: PauseGame
+      - m_Target: {fileID: 909484127}
+        m_TargetAssemblyTypeName: TravellerController, Assembly-CSharp
+        m_MethodName: Ability2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5948,6 +5947,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 260257735}
+  - component: {fileID: 260257736}
+  - component: {fileID: 260257737}
   m_Layer: 5
   m_Name: HpBar
   m_TagString: Untagged
@@ -5977,6 +5978,50 @@ RectTransform:
   m_AnchoredPosition: {x: 405, y: -115}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &260257736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260257734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60fcc5115b8087349ba40af47e6fb5cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  travellerMaxHP: {fileID: 11400000, guid: b28d195b2423d0344a37d3aa321a61f1, type: 2}
+  travellerHP: {fileID: 11400000, guid: 87e24a6bb0485bb43bf414a2be282fe6, type: 2}
+  image: {fileID: 818451172}
+  text: {fileID: 873446278}
+--- !u!114 &260257737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260257734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd7e09fbad5baf74a8afe37472259647, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 41f95a94c19e0bf4996bcbad94ff7b16, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 260257736}
+        m_TargetAssemblyTypeName: HpBar, Assembly-CSharp
+        m_MethodName: SetHpBar
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &260491427
 GameObject:
   m_ObjectHideFlags: 0
@@ -7039,37 +7084,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 309681481}
   m_CullTransparentMesh: 0
---- !u!1 &310307310
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 310307311}
-  m_Layer: 0
-  m_Name: Traveller
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &310307311
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 310307310}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 909484125}
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &315061328
 GameObject:
   m_ObjectHideFlags: 0
@@ -8625,7 +8639,6 @@ RectTransform:
   - {fileID: 260257735}
   - {fileID: 923255402}
   - {fileID: 581326463}
-  - {fileID: 1945953211}
   - {fileID: 1162595911}
   - {fileID: 549655674}
   m_Father: {fileID: 1210154865}
@@ -10297,7 +10310,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 931a18b75fc391a4b9f31be849f3fb82, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -14930,7 +14943,7 @@ RectTransform:
   - {fileID: 1778022489}
   - {fileID: 490110363}
   m_Father: {fileID: 407486348}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -16832,7 +16845,7 @@ GameObject:
   - component: {fileID: 664357278}
   - component: {fileID: 664357281}
   m_Layer: 5
-  m_Name: Btn _ SKill0
+  m_Name: Btn _ Ability0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16902,9 +16915,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: PauseGame
+      - m_Target: {fileID: 909484127}
+        m_TargetAssemblyTypeName: TravellerController, Assembly-CSharp
+        m_MethodName: Ability0
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -18610,6 +18623,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e70bd92b935a7b3468ee82b5ad2bd589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventory: {fileID: 11400000, guid: 24ce1fa77e4bf544886e3e3def4c6e34, type: 2}
   grid: {fileID: 1631891277}
 --- !u!1 &749299006
 GameObject:
@@ -21592,7 +21606,7 @@ GameObject:
   - component: {fileID: 909484130}
   - component: {fileID: 909484131}
   m_Layer: 8
-  m_Name: Knight
+  m_Name: Traveller
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21664,8 +21678,8 @@ Transform:
   - {fileID: 2013410261}
   - {fileID: 246422212}
   - {fileID: 1237384288}
-  m_Father: {fileID: 310307311}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &909484126
 Rigidbody2D:
@@ -21701,27 +21715,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   traveller: {fileID: 11400000, guid: 444b80e41a32a37468e1c9ae7684661d, type: 2}
-  travellerClass: 0
+  maxHP: {fileID: 11400000, guid: b28d195b2423d0344a37d3aa321a61f1, type: 2}
+  HP: {fileID: 11400000, guid: 87e24a6bb0485bb43bf414a2be282fe6, type: 2}
+  OnHpChange: {fileID: 11400000, guid: 41f95a94c19e0bf4996bcbad94ff7b16, type: 2}
+  AD: {fileID: 11400000, guid: ad758efcb5cd4674fba16426548099e4, type: 2}
+  AS: {fileID: 11400000, guid: 320dd9e1a35eb354ba45330eb0aaaa6d, type: 2}
+  criticalChance: {fileID: 11400000, guid: 300f8b12c04c18a45a8f73a08c3ab38b, type: 2}
+  moveSpeed: {fileID: 11400000, guid: ab222d65ff7ce974fa0c23c97750945f, type: 2}
+  EXP: {fileID: 11400000, guid: 17f006d9f52da1d47bf33575680fcc1b, type: 2}
+  OnExpChange: {fileID: 11400000, guid: 6474bb776ba9ace48af7c06d02be49e7, type: 2}
+  LV: {fileID: 11400000, guid: 4a71ab267992a93479cfd1a716594562, type: 2}
   attackPositionParent: {fileID: 2013410261}
   attackPosition: {fileID: 1021397560}
   weaponPosition: {fileID: 246422212}
   joyStick: {fileID: 1522652458}
   cinemachineTargetGroup: {fileID: 1974556998}
-  hpBar: {fileID: 818451172}
-  hpText: {fileID: 873446278}
-  expBar: {fileID: 309681483}
-  expText: {fileID: 227105317}
-  levelText: {fileID: 75248683}
   bloodingPanel: {fileID: 1995771716}
   interactionIcon: {fileID: 1182580710}
   attackIcon: {fileID: 1375254483}
   attackButtonEventTrigger: {fileID: 28418794}
-  skill0ButtonEventTrigger: {fileID: 664357281}
-  skill1ButtonEventTrigger: {fileID: 1739543050}
-  skill2ButtonEventTrigger: {fileID: 140178024}
+  h: 0
+  inventory: {fileID: 11400000, guid: 24ce1fa77e4bf544886e3e3def4c6e34, type: 2}
   travellers:
   - {fileID: 11400000, guid: 444b80e41a32a37468e1c9ae7684661d, type: 2}
   - {fileID: 11400000, guid: 4df07a4a0efcdff40885fe97c77895a5, type: 2}
+  monsters: {fileID: 11400000, guid: a6c452a7d99b74e4cbdf1473b31cdf07, type: 2}
 --- !u!95 &909484128
 Animator:
   serializedVersion: 3
@@ -22019,52 +22037,6 @@ MonoBehaviour:
   - {fileID: 10851285}
   - {fileID: 1238561913}
   selectAbilityAudioSource: {fileID: 1286079532}
---- !u!1 &922958306
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 922958307}
-  - component: {fileID: 922958308}
-  m_Layer: 0
-  m_Name: DataBase _ Item
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &922958307
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 922958306}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2086784995}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &922958308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 922958306}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c8f4c12fb7009a4f8992a4da63e192e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  items:
-  - {fileID: 11400000, guid: 4bca5663a65be25459017665daf86dd0, type: 2}
-  - {fileID: 0}
 --- !u!1 &923255401
 GameObject:
   m_ObjectHideFlags: 0
@@ -22074,6 +22046,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 923255402}
+  - component: {fileID: 923255404}
+  - component: {fileID: 923255403}
   m_Layer: 5
   m_Name: ExpBar
   m_TagString: Untagged
@@ -22095,6 +22069,7 @@ RectTransform:
   - {fileID: 1465215332}
   - {fileID: 309681482}
   - {fileID: 227105316}
+  - {fileID: 1945953211}
   m_Father: {fileID: 407486348}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -22103,6 +22078,63 @@ RectTransform:
   m_AnchoredPosition: {x: 405, y: -150}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &923255403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 923255401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd7e09fbad5baf74a8afe37472259647, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 6474bb776ba9ace48af7c06d02be49e7, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 923255404}
+        m_TargetAssemblyTypeName: ExpBar, Assembly-CSharp
+        m_MethodName: SetExpBar
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 923255404}
+        m_TargetAssemblyTypeName: ExpBar, Assembly-CSharp
+        m_MethodName: SetLevelText
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &923255404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 923255401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b97d0405864408244a83dd14a14c19fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  travellerEXP: {fileID: 11400000, guid: 17f006d9f52da1d47bf33575680fcc1b, type: 2}
+  travellerLevel: {fileID: 11400000, guid: 4a71ab267992a93479cfd1a716594562, type: 2}
+  expBarImage: {fileID: 309681483}
+  expText: {fileID: 227105317}
+  levelText: {fileID: 75248683}
 --- !u!1 &925175742
 GameObject:
   m_ObjectHideFlags: 0
@@ -25901,7 +25933,7 @@ RectTransform:
   - {fileID: 1317721791}
   - {fileID: 1046652015}
   m_Father: {fileID: 407486348}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -27727,7 +27759,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFighting: 0
-  monsters: []
+  monsters: {fileID: 11400000, guid: a6c452a7d99b74e4cbdf1473b31cdf07, type: 2}
+  stageDataBuffer: {fileID: 11400000, guid: 9eb7fd45e876c83439ab134a5681f97b, type: 2}
   roomCount: 25
   stageEdgeLength: 5
   stageGrid: {fileID: 1926094442}
@@ -27914,7 +27947,7 @@ CompositeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
+  m_GeometryType: 1
   m_GenerationType: 0
   m_EdgeRadius: 0
   m_ColliderPaths:
@@ -28208,7 +28241,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1295467236}
-  m_BodyType: 1
+  m_BodyType: 2
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -28256,7 +28289,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e393c84d92178a04a8a1e34519537386, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -32196,7 +32229,7 @@ Transform:
   - {fileID: 1507624714}
   - {fileID: 840965066}
   m_Father: {fileID: 45245032}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1440418835
 GameObject:
@@ -32917,7 +32950,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1465215331
 GameObject:
@@ -33646,137 +33679,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1516931024}
   m_CullTransparentMesh: 0
---- !u!1 &1519818844
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1519818845}
-  - component: {fileID: 1519818846}
-  m_Layer: 0
-  m_Name: DataBase _ Stage
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1519818845
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1519818844}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2086784995}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1519818846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1519818844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 348021168c0b9fe4aba08d14ee0fb673, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stages:
-  - id: 1
-    name: "\uC232 "
-    comment: "\uBAA8\uD5D8\uC774 \uC2DC\uC791\uB418\uB294 \uACF3"
-    roomDatas:
-    - {fileID: 2047645665446818480, guid: 4c6885afeca1cb747ab620f205ee5eec, type: 3}
-    - {fileID: 3950161548445016716, guid: a793f2dd49e0ad243aea73341b60b527, type: 3}
-    - {fileID: 6814900457927608923, guid: 227be3e5aa592f74e9e04c134883ce5c, type: 3}
-    - {fileID: 6814900457927608923, guid: 20fa0a9e5204ffd458f8c33b110813e4, type: 3}
-    - {fileID: 6814900457927608923, guid: 97ce602a87702f344abd69d83e338a81, type: 3}
-    - {fileID: 6814900457927608923, guid: 62422a8c2312d4241a2065b1c5e1f72e, type: 3}
-    - {fileID: 6814900457927608923, guid: 65794878a4291f44cbe9d4b913235770, type: 3}
-    - {fileID: 6814900457927608923, guid: 4489e3fafa9ec5244bbfef4e02d1c099, type: 3}
-    - {fileID: 6814900457927608923, guid: b31521dc78947c7458122c98ace13e17, type: 3}
-    - {fileID: 6814900457927608923, guid: 4f87da5ea6ef5b04293bb04980c24fa9, type: 3}
-    - {fileID: 6814900457927608923, guid: f6c03f90452cb61428207732e1c8375f, type: 3}
-    - {fileID: 6814900457927608923, guid: 61feca1bb995e094d98b75e443e954ff, type: 3}
-    - {fileID: 6814900457927608923, guid: 76e4408dae051de43a57dbc140320df7, type: 3}
-    - {fileID: 6814900457927608923, guid: a40be504577b0904a9bf13dc388d1608, type: 3}
-    - {fileID: 6814900457927608923, guid: 685db5fce42de2e479cb3a45ed3d185d, type: 3}
-    - {fileID: 6814900457927608923, guid: 9f2d5817c6b33dd42b2978e7bffeb7b4, type: 3}
-    - {fileID: 6814900457927608923, guid: b80f7da85c0cbfe4caea5cb0f605ec64, type: 3}
-    - {fileID: 6814900457927608923, guid: aa244cb817244fb4487cd652938dd12e, type: 3}
-    - {fileID: 6814900457927608923, guid: 311e403e9da93d049a1bdd68f32d5fe4, type: 3}
-    - {fileID: 6814900457927608923, guid: 15ecf8c9c0f584242a4fbbabaddaf8f5, type: 3}
-    - {fileID: 6814900457927608923, guid: a3b2c19cb173c47499c17729085e16ef, type: 3}
-    - {fileID: 6814900457927608923, guid: 55bbe610726589648b10a6e13f623f0f, type: 3}
-    - {fileID: 6814900457927608923, guid: 62cb3417893e42749aae93ee3433636c, type: 3}
-    - {fileID: 6814900457927608923, guid: 54d43551228e16e468797e39d17c2d1e, type: 3}
-    - {fileID: 6814900457927608923, guid: f342b8709823d0e4dbda3aad39e48497, type: 3}
-  - id: 2
-    name: "\uC232"
-    comment: "\uC775\uC219\uD574\uC9C0\uACE0 \uC788\uB2E4"
-    roomDatas:
-    - {fileID: 2047645665446818480, guid: 4c6885afeca1cb747ab620f205ee5eec, type: 3}
-    - {fileID: 3950161548445016716, guid: a793f2dd49e0ad243aea73341b60b527, type: 3}
-    - {fileID: 6814900457927608923, guid: 227be3e5aa592f74e9e04c134883ce5c, type: 3}
-    - {fileID: 6814900457927608923, guid: 20fa0a9e5204ffd458f8c33b110813e4, type: 3}
-    - {fileID: 6814900457927608923, guid: 97ce602a87702f344abd69d83e338a81, type: 3}
-    - {fileID: 6814900457927608923, guid: 62422a8c2312d4241a2065b1c5e1f72e, type: 3}
-    - {fileID: 6814900457927608923, guid: 65794878a4291f44cbe9d4b913235770, type: 3}
-    - {fileID: 6814900457927608923, guid: 4489e3fafa9ec5244bbfef4e02d1c099, type: 3}
-    - {fileID: 6814900457927608923, guid: b31521dc78947c7458122c98ace13e17, type: 3}
-    - {fileID: 6814900457927608923, guid: 4f87da5ea6ef5b04293bb04980c24fa9, type: 3}
-    - {fileID: 6814900457927608923, guid: f6c03f90452cb61428207732e1c8375f, type: 3}
-    - {fileID: 6814900457927608923, guid: 61feca1bb995e094d98b75e443e954ff, type: 3}
-    - {fileID: 6814900457927608923, guid: 76e4408dae051de43a57dbc140320df7, type: 3}
-    - {fileID: 6814900457927608923, guid: a40be504577b0904a9bf13dc388d1608, type: 3}
-    - {fileID: 6814900457927608923, guid: 685db5fce42de2e479cb3a45ed3d185d, type: 3}
-    - {fileID: 6814900457927608923, guid: 9f2d5817c6b33dd42b2978e7bffeb7b4, type: 3}
-    - {fileID: 6814900457927608923, guid: b80f7da85c0cbfe4caea5cb0f605ec64, type: 3}
-    - {fileID: 6814900457927608923, guid: aa244cb817244fb4487cd652938dd12e, type: 3}
-    - {fileID: 6814900457927608923, guid: 311e403e9da93d049a1bdd68f32d5fe4, type: 3}
-    - {fileID: 6814900457927608923, guid: 15ecf8c9c0f584242a4fbbabaddaf8f5, type: 3}
-    - {fileID: 6814900457927608923, guid: a3b2c19cb173c47499c17729085e16ef, type: 3}
-    - {fileID: 6814900457927608923, guid: 55bbe610726589648b10a6e13f623f0f, type: 3}
-    - {fileID: 6814900457927608923, guid: 62cb3417893e42749aae93ee3433636c, type: 3}
-    - {fileID: 6814900457927608923, guid: 54d43551228e16e468797e39d17c2d1e, type: 3}
-    - {fileID: 6814900457927608923, guid: f342b8709823d0e4dbda3aad39e48497, type: 3}
-  - id: 3
-    name: "\uC232"
-    comment: "\uCC98\uC74C\uC774\uC790 \uB9C8\uC9C0\uB9C9"
-    roomDatas:
-    - {fileID: 2047645665446818480, guid: 4c6885afeca1cb747ab620f205ee5eec, type: 3}
-    - {fileID: 3950161548445016716, guid: a793f2dd49e0ad243aea73341b60b527, type: 3}
-    - {fileID: 6814900457927608923, guid: 227be3e5aa592f74e9e04c134883ce5c, type: 3}
-    - {fileID: 6814900457927608923, guid: 20fa0a9e5204ffd458f8c33b110813e4, type: 3}
-    - {fileID: 6814900457927608923, guid: 97ce602a87702f344abd69d83e338a81, type: 3}
-    - {fileID: 6814900457927608923, guid: 62422a8c2312d4241a2065b1c5e1f72e, type: 3}
-    - {fileID: 6814900457927608923, guid: 65794878a4291f44cbe9d4b913235770, type: 3}
-    - {fileID: 6814900457927608923, guid: 4489e3fafa9ec5244bbfef4e02d1c099, type: 3}
-    - {fileID: 6814900457927608923, guid: b31521dc78947c7458122c98ace13e17, type: 3}
-    - {fileID: 6814900457927608923, guid: 4f87da5ea6ef5b04293bb04980c24fa9, type: 3}
-    - {fileID: 6814900457927608923, guid: f6c03f90452cb61428207732e1c8375f, type: 3}
-    - {fileID: 6814900457927608923, guid: 61feca1bb995e094d98b75e443e954ff, type: 3}
-    - {fileID: 6814900457927608923, guid: 76e4408dae051de43a57dbc140320df7, type: 3}
-    - {fileID: 6814900457927608923, guid: a40be504577b0904a9bf13dc388d1608, type: 3}
-    - {fileID: 6814900457927608923, guid: 685db5fce42de2e479cb3a45ed3d185d, type: 3}
-    - {fileID: 6814900457927608923, guid: 9f2d5817c6b33dd42b2978e7bffeb7b4, type: 3}
-    - {fileID: 6814900457927608923, guid: b80f7da85c0cbfe4caea5cb0f605ec64, type: 3}
-    - {fileID: 6814900457927608923, guid: aa244cb817244fb4487cd652938dd12e, type: 3}
-    - {fileID: 6814900457927608923, guid: 311e403e9da93d049a1bdd68f32d5fe4, type: 3}
-    - {fileID: 6814900457927608923, guid: 15ecf8c9c0f584242a4fbbabaddaf8f5, type: 3}
-    - {fileID: 6814900457927608923, guid: a3b2c19cb173c47499c17729085e16ef, type: 3}
-    - {fileID: 6814900457927608923, guid: 55bbe610726589648b10a6e13f623f0f, type: 3}
-    - {fileID: 6814900457927608923, guid: 62cb3417893e42749aae93ee3433636c, type: 3}
-    - {fileID: 6814900457927608923, guid: 54d43551228e16e468797e39d17c2d1e, type: 3}
-    - {fileID: 6814900457927608923, guid: f342b8709823d0e4dbda3aad39e48497, type: 3}
 --- !u!1 &1521719865
 GameObject:
   m_ObjectHideFlags: 0
@@ -34529,8 +34431,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1163104359653468614}
-        m_TargetAssemblyTypeName: TravellerChangeNPC, Assembly-CSharp
+      - m_Target: {fileID: 909484127}
+        m_TargetAssemblyTypeName: TravellerController, Assembly-CSharp
         m_MethodName: ChangeTraveller
         m_Mode: 3
         m_Arguments:
@@ -36839,7 +36741,7 @@ GameObject:
   - component: {fileID: 1739543047}
   - component: {fileID: 1739543050}
   m_Layer: 5
-  m_Name: Btn _ Skill1
+  m_Name: Btn _ Ability1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36909,9 +36811,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: PauseGame
+      - m_Target: {fileID: 909484127}
+        m_TargetAssemblyTypeName: TravellerController, Assembly-CSharp
+        m_MethodName: Ability1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -39092,7 +38994,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 931a18b75fc391a4b9f31be849f3fb82, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -72972,20 +72874,20 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1945953210}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 874659861}
   - {fileID: 75248682}
-  m_Father: {fileID: 407486348}
-  m_RootOrder: 4
+  m_Father: {fileID: 923255402}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 210, y: -150}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -195, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1952533217
 GameObject:
   m_ObjectHideFlags: 0
@@ -74026,8 +73928,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1163104359653468614}
-        m_TargetAssemblyTypeName: TravellerChangeNPC, Assembly-CSharp
+      - m_Target: {fileID: 909484127}
+        m_TargetAssemblyTypeName: TravellerController, Assembly-CSharp
         m_MethodName: ChangeTraveller
         m_Mode: 3
         m_Arguments:
@@ -75584,38 +75486,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2076928319}
   m_CullTransparentMesh: 0
---- !u!1 &2086784994
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2086784995}
-  m_Layer: 0
-  m_Name: DataBase
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2086784995
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2086784994}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 922958307}
-  - {fileID: 1519818845}
-  m_Father: {fileID: 45245032}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2090911599
 GameObject:
   m_ObjectHideFlags: 0
@@ -76747,21 +76617,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1163104359653468614
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1163104359653468619}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 763ae9d7d3f725e46953e7eee3aa8c1f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactiveObjectType: 2
-  travellerChangePanel: {fileID: 92307830}
-  travellerGameObjectsParent: {fileID: 310307310}
 --- !u!4 &1163104359653468615
 Transform:
   m_ObjectHideFlags: 0
@@ -76874,10 +76729,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1163104359653468615}
-  - component: {fileID: 1163104359653468614}
   - component: {fileID: 1163104359653468616}
   - component: {fileID: 1163104359653468617}
   - component: {fileID: 1163104359653468618}
+  - component: {fileID: 1163104359653468620}
   m_Layer: 8
   m_Name: TravellerChanger
   m_TagString: InteractiveObject
@@ -76885,6 +76740,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1163104359653468620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163104359653468619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 763ae9d7d3f725e46953e7eee3aa8c1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactiveObjectType: 2
+  travellerChangePanel: {fileID: 92307830}
 --- !u!4 &1163104360107239296
 Transform:
   m_ObjectHideFlags: 0

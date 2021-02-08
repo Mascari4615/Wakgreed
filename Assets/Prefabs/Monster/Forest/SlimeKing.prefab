@@ -649,7 +649,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a51f25879888bcc4898587464f0a5087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hp: 500
+  TravellerCriticalChance: {fileID: 11400000, guid: 300f8b12c04c18a45a8f73a08c3ab38b,
+    type: 2}
+  enemyRunTimeSet: {fileID: 11400000, guid: a6c452a7d99b74e4cbdf1473b31cdf07, type: 2}
+  _hp: 50
   _ad: 2
   hp: 0
   ad: 0
@@ -1127,12 +1130,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ad980451443d70438faac0bc6c235a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_TrackedObjectOffset: {x: 0, y: 0, z: 0}
   m_LookaheadTime: 0
   m_LookaheadSmoothing: 10
   m_LookaheadIgnoreY: 0
   m_XDamping: 0
   m_YDamping: 0
   m_ZDamping: 0
+  m_TargetMovementOnly: 1
   m_ScreenX: 0.5
   m_ScreenY: 0.5
   m_CameraDistance: 10

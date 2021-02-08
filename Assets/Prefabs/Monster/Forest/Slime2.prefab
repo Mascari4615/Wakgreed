@@ -626,7 +626,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 161043f6be709a5418e36adc0b90c792, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hp: 15
+  TravellerCriticalChance: {fileID: 11400000, guid: 300f8b12c04c18a45a8f73a08c3ab38b,
+    type: 2}
+  enemyRunTimeSet: {fileID: 11400000, guid: a6c452a7d99b74e4cbdf1473b31cdf07, type: 2}
+  _hp: 5
   _ad: 1
   hp: 0
   ad: 0

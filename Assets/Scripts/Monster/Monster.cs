@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
+    [SerializeField] private IntVariable TravellerCriticalChance;
+    [SerializeField] protected EnemyRunTimeSet enemyRunTimeSet;
     [SerializeField] protected int _hp, _ad; // 초기 값, 인스펙터에서 _안보임
     [HideInInspector] public int hp, ad; // 실제 값
 
@@ -76,7 +78,7 @@ public class Monster : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            TravellerController.Instance.traveller.ReceiveDamage(ad);
+            other.gameObject.GetComponent<TravellerController>().ReceiveDamage(ad);
         }
     }
 
@@ -85,7 +87,7 @@ public class Monster : MonoBehaviour
         int rand = Random.Range(0, 100);
         string type = "";
         
-        if (rand < TravellerController.Instance.traveller.criticalChance)
+        if (rand < TravellerCriticalChance.RuntimeValue)
         {
             damage *= 2;
             type = "Critical";
@@ -111,7 +113,7 @@ public class Monster : MonoBehaviour
             GameManager.Instance.AcquireKillCount();
             if (isBoss) GameManager.Instance.currentRoom.BossClear();
             else GameManager.Instance.currentRoom.CheckMonsterCount();
-            GameManager.Instance.monsters.Remove(gameObject);
+            enemyRunTimeSet.Remove(gameObject);
             DropItem(transform.position);
 
             audioSource.clip = audioClips[1];
@@ -128,13 +130,10 @@ public class Monster : MonoBehaviour
     {
         ObjectManager.Instance.GetQueue(PoolType.Smoke, diedPosition);
 
-        for (int i = Random.Range(3, 6); i > 0; i--)
-        {         
+        for (int i = 0; i < 3; i++)
+        {
             Vector3 randPos1 = new Vector3(Random.Range(-1f, 2f), Random.Range(-1f, 2f), 0);
             ObjectManager.Instance.GetQueue(PoolType.Exp, transform).GetComponent<Loot>().waitPosition = diedPosition + randPos1;
-
-            Vector3 randPos2 = new Vector3(Random.Range(-1f, 2f), Random.Range(-1f, 2f), 0);
-            ObjectManager.Instance.GetQueue(PoolType.Nyang, transform).GetComponent<Loot>().waitPosition = diedPosition + randPos2;
         }
 
         if (GameManager.Instance.currentRoom.isCleared)
@@ -142,7 +141,6 @@ public class Monster : MonoBehaviour
             Vector3 randPos1 = new Vector3(Random.Range(-1f, 2f), Random.Range(-1f, 2f), 0);
             GameObject g = ObjectManager.Instance.GetQueue(PoolType.Item, transform);
             g.GetComponent<ItemGameObject>().waitPosition = diedPosition + randPos1;
-            g.GetComponent<ItemGameObject>().SetItem(ItemDataBase.Instance.items[Random.Range(0, ItemDataBase.Instance.items.Length)]);
         }
     }
 }

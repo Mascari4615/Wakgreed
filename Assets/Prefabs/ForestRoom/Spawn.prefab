@@ -24,9 +24,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1201307693683268018}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 9.7, z: 1}
-  m_LocalScale: {x: 1, y: 19.39, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 25, z: 1}
+  m_LocalScale: {x: 1, y: 50, z: 1}
   m_Children: []
   m_Father: {fileID: 3280694083770124655}
   m_RootOrder: 0
@@ -222,7 +222,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e393c84d92178a04a8a1e34519537386, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -413,7 +413,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e393c84d92178a04a8a1e34519537386, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1266,7 +1266,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e393c84d92178a04a8a1e34519537386, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1319,7 +1319,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2047645665130563054}
-  m_BodyType: 1
+  m_BodyType: 2
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -1346,7 +1346,7 @@ CompositeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
+  m_GeometryType: 1
   m_GenerationType: 0
   m_EdgeRadius: 0
   m_ColliderPaths:
@@ -1564,7 +1564,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e393c84d92178a04a8a1e34519537386, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1755,7 +1755,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e393c84d92178a04a8a1e34519537386, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1855,22 +1855,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomType: 0
-  isCleared: 1
   monsterCount: 0
   doors:
   - {fileID: 1730795605494615422}
   - {fileID: 5494744491160181392}
   - {fileID: 2990479963688365630}
   - {fileID: 8040322386543068924}
-  isDoorOpen: 00000000
   doorHiders:
   - {fileID: 2047645665381139400}
   - {fileID: 2047645665330894143}
   - {fileID: 2047645665680624608}
   - {fileID: 2047645664787170745}
   monsterSpawnPoint: []
-  interactionObjectSpawnPoint: []
   portal: {fileID: 0}
+  enemyRunTimeSet: {fileID: 11400000, guid: a6c452a7d99b74e4cbdf1473b31cdf07, type: 2}
 --- !u!1 &2047645665468744263
 GameObject:
   m_ObjectHideFlags: 0
@@ -2045,7 +2043,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e393c84d92178a04a8a1e34519537386, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5487,7 +5485,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e393c84d92178a04a8a1e34519537386, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5655,7 +5653,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e393c84d92178a04a8a1e34519537386, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5721,7 +5719,7 @@ GameObject:
   - component: {fileID: 8268103566712416824}
   - component: {fileID: 718799092842190292}
   m_Layer: 9
-  m_Name: Square (1)
+  m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5734,13 +5732,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3598524024590969309}
-  m_LocalRotation: {x: -0, y: -0, z: -0.68791133, w: 0.7257948}
-  m_LocalPosition: {x: 9.8, y: -0.8, z: 1}
-  m_LocalScale: {x: 1, y: 19.39, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 25, y: 0, z: 1}
+  m_LocalScale: {x: 1, y: 50, z: 1}
   m_Children: []
   m_Father: {fileID: 3582261739856663130}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -86.93}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!212 &718799092842190292
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5965,7 +5963,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e393c84d92178a04a8a1e34519537386, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6031,7 +6029,7 @@ GameObject:
   - component: {fileID: 4402924860347685637}
   - component: {fileID: 1011575193925558069}
   m_Layer: 9
-  m_Name: Square (1)
+  m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6044,9 +6042,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5750559360858884458}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1, y: -9.8, z: 1}
-  m_LocalScale: {x: 1, y: 19.39, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -25, z: 1}
+  m_LocalScale: {x: 1, y: 50, z: 1}
   m_Children: []
   m_Father: {fileID: 3608208729203231761}
   m_RootOrder: 0
@@ -6242,7 +6240,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e393c84d92178a04a8a1e34519537386, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6308,7 +6306,7 @@ GameObject:
   - component: {fileID: 303327942880243546}
   - component: {fileID: 6220833752540056375}
   m_Layer: 9
-  m_Name: Square (2)
+  m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6321,13 +6319,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8552821365667555244}
-  m_LocalRotation: {x: -0, y: -0, z: -0.68791133, w: 0.7257948}
-  m_LocalPosition: {x: -10.700001, y: -2, z: 1}
-  m_LocalScale: {x: 1, y: 19.39, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: -25, y: 0, z: 1}
+  m_LocalScale: {x: 1, y: 50, z: 1}
   m_Children: []
   m_Father: {fileID: 5587574345836517916}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -86.93}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!212 &6220833752540056375
 SpriteRenderer:
   m_ObjectHideFlags: 0

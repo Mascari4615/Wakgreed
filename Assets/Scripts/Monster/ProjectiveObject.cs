@@ -26,7 +26,7 @@ public class ProjectiveObject : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            TravellerController.Instance.traveller.ReceiveDamage(5);
+            TravellerController.Instance.ReceiveDamage(5);
             gameObject.SetActive(false);
         }   
     }

@@ -69,7 +69,7 @@ public class SlimeKing : Monster
                         t = 0;
 
                         GameObject g = ObjectManager.Instance.GetQueue(PoolType.Slime2, spawnPos.position);
-                        GameManager.Instance.monsters.Add(g);
+                        enemyRunTimeSet.Add(g);
                         
                         g.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
                         g.GetComponent<Rigidbody2D>().AddForce((Vector2)(spawnPos.position - transform.position).normalized * force);
@@ -136,7 +136,7 @@ public class SlimeKing : Monster
         int rand = Random.Range(0, 100);
         if (rand <= 5)
         {
-            GameManager.Instance.monsters.Add(ObjectManager.Instance.GetQueue(PoolType.Slime1, transform.position));
+            enemyRunTimeSet.Add(ObjectManager.Instance.GetQueue(PoolType.Slime1, transform.position));
         }
     }
 
