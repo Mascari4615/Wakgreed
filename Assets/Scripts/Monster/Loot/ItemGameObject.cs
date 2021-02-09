@@ -13,6 +13,7 @@ public class ItemGameObject : Loot
         base.OnEnable();
 
         item = itemDataBuffer.Items[Random.Range(0, itemDataBuffer.Items.Length)];
+        spriteRenderer.sprite = item.sprite;
         waitTime = 1f;
     }
 
@@ -26,7 +27,7 @@ public class ItemGameObject : Loot
             }
             else
             {
-                inventory.Items.Add(item);
+                inventory.Add(item);
             }
 
             item.OnEquip();
