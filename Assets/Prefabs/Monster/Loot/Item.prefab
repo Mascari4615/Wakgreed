@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2406070895336611356}
   - component: {fileID: 4517024330313360714}
   - component: {fileID: 8475349717616858243}
-  - component: {fileID: -4020012240684095013}
   m_Layer: 0
   m_Name: Item
   m_TagString: Untagged
@@ -48,10 +47,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 314eab922b297d7439e7542d6f4dbd4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poolType: 10
   waitPosition: {x: 0, y: 0, z: 0}
-  itemDataBuffer: {fileID: 11400000, guid: aa9e5641d9943f644b291cc557b3c2ed, type: 2}
-  inventory: {fileID: 11400000, guid: 24ce1fa77e4bf544886e3e3def4c6e34, type: 2}
-  itemID: 0
+  ItemDataBuffer: {fileID: 11400000, guid: aa9e5641d9943f644b291cc557b3c2ed, type: 2}
+  Inventory: {fileID: 11400000, guid: 24ce1fa77e4bf544886e3e3def4c6e34, type: 2}
+  OnEquipItem: {fileID: 11400000, guid: 2d3489b109e3961458f36455f8fa1576, type: 2}
 --- !u!58 &2406070895336611356
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -215,19 +215,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-4020012240684095013
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3938977003366753616}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adbd2402367b72342a34f86a3488182a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolType: 11
 --- !u!1 &4013162843585213154
 GameObject:
   m_ObjectHideFlags: 0

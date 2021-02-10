@@ -85,21 +85,12 @@ public class Room : MonoBehaviour
 
             for (int i = 0; i < monsterCount; i++)
             {
-                int rand1 = Random.Range(0, monsterSpawnPoint.Length);
-                int rand2 = Random.Range(0, 2);
-                PoolType targetMonster = PoolType.Nothing;
-                Vector3 summonPosition = new Vector3(monsterSpawnPoint[rand1].position.x, monsterSpawnPoint[rand1].position.y, 0);
+                Vector3 randomSpawnPoint = monsterSpawnPoint[Random.Range(0, monsterSpawnPoint.Length)].position;
+                PoolType targetMonster = (Random.Range(0, 2) == 0) ? PoolType.Slime1 : PoolType.Slime2;
+                Vector3 summonPosition = new Vector3(randomSpawnPoint.x, randomSpawnPoint.y, 0);
 
                 ObjectManager.Instance.GetQueue(PoolType.Summon, summonPosition);
                 yield return new WaitForSeconds(0.7f);
-                if (rand2 == 0)
-                {
-                    targetMonster = PoolType.Slime1;
-                }
-                else if (rand2 == 1)
-                {
-                    targetMonster = PoolType.Slime2;
-                }
                 enemyRunTimeSet.Add(ObjectManager.Instance.GetQueue(targetMonster, summonPosition));
             }   
         }

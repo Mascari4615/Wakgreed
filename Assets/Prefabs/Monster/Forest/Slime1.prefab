@@ -704,7 +704,6 @@ GameObject:
   - component: {fileID: 3478798434367585497}
   - component: {fileID: -1161674215497522890}
   - component: {fileID: 3879243400565517698}
-  - component: {fileID: -6237231880440075316}
   m_Layer: 8
   m_Name: Slime1
   m_TagString: Monster
@@ -779,6 +778,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b787e381ad246f94f8f79c499e1f8777, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poolType: 3
   TravellerCriticalChance: {fileID: 11400000, guid: 300f8b12c04c18a45a8f73a08c3ab38b,
     type: 2}
   enemyRunTimeSet: {fileID: 11400000, guid: a6c452a7d99b74e4cbdf1473b31cdf07, type: 2}
@@ -896,16 +896,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &-6237231880440075316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8633538259678075035}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adbd2402367b72342a34f86a3488182a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolType: 4

@@ -5,7 +5,8 @@ public class Item : ScriptableObject
 {
     public int ID;
     public new string name;
-    public string description;
+    [TextArea] public string description;
+    [TextArea] public string comment;
     public Sprite sprite;
     [System.NonSerialized] public int count;
     [SerializeField] private Effect[] effects;

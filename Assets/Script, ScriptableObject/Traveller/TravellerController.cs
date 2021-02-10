@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Cinemachine;
 using UnityEngine.EventSystems;
 
@@ -23,6 +20,7 @@ public class TravellerController : MonoBehaviour
     public GameEvent OnExpChange;
     private int requiredExp;
     public IntVariable LV;
+    public GameEvent OnLevelUp;
 
     public Transform attackPositionParent;
     public Transform attackPosition;
@@ -205,12 +203,6 @@ public class TravellerController : MonoBehaviour
         }
     }
 
-    public void AddStat(TravellerStat stat, float value)
-    {
-        if (stat == TravellerStat.AD) AD.RuntimeValue =+ (int)value;
-        else if (stat == TravellerStat.AS) AS.RuntimeValue =+ value;
-    }
-
     private void Move()
     {
         h = joyStick.inputValue.x;
@@ -250,7 +242,7 @@ public class TravellerController : MonoBehaviour
     private void Targeting()
     {
         target = null;
-        float targetDist = 15;
+        float targetDist = 10;
         float currentDist = 0;
         
         if (monsters.Items.Count > 0)
@@ -362,27 +354,25 @@ public class TravellerController : MonoBehaviour
         this.enabled = false;
     }
 
-
     private void SetHP(int value)
     {
         HP.RuntimeValue += value;
         OnHpChange.Raise();
     }
 
-    public void AcquireExp(int value)
+    public void CheckCanLevelUp()
     {
-        SetExp(value);
         if (EXP.RuntimeValue >= requiredExp) LevelUp();
     }
 
     private void LevelUp()
     {
+        OnLevelUp.Raise();
         LV.RuntimeValue++;
         SetExp(-requiredExp);
         requiredExp = (100 * 1 + LV.RuntimeValue); 
         
         ObjectManager.Instance.GetQueue(PoolType.Smoke, transform);
-        MasteryManager.Instance.LevelUp();
     }
 
     private void SetExp(int value)

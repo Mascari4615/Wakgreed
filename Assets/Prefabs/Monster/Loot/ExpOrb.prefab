@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 7252400076529708871}
   - component: {fileID: 830583558604828631}
   - component: {fileID: -1636899997178651650}
-  - component: {fileID: 1803097221138456542}
   m_Layer: 0
   m_Name: ExpOrb
   m_TagString: Untagged
@@ -48,7 +47,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 058b89e1007bacc42aa43fb988372911, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poolType: 6
   waitPosition: {x: 0, y: 0, z: 0}
+  EXP: {fileID: 11400000, guid: 17f006d9f52da1d47bf33575680fcc1b, type: 2}
+  OnEXPChange: {fileID: 11400000, guid: 6474bb776ba9ace48af7c06d02be49e7, type: 2}
 --- !u!212 &7252400076529708871
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -213,19 +215,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1803097221138456542
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2168523556300479032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adbd2402367b72342a34f86a3488182a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolType: 7
 --- !u!1 &5008389761038616388
 GameObject:
   m_ObjectHideFlags: 0
