@@ -9,13 +9,11 @@ public class Traveller : ScriptableObject
     public float baseAS;
     public int baseCriticalChance;
     public float baseMoveSpeed;
-    public float abillity0CoolDown;
-    public float abillity1CoolDown;
-    public float abillity2CoolDown;
+    public float[] skillCoolDown;
     public AudioClip[] basicAttackAudioClips;
-    public AudioClip[] abillity0AudioClips;
-    public AudioClip[] abillity1AudioClips;
-    public AudioClip[] abillity2AudioClips;
-    public TravellerFunctions travellerFunctions;
+    public AudioClip[] skill0AudioClips;
+    public AudioClip[] skill1AudioClips;
+    public AudioClip[] skill2AudioClips;
+    public TravellerAbilities abilities;
     public Sprite weaponSprite;
 }

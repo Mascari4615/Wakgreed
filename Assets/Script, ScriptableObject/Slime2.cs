@@ -9,8 +9,9 @@ public class Slime2 : Monster
     private bool isTargeting = false;
     [SerializeField] private GameObject slime;
 
-    protected override void _OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         canAttack = false;
         isTargeting = false;
         castTime = 0.35f;

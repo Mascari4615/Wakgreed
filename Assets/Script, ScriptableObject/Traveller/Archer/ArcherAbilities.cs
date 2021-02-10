@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ArcherFunction", menuName = "TravellerFunctions/Archer" , order = 1)]
-public class ArcherFunction : TravellerFunctions
+[CreateAssetMenu(fileName = "ArcherAbilities", menuName = "TravellerAbilities/Archer")]
+public class ArcherAbilities : TravellerAbilities
 {
     public override void Initialize(TravellerController t)
     {
@@ -18,17 +18,17 @@ public class ArcherFunction : TravellerFunctions
         ObjectManager.Instance.GetQueue(PoolType.ArcherArrow, t.attackPosition);
     }
 
-    public override void Ability0(TravellerController t)
+    public override void Skill0(TravellerController t)
     {
         
     }
 
-    public override void Ability1(TravellerController t)
+    public override void Skill1(TravellerController t)
     {
         
     }
 
-    public override void Ability2(TravellerController t)
+    public override void Skill2(TravellerController t)
     {
         
     }

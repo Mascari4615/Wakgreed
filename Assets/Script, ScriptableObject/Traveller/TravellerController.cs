@@ -1,6 +1,7 @@
+using System.Collections;
 using UnityEngine;
-using Cinemachine;
 using UnityEngine.EventSystems;
+using Cinemachine;
 
 public class TravellerController : MonoBehaviour
 {
@@ -8,23 +9,18 @@ public class TravellerController : MonoBehaviour
     [HideInInspector] public static TravellerController Instance { get { return instance; } }
 
     public Traveller traveller;
-
     public IntVariable maxHP;
     public IntVariable HP;
-    public GameEvent OnHpChange;
     public IntVariable AD;
     public FloatVariable AS;
     public IntVariable criticalChance;
     public FloatVariable moveSpeed;
     public IntVariable EXP;
-    public GameEvent OnExpChange;
     private int requiredExp;
-    public IntVariable LV;
-    public GameEvent OnLevelUp;
+    public IntVariable Level;
+    public GameEvent OnHpChange, OnCollapse, OnExpChange, OnLevelUp;
 
-    public Transform attackPositionParent;
-    public Transform attackPosition;
-    public Transform weaponPosition;
+    public Transform attackPositionParent, attackPosition, weaponPosition;
     public JoyStick joyStick;
     public CinemachineTargetGroup cinemachineTargetGroup;
     public GameObject bloodingPanel;
@@ -33,22 +29,11 @@ public class TravellerController : MonoBehaviour
     public EventTrigger attackButtonEventTrigger;
 
     private float coolDown = 1;
-    private float currentCoolDown;
-    private bool isHealthy = true;
-
-    private float currentAttackCoolDown;
-    private float currentSkill0CoolDown;
-    private float currentSkill1CoolDown;
-    private float currentSkill2CoolDown;
-
-    private bool canAttack = true;
-    private bool canUseAbility0 = true;
-    private bool canUseAbility1 = true;
-    private bool canUseAbility2 = true;
-    private bool canInteraction = false;
-
-    private bool isInputtingAttack = false;
-    private bool isInputtingInteraction = false;
+    private float curCoolDown, curAttackCoolDown;
+    private bool isHealthy, canAttack, canInteraction;
+    private float[] curSkillCoolDown;
+    private bool[] canUseSkill;
+    private bool isInputtingAttack, isInputtingInteraction;
 
     [HideInInspector] public float h = 0;
     private float v = 0;
@@ -57,26 +42,14 @@ public class TravellerController : MonoBehaviour
     private Animator animator;
     
     private SpriteRenderer spriteRenderer;
-    private EventTrigger.Entry attackPointerDown = new EventTrigger.Entry();
-    private EventTrigger.Entry attackPointerEnter = new EventTrigger.Entry();
-    private EventTrigger.Entry attackPointerUp = new EventTrigger.Entry();
-    private EventTrigger.Entry attackPointerExit = new EventTrigger.Entry();
+    private EventTrigger.Entry attackPointerDown = new EventTrigger.Entry(), attackPointerUp = new EventTrigger.Entry(), attackPointerEnter = new EventTrigger.Entry(), attackPointerExit = new EventTrigger.Entry();
 
     private GameObject target;
     public Inventory inventory;
     private GameObject nearInteractiveObject;
     private AudioSource audioSource;
     [SerializeField] private Traveller[] travellers;
-    private TravellerFunctions travellerFunctions;
     [SerializeField] private EnemyRunTimeSet monsters;
-
-    [ContextMenu("Test")]
-    public void Test()
-    {
-        int i = Random.Range(0, inventory.Items.Count);
-        inventory.Items[i].OnRemove();
-        inventory.Remove(inventory.Items[i]);
-    }
 
     public void ChangeTraveller(int index)
     {
@@ -86,7 +59,7 @@ public class TravellerController : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log($"{name} : Awake");
+        // Debug.Log($"{name} : Awake");
         instance = this;
         // attackPosition.transform.position = new Vector3(0, attackPosGap, 0);
 
@@ -111,15 +84,13 @@ public class TravellerController : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log(name + " : OnEnable");
+        // Debug.Log(name + " : OnEnable");
         Initialize();
     }
 
     private void Initialize()
     {
-        Debug.Log(name + " : Initialize");
-        travellerFunctions = traveller.travellerFunctions;
-        travellerFunctions.Initialize(this);
+        // Debug.Log(name + " : Initialize");
         
         transform.position = Vector3.zero;
         maxHP.RuntimeValue = traveller.baseHP;
@@ -133,20 +104,16 @@ public class TravellerController : MonoBehaviour
         moveSpeed.RuntimeValue = traveller.baseMoveSpeed;
 
         EXP.RuntimeValue = 0;
-        LV.RuntimeValue = 0;
-        requiredExp = (100 * 1 + LV.RuntimeValue);
+        Level.RuntimeValue = 0;
+        requiredExp = (100 * 1 + Level.RuntimeValue);
         OnExpChange.Raise();
         
-        currentCoolDown = 0;
+        curCoolDown = 0;
         isHealthy = true;
-        currentAttackCoolDown = 0;
-        currentSkill0CoolDown = 0;
-        currentSkill1CoolDown = 0;
-        currentSkill2CoolDown = 0;
+        curAttackCoolDown = 0;
+        curSkillCoolDown = new float[] { 0, 0, 0 };
         canAttack = true;
-        canUseAbility0 = true;
-        canUseAbility1 = true;
-        canUseAbility2 = true;
+        canUseSkill = new bool[] { false, false, false };
         canInteraction = false;
         isInputtingAttack = false;
         isInputtingInteraction = false;
@@ -166,7 +133,7 @@ public class TravellerController : MonoBehaviour
         attackButtonEventTrigger.triggers.Add(attackPointerUp);
         // attackButtonEventTrigger.triggers.Add(attackPointerExit);
 
-        travellerFunctions.Initialize(this);
+        traveller.abilities.Initialize(this);
     }
 
     private void Update()
@@ -176,18 +143,18 @@ public class TravellerController : MonoBehaviour
         Move();
         Targeting();
 
-        CheckCoolDown(ref isHealthy, ref currentCoolDown, coolDown);
-        CheckCoolDown(ref canAttack, ref currentAttackCoolDown, 1 / AS.RuntimeValue);
-        CheckCoolDown(ref canUseAbility0, ref currentSkill0CoolDown, traveller.abillity0CoolDown);
-        CheckCoolDown(ref canUseAbility1, ref currentSkill1CoolDown, traveller.abillity1CoolDown);
-        CheckCoolDown(ref canUseAbility2, ref currentSkill2CoolDown, traveller.abillity2CoolDown);
+        CheckCoolDown(ref isHealthy, ref curCoolDown, coolDown);
+        CheckCoolDown(ref canAttack, ref curAttackCoolDown, 1 / AS.RuntimeValue);
+        CheckCoolDown(ref canUseSkill[0], ref curSkillCoolDown[0], traveller.skillCoolDown[0]);
+        CheckCoolDown(ref canUseSkill[1], ref curSkillCoolDown[1], traveller.skillCoolDown[1]);
+        CheckCoolDown(ref canUseSkill[2], ref curSkillCoolDown[2], traveller.skillCoolDown[2]);
 
         if (isHealthy == true) spriteRenderer.color = Color.white;
         else if (isHealthy == false) spriteRenderer.color = new Color(1, 1, 1, (float)100 / 255);
 
         if ((isInputtingAttack || Input.GetKey(KeyCode.Space)) && canAttack) BasicAttack();
 
-        travellerFunctions._Update(this);
+        traveller.abilities._Update(this);
     }
 
     private void CheckCoolDown(ref bool coolDownTarget, ref float currentCoolDown, float coolDown)
@@ -209,12 +176,12 @@ public class TravellerController : MonoBehaviour
         v = joyStick.inputValue.y;
         Vector3 moveDirection = new Vector2(h, v).normalized;
 
-        if (joyStick.isDraging == true)
+        if (joyStick.isDraging == true && playerRB.bodyType == RigidbodyType2D.Dynamic)
         {
             playerRB.velocity = moveDirection * moveSpeed.RuntimeValue;      
             animator.SetBool("Run", true);       
         }
-        else if (joyStick.isDraging == false)
+        else
         {
             playerRB.velocity = Vector2.zero;
             animator.SetBool("Run", false);
@@ -224,17 +191,24 @@ public class TravellerController : MonoBehaviour
         {
             if (target.transform.position.x >= transform.position.x) transform.localScale = new Vector3(1, 1, 1); //오른쪽
             else if (target.transform.position.x < transform.position.x) transform.localScale = new Vector3(-1, 1, 1); // 왼쪽
+
+            cinemachineTargetGroup.m_Targets[1].target = target.transform;
+            attackPositionParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(transform.position.y - target.transform.position.y, transform.position.x - target.transform.position.x) * Mathf.Rad2Deg + 90);
+            Debug.DrawRay(transform.position, target.transform.position - transform.position, Color.red);
         }
         else if (target == null)
         {
             if (h > 0) transform.localScale = new Vector3(1, 1, 1);       
             else if (h < 0) transform.localScale = new Vector3(-1, 1, 1);
+
+            cinemachineTargetGroup.m_Targets[1].target = null;
+            attackPositionParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(joyStick.inputValue.y, joyStick.inputValue.x) * Mathf.Rad2Deg - 90);
         }
     }
 
     private void Interaction()
     {
-        Debug.Log(name + " : Interaction");
+        // Debug.Log(name + " : Interaction");
         isInputtingInteraction = false;
         nearInteractiveObject.GetComponent<InteractiveObject>().Interaction();
     }
@@ -245,119 +219,71 @@ public class TravellerController : MonoBehaviour
         float targetDist = 10;
         float currentDist = 0;
         
-        if (monsters.Items.Count > 0)
+        foreach (var monster in monsters.Items)
         {
-            foreach (var monster in monsters.Items)
+            currentDist = Vector2.Distance(transform.position, monster.transform.position);
+            if (currentDist > targetDist) continue;
+
+            RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, monster.transform.position - transform.position, currentDist, LayerMask.NameToLayer("Everything"));
+
+            foreach (var hitObject in hit)
             {
-                currentDist = Vector2.Distance(transform.position, monster.transform.position);
-                RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, monster.transform.position - transform.position, currentDist, LayerMask.NameToLayer("Everything"));
-
-                foreach (var hitObject in hit)
+                if (hitObject.transform.CompareTag("Wall")) break;
+                else if (hitObject.transform.CompareTag("Monster"))
                 {
-                    if (hitObject.transform.CompareTag("Wall")) break;
-                    else if (hitObject.transform.CompareTag("Monster") && (currentDist < targetDist))
-                    {
-                        target = monster;
-                        targetDist = currentDist;
-                    }
+                    target = monster;
+                    targetDist = currentDist;
                 }
-            }           
-        }
-
-        if (target != null) 
-        {
-            cinemachineTargetGroup.m_Targets[1].target = target.transform;
-            attackPositionParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(transform.position.y - target.transform.position.y, transform.position.x - target.transform.position.x) * Mathf.Rad2Deg + 90);
-            Debug.DrawRay(transform.position, target.transform.position - transform.position, Color.red);
-        }
-        else
-        {
-            cinemachineTargetGroup.m_Targets[1].target = null;
-            attackPositionParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(joyStick.inputValue.y, joyStick.inputValue.x) * Mathf.Rad2Deg - 90);
-        }
+            }
+        }           
     }
 
     public void BasicAttack()
     {
-        Debug.Log(name + " : Attack");
+        // Debug.Log(name + " : Attack");
 
         audioSource.clip = traveller.basicAttackAudioClips[Random.Range(0, traveller.basicAttackAudioClips.Length)];
         audioSource.Play();
         canAttack = false;
 
-        travellerFunctions.BasicAttack(this);
+        traveller.abilities.BasicAttack(this);
     }
-
-    public void Ability0()
+    
+    public void Skill(int i)
     {
-        if (!canUseAbility0) return;
+        if (!canUseSkill[i]) return;
+        canUseSkill[i] = false;
 
-        Debug.Log(name + " : Ability0");
-        HP.RuntimeValue += 300;
+        Debug.Log($"{name} : Ability{i}");
 
-        audioSource.clip = traveller.abillity0AudioClips[Random.Range(0, traveller.abillity0AudioClips.Length)];
-        audioSource.Play();
-        canUseAbility0 = false;
-
-        travellerFunctions.Ability0(this);
-    }
-
-    public void Ability1()
-    {
-        if (!canUseAbility1) return;
-
-        Debug.Log(name + " : Ability1");
-        AD.RuntimeValue += 300;
-
-        audioSource.clip = traveller.abillity1AudioClips[Random.Range(0, traveller.abillity1AudioClips.Length)];
-        audioSource.Play();
-        canUseAbility1 = false;
-
-        travellerFunctions.Ability1(this);
-    }
-
-    public void Ability2()
-    {
-        if (!canUseAbility2) return;
-
-        Debug.Log(name + " : Ability2");
-        HP.RuntimeValue += 300;
-
-        audioSource.clip = traveller.abillity2AudioClips[Random.Range(0, traveller.abillity2AudioClips.Length)];
-        audioSource.Play();
-        canUseAbility2 = false;
-
-        travellerFunctions.Ability2(this);
+        if (i == 0) traveller.abilities.Skill0(this);
+        else if (i == 1) traveller.abilities.Skill1(this);
+        else if (i == 2) traveller.abilities.Skill2(this);
     }
 
     public void ReceiveDamage(int damage)
     {
         if (isHealthy == false) return;
 
-        SetHP(-damage);
+        HP.RuntimeValue -= damage;
+        OnHpChange.Raise();
         isHealthy = false;
 
         bloodingPanel.SetActive(false);
         bloodingPanel.SetActive(true);
 
-        if (HP.RuntimeValue <= 0) Collapse();
+        if (HP.RuntimeValue <= 0) StartCoroutine(Collapse());
     }
 
-    private void Collapse()
+    private IEnumerator Collapse()
     {
-        Debug.Log($"{name} : Collapse");
-
+        // Debug.Log($"{name} : Collapse");
         playerRB.bodyType = RigidbodyType2D.Static;
-        GameManager.Instance.StartCoroutine(GameManager.Instance.GameOver());
-
         animator.SetTrigger("Collapse");
-        this.enabled = false;
-    }
 
-    private void SetHP(int value)
-    {
-        HP.RuntimeValue += value;
-        OnHpChange.Raise();
+        yield return new WaitForSeconds(2f);
+        OnCollapse.Raise();
+        this.enabled = false;
     }
 
     public void CheckCanLevelUp()
@@ -367,18 +293,13 @@ public class TravellerController : MonoBehaviour
 
     private void LevelUp()
     {
+        EXP.RuntimeValue -= requiredExp;
+        Level.RuntimeValue++;
+        requiredExp = (100 * (1 + Level.RuntimeValue));
         OnLevelUp.Raise();
-        LV.RuntimeValue++;
-        SetExp(-requiredExp);
-        requiredExp = (100 * 1 + LV.RuntimeValue); 
+        OnExpChange.Raise();
         
         ObjectManager.Instance.GetQueue(PoolType.Smoke, transform);
-    }
-
-    private void SetExp(int value)
-    {
-        EXP.RuntimeValue += value;
-        OnExpChange.Raise();
     }
 
     public void OnTriggerEnter2D(Collider2D other)
@@ -412,7 +333,6 @@ public class TravellerController : MonoBehaviour
     {
         if (other.CompareTag("InteractiveObject"))
         {
-            nearInteractiveObject = other.gameObject;
             canInteraction = false;
             interactionIcon.SetActive(false);
             attackIcon.SetActive(true);
@@ -423,7 +343,6 @@ public class TravellerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("InteractiveObject"))
         {
-            nearInteractiveObject = other.gameObject;
             canInteraction = false;
             interactionIcon.SetActive(false);
             attackIcon.SetActive(true);

@@ -6,7 +6,7 @@ public class ExpOrb : Loot
     [SerializeField] private GameEvent OnEXPChange;
     protected override void OnEquip()
     {
-        EXP.RuntimeValue += Random.Range(10, 16);
+        EXP.RuntimeValue += Random.Range(4, 9);
         OnEXPChange.Raise();
     }
 }

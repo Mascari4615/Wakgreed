@@ -18,18 +18,19 @@ MonoBehaviour:
   baseAS: 1.25
   baseCriticalChance: 5
   baseMoveSpeed: 6
-  abillity0CoolDown: 1
-  abillity1CoolDown: 1
-  abillity2CoolDown: 1
+  skillCoolDown:
+  - 1
+  - 1
+  - 1
   basicAttackAudioClips:
   - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
   - {fileID: 8300000, guid: 18ad0d717de3d244280871a7b1eff6fe, type: 3}
   - {fileID: 8300000, guid: a32b9e310d995fb4783947c6f3af2d6c, type: 3}
-  abillity0AudioClips:
+  skill0AudioClips:
   - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
-  abillity1AudioClips:
+  skill1AudioClips:
   - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
-  abillity2AudioClips:
+  skill2AudioClips:
   - {fileID: 8300000, guid: 7c567cf019b87b645b94a5ecdbe1bcb4, type: 3}
-  travellerFunctions: {fileID: 11400000, guid: 6617fc2db4880a24e9d6683151e6add6, type: 2}
-  weaponSprite: {fileID: 0}
+  abilities: {fileID: 11400000, guid: 6617fc2db4880a24e9d6683151e6add6, type: 2}
+  weaponSprite: {fileID: 21300000, guid: e0c93456ebe4c5f4b893da9557ace163, type: 3}

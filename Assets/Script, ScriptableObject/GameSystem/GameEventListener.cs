@@ -7,7 +7,7 @@ public class GameEventListener : MonoBehaviour
    public UnityEvent Response;
 
    private void OnEnable()
-   { Debug.Log($"{name} : OnEnable"); Event.RegisterListener(this); }
+   { Event.RegisterListener(this); }
 
    private void OnDisable()
    { Event.UnregisterListener(this); }

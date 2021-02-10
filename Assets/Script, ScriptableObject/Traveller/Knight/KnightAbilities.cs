@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using Cinemachine;
 
-[CreateAssetMenu(fileName = "KnightFunction", menuName = "TravellerFunctions/Knight" , order = 0)]
-public class KnightFunction : TravellerFunctions
+[CreateAssetMenu(fileName = "KnightAbilities", menuName = "TravellerAbilities/Knight")]
+public class KnightAbilities : TravellerAbilities
 {
     private CinemachineImpulseSource cinemachineImpulseSource;
     private int weaponRot = 0;
@@ -42,17 +42,17 @@ public class KnightFunction : TravellerFunctions
         cinemachineImpulseSource.GenerateImpulse();
     }
 
-    public override void Ability0(TravellerController t)
+    public override void Skill0(TravellerController t)
     {
         
     }
 
-    public override void Ability1(TravellerController t)
+    public override void Skill1(TravellerController t)
     {
         
     }
 
-    public override void Ability2(TravellerController t)
+    public override void Skill2(TravellerController t)
     {
         
     }

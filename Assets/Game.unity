@@ -1776,12 +1776,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1945953211}
-  m_RootOrder: 1
+  m_Father: {fileID: 923255402}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -195, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &75248683
@@ -3398,9 +3398,8 @@ GameObject:
   - component: {fileID: 140178023}
   - component: {fileID: 140178022}
   - component: {fileID: 140178021}
-  - component: {fileID: 140178024}
   m_Layer: 5
-  m_Name: Btn _ Ability2
+  m_Name: Btn _ Skill2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3472,12 +3471,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 909484127}
         m_TargetAssemblyTypeName: TravellerController, Assembly-CSharp
-        m_MethodName: Ability2
-        m_Mode: 1
+        m_MethodName: Skill
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3520,19 +3519,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 140178019}
   m_CullTransparentMesh: 0
---- !u!114 &140178024
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 140178019}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates: []
 --- !u!1 &146757539
 GameObject:
   m_ObjectHideFlags: 0
@@ -16767,9 +16753,8 @@ GameObject:
   - component: {fileID: 664357280}
   - component: {fileID: 664357279}
   - component: {fileID: 664357278}
-  - component: {fileID: 664357281}
   m_Layer: 5
-  m_Name: Btn _ Ability0
+  m_Name: Btn _ Skill0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16841,8 +16826,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 909484127}
         m_TargetAssemblyTypeName: TravellerController, Assembly-CSharp
-        m_MethodName: Ability0
-        m_Mode: 1
+        m_MethodName: Skill
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -16889,19 +16874,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 664357276}
   m_CullTransparentMesh: 0
---- !u!114 &664357281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 664357276}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates: []
 --- !u!1 &673379896
 GameObject:
   m_ObjectHideFlags: 0
@@ -20341,6 +20313,7 @@ GameObject:
   - component: {fileID: 862818877}
   - component: {fileID: 862818880}
   - component: {fileID: 862818881}
+  - component: {fileID: 862818882}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -20459,7 +20432,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d9a289c19ce8bd49befd028cd5e10fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isFighting: 0
   OnFightStart: {fileID: 11400000, guid: 102b00aeb784de54da6c9f81e04ef8de, type: 2}
   OnFightEnd: {fileID: 11400000, guid: 05de025d5d8880c4ba240a5384475e1f, type: 2}
   OnRecall: {fileID: 11400000, guid: c278a968b1806c242a5fdea01f348603, type: 2}
@@ -20604,6 +20576,34 @@ MonoBehaviour:
       - m_Target: {fileID: 862818876}
         m_TargetAssemblyTypeName: MasteryManager, Assembly-CSharp
         m_MethodName: LevelUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &862818882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 862818874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd7e09fbad5baf74a8afe37472259647, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: fe1091c644e3ead409241a61978b243a, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 862818879}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: GameOver
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -20849,81 +20849,6 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 873446276}
-  m_CullTransparentMesh: 0
---- !u!1 &874659860
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 874659861}
-  - component: {fileID: 874659863}
-  - component: {fileID: 874659862}
-  m_Layer: 5
-  m_Name: Img _ Level
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &874659861
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 874659860}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1945953211}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 70, y: 40}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &874659862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 874659860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.17254902, g: 0.17254902, b: 0.17254902, a: 0.5882353}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 3
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 0
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &874659863
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 874659860}
   m_CullTransparentMesh: 0
 --- !u!1 &876348662
 GameObject:
@@ -21993,8 +21918,9 @@ Transform:
   - {fileID: 2013410261}
   - {fileID: 246422212}
   - {fileID: 1237384288}
+  - {fileID: 1462594664}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &909484126
 Rigidbody2D:
@@ -22032,14 +21958,15 @@ MonoBehaviour:
   traveller: {fileID: 11400000, guid: 444b80e41a32a37468e1c9ae7684661d, type: 2}
   maxHP: {fileID: 11400000, guid: b28d195b2423d0344a37d3aa321a61f1, type: 2}
   HP: {fileID: 11400000, guid: 87e24a6bb0485bb43bf414a2be282fe6, type: 2}
-  OnHpChange: {fileID: 11400000, guid: 41f95a94c19e0bf4996bcbad94ff7b16, type: 2}
   AD: {fileID: 11400000, guid: ad758efcb5cd4674fba16426548099e4, type: 2}
   AS: {fileID: 11400000, guid: 320dd9e1a35eb354ba45330eb0aaaa6d, type: 2}
   criticalChance: {fileID: 11400000, guid: 300f8b12c04c18a45a8f73a08c3ab38b, type: 2}
   moveSpeed: {fileID: 11400000, guid: ab222d65ff7ce974fa0c23c97750945f, type: 2}
   EXP: {fileID: 11400000, guid: 17f006d9f52da1d47bf33575680fcc1b, type: 2}
+  Level: {fileID: 11400000, guid: 4a71ab267992a93479cfd1a716594562, type: 2}
+  OnHpChange: {fileID: 11400000, guid: 41f95a94c19e0bf4996bcbad94ff7b16, type: 2}
+  OnCollapse: {fileID: 0}
   OnExpChange: {fileID: 11400000, guid: 6474bb776ba9ace48af7c06d02be49e7, type: 2}
-  LV: {fileID: 11400000, guid: 4a71ab267992a93479cfd1a716594562, type: 2}
   OnLevelUp: {fileID: 11400000, guid: 42476068b34aa7c4aa6cb152cd3b3ac9, type: 2}
   attackPositionParent: {fileID: 2013410261}
   attackPosition: {fileID: 1021397560}
@@ -22364,7 +22291,7 @@ RectTransform:
   - {fileID: 1465215332}
   - {fileID: 309681482}
   - {fileID: 227105316}
-  - {fileID: 1945953211}
+  - {fileID: 75248682}
   m_Father: {fileID: 407486348}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -33112,12 +33039,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1462594661}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_Father: {fileID: 909484125}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1465215331
 GameObject:
@@ -37132,9 +37059,8 @@ GameObject:
   - component: {fileID: 1739543049}
   - component: {fileID: 1739543048}
   - component: {fileID: 1739543047}
-  - component: {fileID: 1739543050}
   m_Layer: 5
-  m_Name: Btn _ Ability1
+  m_Name: Btn _ Skill1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37206,12 +37132,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 909484127}
         m_TargetAssemblyTypeName: TravellerController, Assembly-CSharp
-        m_MethodName: Ability1
-        m_Mode: 1
+        m_MethodName: Skill
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -37254,19 +37180,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1739543045}
   m_CullTransparentMesh: 0
---- !u!114 &1739543050
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1739543045}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates: []
 --- !u!1 &1745567971
 GameObject:
   m_ObjectHideFlags: 0
@@ -73199,43 +73112,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1943934991}
   m_CullTransparentMesh: 0
---- !u!1 &1945953210
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1945953211}
-  m_Layer: 5
-  m_Name: Level
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1945953211
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1945953210}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 874659861}
-  - {fileID: 75248682}
-  m_Father: {fileID: 923255402}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -195, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1952533217
 GameObject:
   m_ObjectHideFlags: 0

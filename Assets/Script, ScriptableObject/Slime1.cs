@@ -6,8 +6,9 @@ public class Slime1 : Monster
 {
     Vector3 direction = Vector3.zero;
 
-    protected override void _OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         StartCoroutine("ChangeDirection");
     }
 

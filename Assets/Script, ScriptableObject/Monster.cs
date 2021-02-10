@@ -15,20 +15,18 @@ public abstract class Monster : PoolingObject
     [SerializeField] protected float _moveSpeed;
     [HideInInspector] public float moveSpeed;
 
-    //private bool isHpBarSideEffectOn = false;
-    
-    [SerializeField] protected Animator monsterAnimator = null;
-    public Rigidbody2D monsterRigidbody2D = null;
-    [SerializeField] protected SpriteRenderer spriteRenderer = null;
-    [SerializeField] protected CircleCollider2D circleCollider2D = null;
-    [SerializeField] protected GameObject hpBarGameObject = null;
-    [SerializeField] protected GameObject yellowParent = null;
-    [SerializeField] protected SpriteRenderer yellow = null;
-    [SerializeField] protected GameObject redParent = null;
-    [SerializeField] protected AudioSource audioSource = null;
-    [SerializeField] protected AudioClip[] audioClips = null;
+    [SerializeField] protected Animator monsterAnimator;
+    public Rigidbody2D monsterRigidbody2D;
+    [SerializeField] protected SpriteRenderer spriteRenderer;
+    [SerializeField] private CircleCollider2D circleCollider2D;
+    [SerializeField] private GameObject hpBarGameObject;
+    [SerializeField] private GameObject yellowParent;
+    [SerializeField] private SpriteRenderer yellow;
+    [SerializeField] private GameObject redParent;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip[] audioClips;
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         Debug.Log($"{name} : OnEnable");
         isAlive = true;
@@ -40,12 +38,8 @@ public abstract class Monster : PoolingObject
         redParent.transform.localScale = Vector3.one;
         yellowParent.transform.localScale = Vector3.one;
         moveSpeed = _moveSpeed;
-        circleCollider2D.enabled = true;
-
-        _OnEnable();
+        circleCollider2D.enabled = true;;
     }
-
-    protected abstract void _OnEnable();
 
     protected virtual void Update()
     {
@@ -68,7 +62,7 @@ public abstract class Monster : PoolingObject
         {
             yellow.color = new Color(1, 1, 0);
             yellowParent.transform.localScale = new Vector3(redParent.transform.localScale.x, 1, 1);
-        } 
+        }
     }
 
     protected virtual void Attack()
@@ -76,7 +70,7 @@ public abstract class Monster : PoolingObject
 
     }
 
-    protected void OnCollisionStay2D(Collision2D other)
+    private void OnCollisionStay2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
@@ -86,12 +80,11 @@ public abstract class Monster : PoolingObject
 
     public virtual void ReceiveDamage(int damage)
     {
-        int rand = Random.Range(0, 100);
         string type = "";
         
-        if (rand < TravellerCriticalChance.RuntimeValue)
+        if (Random.Range(0, 100) < TravellerCriticalChance.RuntimeValue)
         {
-            damage *= 2;
+            damage *= 4;
             type = "Critical";
         }
 
@@ -116,28 +109,20 @@ public abstract class Monster : PoolingObject
             if (isBoss) GameManager.Instance.currentRoom.BossClear();
             else GameManager.Instance.currentRoom.CheckMonsterCount();
             enemyRunTimeSet.Remove(gameObject);
-            DropItem(transform.position);
+            DropItem();
 
             audioSource.clip = audioClips[1];
             audioSource.Play();
         }  
     }
 
-    protected void DropItem(Vector3 diedPosition)
+    private void DropItem()
     {
-        ObjectManager.Instance.GetQueue(PoolType.Smoke, diedPosition);
+        ObjectManager.Instance.GetQueue(PoolType.Smoke, transform.position);
 
-        for (int i = 0; i < 3; i++)
-        {
-            Vector3 randPos1 = new Vector3(Random.Range(-1f, 2f), Random.Range(-1f, 2f), 0);
-            ObjectManager.Instance.GetQueue(PoolType.Exp, transform).GetComponent<Loot>().waitPosition = diedPosition + randPos1;
-        }
+        int randCount = Random.Range(0, 5);
+        for (int i = 0; i < 3; i++) ObjectManager.Instance.GetQueue(PoolType.Exp, transform.position);
 
-        if (GameManager.Instance.currentRoom.isCleared)
-        {
-            Vector3 randPos1 = new Vector3(Random.Range(-1f, 2f), Random.Range(-1f, 2f), 0);
-            GameObject g = ObjectManager.Instance.GetQueue(PoolType.Item, transform);
-            g.GetComponent<ItemGameObject>().waitPosition = diedPosition + randPos1;
-        }
+        if (GameManager.Instance.currentRoom.isCleared) ObjectManager.Instance.GetQueue(PoolType.Item, transform.position);
     }
 }
