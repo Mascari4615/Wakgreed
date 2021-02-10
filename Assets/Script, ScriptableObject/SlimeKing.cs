@@ -17,8 +17,9 @@ public class SlimeKing : Monster
     int rand = 0;
     int rand1 = 0;
 
-    protected override void _OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         isBoss = true;
     }
 

@@ -2,7 +2,7 @@
 
 public abstract class Loot : PoolingObject
 {
-    [HideInInspector] public Vector3 waitPosition = Vector3.zero;
+    private Vector3 waitPosition;
     protected float waitTime = 0.5f;
     private float currentWaitTime = 0.5f;
     private float waitMoveSpeed = 0;
@@ -20,6 +20,7 @@ public abstract class Loot : PoolingObject
 
     private void OnEnable()
     {
+        waitPosition = transform.position + new Vector3(Random.Range(-1f, 2f), Random.Range(-1f, 2f), 0);
         circleCollider2D.enabled = false;
         currentWaitTime = waitTime;
         waitMoveSpeed = 0;
@@ -46,7 +47,7 @@ public abstract class Loot : PoolingObject
         }      
     }
 
-    private void OnTriggerStay2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {

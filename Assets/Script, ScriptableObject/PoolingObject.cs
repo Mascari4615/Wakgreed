@@ -6,7 +6,6 @@ public abstract class PoolingObject : MonoBehaviour
 
     public void InsertQueue()
     {
-        if (poolType == PoolType.Slime1 || poolType == PoolType.Slime2 || poolType == PoolType.BossMonster)Debug.Log($"{name} : InsertQueue");
         ObjectManager.Instance.InsertQueue(poolType, gameObject);
     }
 }

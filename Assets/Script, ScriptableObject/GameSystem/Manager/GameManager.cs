@@ -9,21 +9,18 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     [HideInInspector] public static GameManager Instance { get { return instance; } }
 
-    public int monsterKill { get; private set; } = 0;
-
-    [HideInInspector] public bool isFighting = false;
+    private int monsterKill = 0;
+    private bool isFighting = false;
+    public void SetFighting(bool value)
+    {
+        isFighting = value;
+        if (isFighting == true) OnFightStart.Raise();
+        else if (isFighting == false) OnFightEnd.Raise();
+    }
     [SerializeField] private GameEvent OnFightStart;
     [SerializeField] private GameEvent OnFightEnd;
     [SerializeField] private GameEvent OnRecall;
     [SerializeField] private MasteryManager MasteryManager;
-    public void SetFighting(bool asd)
-    {
-        if (asd == true) OnFightStart.Raise();
-        else if (asd == false) OnFightEnd.Raise();
-
-        isFighting = asd;
-    }
-
     [SerializeField] private BuffRunTimeSet buffRunTimeSet;
 
     private int currentStageID = -1;
@@ -106,7 +103,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape)) PauseGame();
     }
 
-    public void PauseGame()
+    public void PauseGame() // 정지 버튼에서 호출
     {
         if (Time.timeScale == 1) Time.timeScale = 0;
         else if (Time.timeScale == 0) Time.timeScale = 1;
@@ -236,7 +233,10 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < mapGridLayoutGroup.transform.childCount; i++)
         {
             if (i <= stageEdgeLength * stageEdgeLength - 1)
+            {
                 mapGridLayoutGroup.transform.GetChild(i).gameObject.SetActive(true);
+                mapGridLayoutGroup.transform.GetChild(i).GetComponent<Image>().enabled = false;
+            }
             else if (i > stageEdgeLength * stageEdgeLength - 1)
                 mapGridLayoutGroup.transform.GetChild(i).gameObject.SetActive(false);
 
@@ -302,7 +302,6 @@ public class GameManager : MonoBehaviour
         miniMapCamera.transform.position = new Vector3(currentRoom.coordinate.x, currentRoom.coordinate.y, -1) * 100;
 
         UpdateMap();
-
         StopAllSpeedWagons();
 
         if (currentRoom.isCleared == false)
@@ -318,14 +317,12 @@ public class GameManager : MonoBehaviour
         fadePanel.SetActive(false);
     }
 
-    public IEnumerator GameOver()
+    public void GameOver()
     {
         Debug.Log("GameOver");
-        // 플레이어 스크립트에서 hp <= 0, Died 감지 > 마지막 처리 후 플레이어 스크립트 비활성화
-        yield return new WaitForSeconds(2f); // 2초 동안 Player Died/Recall 애니메이션 실행
 
-        gamePanel.SetActive(false); // 게임 Panel @비활성화
-        gameOverPanel.SetActive(true); // 게임 결과 Panel @활성화
+        gamePanel.SetActive(false);
+        gameOverPanel.SetActive(true);
     }
     
     public void Recall()

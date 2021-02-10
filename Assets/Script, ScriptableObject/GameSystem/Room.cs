@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum RoomType 
@@ -41,7 +40,6 @@ public class Room : MonoBehaviour
 
     public void Enter()
     {
-        Debug.Log($"{name} : Enter");
         if (roomType == RoomType.Spawn)
         {
             isCleared = true;
@@ -58,8 +56,6 @@ public class Room : MonoBehaviour
 
     private IEnumerator StartWave()
     {
-        Debug.Log($"---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----");
-        Debug.Log($"{name} : StartWave");
         GameManager.Instance.SetFighting(true);
         if (roomType == RoomType.Boss)
         { 
@@ -100,13 +96,11 @@ public class Room : MonoBehaviour
     {
         if (roomType == RoomType.Boss) return;
         currentMonsterCount--;
-        Debug.Log($"{name} : MonsterCount {currentMonsterCount}");
         if (currentMonsterCount <= 0) RoomClear();        
     }
 
     public void BossClear()
     {
-        Debug.Log($"{name} : BossClear");
         // 보스 클리어 연출
         portal.gameObject.SetActive(true);
         RoomClear();
@@ -114,8 +108,6 @@ public class Room : MonoBehaviour
 
     private void RoomClear()
     {
-        Debug.Log($"{name} : RoomClear");
-        Debug.Log($"---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----");
         GameManager.Instance.SetFighting(false);
         isCleared = true;
 

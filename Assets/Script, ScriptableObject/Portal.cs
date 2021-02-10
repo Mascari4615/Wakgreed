@@ -1,15 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Portal : InteractiveObject
 {
     [SerializeField] private MeshRenderer interactionIcon = null;
-
-    private void Awake()
-    {
-        interactiveObjectType = InteractiveObjectType.Portal;
-    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
