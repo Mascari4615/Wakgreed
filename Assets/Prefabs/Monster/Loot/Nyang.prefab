@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 378735505711075896}
   - component: {fileID: 378735505711075895}
   - component: {fileID: 2355619819265067239}
-  - component: {fileID: 3084936416447045279}
   m_Layer: 0
   m_Name: Nyang
   m_TagString: Untagged
@@ -45,10 +44,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 378735505711075894}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e826953cf91837a4a8211fc719b89bdd, type: 3}
+  m_Script: {fileID: 11500000, guid: 69e4ba634a327ca4b91d4ffb1a6aba8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poolType: 7
   waitPosition: {x: 0, y: 0, z: 0}
+  Nyang: {fileID: 11400000, guid: 7036349cfb7157d4eb77704cb729a17b, type: 2}
 --- !u!212 &378735505711075896
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -213,19 +214,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &3084936416447045279
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 378735505711075894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adbd2402367b72342a34f86a3488182a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolType: 8
 --- !u!1 &8651714512145731134
 GameObject:
   m_ObjectHideFlags: 0

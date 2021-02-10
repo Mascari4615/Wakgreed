@@ -1,13 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ItemSlot : MonoBehaviour
 {
-    public void SetItemSlot(Sprite sprite, int count)
+    public ToolTipTrigger toolTipTrigger;
+    public void SetItemSlot(Item item)
     {
-        transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().sprite = sprite;
+        transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().sprite = item.sprite;
         transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().enabled = true;
-        transform.GetChild(1).GetComponent<UnityEngine.UI.Text>().text = count.ToString();
+        transform.GetChild(1).GetComponent<UnityEngine.UI.Text>().text = $"{item.count + 1} 개";
+        toolTipTrigger.SetText(item.name, item.description, item.comment);
+        toolTipTrigger.enabled = true;
     }
 }

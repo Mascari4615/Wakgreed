@@ -6,7 +6,7 @@ public class Mastery : ScriptableObject
     public int ID;
     public new string name;
     [TextArea] public string description;
-    public string comment;
+    [TextArea] public string comment;
     public Sprite sprite;
     [SerializeField] private Effect[] effects;
     public void OnEquip()

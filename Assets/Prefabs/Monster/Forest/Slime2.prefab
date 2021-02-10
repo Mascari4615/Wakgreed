@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 845193872}
-  - component: {fileID: 845193871}
   - component: {fileID: 2595470988399869998}
   - component: {fileID: 7603618011314061060}
+  - component: {fileID: 6789306689959500254}
+  - component: {fileID: 6860867381500554077}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Monster
@@ -33,19 +34,6 @@ Transform:
   m_Father: {fileID: 4458028870290168052}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &845193871
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 845193870}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a20a6b402c9c96e49a0840d7eca0339f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 8
 --- !u!58 &2595470988399869998
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -113,6 +101,35 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6789306689959500254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 845193870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 058e48fcdc6a8c94f8efd82a243a6179, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  target: 1
+--- !u!114 &6860867381500554077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 845193870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc5466ebd09324d40bd2cd21e37538e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  travellerAD: {fileID: 0}
+  monsterAD: 1
+  target: 1
 --- !u!1 &455404055343720033
 GameObject:
   m_ObjectHideFlags: 0
@@ -550,7 +567,7 @@ GameObject:
   - component: {fileID: 8500186363210960708}
   - component: {fileID: 2929134203004847339}
   - component: {fileID: 1578565712735812080}
-  - component: {fileID: -7275366962592854258}
+  - component: {fileID: 139115996238786576}
   m_Layer: 8
   m_Name: Slime2
   m_TagString: Monster
@@ -626,6 +643,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 161043f6be709a5418e36adc0b90c792, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poolType: 4
   TravellerCriticalChance: {fileID: 11400000, guid: 300f8b12c04c18a45a8f73a08c3ab38b,
     type: 2}
   enemyRunTimeSet: {fileID: 11400000, guid: a6c452a7d99b74e4cbdf1473b31cdf07, type: 2}
@@ -744,19 +762,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &-7275366962592854258
-MonoBehaviour:
+--- !u!210 &139115996238786576
+SortingGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4244280317635532934}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adbd2402367b72342a34f86a3488182a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolType: 5
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &4366669911523908206
 GameObject:
   m_ObjectHideFlags: 0

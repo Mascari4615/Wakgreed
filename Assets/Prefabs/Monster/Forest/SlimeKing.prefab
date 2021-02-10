@@ -570,7 +570,6 @@ GameObject:
   - component: {fileID: 3035457898370817615}
   - component: {fileID: 5873416009978505909}
   - component: {fileID: 6221009089798700044}
-  - component: {fileID: 6805464163263121606}
   m_Layer: 8
   m_Name: SlimeKing
   m_TagString: Monster
@@ -649,6 +648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a51f25879888bcc4898587464f0a5087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poolType: 5
   TravellerCriticalChance: {fileID: 11400000, guid: 300f8b12c04c18a45a8f73a08c3ab38b,
     type: 2}
   enemyRunTimeSet: {fileID: 11400000, guid: a6c452a7d99b74e4cbdf1473b31cdf07, type: 2}
@@ -670,6 +670,7 @@ MonoBehaviour:
   audioClips:
   - {fileID: 8300000, guid: becd0bd8abfcc0945aa6b14ea5d5dab6, type: 3}
   - {fileID: 8300000, guid: becd0bd8abfcc0945aa6b14ea5d5dab6, type: 3}
+  EnemyRunTimeSet: {fileID: 11400000, guid: a6c452a7d99b74e4cbdf1473b31cdf07, type: 2}
   spawnPosParent: {fileID: 7785590224737365587}
   spawnPos: {fileID: 3732385412752001917}
   attack222: {fileID: 6090995069539449512}
@@ -771,19 +772,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &6805464163263121606
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3035457898370817608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adbd2402367b72342a34f86a3488182a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolType: 6
 --- !u!1 &3063216174480736597
 GameObject:
   m_ObjectHideFlags: 0

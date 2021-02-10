@@ -9,10 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7924654545624774605}
-  - component: {fileID: 6235782664961198415}
   - component: {fileID: 7924654545624774602}
   - component: {fileID: 7924654545624774603}
-  - component: {fileID: 6971852849848511721}
+  - component: {fileID: 5463448175573135093}
   m_Layer: 0
   m_Name: LevelUpEffect
   m_TagString: Untagged
@@ -34,20 +33,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6235782664961198415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7924654545624774600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff148728208c2c4429da03e5789bfb57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  t2: 0.5
-  poolType: 9
 --- !u!212 &7924654545624774602
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -119,7 +104,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &6971852849848511721
+--- !u!114 &5463448175573135093
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -128,7 +113,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 7924654545624774600}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adbd2402367b72342a34f86a3488182a, type: 3}
+  m_Script: {fileID: 11500000, guid: 83ed4699b865638488b75392fd1eb48a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolType: 9
+  poolType: 8
+  duration: 0.5

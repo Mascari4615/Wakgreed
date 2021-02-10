@@ -10,11 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8470063552259385272}
   - component: {fileID: 8470063552259385273}
-  - component: {fileID: 8470063552259385254}
   - component: {fileID: 8470063552259385252}
   - component: {fileID: 6776308193049228234}
   - component: {fileID: 6461419092144045159}
-  - component: {fileID: 4770543654188259192}
   m_Layer: 0
   m_Name: AnnimatedText
   m_TagString: Untagged
@@ -83,14 +81,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &8470063552259385254
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8470063552259385253}
-  m_Mesh: {fileID: 0}
 --- !u!114 &8470063552259385252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,7 +124,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -146,9 +136,9 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
-  m_textAlignment: 514
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -181,6 +171,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 8470063552259385273}
   m_maskType: 0
+  _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
 --- !u!114 &6776308193049228234
@@ -195,6 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5744e78dab2a5548be08cf4e7a7c7a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poolType: 0
   textMesh: {fileID: 8470063552259385252}
   text: ERROR
   type: 
@@ -218,19 +210,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4770543654188259192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8470063552259385253}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adbd2402367b72342a34f86a3488182a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolType: 1
 --- !u!1 &8470063552261723350
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,7 +221,6 @@ GameObject:
   - component: {fileID: 8470063552261723178}
   - component: {fileID: 8470063552261723179}
   - component: {fileID: 8470063552261723176}
-  - component: {fileID: 8470063552261723177}
   m_Layer: 0
   m_Name: TMP SubMesh [CookieRun Black SDF Material + LiberationSans SDF Atlas]
   m_TagString: Untagged
@@ -313,23 +291,3 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8470063552261723350}
   m_Mesh: {fileID: 0}
---- !u!114 &8470063552261723177
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8470063552261723350}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07994bfe8b0e4adb97d706de5dea48d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_spriteAsset: {fileID: 0}
-  m_material: {fileID: 0}
-  m_sharedMaterial: {fileID: 0}
-  m_isDefaultMaterial: 0
-  m_padding: 5.165
-  m_renderer: {fileID: 8470063552261723179}
-  m_TextComponent: {fileID: 8470063552259385252}

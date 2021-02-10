@@ -4,8 +4,7 @@ using UnityEngine;
 
 public abstract class RunTimeSet<T> : ScriptableObject
 {
-    [System.NonSerialized]
-    public List<T> Items = new List<T>();
+    [System.NonSerialized] public List<T> Items = new List<T>();
     
     public void Add(T t)
     {

@@ -2,26 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using Cinemachine;
-
-public enum TravellerStat
-{
-    AD,
-    AS
-}
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
     [HideInInspector] public static GameManager Instance { get { return instance; } }
 
-    public int nyang { get; private set; } = 0;
     public int monsterKill { get; private set; } = 0;
 
     [HideInInspector] public bool isFighting = false;
     [SerializeField] private GameEvent OnFightStart;
     [SerializeField] private GameEvent OnFightEnd;
+    [SerializeField] private GameEvent OnRecall;
+    [SerializeField] private MasteryManager MasteryManager;
     public void SetFighting(bool asd)
     {
         if (asd == true) OnFightStart.Raise();
@@ -59,7 +53,6 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] private GameObject gamePanel;
     [SerializeField] private Text monsterKillText;
-    [SerializeField] private Text nyangText;
     [SerializeField] private GameObject miniMapCamera;
 
     [SerializeField] private GameObject gameOverPanel; 
@@ -337,15 +330,15 @@ public class GameManager : MonoBehaviour
     
     public void Recall()
     {
+        OnRecall.Raise();
         DestroyStage();
         undo.SetActive(true);
         currentStageID = -1;
 
         StopAllSpeedWagons();
 
-        MasteryManager.Instance.selectMasteryPanel.SetActive(false);
+        MasteryManager.selectMasteryPanel.SetActive(false);
 
-        ObjectManager.Instance.InsertAll();
         // UpdateMap();
         monsters.Items.Clear();
 
@@ -359,12 +352,6 @@ public class GameManager : MonoBehaviour
         gamePanel.SetActive(true);
 
         Time.timeScale = 1;
-    }
-
-    public void AcquireNyang(int amount)
-    {
-        nyang += amount;
-        nyangText.text = nyang.ToString();
     }
 
     public void AcquireKillCount()
@@ -426,7 +413,7 @@ public class GameManager : MonoBehaviour
         GameObject.Find("SlimeKing(Clone)").transform.Find("CM Camera1").GetComponent<CinemachineVirtualCamera>().Priority = 100;
         TravellerController.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         bossSpeedWagon.gameObject.SetActive(true);
-        yield return new WaitForSecondsRealtime(3f);
+        yield return new WaitForSeconds(3f);
         bossSpeedWagon.gameObject.SetActive(false);
         TravellerController.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         GameObject.Find("SlimeKing(Clone)").transform.Find("CM Camera1").GetComponent<CinemachineVirtualCamera>().Priority = 0;
@@ -436,7 +423,7 @@ public class GameManager : MonoBehaviour
     public IEnumerator RoomClearSpeedWagon()
     {
         roomClearSpeedWagon.gameObject.SetActive(true);
-        yield return new WaitForSecondsRealtime(2f);
+        yield return new WaitForSeconds(2f);
         roomClearSpeedWagon.gameObject.SetActive(false);
     }
 

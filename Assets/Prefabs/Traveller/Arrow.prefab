@@ -91,9 +91,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8920868527536870427}
-  - component: {fileID: 7416456485204078330}
-  - component: {fileID: 3003597615011190086}
   - component: {fileID: 8920868527536870425}
+  - component: {fileID: 7375747776851150467}
+  - component: {fileID: 3185410684800534890}
+  - component: {fileID: 604129276048715054}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
@@ -116,35 +117,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7416456485204078330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8920868527536870429}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41140bc97ae01594b94640ae0c2e036a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AD: {fileID: 11400000, guid: ad758efcb5cd4674fba16426548099e4, type: 2}
-  t2: 0.5
-  poolType: 3
-  speed: 0.3
---- !u!114 &3003597615011190086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8920868527536870429}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adbd2402367b72342a34f86a3488182a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolType: 3
 --- !u!61 &8920868527536870425
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -171,3 +143,46 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.97, y: 2.74}
   m_EdgeRadius: 0
+--- !u!114 &7375747776851150467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8920868527536870429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 058e48fcdc6a8c94f8efd82a243a6179, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1
+  target: 0
+--- !u!114 &3185410684800534890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8920868527536870429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83ed4699b865638488b75392fd1eb48a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolType: 2
+  duration: 1
+--- !u!114 &604129276048715054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8920868527536870429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc5466ebd09324d40bd2cd21e37538e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  travellerAD: {fileID: 11400000, guid: ad758efcb5cd4674fba16426548099e4, type: 2}
+  monsterAD: 0
+  target: 0
