@@ -24,8 +24,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private BuffRunTimeSet buffRunTimeSet;
 
     private int currentStageID = -1;
-    [SerializeField] private EnemyRunTimeSet monsters;
     [SerializeField] private StageDataBuffer stageDataBuffer;
+    [SerializeField] EnemyRunTimeSet EnemyRunTimeSet;
 
     [SerializeField] private int roomCount = 0;
     [SerializeField] private int stageEdgeLength = 0;
@@ -337,7 +337,7 @@ public class GameManager : MonoBehaviour
         MasteryManager.selectMasteryPanel.SetActive(false);
 
         // UpdateMap();
-        monsters.Items.Clear();
+        EnemyRunTimeSet.Items.Clear();
 
         TravellerController.Instance.enabled = true;
 
@@ -406,15 +406,15 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator BossSpeedWagon()
     {
-        GameObject.Find("SlimeKing(Clone)").GetComponent<SlimeKing>().enabled = false;
-        GameObject.Find("SlimeKing(Clone)").transform.Find("CM Camera1").GetComponent<CinemachineVirtualCamera>().Priority = 100;
+        GameObject.FindWithTag("Boss").GetComponent<Monster>().enabled = false;
+        GameObject.FindWithTag("Boss").transform.Find("CM Camera1").GetComponent<CinemachineVirtualCamera>().Priority = 100;
         TravellerController.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         bossSpeedWagon.gameObject.SetActive(true);
         yield return new WaitForSeconds(3f);
         bossSpeedWagon.gameObject.SetActive(false);
         TravellerController.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-        GameObject.Find("SlimeKing(Clone)").transform.Find("CM Camera1").GetComponent<CinemachineVirtualCamera>().Priority = 0;
-        GameObject.Find("SlimeKing(Clone)").GetComponent<SlimeKing>().enabled = true;
+        GameObject.FindWithTag("Boss").transform.Find("CM Camera1").GetComponent<CinemachineVirtualCamera>().Priority = 0;
+        GameObject.FindWithTag("Boss").GetComponent<Monster>().enabled = true;
     }
 
     public IEnumerator RoomClearSpeedWagon()

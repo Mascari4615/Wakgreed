@@ -8,16 +8,24 @@ public class DamagingObject : MonoBehaviour
         Traveller
     }
     [SerializeField] private IntVariable travellerAD;
+    [SerializeField] private IntVariable TravellerCriticalChance;
     [SerializeField] private int monsterAD;
     [SerializeField] private Target target;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Monster" && target == Target.Monster)
+        if ((other.tag == "Monster" || other.tag == "Boss") && target == Target.Monster)
         {
             if (other.gameObject.TryGetComponent<Monster>(out Monster Monster))
             {
-                Monster.ReceiveDamage(travellerAD.RuntimeValue);
+                int damage = travellerAD.RuntimeValue;
+                string type = "";
+                if (Random.Range(0, 100) < TravellerCriticalChance.RuntimeValue)
+                {
+                    damage *= 4;
+                    type = "Critical";
+                }
+                Monster.ReceiveDamage(damage, type);
             }
         }
         else if (other.tag == "Player" && target == Target.Traveller)

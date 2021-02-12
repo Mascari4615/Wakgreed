@@ -13,19 +13,23 @@ public enum RoomType
 
 public class Room : MonoBehaviour
 {
+    [System.Serializable] private class Wave
+    {
+        [HideInInspector] public bool isCleared;
+        public PoolType[] monsters;
+        public Transform[] monsterSpawnPoint;
+    }
     public Vector2 coordinate { get; private set; }
     public RoomType roomType = RoomType.Normal;
     public bool isCleared { get; private set; } = false;
-    public bool isVisited { get; private set; } = false;
     public bool[] isConnectToNearbyRoom { get; private set; } = { false, false, false, false };
-    [SerializeField] private int monsterCount;
-    private int currentMonsterCount;
+    private int curMonsterCount;
     public GameObject[] doors;
     [SerializeField] private GameObject[] doorHiders;
-    [SerializeField] private Transform[] monsterSpawnPoint;
-    [SerializeField] private GameObject portal;
-    [SerializeField] private EnemyRunTimeSet enemyRunTimeSet;
-
+    [SerializeField] private Wave[] waves;
+    private int curWaveIndex = 0;
+    [SerializeField] EnemyRunTimeSet EnemyRunTimeSet;
+    
     public void Initialize(Vector2 _coordinate, bool[] _isConnectToNearbyRoom)
     {
         coordinate = _coordinate;
@@ -50,64 +54,63 @@ public class Room : MonoBehaviour
         }
         else if (isCleared == false)
         {
-            StartCoroutine(StartWave());
+            GameManager.Instance.SetFighting(true);
+
+            doorHiders[0].SetActive(true);
+            doorHiders[1].SetActive(true);
+            doorHiders[2].SetActive(true);
+            doorHiders[3].SetActive(true);
+
+            StartCoroutine(StartWave(curWaveIndex));
         }
     }
 
-    private IEnumerator StartWave()
+    private IEnumerator StartWave(int index)
     {
-        GameManager.Instance.SetFighting(true);
-        if (roomType == RoomType.Boss)
-        { 
-            monsterCount = 0;
-        }
-        currentMonsterCount = monsterCount;
-
-        doorHiders[0].SetActive(true);
-        doorHiders[1].SetActive(true);
-        doorHiders[2].SetActive(true);
-        doorHiders[3].SetActive(true);
+        curMonsterCount = waves[index].monsters.Length;
 
         if (roomType == RoomType.Boss)
         {
-            Vector3 summonPosition = new Vector3(monsterSpawnPoint[0].position.x, monsterSpawnPoint[0].position.y, 0);
-
-            enemyRunTimeSet.Add(ObjectManager.Instance.GetQueue(PoolType.BossMonster, summonPosition));
-            StartCoroutine(GameManager.Instance.BossSpeedWagon());     
+            EnemyRunTimeSet.Add(ObjectManager.Instance.GetQueue(waves[index].monsters[0], new Vector3(transform.position.x, transform.position.y, 0)));
+            StartCoroutine(GameManager.Instance.BossSpeedWagon());
         }
         else
         {
-            yield return new WaitForSeconds(0.5f);
-
-            for (int i = 0; i < monsterCount; i++)
+            yield return new WaitForSeconds(3f);
+            for (int i = 0; i < waves[index].monsters.Length; i++)
             {
-                Vector3 randomSpawnPoint = monsterSpawnPoint[Random.Range(0, monsterSpawnPoint.Length)].position;
-                PoolType targetMonster = (Random.Range(0, 2) == 0) ? PoolType.Slime1 : PoolType.Slime2;
-                Vector3 summonPosition = new Vector3(randomSpawnPoint.x, randomSpawnPoint.y, 0);
-
-                ObjectManager.Instance.GetQueue(PoolType.Summon, summonPosition);
+                ObjectManager.Instance.GetQueue(PoolType.Summon, waves[index].monsterSpawnPoint[i].position);
                 yield return new WaitForSeconds(0.7f);
-                enemyRunTimeSet.Add(ObjectManager.Instance.GetQueue(targetMonster, summonPosition));
-            }   
+                EnemyRunTimeSet.Add(ObjectManager.Instance.GetQueue(waves[index].monsters[i], waves[index].monsterSpawnPoint[i].position));
+            }
         }
     }
 
     public void CheckMonsterCount()
     {
-        if (roomType == RoomType.Boss) return;
-        currentMonsterCount--;
-        if (currentMonsterCount <= 0) RoomClear();        
-    }
+        if (--curMonsterCount <= 0)
+        {
+            waves[curWaveIndex].isCleared = true;
 
-    public void BossClear()
-    {
-        // 보스 클리어 연출
-        portal.gameObject.SetActive(true);
-        RoomClear();
+            if (curWaveIndex == waves.Length - 1) RoomClear();
+            else
+            {
+                StartCoroutine(StartWave(++curWaveIndex));
+            }
+        }
     }
 
     private void RoomClear()
     {
+        if (Random.Range(0, 100) < 30)
+            ObjectManager.Instance.GetQueue(PoolType.Item, transform.position);
+
+        if (roomType == RoomType.Boss)
+        {
+            // 보스 클리어 연출
+            transform.GetChild(0).gameObject.SetActive(true);
+        }
+
         GameManager.Instance.SetFighting(false);
         isCleared = true;
 

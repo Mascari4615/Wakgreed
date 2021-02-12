@@ -13,7 +13,8 @@ public enum PoolType
     Nyang,
     Smoke,
     Summon,
-    Item
+    Item,
+    BBolBBol
 }
 
 public class ObjectManager : MonoBehaviour
@@ -67,8 +68,7 @@ public class ObjectManager : MonoBehaviour
         if (poolDataDictionary[poolObjectType].queue.Count == 0) AddQueue(poolObjectType);
 
         GameObject targetObject = poolDataDictionary[poolObjectType].queue.Dequeue();
-        targetObject.transform.position = createTransform.position;
-        targetObject.transform.rotation = createTransform.rotation;
+        targetObject.transform.SetPositionAndRotation(createTransform.position, createTransform.rotation);
         targetObject.SetActive(true);
         return targetObject;
     }

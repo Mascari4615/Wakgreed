@@ -12,6 +12,7 @@ TagManager:
   - Attack
   - Wall
   - InteractiveObject
+  - Boss
   layers:
   - Default
   - TransparentFX
@@ -46,6 +47,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: MiniMapIcon
+    uniqueID: 3442800589
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Unit
+    uniqueID: 978103407
+    locked: 0
+  - name: AnimatedText
+    uniqueID: 2350874275
     locked: 0

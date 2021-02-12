@@ -6,6 +6,7 @@ public class Item : ScriptableObject
     public int ID;
     public new string name;
     [TextArea] public string description;
+    [TextArea] public string simpleDescription;
     [TextArea] public string comment;
     public Sprite sprite;
     [System.NonSerialized] public int count;
