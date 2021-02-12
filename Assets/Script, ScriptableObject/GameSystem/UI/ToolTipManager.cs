@@ -11,6 +11,7 @@ public class ToolTipManager : MonoBehaviour
     public static ToolTipManager current;
     public ToolTip toolTip;
     public RectTransform rectTransform;
+    public Inventory Inventory;
 
     private void Awake()
     {

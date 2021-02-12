@@ -2,7 +2,6 @@
 
 public class SlimeKing : Monster
 {
-    [SerializeField] private EnemyRunTimeSet EnemyRunTimeSet;
     private bool isReadyToAttack = false;
     private float t = 0;
     private float attackCoolTime = 5;
@@ -17,12 +16,6 @@ public class SlimeKing : Monster
     int rand = 0;
     int rand1 = 0;
 
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        isBoss = true;
-    }
-
     protected override void Update()
     {
         if (Time.timeScale == 0)
@@ -33,7 +26,7 @@ public class SlimeKing : Monster
         Attack();
     }
 
-    protected override void Attack()
+    private void Attack()
     {
         if (isReadyToAttack == false)
         {
@@ -69,7 +62,7 @@ public class SlimeKing : Monster
                         t = 0;
 
                         GameObject g = ObjectManager.Instance.GetQueue(PoolType.Slime2, spawnPos.position);
-                        enemyRunTimeSet.Add(g);
+                        EnemyRunTimeSet.Add(g);
                         
                         g.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
                         g.GetComponent<Rigidbody2D>().AddForce((Vector2)(spawnPos.position - transform.position).normalized * force);
@@ -87,14 +80,14 @@ public class SlimeKing : Monster
                     t += Time.deltaTime;
                     if (t < 3 && t >= 1)
                     {
-                        monsterRigidbody2D.bodyType = RigidbodyType2D.Dynamic;
-                        monsterRigidbody2D.velocity = (Vector2)(asdasdasd.transform.position - transform.position).normalized * moveSpeed;
+                        rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
+                        rigidbody2D.velocity = (Vector2)(asdasdasd.transform.position - transform.position).normalized * moveSpeed;
                         attack222.gameObject.SetActive(false);
                     }
                     else if (t >= 3)
                     {  
-                        monsterRigidbody2D.velocity = Vector2.zero;
-                        monsterRigidbody2D.bodyType = RigidbodyType2D.Kinematic;
+                        rigidbody2D.velocity = Vector2.zero;
+                        rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
                         isReadyToAttack = false;
                         t = 0;
                     }
@@ -112,7 +105,7 @@ public class SlimeKing : Monster
                         for (int i = 0; i < EnemyRunTimeSet.Items.Count; i++)
                         {
                             if (EnemyRunTimeSet.Items[0] == this) continue;
-                            EnemyRunTimeSet.Items[i].GetComponent<Monster>().monsterRigidbody2D.AddForce((transform.position - EnemyRunTimeSet.Items[i].transform.position).normalized * 200);
+                            EnemyRunTimeSet.Items[i].GetComponent<Rigidbody2D>().AddForce((transform.position - EnemyRunTimeSet.Items[i].transform.position).normalized * 200);
                         }
                         TravellerController.Instance.GetComponent<Rigidbody2D>().AddForce((transform.position - TravellerController.Instance.transform.position).normalized * 200);
                     }
@@ -131,13 +124,13 @@ public class SlimeKing : Monster
         }
     }
 
-    public override void ReceiveDamage(int damage)
+    public override void ReceiveDamage(int damage, string type = "")
     {
-        base.ReceiveDamage(damage);
+        base.ReceiveDamage(damage, type);
         int rand = Random.Range(0, 100);
         if (rand <= 5)
         {
-            enemyRunTimeSet.Add(ObjectManager.Instance.GetQueue(PoolType.Slime1, transform.position));
+            EnemyRunTimeSet.Add(ObjectManager.Instance.GetQueue(PoolType.Slime1, transform.position));
         }
     }
 }

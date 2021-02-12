@@ -40,7 +40,6 @@ public class TravellerController : MonoBehaviour
 
     private Rigidbody2D playerRB;
     private Animator animator;
-    
     private SpriteRenderer spriteRenderer;
     private EventTrigger.Entry attackPointerDown = new EventTrigger.Entry(), attackPointerUp = new EventTrigger.Entry(), attackPointerEnter = new EventTrigger.Entry(), attackPointerExit = new EventTrigger.Entry();
 
@@ -49,7 +48,9 @@ public class TravellerController : MonoBehaviour
     private GameObject nearInteractiveObject;
     private AudioSource audioSource;
     [SerializeField] private Traveller[] travellers;
-    [SerializeField] private EnemyRunTimeSet monsters;
+    [SerializeField] private EnemyRunTimeSet EnemyRunTimeSet;
+    private float bbolBBolCoolDown = 0.3f;
+    private float curBBolBBolCoolDown = 0;
 
     public void ChangeTraveller(int index)
     {
@@ -172,6 +173,7 @@ public class TravellerController : MonoBehaviour
 
     private void Move()
     {
+        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.y / 1000f);
         h = joyStick.inputValue.x;
         v = joyStick.inputValue.y;
         Vector3 moveDirection = new Vector2(h, v).normalized;
@@ -179,7 +181,17 @@ public class TravellerController : MonoBehaviour
         if (joyStick.isDraging == true && playerRB.bodyType == RigidbodyType2D.Dynamic)
         {
             playerRB.velocity = moveDirection * moveSpeed.RuntimeValue;      
-            animator.SetBool("Run", true);       
+            animator.SetBool("Run", true); 
+
+            if (curBBolBBolCoolDown > bbolBBolCoolDown)
+            {
+                ObjectManager.Instance.GetQueue(PoolType.BBolBBol, transform);
+                curBBolBBolCoolDown = 0;
+            }      
+            else
+            {
+                curBBolBBolCoolDown += Time.deltaTime;
+            }
         }
         else
         {
@@ -219,7 +231,7 @@ public class TravellerController : MonoBehaviour
         float targetDist = 10;
         float currentDist = 0;
         
-        foreach (var monster in monsters.Items)
+        foreach (var monster in EnemyRunTimeSet.Items)
         {
             currentDist = Vector2.Distance(transform.position, monster.transform.position);
             if (currentDist > targetDist) continue;
@@ -229,7 +241,7 @@ public class TravellerController : MonoBehaviour
             foreach (var hitObject in hit)
             {
                 if (hitObject.transform.CompareTag("Wall")) break;
-                else if (hitObject.transform.CompareTag("Monster"))
+                else if (hitObject.transform.CompareTag("Monster") || hitObject.transform.CompareTag("Boss"))
                 {
                     target = monster;
                     targetDist = currentDist;
@@ -293,6 +305,12 @@ public class TravellerController : MonoBehaviour
 
     private void LevelUp()
     {
+        maxHP.RuntimeValue += traveller.growthHP;
+        OnHpChange.Raise();
+        
+        AD.RuntimeValue += traveller.growthAD;
+        AS.RuntimeValue += traveller.growthAS;
+
         EXP.RuntimeValue -= requiredExp;
         Level.RuntimeValue++;
         requiredExp = (100 * (1 + Level.RuntimeValue));

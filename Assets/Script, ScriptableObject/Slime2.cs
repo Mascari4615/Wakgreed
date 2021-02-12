@@ -5,7 +5,7 @@ public class Slime2 : Monster
     private bool canAttack = false;
     private float nextCoolDown = 0;
     private float attackCoolDown = 5;
-    private float castTime = 0.35f;
+    private float castTime = 0.2f;
     private bool isTargeting = false;
     [SerializeField] private GameObject slime;
 
@@ -14,7 +14,7 @@ public class Slime2 : Monster
         base.OnEnable();
         canAttack = false;
         isTargeting = false;
-        castTime = 0.35f;
+        castTime = 0.5f;
         nextCoolDown = Time.time + 2;
         slime.SetActive(false);
     }
@@ -26,7 +26,7 @@ public class Slime2 : Monster
         Targeting();
     }
 
-    protected override void Attack()
+    private void Attack()
     {
         if (canAttack == false)
         {
@@ -38,15 +38,15 @@ public class Slime2 : Monster
         }
         else if (canAttack && isTargeting)
         {
-            if (castTime == 0.35f)
+            if (castTime == 0.5f)
             {
-                monsterAnimator.SetTrigger("IsAttack");
+                animator.SetTrigger("Attack");
             }
 
             castTime -= Time.deltaTime;
             if (castTime <= 0)
             {
-                castTime = 0.35f;
+                castTime = 0.5f;
                 nextCoolDown = Time.time + attackCoolDown;
                 slime.transform.localPosition = new Vector3(0, 0, -5);
                 slime.SetActive(true);
