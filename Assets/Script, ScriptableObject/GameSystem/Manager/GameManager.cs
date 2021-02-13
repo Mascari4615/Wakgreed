@@ -230,26 +230,42 @@ public class GameManager : MonoBehaviour
         mapGridLayoutGroup.constraintCount = stageEdgeLength;
         roomUiDictionary = new Dictionary<Vector2, GameObject>();
 
+        int x = -(stageEdgeLength - 1) / 2;
+        int y = (stageEdgeLength - 1) / 2;
         for (int i = 0; i < mapGridLayoutGroup.transform.childCount; i++)
         {
             if (i <= stageEdgeLength * stageEdgeLength - 1)
             {
-                mapGridLayoutGroup.transform.GetChild(i).gameObject.SetActive(true);
-                mapGridLayoutGroup.transform.GetChild(i).GetComponent<Image>().enabled = false;
+                GameObject targetRoomUI = mapGridLayoutGroup.transform.GetChild(i).gameObject;
+                Vector2 targetRoomCoordinate = new Vector2(x, y);
+                Debug.Log(targetRoomCoordinate);
+                targetRoomUI.SetActive(true);
+                targetRoomUI.GetComponent<Image>().enabled = false;
+                targetRoomUI.transform.Find("CurrentRoom").gameObject.SetActive(false);
+                targetRoomUI.transform.GetChild(0).gameObject.SetActive(false);
+
+                if (roomDictionary.ContainsKey(targetRoomCoordinate))
+                {
+                    Room targetRoom = roomDictionary[targetRoomCoordinate];
+                    roomUiDictionary.Add(targetRoomCoordinate, targetRoomUI);
+                    targetRoomUI.transform.GetChild(0).Find("Boss").gameObject.SetActive(targetRoom.roomType == RoomType.Boss);
+                    targetRoomUI.transform.GetChild(0).Find("Spawn").gameObject.SetActive(targetRoom.roomType == RoomType.Spawn);
+                    targetRoomUI.transform.GetChild(0).Find("Up").gameObject.SetActive(targetRoom.isConnectToNearbyRoom[0]);
+                    targetRoomUI.transform.GetChild(0).Find("Down").gameObject.SetActive(targetRoom.isConnectToNearbyRoom[1]);
+                    targetRoomUI.transform.GetChild(0).Find("Left").gameObject.SetActive(targetRoom.isConnectToNearbyRoom[2]);
+                    targetRoomUI.transform.GetChild(0).Find("Right").gameObject.SetActive(targetRoom.isConnectToNearbyRoom[3]);
+                }
+
+                x++;
+                if (x > (stageEdgeLength - 1) / 2)
+                {
+                    x = -(stageEdgeLength - 1) / 2;
+                    y--;
+                }
             }
             else if (i > stageEdgeLength * stageEdgeLength - 1)
-                mapGridLayoutGroup.transform.GetChild(i).gameObject.SetActive(false);
-
-            for (int j = 0; j < mapGridLayoutGroup.transform.GetChild(i).transform.childCount; j++)
-                mapGridLayoutGroup.transform.GetChild(i).transform.GetChild(j).gameObject.SetActive(false);
-        }
-
-        int childIndex = 0;
-        for (int y = (stageEdgeLength - 1) / 2; y >= -(stageEdgeLength - 1) / 2; y--)
-        {
-            for (int x = -(stageEdgeLength - 1) / 2; x <= (stageEdgeLength - 1) / 2; x++, childIndex++)
             {
-                roomUiDictionary.Add(new Vector2(x, y), mapGridLayoutGroup.transform.GetChild(childIndex).gameObject);
+                mapGridLayoutGroup.transform.GetChild(i).gameObject.SetActive(false);
             }
         }
 
@@ -260,37 +276,20 @@ public class GameManager : MonoBehaviour
     {  
         scrollRectBackGround.localPosition = -currentRoom.coordinate * 175;
         roomUiDictionary[currentRoom.coordinate].GetComponent<Image>().enabled = true;
+        roomUiDictionary[currentRoom.coordinate].transform.GetChild(0).gameObject.SetActive(true);
         roomUiDictionary[currentRoom.coordinate].transform.Find("CurrentRoom").gameObject.SetActive(true);
-        roomUiDictionary[currentRoom.coordinate].transform.Find("StageTheme").gameObject.SetActive(true);
 
-        for (int i = 0; i < 4; i++)
-        {
-            Vector2 totalCoordinate = currentRoom.coordinate;
-            string originDoor = "";
-            string totalDoor = "";
-     
-            if (i == 0) {totalCoordinate.y++; originDoor = "Up"; totalDoor = "Down";}
-            else if (i == 1) {totalCoordinate.y--; originDoor = "Down"; totalDoor = "Up";}
-            else if (i == 2) {totalCoordinate.x--; originDoor = "Left"; totalDoor = "Right";}
-            else if (i == 3) {totalCoordinate.x++; originDoor = "Right"; totalDoor = "Left";}
-
-            // Debug.Log($"{currentRoom.coordinate}, {totalCoordinate}, {i}");
-
-            if (currentRoom.isConnectToNearbyRoom[i])
-            {  
-                roomUiDictionary[currentRoom.coordinate].transform.Find(originDoor).gameObject.SetActive(true);
-                roomUiDictionary[totalCoordinate].GetComponent<Image>().enabled = true;
-                roomUiDictionary[totalCoordinate].transform.Find(totalDoor).gameObject.SetActive(true);
-
-                if (roomDictionary[totalCoordinate].roomType == RoomType.Boss)
-                    roomUiDictionary[totalCoordinate].transform.Find("Boss").gameObject.SetActive(true);
-                else if (roomDictionary[totalCoordinate].roomType == RoomType.Spawn)
-                    roomUiDictionary[totalCoordinate].transform.Find("Spawn").gameObject.SetActive(true);
-            }
-        }
+        if (currentRoom.isConnectToNearbyRoom[0])
+            roomUiDictionary[currentRoom.coordinate + Vector2.up].GetComponent<Image>().enabled = true;
+        if (currentRoom.isConnectToNearbyRoom[1])
+            roomUiDictionary[currentRoom.coordinate + Vector2.down].GetComponent<Image>().enabled = true;
+        if (currentRoom.isConnectToNearbyRoom[2])
+            roomUiDictionary[currentRoom.coordinate + Vector2.left].GetComponent<Image>().enabled = true;
+        if (currentRoom.isConnectToNearbyRoom[3])
+            roomUiDictionary[currentRoom.coordinate + Vector2.right].GetComponent<Image>().enabled = true;
     }
 
-    public IEnumerator MigrateRoom(Vector2 moveDirection, int totalDoorIndex)
+    public IEnumerator MigrateRoom(Vector2 moveDirection, int spawnDirection)
     {
         fadePanel.SetActive(true);
         yield return new WaitForSeconds(0.2f);
@@ -298,13 +297,13 @@ public class GameManager : MonoBehaviour
         roomUiDictionary[currentRoom.coordinate].transform.Find("CurrentRoom").gameObject.SetActive(false);
 
         currentRoom = roomDictionary[currentRoom.coordinate + moveDirection];
-        TravellerController.Instance.transform.position = new Vector3(currentRoom.doors[totalDoorIndex].transform.position.x, currentRoom.doors[totalDoorIndex].transform.position.y, 0) + (Vector3)moveDirection * 2f;
+        TravellerController.Instance.transform.position = currentRoom.doors[spawnDirection].transform.position + (Vector3)moveDirection * 2;
         miniMapCamera.transform.position = new Vector3(currentRoom.coordinate.x, currentRoom.coordinate.y, -1) * 100;
 
         UpdateMap();
         StopAllSpeedWagons();
 
-        if (currentRoom.isCleared == false)
+        if (currentRoom.isVisited == false)
         {
             bagPanel.SetActive(false);
             mapPanel.SetActive(false);  
@@ -337,9 +336,14 @@ public class GameManager : MonoBehaviour
         MasteryManager.selectMasteryPanel.SetActive(false);
 
         // UpdateMap();
-        EnemyRunTimeSet.Items.Clear();
+        foreach (var monster in EnemyRunTimeSet.Items)
+        {
+            monster.GetComponent<Monster>().InsertQueue();
+            EnemyRunTimeSet.Remove(monster);
+        }
 
         TravellerController.Instance.enabled = true;
+        TravellerController.Instance.transform.position = Vector3.zero;
 
         miniMapCamera.transform.position = new Vector3(0, 0, -100);
 
