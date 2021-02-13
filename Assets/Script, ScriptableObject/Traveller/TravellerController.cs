@@ -243,7 +243,7 @@ public class TravellerController : MonoBehaviour
                 if (hitObject.transform.CompareTag("Wall")) break;
                 else if (hitObject.transform.CompareTag("Monster") || hitObject.transform.CompareTag("Boss"))
                 {
-                    target = monster;
+                    target = monster.gameObject;
                     targetDist = currentDist;
                 }
             }

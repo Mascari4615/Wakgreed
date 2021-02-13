@@ -628,6 +628,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolType: 4
+  monsterType: 0
   baseHP: 10
   baseAD: 2
   baseMoveSpeed: 0
@@ -635,6 +636,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: becd0bd8abfcc0945aa6b14ea5d5dab6, type: 3}
   - {fileID: 8300000, guid: becd0bd8abfcc0945aa6b14ea5d5dab6, type: 3}
   EnemyRunTimeSet: {fileID: 11400000, guid: b88a37a18af2b5d46ba67b2022823cf0, type: 2}
+  OnMonsterCollapse: {fileID: 11400000, guid: 1b477f0305627f54d8b1c54462eafc87, type: 2}
   slime: {fileID: 845193870}
 --- !u!82 &1578565712735812080
 AudioSource:

@@ -12,6 +12,7 @@ public abstract class Monster : PoolingObject
 
     [SerializeField] private AudioClip[] audioClips;
     [SerializeField] protected EnemyRunTimeSet EnemyRunTimeSet;
+    [SerializeField] private GameEvent OnMonsterCollapse;
 
     protected SpriteRenderer spriteRenderer;
     protected Animator animator;
@@ -91,10 +92,9 @@ public abstract class Monster : PoolingObject
         animator.SetTrigger("Collapse");
 
         EnemyRunTimeSet.Remove(gameObject);
-        if (GameManager.Instance.currentRoom.roomType == RoomType.Normal)
+        if (GameManager.Instance.currentRoom.roomType == RoomType.Normal || monsterType == MonsterType.Boss)
         {
-            GameManager.Instance.currentRoom.CheckMonsterCount();
-            GameManager.Instance.AcquireKillCount();
+            OnMonsterCollapse.Raise();
             int randCount = Random.Range(0, 5);
             for (int i = 0; i < randCount; i++)
                 ObjectManager.Instance.GetQueue(PoolType.Exp, transform.position);
