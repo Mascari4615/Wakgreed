@@ -9,6 +9,7 @@ public class Item : ScriptableObject
     [TextArea] public string simpleDescription;
     [TextArea] public string comment;
     public Sprite sprite;
+    public int price;
     [System.NonSerialized] public int count;
     [SerializeField] private Effect[] effects;
 

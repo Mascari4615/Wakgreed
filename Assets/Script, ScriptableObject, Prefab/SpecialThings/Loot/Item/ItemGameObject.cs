@@ -10,7 +10,6 @@ public class ItemGameObject : Loot
     {
         item = ItemDataBuffer.Items[Random.Range(0, ItemDataBuffer.Items.Length)];
         spriteRenderer.sprite = item.sprite;
-        waitTime = 1f;
     }
 
     protected override void OnEquip()

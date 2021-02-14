@@ -132,8 +132,6 @@ public class TravellerController : MonoBehaviour
         animator.SetTrigger("WakeUp");
         animator.SetBool("Run", false);
 
-        ItemInventory.Items.Clear();
-
         traveller.abilities.Initialize(this);
 
         StartCoroutine(Update001());
