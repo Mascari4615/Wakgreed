@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public abstract class Loot : MonoBehaviour
 {
     private Vector3 waitPosition;
-    protected float waitTime = 0.5f;
-    private float currentWaitTime = 0.5f;
-    private float waitMoveSpeed = 0;
-    private float moveSpeed = 0;
+    private float waitMoveSpeed;
+    private float moveSpeed;
     private CircleCollider2D circleCollider2D;
     private AudioSource audioSource;
     protected SpriteRenderer spriteRenderer;
@@ -21,31 +20,35 @@ public abstract class Loot : MonoBehaviour
 
     private void OnEnable()
     {
-        waitPosition = transform.position + new Vector3(Random.Range(-1f, 2f), Random.Range(-1f, 2f), 0);
+        waitPosition = transform.position + new Vector3(Random.Range(-1.5f, 1.6f), Random.Range(-1.5f, 1.6f), 0);
         circleCollider2D.enabled = false;
-        currentWaitTime = waitTime;
         waitMoveSpeed = 0;
         moveSpeed = 0;
 
         _OnEnable();
+
+        StartCoroutine(Move());
     }
 
     protected virtual void _OnEnable() {}
 
-    private void Update()
+    private IEnumerator Move()
     {
-        if (currentWaitTime > 0)
+        while (waitMoveSpeed < 1)
         {
-            waitMoveSpeed += Time.deltaTime;
-            currentWaitTime -= Time.deltaTime;
-            transform.position = Vector3.Lerp(transform.position, waitPosition, waitMoveSpeed * 0.6f); 
+            waitMoveSpeed += 0.02f;
+            transform.position = Vector3.Lerp(transform.position, waitPosition, waitMoveSpeed);
+            yield return new WaitForSeconds(0.02f);
         }
-        else
+
+        circleCollider2D.enabled = true;
+
+        while (moveSpeed < 1)
         {
-            moveSpeed += Time.deltaTime;
-            circleCollider2D.enabled = true;
-            transform.position = Vector3.Lerp(transform.position, TravellerController.Instance.transform.position, moveSpeed); 
-        }      
+            moveSpeed += 0.02f;
+            transform.position = Vector3.Lerp(transform.position, TravellerController.Instance.transform.position, moveSpeed);
+            yield return new WaitForSeconds(0.02f);
+        }   
     }
 
     private void OnTriggerEnter2D(Collider2D other)
