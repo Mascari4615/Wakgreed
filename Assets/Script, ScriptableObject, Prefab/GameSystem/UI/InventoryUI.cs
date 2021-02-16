@@ -1,22 +1,21 @@
 ﻿using UnityEngine;
 
-public abstract class InventoryUI<T> : MonoBehaviour
+public class InventoryUI : MonoBehaviour
 {
-    [SerializeField] private RunTimeSet<T> Inventory;
+    [SerializeField] private ItemInventory ItemInventory;
     [SerializeField] private GameObject grid;
     
     public void Initialize()
     {
         for (int i = 0; i < grid.transform.childCount; i++)
         {
-            if (i < Inventory.Items.Count)
+            if (i < ItemInventory.Items.Count)
             {
-                grid.transform.GetChild(i).GetComponent<Slot>().SetSlot(Inventory.Items[i] as SpecialThing);
-                grid.transform.GetChild(i).gameObject.SetActive(true);
+                grid.transform.GetChild(i).GetComponent<ItemSlot>().SetItemSlot(ItemInventory.Items[i]);
             }
             else
             {
-                grid.transform.GetChild(i).gameObject.SetActive(false);
+                grid.transform.GetChild(i).GetComponent<ItemSlot>().toolTipTrigger.enabled = false;
             }
         }
     }
