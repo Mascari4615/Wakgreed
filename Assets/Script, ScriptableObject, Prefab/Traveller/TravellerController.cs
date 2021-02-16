@@ -22,7 +22,7 @@ public class TravellerController : MonoBehaviour
 
     public Transform attackPositionParent, attackPosition, weaponPosition;
     public JoyStick joyStick;
-    public CinemachineTargetGroup cinemachineTargetGroup;
+    private CinemachineTargetGroup cinemachineTargetGroup;
     public GameObject bloodingPanel;
     public GameObject interactionIcon = null;
     public GameObject attackIcon = null;
@@ -68,6 +68,7 @@ public class TravellerController : MonoBehaviour
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        cinemachineTargetGroup = GameObject.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>();
 
         attackPointerDown.eventID = EventTriggerType.PointerDown;
         // attackPointerEnter.eventID = EventTriggerType.PointerEnter;
@@ -132,8 +133,11 @@ public class TravellerController : MonoBehaviour
         animator.SetTrigger("WakeUp");
         animator.SetBool("Run", false);
 
-        ItemInventory.Items.Clear();
+<<<<<<< HEAD
+        // ItemInventory.Items.Clear();
 
+=======
+>>>>>>> 7195055b16ed9a40fd6ac9cc5ddf829d30020a9f
         traveller.abilities.Initialize(this);
 
         StartCoroutine(Update001());

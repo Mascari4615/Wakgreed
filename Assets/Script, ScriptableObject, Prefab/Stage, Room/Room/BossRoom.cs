@@ -1,10 +1,19 @@
 using UnityEngine;
+using System.Collections;
+using Cinemachine;
 
 public class BossRoom : Room
 {
     [SerializeField] private PoolType boss;
     [SerializeField] private Transform bossSpawnPoint;
     [SerializeField] EnemyRunTimeSet EnemyRunTimeSet;
+    [SerializeField] private GameObject bossSpeedWagon;
+    private CinemachineTargetGroup cinemachineTargetGroup;
+
+    private void Awake()
+    {
+        // cinemachineTargetGroup = Camera.main.transform.GetChild(1).GetComponent<CinemachineTargetGroup>();
+    }
 
     public override void Enter()
     {
@@ -24,8 +33,22 @@ public class BossRoom : Room
         doorHiders[2].SetActive(true);
         doorHiders[3].SetActive(true);
 
-        EnemyRunTimeSet.Add(ObjectManager.Instance.GetQueue(boss, bossSpawnPoint.position));
-        StartCoroutine(GameManager.Instance.BossSpeedWagon());
+        GameObject bossGO = ObjectManager.Instance.GetQueue(boss, bossSpawnPoint.position);
+        EnemyRunTimeSet.Add(bossGO);
+        StartCoroutine(BossSpeedWagon(bossGO));
+    }
+
+    private IEnumerator BossSpeedWagon(GameObject bossGO)
+    {
+        bossGO.GetComponent<Monster>().enabled = false;
+        // cinemachineTargetGroup.m_Targets[0].target = transform;
+        TravellerController.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        bossSpeedWagon.gameObject.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        bossSpeedWagon.gameObject.SetActive(false);
+        TravellerController.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        // cinemachineTargetGroup.m_Targets[0].target = TravellerController.Instance.transform;
+        bossGO.GetComponent<Monster>().enabled = true;
     }
 
     public void CheckMonsterCount()

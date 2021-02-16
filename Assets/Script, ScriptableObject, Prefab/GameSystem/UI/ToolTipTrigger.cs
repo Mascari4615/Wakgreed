@@ -30,12 +30,12 @@ public class ToolTipTrigger : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         }
     }
 
-    public void SetToolTip(Sprite _sprite, string _header, string _description, string _comment)
+    public void SetToolTip(SpecialThing specialThing)
     {
-        sprite = _sprite;
-        header = _header;
-        description = _description;
-        comment = _comment;
+        sprite = specialThing.sprite;
+        header = specialThing.name;
+        description = specialThing.description;
+        comment = specialThing.comment;
     }
 
     public void OnPointerDown(PointerEventData eventData)
