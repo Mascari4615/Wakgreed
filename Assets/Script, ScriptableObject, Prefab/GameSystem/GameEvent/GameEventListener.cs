@@ -13,5 +13,9 @@ public class GameEventListener : MonoBehaviour
    { Event.UnregisterListener(this); }
 
    public void OnEventRaised()
-   { Response.Invoke(); }
+   {
+      // Debug.Log($"{name} : OnEventRaised");
+      Response.Invoke(); 
+      // Debug.Log($"{name} : OnEventRaisedEnd");
+   }
 }

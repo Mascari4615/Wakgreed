@@ -15,6 +15,7 @@ public class EquipItemToolTip : MonoBehaviour
 
     public void EquipItem()
     {
+        // Debug.Log("EquipItem");
         toolTipStacks.Enqueue(ItemInventory.Items[ItemInventory.Items.Count - 1]);
         if (!isShowing) StartCoroutine(ShowToolTip());
     }
@@ -24,6 +25,7 @@ public class EquipItemToolTip : MonoBehaviour
         isShowing = true;
         while (toolTipStacks.Count > 0)
         {
+            // Debug.Log("ShowToolTip");
             Item item = toolTipStacks.Dequeue();
             nameField.text = item.name;
             simpleDescriptionField.text = item.simpleDescription;

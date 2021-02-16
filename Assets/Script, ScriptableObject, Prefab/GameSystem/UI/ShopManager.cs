@@ -9,15 +9,16 @@ public class ShopManager : MonoBehaviour
     [ContextMenu("ASD")]
     public void Initialize()
     {
-        for (int i = 0; i < sellPanel.transform.GetChild(0).transform.childCount; i++)
+        for (int i = 0; i < sellPanel.transform.transform.childCount; i++)
         {
             if (i < ItemInventory.Items.Count)
             {
-                sellPanel.transform.GetChild(0).transform.GetChild(i).GetComponent<ItemSlot>().SetItemSlot(ItemInventory.Items[i]);
+                sellPanel.transform.GetChild(i).GetComponent<ItemSlot>().SetItemSlot(ItemInventory.Items[i]);
+                sellPanel.transform.GetChild(i).gameObject.SetActive(true);
             }
             else
             {
-                
+                sellPanel.transform.GetChild(i).gameObject.SetActive(false);
             }
         }
     }
