@@ -14,7 +14,8 @@ public enum PoolType
     Smoke,
     Summon,
     Item,
-    BBolBBol
+    BBolBBol,
+    Nyang10
 }
 
 public class ObjectManager : MonoBehaviour
@@ -23,6 +24,7 @@ public class ObjectManager : MonoBehaviour
     {
         public PoolType type;
         public GameObject gameObject;
+        public int count;
         public Queue<GameObject> queue = new Queue<GameObject>();
     }
     private static ObjectManager instance = null;
@@ -38,6 +40,11 @@ public class ObjectManager : MonoBehaviour
         {
             PoolData pD = poolDatas[i];
             poolDataDictionary.Add(pD.type, pD);
+
+            for (int j = 0; j < pD.count; j++)
+            {
+                Instantiate(poolDataDictionary[pD.type].gameObject).SetActive(false);
+            }
         }
     }
 
@@ -71,24 +78,6 @@ public class ObjectManager : MonoBehaviour
         {
             GameObject targetObject = poolDataDictionary[poolObjectType].queue.Dequeue();
             targetObject.transform.SetPositionAndRotation(createTransform.position, createTransform.rotation);
-            targetObject.SetActive(true);
-            return targetObject;
-        }
-    }
-
-    public GameObject GetQueue(PoolType poolObjectType, Vector3 createPos, string text, DamageType damageType = DamageType.Normal)
-    {
-        if (poolDataDictionary[poolObjectType].queue.Count == 0)
-        {
-            GameObject targetObject = Instantiate(poolDataDictionary[poolObjectType].gameObject, createPos, Quaternion.identity);
-            targetObject.GetComponent<DamageText>().SetText(text, damageType);
-            return targetObject;
-        }
-        else
-        {
-            GameObject targetObject = poolDataDictionary[poolObjectType].queue.Dequeue();
-            targetObject.transform.position = createPos;
-            targetObject.GetComponent<DamageText>().SetText(text, damageType);
             targetObject.SetActive(true);
             return targetObject;
         }

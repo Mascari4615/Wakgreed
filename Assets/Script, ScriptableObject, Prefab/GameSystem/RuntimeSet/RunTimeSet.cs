@@ -7,7 +7,8 @@ public abstract class RunTimeSet<T> : ScriptableObject
     
     public virtual void Add(T t)
     {
-        if (!Items.Contains(t)) Items.Add(t);
+        // if (!Items.Contains(t))
+        Items.Add(t);
     }
     
     public virtual void Remove(T t)
