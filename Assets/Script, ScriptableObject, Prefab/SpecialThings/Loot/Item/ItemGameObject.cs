@@ -7,9 +7,16 @@ public class ItemGameObject : LootGameObject
     [SerializeField] private ItemInventory ItemInventory;
     private Item item;
 
-    public void SetItemGameObject(int id)
+    public void SetItemGameObject(int id, bool isTreasure = false)
     {
-        item = TreasureDataBuffer.Items[id];
+        if (isTreasure)
+        {
+            item = TreasureDataBuffer.Items[id];
+        }
+        else
+        {
+            item = LootDataBuffer.Items[id];
+        }
         spriteRenderer.sprite = item.sprite;
     }
 

@@ -1,14 +1,14 @@
 using UnityEngine;
 using Cinemachine;
 
-public class NPC : InteractiveObject
+public abstract class NPC : InteractiveObject
 {
-    [SerializeField] private GameObject panel;
+    [SerializeField] protected GameObject canvas;
     [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
     
     public override void Interaction()
     { 
-        panel.SetActive(true);
+        canvas.SetActive(true);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

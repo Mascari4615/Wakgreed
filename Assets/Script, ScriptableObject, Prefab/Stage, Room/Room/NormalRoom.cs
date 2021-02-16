@@ -62,7 +62,7 @@ public class NormalRoom : Room
     private void RoomClear()
     {
         // if (Random.Range(0, 100) < 30)
-            ObjectManager.Instance.GetQueue(PoolType.Item, transform.position);
+        ObjectManager.Instance.GetQueue(PoolType.Item, transform.position).GetComponent<ItemGameObject>().SetItemGameObject(Random.Range(0,2), true);
 
         if (roomType == RoomType.Boss)
         {
