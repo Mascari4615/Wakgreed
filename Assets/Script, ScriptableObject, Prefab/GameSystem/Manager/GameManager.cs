@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+using Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
@@ -67,9 +67,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject bagPanel;
 
     [SerializeField] private GameObject stageSpeedWagon;
-    [SerializeField] private TextMeshProUGUI stageNumberText, stageNameCommentText;
+    [SerializeField] private Text stageNumberText, stageNameText, stageCommentText;
+    [SerializeField] private GameObject bossSpeedWagon;
     [SerializeField] private GameObject roomClearSpeedWagon;
-    [SerializeField] private TextMeshProUGUI noticeText;
+    [SerializeField] private Text noticeText;
 
     [SerializeField] private GameObject undo;
 
@@ -401,9 +402,23 @@ public class GameManager : MonoBehaviour
     {
         stageSpeedWagon.SetActive(true);
         stageNumberText.text = $"1-{stageDataBuffer.Items[currentStageID].id}";
-        stageNameCommentText.text = $"{stageDataBuffer.Items[currentStageID].name} : {stageDataBuffer.Items[currentStageID].comment}";
+        stageNameText.text = $"::{stageDataBuffer.Items[currentStageID].name}::";
+        stageCommentText.text= $"::{stageDataBuffer.Items[currentStageID].comment}::";
         yield return new WaitForSeconds(2f);
         stageSpeedWagon.SetActive(false);
+    }
+
+    public IEnumerator BossSpeedWagon()
+    {
+        GameObject.FindWithTag("Boss").GetComponent<Monster>().enabled = false;
+        GameObject.FindWithTag("Boss").transform.Find("CM Camera1").GetComponent<CinemachineVirtualCamera>().Priority = 100;
+        TravellerController.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        bossSpeedWagon.gameObject.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        bossSpeedWagon.gameObject.SetActive(false);
+        TravellerController.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        GameObject.FindWithTag("Boss").transform.Find("CM Camera1").GetComponent<CinemachineVirtualCamera>().Priority = 0;
+        GameObject.FindWithTag("Boss").GetComponent<Monster>().enabled = true;
     }
 
     public IEnumerator RoomClearSpeedWagon()
@@ -423,6 +438,8 @@ public class GameManager : MonoBehaviour
 
     private void StopAllSpeedWagons()
     {
+        StopCoroutine("BossSpeedWagon");
+        bossSpeedWagon.SetActive(false);
         StopCoroutine("StageSpeedWagon");
         stageSpeedWagon.SetActive(false);
         StopCoroutine("RoomClearSpeedWagon");

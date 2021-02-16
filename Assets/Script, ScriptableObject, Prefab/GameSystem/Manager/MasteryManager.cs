@@ -26,9 +26,9 @@ public class MasteryManager : MonoBehaviour
         buttonImages[0].sprite = randomMasteries[0].sprite;
         buttonImages[1].sprite = randomMasteries[1].sprite;
         buttonImages[2].sprite = randomMasteries[2].sprite;
-        toolTipTriggers[0].SetToolTip(randomMasteries[0]);
-        toolTipTriggers[1].SetToolTip(randomMasteries[1]);
-        toolTipTriggers[2].SetToolTip(randomMasteries[2]);
+        toolTipTriggers[0].SetToolTip(randomMasteries[0].sprite, randomMasteries[0].name, randomMasteries[0].description, randomMasteries[0].comment);
+        toolTipTriggers[1].SetToolTip(randomMasteries[1].sprite, randomMasteries[1].name, randomMasteries[1].description, randomMasteries[1].comment);
+        toolTipTriggers[2].SetToolTip(randomMasteries[2].sprite, randomMasteries[2].name, randomMasteries[2].description, randomMasteries[2].comment);
     }
 
     public void LevelUp()

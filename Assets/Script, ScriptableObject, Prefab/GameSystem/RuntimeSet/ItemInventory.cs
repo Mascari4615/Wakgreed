@@ -3,24 +3,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ItemInventory", menuName = "GameSystem/RunTimeSet/ItemInventory")]
 public class ItemInventory : RunTimeSet<Item>
 {
-    [SerializeField] private GameEvent OnItemEquip;
-    [SerializeField] private GameEvent OnItemRemove;
+    [SerializeField] private GameEvent OnItemInventoryChange;
 
-    public override void Add(Item item)
+    public override void Add(Item t)
     {
-        // Debug.Log($"{name} : Add");
-        base.Add(item);
-        // Debug.Log($"{name} : Add 2 Raise");
-        item.OnEquip();
-        OnItemEquip.Raise();
+        base.Add(t);
+        OnItemInventoryChange.Raise();
     }
 
-    public override void Remove(Item item)
+    public override void Remove(Item t)
     {
-        // Debug.Log($"{name} : Remove");
-        base.Remove(item);
-        // Debug.Log($"{name} : Remove 2 Raise");
-        item.OnRemove();
-        OnItemRemove.Raise();
+        base.Remove(t);
+        OnItemInventoryChange.Raise();
     }
 }

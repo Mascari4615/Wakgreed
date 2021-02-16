@@ -67,7 +67,7 @@ public abstract class Monster : MonoBehaviour
 
     public virtual void ReceiveDamage(int damage, DamageType damageType = DamageType.Normal)
     {
-        ObjectManager.Instance.GetQueue(PoolType.AnimatedText, transform.position).GetComponent<DamageText>().SetText(damage.ToString(), damageType);
+        ObjectManager.Instance.GetQueue(PoolType.AnimatedText, transform.position, damage.ToString(), damageType);
         HP -= damage;
 
         if (HP > 0)

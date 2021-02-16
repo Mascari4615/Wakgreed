@@ -1,20 +1,25 @@
 ﻿using UnityEngine;
 
-public class ItemGameObject : LootGameObject
+public class ItemGameObject : Loot
 {
-    [SerializeField] private TreasureDataBuffer TreasureDataBuffer;
-    [SerializeField] private LootDataBuffer LootDataBuffer;
+    [SerializeField] private ItemDataBuffer ItemDataBuffer;
     [SerializeField] private ItemInventory ItemInventory;
     private Item item;
 
-    public void SetItemGameObject(int id)
+    protected override void _OnEnable()
     {
-        item = TreasureDataBuffer.Items[id];
+        item = ItemDataBuffer.Items[Random.Range(0, ItemDataBuffer.Items.Length)];
         spriteRenderer.sprite = item.sprite;
+        waitTime = 1f;
     }
 
     protected override void OnEquip()
     {
-        ItemInventory.Add(item);
+        if (ItemInventory.Items.Contains(item))
+            ItemInventory.Items[ItemInventory.Items.IndexOf(item)].count++;
+        else ItemInventory.Add(item);
+
+        item.OnEquip();
+        gameObject.SetActive(false);
     }
 }

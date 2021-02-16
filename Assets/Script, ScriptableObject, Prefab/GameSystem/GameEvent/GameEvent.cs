@@ -10,17 +10,13 @@ public class GameEvent : ScriptableObject
 
     public void Raise()
     {
-        // Debug.Log($"{name} : Raise");
         for (int i = listeners.Count - 1; i >= 0; i--)
-        {
-            // Debug.Log($"{name} : for {i}");
             listeners[i].OnEventRaised();
-        }
         if (!(Collback is null)) Collback.Invoke();
     }
 
-    public void RegisterListener(GameEventListener listener) {listeners.Add(listener);}
-    public void UnregisterListener(GameEventListener listener) {listeners.Remove(listener);}
-    public void AddCollback(Action a) {Collback += a; Debug.Log("Its Added");}
-    public void RemoveCollback(Action a) {Collback -= a; Debug.Log("Its Removed");}
+    public void RegisterListener(GameEventListener listener){listeners.Add(listener);}
+    public void UnregisterListener(GameEventListener listener){listeners.Remove(listener);}
+    public void AddCollback(Action a){Collback += a; Debug.Log("Its Added");}
+    public void RemoveCollback(Action a){Collback -= a; Debug.Log("Its Removed");}
 }
