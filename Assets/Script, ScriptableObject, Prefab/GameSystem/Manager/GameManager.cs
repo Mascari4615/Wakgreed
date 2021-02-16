@@ -335,10 +335,11 @@ public class GameManager : MonoBehaviour
         MasteryManager.selectMasteryPanel.SetActive(false);
 
         // UpdateMap();
-        foreach (var monster in EnemyRunTimeSet.Items)
+        int count = EnemyRunTimeSet.Items.Count;
+        for (int i = 0; i < count; i++)
         {
-            monster.SetActive(false);
-            EnemyRunTimeSet.Remove(monster);
+            EnemyRunTimeSet.Items[0].SetActive(false);
+            EnemyRunTimeSet.Remove(EnemyRunTimeSet.Items[0]);
         }
 
         TravellerController.Instance.enabled = true;

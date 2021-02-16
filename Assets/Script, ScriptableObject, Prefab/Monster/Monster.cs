@@ -39,7 +39,7 @@ public abstract class Monster : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        Debug.Log($"{name} : OnEnable");
+        // Debug.Log($"{name} : OnEnable");
 
         maxHP = baseHP;
         HP = maxHP;
@@ -98,6 +98,8 @@ public abstract class Monster : MonoBehaviour
             int randCount = Random.Range(0, 5);
             for (int i = 0; i < randCount; i++)
                 ObjectManager.Instance.GetQueue(PoolType.Exp, transform.position);
+            if (Random.Range(0, 100) < 30)
+                ObjectManager.Instance.GetQueue(PoolType.Item, transform.position).GetComponent<ItemGameObject>().SetItemGameObject(0);
         }
         
         ObjectManager.Instance.GetQueue(PoolType.Smoke, transform.position);

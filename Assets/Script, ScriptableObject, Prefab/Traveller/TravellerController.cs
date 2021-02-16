@@ -47,17 +47,11 @@ public class TravellerController : MonoBehaviour
     public ItemInventory ItemInventory;
     private GameObject nearInteractiveObject;
     private AudioSource audioSource;
-    [SerializeField] private Traveller[] travellers;
     [SerializeField] private EnemyRunTimeSet EnemyRunTimeSet;
     private float bbolBBolCoolDown = 0.3f;
     private float curBBolBBolCoolDown = 0;
 
-    public void ChangeTraveller(int index)
-    {
-        traveller = travellers[index];
-        Initialize();
-    }
-
+    
     private void Awake()
     {
         // Debug.Log($"{name} : Awake");
@@ -133,14 +127,10 @@ public class TravellerController : MonoBehaviour
         animator.SetTrigger("WakeUp");
         animator.SetBool("Run", false);
 
-<<<<<<< HEAD
-        // ItemInventory.Items.Clear();
-
-=======
->>>>>>> 7195055b16ed9a40fd6ac9cc5ddf829d30020a9f
         traveller.abilities.Initialize(this);
 
-        StartCoroutine(Update001());
+        StopCoroutine("Update001");
+        StartCoroutine("Update001");
     }
 
     private void Update()
@@ -154,9 +144,10 @@ public class TravellerController : MonoBehaviour
 
     private IEnumerator Update001()
     {
+        // int i = 0;
         while (true)
         {
-            // Debug.Log("${name} : Update001");
+            // Debug.Log($"{name} : Update001 {++i}");
             if (Time.timeScale == 0)
             {
                 yield return new WaitForSeconds(0.1f);

@@ -4,10 +4,7 @@ using System.Collections;
 public abstract class LootGameObject : MonoBehaviour
 {
     private Vector3 waitPosition;
-<<<<<<< HEAD:Assets/Script, ScriptableObject, Prefab/SpecialThings/Loot/LootGameObject.cs
     private float currentWaitTime;
-=======
->>>>>>> 7195055b16ed9a40fd6ac9cc5ddf829d30020a9f:Assets/Script, ScriptableObject, Prefab/SpecialThings/Loot/Loot.cs
     private float waitMoveSpeed;
     private float moveSpeed;
     private CircleCollider2D circleCollider2D;
@@ -26,47 +23,29 @@ public abstract class LootGameObject : MonoBehaviour
     {
         waitPosition = transform.position + new Vector3(Random.Range(-1.5f, 1.6f), Random.Range(-1.5f, 1.6f), 0);
         circleCollider2D.enabled = false;
-<<<<<<< HEAD:Assets/Script, ScriptableObject, Prefab/SpecialThings/Loot/LootGameObject.cs
         currentWaitTime = Random.Range(0.5f, 1.1f);
         waitMoveSpeed = 0;
         moveSpeed = 0;
-    }
-
-    private void Update()
-=======
-        waitMoveSpeed = 0;
-        moveSpeed = 0;
-
-        _OnEnable();
 
         StartCoroutine(Move());
     }
 
-    protected virtual void _OnEnable() {}
-
     private IEnumerator Move()
->>>>>>> 7195055b16ed9a40fd6ac9cc5ddf829d30020a9f:Assets/Script, ScriptableObject, Prefab/SpecialThings/Loot/Loot.cs
     {
         while (waitMoveSpeed < 1)
         {
-<<<<<<< HEAD:Assets/Script, ScriptableObject, Prefab/SpecialThings/Loot/LootGameObject.cs
-            waitMoveSpeed += Time.deltaTime;
-            currentWaitTime -= Time.deltaTime;
-            transform.position = Vector3.Lerp(transform.position, waitPosition, waitMoveSpeed * 0.4f); 
-=======
-            waitMoveSpeed += 0.02f;
+            waitMoveSpeed += 0.015f;
             transform.position = Vector3.Lerp(transform.position, waitPosition, waitMoveSpeed);
-            yield return new WaitForSeconds(0.02f);
->>>>>>> 7195055b16ed9a40fd6ac9cc5ddf829d30020a9f:Assets/Script, ScriptableObject, Prefab/SpecialThings/Loot/Loot.cs
+            yield return new WaitForSeconds(0.015f);
         }
 
         circleCollider2D.enabled = true;
 
         while (moveSpeed < 1)
         {
-            moveSpeed += 0.02f;
+            moveSpeed += 0.015f;
             transform.position = Vector3.Lerp(transform.position, TravellerController.Instance.transform.position, moveSpeed);
-            yield return new WaitForSeconds(0.02f);
+            yield return new WaitForSeconds(0.015f);
         }   
     }
 

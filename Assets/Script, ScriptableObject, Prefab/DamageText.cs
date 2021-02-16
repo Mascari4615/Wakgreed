@@ -22,7 +22,7 @@ public class DamageText : ObjectWithDuration
     
     protected override void OnEnable()
     {
-        Debug.Log("Onenable");
+        // Debug.Log("OnEnable");
         base.OnEnable();
         transform.position += new Vector3(Random.Range(-0.5f, 0.6f), Random.Range(-0.5f, 0.6f), 0);
         
