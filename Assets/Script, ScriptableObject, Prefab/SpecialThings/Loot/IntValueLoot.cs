@@ -14,6 +14,5 @@ public class IntValueLoot : LootGameObject
     protected override void OnEquip()
     {
         intVariable.RuntimeValue += Random.Range(min, max + 1);
-        if (type == IntValueLootType.Nyang) SoundManager.Instance.Nyang();
     }
 }

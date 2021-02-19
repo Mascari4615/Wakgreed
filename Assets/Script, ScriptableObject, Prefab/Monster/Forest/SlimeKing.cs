@@ -124,7 +124,7 @@ public class SlimeKing : Monster
         }
     }
 
-    public override void ReceiveDamage(int damage, DamageType damageType = DamageType.Normal)
+    public override void ReceiveDamage(int damage, TextType damageType = TextType.Normal)
     {
         base.ReceiveDamage(damage, damageType);
         int rand = Random.Range(0, 100);

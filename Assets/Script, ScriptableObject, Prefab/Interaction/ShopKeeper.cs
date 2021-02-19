@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class ShopKeeper : NPC
 {
@@ -8,6 +9,8 @@ public class ShopKeeper : NPC
     [SerializeField] private TreasureDataBuffer treasureDataBuffer;
     [SerializeField] private ShopKeeperItemInventory shopKeeperItemInventory;
     [SerializeField] private IntVariable nyang;
+    [SerializeField] private GameEvent onNyangChange;
+    [SerializeField] private GameObject needMoreNyang;
 
     private void Awake()
     {
@@ -45,12 +48,25 @@ public class ShopKeeper : NPC
 
     public void BuyItem(Slot slot)
     {
-        if (nyang.RuntimeValue < (slot.specialThing as Item).price) return;
+        if (nyang.RuntimeValue < (slot.specialThing as Item).price) 
+        {
+            StopCoroutine("NeedMoreNyang");
+            StartCoroutine("NeedMoreNyang");
+            return;
+        }
         
         nyang.RuntimeValue -= (slot.specialThing as Item).price;
+        onNyangChange.Raise();
 
         slot.gameObject.SetActive(false);
         shopKeeperItemInventory.Remove(slot.specialThing as Item);
         ObjectManager.Instance.GetQueue(PoolType.Item, transform).GetComponent<ItemGameObject>().SetItemGameObject((slot.specialThing as Item).ID, true);
+    }
+
+    private IEnumerator NeedMoreNyang()
+    {
+        needMoreNyang.SetActive(true);
+        yield return new WaitForSeconds(1);
+        needMoreNyang.SetActive(false);
     }
 }

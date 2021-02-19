@@ -13,8 +13,8 @@ public class JoyStick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
         rect_Joystick.position = (Vector3)eventData.position;
         Vector3 direction = rect_Joystick.position - rect_Background.position;
 
-        if (Vector3.Distance(rect_Joystick.position, rect_Background.position) > rect_Background.rect.width / 2)
-            rect_Background.position = rect_Joystick.position - direction.normalized * rect_Background.rect.width / 2;
+        if (Vector3.Distance(rect_Joystick.position, rect_Background.position) > rect_Background.rect.width / 2 * ((float)Screen.width / 1920))
+            rect_Background.position = rect_Joystick.position - direction.normalized * rect_Background.rect.width / 2  * ((float)Screen.width / 1920);
 
         inputValue = direction.normalized;
     }

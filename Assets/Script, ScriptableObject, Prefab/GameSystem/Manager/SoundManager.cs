@@ -7,7 +7,6 @@ public class SoundManager : MonoBehaviour
     private static SoundManager instance;
     public static SoundManager Instance { get { return instance;} }
     private AudioSource audioSource;
-    [SerializeField] private AudioClip nyang;
 
     private void Awake()
     {
@@ -16,8 +15,8 @@ public class SoundManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    public void Nyang()
+    public void PlayAudioClip(AudioClip audioClip)
     {
-        audioSource.PlayOneShot(nyang);
+        audioSource.PlayOneShot(audioClip);
     }
 }

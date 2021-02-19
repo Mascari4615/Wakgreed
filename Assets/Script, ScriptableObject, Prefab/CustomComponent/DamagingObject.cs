@@ -7,7 +7,7 @@ public class DamagingObject : MonoBehaviour
         Monster,
         Traveller
     }
-    [SerializeField] private IntVariable travellerAD;
+    [SerializeField] private TotalAD totalAD;
     [SerializeField] private IntVariable TravellerCriticalChance;
     [SerializeField] private int monsterAD;
     [SerializeField] private Target target;
@@ -18,11 +18,11 @@ public class DamagingObject : MonoBehaviour
         {
             if (Random.Range(0, 100) < TravellerCriticalChance.RuntimeValue)
             {
-                other.gameObject.GetComponent<Monster>().ReceiveDamage(travellerAD.RuntimeValue * 4, DamageType.Critical);
+                other.gameObject.GetComponent<Monster>().ReceiveDamage(totalAD.GetTotalDamage() * 4, TextType.Critical);
             }
             else
             {
-                other.gameObject.GetComponent<Monster>().ReceiveDamage(travellerAD.RuntimeValue);
+                other.gameObject.GetComponent<Monster>().ReceiveDamage(totalAD.GetTotalDamage());
             }
         }
         else if (other.CompareTag("Player") && target.Equals(Target.Traveller))

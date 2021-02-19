@@ -9,6 +9,12 @@ public class ExpBar : MonoBehaviour
     [SerializeField] private Text expTextField;
     [SerializeField] private Text levelTextField; 
 
+    private void Awkae()
+    {
+        SetExpBar();
+        SetLevelText();
+    }
+
     public void SetExpBar()
     {
         expBarImage.fillAmount = (float)travellerEXP.RuntimeValue / (100 * (1 + travellerLevel.RuntimeValue));
