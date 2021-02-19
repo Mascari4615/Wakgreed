@@ -46,11 +46,9 @@ public class TravellerController : MonoBehaviour
     private GameObject target;
     public ItemInventory ItemInventory;
     private GameObject nearInteractiveObject;
-    private AudioSource audioSource;
     [SerializeField] private EnemyRunTimeSet EnemyRunTimeSet;
     private float bbolBBolCoolDown = 0.3f;
     private float curBBolBBolCoolDown = 0;
-
     
     private void Awake()
     {
@@ -60,7 +58,6 @@ public class TravellerController : MonoBehaviour
 
         playerRB = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         cinemachineTargetGroup = GameObject.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>();
 
@@ -125,7 +122,7 @@ public class TravellerController : MonoBehaviour
         playerRB.bodyType = RigidbodyType2D.Dynamic;
         cinemachineTargetGroup.m_Targets[0].target = transform;
         animator.SetTrigger("WakeUp");
-        animator.SetBool("Run", false);
+        animator.SetBool("Move", false);
 
         traveller.abilities.Initialize(this);
 
@@ -191,7 +188,7 @@ public class TravellerController : MonoBehaviour
         if (joyStick.isInputting && playerRB.bodyType == RigidbodyType2D.Dynamic)
         {
             playerRB.velocity = moveDirection * moveSpeed.RuntimeValue;      
-            animator.SetBool("Run", true); 
+            animator.SetBool("Move", true); 
 
             if (curBBolBBolCoolDown > bbolBBolCoolDown)
             {
@@ -206,7 +203,7 @@ public class TravellerController : MonoBehaviour
         else
         {
             playerRB.velocity = Vector2.zero;
-            animator.SetBool("Run", false);
+            animator.SetBool("Move", false);
         }
 
         if (target != null)
@@ -264,8 +261,7 @@ public class TravellerController : MonoBehaviour
     {
         // Debug.Log(name + " : Attack");
 
-        audioSource.clip = traveller.basicAttackAudioClips[Random.Range(0, traveller.basicAttackAudioClips.Length)];
-        audioSource.Play();
+        SoundManager.Instance.PlayAudioClip(traveller.basicAttackAudioClips[Random.Range(0, traveller.basicAttackAudioClips.Length)]);
         canAttack = false;
 
         traveller.abilities.BasicAttack(this);
@@ -330,6 +326,7 @@ public class TravellerController : MonoBehaviour
         OnExpChange.Raise();
         
         ObjectManager.Instance.GetQueue(PoolType.Smoke, transform);
+        ObjectManager.Instance.GetQueue(PoolType.AnimatedText, transform).GetComponent<AnimatedText>().SetText("Level Up!", TextType.Critical);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

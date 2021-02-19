@@ -8,14 +8,13 @@ public abstract class LootGameObject : MonoBehaviour
     private float waitMoveSpeed;
     private float moveSpeed;
     private CircleCollider2D circleCollider2D;
-    private AudioSource audioSource;
     protected SpriteRenderer spriteRenderer;
     [SerializeField] private GameEvent gameEvent;
+    [SerializeField] private AudioClip soundEffect;
 
     private void Awake()
     {
         circleCollider2D = GetComponent<CircleCollider2D>();
-        audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -54,6 +53,7 @@ public abstract class LootGameObject : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             // Debug.Log($"{name} : OnEquip");
+            SoundManager.Instance.PlayAudioClip(soundEffect);
             OnEquip();
             
             // Debug.Log($"{name} : OnEquip 2 Raise");

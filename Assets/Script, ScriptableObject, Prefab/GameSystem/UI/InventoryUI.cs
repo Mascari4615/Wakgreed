@@ -4,6 +4,11 @@ public abstract class InventoryUI<T> : MonoBehaviour
 {
     [SerializeField] private RunTimeSet<T> Inventory;
     [SerializeField] private GameObject grid;
+
+    private void Awake()
+    {
+        Initialize();
+    }
     
     public void Initialize()
     {

@@ -8,15 +8,9 @@ public class MasteryManager : MonoBehaviour
     public GameObject selectMasteryPanel;
     [SerializeField] private Image[] buttonImages;
     [SerializeField] private ToolTipTrigger[] toolTipTriggers;
-    private AudioSource audioSource;
     private int selectMasteryStack = 0;
-    
+    [SerializeField] private AudioClip soundEffect;
     private Mastery[] randomMasteries = new Mastery[3];
-
-    private void Awake()
-    {
-        audioSource = GetComponent<AudioSource>();
-    }
 
     private void Initialize()
     {
@@ -44,7 +38,7 @@ public class MasteryManager : MonoBehaviour
 
     public void ChooseAbility(int i)
     {
-        audioSource.Play();
+        SoundManager.Instance.PlayAudioClip(soundEffect);
         ToolTipManager.Hide();
         selectMasteryStack--;
 

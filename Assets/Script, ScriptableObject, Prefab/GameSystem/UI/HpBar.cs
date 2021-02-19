@@ -8,6 +8,11 @@ public class HpBar : MonoBehaviour
     [SerializeField] private Image image;
     [SerializeField] private Text textField;
 
+    private void Awake()
+    {
+        SetHpBar();
+    }
+
     public void SetHpBar()
     {
         image.fillAmount = (float)travellerHP.RuntimeValue / travellerMaxHP.RuntimeValue;

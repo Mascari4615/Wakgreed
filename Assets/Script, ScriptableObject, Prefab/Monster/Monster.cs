@@ -10,7 +10,7 @@ public abstract class Monster : MonoBehaviour
     [SerializeField] protected int baseHP, baseAD, baseMoveSpeed;
     protected int maxHP, HP, AD, moveSpeed;
 
-    [SerializeField] private AudioClip[] audioClips;
+    [SerializeField] private AudioClip[] soundEffects;
     [SerializeField] protected EnemyRunTimeSet EnemyRunTimeSet;
     [SerializeField] private GameEvent OnMonsterCollapse;
 
@@ -18,7 +18,6 @@ public abstract class Monster : MonoBehaviour
     protected Animator animator;
     protected new Rigidbody2D rigidbody2D;
     private CapsuleCollider2D capsuleCollider2D;
-    private AudioSource audioSource;
     private GameObject hpBarGameObject;
     private GameObject yellowParent;
     private SpriteRenderer yellow;
@@ -30,7 +29,6 @@ public abstract class Monster : MonoBehaviour
         animator = transform.GetChild(0).GetComponent<Animator>();
         rigidbody2D = GetComponent<Rigidbody2D>();
         capsuleCollider2D = GetComponent<CapsuleCollider2D>();
-        audioSource = GetComponent<AudioSource>();
         hpBarGameObject = transform.GetChild(1).gameObject;
         yellowParent = hpBarGameObject.transform.GetChild(2).gameObject;
         yellow = yellowParent.transform.GetChild(0).GetComponent<SpriteRenderer>();
@@ -65,20 +63,18 @@ public abstract class Monster : MonoBehaviour
         }
     }
 
-    public virtual void ReceiveDamage(int damage, DamageType damageType = DamageType.Normal)
+    public virtual void ReceiveDamage(int damage, TextType damageType = TextType.Normal)
     {
-        ObjectManager.Instance.GetQueue(PoolType.AnimatedText, transform.position).GetComponent<DamageText>().SetText(damage.ToString(), damageType);
+        ObjectManager.Instance.GetQueue(PoolType.AnimatedText, transform.position).GetComponent<AnimatedText>().SetText(damage.ToString(), damageType);
         HP -= damage;
 
         if (HP > 0)
         {
-            audioSource.clip = audioClips[0];
-            audioSource.Play();
+            SoundManager.Instance.PlayAudioClip(soundEffects[0]);
         }
         else if (HP <= 0)
         {
-            audioSource.clip = audioClips[1];
-            audioSource.Play();
+            SoundManager.Instance.PlayAudioClip(soundEffects[1]);
 
             StartCoroutine(Collapse());
         }  
