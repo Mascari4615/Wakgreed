@@ -46,11 +46,14 @@ public abstract class Monster : MonoBehaviour
         hpBarGameObject.SetActive(true);
         redParent.transform.localScale = Vector3.one;
         yellowParent.transform.localScale = Vector3.one;
-        capsuleCollider2D.enabled = true;;
+        capsuleCollider2D.enabled = true;
+        rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
     }
 
-    protected virtual void Update()
+    protected void Update()
     {
+        // spriteRenderer.sortingOrder = transform.position.y / 10000f;
+
         redParent.transform.localScale = new Vector3(Mathf.Lerp(redParent.transform.localScale.x, (float)HP/maxHP, Time.deltaTime * 30f), 1, 1);
 
         yellow.color = new Color(1, 1, Mathf.Lerp(0, 1, Time.deltaTime * 30f));
@@ -67,6 +70,7 @@ public abstract class Monster : MonoBehaviour
     {
         ObjectManager.Instance.GetQueue(PoolType.AnimatedText, transform.position).GetComponent<AnimatedText>().SetText(damage.ToString(), damageType);
         HP -= damage;
+        rigidbody2D.AddForce((transform.position - TravellerController.Instance.transform.position).normalized * 100);
 
         if (HP > 0)
         {
@@ -75,7 +79,8 @@ public abstract class Monster : MonoBehaviour
         else if (HP <= 0)
         {
             SoundManager.Instance.PlayAudioClip(soundEffects[1]);
-
+            
+            StopAllCoroutines();
             StartCoroutine(Collapse());
         }  
     }
@@ -85,7 +90,9 @@ public abstract class Monster : MonoBehaviour
         hpBarGameObject.SetActive(false);
         capsuleCollider2D.enabled = false;
         rigidbody2D.velocity = Vector2.zero;
+        rigidbody2D.bodyType = RigidbodyType2D.Static;
         animator.SetTrigger("Collapse");
+        OnCollapse();
 
         EnemyRunTimeSet.Remove(gameObject);
         if (GameManager.Instance.currentRoom.roomType == RoomType.Normal || monsterType == MonsterType.Boss)
@@ -100,7 +107,9 @@ public abstract class Monster : MonoBehaviour
         
         ObjectManager.Instance.GetQueue(PoolType.Smoke, transform.position);
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(3f);
         gameObject.SetActive(false);
     }
+
+    protected abstract void OnCollapse();
 }

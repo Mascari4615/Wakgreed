@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class SlimeKing : Monster
 {
@@ -16,18 +17,19 @@ public class SlimeKing : Monster
     int rand = 0;
     int rand1 = 0;
 
-    protected override void Update()
+    protected override void OnEnable()
     {
-        if (Time.timeScale == 0)
-        {
-            return;
-        }
-        base.Update();
-        Attack();
+        base.OnEnable();
+        StartCoroutine(Attack());
     }
 
-    private void Attack()
+    private IEnumerator Attack()
     {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+/*
         if (isReadyToAttack == false)
         {
             t += Time.deltaTime;
@@ -116,12 +118,9 @@ public class SlimeKing : Monster
                         t = 0;
                     }
                 break;
-
-                default :
-                    Debug.Log("SlimeKing ERROR");
-                break;
-            } 
+            }
         }
+        */
     }
 
     public override void ReceiveDamage(int damage, TextType damageType = TextType.Normal)
@@ -132,5 +131,10 @@ public class SlimeKing : Monster
         {
             EnemyRunTimeSet.Add(ObjectManager.Instance.GetQueue(PoolType.Slime1, transform.position));
         }
+    }
+
+    protected override void OnCollapse()
+    {
+        //throw new System.NotImplementedException();
     }
 }
