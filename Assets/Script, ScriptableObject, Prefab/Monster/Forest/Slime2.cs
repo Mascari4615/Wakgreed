@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class Slime2 : Monster
 {
@@ -17,66 +18,76 @@ public class Slime2 : Monster
         castTime = 0.5f;
         nextCoolDown = Time.time + 2;
         slime.SetActive(false);
+
+        StartCoroutine(Attack());
+        StartCoroutine(Targeting());
     }
 
-    protected override void Update()
+    private IEnumerator Attack()
     {
-        base.Update();
-        Attack();
-        Targeting();
+        while (true)
+        {
+            if (canAttack == false)
+            {
+                if (nextCoolDown <= Time.time)
+                {
+                    canAttack = true;
+                    slime.SetActive(false);
+                }
+            }
+            else if (canAttack && isTargeting)
+            {
+                if (castTime == 0.5f)
+                {
+                    animator.SetTrigger("Attack");
+                }
+
+                castTime -= 0.1f;
+                if (castTime <= 0)
+                {
+                    castTime = 0.5f;
+                    nextCoolDown = Time.time + attackCoolDown;
+                    slime.transform.localPosition = new Vector3(0, 0, -5);
+                    slime.SetActive(true);
+                    canAttack = false;
+                }
+            }
+
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
-    private void Attack()
+    private IEnumerator Targeting()
     {
-        if (canAttack == false)
+        while (true)
         {
-            if (nextCoolDown <= Time.time)
+            RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, TravellerController.Instance.transform.position - transform.position, Vector2.Distance(transform.position, TravellerController.Instance.transform.position), LayerMask.NameToLayer("Everything"));
+            for (int j = 0; j < hit.Length; j++)
             {
-                canAttack = true;
-                slime.SetActive(false);
+                if (hit[j].transform.CompareTag("Wall"))
+                {
+                    isTargeting = false;
+                    break;
+                }
+                else if (hit[j].transform.CompareTag("Player"))
+                {                     
+                    isTargeting = true;
+                }
             }
-        }
-        else if (canAttack && isTargeting)
-        {
-            if (castTime == 0.5f)
+    
+            if (isTargeting)
             {
-                animator.SetTrigger("Attack");
-            }
+                Debug.DrawRay(transform.position, TravellerController.Instance.transform.position - transform.position, Color.green);
 
-            castTime -= Time.deltaTime;
-            if (castTime <= 0)
-            {
-                castTime = 0.5f;
-                nextCoolDown = Time.time + attackCoolDown;
-                slime.transform.localPosition = new Vector3(0, 0, -5);
-                slime.SetActive(true);
-                canAttack = false;
+                if (TravellerController.Instance.transform.position.x > transform.position.x) spriteRenderer.flipX = false;
+                else if  (TravellerController.Instance.transform.position.x < transform.position.x) spriteRenderer.flipX = true;
             }
-        }
+            yield return new WaitForSeconds(0.2f);
+        }   
     }
 
-    private void Targeting()
+    protected override void OnCollapse()
     {
-        RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, TravellerController.Instance.transform.position - transform.position, Vector2.Distance(transform.position, TravellerController.Instance.transform.position), LayerMask.NameToLayer("Everything"));
-        for (int j = 0; j < hit.Length; j++)
-        {
-            if (hit[j].transform.CompareTag("Wall"))
-            {
-                isTargeting = false;
-                break;
-            }
-            else if (hit[j].transform.CompareTag("Player"))
-            {                     
-                isTargeting = true;
-            }
-        }
- 
-        if (isTargeting)
-        {
-            Debug.DrawRay(transform.position, TravellerController.Instance.transform.position - transform.position, Color.green);
 
-            if (TravellerController.Instance.transform.position.x > transform.position.x) spriteRenderer.flipX = false;
-            else if  (TravellerController.Instance.transform.position.x < transform.position.x) spriteRenderer.flipX = true;
-        }
     }
 }
