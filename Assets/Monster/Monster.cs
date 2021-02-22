@@ -71,11 +71,13 @@ public abstract class Monster : MonoBehaviour
     {
         ObjectManager.Instance.GetQueue(PoolType.AnimatedText, transform.position).GetComponent<AnimatedText>().SetText(damage.ToString(), damageType);
         HP -= damage;
+        rigidbody2D.velocity = Vector3.zero;
         rigidbody2D.AddForce((transform.position - TravellerController.Instance.transform.position).normalized * 100);
 
         if (HP > 0)
         {
             SoundManager.Instance.PlayAudioClip(soundEffects[0]);
+            animator.SetTrigger("Ahya");
         }
         else if (HP <= 0)
         {
