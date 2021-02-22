@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Slime1 : Monster
 {
-    float ahyaDuration = 0;
+    int ahyaDuration = 0;
 
     protected override void OnEnable()
     {
@@ -15,32 +15,44 @@ public class Slime1 : Monster
     {
         WaitForSeconds wait = new WaitForSeconds(0.1f);
         float stateDuration = 0;
+        bool isMoving = false;
+        Vector3 moveDirection = Vector3.zero;
+        bool lastFlipX = false;
         
         while (true)
         {
             if (ahyaDuration > 0)
             {
-                ahyaDuration -= 0.1f;
+                Debug.Log(ahyaDuration);
+                ahyaDuration -= 1;
             }
             else
             {
                 if (stateDuration <= 0)
                 {
-                    if (Random.Range(0, 2) == 0)
+                    if (Random.Range(0, 5) == 0)
                     {
                         animator.SetBool("IsMoving", false);
+                        isMoving = false;
                     }
                     else
                     {
                         int r = Random.Range(0, 4);
-                        Vector3 direction = r == 0 ? Vector2.up : r == 1 ? Vector2.down : r == 2 ? Vector2.left : Vector2.right;
+                        moveDirection = r == 0 ? Vector2.up : r == 1 ? Vector2.down : r == 2 ? Vector2.left : Vector2.right;
                         spriteRenderer.flipX = r == 2 ? true : r == 3 ? false : spriteRenderer.flipX;
+                        lastFlipX = spriteRenderer.flipX;
 
-                        rigidbody2D.velocity = direction * moveSpeed;
                         animator.SetBool("IsMoving", true);
+                        isMoving = true;
                     }
 
                     stateDuration = Random.Range(1f, 3f);
+                }
+
+                if (isMoving)
+                {
+                    rigidbody2D.velocity = moveDirection * moveSpeed;
+                    spriteRenderer.flipX = lastFlipX;
                 }
 
                 stateDuration -= 0.1f;
@@ -49,12 +61,17 @@ public class Slime1 : Monster
             yield return wait;
         }
     }
-
+    
     public override void ReceiveDamage(int damage, TextType damageType = TextType.Normal)
     {
         base.ReceiveDamage(damage, damageType);
-        animator.SetTrigger("Ahya");
-        ahyaDuration = 0.3f;
+
+        if (transform.position.x > TravellerController.Instance.transform.position.x)
+            spriteRenderer.flipX = true;
+        else
+            spriteRenderer.flipX = false;
+
+        ahyaDuration = 4;
     }
 
     protected override void OnCollapse()

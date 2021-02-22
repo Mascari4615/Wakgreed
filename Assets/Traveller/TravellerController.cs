@@ -181,7 +181,6 @@ public class TravellerController : MonoBehaviour
 
     private void Move()
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.y / 10000f);
         h = joyStick.inputValue.x;
         v = joyStick.inputValue.y;
         Vector3 moveDirection = new Vector2(h, v).normalized;
@@ -238,15 +237,15 @@ public class TravellerController : MonoBehaviour
         target = null;
         float targetDist = 10;
         float currentDist = 0;
-        
-        foreach (var monster in EnemyRunTimeSet.Items)
+
+        foreach (GameObject monster in EnemyRunTimeSet.Items)
         {
+            // 만약 (현재 몬스터와의 거리 > 타겟 몬스터와의 거리) 스킵 
             currentDist = Vector2.Distance(transform.position, monster.transform.position);
             if (currentDist > targetDist) continue;
 
-            RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, monster.transform.position - transform.position, currentDist, LayerMask.NameToLayer("Everything"));
-
-            foreach (var hitObject in hit)
+            // 아니라면 
+            foreach (RaycastHit2D hitObject in Physics2D.RaycastAll(transform.position, monster.transform.position - transform.position))
             {
                 if (hitObject.transform.CompareTag("Wall")) break;
                 else if (hitObject.transform.CompareTag("Monster") || hitObject.transform.CompareTag("Boss"))
