@@ -9,6 +9,6 @@ public class ItemSlot : Slot
     {
         base.SetSlot(specialThing);
 
-        countTextField.text = $"{(specialThing as Item).count + 1} 개";
+        countTextField.text = $"{(specialThing as Item).count + 1}";
     }
 }
