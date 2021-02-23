@@ -72,7 +72,7 @@ public abstract class Monster : MonoBehaviour
         ObjectManager.Instance.GetQueue(PoolType.AnimatedText, transform.position).GetComponent<AnimatedText>().SetText(damage.ToString(), damageType);
         HP -= damage;
         rigidbody2D.velocity = Vector3.zero;
-        rigidbody2D.AddForce((transform.position - TravellerController.Instance.transform.position).normalized * 100);
+        rigidbody2D.AddForce((transform.position - TravellerController.Instance.transform.position).normalized, ForceMode2D.Impulse);
 
         if (HP > 0)
         {

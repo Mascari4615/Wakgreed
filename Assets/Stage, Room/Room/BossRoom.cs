@@ -7,12 +7,13 @@ public class BossRoom : Room
     [SerializeField] private PoolType boss;
     [SerializeField] private Transform bossSpawnPoint;
     [SerializeField] EnemyRunTimeSet EnemyRunTimeSet;
-    [SerializeField] private GameObject bossSpeedWagon;
+    private GameObject bossSpeedWagon;
     private CinemachineTargetGroup cinemachineTargetGroup;
 
     private void Awake()
     {
-        // cinemachineTargetGroup = Camera.main.transform.GetChild(1).GetComponent<CinemachineTargetGroup>();
+        cinemachineTargetGroup = GameObject.Find("Cameras").transform.GetChild(3).GetComponent<CinemachineTargetGroup>();
+        bossSpeedWagon = GameObject.Find("Canvas").transform.Find("SpeedWagon _ Boss").gameObject;
     }
 
     public override void Enter()
@@ -34,20 +35,20 @@ public class BossRoom : Room
         doorHiders[3].SetActive(true);
 
         GameObject bossGO = ObjectManager.Instance.GetQueue(boss, bossSpawnPoint.position);
-        EnemyRunTimeSet.Add(bossGO);
         StartCoroutine(BossSpeedWagon(bossGO));
     }
 
     private IEnumerator BossSpeedWagon(GameObject bossGO)
     {
         bossGO.GetComponent<Monster>().enabled = false;
-        // cinemachineTargetGroup.m_Targets[0].target = transform;
+        cinemachineTargetGroup.m_Targets[0].target = bossGO.transform;
         TravellerController.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         bossSpeedWagon.gameObject.SetActive(true);
         yield return new WaitForSeconds(3f);
         bossSpeedWagon.gameObject.SetActive(false);
         TravellerController.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-        // cinemachineTargetGroup.m_Targets[0].target = TravellerController.Instance.transform;
+        cinemachineTargetGroup.m_Targets[0].target = TravellerController.Instance.transform;
+        EnemyRunTimeSet.Add(bossGO);
         bossGO.GetComponent<Monster>().enabled = true;
     }
 
