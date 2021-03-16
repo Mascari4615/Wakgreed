@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using Cinemachine;
 
 public class TravellerController : MonoBehaviour
@@ -21,19 +20,14 @@ public class TravellerController : MonoBehaviour
     public GameEvent OnHpChange, OnCollapse, OnExpChange, OnLevelUp;
 
     public Transform attackPositionParent, attackPosition, weaponPosition;
-    public JoyStick joyStick;
     private CinemachineTargetGroup cinemachineTargetGroup;
     public GameObject bloodingPanel;
-    public GameObject interactionIcon = null;
-    public GameObject attackIcon = null;
-    public EventTrigger attackButtonEventTrigger;
 
     private float coolDown = 1;
     private float curCoolDown, curAttackCoolDown;
     private bool isHealthy, canAttack, canInteraction;
     private float[] curSkillCoolDown;
     private bool[] canUseSkill;
-    private bool isInputtingAttack, isInputtingInteraction;
 
     [HideInInspector] public float h = 0;
     private float v = 0;
@@ -41,7 +35,6 @@ public class TravellerController : MonoBehaviour
     private Rigidbody2D playerRB;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
-    private EventTrigger.Entry attackPointerDown = new EventTrigger.Entry(), attackPointerUp = new EventTrigger.Entry(), attackPointerEnter = new EventTrigger.Entry(), attackPointerExit = new EventTrigger.Entry();
 
     private GameObject target;
     public ItemInventory ItemInventory;
@@ -60,25 +53,6 @@ public class TravellerController : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         cinemachineTargetGroup = GameObject.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>();
-
-        attackPointerDown.eventID = EventTriggerType.PointerDown;
-        // attackPointerEnter.eventID = EventTriggerType.PointerEnter;
-        attackPointerUp.eventID = EventTriggerType.PointerUp;
-        // attackPointerExit.eventID = EventTriggerType.PointerExit;
-        attackPointerDown.callback.AddListener((PointerEventData) => 
-        {
-            if (canInteraction) Interaction();
-            else isInputtingAttack = true; 
-        });
-        // attackPointerEnter.callback.AddListener((PointerEventData) => {isInputtingattack = true;});
-        attackPointerUp.callback.AddListener((PointerEventData) => {isInputtingAttack = false;});
-        // attackPointerExit.callback.AddListener((PointerEventData) => {isInputtingattack = false;});
-
-        attackButtonEventTrigger.triggers.Clear();
-        attackButtonEventTrigger.triggers.Add(attackPointerDown);
-        // attackButtonEventTrigger.triggers.Add(attackPointerEnter);
-        attackButtonEventTrigger.triggers.Add(attackPointerUp);
-        // attackButtonEventTrigger.triggers.Add(attackPointerExit);
     }
 
     private void OnEnable()
@@ -114,8 +88,6 @@ public class TravellerController : MonoBehaviour
         canAttack = true;
         canUseSkill = new bool[] { false, false, false };
         canInteraction = false;
-        isInputtingAttack = false;
-        isInputtingInteraction = false;
         h = 0;
         v = 0;
        
@@ -136,7 +108,8 @@ public class TravellerController : MonoBehaviour
         if (Time.timeScale == 0) return;
 
         Move();
-        if ((isInputtingAttack || Input.GetKey(KeyCode.Space)) && canAttack) BasicAttack();
+        if (Input.GetMouseButton(0) && canAttack) BasicAttack();
+        if (Input.GetKey(KeyCode.F) && canInteraction) Interaction();
         traveller.abilities._Update(this);
     }
 
@@ -181,20 +154,20 @@ public class TravellerController : MonoBehaviour
 
     private void Move()
     {
-        h = joyStick.inputValue.x;
-        v = joyStick.inputValue.y;
+        h = Input.GetAxisRaw("Horizontal");
+        v = Input.GetAxisRaw("Vertical");
         Vector3 moveDirection = new Vector2(h, v).normalized;
 
-        if (joyStick.isInputting && playerRB.bodyType == RigidbodyType2D.Dynamic)
+        if ((h != 0 || v != 0) && playerRB.bodyType == RigidbodyType2D.Dynamic)
         {
-            playerRB.velocity = moveDirection * moveSpeed.RuntimeValue;      
-            animator.SetBool("Move", true); 
+            playerRB.velocity = moveDirection * moveSpeed.RuntimeValue;
+            animator.SetBool("Move", true);
 
             if (curBBolBBolCoolDown > bbolBBolCoolDown)
             {
                 ObjectManager.Instance.GetQueue(PoolType.BBolBBol, transform.position + Vector3.down * 0.75f);
                 curBBolBBolCoolDown = 0;
-            }      
+            }
             else
             {
                 curBBolBBolCoolDown += Time.deltaTime;
@@ -206,29 +179,28 @@ public class TravellerController : MonoBehaviour
             animator.SetBool("Move", false);
         }
 
+        attackPositionParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(Camera.main.ScreenToWorldPoint(Input.mousePosition).y - transform.position.y, Camera.main.ScreenToWorldPoint(Input.mousePosition).x - transform.position.x) * Mathf.Rad2Deg - 90);
+
         if (target != null)
         {
             if (target.transform.position.x > transform.position.x) transform.localScale = new Vector3(1, 1, 1);
             else if (target.transform.position.x < transform.position.x) transform.localScale = new Vector3(-1, 1, 1);
 
             cinemachineTargetGroup.m_Targets[1].target = target.transform;
-            attackPositionParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(transform.position.y - target.transform.position.y, transform.position.x - target.transform.position.x) * Mathf.Rad2Deg + 90);
             Debug.DrawRay(transform.position, target.transform.position - transform.position, Color.red);
         }
         else if (target == null)
         {
-            if (h > 0) transform.localScale = new Vector3(1, 1, 1);       
-            else if (h < 0) transform.localScale = new Vector3(-1, 1, 1);
+            if (transform.position.x < Camera.main.ScreenToWorldPoint(Input.mousePosition).x) transform.localScale = new Vector3(1, 1, 1);       
+            else transform.localScale = new Vector3(-1, 1, 1);
 
             cinemachineTargetGroup.m_Targets[1].target = null;
-            attackPositionParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(joyStick.inputValue.y, joyStick.inputValue.x) * Mathf.Rad2Deg - 90);
         }
     }
 
     private void Interaction()
     {
         // Debug.Log(name + " : Interaction");
-        isInputtingInteraction = false;
         nearInteractiveObject.GetComponent<InteractiveObject>().Interaction();
     }
 
@@ -340,8 +312,6 @@ public class TravellerController : MonoBehaviour
         {
             nearInteractiveObject = other.gameObject;
             canInteraction = true;
-            interactionIcon.SetActive(true);
-            attackIcon.SetActive(false);
         }  
     }
 
@@ -350,8 +320,6 @@ public class TravellerController : MonoBehaviour
         if (other.CompareTag("InteractiveObject"))
         {
             canInteraction = false;
-            interactionIcon.SetActive(false);
-            attackIcon.SetActive(true);
         }     
     }
 }

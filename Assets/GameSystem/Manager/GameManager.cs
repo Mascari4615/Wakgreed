@@ -64,8 +64,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject fadePanel;
     [SerializeField] private Animator fadePanelAnimator;
 
-    [SerializeField] private GameObject bagPanel;
-
     [SerializeField] private GameObject stageSpeedWagon;
     [SerializeField] private TextMeshProUGUI stageNumberText, stageNameCommentText;
     [SerializeField] private GameObject roomClearSpeedWagon;
@@ -100,6 +98,8 @@ public class GameManager : MonoBehaviour
         // 뒤로가기 버튼을 눌렀을 때, 정지 및 재개 ★ Time을 통한 실질적인 게임 정지 및 재개
         // # 정지 > 귀환 (StopCoroutine) 오류 가능성 : 따라서 플래그를 통해 현재 정지 시킬 수 있는지 확인해야함
         if (Input.GetKeyDown(KeyCode.Escape)) PauseGame();
+        if (Input.GetKeyDown(KeyCode.Tab) && mapPanel.activeSelf == false) MapDoor(true);
+        else if (Input.GetKeyUp(KeyCode.Tab) && mapPanel.activeSelf == true) MapDoor(false);
     }
 
     public void PauseGame() // 정지 버튼에서 호출
@@ -304,7 +304,6 @@ public class GameManager : MonoBehaviour
 
         if (currentRoom.isVisited == false)
         {
-            bagPanel.SetActive(false);
             mapPanel.SetActive(false);  
         }
         currentRoom.Enter();
@@ -361,34 +360,19 @@ public class GameManager : MonoBehaviour
         monsterKillText.text = monsterKill.ToString();
     }
 
-    public void OpenAndCloseBag()
+    private void MapDoor(bool bOpen)
     {
         if (isFighting)
         {
-            StopCoroutine(NoticeText("전투 중에는 열 수 없습니다.", 1.5f));
-            StartCoroutine(NoticeText("전투 중에는 열 수 없습니다.", 1.5f));
+            StopCoroutine("CantOpenText");
+            StartCoroutine("CantOpenText");
         }
         else
         {
-            StopCoroutine(NoticeText("전투 중에는 열 수 없습니다.", 1.5f));
-
-            bagPanel.SetActive(!bagPanel.activeSelf);
-        }
-    }
-
-    public void OpenAndCloseMap()
-    {
-        if (isFighting)
-        {
-            StopCoroutine(NoticeText("전투 중에는 열 수 없습니다.", 1.5f));
-            StartCoroutine(NoticeText("전투 중에는 열 수 없습니다.", 1.5f));
-        }
-        else
-        {
-            StopCoroutine(NoticeText("전투 중에는 열 수 없습니다.", 1.5f));
+            StopCoroutine("CantOpenText");
 
             scrollRectBackGround.localPosition = -currentRoom.coordinate * 175;
-            mapPanel.SetActive(!mapPanel.activeSelf);
+            mapPanel.SetActive(bOpen);
         }    
     }
 
@@ -414,11 +398,11 @@ public class GameManager : MonoBehaviour
         roomClearSpeedWagon.gameObject.SetActive(false);
     }
 
-    private IEnumerator NoticeText(string text, float time)
+    private IEnumerator CantOpenText()
     {
-        noticeText.text = text;
+        noticeText.text = "전투 중에는 열 수 없습니다.";
         noticeText.gameObject.SetActive(true);
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSeconds(1f);
         noticeText.gameObject.SetActive(false);
     }
 
@@ -428,7 +412,7 @@ public class GameManager : MonoBehaviour
         stageSpeedWagon.SetActive(false);
         StopCoroutine("RoomClearSpeedWagon");
         roomClearSpeedWagon.SetActive(false);
-        StopCoroutine(NoticeText("전투 중에는 열 수 없습니다.", 1.5f));
+        StopCoroutine("CantOpenText");
         noticeText.gameObject.SetActive(false);
     }
 }

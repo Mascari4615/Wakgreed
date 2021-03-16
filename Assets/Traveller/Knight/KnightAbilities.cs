@@ -15,11 +15,11 @@ public class KnightAbilities : TravellerAbilities
     {
         if (t.h > 0)
         {
-            t.weaponPosition.transform.rotation = Quaternion.Euler(0, 0, t.joyStick.inputValue.y * 90);
+            // t.weaponPosition.transform.rotation = Quaternion.Euler(0, 0, t.joyStick.inputValue.y * 90);
         }
         else if (t.h < 0)
         {
-            t.weaponPosition.transform.rotation = Quaternion.Euler(0, 0, t.joyStick.inputValue.y * -90);
+            // t.weaponPosition.transform.rotation = Quaternion.Euler(0, 0, t.joyStick.inputValue.y * -90);
         }
     }
 

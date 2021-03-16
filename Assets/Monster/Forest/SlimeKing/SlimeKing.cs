@@ -3,20 +3,6 @@ using System.Collections;
 
 public class SlimeKing : Monster
 {
-    private bool isReadyToAttack = false;
-    private float t = 0;
-    private float attackCoolTime = 5;
-    [SerializeField] private Transform spawnPosParent = null;
-    [SerializeField] private Transform spawnPos = null;
-
-    [SerializeField] private GameObject attack222 = null;
-    [SerializeField] private GameObject asdasdasd = null;
-
-    [SerializeField] private GameObject attack333333 = null;
-    private float force = 2000;
-    int rand = 0;
-    int rand1 = 0;
-
     protected override void OnEnable()
     {
         base.OnEnable();
