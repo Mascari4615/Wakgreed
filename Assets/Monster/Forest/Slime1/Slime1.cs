@@ -3,9 +3,11 @@ using UnityEngine;
 
 public class Slime1 : Monster
 {
-    private enum State {Idle, Ahya, RandomMove, Attack}
+    private enum State {Idle, TenceUp, Ahya, Attack}
     private State currentState = State.Idle;
     private bool stateChange = false;
+    private bool bRecognizeTraveller = false;
+    [SerializeField] private GameObject warningLine;
 
     protected override void OnEnable()
     {
@@ -33,16 +35,50 @@ public class Slime1 : Monster
     {
         Debug.Log("Start Idle");
         float duration = Random.Range(0.5f, 2.5f + 0.1f);
-        animator.SetBool("IsMoving", false);
+
+        Vector3 moveDirection = Vector3.zero;
+        bool bIsMoving = Random.Range(0, 1 + 1) == 0 ? true : false;
+
+        animator.SetBool("IsMoving", bIsMoving);
+        if (bIsMoving)
+        {
+            int r = Random.Range(0, 4);
+            moveDirection = r == 0 ? Vector2.up : r == 1 ? Vector2.down : r == 2 ? Vector2.left : Vector2.right;
+            spriteRenderer.flipX = r == 2 ? true : r == 3 ? false : spriteRenderer.flipX;
+        }
+        
+        while (stateChange == false)
+        {
+            if (Vector2.Distance(transform.position, TravellerController.Instance.transform.position) < 10)
+            {
+                bRecognizeTraveller = true;
+                SetState(State.TenceUp);
+            }
+
+            duration -= Time.deltaTime;
+            if (duration <= 0)
+            {
+                SetState(State.Idle);
+            }
+            
+            rigidbody2D.velocity = moveDirection * moveSpeed;
+            yield return null;
+        }
+    }
+
+    private IEnumerator TenceUp()
+    {
+        Debug.Log("Start TenceUp");
+        float duration = 6f;
 
         while (stateChange == false)
         {
             duration -= Time.deltaTime;
             if (duration <= 0)
             {
-                State randomState = (Random.Range(0, 1 + 1) == 0) ? State.Idle : State.RandomMove;
-                SetState(randomState);
+                SetState(State.Attack);
             }
+
             yield return null;
         }
     }
@@ -57,32 +93,34 @@ public class Slime1 : Monster
             duration -= Time.deltaTime;
             if (duration <= 0)
             {
-                State randomState = (Random.Range(0, 1 + 1) == 0) ? State.Idle : State.RandomMove;
-                SetState(randomState);
+                SetState(bRecognizeTraveller ? State.TenceUp : State.Idle);
             }
             yield return null;
         }
     }
 
-    private IEnumerator RandomMove()
+    private IEnumerator Attack()
     {
-        Debug.Log("Start RandomMove");
-        float duration = Random.Range(0.5f, 2.5f + 0.1f);
-        animator.SetBool("IsMoving", true);
-        int r = Random.Range(0, 4);
-        Vector3 moveDirection = r == 0 ? Vector2.up : r == 1 ? Vector2.down : r == 2 ? Vector2.left : Vector2.right;
-        spriteRenderer.flipX = r == 2 ? true : r == 3 ? false : spriteRenderer.flipX;
+        Debug.Log("Start Attack");
+        float duration = 0.6f;
+        float delay = 1f;
 
+        warningLine.SetActive(true);
+        Vector2 rushDirection = (TravellerController.Instance.transform.position - transform.position).normalized;
         while (stateChange == false)
         {
-            rigidbody2D.velocity = moveDirection * moveSpeed;
-            
-            duration -= Time.deltaTime;
-            if (duration <= 0)
+            delay -= Time.deltaTime;
+            if (delay <= 0)
             {
-                State randomState = (Random.Range(0, 1 + 1) == 0) ? State.Idle : State.RandomMove;
-                SetState(randomState);
+                duration -= Time.deltaTime;
+                if (duration <= 0)
+                {
+                    SetState(State.TenceUp);
+                }
+
+                rigidbody2D.velocity = rushDirection * moveSpeed * 10;
             }
+
             yield return null;
         }
     }
