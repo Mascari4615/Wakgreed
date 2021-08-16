@@ -2,21 +2,13 @@
 
 public class ItemGameObject : LootGameObject
 {
-    [SerializeField] private TreasureDataBuffer TreasureDataBuffer;
-    [SerializeField] private LootDataBuffer LootDataBuffer;
+    [SerializeField] private ItemDataBuffer ItemDataBuffer;
     [SerializeField] private ItemInventory ItemInventory;
     private Item item;
 
-    public void SetItemGameObject(int id, bool isTreasure = false)
+    public void SetItemGameObject(int id)
     {
-        if (isTreasure)
-        {
-            item = TreasureDataBuffer.Items[id];
-        }
-        else
-        {
-            item = LootDataBuffer.Items[id];
-        }
+        item = ItemDataBuffer.Items[id];
         spriteRenderer.sprite = item.sprite;
     }
 

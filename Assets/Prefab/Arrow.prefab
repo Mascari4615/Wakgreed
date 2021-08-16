@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0.3987491, w: 0.91706014}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8920868527536870427}
   m_RootOrder: 0
@@ -114,6 +115,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8897316599254137515}
   m_Father: {fileID: 0}
@@ -157,7 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 058e48fcdc6a8c94f8efd82a243a6179, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 30
+  moveSpeed: 60
   direction: 1
 --- !u!114 &3185410684800534890
 MonoBehaviour:
@@ -184,7 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc5466ebd09324d40bd2cd21e37538e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalAD: {fileID: 0}
+  totalAD: {fileID: 11400000, guid: 0326d210993f63442a9733c8a569e3ec, type: 2}
   TravellerCriticalChance: {fileID: 11400000, guid: 300f8b12c04c18a45a8f73a08c3ab38b,
     type: 2}
   monsterAD: 0
@@ -201,4 +203,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adbd2402367b72342a34f86a3488182a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolType: 2

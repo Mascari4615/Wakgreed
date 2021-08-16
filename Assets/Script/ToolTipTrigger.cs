@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ToolTipTrigger : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
+public class ToolTipTrigger : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler, IPointerMoveHandler
 { 
     private Sprite sprite;
     private string header;
@@ -23,7 +23,7 @@ public class ToolTipTrigger : MonoBehaviour, IPointerExitHandler, IPointerEnterH
         if (isInputting)
         {
             t += Time.deltaTime;
-            if (t > 0.25f)
+            if (t > 0.1f)
             {
                 ToolTipManager.Show(sprite, header, description, comment, position, pivotType);
             }
@@ -41,6 +41,11 @@ public class ToolTipTrigger : MonoBehaviour, IPointerExitHandler, IPointerEnterH
     public void OnPointerEnter(PointerEventData eventData)
     {
         isInputting = true;
+        position = eventData.position;
+    }
+
+    public void OnPointerMove(PointerEventData eventData)
+    {
         position = eventData.position;
     }
 

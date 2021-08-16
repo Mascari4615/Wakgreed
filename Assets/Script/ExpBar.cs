@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ExpBar : MonoBehaviour
 {
     [SerializeField] private IntVariable travellerEXP;
     [SerializeField] private IntVariable travellerLevel;
     [SerializeField] private Image expBarImage;
-    [SerializeField] private Text expTextField;
-    [SerializeField] private Text levelTextField; 
+    [SerializeField] private TextMeshProUGUI expTextField;
+    [SerializeField] private TextMeshProUGUI levelTextField; 
 
     private void Awkae()
     {
