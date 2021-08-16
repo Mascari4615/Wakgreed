@@ -51,7 +51,7 @@ public abstract class LootGameObject : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             // Debug.Log($"{name} : OnEquip");
-            SoundManager.Instance.PlayAudioClip(soundEffect);
+            AudioManager.Instance.PlayAudioClip(soundEffect);
             OnEquip();
             
             // Debug.Log($"{name} : OnEquip 2 Raise");
