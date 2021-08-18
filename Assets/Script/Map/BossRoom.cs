@@ -8,31 +8,31 @@ public class BossRoom : Room
 
     public override void Enter()
     {
-        if (isVisited == false) isVisited = true;
-        doorHiders[0].SetActive(!isConnectToNearbyRoom[0]);
-        doorHiders[1].SetActive(!isConnectToNearbyRoom[1]);
-        doorHiders[2].SetActive(!isConnectToNearbyRoom[2]);
-        doorHiders[3].SetActive(!isConnectToNearbyRoom[3]);
-    }   
+        if (IsVisited == false) IsVisited = true;
+        DoorHiders[0].SetActive(!IsConnectToNearbyRoom[0]);
+        DoorHiders[1].SetActive(!IsConnectToNearbyRoom[1]);
+        DoorHiders[2].SetActive(!IsConnectToNearbyRoom[2]);
+        DoorHiders[3].SetActive(!IsConnectToNearbyRoom[3]);
+    }
 
     public void SummonBoss()
     {
         GameManager.Instance.SetFighting(true);
 
-        doorHiders[0].SetActive(true);
-        doorHiders[1].SetActive(true);
-        doorHiders[2].SetActive(true);
-        doorHiders[3].SetActive(true);
+        DoorHiders[0].SetActive(true);
+        DoorHiders[1].SetActive(true);
+        DoorHiders[2].SetActive(true);
+        DoorHiders[3].SetActive(true);
 
         //GameObject bossGO = ObjectManager.Instance.GetQueue(boss, bossSpawnPoint.position);
         GameObject bossGO = ObjectManager.Instance.GetQueue(boss.name, bossSpawnPoint.position);
-         
+
         StartCoroutine(UIManager.Instance.SpeedWagon_Boss(bossGO));
     }
 
     public void CheckMonsterCount()
     {
-        if (GameManager.Instance.currentRoom != this) return;
+        if (StageManager.Instance.CurrentRoom != this) return;
         // 페이즈 체크
         RoomClear();
     }
@@ -47,10 +47,10 @@ public class BossRoom : Room
 
         GameManager.Instance.SetFighting(false);
 
-        doorHiders[0].SetActive(!isConnectToNearbyRoom[0]);
-        doorHiders[1].SetActive(!isConnectToNearbyRoom[1]);
-        doorHiders[2].SetActive(!isConnectToNearbyRoom[2]);
-        doorHiders[3].SetActive(!isConnectToNearbyRoom[3]);       
+        DoorHiders[0].SetActive(!IsConnectToNearbyRoom[0]);
+        DoorHiders[1].SetActive(!IsConnectToNearbyRoom[1]);
+        DoorHiders[2].SetActive(!IsConnectToNearbyRoom[2]);
+        DoorHiders[3].SetActive(!IsConnectToNearbyRoom[3]);
 
         StartCoroutine(GameManager.Instance.RoomClearSpeedWagon());
     }

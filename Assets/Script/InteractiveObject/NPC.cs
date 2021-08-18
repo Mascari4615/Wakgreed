@@ -5,7 +5,12 @@ public abstract class NPC : InteractiveObject
 {
     [SerializeField] protected GameObject canvas;
     [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
-    
+
+    private void Awake()
+    {
+        cinemachineVirtualCamera.Follow = GameObject.Find("CM TargetGroup").transform;
+    }
+
     public override void Interaction()
     { 
         canvas.SetActive(true);
@@ -15,7 +20,10 @@ public abstract class NPC : InteractiveObject
     {
         if (other.CompareTag("Player"))
         {
-            cinemachineVirtualCamera.Priority = 100;
+            GameObject.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>().m_Targets[1].target = transform;
+            GameObject.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>().m_Targets[1].weight = 5;
+            //GameObject.Find("CM Camera").GetComponent<CinemachineVirtualCamera>().m_Lens.OrthographicSize = 9;
+            cinemachineVirtualCamera.Priority = 200;
         }
     }
 
@@ -23,7 +31,10 @@ public abstract class NPC : InteractiveObject
     {
         if (other.CompareTag("Player"))
         {
+            GameObject.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>().m_Targets[1].target = null;
+            GameObject.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>().m_Targets[1].weight = 1;
             cinemachineVirtualCamera.Priority = -100;
+            canvas.SetActive(false);
         }
     }
 }

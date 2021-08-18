@@ -8,6 +8,6 @@ public class PoolingObject : MonoBehaviour
     {
         // Debug.Log($"{name} : InsertQueue");
         //ObjectManager.Instance.InsertQueue(poolType, gameObject);
-        ObjectManager.Instance.InsertQueue(name, gameObject);
+        ObjectManager.Instance.InsertQueue(gameObject);
     }
 }

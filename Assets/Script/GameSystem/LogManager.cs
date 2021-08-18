@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -8,7 +6,6 @@ public class LogManager : MonoBehaviour
     private static LogManager instance;
     public static LogManager Instance { get { return instance; } }
 
-    List<Log> logList = new List<Log>();
     [SerializeField] private GameObject chatGameObject;
     public GameObject chatPanel;
     [SerializeField] private GameObject textGameObjectPrefab;
@@ -24,7 +21,6 @@ public class LogManager : MonoBehaviour
         for (int i = 1; i < chatPanel.transform.childCount; i++)
         {
             Destroy(chatPanel.transform.GetChild(i).gameObject);
-            Debug.Log(i);
         }
     }
     private void Update()
@@ -48,7 +44,11 @@ public class LogManager : MonoBehaviour
 
         if (chatPanel.transform.childCount > 50)
         {
-
+            for (int i = 0; i < chatPanel.transform.childCount - 50; i++)
+            {
+                //ObjectManager.Instance.InsertQueue(chatPanel.transform.GetChild(0).gameObject);
+                Destroy(chatPanel.transform.GetChild(0).gameObject);
+            }
         }
     }
     public void Chat(string msg)
@@ -56,20 +56,23 @@ public class LogManager : MonoBehaviour
         // Log log = new Log();
 
         // ´ëÃæ ¸í·É¾îÀÎÁö ÀÏ¹Ý Ã¤ÆÃÀÎÁö ·Î±×ÀÎÁö ÆÇµ¶ÇÏ´Â ÄÚµå
-        ObjectManager.Instance.GetQueue("Chat", chatPanel.transform).GetComponent<TextMeshProUGUI>().text = "<b>¿ì¿Î±»</b> : " + msg;
-        twitchConnect.SendMassage();
+        //ObjectManager.Instance.GetQueue("Chat", chatPanel.transform, true).GetComponent<TextMeshProUGUI>().text = "<b>¿ì¿Î±»</b> : " + msg;
+        Instantiate(textGameObjectPrefab, chatPanel.transform).GetComponent<TextMeshProUGUI>().text = "<b>¿ì¿Î±»</b> : " + msg;
+        //twitchConnect.SendMassage();
         t = 5;
     }
     public void Chat(string[] msgs)
     {
         if (msgs.Length == 1) return;
-        ObjectManager.Instance.GetQueue("Chat", chatPanel.transform).GetComponent<TextMeshProUGUI>().text = $"<b>{msgs[1]}</b> : {msgs[2]}";
+        //ObjectManager.Instance.GetQueue("Chat", chatPanel.transform, true).GetComponent<TextMeshProUGUI>().text = $"<b>{msgs[1]}</b> : {msgs[2]}";
         t = 5;
-    }
-    public void Log2Chat(string log)
-    {
 
+        if (chatPanel.transform.childCount > 50)
+        {
+            for (int i = 0; i < chatPanel.transform.childCount - 50; i++)
+            {
+                ObjectManager.Instance.InsertQueue(chatPanel.transform.GetChild(0).gameObject);
+            }
+        }
     }
 }
-
-public class Log { public string text; }

@@ -27,8 +27,6 @@ public class Weapon : ScriptableObject, ISerializationCallbackReceiver
     public float magazine;
     [System.NonSerialized] public float ammo;
     public float reloadTime;
-    public AudioClip soundEffect;
-    public AudioClip[] subAudioEffects;
 
     public void OnAfterDeserialize()
     {

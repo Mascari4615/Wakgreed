@@ -19,6 +19,6 @@ public class Cloud : MonoBehaviour
     {
         transform.position -= new Vector3(1, 0, 0) * Time.deltaTime * speed;
         //if (transform.position.x <= -60) ObjectManager.Instance.InsertQueue(PoolType.Cloud, gameObject);
-        if (transform.position.x <= -60) ObjectManager.Instance.InsertQueue("Cloud", gameObject);
+        if (transform.position.x <= -60) ObjectManager.Instance.InsertQueue(gameObject);
     }
 }

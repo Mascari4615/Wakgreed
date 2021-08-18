@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using FMODUnity;
 
 public abstract class LootGameObject : MonoBehaviour
 {
@@ -51,7 +52,7 @@ public abstract class LootGameObject : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             // Debug.Log($"{name} : OnEquip");
-            AudioManager.Instance.PlayAudioClip(soundEffect);
+            RuntimeManager.PlayOneShot("event:/SFX/ETC/LootGameObject", transform.position);
             OnEquip();
             
             // Debug.Log($"{name} : OnEquip 2 Raise");

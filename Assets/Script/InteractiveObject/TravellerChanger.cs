@@ -7,6 +7,6 @@ public class TravellerChanger : NPC
     {
         canvas.SetActive(false);
         TravellerController.Instance.traveller = travellers[index];
-        TravellerController.Instance.Initialize();
+        TravellerController.Instance.Initialize(true);
     }
 }
