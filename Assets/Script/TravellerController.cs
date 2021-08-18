@@ -1,7 +1,8 @@
+using Cinemachine;
+using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cinemachine;
 
 public class TravellerController : MonoBehaviour
 {
@@ -24,13 +25,10 @@ public class TravellerController : MonoBehaviour
     private CinemachineTargetGroup cinemachineTargetGroup;
     public GameObject bloodingPanel;
 
-    private float coolDown = 1;
     private float curCoolDown, curAttackCoolDown;
     private bool isHealthy, canAttack, canInteraction;
-    private float[] curSkillCoolDown;
-    private bool[] canUseSkill;
 
-    [HideInInspector] public float h = 0;
+    private float h = 0;
     private float v = 0;
 
     private Rigidbody2D playerRB;
@@ -38,7 +36,6 @@ public class TravellerController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
 
     private GameObject target = null;
-    public ItemInventory ItemInventory;
     private GameObject nearInteractiveObject;
     [SerializeField] private EnemyRunTimeSet EnemyRunTimeSet;
     private float bbolBBolCoolDown = 0.3f;
@@ -51,11 +48,9 @@ public class TravellerController : MonoBehaviour
     [SerializeField] private GameObject hand;
 
     [SerializeField] private BuffRunTimeSet buffRunTimeSet;
-    [SerializeField] private DataBuffer<Buff> buffBuffer;
-
+    
     private void Awake()
     {
-        // Debug.Log($"{name} : Awake");
         instance = this;
         // attackPosition.transform.position = new Vector3(0, attackPosGap, 0);
 
@@ -67,19 +62,18 @@ public class TravellerController : MonoBehaviour
 
     private void OnEnable()
     {
-        // Debug.Log(name + " : OnEnable");
-        Initialize();
+        Initialize(true);
     }
 
-    public void Initialize()
+    public void Initialize(bool spawnZero)
     {
-        // Debug.Log(name + " : Initialize");
-        
-        transform.position = Vector3.zero;
+        if (spawnZero) transform.position = Vector3.zero;
+        else transform.position = Vector3.zero + Vector3.up * -47;
+
         maxHP.RuntimeValue = traveller.baseHP;
         HP.RuntimeValue = maxHP.RuntimeValue;
         OnHpChange.Raise();
-        
+
         AD.RuntimeValue = traveller.baseAD;
         AS.RuntimeValue = traveller.baseAS;
 
@@ -90,26 +84,22 @@ public class TravellerController : MonoBehaviour
         Level.RuntimeValue = 0;
         requiredExp = (100 * (1 + Level.RuntimeValue));
         OnExpChange.Raise();
-        
+
         curCoolDown = 0;
         isHealthy = true;
         curAttackCoolDown = 0;
-        curSkillCoolDown = new float[] { 0, 0, 0 };
         canAttack = true;
-        canUseSkill = new bool[] { false, false, false };
         canInteraction = false;
         h = 0;
         v = 0;
-       
+
         playerRB.bodyType = RigidbodyType2D.Dynamic;
         cinemachineTargetGroup.m_Targets[0].target = transform;
         animator.SetTrigger("WakeUp");
         animator.SetBool("Move", false);
 
-        traveller.abilities.Initialize(this);
-
         Instantiate(curWeapon.resource, weaponPosition);
-        //weaponPosition.GetChild(0).GetComponent<SpriteRenderer>().sprite = curWeapon.icon;
+        
         AD.RuntimeValue = curWeapon.maxDamage;
         foreach (var weaponBuff in curWeapon.buffs)
         {
@@ -117,38 +107,36 @@ public class TravellerController : MonoBehaviour
             weaponBuff.hasCondition = true;
         }
 
-        StopCoroutine("Update001");
-        StartCoroutine("Update001");
+        StopCoroutine(DashASD());
+        StartCoroutine(DashASD());
+        StopCoroutine(UpdateDashStack());
+        StartCoroutine(UpdateDashStack());
     }
 
     private void Update()
     {
         spriteRenderer.sortingOrder = -(int)System.Math.Truncate(transform.position.y * 10);
+        spriteRenderer.color = isHealthy == true ? Color.white : new Color(1, 1, 1, (float)100 / 255);
         if (Time.timeScale == 0) return;
+
+        // Targeting();
+        CheckCoolDown(ref isHealthy, ref curCoolDown, 1 /*무적 시간*/);
+        CheckCoolDown(ref canAttack, ref curAttackCoolDown, 1 / AS.RuntimeValue);
 
         Move();
         if (Input.GetMouseButton(0) && canAttack) BasicAttack();
         Dash();
         if (Input.GetKeyDown(KeyCode.F) && canInteraction) Interaction();
-        traveller.abilities._Update(this);
- 
+
         if (Input.GetAxisRaw("Mouse ScrollWheel") != 0) StartCoroutine(SwitchWeapon());
         else if (Input.GetKeyDown(KeyCode.Alpha1)) StartCoroutine(SwitchWeapon(1));
         else if (Input.GetKeyDown(KeyCode.Alpha2)) StartCoroutine(SwitchWeapon(2));
 
         if (Input.GetKeyDown(KeyCode.R) && curWeapon.magazine != 0) StartCoroutine((curWeapon.baseAttack as RangedSkill).Reload(this));
         if (curWeapon.magazine != 0 && curWeapon.ammo == 0) StartCoroutine((curWeapon.baseAttack as RangedSkill).Reload(this));
-
-        //weaponPosition.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(Camera.main.ScreenToWorldPoint(Input.mousePosition).y - weaponPosition.position.y, Camera.main.ScreenToWorldPoint(Input.mousePosition).x - weaponPosition.position.x) * Mathf.Rad2Deg);
     }
 
     public bool isSwitching = false;
-    /// <summary>
-    /// 왁굳이 현재 들고 있는 무기 스위칭
-    /// </summary>
-    /// <param name="targetWeapon"> 현재 들고 있는 무기에서 스위칭 할 무기</param>
-    /// <param name="isExternalSwitching"> False - 내부 스위칭, True - 외부 스위칭</param>
-    /// <returns></returns>
     public IEnumerator SwitchWeapon(int targetWeaponNumber = 0, Weapon targetWeapon = null)
     {
         if (!isSwitching)
@@ -193,14 +181,14 @@ public class TravellerController : MonoBehaviour
                     }
                 }
 
-                    Instantiate(curWeapon.resource, weaponPosition);
-                    //weaponPosition.GetChild(0).GetComponent<SpriteRenderer>().sprite = curWeapon.icon;
-                    AD.RuntimeValue = curWeapon.maxDamage;
-                    foreach (var weaponBuff in curWeapon.buffs)
-                    {
-                        buffRunTimeSet.Add(weaponBuff);
-                        weaponBuff.hasCondition = true;
-                    }
+                Instantiate(curWeapon.resource, weaponPosition);
+                //weaponPosition.GetChild(0).GetComponent<SpriteRenderer>().sprite = curWeapon.icon;
+                AD.RuntimeValue = curWeapon.maxDamage;
+                foreach (var weaponBuff in curWeapon.buffs)
+                {
+                    buffRunTimeSet.Add(weaponBuff);
+                    weaponBuff.hasCondition = true;
+                }
 
 
                 yield return new WaitForSeconds(0.25f);
@@ -208,13 +196,36 @@ public class TravellerController : MonoBehaviour
             }
         }
     }
+    
+    private Vector3 derectionPos;
+    private bool isDashing = false;
+    public float dashParametor = 1;
+    private float temptime = 0;
+    public GameObject dashasdasd;
+    public GameObject[] dashStackUIs;
+    private int maxDashStack = 5;
+    private int curDashStack = 0;
+    private float dashCoolTime = 1f;
 
+    private void Dash()
+    {
+        Debug.DrawRay(transform.position, derectionPos * 0.9f, Color.red);
+
+        if ((Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Space)) && !isDashing && curDashStack > 0)
+        {
+            curDashStack--;
+            RuntimeManager.PlayOneShot("event:/SFX/Wakgood/Dash", transform.position);
+            derectionPos = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x - transform.position.x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y - transform.position.y, 0).normalized;
+            dashasdasd.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(Camera.main.ScreenToWorldPoint(Input.mousePosition).y - transform.position.y, Camera.main.ScreenToWorldPoint(Input.mousePosition).x - transform.position.x) * Mathf.Rad2Deg - 90);
+            isDashing = true;
+            playerRB.velocity = Vector3.zero;
+        }
+    }
     private void FixedUpdate()
     {
-        //Debug.Log(Time.fixedDeltaTime);
         if (isDashing)
         {
-            temptime += Time.fixedDeltaTime;
+            temptime += 0.02f;
             if (temptime >= 0.1f) { isDashing = false; temptime = 0; }
             foreach (RaycastHit2D hitObject in Physics2D.RaycastAll(transform.position, derectionPos, 0.9f))
             {
@@ -223,56 +234,49 @@ public class TravellerController : MonoBehaviour
             if (isDashing == false)
             {
                 playerRB.velocity = Vector3.zero;
-                return;
             }
+            else
+            {
                 // transform.position += derectionPos * Time.deltaTime * 10 * dashParametor;
                 playerRB.velocity = derectionPos * 10 * dashParametor;
-            //Debug.Log("Dashing");
+            }
         }
     }
-    Vector3 derectionPos;
-    bool isDashing = false;
-    public float dashParametor = 1;
-    float temptime = 0;
-    public GameObject dashasdasd;
-
-    private void Dash()
+    private IEnumerator DashASD()
     {
-        Debug.DrawRay(transform.position, derectionPos * 0.9f, Color.red);
-        if ((Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Space)) && !isDashing) 
-        {
-            // derectionPos = Input.GetKey(KeyCode.LeftShift) ? new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x - transform.position.x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y - transform.position.y, 0).normalized : new Vector3(h, v, 0);
-            derectionPos = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x - transform.position.x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y - transform.position.y, 0).normalized;
-            dashasdasd.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(Camera.main.ScreenToWorldPoint(Input.mousePosition).y - transform.position.y, Camera.main.ScreenToWorldPoint(Input.mousePosition).x - transform.position.x) * Mathf.Rad2Deg - 90);
-            isDashing = true;
-            playerRB.velocity = Vector3.zero;
-            //Debug.Log("Dashed");
-        }   
-    }
-
-    private IEnumerator Update001()
-    {
-        // int i = 0;
         while (true)
         {
-            // Debug.Log($"{name} : Update001 {++i}");
-            if (Time.timeScale == 0)
+            for (int i = 0; i < maxDashStack; i++)
             {
-                yield return new WaitForSeconds(0.1f);
-                continue;
+                if (i < curDashStack)
+                {
+                    dashStackUIs[i].transform.GetChild(0).gameObject.SetActive(true);
+                }
+                else
+                {
+                    dashStackUIs[i].transform.GetChild(0).gameObject.SetActive(false);
+
+                }
             }
 
-            // Targeting();
+            
+            yield return new WaitForSeconds(0.02f);
+        }       
+    }
 
-            CheckCoolDown(ref isHealthy, ref curCoolDown, coolDown);
-            CheckCoolDown(ref canAttack, ref curAttackCoolDown, 1 / AS.RuntimeValue);
-            CheckCoolDown(ref canUseSkill[0], ref curSkillCoolDown[0], traveller.skillCoolDown[0]);
-            CheckCoolDown(ref canUseSkill[1], ref curSkillCoolDown[1], traveller.skillCoolDown[1]);
-            CheckCoolDown(ref canUseSkill[2], ref curSkillCoolDown[2], traveller.skillCoolDown[2]);
-
-            spriteRenderer.color = isHealthy == true ? Color.white : new Color(1, 1, 1, (float)100 / 255);
-
-            yield return new WaitForSeconds(0.1f);
+    private IEnumerator UpdateDashStack()
+    {
+        while (true)
+        {
+            if (curDashStack < maxDashStack)
+            {
+                yield return new WaitForSeconds(dashCoolTime);
+                curDashStack++;
+            }
+            else
+            {
+                yield return new WaitForSeconds(0.02f);
+            } 
         }
     }
 
@@ -280,7 +284,7 @@ public class TravellerController : MonoBehaviour
     {
         if (coolDownTarget == false)
         {
-            currentCoolDown += 0.1f;
+            currentCoolDown += Time.deltaTime;
             if (currentCoolDown >= coolDown)
             {
                 coolDownTarget = true;
@@ -301,7 +305,7 @@ public class TravellerController : MonoBehaviour
         if (Input.GetKey(KeyCode.W)) { if (!verticalMoveDirectionList.Contains(1)) verticalMoveDirectionList.Add(1); }
         else verticalMoveDirectionList.Remove(1);
         if (Input.GetKey(KeyCode.S)) { if (!verticalMoveDirectionList.Contains(-1)) verticalMoveDirectionList.Add(-1); }
-        else verticalMoveDirectionList.Remove(-1);;
+        else verticalMoveDirectionList.Remove(-1); ;
 
         if (isDashing) return;
 
@@ -320,8 +324,7 @@ public class TravellerController : MonoBehaviour
 
             if (curBBolBBolCoolDown > bbolBBolCoolDown)
             {
-                //ObjectManager.Instance.GetQueue(PoolType.BBolBBol, transform.position);
-                ObjectManager.Instance.GetQueue("BBolBBol", transform.position);
+                ObjectManager.Instance.GetQueue("BBolBBol", transform.position, true);
                 curBBolBBolCoolDown = 0;
                 bbolBBolCoolDown = Random.Range(0.1f, 0.3f);
             }
@@ -336,7 +339,7 @@ public class TravellerController : MonoBehaviour
             animator.SetBool("Move", false);
         }
 
-        attackPositionParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(Camera.main.ScreenToWorldPoint(Input.mousePosition).y - (transform.position.y+0.8f), Camera.main.ScreenToWorldPoint(Input.mousePosition).x - transform.position.x) * Mathf.Rad2Deg - 90);
+        attackPositionParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(Camera.main.ScreenToWorldPoint(Input.mousePosition).y - (transform.position.y + 0.8f), Camera.main.ScreenToWorldPoint(Input.mousePosition).x - transform.position.x) * Mathf.Rad2Deg - 90);
 
         if (target != null)
         {
@@ -358,7 +361,7 @@ public class TravellerController : MonoBehaviour
                 weaponPosition.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(Camera.main.ScreenToWorldPoint(Input.mousePosition).y - weaponPosition.position.y, Camera.main.ScreenToWorldPoint(Input.mousePosition).x - weaponPosition.position.x) * Mathf.Rad2Deg);
             }
             else
-            { 
+            {
                 spriteRenderer.flipX = true;
                 //transform.localScale = new Vector3(-1, 1, 1);
                 weaponPosition.localScale = new Vector3(-1, 1, 1);
@@ -367,12 +370,11 @@ public class TravellerController : MonoBehaviour
                 weaponPosition.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(weaponPosition.position.y - Camera.main.ScreenToWorldPoint(Input.mousePosition).y, weaponPosition.position.x - Camera.main.ScreenToWorldPoint(Input.mousePosition).x) * Mathf.Rad2Deg);
             }
         }
-            // cinemachineTargetGroup.m_Targets[1].target = null;
+        // cinemachineTargetGroup.m_Targets[1].target = null;
     }
 
     private void Interaction()
     {
-        // Debug.Log(name + " : Interaction");
         nearInteractiveObject.GetComponent<InteractiveObject>().Interaction();
     }
 
@@ -398,28 +400,13 @@ public class TravellerController : MonoBehaviour
                     targetDist = currentDist;
                 }
             }
-        }           
+        }
     }
 
     public void BasicAttack()
     {
-        //Debug.Log(name + " : Attack");
-        //SoundManager.Instance.PlayAudioClip(traveller.basicAttackAudioClips[Random.Range(0, traveller.basicAttackAudioClips.Length)]);
         canAttack = false;
-        // traveller.abilities.BasicAttack(this);
         curWeapon.baseAttack.Attack(this);
-    }
-    
-    public void Skill(int i)
-    {
-        if (!canUseSkill[i]) return;
-        canUseSkill[i] = false;
-
-        Debug.Log($"{name} : Ability{i}");
-
-        if (i == 0) traveller.abilities.Skill0(this);
-        else if (i == 1) traveller.abilities.Skill1(this);
-        else if (i == 2) traveller.abilities.Skill2(this);
     }
 
     public void ReceiveDamage(int damage)
@@ -438,7 +425,6 @@ public class TravellerController : MonoBehaviour
 
     private IEnumerator Collapse()
     {
-        // Debug.Log($"{name} : Collapse");
         playerRB.bodyType = RigidbodyType2D.Static;
         animator.SetTrigger("Collapse");
 
@@ -454,11 +440,9 @@ public class TravellerController : MonoBehaviour
 
     private void LevelUp()
     {
-        Debug.Log($"{name} : LevelUp");
-
         maxHP.RuntimeValue += traveller.growthHP;
         OnHpChange.Raise();
-        
+
         AD.RuntimeValue += traveller.growthAD;
         AS.RuntimeValue += traveller.growthAS;
 
@@ -467,22 +451,20 @@ public class TravellerController : MonoBehaviour
         requiredExp = (100 * (1 + Level.RuntimeValue));
         OnLevelUp.Raise();
         OnExpChange.Raise();
-        
-        //ObjectManager.Instance.GetQueue(PoolType.Smoke, transform);
+
         ObjectManager.Instance.GetQueue("LevelUpEffect", transform);
-        //ObjectManager.Instance.GetQueue(PoolType.AnimatedText, transform).GetComponent<AnimatedText>().SetText("Level Up!", TextType.Critical);
         ObjectManager.Instance.GetQueue("DamageText", transform).GetComponent<AnimatedText>().SetText("Level Up!", TextType.Critical);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("UpperDoor")) GameManager.Instance.StartCoroutine(GameManager.Instance.MigrateRoom(Vector2.up, 1));
-        else if (other.CompareTag("LowerDoor")) GameManager.Instance.StartCoroutine(GameManager.Instance.MigrateRoom(Vector2.down, 0)); 
-        else if (other.CompareTag("LeftDoor")) GameManager.Instance.StartCoroutine(GameManager.Instance.MigrateRoom(Vector2.left, 3)); 
-        else if (other.CompareTag("RightDoor")) GameManager.Instance.StartCoroutine(GameManager.Instance.MigrateRoom(Vector2.right, 2));
+        if (other.CompareTag("UpperDoor")) GameManager.Instance.StartCoroutine(StageManager.Instance.MigrateRoom(Vector2.up, 1));
+        else if (other.CompareTag("LowerDoor")) GameManager.Instance.StartCoroutine(StageManager.Instance.MigrateRoom(Vector2.down, 0));
+        else if (other.CompareTag("LeftDoor")) GameManager.Instance.StartCoroutine(StageManager.Instance.MigrateRoom(Vector2.left, 3));
+        else if (other.CompareTag("RightDoor")) GameManager.Instance.StartCoroutine(StageManager.Instance.MigrateRoom(Vector2.right, 2));
 
-        if (other.CompareTag("NormalArea")) AreaTweener.Instance.TweenArea(Area.Normal);
-        else if (other.CompareTag("TestArea")) AreaTweener.Instance.TweenArea(Area.Test);
+        if (other.CompareTag("NormalArea")) AreaTweener.Instance.AreaToNormal();
+        else if (other.CompareTag("Area")) AreaTweener.Instance.NormalToArea(other.transform);
 
         if (other.CompareTag("InteractiveObject"))
         {
@@ -496,6 +478,6 @@ public class TravellerController : MonoBehaviour
         if (other.CompareTag("InteractiveObject"))
         {
             canInteraction = false;
-        }     
+        }
     }
 }

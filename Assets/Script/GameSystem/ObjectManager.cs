@@ -3,71 +3,80 @@ using UnityEngine;
 
 public class ObjectManager : MonoBehaviour
 {
-    [System.Serializable] private class PoolData
+    static ObjectManager instance = null;
+    public static ObjectManager Instance { get { return instance; } }
+
+    [System.Serializable] class PoolData
     {
         public GameObject gameObject;
         public int count;
         public Queue<GameObject> queue = new Queue<GameObject>();
     }
-    private static ObjectManager instance = null;
-    public static ObjectManager Instance { get { return instance; } }
-    private Dictionary<string, PoolData> poolDataDictionary = new Dictionary<string, PoolData>();
-    [SerializeField] private PoolData[] poolDatas = new PoolData[1];
-    [SerializeField] private GameObject asdf;
+
+    Dictionary<string, PoolData> poolDic = new Dictionary<string, PoolData>();
+    [SerializeField] PoolData[] poolDatas;
 
     void Awake()
     {
         instance = this;
-        
-        for (int i = 0; i < poolDatas.Length; i++)
-        {
-            PoolData pD = poolDatas[i];
-            poolDataDictionary.Add(pD.gameObject.name, pD);
 
-            for (int j = 0; j < pD.count; j++) Instantiate(poolDataDictionary[pD.gameObject.name].gameObject, asdf.transform).SetActive(false);
+        foreach (var pD in poolDatas)
+        {
+            poolDic.Add(pD.gameObject.name, pD);
+            //Debug.Log(pD.gameObject.name);
+
+            GameObject go = new(pD.gameObject.name);
+            go.transform.SetParent(transform);
+
+            for (int i = 0; i < pD.count; i++) Instantiate(poolDic[pD.gameObject.name].gameObject, go.transform).SetActive(false);
         }
     }
 
-    public void InsertQueue(string poolObjectName, GameObject targetObject)
+    public void InsertQueue(GameObject poolObject)
     {
-        if (poolObjectName.Contains("(Clone)"))
-            poolObjectName = poolObjectName.Remove(poolObjectName.IndexOf("("),7);
+        string poolName = poolObject.name.Contains("(Clone)") ? poolObject.name.Remove(poolObject.name.IndexOf("("), 7) : poolObject.name;
+        //Debug.Log(poolName);
 
-        if (!poolDataDictionary.ContainsKey(poolObjectName))
+        if (!poolDic.ContainsKey(poolName))
         {
-            PoolData poolData = new PoolData();
-            poolData.gameObject = targetObject;
-            poolDataDictionary.Add(poolObjectName, poolData);
+            GameObject go = new() { name = poolName };
+            go.transform.SetParent(transform);
+
+            PoolData pD = new() { gameObject = poolObject };
+            poolDic.Add(poolName, pD);
         }
-        poolDataDictionary[poolObjectName].queue.Enqueue(targetObject);
-        targetObject.SetActive(false);
+
+        poolDic[poolName].queue.Enqueue(poolObject);
+        poolObject.SetActive(false);
     }
     
-    public GameObject GetQueue(string poolObjectName, Vector3 createPos)
+    public GameObject GetQueue(string poolName, Vector3 createPos, bool setParent = false)
     {
-        if (poolDataDictionary[poolObjectName].queue.Count == 0)
+        if (poolDic[poolName].queue.Count == 0)
         {
-            return Instantiate(poolDataDictionary[poolObjectName].gameObject, createPos, Quaternion.identity);
-        }
+            if (setParent) return Instantiate(poolDic[poolName].gameObject, createPos, Quaternion.identity, transform.Find(poolName));
+            else return Instantiate(poolDic[poolName].gameObject, createPos, Quaternion.identity);        }
         else
         {
-            GameObject targetObject = poolDataDictionary[poolObjectName].queue.Dequeue();
-            targetObject.transform.position = createPos;
+            GameObject targetObject = poolDic[poolName].queue.Dequeue();
+            targetObject.transform.SetPositionAndRotation(createPos, Quaternion.identity);
             targetObject.SetActive(true);
             return targetObject;
         }
     }
 
-    public GameObject GetQueue(string poolObjectName, Transform createTransform)
+    public GameObject GetQueue(string poolName, Transform transform, bool setParent = false)
     {
-        if (poolDataDictionary[poolObjectName].queue.Count == 0)
+        if (poolDic[poolName].queue.Count == 0)
         {
-            return Instantiate(poolDataDictionary[poolObjectName].gameObject, createTransform.position, createTransform.rotation);
+            if (setParent) return Instantiate(poolDic[poolName].gameObject, transform.position, transform.rotation, transform.Find(poolName));
+            else return Instantiate(poolDic[poolName].gameObject, transform.position, transform.rotation);
         }
         else
         {
-            GameObject targetObject = poolDataDictionary[poolObjectName].queue.Dequeue();
-            targetObject.transform.SetPositionAndRotation(createTransform.position, createTransform.rotation);
+            GameObject targetObject = poolDic[poolName].queue.Dequeue();
+            targetObject.transform.SetPositionAndRotation(transform.position, transform.rotation);
+            if (setParent) targetObject.transform.SetParent(transform);
             targetObject.SetActive(true);
             return targetObject;
         }

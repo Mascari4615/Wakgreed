@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using FMODUnity;
 
 public class MasteryManager : MonoBehaviour
 {
@@ -38,7 +39,7 @@ public class MasteryManager : MonoBehaviour
 
     public void ChooseAbility(int i)
     {
-        AudioManager.Instance.PlayAudioClip(soundEffect);
+        RuntimeManager.PlayOneShot("event:/SFX/ETC/UI", transform.position);
         ToolTipManager.Hide();
         selectMasteryStack--;
 

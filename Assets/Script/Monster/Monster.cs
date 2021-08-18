@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using FMODUnity;
+using System.Collections;
 using UnityEngine;
 
 public abstract class Monster : MonoBehaviour
@@ -11,7 +12,6 @@ public abstract class Monster : MonoBehaviour
     [SerializeField] protected int baseHP, baseAD, baseMoveSpeed;
     protected int maxHP, HP, AD, moveSpeed;
 
-    [SerializeField] private AudioClip[] soundEffects;
     [SerializeField] protected EnemyRunTimeSet EnemyRunTimeSet;
     [SerializeField] private GameEvent OnMonsterCollapse;
 
@@ -56,12 +56,12 @@ public abstract class Monster : MonoBehaviour
 
         if (HP > 0)
         {
-            AudioManager.Instance.PlayAudioClip(soundEffects[0]);
+            RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("("), 7) : name)}_Hurt", transform.position);
             animator.SetTrigger("Ahya");
         }
         else if (HP <= 0)
         {
-            AudioManager.Instance.PlayAudioClip(soundEffects[1]);
+            RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("("), 7) : name)}_Hurt", transform.position);
 
             StopAllCoroutines();
             StartCoroutine(Collapse());
@@ -76,7 +76,7 @@ public abstract class Monster : MonoBehaviour
         animator.SetTrigger("Collapse");
 
         EnemyRunTimeSet.Remove(gameObject);
-        if (GameManager.Instance.currentRoom.roomType == RoomType.Normal || monsterType == MonsterType.Boss)
+        if (StageManager.Instance.CurrentRoom.roomType == RoomType.Normal || monsterType == MonsterType.Boss)
         {
             OnMonsterCollapse.Raise(transform);
             int randCount = Random.Range(0, 5);
@@ -85,7 +85,7 @@ public abstract class Monster : MonoBehaviour
                 ObjectManager.Instance.GetQueue("ExpOrb", transform.position);
             if (Random.Range(0, 100) < 30)
                 //ObjectManager.Instance.GetQueue(PoolType.Item, transform.position).GetComponent<ItemGameObject>().SetItemGameObject(0);
-                ObjectManager.Instance.GetQueue("Item", transform.position).GetComponent<ItemGameObject>().SetItemGameObject(0);
+                ObjectManager.Instance.GetQueue("Item", transform.position).GetComponent<ItemGameObject>().SetItemGameObject();
         }
 
         //ObjectManager.Instance.GetQueue(PoolType.Smoke, transform.position);

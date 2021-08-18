@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using FMODUnity;
 
 [CreateAssetMenu(fileName = "RangedSkill", menuName = "Skill/RangedSkill")]
 public class RangedSkill : Skill, ISerializationCallbackReceiver
@@ -11,7 +12,7 @@ public class RangedSkill : Skill, ISerializationCallbackReceiver
         if (isReloading) return;
         if (parent.curWeapon.ammo > 0)
         {
-            AudioManager.Instance.PlayAudioClip(parent.curWeapon.soundEffect);
+            RuntimeManager.PlayOneShot("event:/SFX/Weapon/EX_Attack", parent.attackPosition.position);
 
             if (resource != null)
             {
