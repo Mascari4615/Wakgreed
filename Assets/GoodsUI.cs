@@ -16,7 +16,6 @@ public class GoodsUI : MonoBehaviour
         }
         else
         {
-            Debug.Log("asd");
             if (IntVariable != null) text.text = IntVariable.RuntimeValue.ToString();
             else text.text = floatVariable.RuntimeValue.ToString();
         }

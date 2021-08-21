@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GameEvent", menuName = "GameSystem/GameEvent")]
 public class GameEvent : ScriptableObject
 {
-    [System.NonSerialized] private List<GameEventListener> listeners = new List<GameEventListener>();
+    [System.NonSerialized] private List<GameEventListener> listeners = new();
     private event Action Collback;
     private event Action<Transform> _Collback;
 

@@ -105,7 +105,7 @@ public class Reporter : MonoBehaviour
 		}
 	}
 
-	List<Sample> samples = new List<Sample>();
+	List<Sample> samples = new();
 
 	public class Log
 	{
@@ -131,17 +131,17 @@ public class Reporter : MonoBehaviour
 		}
 	}
 	//contains all uncollapsed log
-	List<Log> logs = new List<Log>();
+	List<Log> logs = new();
 	//contains all collapsed logs
-	List<Log> collapsedLogs = new List<Log>();
+	List<Log> collapsedLogs = new();
 	//contain logs which should only appear to user , for example if you switch off show logs + switch off show warnings
 	//and your mode is collapse,then this list will contains only collapsed errors
-	List<Log> currentLog = new List<Log>();
+	List<Log> currentLog = new();
 
 	//used to check if the new coming logs is already exist or new one
-	MultiKeyDictionary<string, string, Log> logsDic = new MultiKeyDictionary<string, string, Log>();
+	MultiKeyDictionary<string, string, Log> logsDic = new();
 	//to save memory
-	Dictionary<string, string> cachedString = new Dictionary<string, string>();
+	Dictionary<string, string> cachedString = new();
 
 	[HideInInspector]
 	//show hide In Game Logs
@@ -282,7 +282,7 @@ public class Reporter : MonoBehaviour
 	GUISkin logScrollerSkin;
 	GUISkin graphScrollerSkin;
 
-	public Vector2 size = new Vector2(32, 32);
+	public Vector2 size = new(32, 32);
 	public float maxSize = 20;
 	public int numOfCircleToShow = 1;
 	static string[] scenes;
@@ -328,7 +328,7 @@ public class Reporter : MonoBehaviour
 
 	void addSample()
 	{
-		Sample sample = new Sample();
+		Sample sample = new();
 		sample.fps = fps;
 		sample.fpsText = fpsText;
 #if UNITY_CHANGE3
@@ -723,7 +723,7 @@ public class Reporter : MonoBehaviour
 	Rect memoryLabelRect = Rect.zero;
 	Rect fpsRect = Rect.zero;
 	Rect fpsLabelRect = Rect.zero;
-	GUIContent tempContent = new GUIContent();
+	GUIContent tempContent = new();
 
 
 	Vector2 infoScrollPosition;
@@ -1643,7 +1643,7 @@ public class Reporter : MonoBehaviour
 
 	}
 
-	List<Vector2> gestureDetector = new List<Vector2>();
+	List<Vector2> gestureDetector = new();
 	Vector2 gestureSum = Vector2.zero;
 	float gestureLength = 0;
 	int gestureCount = 0;
@@ -1672,7 +1672,7 @@ public class Reporter : MonoBehaviour
 			}
 			else {
 				if (Input.GetMouseButton(0)) {
-					Vector2 p = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+					Vector2 p = new(Input.mousePosition.x, Input.mousePosition.y);
 					if (gestureDetector.Count == 0 || (p - gestureDetector[gestureDetector.Count - 1]).magnitude > 10)
 						gestureDetector.Add(p);
 				}
@@ -1923,7 +1923,7 @@ public class Reporter : MonoBehaviour
 		bool newLogAdded = false;
 
 		addSample();
-		Log log = new Log() { logType = (_LogType)type, condition = _condition, stacktrace = _stacktrace, sampleId = samples.Count - 1 };
+		Log log = new() { logType = (_LogType)type, condition = _condition, stacktrace = _stacktrace, sampleId = samples.Count - 1 };
 		memUsage += log.GetMemoryUsage();
 		//memUsage += samples.Count * 13 ;
 
@@ -2000,10 +2000,10 @@ public class Reporter : MonoBehaviour
 		}
 	}
 
-	List<Log> threadedLogs = new List<Log>();
+	List<Log> threadedLogs = new();
 	void CaptureLogThread(string condition, string stacktrace, LogType type)
 	{
-		Log log = new Log() { condition = condition, stacktrace = stacktrace, logType = (_LogType)type };
+		Log log = new() { condition = condition, stacktrace = stacktrace, logType = (_LogType)type };
 		lock (threadedLogs) {
 			threadedLogs.Add(log);
 		}
@@ -2108,7 +2108,7 @@ public class Reporter : MonoBehaviour
     private void SaveLogsToDevice()
     {
         string filePath = Application.persistentDataPath + "/logs.txt";
-        List<string> fileContentsList = new List<string>();
+        List<string> fileContentsList = new();
         Debug.Log("Saving logs to " + filePath);
         File.Delete(filePath);
         for (int i = 0; i < logs.Count; i++)

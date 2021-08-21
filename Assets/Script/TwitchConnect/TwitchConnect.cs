@@ -45,7 +45,7 @@ public class TwitchConnect : ScriptableObject
     }
 
     private string lastLine;
-    public List<string> logs = new List<string>();
+    public List<string> logs = new();
     [SerializeField] private int logsIndex;
     [SerializeField] private bool isClearLogs = false;
 

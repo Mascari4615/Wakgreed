@@ -7,25 +7,25 @@ public class RangedSkill : Skill, ISerializationCallbackReceiver
 {
     static bool isReloading = false;
 
-    public override void Attack(TravellerController parent)
+    public override void Use()
     {
         if (isReloading) return;
-        if (parent.curWeapon.ammo > 0)
+        if (TravellerController.Instance.curWeapon.ammo > 0)
         {
-            RuntimeManager.PlayOneShot("event:/SFX/Weapon/EX_Attack", parent.attackPosition.position);
+            RuntimeManager.PlayOneShot("event:/SFX/Weapon/EX_Attack", TravellerController.Instance.attackPosition.position);
 
             if (resource != null)
             {
-                ObjectManager.Instance.GetQueue(resource.name, parent.attackPosition);
+                ObjectManager.Instance.GetQueue(resource.name, TravellerController.Instance.attackPosition);
             }
             else
             {
                 //ObjectManager.Instance.GetQueue(PoolType.KnightSwordSlash, parent.attackPosition);
-                ObjectManager.Instance.GetQueue("Arrow", parent.attackPosition);
+                ObjectManager.Instance.GetQueue("Arrow", TravellerController.Instance.attackPosition);
             }
 
-            parent.curWeapon.ammo--;
-            Debug.Log("CurAmmo : " + parent.curWeapon.ammo);
+            TravellerController.Instance.curWeapon.ammo--;
+            Debug.Log("CurAmmo : " + TravellerController.Instance.curWeapon.ammo);
         }
     }
     float asdf = 0;

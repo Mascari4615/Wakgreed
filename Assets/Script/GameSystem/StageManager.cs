@@ -90,7 +90,7 @@ public class StageManager : MonoBehaviour
             foreach (RoomMold roomMold in roomMolds)
                 if (roomMold.coordinate == roomMoldStack.totalRoomMoldCoordinante)
                     goto CONTINUE;
-            RoomMold totalRoomMold = new RoomMold() { coordinate = roomMoldStack.totalRoomMoldCoordinante };
+            RoomMold totalRoomMold = new() { coordinate = roomMoldStack.totalRoomMoldCoordinante };
             RoomMold originalRoomMold = roomMoldStack.originalRoomMold;
 
             originalRoomMold.isConnectToNearbyRoom[roomMoldStack.originalRoomDoorIndex] = true;
@@ -186,7 +186,7 @@ public class StageManager : MonoBehaviour
             if (i <= stageEdgeLength * stageEdgeLength - 1)
             {
                 GameObject targetRoomUI = mapGridLayoutGroup.transform.GetChild(i).gameObject;
-                Vector2 targetRoomCoordinate = new Vector2(x, y);
+                Vector2 targetRoomCoordinate = new(x, y);
                 // Debug.Log(targetRoomCoordinate);
                 targetRoomUI.SetActive(true);
                 targetRoomUI.GetComponent<Image>().enabled = false;

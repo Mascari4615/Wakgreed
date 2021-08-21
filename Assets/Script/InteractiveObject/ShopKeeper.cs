@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 public class ShopKeeper : NPC
 {
@@ -10,11 +9,11 @@ public class ShopKeeper : NPC
     [SerializeField] private ShopKeeperItemInventory shopKeeperItemInventory;
     [SerializeField] private IntVariable nyang;
     [SerializeField] private GameEvent onNyangChange;
-    [SerializeField] private GameObject needMoreNyang;
+    
 
     private void Awake()
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 10; i++)
         {
             shopKeeperItemInventory.Add(ItemDataBuffer.Items[Random.Range(0, ItemDataBuffer.Items.Length)]);
         }
@@ -29,31 +28,19 @@ public class ShopKeeper : NPC
 
     public void SellItem(Slot slot)
     {
-        // 버튼을 누름으로써 호출, 필요한 정보는 버튼을 누른 슬롯의 아이템, 인벤토리 (이건 있음)
-        slot.gameObject.SetActive(false);
+        if (itemInventory.itemCountDic[(slot.specialThing as Item).ID] == 1) { slot.gameObject.SetActive(false); }
         itemInventory.Remove(slot.specialThing as Item);
-
-        for (int i = 0; i < (slot.specialThing as Item).price / 10; i++)
-        {
-            //ObjectManager.Instance.GetQueue(PoolType.Nyang10, transform);
-            ObjectManager.Instance.GetQueue("Nyang10", transform);
-        }
-
-        for (int i = 0; i < (slot.specialThing as Item).price % 10; i++)
-        {
-            //ObjectManager.Instance.GetQueue(PoolType.Nyang, transform);
-            ObjectManager.Instance.GetQueue("Nyang", transform);
-        }
-        
-        // Debug.Log(itemInventory.Items.Count);
+        for (int i = 0; i < (slot.specialThing as Item).price / 10; i++) ObjectManager.Instance.GetQueue("Nyang10", transform);
+        for (int i = 0; i < (slot.specialThing as Item).price % 10; i++) ObjectManager.Instance.GetQueue("Nyang", transform);
+        itemInventoryUI_Sell.Initialize();
     }
 
     public void BuyItem(Slot slot)
     {
         if (nyang.RuntimeValue < (slot.specialThing as Item).price) 
         {
-            StopCoroutine("NeedMoreNyang");
-            StartCoroutine("NeedMoreNyang");
+            UIManager.Instance.StopCoroutine("NeedMoreNyang");
+            UIManager.Instance.StartCoroutine("NeedMoreNyang");
             return;
         }
         
@@ -62,14 +49,7 @@ public class ShopKeeper : NPC
 
         slot.gameObject.SetActive(false);
         shopKeeperItemInventory.Remove(slot.specialThing as Item);
-        //ObjectManager.Instance.GetQueue(PoolType.Item, transform).GetComponent<ItemGameObject>().SetItemGameObject((slot.specialThing as Item).ID, true);
-        ObjectManager.Instance.GetQueue("Item", transform).GetComponent<ItemGameObject>().SetItemGameObject((slot.specialThing as Item).ID);
-    }
-
-    private IEnumerator NeedMoreNyang()
-    {
-        needMoreNyang.SetActive(true);
-        yield return new WaitForSeconds(1);
-        needMoreNyang.SetActive(false);
+        ObjectManager.Instance.GetQueue("Item", transform).GetComponent<ItemGameObject>().Initialize((slot.specialThing as Item).ID);
+        itemInventoryUI_Buy.Initialize();
     }
 }

@@ -12,5 +12,5 @@ public abstract class Skill : ScriptableObject
     public Buff[] buffs;
     public int minDamage;
     public int maxDamage;
-    public abstract void Attack(TravellerController parent);
+    public abstract void Use();
 }

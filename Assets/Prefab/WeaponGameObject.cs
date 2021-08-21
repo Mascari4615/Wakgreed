@@ -2,16 +2,9 @@ using UnityEngine;
 
 public class WeaponGameObject : InteractiveObject
 {
-    [SerializeField] private int testWeaponID = 0;
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private WeaponDataBuffer WeaponDataBuffer;
     [SerializeField] private Weapon weapon;
     [SerializeField] private MeshRenderer interactionIcon = null;
-
-    private void OnEnable()
-    {
-        Initialize(testWeaponID);
-    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -31,7 +24,7 @@ public class WeaponGameObject : InteractiveObject
 
     public void Initialize(int id)
     {
-        weapon = WeaponDataBuffer.Items[id];
+        weapon = DataManager.Instance.WeaponDic[id];
         spriteRenderer.sprite = weapon.icon;
     }
 
@@ -40,11 +33,8 @@ public class WeaponGameObject : InteractiveObject
         if (!TravellerController.Instance.isSwitching)
         {
             Weapon temp = TravellerController.Instance.curWeapon;
-            //Debug.Log(temp.name);
-            StartCoroutine(TravellerController.Instance.SwitchWeapon(targetWeapon:weapon));
-            //Debug.Log(temp.name);
+            TravellerController.Instance.SwitchWeapon(targetWeapon:weapon);
             weapon = temp;
-            //Debug.Log(temp.name);
             spriteRenderer.sprite = weapon.icon;
         }
     }

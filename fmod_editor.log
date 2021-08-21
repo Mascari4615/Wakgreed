@@ -7,7 +7,7 @@
 [LOG] OutputWASAPI::init                       : Output buffer size: 4096 samples, latency: 0.00ms, period: 10.00ms, DSP buffer: 1024 * 4
 [LOG] Thread::initThread                       : Init FMOD stream thread. Affinity: 0x8000000000000003, Priority: 0xFFFF7FFB, Stack Size: 98304, Semaphore: No, Sleep Time: 10, Looping: Yes.
 [LOG] Thread::initThread                       : Init FMOD mixer thread. Affinity: 0x8000000000000001, Priority: 0xFFFF7FFA, Stack Size: 81920, Semaphore: No, Sleep Time: 0, Looping: Yes.
-[LOG] AsyncManager::init                       : manager 0000027859F19068 isAsync 0 updatePeriod 0.02
+[LOG] AsyncManager::init                       : manager 000001CA7B036A98 isAsync 0 updatePeriod 0.02
 [LOG] AsyncManager::init                       : done
 [LOG] PlaybackSystem::init                     : 
 [LOG] Thread::initThread                       : Init FMOD Studio sample load thread. Affinity: 0x8000000000000003, Priority: 0xFFFF7FFD, Stack Size: 98304, Semaphore: No, Sleep Time: 1, Looping: No.
@@ -21,14 +21,14 @@
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 2933504
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 9568
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000F6DD72F288
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000030543CF4C8
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFE82A97D70
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFE82A97D40
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFE82A97E40
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFE82A97F00
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 00000279AFD92378
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFE6AA57D70
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFE6AA57D40
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFE6AA57E40
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFE6AA57F00
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C983C2DA98
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='KnightBasicAttack3', format=5, channels=2, frequency=48000, lengthbytes=1952, lengthpcm=10031, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.937347.
@@ -37,14 +37,14 @@
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 2933504
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 9568
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000F6DD72F288
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000030543CF4C8
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFE82A97D70
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFE82A97D40
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFE82A97E40
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFE82A97F00
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 00000279AFD92378
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFE6AA57D70
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFE6AA57D40
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFE6AA57E40
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFE6AA57F00
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C983C2DA98
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='KnightBasicAttack2', format=5, channels=2, frequency=48000, lengthbytes=1696, lengthpcm=10031, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.948090.
@@ -53,14 +53,14 @@
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 2933504
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 9568
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000F6DD72F288
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000030543CF4C8
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFE82A97D70
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFE82A97D40
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFE82A97E40
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFE82A97F00
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 00000279AFD92378
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFE6AA57D70
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFE6AA57D40
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFE6AA57E40
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFE6AA57F00
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C983C2DA98
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='KnightBasicAttack1', format=5, channels=2, frequency=48000, lengthbytes=2080, lengthpcm=8777, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.939728.
@@ -69,25 +69,25 @@
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 2933504
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 9568
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000F6DD72F288
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000030543CF4C8
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFE82A97D70
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFE82A97D40
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFE82A97E40
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFE82A97F00
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 00000279AFD92378
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFE6AA57D70
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFE6AA57D40
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFE6AA57E40
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFE6AA57F00
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C718104318
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='Wak_음', format=5, channels=2, frequency=48000, lengthbytes=7520, lengthpcm=28169, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.141876.
-[LOG] SoundI::release                          :  (000002796BDC3AC8)
-[LOG] SoundI::release                          :     KnightBasicAttack1 (000002785BA1C1E8)
-[LOG] SoundI::release                          :  (000002796BDC47B8)
-[LOG] SoundI::release                          :     KnightBasicAttack2 (000002785BA1B1A8)
-[LOG] SoundI::release                          :  (000002796BDC41F8)
-[LOG] SoundI::release                          :     KnightBasicAttack3 (000002785BA1BB68)
-[LOG] SoundI::release                          :  (0000027856857878)
-[LOG] SoundI::release                          :     Wak_음 (000002785BA1C6C8)
+[LOG] SoundI::release                          :  (000001CAA6351928)
+[LOG] SoundI::release                          :     KnightBasicAttack1 (000001C7125D08B8)
+[LOG] SoundI::release                          :  (000001CAA6351C08)
+[LOG] SoundI::release                          :     KnightBasicAttack2 (000001C7125D0578)
+[LOG] SoundI::release                          :  (000001CAA634F6A8)
+[LOG] SoundI::release                          :     KnightBasicAttack3 (000001C7125D3CB8)
+[LOG] SoundI::release                          :  (000001CAA6351D78)
+[LOG] SoundI::release                          :     Wak_음 (000001C7125D0A58)
 [LOG] Thread::callback                         : FMOD Studio update thread finished.
 [LOG] Thread::callback                         : FMOD Studio bank load thread finished.
 [LOG] Profile::disconnectAll                   : Profiler disconnecting all clients

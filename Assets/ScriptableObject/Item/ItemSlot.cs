@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class ItemSlot : Slot
@@ -10,6 +9,6 @@ public class ItemSlot : Slot
     {
         base.SetSlot(specialThing);
 
-        if (countTextField != null) countTextField.text = $"{(specialThing as Item).count + 1}";
+        if (countTextField != null) countTextField.text = DataManager.Instance.ItemInventory.itemCountDic[(specialThing as Item).ID].ToString(); 
     }
 }

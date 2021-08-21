@@ -63,7 +63,7 @@ public class NormalRoom : Room
 
     private void RoomClear()
     {
-        ObjectManager.Instance.GetQueue("Item", transform.position).GetComponent<ItemGameObject>().SetItemGameObject();
+        ObjectManager.Instance.GetQueue("Item", transform.position).GetComponent<ItemGameObject>().Initialize(0);
 
         if (roomType == RoomType.Boss)
         {

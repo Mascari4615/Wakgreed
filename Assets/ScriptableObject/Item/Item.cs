@@ -5,5 +5,4 @@ public class Item : SpecialThing
 {
     [TextArea] public string simpleDescription;
     public int price;
-    [System.NonSerialized] public int count;
 }
