@@ -10,10 +10,10 @@ public class ObjectManager : MonoBehaviour
     {
         public GameObject gameObject;
         public int count;
-        public Queue<GameObject> queue = new Queue<GameObject>();
+        public Queue<GameObject> queue = new();
     }
 
-    Dictionary<string, PoolData> poolDic = new Dictionary<string, PoolData>();
+    Dictionary<string, PoolData> poolDic = new();
     [SerializeField] PoolData[] poolDatas;
 
     void Awake()

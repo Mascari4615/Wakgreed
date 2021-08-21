@@ -5,7 +5,7 @@ using System.Collections;
 
 public class EquipItemToolTip : MonoBehaviour
 {
-    private Queue<Item> toolTipStacks = new Queue<Item>();
+    private Queue<Item> toolTipStacks = new();
     [SerializeField] private GameObject toolTip;
     [SerializeField] private Text nameField;
     [SerializeField] private Text simpleDescriptionField;

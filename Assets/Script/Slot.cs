@@ -5,7 +5,7 @@ public abstract class Slot : MonoBehaviour
 {
     [SerializeField] private ToolTipTrigger toolTipTrigger;
     [SerializeField] private Image image;
-    public SpecialThing specialThing { get; private set; }
+    public SpecialThing specialThing;
 
     public virtual void SetSlot(SpecialThing _specialThing)
     {

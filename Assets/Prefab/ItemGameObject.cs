@@ -2,14 +2,12 @@
 
 public class ItemGameObject : LootGameObject
 {
-    [SerializeField] private ItemDataBuffer ItemDataBuffer;
     [SerializeField] private ItemInventory ItemInventory;
     private Item item;
 
-    public void SetItemGameObject(int id = -1)
+    public void Initialize(int id)
     {
-        if (id == -1) id = Random.Range(0, ItemDataBuffer.Items.Length);
-        item = ItemDataBuffer.Items[id];
+        item = DataManager.Instance.ItemDic[id];
         spriteRenderer.sprite = item.sprite;
     }
 

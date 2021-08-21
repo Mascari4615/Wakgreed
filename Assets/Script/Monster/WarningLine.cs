@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WarningLine : MonoBehaviour
 {
-    private WaitForSeconds waitForSeconds01 = new WaitForSeconds(0.1f);
+    private WaitForSeconds waitForSeconds01 = new(0.1f);
     private Vector3 EndPosition;
 
     private void OnEnable()

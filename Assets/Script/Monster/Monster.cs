@@ -57,7 +57,7 @@ public abstract class Monster : MonoBehaviour
         if (HP > 0)
         {
             RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("("), 7) : name)}_Hurt", transform.position);
-            animator.SetTrigger("Ahya");
+            //animator.SetTrigger("Ahya");
         }
         else if (HP <= 0)
         {
@@ -80,15 +80,10 @@ public abstract class Monster : MonoBehaviour
         {
             OnMonsterCollapse.Raise(transform);
             int randCount = Random.Range(0, 5);
-            for (int i = 0; i < randCount; i++)
-                //ObjectManager.Instance.GetQueue(PoolType.Exp, transform.position);
-                ObjectManager.Instance.GetQueue("ExpOrb", transform.position);
-            if (Random.Range(0, 100) < 30)
-                //ObjectManager.Instance.GetQueue(PoolType.Item, transform.position).GetComponent<ItemGameObject>().SetItemGameObject(0);
-                ObjectManager.Instance.GetQueue("Item", transform.position).GetComponent<ItemGameObject>().SetItemGameObject();
+            for (int i = 0; i < randCount; i++) ObjectManager.Instance.GetQueue("ExpOrb", transform.position);
+            if (Random.Range(0, 100) < 30) ObjectManager.Instance.GetQueue("Item", transform.position).GetComponent<ItemGameObject>().Initialize(1);
         }
 
-        //ObjectManager.Instance.GetQueue(PoolType.Smoke, transform.position);
         ObjectManager.Instance.GetQueue("LevelUpEffect", transform.position);
 
         yield return new WaitForSeconds(3f);

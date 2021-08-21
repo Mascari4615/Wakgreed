@@ -41,7 +41,7 @@ public class TravellerController : MonoBehaviour
     private float bbolBBolCoolDown = 0.3f;
     private float curBBolBBolCoolDown = 0;
 
-    private int curWeaponNumber = 1;
+    public int curWeaponNumber = 1;
     public Weapon curWeapon;
     [SerializeField] private Weapon weaponA;
     [SerializeField] private Weapon weaponB;
@@ -98,6 +98,7 @@ public class TravellerController : MonoBehaviour
         animator.SetTrigger("WakeUp");
         animator.SetBool("Move", false);
 
+        if (weaponPosition.childCount > 0) Destroy(weaponPosition.GetChild(0).gameObject);
         Instantiate(curWeapon.resource, weaponPosition);
         
         AD.RuntimeValue = curWeapon.maxDamage;
@@ -128,16 +129,23 @@ public class TravellerController : MonoBehaviour
         Dash();
         if (Input.GetKeyDown(KeyCode.F) && canInteraction) Interaction();
 
-        if (Input.GetAxisRaw("Mouse ScrollWheel") != 0) StartCoroutine(SwitchWeapon());
-        else if (Input.GetKeyDown(KeyCode.Alpha1)) StartCoroutine(SwitchWeapon(1));
-        else if (Input.GetKeyDown(KeyCode.Alpha2)) StartCoroutine(SwitchWeapon(2));
+        if (Input.GetKeyDown(KeyCode.Q) && curWeapon.skillQ != null) { curWeapon.skillQ.Use(); }
+        if (Input.GetKeyDown(KeyCode.E) && curWeapon.skillE != null) { curWeapon.skillE.Use(); }
+
+        if (Input.GetAxisRaw("Mouse ScrollWheel") != 0) SwitchWeapon();
+        else if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchWeapon(1);
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchWeapon(2);
 
         if (Input.GetKeyDown(KeyCode.R) && curWeapon.magazine != 0) StartCoroutine((curWeapon.baseAttack as RangedSkill).Reload(this));
         if (curWeapon.magazine != 0 && curWeapon.ammo == 0) StartCoroutine((curWeapon.baseAttack as RangedSkill).Reload(this));
     }
 
     public bool isSwitching = false;
-    public IEnumerator SwitchWeapon(int targetWeaponNumber = 0, Weapon targetWeapon = null)
+    public void SwitchWeapon(int targetWeaponNumber = 0, Weapon targetWeapon = null)
+    {
+        if (!isSwitching) StartCoroutine(_SwitchWeapon(targetWeaponNumber, targetWeapon));
+    }
+    private IEnumerator _SwitchWeapon(int targetWeaponNumber = 0, Weapon targetWeapon = null)
     {
         if (!isSwitching)
         {
@@ -211,11 +219,13 @@ public class TravellerController : MonoBehaviour
     {
         Debug.DrawRay(transform.position, derectionPos * 0.9f, Color.red);
 
-        if ((Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Space)) && !isDashing && curDashStack > 0)
+        //if ((Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Space)) && !isDashing && curDashStack > 0)
+        if ((Input.GetKeyDown(KeyCode.Space)) && !isDashing && curDashStack > 0)
         {
             curDashStack--;
             RuntimeManager.PlayOneShot("event:/SFX/Wakgood/Dash", transform.position);
-            derectionPos = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x - transform.position.x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y - transform.position.y, 0).normalized;
+            //derectionPos = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x - transform.position.x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y - transform.position.y, 0).normalized;
+            derectionPos = new Vector3(h, v, 0).normalized;
             dashasdasd.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(Camera.main.ScreenToWorldPoint(Input.mousePosition).y - transform.position.y, Camera.main.ScreenToWorldPoint(Input.mousePosition).x - transform.position.x) * Mathf.Rad2Deg - 90);
             isDashing = true;
             playerRB.velocity = Vector3.zero;
@@ -293,8 +303,8 @@ public class TravellerController : MonoBehaviour
         }
     }
 
-    private List<int> horizontalMoveDirectionList = new List<int>();
-    private List<int> verticalMoveDirectionList = new List<int>();
+    private List<int> horizontalMoveDirectionList = new();
+    private List<int> verticalMoveDirectionList = new();
 
     private void Move()
     {
@@ -406,7 +416,7 @@ public class TravellerController : MonoBehaviour
     public void BasicAttack()
     {
         canAttack = false;
-        curWeapon.baseAttack.Attack(this);
+        curWeapon.baseAttack.Use();
     }
 
     public void ReceiveDamage(int damage)

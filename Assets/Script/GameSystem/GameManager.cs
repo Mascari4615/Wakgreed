@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Cinemachine;
 
 public class GameManager : MonoBehaviour
@@ -39,8 +38,16 @@ public class GameManager : MonoBehaviour
 
     public CinemachineImpulseSource cinemachineImpulseSource;
 
+    [SerializeField] GameObject test;
+    private bool testb;
+
     private void Awake()
     {
+        GameData asd = DataManager.Instance.LoadGameData();
+        testb = asd.isNPCRescued;
+        test.SetActive(testb);
+        Debug.Log(testb);
+
         instance = this;
         StartCoroutine(CheckBuff());
     }
@@ -100,6 +107,9 @@ public class GameManager : MonoBehaviour
 
     public void Recall()
     {
+        testb = !testb;
+        Debug.Log(testb);
+
         OnRecall.Raise();
         StageManager.Instance.DestroyStage();
         undo.SetActive(true);
@@ -133,6 +143,8 @@ public class GameManager : MonoBehaviour
 
     public void QuitGame()
     {
+        DataManager.Instance.SaveGameData(new GameData(testb));
+
         Debug.Log("Quitting Game...");
         Application.Quit();
     }

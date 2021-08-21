@@ -12,9 +12,10 @@ public class UIManager : MonoBehaviour
 
     private CinemachineTargetGroup cinemachineTargetGroup;
 
-
     public GameObject bossHpBar;
     public GameObject redParent;
+
+    [SerializeField] private GameObject needMoreNyang;
 
     private void Awake()
     {
@@ -36,5 +37,12 @@ public class UIManager : MonoBehaviour
         TravellerController.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         cinemachineTargetGroup.m_Targets[0].target = TravellerController.Instance.transform;
         boss.GetComponent<Monster>().enabled = true;
-    } 
+    }
+
+    public IEnumerator NeedMoreNyang()
+    {
+        needMoreNyang.SetActive(true);
+        yield return new WaitForSeconds(1);
+        needMoreNyang.SetActive(false);
+    }
 }
