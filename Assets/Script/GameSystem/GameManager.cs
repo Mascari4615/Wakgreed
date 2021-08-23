@@ -35,18 +35,13 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject roomClearSpeedWagon;
     [SerializeField] private GameObject undo;
+    [SerializeField] private GameObject testNpc;
 
     public CinemachineImpulseSource cinemachineImpulseSource;
 
-    [SerializeField] GameObject test;
-    private bool testb;
-
     private void Awake()
     {
-        GameData asd = DataManager.Instance.LoadGameData();
-        testb = asd.isNPCRescued;
-        test.SetActive(testb);
-        Debug.Log(testb);
+        testNpc.SetActive(DataManager.Instance.curGameData.isNPCRescued);
 
         instance = this;
         StartCoroutine(CheckBuff());
@@ -107,9 +102,6 @@ public class GameManager : MonoBehaviour
 
     public void Recall()
     {
-        testb = !testb;
-        Debug.Log(testb);
-
         OnRecall.Raise();
         StageManager.Instance.DestroyStage();
         undo.SetActive(true);
@@ -133,19 +125,21 @@ public class GameManager : MonoBehaviour
 
         miniMapCamera.transform.position = new Vector3(0, 0, -100);
 
+        isGaming = false;
         isFighting = false;
         pausePanel.SetActive(false);
         gameOverPanel.SetActive(false);
         gamePanel.SetActive(true);
+
+        testNpc.SetActive(DataManager.Instance.curGameData.isNPCRescued);
 
         Time.timeScale = 1;
     }
 
     public void QuitGame()
     {
-        DataManager.Instance.SaveGameData(new GameData(testb));
-
         Debug.Log("Quitting Game...");
+        DataManager.Instance.SaveGameData();
         Application.Quit();
     }
 

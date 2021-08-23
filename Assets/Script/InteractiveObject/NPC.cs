@@ -4,16 +4,19 @@ using Cinemachine;
 public abstract class NPC : InteractiveObject
 {
     [SerializeField] protected GameObject canvas;
+    [SerializeField] private GameObject ui;
     [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
 
     private void Awake()
     {
         cinemachineVirtualCamera.Follow = GameObject.Find("CM TargetGroup").transform;
+        canvas.GetComponent<Canvas>().worldCamera = Camera.main;
     }
 
     public override void Interaction()
-    { 
-        canvas.SetActive(true);
+    {
+        //canvas.SetActive(true);
+        ui.SetActive(true);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -34,7 +37,8 @@ public abstract class NPC : InteractiveObject
             GameObject.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>().m_Targets[1].target = null;
             GameObject.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>().m_Targets[1].weight = 1;
             cinemachineVirtualCamera.Priority = -100;
-            canvas.SetActive(false);
+            //canvas.SetActive(false);
+            ui.SetActive(false);
         }
     }
 }

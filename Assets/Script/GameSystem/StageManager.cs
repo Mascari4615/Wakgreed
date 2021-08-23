@@ -32,14 +32,6 @@ public class StageManager : MonoBehaviour
         public bool[] isConnectToNearbyRoom = new bool[4];
     }
     private List<Room> roomDatas = new();
-    private Stack<RoomMoldStack> roomMoldStackStack = new();
-    private struct RoomMoldStack
-    {
-        public RoomMold originalRoomMold;
-        public Vector2 totalRoomMoldCoordinante;
-        public int originalRoomDoorIndex;
-        public int totalRoomDoorIndex;
-    }
     public Room CurrentRoom { get; private set; }
     [SerializeField] private GameObject stageGrid;
 
@@ -67,88 +59,52 @@ public class StageManager : MonoBehaviour
 
     public void GenerateStage()
     {
-        // Debug.Log("GenerateStage");
-        currentStageID++;
         DestroyStage();
         roomMolds.Clear();
-        roomDatas = new List<Room>(stageDataBuffer.Items[currentStageID].roomDatas);
-        roomMoldStackStack.Clear();
         roomDic.Clear();
 
+        roomDatas = new List<Room>(stageDataBuffer.Items[++currentStageID].roomDatas);
         roomMolds.Add(new RoomMold() { coordinate = Vector2.zero });
 
         while (roomMolds.Count < roomCount)
         {
-            if (roomMoldStackStack.Count == 0)
-            {
-                GenerateRoomMoldStack(roomMolds[Random.Range(0, roomMolds.Count)]);
-                continue;
-            }
+            RoomMold originalRoomMold = roomMolds[Random.Range(0, roomMolds.Count)];
+            int i = Random.Range(0, 4);
+            Vector2 totalRoomMoldCoordinante = originalRoomMold.coordinate + ((i == 0) ? Vector2.up : (i == 1) ? Vector2.down : (i == 2) ? Vector2.left : Vector2.right);
 
-            RoomMoldStack roomMoldStack = roomMoldStackStack.Pop();
+            if (roomMolds.Find(x => x.coordinate == totalRoomMoldCoordinante) != null) continue;
+            if (i == 0 && originalRoomMold.coordinate.y == (stageEdgeLength - 1) / 2) continue;
+            else if (i == 1 && originalRoomMold.coordinate.y == -(stageEdgeLength - 1) / 2) continue;
+            else if (i == 2 && originalRoomMold.coordinate.x == -(stageEdgeLength - 1) / 2) continue;
+            else if (i == 3 && originalRoomMold.coordinate.x == (stageEdgeLength - 1) / 2) continue;
 
-            foreach (RoomMold roomMold in roomMolds)
-                if (roomMold.coordinate == roomMoldStack.totalRoomMoldCoordinante)
-                    goto CONTINUE;
-            RoomMold totalRoomMold = new() { coordinate = roomMoldStack.totalRoomMoldCoordinante };
-            RoomMold originalRoomMold = roomMoldStack.originalRoomMold;
+            RoomMold totalRoomMold = new() { coordinate = totalRoomMoldCoordinante };
 
-            originalRoomMold.isConnectToNearbyRoom[roomMoldStack.originalRoomDoorIndex] = true;
-            totalRoomMold.isConnectToNearbyRoom[roomMoldStack.totalRoomDoorIndex] = true;
+            //originalRoomMold.isConnectToNearbyRoom[roomMoldStack.originalRoomDoorIndex] = true;
+            originalRoomMold.isConnectToNearbyRoom[i] = true;
+            //totalRoomMold.isConnectToNearbyRoom[roomMoldStack.totalRoomDoorIndex] = true;
+            totalRoomMold.isConnectToNearbyRoom[(i == 0) ? 1 : (i == 1) ? 0 : (i == 2) ? 3 : 2] = true;
 
-            // Debug.Log($"roomMoldsAdd : {totalRoomMold.coordinate}");
+            Debug.Log($"roomMoldsAdd : {totalRoomMold.coordinate}");
             roomMolds.Add(totalRoomMold);
-            GenerateRoomMoldStack(totalRoomMold);
-
-        CONTINUE:;
-        }
-
-        foreach (var item in roomMolds)
-        {
-            // Debug.Log(item.coordinate);
+            //GenerateRoomMoldStack(totalRoomMold);
         }
 
         for (int i = 0; i < roomCount; i++)
         {
             int roomMoldIndex = (i == 0) ? 0 : Random.Range(0, roomMolds.Count);
-            int roomDataIndex = (i <= 2) ? 0 : Random.Range(0, roomDatas.Count);
-            // Debug.Log($"roomMolds : {roomMolds.Count} - {roomMoldIndex}, roomDatas : {roomDatas.Count} - {roomDataIndex}");
+            int roomDataIndex = (i <= 2) ? 0 : Random.Range((DataManager.Instance.curGameData.isNPCRescued) ? 1 : 0, roomDatas.Count);
 
             // 스테이지 별 룸 데이타 딕셔너리 혹은 배열만들어야 함
             Room r = Instantiate(roomDatas[roomDataIndex].gameObject, stageGrid.transform).GetComponent<Room>();
             r.Initialize(roomMolds[roomMoldIndex].coordinate, roomMolds[roomMoldIndex].isConnectToNearbyRoom);
 
-            // Debug.Log($"i : {i}, roomMold : {roomMolds[roomMoldIndex].coordinate}, r : {r.coordinate}");
             roomMolds.RemoveAt(roomMoldIndex);
             roomDatas.RemoveAt(roomDataIndex);
             roomDic.Add(r.Coordinate, r);
         }
 
         StartCoroutine(StartStage());
-    }
-
-    private void GenerateRoomMoldStack(RoomMold originalRoomMold)
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            Vector2 totalRoomMoldCoordinante = originalRoomMold.coordinate +
-            ((i == 0) ? Vector2.up : (i == 1) ? Vector2.down : (i == 2) ? Vector2.left : Vector2.right);
-
-            if (Random.Range(0, 2) == 0) continue;
-
-            if (i == 0 && originalRoomMold.coordinate.y == (stageEdgeLength - 1) / 2) continue;
-            else if (i == 1 && originalRoomMold.coordinate.y == -(stageEdgeLength - 1) / 2) continue;
-            else if (i == 2 && originalRoomMold.coordinate.x == -(stageEdgeLength - 1) / 2) continue;
-            else if (i == 3 && originalRoomMold.coordinate.x == (stageEdgeLength - 1) / 2) continue;
-
-            roomMoldStackStack.Push(new RoomMoldStack()
-            {
-                originalRoomMold = originalRoomMold,
-                totalRoomMoldCoordinante = totalRoomMoldCoordinante,
-                originalRoomDoorIndex = i,
-                totalRoomDoorIndex = (i == 0) ? 1 : (i == 1) ? 0 : (i == 2) ? 3 : 2
-            });
-        }
     }
 
     public void DestroyStage()
@@ -225,22 +181,10 @@ public class StageManager : MonoBehaviour
 
     private void UpdateMap()
     {
-        scrollRectBackGround.localPosition = -CurrentRoom.Coordinate * 175;
+        scrollRectBackGround.localPosition = -CurrentRoom.Coordinate * 135;
         roomUiDic[CurrentRoom.Coordinate].GetComponent<Image>().enabled = true;
         roomUiDic[CurrentRoom.Coordinate].transform.GetChild(0).gameObject.SetActive(true);
         roomUiDic[CurrentRoom.Coordinate].transform.GetChild(0).Find("CurrentRoom").GetComponent<Image>().color = new Color(0, 200, 255);
-        //roomUiDic[CurrentRoom.Coordinate].transform.Find("CurrentRoom").gameObject.SetActive(true);
-
-        /*
-        if (CurrentRoom.IsConnectToNearbyRoom[0])
-            roomUiDic[CurrentRoom.Coordinate + Vector2.up].GetComponent<Image>().enabled = true;
-        if (CurrentRoom.IsConnectToNearbyRoom[1])
-            roomUiDic[CurrentRoom.Coordinate + Vector2.down].GetComponent<Image>().enabled = true;
-        if (CurrentRoom.IsConnectToNearbyRoom[2])
-            roomUiDic[CurrentRoom.Coordinate + Vector2.left].GetComponent<Image>().enabled = true;
-        if (CurrentRoom.IsConnectToNearbyRoom[3])
-            roomUiDic[CurrentRoom.Coordinate + Vector2.right].GetComponent<Image>().enabled = true;
-        */
     }
 
     public IEnumerator MigrateRoom(Vector2 moveDirection, int spawnDirection)
@@ -263,8 +207,8 @@ public class StageManager : MonoBehaviour
         }
         CurrentRoom.Enter();
 
+        yield return new WaitForSeconds(0.1f);
         fadePanelAnimator.SetTrigger("FadeIn");
-
         yield return new WaitForSeconds(0.2f);
         fadePanel.SetActive(false);
     }
