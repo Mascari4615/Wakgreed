@@ -80,14 +80,10 @@ public class StageManager : MonoBehaviour
 
             RoomMold totalRoomMold = new() { coordinate = totalRoomMoldCoordinante };
 
-            //originalRoomMold.isConnectToNearbyRoom[roomMoldStack.originalRoomDoorIndex] = true;
             originalRoomMold.isConnectToNearbyRoom[i] = true;
-            //totalRoomMold.isConnectToNearbyRoom[roomMoldStack.totalRoomDoorIndex] = true;
             totalRoomMold.isConnectToNearbyRoom[(i == 0) ? 1 : (i == 1) ? 0 : (i == 2) ? 3 : 2] = true;
 
-            Debug.Log($"roomMoldsAdd : {totalRoomMold.coordinate}");
             roomMolds.Add(totalRoomMold);
-            //GenerateRoomMoldStack(totalRoomMold);
         }
 
         for (int i = 0; i < roomCount; i++)

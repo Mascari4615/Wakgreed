@@ -5,6 +5,22 @@ using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
+    protected static AudioManager instance;
+    public static AudioManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                var obj = FindObjectOfType<AudioManager>();
+                if (obj != null) { instance = obj; }
+                else { instance = Create(); }
+            }
+            return instance;
+        }
+        private set { instance = value; }
+    }
+
     private Bus BGM;
     private Bus SFX;
     private Bus Master;
@@ -15,6 +31,12 @@ public class AudioManager : MonoBehaviour
     float SFXVolume = 0.5f;
     float MasterVolume = 0.5f;
 
+    public static AudioManager Create()
+    {
+        var AudioManagerPrefab = Resources.Load<AudioManager>("Audio Manager");
+        return Instantiate(AudioManagerPrefab);
+    }
+
     private void Awake()
     {
         BGM = RuntimeManager.GetBus("bus:/Master/BGM");
@@ -22,11 +44,6 @@ public class AudioManager : MonoBehaviour
         Master = RuntimeManager.GetBus("bus:/Master");
         SFXVolumeTestEvent = RuntimeManager.CreateInstance("event:/SFX/SFXVolumeTest");
         BGMVolumeTestEvent = RuntimeManager.CreateInstance("event:/BGM/BGMVolumeTest");
-    }
-
-    void Update()
-    {
-        
     }
 
     public void MasterVolumeLevel (Slider newMasterVoume)

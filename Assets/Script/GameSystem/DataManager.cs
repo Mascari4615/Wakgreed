@@ -6,23 +6,45 @@ using System.Collections.Generic;
 
 public class DataManager : MonoBehaviour
 {
-    private static DataManager instance;
-    [HideInInspector] public static DataManager Instance { get { return instance; } }
+    protected static DataManager instance;
+    public static DataManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                var obj = FindObjectOfType<DataManager>();
+                if (obj != null) { instance = obj; }
+                else { instance = Create(); }
+            }
+            return instance;
+        }
+        private set { instance = value; }
+    }
 
     [SerializeField] private ItemDataBuffer ItemDataBuffer;
     public Dictionary<int, Item> ItemDic = new();
     public ItemInventory ItemInventory;
-    public ShopKeeperItemInventory ShopKeeperItemInventory;
 
     [SerializeField] private WeaponDataBuffer WeaponDataBuffer;
     public Dictionary<int, Weapon> WeaponDic = new();
 
     public GameData curGameData;
 
+    public static DataManager Create()
+    {
+        var DataManagerPrefab = Resources.Load<DataManager>("Manager_Data");
+        return Instantiate(DataManagerPrefab);
+    }
+
     private void Awake()
     {
-        instance = this;
-        curGameData = LoadGameData();
+        if (Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject);
 
         foreach (var weapon in WeaponDataBuffer.Items) WeaponDic.Add(weapon.ID, weapon);
         foreach (var item in ItemDataBuffer.Items) ItemDic.Add(item.ID, item);

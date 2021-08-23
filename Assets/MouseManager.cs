@@ -14,6 +14,8 @@ public class MouseManager : MonoBehaviour
         Cursor.SetCursor(cursorTextureA, hotSpot, cursorMode);
         //hotSpot.x = cursorTextureA.width / 2;
         //hotSpot.y = cursorTextureA.height / 2;
+
+        Debug.Log("Mouse");
     }
 
     public void ChangeMouseAMode() 
