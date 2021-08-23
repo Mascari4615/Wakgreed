@@ -17,6 +17,6 @@ public class HpBar : MonoBehaviour
     public void SetHpBar()
     {
         image.fillAmount = (float)travellerHP.RuntimeValue / travellerMaxHP.RuntimeValue;
-        textField.text = $"{travellerHP.RuntimeValue} / {travellerMaxHP.RuntimeValue}";
+        textField.text = $"{travellerHP.RuntimeValue}<size=30><color=#C8C8C8> / {travellerMaxHP.RuntimeValue}";
     }
 }

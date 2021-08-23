@@ -17,24 +17,28 @@ public class DataManager : MonoBehaviour
     [SerializeField] private WeaponDataBuffer WeaponDataBuffer;
     public Dictionary<int, Weapon> WeaponDic = new();
 
+    public GameData curGameData;
+
     private void Awake()
     {
         instance = this;
+        curGameData = LoadGameData();
 
         foreach (var weapon in WeaponDataBuffer.Items) WeaponDic.Add(weapon.ID, weapon);
         foreach (var item in ItemDataBuffer.Items) ItemDic.Add(item.ID, item);
     }
 
-    public void SaveGameData(GameData gameData)
+    public void SaveGameData(GameData gameData = null)
     {
         BinaryFormatter bf = new();
         FileStream stream = new(Path.Combine(Application.streamingAssetsPath, "game.wak"), FileMode.Create);
 
-        bf.Serialize(stream, gameData);
+        if (gameData == null) { bf.Serialize(stream, curGameData); }
+        else { bf.Serialize(stream, gameData); }
         stream.Close();
     }
 
-    public GameData LoadGameData()
+    private GameData LoadGameData()
     {
         if (File.Exists(Path.Combine(Application.streamingAssetsPath, "game.wak")))
         {
@@ -48,11 +52,11 @@ public class DataManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Save file not found in" + Path.Combine(Application.streamingAssetsPath, "game.wak"));
+            Debug.LogWarning("Save file not found in" + Path.Combine(Application.streamingAssetsPath, "game.wak"));
             BinaryFormatter bf = new();
             FileStream stream = new(Path.Combine(Application.streamingAssetsPath, "game.wak"), FileMode.Create);
 
-            bf.Serialize(stream, new GameData(true));
+            bf.Serialize(stream, new GameData(false));
             stream.Close();
             stream = new FileStream(Path.Combine(Application.streamingAssetsPath, "game.wak"), FileMode.Open);
             GameData data = bf.Deserialize(stream) as GameData;
@@ -65,7 +69,7 @@ public class DataManager : MonoBehaviour
 [Serializable]
 public class GameData
 {
-    public bool isNPCRescued;
+    public bool isNPCRescued = false;
 
     public GameData(bool asd)
     {

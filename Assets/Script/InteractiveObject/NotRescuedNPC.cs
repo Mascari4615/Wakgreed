@@ -1,18 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class NotRescuedNPC : MonoBehaviour
+public class NotRescuedNPC : NPC
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Interaction()
     {
-        
+        base.Interaction();       
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Rescue()
     {
-        
+        DataManager.Instance.SaveGameData(new GameData(true));
+        GetComponent<SpriteRenderer>().enabled = false;
+        Debug.Log("Sved");
+        this.enabled = false;
     }
 }

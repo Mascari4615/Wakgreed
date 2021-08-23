@@ -38,11 +38,11 @@ MonoBehaviour:
   Path: C:/Users/dan34/Documents/FMOD Studio/WakjwaLike/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637648634023834214
+  lastModified: 637652284612926078
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 2943072
+    Value: 2945184
   Exists: 1
 --- !u!114 &-8246218155341119220
 MonoBehaviour:
@@ -90,6 +90,29 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 9150
+--- !u!114 &-6051906645267722462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BGM/BGMVolumeTest
+  m_EditorClassIdentifier: 
+  Path: event:/BGM/BGMVolumeTest
+  guid: e7918067e240fc4ba87c603831a16557
+  Banks:
+  - {fileID: -8550341837348298914}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 230295
 --- !u!114 &-5908425796747693444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,6 +249,29 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 391
+--- !u!114 &-313811596536738812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/SFXVolumeTest
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/SFXVolumeTest
+  guid: 6d39b138834f874ba686ee5d040f26e1
+  Banks:
+  - {fileID: -8550341837348298914}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 180
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,14 +293,15 @@ MonoBehaviour:
   - {fileID: -8678300822930097351}
   - {fileID: 8747848553021361350}
   - {fileID: -1524580769957588967}
-  - {fileID: 6631778114425390204}
   - {fileID: 110228073849313486}
+  - {fileID: -313811596536738812}
+  - {fileID: -6051906645267722462}
   EditorParameters: []
   MasterBanks:
   - {fileID: -8550341837348298914}
   StringsBanks:
   - {fileID: 2734414285548889170}
-  stringsBankWriteTime: 637648634023864133
+  stringsBankWriteTime: 637652284612946019
   cacheVersion: 6
 --- !u!114 &110228073849313486
 MonoBehaviour:
@@ -294,11 +341,11 @@ MonoBehaviour:
   Path: C:/Users/dan34/Documents/FMOD Studio/WakjwaLike/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637648634023864133
+  lastModified: 637652284612946019
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 1056
+    Value: 1250
   Exists: 1
 --- !u!114 &4227716141362138852
 MonoBehaviour:

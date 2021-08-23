@@ -219,13 +219,11 @@ public class TravellerController : MonoBehaviour
     {
         Debug.DrawRay(transform.position, derectionPos * 0.9f, Color.red);
 
-        //if ((Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Space)) && !isDashing && curDashStack > 0)
-        if ((Input.GetKeyDown(KeyCode.Space)) && !isDashing && curDashStack > 0)
+        if ((Input.GetMouseButtonDown(1) && !isDashing && curDashStack > 0))
         {
             curDashStack--;
             RuntimeManager.PlayOneShot("event:/SFX/Wakgood/Dash", transform.position);
-            //derectionPos = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x - transform.position.x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y - transform.position.y, 0).normalized;
-            derectionPos = new Vector3(h, v, 0).normalized;
+            derectionPos = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x - transform.position.x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y - transform.position.y, 0).normalized;
             dashasdasd.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(Camera.main.ScreenToWorldPoint(Input.mousePosition).y - transform.position.y, Camera.main.ScreenToWorldPoint(Input.mousePosition).x - transform.position.x) * Mathf.Rad2Deg - 90);
             isDashing = true;
             playerRB.velocity = Vector3.zero;
