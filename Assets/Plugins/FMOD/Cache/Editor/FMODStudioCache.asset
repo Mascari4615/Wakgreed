@@ -38,11 +38,11 @@ MonoBehaviour:
   Path: C:/Users/dan34/Documents/FMOD Studio/WakjwaLike/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637652284612926078
+  lastModified: 637654086663029099
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 2945184
+    Value: 4424064
   Exists: 1
 --- !u!114 &-8246218155341119220
 MonoBehaviour:
@@ -296,12 +296,13 @@ MonoBehaviour:
   - {fileID: 110228073849313486}
   - {fileID: -313811596536738812}
   - {fileID: -6051906645267722462}
+  - {fileID: 3295285823835349465}
   EditorParameters: []
   MasterBanks:
   - {fileID: -8550341837348298914}
   StringsBanks:
   - {fileID: 2734414285548889170}
-  stringsBankWriteTime: 637652284612946019
+  stringsBankWriteTime: 637654086663089203
   cacheVersion: 6
 --- !u!114 &110228073849313486
 MonoBehaviour:
@@ -341,12 +342,35 @@ MonoBehaviour:
   Path: C:/Users/dan34/Documents/FMOD Studio/WakjwaLike/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637652284612946019
+  lastModified: 637654086663089203
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 1250
+    Value: 1290
   Exists: 1
+--- !u!114 &3295285823835349465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/New Event
+  m_EditorClassIdentifier: 
+  Path: event:/New Event
+  guid: bd1270032c3765459e3b8dc065983cf5
+  Banks:
+  - {fileID: -8550341837348298914}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 100
 --- !u!114 &4227716141362138852
 MonoBehaviour:
   m_ObjectHideFlags: 0
