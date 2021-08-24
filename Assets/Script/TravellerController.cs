@@ -237,7 +237,7 @@ public class TravellerController : MonoBehaviour
             if (temptime >= 0.1f) { isDashing = false; temptime = 0; }
             foreach (RaycastHit2D hitObject in Physics2D.RaycastAll(transform.position, derectionPos, 0.9f))
             {
-                if (hitObject.transform.CompareTag("Wall")) { isDashing = false; temptime = 0; playerRB.velocity = Vector3.zero; }
+                if (hitObject.transform.gameObject.layer.Equals("Wall")) { isDashing = false; temptime = 0; playerRB.velocity = Vector3.zero; }
             }
             if (isDashing == false)
             {
@@ -283,7 +283,7 @@ public class TravellerController : MonoBehaviour
             }
             else
             {
-                yield return new WaitForSeconds(0.02f);
+                yield return new WaitForFixedUpdate();
             } 
         }
     }
@@ -401,7 +401,8 @@ public class TravellerController : MonoBehaviour
             // 아니라면 
             foreach (RaycastHit2D hitObject in Physics2D.RaycastAll(transform.position, monster.transform.position - transform.position))
             {
-                if (hitObject.transform.CompareTag("Wall")) break;
+                // if (hitObject.transform.CompareTag("Wall")) break;
+                if (hitObject.transform.gameObject.layer.Equals("Wall")) break;
                 else if (hitObject.transform.CompareTag("Monster") || hitObject.transform.CompareTag("Boss"))
                 {
                     target = monster.gameObject;

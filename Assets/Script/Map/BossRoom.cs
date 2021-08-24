@@ -9,20 +9,14 @@ public class BossRoom : Room
     public override void Enter()
     {
         if (IsVisited == false) IsVisited = true;
-        DoorHiders[0].SetActive(!IsConnectToNearbyRoom[0]);
-        DoorHiders[1].SetActive(!IsConnectToNearbyRoom[1]);
-        DoorHiders[2].SetActive(!IsConnectToNearbyRoom[2]);
-        DoorHiders[3].SetActive(!IsConnectToNearbyRoom[3]);
     }
 
     public void SummonBoss()
     {
         GameManager.Instance.SetFighting(true);
 
-        DoorHiders[0].SetActive(true);
-        DoorHiders[1].SetActive(true);
-        DoorHiders[2].SetActive(true);
-        DoorHiders[3].SetActive(true);
+        foreach (var hider in DoorHiders) hider.SetActive(true);
+        foreach (var particle in DoorParticles) particle.SetActive(false);
 
         //GameObject bossGO = ObjectManager.Instance.GetQueue(boss, bossSpawnPoint.position);
         GameObject bossGO = ObjectManager.Instance.GetQueue(boss.name, bossSpawnPoint.position);
@@ -47,10 +41,8 @@ public class BossRoom : Room
 
         GameManager.Instance.SetFighting(false);
 
-        DoorHiders[0].SetActive(!IsConnectToNearbyRoom[0]);
-        DoorHiders[1].SetActive(!IsConnectToNearbyRoom[1]);
-        DoorHiders[2].SetActive(!IsConnectToNearbyRoom[2]);
-        DoorHiders[3].SetActive(!IsConnectToNearbyRoom[3]);
+        foreach (var hider in DoorHiders) hider.SetActive(false);
+        foreach (var particle in DoorParticles) particle.SetActive(true);
 
         StartCoroutine(GameManager.Instance.RoomClearSpeedWagon());
     }

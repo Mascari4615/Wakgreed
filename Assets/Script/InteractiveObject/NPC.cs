@@ -4,13 +4,13 @@ using Cinemachine;
 public abstract class NPC : InteractiveObject
 {
     [SerializeField] protected GameObject canvas;
-    [SerializeField] private GameObject ui;
-    [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
+    [SerializeField] protected GameObject ui;
+    [SerializeField] protected CinemachineVirtualCamera cinemachineVirtualCamera;
 
     private void Awake()
     {
         cinemachineVirtualCamera.Follow = GameObject.Find("CM TargetGroup").transform;
-        canvas.GetComponent<Canvas>().worldCamera = Camera.main;
+        //canvas.GetComponent<Canvas>().worldCamera = Camera.main;
     }
 
     public override void Interaction()
@@ -19,7 +19,7 @@ public abstract class NPC : InteractiveObject
         ui.SetActive(true);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
@@ -30,7 +30,7 @@ public abstract class NPC : InteractiveObject
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    protected virtual void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
