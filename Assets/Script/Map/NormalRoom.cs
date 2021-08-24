@@ -22,10 +22,8 @@ public class NormalRoom : Room
         {
             GameManager.Instance.SetFighting(true);
 
-            DoorHiders[0].SetActive(true);
-            DoorHiders[1].SetActive(true);
-            DoorHiders[2].SetActive(true);
-            DoorHiders[3].SetActive(true);
+            foreach (var hider in DoorHiders) hider.SetActive(true);
+            foreach (var particle in DoorParticles) particle.SetActive(false);
 
             StartCoroutine(StartWave(curWaveIndex));
         }
@@ -74,10 +72,8 @@ public class NormalRoom : Room
         GameManager.Instance.SetFighting(false);
         isCleared = true;
 
-        DoorHiders[0].SetActive(!IsConnectToNearbyRoom[0]);
-        DoorHiders[1].SetActive(!IsConnectToNearbyRoom[1]);
-        DoorHiders[2].SetActive(!IsConnectToNearbyRoom[2]);
-        DoorHiders[3].SetActive(!IsConnectToNearbyRoom[3]);       
+        foreach (var hider in DoorHiders) hider.SetActive(false);
+        foreach (var particle in DoorParticles) particle.SetActive(true);
 
         StartCoroutine(GameManager.Instance.RoomClearSpeedWagon());
     }
