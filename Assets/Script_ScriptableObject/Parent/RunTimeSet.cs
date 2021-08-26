@@ -24,4 +24,13 @@ public abstract class RunTimeSet<T> : ScriptableObject
             Debug.LogError("RunTimeSet : 존재하지 않는 아이템 제거 시도");
         }
     }
+
+    public virtual void Clear()
+    {
+        int count = Items.Count;
+        for (int i = 0; i < count; i++)
+        {
+            Remove(Items[0]);
+        }
+    }
 }

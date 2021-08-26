@@ -29,4 +29,10 @@ public abstract class ItemInventory : RunTimeSet<Item>
         }
         else Debug.LogError("RunTimeSet<Item> : 존재하지 않는 아이템 제거 시도");
     }
+
+    public override void Clear()
+    {
+        base.Clear();
+        itemCountDic.Clear();
+    }
 }
