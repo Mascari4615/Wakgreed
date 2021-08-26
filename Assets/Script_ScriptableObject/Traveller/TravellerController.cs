@@ -70,8 +70,8 @@ public class TravellerController : MonoBehaviour
         if (spawnZero) transform.position = Vector3.zero;
         else transform.position = Vector3.zero + Vector3.up * -47;
 
-        maxHP.RuntimeValue = traveller.baseHP;
-        HP.RuntimeValue = maxHP.RuntimeValue;
+        //maxHP.RuntimeValue = traveller.baseHP;
+        //HP.RuntimeValue = maxHP.RuntimeValue;
         OnHpChange.Raise();
 
         AD.RuntimeValue = traveller.baseAD;

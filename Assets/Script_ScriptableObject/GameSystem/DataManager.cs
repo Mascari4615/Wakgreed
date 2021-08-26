@@ -33,6 +33,8 @@ public class DataManager : MonoBehaviour
     public Dictionary<int, Food> FoodDic = new();
     public WakgoodFoodInventory WakgoodFoodInventory;
 
+    public BuffRunTimeSet BuffRunTimeSet;
+
     public GameData curGameData;
 
     public static DataManager Create()

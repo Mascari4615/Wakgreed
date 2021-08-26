@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject gamePanel;
     [SerializeField] private GameObject miniMapCamera;
 
-    [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private GameObject gameResultPanel;
 
     [SerializeField] private GameObject pausePanel;
 
@@ -92,12 +92,13 @@ public class GameManager : MonoBehaviour
         StageManager.Instance.GenerateStage();
     }
 
+    // OnCollapse GameEvent로 호출
     public void GameOver()
     {
         Debug.Log("GameOver");
         isGaming = false;
         gamePanel.SetActive(false);
-        gameOverPanel.SetActive(true);
+        gameResultPanel.SetActive(true);
     }
 
     public void Recall()
@@ -119,8 +120,9 @@ public class GameManager : MonoBehaviour
             EnemyRunTimeSet.Items[0].SetActive(false);
             EnemyRunTimeSet.Remove(EnemyRunTimeSet.Items[0]);
         }
-        DataManager.Instance.WakgoodItemInventory.Items.Clear();
-        DataManager.Instance.WakgoodFoodInventory.Items.Clear();
+        DataManager.Instance.WakgoodItemInventory.Clear();
+        DataManager.Instance.WakgoodFoodInventory.Clear();
+        DataManager.Instance.BuffRunTimeSet.Clear();
 
         TravellerController.Instance.enabled = true;
         TravellerController.Instance.Initialize(false);
@@ -130,7 +132,7 @@ public class GameManager : MonoBehaviour
         isGaming = false;
         isFighting = false;
         pausePanel.SetActive(false);
-        gameOverPanel.SetActive(false);
+        gameResultPanel.SetActive(false);
         gamePanel.SetActive(true);
 
         testNpc.SetActive(DataManager.Instance.curGameData.isNPCRescued);

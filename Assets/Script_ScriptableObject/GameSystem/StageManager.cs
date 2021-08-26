@@ -247,7 +247,6 @@ public class StageManager : MonoBehaviour
 
     public void StopAllSpeedWagons()
     {
-        Debug.Log("asd");
         StopCoroutine("StageSpeedWagon");
         stageSpeedWagon.SetActive(false);
         StopCoroutine("CantOpenText");
