@@ -109,7 +109,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2216376195027412788}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.02, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 9.69, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -347,10 +347,10 @@ GameObject:
   - component: {fileID: 3035457898370817614}
   - component: {fileID: 3035457898370817615}
   - component: {fileID: -2320848511204243138}
-  - component: {fileID: 5873416009978505909}
   - component: {fileID: -7339751793556471078}
   - component: {fileID: 936163698904388890}
   - component: {fileID: 1194972627027808675}
+  - component: {fileID: 2942887708771458359}
   m_Layer: 7
   m_Name: Hikiking_Boss
   m_TagString: Boss
@@ -367,7 +367,7 @@ Transform:
   m_GameObject: {fileID: 3035457898370817608}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6625662807787167382}
@@ -391,7 +391,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 5.8171453
+  m_Mass: 0.64634955
   m_LinearDrag: 4
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -416,24 +416,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0.3}
   m_Size: {x: 1.4, y: 0.5}
   m_Direction: 1
---- !u!114 &5873416009978505909
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3035457898370817608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a51f25879888bcc4898587464f0a5087, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monsterType: 1
-  baseHP: 3000
-  baseAD: 3
-  baseMoveSpeed: 8
-  EnemyRunTimeSet: {fileID: 11400000, guid: b88a37a18af2b5d46ba67b2022823cf0, type: 2}
-  OnMonsterCollapse: {fileID: 11400000, guid: 1b477f0305627f54d8b1c54462eafc87, type: 2}
 --- !u!114 &-7339751793556471078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -441,7 +423,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3035457898370817608}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: adbd2402367b72342a34f86a3488182a, type: 3}
   m_Name: 
@@ -487,8 +469,7 @@ SpriteRenderer:
   m_SortingLayerID: 978103407
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: -3635838840894485798, guid: 77379b3e1f940314e89382af4f5df575,
-    type: 3}
+  m_Sprite: {fileID: 421904671, guid: e4f39639acc5bc3499b7c9d3821458eb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -509,7 +490,7 @@ Animator:
   m_GameObject: {fileID: 3035457898370817608}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2024f54dcb7525943915f6d4ae42a4ac, type: 2}
+  m_Controller: {fileID: 9100000, guid: f5751dd88f6135245a71936c7065c022, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -519,6 +500,24 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2942887708771458359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3035457898370817608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4adc2114dd9f604599578d27d7536c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterType: 1
+  baseHP: 2000
+  baseAD: 10
+  baseMoveSpeed: 10
+  EnemyRunTimeSet: {fileID: 11400000, guid: b88a37a18af2b5d46ba67b2022823cf0, type: 2}
+  OnMonsterCollapse: {fileID: 11400000, guid: 1b477f0305627f54d8b1c54462eafc87, type: 2}
 --- !u!1 &3063216174480736597
 GameObject:
   m_ObjectHideFlags: 0
@@ -916,7 +915,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9168018370804261444}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

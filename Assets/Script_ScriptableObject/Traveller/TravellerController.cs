@@ -70,8 +70,8 @@ public class TravellerController : MonoBehaviour
         if (spawnZero) transform.position = Vector3.zero;
         else transform.position = Vector3.zero + Vector3.up * -47;
 
-        //maxHP.RuntimeValue = traveller.baseHP;
-        //HP.RuntimeValue = maxHP.RuntimeValue;
+        maxHP.RuntimeValue = traveller.baseHP;
+        HP.RuntimeValue = maxHP.RuntimeValue;
         OnHpChange.Raise();
 
         AD.RuntimeValue = traveller.baseAD;
@@ -122,7 +122,8 @@ public class TravellerController : MonoBehaviour
 
         // Targeting();
         CheckCoolDown(ref isHealthy, ref curCoolDown, 1 /*무적 시간*/);
-        CheckCoolDown(ref canAttack, ref curAttackCoolDown, 1 / AS.RuntimeValue);
+        // CheckCoolDown(ref canAttack, ref curAttackCoolDown, 1 / AS.RuntimeValue);
+        CheckCoolDown(ref canAttack, ref curAttackCoolDown, 1 / curWeapon.attackSpeed);
 
         Move();
         if (Input.GetMouseButton(0) && canAttack) BasicAttack();
