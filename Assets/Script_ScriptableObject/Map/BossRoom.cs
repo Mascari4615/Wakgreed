@@ -18,8 +18,8 @@ public class BossRoom : Room
         foreach (var hider in DoorHiders) hider.SetActive(true);
         foreach (var particle in DoorParticles) particle.SetActive(false);
 
-        //GameObject bossGO = ObjectManager.Instance.GetQueue(boss, bossSpawnPoint.position);
-        GameObject bossGO = ObjectManager.Instance.GetQueue(boss.name, bossSpawnPoint.position);
+        // GameObject bossGO = ObjectManager.Instance.GetQueue(boss.name, bossSpawnPoint.position);
+        GameObject bossGO = Instantiate(boss, bossSpawnPoint);
 
         StartCoroutine(UIManager.Instance.SpeedWagon_Boss(bossGO));
     }
