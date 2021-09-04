@@ -347,7 +347,6 @@ GameObject:
   - component: {fileID: 3035457898370817614}
   - component: {fileID: 3035457898370817615}
   - component: {fileID: -2320848511204243138}
-  - component: {fileID: -7339751793556471078}
   - component: {fileID: 936163698904388890}
   - component: {fileID: 1194972627027808675}
   - component: {fileID: 2942887708771458359}
@@ -416,18 +415,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0.3}
   m_Size: {x: 1.4, y: 0.5}
   m_Direction: 1
---- !u!114 &-7339751793556471078
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3035457898370817608}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adbd2402367b72342a34f86a3488182a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &936163698904388890
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -513,11 +500,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterType: 1
-  baseHP: 2000
+  baseHP: 4000
   baseAD: 10
   baseMoveSpeed: 10
   EnemyRunTimeSet: {fileID: 11400000, guid: b88a37a18af2b5d46ba67b2022823cf0, type: 2}
   OnMonsterCollapse: {fileID: 11400000, guid: 1b477f0305627f54d8b1c54462eafc87, type: 2}
+  baseattack: {fileID: 5168828908313417421, guid: d7540f4bd46a48740bfd71113d4557c9,
+    type: 3}
 --- !u!1 &3063216174480736597
 GameObject:
   m_ObjectHideFlags: 0
