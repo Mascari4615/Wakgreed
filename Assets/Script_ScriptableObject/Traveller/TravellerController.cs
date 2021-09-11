@@ -121,7 +121,7 @@ public class TravellerController : MonoBehaviour
         if (Time.timeScale == 0) return;
 
         // Targeting();
-        CheckCoolDown(ref isHealthy, ref curCoolDown, 1 /*무적 시간*/);
+        CheckCoolDown(ref isHealthy, ref curCoolDown, .5f /*무적 시간*/);
         // CheckCoolDown(ref canAttack, ref curAttackCoolDown, 1 / AS.RuntimeValue);
         CheckCoolDown(ref canAttack, ref curAttackCoolDown, 1 / curWeapon.attackSpeed);
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using Cinemachine;
 using UnityEngine;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject state;
 
+    public TextMeshProUGUI aaa;
+
     private void Awake()
     {
         instance = this;
@@ -36,7 +39,6 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator SpeedWagon_Boss(GameObject boss)
     {
-        boss.GetComponent<Monster>().enabled = false;
         cinemachineTargetGroup.m_Targets[0].target = boss.transform;
         TravellerController.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         bossSpeedWagon.gameObject.SetActive(true);
@@ -46,7 +48,6 @@ public class UIManager : MonoBehaviour
         bossSpeedWagon.gameObject.SetActive(false);
         TravellerController.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         cinemachineTargetGroup.m_Targets[0].target = TravellerController.Instance.transform;
-        boss.GetComponent<Monster>().enabled = true;
     }
 
     public IEnumerator NeedMoreNyang()
