@@ -20,8 +20,6 @@ public class BossRoom : Room
 
         // GameObject bossGO = ObjectManager.Instance.GetQueue(boss.name, bossSpawnPoint.position);
         GameObject bossGO = Instantiate(boss, bossSpawnPoint);
-
-        StartCoroutine(UIManager.Instance.SpeedWagon_Boss(bossGO));
     }
 
     public void CheckMonsterCount()
