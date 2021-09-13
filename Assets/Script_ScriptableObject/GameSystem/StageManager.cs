@@ -142,7 +142,6 @@ public class StageManager : MonoBehaviour
                 // Debug.Log(targetRoomCoordinate);
                 targetRoomUI.SetActive(true);
                 targetRoomUI.GetComponent<Image>().enabled = false;
-                targetRoomUI.transform.Find("CurrentRoom").gameObject.SetActive(false);
                 targetRoomUI.transform.GetChild(0).gameObject.SetActive(false);
 
                 if (roomDic.ContainsKey(targetRoomCoordinate))
@@ -156,7 +155,7 @@ public class StageManager : MonoBehaviour
                     targetRoomUI.transform.GetChild(0).Find("Down").gameObject.SetActive(targetRoom.IsConnectToNearbyRoom[1]);
                     targetRoomUI.transform.GetChild(0).Find("Left").gameObject.SetActive(targetRoom.IsConnectToNearbyRoom[2]);
                     targetRoomUI.transform.GetChild(0).Find("Right").gameObject.SetActive(targetRoom.IsConnectToNearbyRoom[3]);
-                    targetRoomUI.transform.GetChild(0).Find("CurrentRoom").GetComponent<Image>().color = new Color(175, 175, 175);
+                    targetRoomUI.transform.GetChild(0).Find("CurrentRoom").GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f);
                 }
 
                 x++;
@@ -177,10 +176,10 @@ public class StageManager : MonoBehaviour
 
     private void UpdateMap()
     {
-        scrollRectBackGround.localPosition = -CurrentRoom.Coordinate * 135;
+        scrollRectBackGround.localPosition = -CurrentRoom.Coordinate * (mapGridLayoutGroup.cellSize.x + mapGridLayoutGroup.spacing.x);
         roomUiDic[CurrentRoom.Coordinate].GetComponent<Image>().enabled = true;
         roomUiDic[CurrentRoom.Coordinate].transform.GetChild(0).gameObject.SetActive(true);
-        roomUiDic[CurrentRoom.Coordinate].transform.GetChild(0).Find("CurrentRoom").GetComponent<Image>().color = new Color(0, 200, 255);
+        roomUiDic[CurrentRoom.Coordinate].transform.GetChild(0).Find("CurrentRoom").GetComponent<Image>().color = new Color(0f / 255f, 200f / 255f, 255f / 255f);
     }
 
     public IEnumerator MigrateRoom(Vector2 moveDirection, int spawnDirection)
@@ -188,8 +187,7 @@ public class StageManager : MonoBehaviour
         fadePanel.SetActive(true);
         yield return new WaitForSeconds(0.2f);
 
-        roomUiDic[CurrentRoom.Coordinate].transform.GetChild(0).Find("CurrentRoom").GetComponent<Image>().color = new Color(175, 175, 175);
-        //roomUiDic[CurrentRoom.Coordinate].transform.Find("CurrentRoom").gameObject.SetActive(false);
+        roomUiDic[CurrentRoom.Coordinate].transform.GetChild(0).Find("CurrentRoom").GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f);
 
         CurrentRoom = roomDic[CurrentRoom.Coordinate + moveDirection];
         TravellerController.Instance.transform.position = CurrentRoom.Doors[spawnDirection].transform.position + (Vector3)moveDirection * 4;
@@ -220,7 +218,7 @@ public class StageManager : MonoBehaviour
         {
             StopCoroutine("CantOpenText");
 
-            scrollRectBackGround.localPosition = -CurrentRoom.Coordinate * 175;
+            scrollRectBackGround.localPosition = -CurrentRoom.Coordinate * (mapGridLayoutGroup.cellSize.x + mapGridLayoutGroup.spacing.x);
             mapPanel.SetActive(bOpen);
         }
     }
