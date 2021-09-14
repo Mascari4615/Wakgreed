@@ -93,7 +93,7 @@ public class StreamingManager : MonoBehaviour
                     {
                         viewerGraphDot[j].transform.localPosition = new Vector3(
                             viewerGraphDot[j].transform.localPosition.x,
-                            (2 * ((viewerHistory[j] - curViewerMin) / (float)((curViewerMax - curViewerMin))) - 1) * 80,
+                            (2 * ((viewerHistory[j] - curViewerMin) / (float)((curViewerMax - curViewerMin))) - 1) * 70+20,
                             0);
                     }   
                 }
@@ -102,7 +102,7 @@ public class StreamingManager : MonoBehaviour
             viewerHistory[4] = Viewer.RuntimeValue;
             viewerGraphDot[4].transform.localPosition = new Vector3(
                 viewerGraphDot[4].transform.localPosition.x,
-                (2 * ((Viewer.RuntimeValue - curViewerMin) / (float)((curViewerMax - curViewerMin))) - 1) * 80,
+                (2 * ((Viewer.RuntimeValue - curViewerMin) / (float)((curViewerMax - curViewerMin))) - 1) * 70 +20,
                 0);
 
             yield return ws;
