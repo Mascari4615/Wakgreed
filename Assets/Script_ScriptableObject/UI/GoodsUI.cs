@@ -12,7 +12,7 @@ public class GoodsUI : MonoBehaviour
     {
         if (isMonsterKill)
         {
-            text.text = (++IntVariable.RuntimeValue).ToString();
+            text.text = IntVariable.RuntimeValue.ToString();
         }
         else
         {

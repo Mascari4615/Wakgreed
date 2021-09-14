@@ -4,7 +4,10 @@ using UnityEngine;
 public class IntVariable : ScriptableObject, ISerializationCallbackReceiver
 {
     public int InitialValue;
-	[System.NonSerialized] public int RuntimeValue;
+    public GameEvent GameEvent;
+
+	public int RuntimeValue { get { return runtimeValue; } set { runtimeValue = value; if (GameEvent) GameEvent.Raise(); } }
+    [System.NonSerialized] private int runtimeValue;
 
     public void OnAfterDeserialize()
     {
