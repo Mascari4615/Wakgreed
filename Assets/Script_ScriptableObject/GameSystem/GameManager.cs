@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     [HideInInspector] public static GameManager Instance { get { return instance; } }
 
-    public bool isGaming = false;
     private bool isFighting = false;
     public void SetFighting(bool value)
     {
@@ -16,6 +15,7 @@ public class GameManager : MonoBehaviour
         if (isFighting == true) OnFightStart.Raise();
         else if (isFighting == false) OnFightEnd.Raise();
     }
+    [SerializeField] private GameEvent OnGameStart;
     [SerializeField] private GameEvent OnFightStart;
     [SerializeField] private GameEvent OnFightEnd;
     [SerializeField] private GameEvent OnRecall;
@@ -88,15 +88,14 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
 
         undo.SetActive(false);
-        isGaming = true;
         StageManager.Instance.GenerateStage();
+        OnGameStart.Raise();
     }
 
     // OnCollapse GameEvent로 호출
     public void GameOver()
     {
         Debug.Log("GameOver");
-        isGaming = false;
         gamePanel.SetActive(false);
         gameResultPanel.SetActive(true);
     }
@@ -129,7 +128,6 @@ public class GameManager : MonoBehaviour
 
         miniMapCamera.transform.position = new Vector3(0, 0, -100);
 
-        isGaming = false;
         isFighting = false;
         pausePanel.SetActive(false);
         gameResultPanel.SetActive(false);

@@ -7,7 +7,6 @@ public class ShopKeeper : NPC
     [SerializeField] private ItemInventoryUI itemInventoryUI_Buy;
     [SerializeField] private ShopKeeperItemInventory ShopKeeperItemInventory;
     [SerializeField] private IntVariable nyang;
-    [SerializeField] private GameEvent onNyangChange;
 
     private void Start()
     {
@@ -43,7 +42,6 @@ public class ShopKeeper : NPC
         }
 
         nyang.RuntimeValue -= (slot.specialThing as Item).price;
-        onNyangChange.Raise();
 
         slot.gameObject.SetActive(false);
         ShopKeeperItemInventory.Remove(slot.specialThing as Item);
