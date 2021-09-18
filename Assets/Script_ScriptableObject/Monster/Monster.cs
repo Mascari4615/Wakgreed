@@ -4,15 +4,10 @@ using UnityEngine;
 
 public abstract class Monster : MonoBehaviour
 {
-    private enum MonsterType
-    {
-        Normal, Boss
-    }
-    [SerializeField] private MonsterType monsterType;
-    [SerializeField] protected int baseHP, baseAD, baseMoveSpeed;
+    [SerializeField] private int baseHP, baseAD, baseMoveSpeed;
     protected int maxHP, HP, AD, moveSpeed;
 
-    [SerializeField] protected EnemyRunTimeSet EnemyRunTimeSet;
+    [SerializeField] private EnemyRunTimeSet EnemyRunTimeSet;
     [SerializeField] private GameEvent OnMonsterCollapse;
 
     protected SpriteRenderer spriteRenderer;
@@ -30,8 +25,6 @@ public abstract class Monster : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        // Debug.Log($"{name} : OnEnable");
-
         maxHP = baseHP;
         HP = maxHP;
         AD = baseAD;
@@ -76,7 +69,7 @@ public abstract class Monster : MonoBehaviour
         animator.SetTrigger("Collapse");
 
         EnemyRunTimeSet.Remove(gameObject);
-        if (StageManager.Instance.CurrentRoom.roomType == RoomType.Normal || monsterType == MonsterType.Boss)
+        if (StageManager.Instance.CurrentRoom.roomType == RoomType.Normal)
         {
             OnMonsterCollapse.Raise(transform);
             int randCount = Random.Range(0, 5);
