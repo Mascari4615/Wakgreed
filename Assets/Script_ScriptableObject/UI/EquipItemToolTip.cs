@@ -31,7 +31,7 @@ public class EquipItemToolTip : MonoBehaviour
             simpleDescriptionField.text = item.simpleDescription;
             image.sprite = item.sprite;
             toolTip.SetActive(true);
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(2f);
         }
         toolTip.SetActive(false);
         isShowing = false;
