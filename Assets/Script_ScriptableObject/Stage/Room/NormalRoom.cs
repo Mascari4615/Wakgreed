@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class NormalRoom : Room
 {
+    [SerializeField] private Transform chestSpawnPoint;
     [System.Serializable] private class Wave
     {
         [HideInInspector] public bool isCleared;
@@ -61,7 +62,7 @@ public class NormalRoom : Room
 
     private void RoomClear()
     {
-        ObjectManager.Instance.GetQueue("Item", transform.position).GetComponent<ItemGameObject>().Initialize(0);
+        ObjectManager.Instance.GetQueue("Chest", transform.position).GetComponent<Chest>().Initialize(ItemGrade.Common);
 
         if (roomType == RoomType.Boss)
         {
