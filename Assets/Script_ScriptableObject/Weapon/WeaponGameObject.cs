@@ -4,23 +4,10 @@ public class WeaponGameObject : InteractiveObject
 {
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Weapon weapon;
-    [SerializeField] private MeshRenderer interactionIcon = null;
+    [SerializeField] private MeshRenderer interactionIcon;
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.tag == "Player")
-        {
-            interactionIcon.enabled = true;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.tag == "Player")
-        {
-            interactionIcon.enabled = false;
-        }
-    }
+    private void OnTriggerEnter2D(Collider2D other) { if (other.tag == "Player") interactionIcon.enabled = true; }
+    private void OnTriggerExit2D(Collider2D other) { if (other.tag == "Player") interactionIcon.enabled = false; }
 
     public void Initialize(int id)
     {
@@ -33,7 +20,7 @@ public class WeaponGameObject : InteractiveObject
         if (!TravellerController.Instance.isSwitching)
         {
             Weapon temp = TravellerController.Instance.curWeapon;
-            TravellerController.Instance.SwitchWeapon(targetWeapon:weapon);
+            TravellerController.Instance.SwitchWeapon(targetWeapon: weapon);
             weapon = temp;
             spriteRenderer.sprite = weapon.icon;
         }

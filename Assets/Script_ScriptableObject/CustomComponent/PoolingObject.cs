@@ -1,18 +1,6 @@
 using UnityEngine;
 
-public abstract class PoolableObject : MonoBehaviour
+public class PoolingObject : MonoBehaviour
 {
-    protected ObjectPool<PoolableObject> pPool;
-
-    public virtual void Create(ObjectPool<PoolableObject> pool)
-    {
-        pPool = pool;
-
-        gameObject.SetActive(false);
-    }
-
-    public virtual void Dispose()
-    {
-        pPool.PushObject(this);
-    }
+    private void OnDisable() { ObjectManager.Instance.PushObject(gameObject); }
 }

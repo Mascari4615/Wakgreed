@@ -1,19 +1,23 @@
-﻿using System.Collections;
+﻿using Cinemachine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
     [HideInInspector] public static GameManager Instance { get { return instance; } }
 
-    private bool isFighting = false;
-    public void SetFighting(bool value)
+    private bool isFighting;
+    public bool IsFighting
     {
-        isFighting = value;
-        if (isFighting == true) OnFightStart.Raise();
-        else if (isFighting == false) OnFightEnd.Raise();
+        get { return isFighting; }
+        set
+        {
+            isFighting = value;
+            if (isFighting == true) OnFightStart.Raise();
+            else if (isFighting == false) OnFightEnd.Raise();
+        }
     }
     [SerializeField] private GameEvent OnGameStart;
     [SerializeField] private GameEvent OnFightStart;

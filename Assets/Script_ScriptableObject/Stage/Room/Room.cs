@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public enum RoomType
 {
@@ -8,12 +8,12 @@ public enum RoomType
     Boss,
     Shop,
     Interaction,
-    Normal,
+    Normal
 }
 
 public abstract class Room : MonoBehaviour
 {
-    public RoomType roomType = RoomType.Normal;
+    [HideInInspector] public RoomType roomType = RoomType.Normal;
     public Vector2 Coordinate { get; private set; }
     public bool IsVisited { get; protected set; } = false;
     public bool[] IsConnectToNearbyRoom { get; private set; } = { false, false, false, false };
@@ -21,10 +21,10 @@ public abstract class Room : MonoBehaviour
     protected List<GameObject> DoorHiders { get; private set; } = new();
     protected List<GameObject> DoorParticles { get; private set; } = new();
 
-    public void Initialize(Vector2 _coordinate, bool[] _isConnectToNearbyRoom)
+    public void Initialize(Vector2 coordinate, bool[] isConnectToNearbyRoom)
     {
-        Coordinate = _coordinate;
-        IsConnectToNearbyRoom = _isConnectToNearbyRoom;
+        Coordinate = coordinate;
+        IsConnectToNearbyRoom = isConnectToNearbyRoom;
         transform.localPosition = Coordinate * 100;
 
         Doors[0] = transform.Find("Door_Up").gameObject;
@@ -41,7 +41,7 @@ public abstract class Room : MonoBehaviour
                 DoorHiders.Add(Doors[i].transform.Find("Hider").gameObject);
                 Doors[i].transform.Find("Wall").gameObject.SetActive(false);
                 Doors[i].transform.Find("Debug").gameObject.SetActive(true);
-            }   
+            }
         }
     }
 

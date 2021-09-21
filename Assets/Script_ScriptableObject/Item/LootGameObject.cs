@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using FMODUnity;
 using System.Collections;
-using FMODUnity;
+using UnityEngine;
 
 public abstract class LootGameObject : MonoBehaviour
 {
@@ -10,7 +10,6 @@ public abstract class LootGameObject : MonoBehaviour
     private CircleCollider2D circleCollider2D;
     protected SpriteRenderer spriteRenderer;
     [SerializeField] private GameEvent gameEvent;
-    [SerializeField] private AudioClip soundEffect;
 
     private void Awake()
     {
@@ -44,18 +43,16 @@ public abstract class LootGameObject : MonoBehaviour
             moveSpeed += 0.015f;
             transform.position = Vector3.Lerp(transform.position, TravellerController.Instance.transform.position, moveSpeed);
             yield return new WaitForSeconds(0.015f);
-        }   
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            // Debug.Log($"{name} : OnEquip");
             RuntimeManager.PlayOneShot("event:/SFX/ETC/LootGameObject", transform.position);
             OnEquip();
-            
-            // Debug.Log($"{name} : OnEquip 2 Raise");
+
             if (!(gameEvent is null)) gameEvent.Raise();
             gameObject.SetActive(false);
         }
