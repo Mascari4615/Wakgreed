@@ -16,12 +16,12 @@ public class RangedSkill : Skill, ISerializationCallbackReceiver
 
             if (resource != null)
             {
-                ObjectManager.Instance.GetQueue(resource.name, TravellerController.Instance.attackPosition);
+                ObjectManager.Instance.PopObject(resource.name, TravellerController.Instance.attackPosition);
             }
             else
             {
                 //ObjectManager.Instance.GetQueue(PoolType.KnightSwordSlash, parent.attackPosition);
-                ObjectManager.Instance.GetQueue("Arrow", TravellerController.Instance.attackPosition);
+                ObjectManager.Instance.PopObject("Arrow", TravellerController.Instance.attackPosition);
             }
 
             TravellerController.Instance.curWeapon.ammo--;

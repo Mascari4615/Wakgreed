@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Cloud : MonoBehaviour
@@ -18,7 +16,6 @@ public class Cloud : MonoBehaviour
     private void Update()
     {
         transform.position -= new Vector3(1, 0, 0) * Time.deltaTime * speed;
-        //if (transform.position.x <= -60) ObjectManager.Instance.InsertQueue(PoolType.Cloud, gameObject);
-        if (transform.position.x <= -60) ObjectManager.Instance.InsertQueue(gameObject);
+        if (transform.position.x <= -60) gameObject.SetActive(false);
     }
 }
