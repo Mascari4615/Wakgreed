@@ -313,7 +313,7 @@ namespace FMODUnity
                 // Unload the strings banks
                 loadedStringsBanks.ForEach(x => x.unload());
                 AssetDatabase.StopAssetEditing();
-                Debug.Log("FMOD: Cache updated.");
+                // Debug.Log("FMOD: Cache updated.");
             }
 
             return null;

@@ -71,7 +71,7 @@ public class LogManager : MonoBehaviour
         {
             for (int i = 0; i < chatPanel.transform.childCount - 50; i++)
             {
-                ObjectManager.Instance.InsertQueue(chatPanel.transform.GetChild(0).gameObject);
+                ObjectManager.Instance.PushObject(chatPanel.transform.GetChild(0).gameObject);
             }
         }
     }

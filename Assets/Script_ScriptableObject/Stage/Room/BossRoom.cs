@@ -32,7 +32,7 @@ public class BossRoom : Room
     private void RoomClear()
     {
         if (Random.Range(0, 100) < 30)
-            ObjectManager.Instance.GetQueue("Item", transform.position);
+            ObjectManager.Instance.PopObject("Item", transform.position);
 
         // 보스 클리어 연출
         transform.Find("Portal").gameObject.SetActive(true);

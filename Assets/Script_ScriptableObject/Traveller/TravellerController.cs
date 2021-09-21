@@ -333,7 +333,7 @@ public class TravellerController : MonoBehaviour
 
             if (curBBolBBolCoolDown > bbolBBolCoolDown)
             {
-                ObjectManager.Instance.GetQueue("BBolBBol", transform.position, true);
+                ObjectManager.Instance.PopObject("BBolBBol", transform, true);
                 curBBolBBolCoolDown = 0;
                 bbolBBolCoolDown = Random.Range(0.1f, 0.3f);
             }
@@ -462,8 +462,8 @@ public class TravellerController : MonoBehaviour
         OnLevelUp.Raise();
         OnExpChange.Raise();
 
-        ObjectManager.Instance.GetQueue("LevelUpEffect", transform);
-        ObjectManager.Instance.GetQueue("DamageText", transform).GetComponent<AnimatedText>().SetText("Level Up!", TextType.Critical);
+        ObjectManager.Instance.PopObject("LevelUpEffect", transform);
+        ObjectManager.Instance.PopObject("DamageText", transform).GetComponent<AnimatedText>().SetText("Level Up!", TextType.Critical);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

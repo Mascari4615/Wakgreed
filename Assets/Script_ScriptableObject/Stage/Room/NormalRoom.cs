@@ -38,10 +38,10 @@ public class NormalRoom : Room
         for (int i = 0; i < waves[index].monsters.Length; i++)
         {
             //ObjectManager.Instance.GetQueue(PoolType.Summon, waves[index].monsterSpawnPoint[i].position);
-            ObjectManager.Instance.GetQueue("SpawnCircle", waves[index].monsterSpawnPoint[i].position);
+            ObjectManager.Instance.PopObject("SpawnCircle", waves[index].monsterSpawnPoint[i].position);
             yield return new WaitForSeconds(0.5f);
             //EnemyRunTimeSet.Add(ObjectManager.Instance.GetQueue(waves[index].monsters[i], waves[index].monsterSpawnPoint[i].position));
-            ObjectManager.Instance.GetQueue(waves[index].monsters[i].name, waves[index].monsterSpawnPoint[i].position);
+            ObjectManager.Instance.PopObject(waves[index].monsters[i].name, waves[index].monsterSpawnPoint[i].position);
         } 
     }
 
@@ -62,7 +62,7 @@ public class NormalRoom : Room
 
     private void RoomClear()
     {
-        ObjectManager.Instance.GetQueue("Chest", transform.position).GetComponent<Chest>().Initialize(ItemGrade.Common);
+        ObjectManager.Instance.PopObject("Chest", transform.position).GetComponent<Chest>().Initialize(ItemGrade.Common);
 
         if (roomType == RoomType.Boss)
         {

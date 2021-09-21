@@ -3974,12 +3974,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomType: 5
+  chestSpawnPoint: {fileID: 0}
   waves:
   - isCleared: 0
     monsters:
     - {fileID: 8633538259678075035, guid: e0db4e1580ba1c5429b11bfe8ae70d26, type: 3}
-    - {fileID: 8633538259678075035, guid: e0db4e1580ba1c5429b11bfe8ae70d26, type: 3}
-    - {fileID: 8633538259678075035, guid: e0db4e1580ba1c5429b11bfe8ae70d26, type: 3}
+    - {fileID: 8633538259678075035, guid: 5e5a091767fb47a48a29e76c0cf59302, type: 3}
+    - {fileID: 8633538259678075035, guid: 5e5a091767fb47a48a29e76c0cf59302, type: 3}
     - {fileID: 4244280317635532934, guid: 7a0ea18ae2703bd40aeed5cb357a6b01, type: 3}
     - {fileID: 4244280317635532934, guid: 7a0ea18ae2703bd40aeed5cb357a6b01, type: 3}
     monsterSpawnPoint:
@@ -3990,8 +3991,8 @@ MonoBehaviour:
     - {fileID: 318899701465984257}
   - isCleared: 0
     monsters:
-    - {fileID: 8633538259678075035, guid: e0db4e1580ba1c5429b11bfe8ae70d26, type: 3}
-    - {fileID: 4244280317635532934, guid: 7a0ea18ae2703bd40aeed5cb357a6b01, type: 3}
+    - {fileID: 8633538259678075035, guid: 5e5a091767fb47a48a29e76c0cf59302, type: 3}
+    - {fileID: 8633538259678075035, guid: 5e5a091767fb47a48a29e76c0cf59302, type: 3}
     - {fileID: 8633538259678075035, guid: e0db4e1580ba1c5429b11bfe8ae70d26, type: 3}
     - {fileID: 4244280317635532934, guid: 7a0ea18ae2703bd40aeed5cb357a6b01, type: 3}
     monsterSpawnPoint:
@@ -4721,6 +4722,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
+    gravitySource: 0
     maxNumParticles: 1000
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
@@ -8105,6 +8107,7 @@ ParticleSystem:
         m_RotationOrder: 4
     minVertexDistance: 0.2
     textureMode: 0
+    textureScale: {x: 1, y: 1}
     ribbonCount: 1
     shadowBias: 0.5
     worldSpace: 0
@@ -9857,6 +9860,7 @@ TilemapCollider2D:
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0.00001
+  m_UseDelaunayMesh: 0
 --- !u!50 &9047170061532899087
 Rigidbody2D:
   serializedVersion: 4
@@ -10118,6 +10122,7 @@ CompositeCollider2D:
       - {x: -6.9999704, y: -11}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
+  m_UseDelaunayMesh: 0
 --- !u!1 &5013666013866627700
 GameObject:
   m_ObjectHideFlags: 0

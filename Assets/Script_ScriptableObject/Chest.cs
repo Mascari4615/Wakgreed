@@ -32,6 +32,6 @@ public class Chest : InteractiveObject
     // 상자가 열리는 애니메이션이 실행될 때 애니메이션 이벤트로 호출됨
     private void OpenChest()
     {
-        ObjectManager.Instance.GetQueue("Item", transform.position).GetComponent<ItemGameObject>().Initialize(itemID);
+        ObjectManager.Instance.PopObject("Item", transform.position).GetComponent<ItemGameObject>().Initialize(itemID);
     }
 }

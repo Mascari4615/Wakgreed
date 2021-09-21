@@ -27,8 +27,8 @@ public class ShopKeeper : NPC
     {
         if (DataManager.Instance.WakgoodItemInventory.itemCountDic[(slot.specialThing as Item).ID] == 1) { slot.gameObject.SetActive(false); }
         DataManager.Instance.WakgoodItemInventory.Remove(slot.specialThing as Item);
-        for (int i = 0; i < (slot.specialThing as Item).price / 10; i++) ObjectManager.Instance.GetQueue("Nyang10", transform);
-        for (int i = 0; i < (slot.specialThing as Item).price % 10; i++) ObjectManager.Instance.GetQueue("Nyang", transform);
+        for (int i = 0; i < (slot.specialThing as Item).price / 10; i++) ObjectManager.Instance.PopObject("Nyang10", transform);
+        for (int i = 0; i < (slot.specialThing as Item).price % 10; i++) ObjectManager.Instance.PopObject("Nyang", transform);
         itemInventoryUI_Sell.Initialize();
     }
 
@@ -45,7 +45,7 @@ public class ShopKeeper : NPC
 
         slot.gameObject.SetActive(false);
         ShopKeeperItemInventory.Remove(slot.specialThing as Item);
-        ObjectManager.Instance.GetQueue("Item", transform).GetComponent<ItemGameObject>().Initialize((slot.specialThing as Item).ID);
+        ObjectManager.Instance.PopObject("Item", transform).GetComponent<ItemGameObject>().Initialize((slot.specialThing as Item).ID);
         itemInventoryUI_Buy.Initialize();
     }
 }

@@ -1,13 +1,18 @@
 using UnityEngine;
 
-public class PoolingObject : MonoBehaviour
+public abstract class PoolableObject : MonoBehaviour
 {
-    // [SerializeField] private PoolType poolType;
+    protected ObjectPool<PoolableObject> pPool;
 
-    private void OnDisable()
+    public virtual void Create(ObjectPool<PoolableObject> pool)
     {
-        // Debug.Log($"{name} : InsertQueue");
-        //ObjectManager.Instance.InsertQueue(poolType, gameObject);
-        ObjectManager.Instance.InsertQueue(gameObject);
+        pPool = pool;
+
+        gameObject.SetActive(false);
+    }
+
+    public virtual void Dispose()
+    {
+        pPool.PushObject(this);
     }
 }

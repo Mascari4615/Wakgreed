@@ -3,137 +3,86 @@ using UnityEngine;
 
 public class Chimpanzee : NormalMonster
 {
-    private enum State {Idle, TenceUp, Ahya, Attack}
-    private State currentState = State.Idle;
-    private bool stateChange = false;
-    private bool bRecognizeTraveller = false;
-    [SerializeField] private GameObject warningLine;
+    private bool canAttack = false;
+    private float nextCoolDown = 0;
+    private float attackCoolDown = 5;
+    private float castTime = 0.2f;
+    private bool isTargeting = false;
+    [SerializeField] private GameObject gamja;
 
     protected override void OnEnable()
     {
         base.OnEnable();
-        
-        StartCoroutine(Brain());
-    }
+        canAttack = false;
+        isTargeting = false;
+        castTime = 0.5f;
+        nextCoolDown = Time.time + 2;
+        gamja.SetActive(false);
 
-    private IEnumerator Brain()
-    {
-        while (true)
-        {
-            stateChange = false;
-            yield return StartCoroutine(currentState.ToString());
-        }
-    }
-
-    private void SetState(State newState)
-    {
-        currentState = newState;
-        stateChange = true;
-    }
-
-    private IEnumerator Idle()
-    {
-        // Debug.Log("Start Idle");
-        float duration = Random.Range(0.5f, 2.5f + 0.1f);
-
-        Vector3 moveDirection = Vector3.zero;
-        bool bIsMoving = Random.Range(0, 1 + 1) == 0 ? true : false;
-
-        animator.SetBool("IsMoving", bIsMoving);
-        if (bIsMoving)
-        {
-            int r = Random.Range(0, 4);
-            moveDirection = r == 0 ? Vector2.up : r == 1 ? Vector2.down : r == 2 ? Vector2.left : Vector2.right;
-            spriteRenderer.flipX = r == 2 ? true : r == 3 ? false : spriteRenderer.flipX;
-        }
-        
-        while (stateChange == false)
-        {
-            if (Vector2.Distance(transform.position, TravellerController.Instance.transform.position) < 10)
-            {
-                bRecognizeTraveller = true;
-                SetState(State.TenceUp);
-            }
-
-            duration -= Time.deltaTime;
-            if (duration <= 0)
-            {
-                SetState(State.Idle);
-            }
-            
-            rigidbody2D.velocity = moveDirection * moveSpeed;
-            yield return null;
-        }
-    }
-
-    private IEnumerator TenceUp()
-    {
-        // Debug.Log("Start TenceUp");
-        float duration = 6f;
-
-        while (stateChange == false)
-        {
-            duration -= Time.deltaTime;
-            if (duration <= 0)
-            {
-                SetState(State.Attack);
-            }
-
-            yield return null;
-        }
-    }
-
-    private IEnumerator Ahya()
-    {
-        //Debug.Log("Start Ahya");
-        float duration = 0.3f;
-
-        while (stateChange == false)
-        {
-            duration -= Time.deltaTime;
-            if (duration <= 0)
-            {
-                SetState(bRecognizeTraveller ? State.TenceUp : State.Idle);
-            }
-            yield return null;
-        }
+        StartCoroutine(Attack());
+        StartCoroutine(Targeting());
     }
 
     private IEnumerator Attack()
     {
-        //Debug.Log("Start Attack");
-        float duration = 0.6f;
-        float delay = 1f;
-
-        warningLine.SetActive(true);
-        Vector2 rushDirection = (TravellerController.Instance.transform.position - transform.position).normalized;
-        while (stateChange == false)
+        while (true)
         {
-            delay -= Time.deltaTime;
-            if (delay <= 0)
+            if (canAttack == false)
             {
-                duration -= Time.deltaTime;
-                if (duration <= 0)
+                if (nextCoolDown <= Time.time)
                 {
-                    SetState(State.TenceUp);
+                    canAttack = true;
+                    gamja.SetActive(false);
+                }
+            }
+            else if (canAttack && isTargeting)
+            {
+                if (castTime == 0.5f)
+                {
+                    animator.SetTrigger("ATTACK");
                 }
 
-                rigidbody2D.velocity = rushDirection * moveSpeed * 10;
+                castTime -= 0.1f;
+                if (castTime <= 0)
+                {
+                    castTime = 0.5f;
+                    nextCoolDown = Time.time + attackCoolDown;
+                    gamja.transform.localPosition = new Vector3(0, 0, -5);
+                    gamja.SetActive(true);
+                    canAttack = false;
+                }
             }
 
-            yield return null;
+            yield return new WaitForSeconds(0.1f);
         }
     }
-    
-    public override void ReceiveDamage(int damage, TextType damageType = TextType.Normal)
+
+    private IEnumerator Targeting()
     {
-        base.ReceiveDamage(damage, damageType);
+        while (true)
+        {
+            RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, TravellerController.Instance.transform.position - transform.position, Vector2.Distance(transform.position, TravellerController.Instance.transform.position), LayerMask.NameToLayer("Everything"));
+            for (int j = 0; j < hit.Length; j++)
+            {
+                if (hit[j].transform.CompareTag("Wall"))
+                {
+                    isTargeting = false;
+                    break;
+                }
+                else if (hit[j].transform.CompareTag("Player"))
+                {
+                    isTargeting = true;
+                }
+            }
 
-        if (transform.position.x > TravellerController.Instance.transform.position.x)
-            spriteRenderer.flipX = true;
-        else
-            spriteRenderer.flipX = false;
+            if (isTargeting)
+            {
+                Debug.DrawRay(transform.position, TravellerController.Instance.transform.position - transform.position, Color.green);
 
-        SetState(State.Ahya);
+                if (TravellerController.Instance.transform.position.x > transform.position.x) spriteRenderer.flipX = false;
+                else if (TravellerController.Instance.transform.position.x < transform.position.x) spriteRenderer.flipX = true;
+            }
+            yield return new WaitForSeconds(0.2f);
+        }
     }
 }

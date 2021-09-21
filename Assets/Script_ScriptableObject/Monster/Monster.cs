@@ -42,7 +42,7 @@ public abstract class Monster : MonoBehaviour
     public virtual void ReceiveDamage(int damage, TextType damageType = TextType.Normal)
     {
         //ObjectManager.Instance.GetQueue(PoolType.AnimatedText, transform.position).GetComponent<AnimatedText>().SetText(damage.ToString(), damageType);
-        ObjectManager.Instance.GetQueue("DamageText", transform.position).GetComponent<AnimatedText>().SetText(damage.ToString(), damageType);
+        ObjectManager.Instance.PopObject("DamageText", transform).GetComponent<AnimatedText>().SetText(damage.ToString(), damageType);
         HP -= damage;
         rigidbody2D.velocity = Vector3.zero;
         rigidbody2D.AddForce((transform.position - TravellerController.Instance.transform.position).normalized, ForceMode2D.Impulse);
@@ -73,10 +73,10 @@ public abstract class Monster : MonoBehaviour
         {
             OnMonsterCollapse.Raise(transform);
             int randCount = Random.Range(0, 5);
-            for (int i = 0; i < randCount; i++) ObjectManager.Instance.GetQueue("ExpOrb", transform.position);
+            for (int i = 0; i < randCount; i++) ObjectManager.Instance.PopObject("ExpOrb", transform);
         }
 
-        ObjectManager.Instance.GetQueue("LevelUpEffect", transform.position);
+        ObjectManager.Instance.PopObject("LevelUpEffect", transform);
 
         yield return new WaitForSeconds(3f);
         gameObject.SetActive(false);
