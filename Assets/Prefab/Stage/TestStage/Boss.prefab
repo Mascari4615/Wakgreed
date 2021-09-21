@@ -380,6 +380,7 @@ TilemapCollider2D:
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0.00001
+  m_UseDelaunayMesh: 0
 --- !u!50 &8000564455511042559
 Rigidbody2D:
   serializedVersion: 4
@@ -437,6 +438,7 @@ CompositeCollider2D:
       - {x: -7.9999704, y: -2}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
+  m_UseDelaunayMesh: 0
 --- !u!1 &3950161547121412459
 GameObject:
   m_ObjectHideFlags: 0
@@ -2153,6 +2155,7 @@ TilemapCollider2D:
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0.00001
+  m_UseDelaunayMesh: 0
 --- !u!50 &3950161548170695232
 Rigidbody2D:
   serializedVersion: 4
@@ -2366,6 +2369,7 @@ CompositeCollider2D:
       - {x: -3.999971, y: -16}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
+  m_UseDelaunayMesh: 0
 --- !u!1 &3950161548445016754
 GameObject:
   m_ObjectHideFlags: 0
@@ -2376,7 +2380,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3950161548445016755}
   - component: {fileID: 3950161548445016716}
-  - component: {fileID: 4871359523035293630}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -2424,35 +2427,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomType: 2
   boss: {fileID: 3035457898370817608, guid: b912cbda772df1548b82cd34540e6486, type: 3}
-  bossSpawnPoint: {fileID: 3950161547121412452}
---- !u!114 &4871359523035293630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3950161548445016754}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd7e09fbad5baf74a8afe37472259647, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Event: {fileID: 11400000, guid: 1b477f0305627f54d8b1c54462eafc87, type: 2}
-  Response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3950161548445016716}
-        m_TargetAssemblyTypeName: BossRoom, Assembly-CSharp
-        m_MethodName: CheckMonsterCount
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &3950161548550540431
 GameObject:
   m_ObjectHideFlags: 0
@@ -10839,6 +10813,7 @@ TilemapCollider2D:
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0.00001
+  m_UseDelaunayMesh: 0
 --- !u!50 &2104033645810217591
 Rigidbody2D:
   serializedVersion: 4
@@ -10896,6 +10871,7 @@ CompositeCollider2D:
       - {x: 7.0000296, y: -2}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
+  m_UseDelaunayMesh: 0
 --- !u!1001 &5025798002695468367
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -7,23 +7,20 @@ public enum TextType
     Critical
 }
 
-public class AnimatedText : ObjectWithDuration
+public class AnimatedText : MonoBehaviour
 {
     private TextMeshPro textMesh = null;
     private float moveSpeed = 3;
     private float finalPositionX;
     private float finalPositionY;
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
         textMesh = GetComponent<TextMeshPro>();
     }
-    
-    protected override void OnEnable()
+
+    private void OnEnable()
     {
-        // Debug.Log("OnEnable");
-        base.OnEnable();
         transform.position += new Vector3(Random.Range(-0.5f, 0.6f), Random.Range(-0.5f, 0.6f), 0);
         
         finalPositionY = transform.position.y + 1.5f;
@@ -38,14 +35,7 @@ public class AnimatedText : ObjectWithDuration
     public void SetText(string text, TextType damageType)
     {
         textMesh.text = text;
-
-        if (damageType.Equals(TextType.Normal))
-        {
-            textMesh.color = Color.white;
-        }
-        else if (damageType.Equals(TextType.Critical))
-        {
-            textMesh.color = Color.yellow;
-        }
+        if (damageType.Equals(TextType.Normal)) textMesh.color = Color.white;
+        else if (damageType.Equals(TextType.Critical)) textMesh.color = Color.yellow;
     }
 }

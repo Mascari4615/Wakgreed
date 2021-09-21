@@ -9,16 +9,6 @@ public class StageManager : MonoBehaviour
     private static StageManager instance;
     [HideInInspector] public static StageManager Instance { get { return instance; } }
 
-    [SerializeField] private GameEvent OnFightStart;
-    [SerializeField] private GameEvent OnFightEnd;
-    private bool isFighting = false;
-    public void SetFighting(bool value)
-    {
-        isFighting = value;
-        if (isFighting == true) OnFightStart.Raise();
-        else if (isFighting == false) OnFightEnd.Raise();
-    }
-
     public int currentStageID = -1;
     [SerializeField] private StageDataBuffer stageDataBuffer;
 
@@ -195,10 +185,8 @@ public class StageManager : MonoBehaviour
 
         UpdateMap();
 
-        if (CurrentRoom.IsVisited == false)
-        {
-            mapPanel.SetActive(false);
-        }
+        if (CurrentRoom.IsVisited == false) mapPanel.SetActive(false);
+
         CurrentRoom.Enter();
 
         yield return new WaitForSeconds(0.1f);
@@ -209,7 +197,7 @@ public class StageManager : MonoBehaviour
 
     private void MapDoor(bool bOpen)
     {
-        if (isFighting)
+        if (GameManager.Instance.IsFighting)
         {
             StopCoroutine("CantOpenText");
             StartCoroutine("CantOpenText");
@@ -249,5 +237,10 @@ public class StageManager : MonoBehaviour
         stageSpeedWagon.SetActive(false);
         StopCoroutine("CantOpenText");
         noticeText.gameObject.SetActive(false);
+    }
+
+    public void CheckMonsterCount()
+    {
+        if (CurrentRoom is NormalRoom) (CurrentRoom as NormalRoom).CheckMonsterCount();
     }
 }

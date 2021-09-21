@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 378735505711075897}
-  - component: {fileID: 378735505711075896}
-  - component: {fileID: 378735505711075895}
   - component: {fileID: -1286129018152168073}
   - component: {fileID: -4848729742180277547}
+  - component: {fileID: 378735505711075896}
+  - component: {fileID: 378735505711075895}
   m_Layer: 0
   m_Name: Nyang
   m_TagString: Untagged
@@ -36,6 +36,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-1286129018152168073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 378735505711075894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a58b851b30320d047bb9b2255731ee1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 128d7bab1910647449cab86143eacc43, type: 2}
+  intVariable: {fileID: 11400000, guid: 7036349cfb7157d4eb77704cb729a17b, type: 2}
+  min: 1
+  max: 1
+--- !u!114 &-4848729742180277547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 378735505711075894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adbd2402367b72342a34f86a3488182a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &378735505711075896
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -104,36 +132,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &-1286129018152168073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 378735505711075894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a58b851b30320d047bb9b2255731ee1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameEvent: {fileID: 11400000, guid: 128d7bab1910647449cab86143eacc43, type: 2}
-  soundEffect: {fileID: 8300000, guid: 10dca0960d5439b4aa65c2c7a78b5c86, type: 3}
-  type: 0
-  intVariable: {fileID: 11400000, guid: 7036349cfb7157d4eb77704cb729a17b, type: 2}
-  min: 1
-  max: 1
---- !u!114 &-4848729742180277547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 378735505711075894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adbd2402367b72342a34f86a3488182a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6448982405868895148
 GameObject:
   m_ObjectHideFlags: 0

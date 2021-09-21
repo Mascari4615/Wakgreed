@@ -41,7 +41,6 @@ public abstract class Monster : MonoBehaviour
 
     public virtual void ReceiveDamage(int damage, TextType damageType = TextType.Normal)
     {
-        //ObjectManager.Instance.GetQueue(PoolType.AnimatedText, transform.position).GetComponent<AnimatedText>().SetText(damage.ToString(), damageType);
         ObjectManager.Instance.PopObject("DamageText", transform).GetComponent<AnimatedText>().SetText(damage.ToString(), damageType);
         HP -= damage;
         rigidbody2D.velocity = Vector3.zero;

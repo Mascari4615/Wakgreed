@@ -2,11 +2,6 @@ using UnityEngine;
 
 public class IntValueLoot : LootGameObject
 {
-    private enum IntValueLootType
-    {
-        Nyang, Exp
-    }
-    [SerializeField] private IntValueLootType type;
     [SerializeField] private IntVariable intVariable;
     [SerializeField] private int min;
     [SerializeField] private int max;

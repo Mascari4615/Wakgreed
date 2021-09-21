@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 177244758964385160}
+  - component: {fileID: 8288709936473228919}
+  - component: {fileID: 6136854340571195525}
   - component: {fileID: 5588164855678746070}
   - component: {fileID: 2219918613829400851}
   - component: {fileID: 2346369466305288774}
-  - component: {fileID: 8288709936473228919}
-  - component: {fileID: 6136854340571195525}
   m_Layer: 0
   m_Name: TestSword
   m_TagString: Untagged
@@ -36,6 +36,35 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8288709936473228919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5168828908313417421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc5466ebd09324d40bd2cd21e37538e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalAD: {fileID: 0}
+  TravellerCriticalChance: {fileID: 0}
+  monsterAD: 1
+  target: 1
+--- !u!114 &6136854340571195525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5168828908313417421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83ed4699b865638488b75392fd1eb48a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 2
 --- !u!212 &5588164855678746070
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -134,32 +163,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4, y: 2}
   m_EdgeRadius: 0
---- !u!114 &8288709936473228919
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5168828908313417421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc5466ebd09324d40bd2cd21e37538e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  totalAD: {fileID: 0}
-  TravellerCriticalChance: {fileID: 0}
-  monsterAD: 1
-  target: 1
---- !u!114 &6136854340571195525
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5168828908313417421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83ed4699b865638488b75392fd1eb48a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  duration: 2

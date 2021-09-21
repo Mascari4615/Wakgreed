@@ -4,10 +4,9 @@ public class WeaponTest : MonoBehaviour
 {
     [SerializeField] private GameObject weaponPrefab;
 
-    void Start()
+    private void Start()
     {
-        int x = 0;
-        int y = 0;
+        int x = 0, y = 0;
 
         foreach (var weapon in DataManager.Instance.WeaponDic.Values)
         {
@@ -16,10 +15,5 @@ public class WeaponTest : MonoBehaviour
             x++;
             if (x >= 5) { x = 0; y++; }
         }
-    }
-
-    void Update()
-    {
-        
     }
 }

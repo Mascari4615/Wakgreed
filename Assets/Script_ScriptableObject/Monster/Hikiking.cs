@@ -33,7 +33,7 @@ public class Hikiking : BossMonster
 
         while (true)
         {
-            int i = Random.Range(0, 2 + 1);
+            int i = Random.Range(0, 1 + 1);
             switch (i)
             {
                 case 0:
@@ -54,7 +54,7 @@ public class Hikiking : BossMonster
             }
 
             Debug.Log($"{name} : Wait");
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(2f);
             Debug.Log($"{name} : WaitEnd");
         }      
     }
@@ -134,7 +134,6 @@ public class Hikiking : BossMonster
         }
         Instantiate(baseattack, aoriginpos + (atargetpos - aoriginpos) / 2, Quaternion.Euler(new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan2(atargetpos.y - aoriginpos.y, atargetpos.x - aoriginpos.x)))).transform.localScale = new Vector3(Vector3.Distance(aoriginpos, atargetpos) / 3, 3, 1);
 
-        yield return new WaitForSeconds(1f);
         Debug.Log($"{name} : 1 ULT End");
     }
 

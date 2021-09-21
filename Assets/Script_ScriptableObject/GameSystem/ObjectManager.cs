@@ -45,22 +45,6 @@ public class ObjectManager : MonoBehaviour
         }
     }
 
-    public ObjectPool<PoolableObject> bulletPool = new ObjectPool<PoolableObject>();
-
-    public Bullet bulletPrefab;
-
-    private void Start()
-    {
-        bulletPool = new ObjectPool<PoolableObject>(5, () =>
-        {
-            Bullet bullet = Instantiate(bulletPrefab);
-            bullet.Create(bulletPool);
-            return bullet;
-        });
-
-        bulletPool.Allocate();
-    }
-
     public void PushObject(GameObject go)
     {
         string objectName = go.name.Contains("(Clone)") ? go.name.Remove(go.name.IndexOf("("), 7) : go.name;
@@ -99,85 +83,4 @@ public class ObjectManager : MonoBehaviour
         }
         return targetObject;
     }
-}
-
-public class ObjectPool<T> where T : PoolableObject
-{
-    private int allocateCount;
-
-    public delegate T Initializer();
-    private Initializer initializer;
-
-    private Stack<T> objStack;
-    public List<T> objList;
-
-    public ObjectPool(int ac, Initializer fn)
-    {
-        this.allocateCount = ac;
-        this.initializer = fn;
-        this.objStack = new Stack<T>();
-        this.objList = new List<T>();
-    }
-
-    public void Allocate()
-    {
-        for (int index = 0; index < this.allocateCount; ++index)
-        {
-            this.objStack.Push(this.initializer());
-        }
-    }
-
-    public T PopObject()
-    {
-        T obj = this.objStack.Pop();
-        this.objList.Add(obj);
-
-        obj.gameObject.SetActive(true);
-
-        return obj;
-    }
-
-    public void PushObject(T obj)
-    {
-        obj.gameObject.SetActive(false);
-
-        this.objList.Remove(obj);
-        this.objStack.Push(obj);
-    }
-
-    public void Dispose()
-    {
-        if (this.objStack == null || this.objList == null)
-            return;
-
-        this.objList.ForEach(obj => this.objStack.Push(obj));
-
-        while (this.objStack.Count > 0)
-        {
-            GameObject.Destroy(this.objStack.Pop());
-        }
-
-        this.objList.Clear();
-        this.objStack.Clear();
-    }
-}
-
-public class PoolableObject : MonoBehaviour
-{
-    protected ObjectPool<PoolableObject> pPool;
-
-    public virtual void Create(ObjectPool<PoolableObject> pool)
-    {
-        pPool = pool;
-
-        gameObject.SetActive(false);
-    }
-
-    public virtual void Dispose()
-    {
-        pPool.PushObject(this);
-    }
-
-    public virtual void _OnEnableContents() { }
-    public virtual void _OnDisableContents() { }
 }
