@@ -17,12 +17,12 @@ public class BulletMove : MonoBehaviour
         if (direction == Direction.Traveller2Monster)
         {
             // Means Spawn At Travellers AttackPosition
-            directionVector = (TravellerController.Instance.attackPosition.position - (TravellerController.Instance.transform.position + new Vector3(0, 0.8f, 0))).normalized;
+            directionVector = (Wakgood.Instance.attackPosition.position - (Wakgood.Instance.transform.position + new Vector3(0, 0.8f, 0))).normalized;
         }
         else if (direction == Direction.Monster2Traveller)
         {
             // Means Spawn At Monsters AttackPosition
-            directionVector = (TravellerController.Instance.transform.position - transform.position).normalized;
+            directionVector = (Wakgood.Instance.transform.position - transform.position).normalized;
         }
         else if (direction == Direction.Random)
         {

@@ -11,7 +11,7 @@ public class WarningLine : MonoBehaviour
     {
         transform.localPosition = Vector3.zero;
         GetComponent<TrailRenderer>().Clear();
-        foreach (RaycastHit2D hitObject in Physics2D.RaycastAll(transform.position, TravellerController.Instance.transform.position - transform.position))
+        foreach (RaycastHit2D hitObject in Physics2D.RaycastAll(transform.position, Wakgood.Instance.transform.position - transform.position))
         {
             if (hitObject.transform.CompareTag("Wall"))
             {

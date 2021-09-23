@@ -44,7 +44,7 @@ public abstract class Monster : MonoBehaviour
         ObjectManager.Instance.PopObject("DamageText", transform).GetComponent<AnimatedText>().SetText(damage.ToString(), damageType);
         HP -= damage;
         rigidbody2D.velocity = Vector3.zero;
-        rigidbody2D.AddForce((transform.position - TravellerController.Instance.transform.position).normalized, ForceMode2D.Impulse);
+        rigidbody2D.AddForce((transform.position - Wakgood.Instance.transform.position).normalized, ForceMode2D.Impulse);
 
         if (HP > 0)
         {

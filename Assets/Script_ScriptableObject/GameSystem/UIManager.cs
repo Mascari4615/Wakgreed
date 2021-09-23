@@ -40,14 +40,14 @@ public class UIManager : MonoBehaviour
     public IEnumerator SpeedWagon_Boss(GameObject boss)
     {
         cinemachineTargetGroup.m_Targets[0].target = boss.transform;
-        TravellerController.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        Wakgood.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         bossSpeedWagon.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(3f);
 
         bossSpeedWagon.gameObject.SetActive(false);
-        TravellerController.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-        cinemachineTargetGroup.m_Targets[0].target = TravellerController.Instance.transform;
+        Wakgood.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        cinemachineTargetGroup.m_Targets[0].target = Wakgood.Instance.transform;
     }
 
     public IEnumerator NeedMoreNyang()

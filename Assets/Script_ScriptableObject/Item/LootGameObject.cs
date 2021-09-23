@@ -41,7 +41,7 @@ public abstract class LootGameObject : MonoBehaviour
         while (moveSpeed < 1)
         {
             moveSpeed += 0.015f;
-            transform.position = Vector3.Lerp(transform.position, TravellerController.Instance.transform.position, moveSpeed);
+            transform.position = Vector3.Lerp(transform.position, Wakgood.Instance.transform.position, moveSpeed);
             yield return new WaitForSeconds(0.015f);
         }
     }

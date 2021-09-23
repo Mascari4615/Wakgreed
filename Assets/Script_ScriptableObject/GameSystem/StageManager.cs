@@ -107,7 +107,7 @@ public class StageManager : MonoBehaviour
         CurrentRoom.Enter();
         InitialzeMap();
 
-        TravellerController.Instance.transform.position = new Vector3(CurrentRoom.Coordinate.x, CurrentRoom.Coordinate.y, 0) * 100;
+        Wakgood.Instance.transform.position = new Vector3(CurrentRoom.Coordinate.x, CurrentRoom.Coordinate.y, 0) * 100;
         miniMapCamera.transform.position = new Vector3(CurrentRoom.Coordinate.x, CurrentRoom.Coordinate.y, -1) * 100;
 
         fadePanelAnimator.SetTrigger("FadeIn");
@@ -180,7 +180,7 @@ public class StageManager : MonoBehaviour
         roomUiDic[CurrentRoom.Coordinate].transform.GetChild(0).Find("CurrentRoom").GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f);
 
         CurrentRoom = roomDic[CurrentRoom.Coordinate + moveDirection];
-        TravellerController.Instance.transform.position = CurrentRoom.Doors[spawnDirection].transform.position + (Vector3)moveDirection * 4;
+        Wakgood.Instance.transform.position = CurrentRoom.Doors[spawnDirection].transform.position + (Vector3)moveDirection * 4;
         miniMapCamera.transform.position = new Vector3(CurrentRoom.Coordinate.x, CurrentRoom.Coordinate.y, -1) * 100;
 
         UpdateMap();

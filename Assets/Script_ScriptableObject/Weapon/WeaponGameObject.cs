@@ -17,10 +17,10 @@ public class WeaponGameObject : InteractiveObject
 
     public override void Interaction()
     {
-        if (!TravellerController.Instance.isSwitching)
+        if (!Wakgood.Instance.IsSwitching)
         {
-            Weapon temp = TravellerController.Instance.curWeapon;
-            TravellerController.Instance.SwitchWeapon(targetWeapon: weapon);
+            Weapon temp = Wakgood.Instance.curWeapon;
+            Wakgood.Instance.SwitchWeapon(targetWeapon: weapon);
             weapon = temp;
             spriteRenderer.sprite = weapon.icon;
         }
