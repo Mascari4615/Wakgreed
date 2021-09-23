@@ -18,7 +18,7 @@ public class DamagingObject : MonoBehaviour
         {
             if (Random.Range(0, 100) < TravellerCriticalChance.RuntimeValue)
             {
-                other.gameObject.GetComponent<Monster>().ReceiveDamage(totalAD.GetTotalDamage() * 4, TextType.Critical);
+                other.gameObject.GetComponent<Monster>().ReceiveDamage((int)(totalAD.GetTotalDamage() * 1.5f), TextType.Critical);
             }
             else
             {
@@ -27,7 +27,7 @@ public class DamagingObject : MonoBehaviour
         }
         else if (other.CompareTag("Player") && target.Equals(Target.Traveller))
         {
-            other.gameObject.GetComponent<TravellerController>().ReceiveDamage(monsterAD);
+            other.gameObject.GetComponent<Wakgood>().ReceiveDamage(monsterAD);
         }
     }
 }

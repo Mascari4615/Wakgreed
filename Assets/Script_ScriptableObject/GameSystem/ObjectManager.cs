@@ -66,6 +66,20 @@ public class ObjectManager : MonoBehaviour
         return targetObject;
     }
 
+    public GameObject PopObject(string objectName, Vector3 pos, Vector3 rot)
+    {
+        GameObject targetObject;
+        if (poolDic[objectName].Count.Equals(0))
+            targetObject = Instantiate(gameObjectDic[objectName], pos, Quaternion.Euler(rot));
+        else
+        {
+            targetObject = poolDic[objectName].Pop();
+            targetObject.transform.SetPositionAndRotation(pos, Quaternion.Euler(rot));
+            targetObject.SetActive(true);
+        }
+        return targetObject;
+    }
+
     public GameObject PopObject(string objectName, Transform tr, bool setRot = true, bool setParent = false)
     {
         GameObject targetObject;

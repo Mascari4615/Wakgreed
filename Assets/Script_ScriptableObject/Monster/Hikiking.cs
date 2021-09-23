@@ -70,7 +70,7 @@ public class Hikiking : BossMonster
         for (int i = 0; i < attackcount; i++)
         {
             Vector3 originpos = rigidbody2D.transform.position;
-            Vector3 targetpos = TravellerController.Instance.transform.position + new Vector3((-1 + Random.Range(0, 2) * 2) * Random.Range(3f, 5f), (-1 + Random.Range(0, 2) * 2) * Random.Range(3f, 5f));
+            Vector3 targetpos = Wakgood.Instance.transform.position + new Vector3((-1 + Random.Range(0, 2) * 2) * Random.Range(3f, 5f), (-1 + Random.Range(0, 2) * 2) * Random.Range(3f, 5f));
 
             for (float j = 0; j <= 1; j += 0.02f * 10)
             {
@@ -83,7 +83,7 @@ public class Hikiking : BossMonster
             int slashCount = Random.Range(2, 4 + 1);
             for (int k = 0; k < slashCount; k++)
             {
-                Instantiate(baseattack, TravellerController.Instance.transform.position, Quaternion.Euler(new Vector3(0, 0, Random.Range(0f, 180f))));
+                Instantiate(baseattack, Wakgood.Instance.transform.position, Quaternion.Euler(new Vector3(0, 0, Random.Range(0f, 180f))));
                 yield return new WaitForSeconds(.1f);
             }        
 
@@ -112,7 +112,7 @@ public class Hikiking : BossMonster
         for (int i = 0; i < ultCount; i++)
         {
             Vector3 originpos = rigidbody2D.transform.position;
-            Vector3 targetpos = TravellerController.Instance.transform.position + new Vector3(((i + 2) % 2 == 1 ? 1 : -1) * Random.Range(5f, 10f), (-1 + Random.Range(0, 2) * 2) * Random.Range(5f, 10f));
+            Vector3 targetpos = Wakgood.Instance.transform.position + new Vector3(((i + 2) % 2 == 1 ? 1 : -1) * Random.Range(5f, 10f), (-1 + Random.Range(0, 2) * 2) * Random.Range(5f, 10f));
 
             for (float j = 0; j <= 1; j += 0.02f * 10)
             {
@@ -125,7 +125,7 @@ public class Hikiking : BossMonster
         yield return new WaitForSeconds(0.5f);
 
         Vector3 aoriginpos = transform.position;
-        Vector3 atargetpos = TravellerController.Instance.transform.position + (TravellerController.Instance.transform.position - transform.position).normalized * 5;
+        Vector3 atargetpos = Wakgood.Instance.transform.position + (Wakgood.Instance.transform.position - transform.position).normalized * 5;
 
         for (float j = 0; j <= 1; j += 0.02f * 10)
         {

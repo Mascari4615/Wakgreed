@@ -49,7 +49,7 @@ public class Amoeba : NormalMonster
         
         while (stateChange == false)
         {
-            if (Vector2.Distance(transform.position, TravellerController.Instance.transform.position) < 10)
+            if (Vector2.Distance(transform.position, Wakgood.Instance.transform.position) < 10)
             {
                 bRecognizeTraveller = true;
                 SetState(State.TenceUp);
@@ -106,7 +106,7 @@ public class Amoeba : NormalMonster
         float delay = 1f;
 
         warningLine.SetActive(true);
-        Vector2 rushDirection = (TravellerController.Instance.transform.position - transform.position).normalized;
+        Vector2 rushDirection = (Wakgood.Instance.transform.position - transform.position).normalized;
         while (stateChange == false)
         {
             delay -= Time.deltaTime;
@@ -129,7 +129,7 @@ public class Amoeba : NormalMonster
     {
         base.ReceiveDamage(damage, damageType);
 
-        if (transform.position.x > TravellerController.Instance.transform.position.x)
+        if (transform.position.x > Wakgood.Instance.transform.position.x)
             spriteRenderer.flipX = true;
         else
             spriteRenderer.flipX = false;

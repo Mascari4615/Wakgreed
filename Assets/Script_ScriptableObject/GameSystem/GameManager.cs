@@ -127,8 +127,8 @@ public class GameManager : MonoBehaviour
         DataManager.Instance.WakgoodFoodInventory.Clear();
         DataManager.Instance.BuffRunTimeSet.Clear();
 
-        TravellerController.Instance.enabled = true;
-        TravellerController.Instance.Initialize(false);
+        Wakgood.Instance.enabled = true;
+        Wakgood.Instance.Initialize(false);
 
         miniMapCamera.transform.position = new Vector3(0, 0, -100);
 

@@ -14,7 +14,7 @@ public class PickaxeUpgrade : Skill
                 DataManager.Instance.WakgoodItemInventory.Remove(DataManager.Instance.ItemDic[100]);
                 DataManager.Instance.WakgoodItemInventory.Remove(DataManager.Instance.ItemDic[100]);
                 DataManager.Instance.WakgoodItemInventory.Remove(DataManager.Instance.ItemDic[100]);
-                TravellerController.Instance.SwitchWeapon(targetWeapon: DataManager.Instance.WeaponDic[TravellerController.Instance.curWeapon.ID + 1]);
+                Wakgood.Instance.SwitchWeapon(targetWeapon: DataManager.Instance.WeaponDic[Wakgood.Instance.curWeapon.ID + 1]);
             }
         }
     }

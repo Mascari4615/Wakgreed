@@ -37,7 +37,7 @@ public abstract class RangedPanchi : Panchi
         WaitForSeconds ws02 = new(0.2f);
         while (true)
         {
-            RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, TravellerController.Instance.transform.position - transform.position, Vector2.Distance(transform.position, TravellerController.Instance.transform.position), LayerMask.NameToLayer("Everything"));
+            RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, Wakgood.Instance.transform.position - transform.position, Vector2.Distance(transform.position, Wakgood.Instance.transform.position), LayerMask.NameToLayer("Everything"));
             for (int j = 0; j < hit.Length; j++)
             {
                 if (hit[j].transform.CompareTag("Wall")) { isTargeting = false; break; }
@@ -45,10 +45,10 @@ public abstract class RangedPanchi : Panchi
             }
             if (isTargeting)
             {
-                Debug.DrawRay(transform.position, TravellerController.Instance.transform.position - transform.position, Color.green);
+                Debug.DrawRay(transform.position, Wakgood.Instance.transform.position - transform.position, Color.green);
 
-                if (TravellerController.Instance.transform.position.x > transform.position.x) spriteRenderer.flipX = false;
-                else if (TravellerController.Instance.transform.position.x < transform.position.x) spriteRenderer.flipX = true;
+                if (Wakgood.Instance.transform.position.x > transform.position.x) spriteRenderer.flipX = false;
+                else if (Wakgood.Instance.transform.position.x < transform.position.x) spriteRenderer.flipX = true;
             }
             yield return ws02;
         }
