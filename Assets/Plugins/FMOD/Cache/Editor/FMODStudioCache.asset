@@ -427,6 +427,52 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 391
+--- !u!114 &-976741980599128567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BGM/BGMVolumeTest
+  m_EditorClassIdentifier: 
+  Path: event:/BGM/BGMVolumeTest
+  guid: 0677ba5f829d284597ca63e44e113da3
+  Banks:
+  - {fileID: 944259406832380349}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 230295
+--- !u!114 &-680668999850721787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Monster/Panchi_Hurt
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Monster/Panchi_Hurt
+  guid: 5e9b06f8f99f2e459350c46cdf2a88d1
+  Banks:
+  - {fileID: 944259406832380349}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-313811596536738812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,6 +496,29 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 180
+--- !u!114 &-197434969093283657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/ETC/LootGameObject
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/ETC/LootGameObject
+  guid: 348bea81e14a0a4992f2bc5690b836ab
+  Banks:
+  - {fileID: 944259406832380349}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 208
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -463,24 +532,22 @@ MonoBehaviour:
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
   EditorBanks:
-  - {fileID: -3614415151853190726}
-  - {fileID: -2357782308231649810}
+  - {fileID: 1075252668537135987}
+  - {fileID: 944259406832380349}
   EditorEvents:
-  - {fileID: -3286230235821334847}
-  - {fileID: -8138410435108498601}
-  - {fileID: -7409797343128277815}
-  - {fileID: 4088440744321831013}
-  - {fileID: -9120233250160238557}
-  - {fileID: 146752233036987775}
-  - {fileID: -5251870602327760357}
-  - {fileID: -8041509588561125231}
-  - {fileID: 7117925637080617082}
+  - {fileID: -976741980599128567}
+  - {fileID: 1209016200880175626}
+  - {fileID: -197434969093283657}
+  - {fileID: -680668999850721787}
+  - {fileID: 3229558720384964906}
+  - {fileID: 7775045992882561127}
+  - {fileID: 6867462659146620122}
   EditorParameters: []
   MasterBanks:
-  - {fileID: -2357782308231649810}
+  - {fileID: 944259406832380349}
   StringsBanks:
-  - {fileID: -3614415151853190726}
-  stringsBankWriteTime: 637654086663089203
+  - {fileID: 1075252668537135987}
+  stringsBankWriteTime: 637683751817507141
   cacheVersion: 6
 --- !u!114 &110228073849313486
 MonoBehaviour:
@@ -528,6 +595,69 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 632
+--- !u!114 &944259406832380349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: Fmod/WakjwaLike/Build/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 637683751817467257
+  LoadResult: 0
+  FileSizes: []
+  Exists: 1
+--- !u!114 &1075252668537135987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: Fmod/WakjwaLike/Build/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 637683751817507141
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 1208
+  Exists: 1
+--- !u!114 &1209016200880175626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/SFXVolumeTest
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/SFXVolumeTest
+  guid: 0de3a9f62f81254f9eb639b4ba367914
+  Banks:
+  - {fileID: 944259406832380349}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 182
 --- !u!114 &2734414285548889170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -549,6 +679,29 @@ MonoBehaviour:
   - Name: Desktop
     Value: 1290
   Exists: 1
+--- !u!114 &3229558720384964906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Monster/Slime_Hurt
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Monster/Slime_Hurt
+  guid: 69a48433a0ca4b45b39d5cb47c330176
+  Banks:
+  - {fileID: 944259406832380349}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 708
 --- !u!114 &3295285823835349465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,6 +794,29 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 230295
+--- !u!114 &6867462659146620122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Wakgood/Dash
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Wakgood/Dash
+  guid: bd2ddc8d5ee7424397cffa720d85f23c
+  Banks:
+  - {fileID: 944259406832380349}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 680
 --- !u!114 &7117925637080617082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -664,6 +840,29 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 586
+--- !u!114 &7775045992882561127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Weapon/EX_Attack
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Weapon/EX_Attack
+  guid: abebbc401ace7243bf288a84d09e90bd
+  Banks:
+  - {fileID: 944259406832380349}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 208
 --- !u!114 &8747848553021361350
 MonoBehaviour:
   m_ObjectHideFlags: 0
