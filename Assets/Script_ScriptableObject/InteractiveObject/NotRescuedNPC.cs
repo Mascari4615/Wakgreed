@@ -57,7 +57,7 @@ public class NotRescuedNPC : NPC
             if (!inputSkip)
             {
                 text.text += item;
-                RuntimeManager.PlayOneShot("event:/New Event", transform.position);
+                // RuntimeManager.PlayOneShot("event:/New Event", transform.position);
                 yield return new WaitForSeconds(interval);
             }
             else
@@ -85,7 +85,7 @@ public class NotRescuedNPC : NPC
             if (!inputSkip)
             {
                 text.text += item;
-                RuntimeManager.PlayOneShot("event:/New Event", transform.position);
+                // RuntimeManager.PlayOneShot("event:/New Event", transform.position);
                 yield return new WaitForSeconds(interval);
             }
             else
