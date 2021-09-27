@@ -28,7 +28,7 @@ public class Wakgood : MonoBehaviour
     [SerializeField] private GameObject bloodingPanel;
 
     private float curAttackCoolDown;
-    private bool isHealthy, canAttack, canInteraction;
+    private bool isHealthy, canAttackA, canAttackB, canInteraction;
 
     private Rigidbody2D playerRB;
     private Animator animator;
@@ -51,22 +51,38 @@ public class Wakgood : MonoBehaviour
     private Camera mainCamera;
     private Vector3 worldMousePoint;
 
-    private IEnumerator dash;
+    private List<int> hInputList = new();
+    private List<int> vInputList = new();
+    private int h;
+    private int v;
+
+    private bool isDashing = false;
+    [SerializeField] private float dashParametor = 1;
+    [SerializeField] private GameObject[] dashStackUIs;
+    private int maxDashStack = 5;
+    private int curDashStack = 0;
+    private float dashCoolTime = 1f;
+
+    private IEnumerator ChangeWithDelay(bool changeValue, float delay, System.Action<bool> makeResult)
+    {
+        // 참고 : https://velog.io/@sonohoshi/10.-Unity에서-일정-시간-이후-값을-바꾸는-방법
+        yield return new WaitForSeconds(delay);
+        makeResult(changeValue);
+    }
 
     private void Awake()
     {
         instance = this;
         // attackPosition.transform.position = new Vector3(0, attackPosGap, 0);
 
-        attackPositionParent = transform.Find("AttackPositionParent");
+        attackPositionParent = transform.GetChild(1);
         attackPosition = attackPositionParent.GetChild(0);
-        weaponPosition = transform.Find("WeaponPosition");
+        weaponPosition = transform.GetChild(2);
         playerRB = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         cinemachineTargetGroup = GameObject.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>();
         mainCamera = Camera.main;
-        dash = Dash();
 
         Initialize(true);
     }
@@ -93,7 +109,8 @@ public class Wakgood : MonoBehaviour
 
         isHealthy = true;
         curAttackCoolDown = 0;
-        canAttack = true;
+        canAttackA = true;
+        canAttackB = true;
         canInteraction = false;
 
         playerRB.bodyType = RigidbodyType2D.Dynamic;
@@ -102,6 +119,7 @@ public class Wakgood : MonoBehaviour
         animator.SetBool("Move", false);
 
         if (weaponPosition.childCount > 0) Destroy(weaponPosition.GetChild(0).gameObject);
+        curWeapon = weaponA;
         Instantiate(curWeapon.resource, weaponPosition);
 
         AD.RuntimeValue = curWeapon.maxDamage;
@@ -117,15 +135,15 @@ public class Wakgood : MonoBehaviour
 
     private void Update()
     {
-        worldMousePoint = mainCamera.WorldToScreenPoint(Input.mousePosition);
+        worldMousePoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         spriteRenderer.sortingOrder = -(int)System.Math.Truncate(transform.position.y * 10);
         spriteRenderer.color = isHealthy == true ? Color.white : new Color(1, 1, 1, (float)100 / 255);
         if (Time.timeScale == 0) return;
 
         // Targeting();
         Move();
-        if (Input.GetMouseButton(0) && canAttack) BasicAttack();
-        if ((Input.GetMouseButtonDown(1) && !isDashing && curDashStack > 0)) StartCoroutine(dash);
+        if (Input.GetMouseButton(0)) BasicAttack();
+        if (Input.GetMouseButtonDown(1) /*&& !isDashing*/ && curDashStack > 0) { Debug.Log("asd"); StartCoroutine(Dash()); }
         if (Input.GetKeyDown(KeyCode.F) && canInteraction) nearInteractiveObject.Interaction();
 
         if (Input.GetKeyDown(KeyCode.Q) && curWeapon.skillQ != null) { curWeapon.skillQ.Use(); }
@@ -201,26 +219,18 @@ public class Wakgood : MonoBehaviour
         StartCoroutine(ChangeWithDelay(false, .25f, value => IsSwitching = value));
     }
 
-    private bool isDashing = false;
-    [SerializeField] private float dashParametor = 1;
-    [SerializeField] private GameObject[] dashStackUIs;
-    private int maxDashStack = 5;
-    private int curDashStack = 0;
-    private float dashCoolTime = 1f;
-
     private IEnumerator Dash()
     {
+        isDashing = true;
         Vector3 direction = new Vector3(worldMousePoint.x - transform.position.x, worldMousePoint.y - transform.position.y, 0).normalized;
-
         RuntimeManager.PlayOneShot("event:/SFX/Wakgood/Dash", transform.position);
 
-        curDashStack--;
-        isDashing = true;
+        curDashStack--;       
         playerRB.velocity = Vector3.zero;
-        for (float temptime = 0; temptime >= 0.1f; temptime += Time.deltaTime)
+        for (float temptime = 0; temptime <= 0.1f; temptime += Time.deltaTime)
         {
             foreach (RaycastHit2D hitObject in Physics2D.RaycastAll(transform.position, direction, 0.9f))
-                if (hitObject.transform.gameObject.layer.Equals("Wall")) goto DashEnd;
+                if (hitObject.transform.gameObject.layer.Equals("Wall")) goto DashEnd; 
 
             // transform.position += direction * Time.deltaTime * 10 * dashParametor;
             playerRB.velocity = direction * 10 * dashParametor;
@@ -241,14 +251,7 @@ public class Wakgood : MonoBehaviour
                 else dashStackUIs[i].transform.GetChild(0).gameObject.SetActive(false);
             }
             yield return new WaitForSeconds(0.02f);
-        };
-    }
-
-    private IEnumerator ChangeWithDelay(bool changeValue, float delay, System.Action<bool> makeResult)
-    {
-        // 참고 : https://velog.io/@sonohoshi/10.-Unity에서-일정-시간-이후-값을-바꾸는-방법
-        yield return new WaitForSeconds(delay);
-        makeResult(changeValue);
+        }
     }
 
     private IEnumerator UpdateDashStack()
@@ -266,11 +269,6 @@ public class Wakgood : MonoBehaviour
             }
         }
     }
-
-    private List<int> hInputList = new();
-    private List<int> vInputList = new();
-    private int h;
-    private int v;
 
     private void Move()
     {
@@ -307,21 +305,21 @@ public class Wakgood : MonoBehaviour
             animator.SetBool("Move", false);
         }
 
-        attackPositionParent.transform.rotation.eulerAngles.Set(0, 0, Mathf.Atan2(worldMousePoint.y - (transform.position.y + 0.8f), worldMousePoint.x - transform.position.x) * Mathf.Rad2Deg - 90);
+        attackPositionParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(worldMousePoint.y - (transform.position.y + 0.8f), worldMousePoint.x - transform.position.x) * Mathf.Rad2Deg - 90);
 
         if (transform.position.x < worldMousePoint.x)
         {
             spriteRenderer.flipX = false;
-            weaponPosition.localScale.Set(1, 1, 1);
-            weaponPosition.localPosition.Set(.3f, .5f, 0);
-            weaponPosition.rotation.eulerAngles.Set(0, 0, Mathf.Atan2(worldMousePoint.y - weaponPosition.position.y, worldMousePoint.x - weaponPosition.position.x) * Mathf.Rad2Deg);
+            weaponPosition.localScale = Vector3.one;
+            weaponPosition.localPosition = new Vector3(.3f, .5f, 0);
+            weaponPosition.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(worldMousePoint.y - weaponPosition.position.y, worldMousePoint.x - weaponPosition.position.x) * Mathf.Rad2Deg);
         }
         else
         {
             spriteRenderer.flipX = true;
-            weaponPosition.localScale.Set(-1, 1, 1);
-            weaponPosition.localPosition.Set(-.3f, .5f, 0);
-            weaponPosition.rotation.eulerAngles.Set(0, 0, Mathf.Atan2(weaponPosition.position.y - worldMousePoint.y, weaponPosition.position.x - worldMousePoint.x) * Mathf.Rad2Deg);
+            weaponPosition.localScale = new Vector3(-1, 1, 1);
+            weaponPosition.localPosition = new Vector3(-.3f, .5f, 0);
+            weaponPosition.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(weaponPosition.position.y - worldMousePoint.y, weaponPosition.position.x - worldMousePoint.x) * Mathf.Rad2Deg);
         }
 
         /* if (target != null)
@@ -361,9 +359,21 @@ public class Wakgood : MonoBehaviour
 
     public void BasicAttack()
     {
-        canAttack = false;
+        if (curWeaponNumber == 1 && !canAttackA) return;
+        else if (curWeaponNumber == 2 && !canAttackB) return;
+
         curWeapon.baseAttack.Use();
-        StartCoroutine(ChangeWithDelay(true, 1 / curWeapon.attackSpeed, value => canAttack = value));
+
+        if (curWeaponNumber == 1)
+        {
+            canAttackA = false;
+            StartCoroutine(ChangeWithDelay(true, 1f / curWeapon.attackSpeed, value => canAttackA = value));
+        }
+        if (curWeaponNumber == 2)
+        {
+            canAttackB = false;
+            StartCoroutine(ChangeWithDelay(true, 1f / curWeapon.attackSpeed, value => canAttackB = value));
+        }
     }
 
     public void ReceiveDamage(int damage)
