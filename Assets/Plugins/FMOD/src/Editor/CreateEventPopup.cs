@@ -113,7 +113,7 @@ namespace FMODUnity
 
         public void OnGUI()
         {
-            var borderIcon = EditorGUIUtility.Load("FMOD/Border.png") as Texture2D;
+            var borderIcon = EditorUtils.LoadImage("Border.png");
             var border = new GUIStyle(GUI.skin.box);
             border.normal.background = borderIcon;
             GUI.Box(new Rect(1, 1, position.width - 1, position.height - 1), GUIContent.none, border);
@@ -137,8 +137,8 @@ namespace FMODUnity
                 currentFolder = rootFolder;
             }
 
-            var arrowIcon = EditorGUIUtility.Load("FMOD/ArrowIcon.png") as Texture;
-            var hoverIcon = EditorGUIUtility.Load("FMOD/SelectedAlt.png") as Texture2D;
+            var arrowIcon = EditorUtils.LoadImage("ArrowIcon.png");
+            var hoverIcon = EditorUtils.LoadImage("SelectedAlt.png");
             var titleIcon = EditorGUIUtility.Load("IN BigTitle") as Texture2D;
 
             var nextEntry = currentFolder;
@@ -341,7 +341,7 @@ namespace FMODUnity
                 }
 
                 string fullPath = "event:" + eventFolder + eventName;
-                outputProperty.stringValue = fullPath;
+                outputProperty.SetEventReference(FMOD.GUID.Parse(eventGuid), fullPath);
                 EditorUtils.UpdateParamsOnEmitter(outputProperty.serializedObject, fullPath);
                 outputProperty.serializedObject.ApplyModifiedProperties();
             }

@@ -78,7 +78,7 @@ namespace FMODUnity
         {
             if (error != null)
             {
-                Debug.LogErrorFormat("FMOD: Bank refresh failed: {0}", error);
+                RuntimeUtils.DebugLogErrorFormat("FMOD: Bank refresh failed: {0}", error);
             }
 
             if (instance != null)
