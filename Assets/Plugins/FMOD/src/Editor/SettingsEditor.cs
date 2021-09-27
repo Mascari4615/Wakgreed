@@ -6,6 +6,7 @@ using UnityEditorInternal;
 using System.IO;
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace FMODUnity
 {
@@ -84,6 +85,7 @@ namespace FMODUnity
         SerializedProperty targetBankFolder;
         SerializedProperty bankRefreshCooldown;
         SerializedProperty showBankRefreshWindow;
+        SerializedProperty eventLinkage;
 
         void OnEnable()
         {
@@ -106,6 +108,7 @@ namespace FMODUnity
             targetBankFolder = serializedObject.FindProperty("TargetBankFolder");
             bankRefreshCooldown = serializedObject.FindProperty("BankRefreshCooldown");
             showBankRefreshWindow = serializedObject.FindProperty("ShowBankRefreshWindow");
+            eventLinkage = serializedObject.FindProperty("EventLinkage");
 
             platformsView = new PlatformsView(target as Settings, platformTreeViewState);
 
@@ -190,7 +193,7 @@ namespace FMODUnity
                     fontStyle = FontStyle.Bold,
                 };
 
-                mainHeaderIcon = new GUIContent(EditorGUIUtility.Load("FMOD/StudioIcon.png") as Texture2D);
+                mainHeaderIcon = new GUIContent(EditorUtils.LoadImage("StudioIcon.png"));
 
                 propertyOverrideIndicator = new Texture2D(2, 1);
 
@@ -736,7 +739,7 @@ namespace FMODUnity
                 speakerModeSize.x = Math.Max(speakerModeHeaderSize.x, speakerModeSize.x);
                 speakerModeSize.y += speakerModeHeaderSize.y + headerStyle.margin.bottom;
 
-                helpButtonSize = GetHelpButtonSize();
+                helpButtonSize = EditorUtils.GetHelpButtonSize();
 
                 float width = headerStyle.margin.left + subdirectorySize.x + InterColumnSpace + speakerModeSize.x
                     + helpButtonSize.x;
@@ -850,7 +853,7 @@ namespace FMODUnity
                 }
 
                 Rect helpButtonRect = new Rect(speakerModeRect.xMax, y, helpButtonSize.x, helpButtonSize.y);
-                DrawHelpButton(helpButtonRect, () => new SimpleHelp(HelpText));
+                EditorUtils.DrawHelpButton(helpButtonRect, () => new SimpleHelp(HelpText));
             }
         }
 
@@ -859,7 +862,7 @@ namespace FMODUnity
             const string HelpText = "Select the speaker mode that matches the project " +
                 "platform settings in the FMOD Studio build preferences.";
 
-            Rect rect = DrawHelpButtonLayout(() => new SimpleHelp(HelpText));
+            Rect rect = EditorUtils.DrawHelpButtonLayout(() => new SimpleHelp(HelpText));
 
             Rect labelRect = LabelRect(rect);
 
@@ -1282,55 +1285,9 @@ namespace FMODUnity
             }
         }
 
-        // Gets a control rect, draws a help button at the end of the line,
-        // and returns a rect describing the remaining space.
-        private static Rect DrawHelpButtonLayout(Func<PopupWindowContent> createContent)
-        {
-            Vector2 helpSize = GetHelpButtonSize();
-
-            Rect rect = EditorGUILayout.GetControlRect(true, helpSize.y);
-
-            Rect helpRect = rect;
-            helpRect.xMin = helpRect.xMax - helpSize.x;
-
-            DrawHelpButton(helpRect, createContent);
-
-            Rect remainderRect = rect;
-            remainderRect.xMax = helpRect.xMin;
-
-            return remainderRect;
-        }
-
-        private static void DrawHelpButton(Rect rect, Func<PopupWindowContent> createContent)
-        {
-            GUIContent content;
-            GUIStyle style;
-            GetHelpButtonData(out content, out style);
-
-            if (GUI.Button(rect, content, style))
-            {
-                PopupWindow.Show(rect, createContent());
-            }
-        }
-
-        private static Vector2 GetHelpButtonSize()
-        {
-            GUIContent content;
-            GUIStyle style;
-            GetHelpButtonData(out content, out style);
-
-            return style.CalcSize(content);
-        }
-
-        private static void GetHelpButtonData(out GUIContent content, out GUIStyle style)
-        {
-            content = EditorGUIUtility.IconContent("_Help");
-            style = GUI.skin.label;
-        }
-
         private void DrawSourceSelection(string invalidSourceMessage)
         {
-            Rect popupRect = DrawHelpButtonLayout(() => new SourceSelectionHelp());
+            Rect popupRect = EditorUtils.DrawHelpButtonLayout(() => new SourceSelectionHelp());
 
             hasBankSourceChanged = false;
 
@@ -1436,81 +1393,6 @@ namespace FMODUnity
                 sExpandedSections |= Section.BankImport;
 
                 return invalidMessage + "\n\nFor detailed setup instructions, please see the FMOD/Help/Getting Started menu item.";
-            }
-        }
-
-        abstract class HelpContent : PopupWindowContent
-        {
-            protected abstract void Prepare();
-            protected abstract Vector2 GetContentSize();
-            protected abstract void DrawContent();
-
-            private GUIContent icon;
-
-            public override void OnOpen()
-            {
-                icon = EditorGUIUtility.IconContent("console.infoicon");
-
-                Prepare();
-            }
-
-            public override Vector2 GetWindowSize()
-            {
-                Vector2 contentSize = GetContentSize();
-
-                Vector2 iconSize = GUI.skin.label.CalcSize(icon);
-
-                return new Vector2(contentSize.x + iconSize.x,
-                    Math.Max(contentSize.y, iconSize.y) + EditorGUIUtility.standardVerticalSpacing);
-            }
-
-            public override void OnGUI(Rect rect)
-            {
-                using (new GUILayout.HorizontalScope())
-                {
-                    using (new GUILayout.VerticalScope())
-                    {
-                        GUILayout.Label(icon);
-                    }
-
-                    using (new GUILayout.VerticalScope())
-                    {
-                        DrawContent();
-                    }
-                }
-            }
-        }
-
-        class SimpleHelp : HelpContent
-        {
-            public SimpleHelp(string text)
-            {
-                this.text = new GUIContent(text);
-            }
-
-            private GUIContent text;
-            private GUIStyle style;
-
-            protected override void Prepare()
-            {
-                style = new GUIStyle(GUI.skin.label) {
-                    richText = true,
-                    wordWrap = true,
-                    alignment = TextAnchor.MiddleLeft,
-                };
-            }
-
-            protected override Vector2 GetContentSize()
-            {
-                float textWidth = 300;
-                float textHeight = style.CalcHeight(text, textWidth) + style.margin.bottom;
-
-                return new Vector2(textWidth, textHeight);
-            }
-
-            protected override void DrawContent()
-            {
-                GUILayout.Label(text, style);
             }
         }
 
@@ -1659,6 +1541,8 @@ namespace FMODUnity
             }
 
             DisplayBankRefreshSettings(bankRefreshCooldown, showBankRefreshWindow, true);
+
+            EditorGUILayout.PropertyField(eventLinkage);
         }
 
         static readonly int[] LoggingValues = new int[] {
@@ -1743,7 +1627,7 @@ namespace FMODUnity
                             EditorGUILayout.PropertyField(automaticSampleLoading, new GUIContent("Load Bank Sample Data"));
                         }
 
-                        EditorGUILayout.PropertyField(encryptionKey, new GUIContent("Bank Encryption Key"));
+                        EditorGUILayout.DelayedTextField(encryptionKey, new GUIContent("Bank Encryption Key"));
                     }
                 }
             }
@@ -1775,6 +1659,7 @@ namespace FMODUnity
 
                 path = RuntimeUtils.GetCommonPlatformPath(path);
                 path = path.Replace(bankDirectory, "");
+                path = Regex.Replace(path, "\\.bank$", "");
 
                 banksToLoad.ArrayAdd(p => p.stringValue = path);
 
@@ -1795,6 +1680,7 @@ namespace FMODUnity
             {
                 string bankLongName = RuntimeUtils.GetCommonPlatformPath(Path.GetFullPath(banksFound[i]));
                 string bankShortName = bankLongName.Replace(sourceDir, "");
+                bankShortName = Regex.Replace(bankShortName, "\\.bank$", "");
 
                 if (!banksToLoad.ArrayContains(p => p.stringValue == bankShortName))
                 {
@@ -1903,19 +1789,11 @@ namespace FMODUnity
             const float FooterHeight = 13;
             const float TotalHeight = HeaderHeight + BodyHeight + FooterHeight;
 
-#if UNITY_2019_3_OR_NEWER
             const float ButtonWidth = 25;
             const float ButtonHeight = 16;
             const float ButtonMarginTop = 0;
 
             const float FooterMarginRight = 10;
-#else
-            const float ButtonWidth = 25;
-            const float ButtonHeight = 13;
-            const float ButtonMarginTop = -3;
-
-            const float FooterMarginRight = 0;
-#endif
 
             static readonly RectOffset BodyPadding = new RectOffset(1, 2, 1, 4);
             static readonly RectOffset FooterPadding = new RectOffset(4, 4, 0, 0);

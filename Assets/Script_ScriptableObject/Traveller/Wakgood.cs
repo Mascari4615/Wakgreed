@@ -143,7 +143,7 @@ public class Wakgood : MonoBehaviour
         // Targeting();
         Move();
         if (Input.GetMouseButton(0)) BasicAttack();
-        if (Input.GetMouseButtonDown(1) /*&& !isDashing*/ && curDashStack > 0) { Debug.Log("asd"); StartCoroutine(Dash()); }
+        if (Input.GetMouseButtonDown(1) && !isDashing && curDashStack > 0) StartCoroutine(Dash());
         if (Input.GetKeyDown(KeyCode.F) && canInteraction) nearInteractiveObject.Interaction();
 
         if (Input.GetKeyDown(KeyCode.Q) && curWeapon.skillQ != null) { curWeapon.skillQ.Use(); }

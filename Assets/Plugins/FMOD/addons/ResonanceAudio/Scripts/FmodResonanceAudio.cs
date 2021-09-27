@@ -259,7 +259,7 @@ namespace FMODUnityResonance
                     }
                 }
             }
-            Debug.LogError(listenerPluginName + " not found in the FMOD project.");
+            RuntimeUtils.DebugLogError(listenerPluginName + " not found in the FMOD project.");
             return dsp;
         }
 

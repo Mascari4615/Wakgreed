@@ -599,7 +599,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CollisionTag: 
-  Event: event:/BGM/BGMVolumeTest
+  EventReference:
+    Guid:
+      Data1: 1606055686
+      Data2: 1160289666
+      Data3: -463222121
+      Data4: -1556278962
+    Path: event:/BGM/BGMVolumeTest
+  Event: 
   PlayEvent: 1
   StopEvent: 12
   AllowFadeout: 1
@@ -607,8 +614,8 @@ MonoBehaviour:
   Preload: 0
   Params: []
   OverrideAttenuation: 0
-  OverrideMinDistance: 0
-  OverrideMaxDistance: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!114 &784864115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -844,6 +851,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
+  m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 1420385351
   m_SortingOrder: 0
   m_TargetDisplay: 0

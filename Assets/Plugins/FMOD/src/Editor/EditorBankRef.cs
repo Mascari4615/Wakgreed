@@ -65,11 +65,8 @@ namespace FMODUnity
             get { return new DateTime(lastModified); }
             set { lastModified = value.Ticks; }
         }
-        
-        [SerializeField]
-        public FMOD.RESULT LoadResult;
 
-        [SerializeField]        
+        [SerializeField]
         public List<NameValuePair> FileSizes;
 
         public bool Exists;
