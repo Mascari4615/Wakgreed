@@ -1,4 +1,1 @@
-﻿using System.Collections;
-using UnityEngine;
-
-public abstract class Panchi : NormalMonster{ }
+﻿public abstract class Panchi : NormalMonster { }

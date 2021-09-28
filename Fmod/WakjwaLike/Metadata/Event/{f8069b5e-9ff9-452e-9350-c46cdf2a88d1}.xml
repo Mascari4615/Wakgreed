@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{f8069b5e-9ff9-452e-9350-c46cdf2a88d1}">
 		<property name="name">
-			<value>Panchi_Hurt</value>
+			<value>ChidoriPanchi_Collapse</value>
 		</property>
 		<property name="outputFormat">
 			<value>2</value>
@@ -59,11 +59,18 @@
 	<object class="EventAutomatableProperties" id="{cd881bc5-2640-4241-b3a1-629c51864c93}" />
 	<object class="MarkerTrack" id="{58c46256-745e-41d5-83dc-dedf21ba3a88}" />
 	<object class="GroupTrack" id="{1aff0818-20ce-42f9-8ae5-f701539a4087}">
+		<relationship name="modules">
+			<destination>{d37cd6f9-baba-4637-930b-f80823544ef6}</destination>
+		</relationship>
 		<relationship name="mixerGroup">
 			<destination>{4c8c6a24-885b-4abe-ad00-5ed8ab968c12}</destination>
 		</relationship>
 	</object>
-	<object class="Timeline" id="{001faad3-bf31-496e-a160-b16e9986282a}" />
+	<object class="Timeline" id="{001faad3-bf31-496e-a160-b16e9986282a}">
+		<relationship name="modules">
+			<destination>{d37cd6f9-baba-4637-930b-f80823544ef6}</destination>
+		</relationship>
+	</object>
 	<object class="EventMixerMaster" id="{b8b548fd-0fb8-4bd2-a7e4-ebeb45b2e188}">
 		<relationship name="effectChain">
 			<destination>{65287dcc-1df2-4767-b2b6-718457f1882f}</destination>
@@ -81,6 +88,14 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{9d96b5b8-cdae-4be9-a884-609f70362937}" />
+	<object class="EventSound" id="{d37cd6f9-baba-4637-930b-f80823544ef6}">
+		<property name="length">
+			<value>0.63766439909297057</value>
+		</property>
+		<relationship name="event">
+			<destination>{3614673f-be57-4940-a197-2d726ccd700e}</destination>
+		</relationship>
+	</object>
 	<object class="EventMixerGroup" id="{4c8c6a24-885b-4abe-ad00-5ed8ab968c12}">
 		<property name="name">
 			<value>Audio 1</value>

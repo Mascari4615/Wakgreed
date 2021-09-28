@@ -6,20 +6,16 @@ public class Chest : InteractiveObject
 {
     // 등급뿐만 아니라 특정 컨셉(공격,방어,유틸,시너지) 아이템만 나오는 상자 같은 것도 재밌을 것 같음
 
-    private int itemID;
+    [SerializeField] private ItemGrade itemGrade;
 
-    [ContextMenu("Linq Test")]
     public void Initialize(ItemGrade itemGrade)
     {
-        IEnumerable<int> itemRange = Enumerable.Range(0, 100);
+        this.itemGrade = itemGrade;
+    }
 
-        if (itemGrade == ItemGrade.Common) itemRange = Enumerable.Range(0, 100);
-        else if (itemGrade == ItemGrade.Uncommon) itemRange = Enumerable.Range(100, 200);
-        else if (itemGrade == ItemGrade.Legendary) itemRange = Enumerable.Range(200, 300);
-
-        var itemList = (from itemID in DataManager.Instance.ItemDic.Keys where itemRange.Contains(itemID) select itemID).ToList();
-
-        itemID = itemList[Random.Range(0, itemList.Count)]; ;
+    public void InitializeRandom()
+    {
+        itemGrade = (ItemGrade)Random.Range(0, 4);
     }
 
     public override void Interaction()
@@ -32,6 +28,6 @@ public class Chest : InteractiveObject
     // 상자가 열리는 애니메이션이 실행될 때 애니메이션 이벤트로 호출됨
     private void OpenChest()
     {
-        ObjectManager.Instance.PopObject("Item", transform.position).GetComponent<ItemGameObject>().Initialize(itemID);
+        ObjectManager.Instance.PopObject("Item", transform.position).GetComponent<ItemGameObject>().Initialize(itemGrade);
     }
 }
