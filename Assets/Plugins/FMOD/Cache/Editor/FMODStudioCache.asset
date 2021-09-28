@@ -1,5 +1,58 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8641987209450690833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Monster/GamjaPanchi_Hurt
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Monster/GamjaPanchi_Hurt
+  Guid:
+    Data1: 2092623720
+    Data2: 1181755408
+    Data3: 76500884
+    Data4: 6073854
+  Banks: []
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 637
+--- !u!114 &-7540814831215414520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Monster/ChidoriPanchi_Hurt
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Monster/ChidoriPanchi_Hurt
+  Guid:
+    Data1: 273907178
+    Data2: 1293581406
+    Data3: 572842154
+    Data4: -1561298496
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 410
 --- !u!114 &-7225024919855106959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54,6 +107,113 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 208
+--- !u!114 &-7041851588830817041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Monster/ChidoriPanchi_Hurt
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Monster/ChidoriPanchi_Hurt
+  Guid:
+    Data1: -133784738
+    Data2: 1160683513
+    Data3: 1824805011
+    Data4: -779605281
+  Banks: []
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 637
+--- !u!114 &-6490647190028858603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/ETC/Heal
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/ETC/Heal
+  Guid:
+    Data1: 1952317646
+    Data2: 1320500881
+    Data3: -991389780
+    Data4: 1801725408
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-6103167679735338929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Monster/Amoeba_Collapse
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Monster/Amoeba_Collapse
+  Guid:
+    Data1: 864330857
+    Data2: 1162594976
+    Data3: -1268998733
+    Data4: 1979790204
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 708
+--- !u!114 &-4501237979958155379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Monster/GamjaPanchi_Hurt
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Monster/GamjaPanchi_Hurt
+  Guid:
+    Data1: -850943214
+    Data2: 1311164802
+    Data3: -968011388
+    Data4: 371230245
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 410
 --- !u!114 &-3646397642955766658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,6 +259,32 @@ MonoBehaviour:
     Data2: 1160683513
     Data3: 1824805011
     Data4: -779605281
+  Banks: []
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-2428507017619066995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/ETC/Box
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/ETC/Box
+  Guid:
+    Data1: 1039295573
+    Data2: 1311509298
+    Data3: 1540601507
+    Data4: 313063515
   Banks:
   - {fileID: -1813042681740017314}
   IsStream: 0
@@ -108,6 +294,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-2127791996452492447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/ETC/Donation
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/ETC/Donation
+  Guid:
+    Data1: 899337210
+    Data2: 1145555792
+    Data3: 2111417767
+    Data4: -114970751
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1541
 --- !u!114 &-1813042681740017314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,11 +336,38 @@ MonoBehaviour:
   Path: Fmod/WakjwaLike/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637684108214681129
+  lastModified: 637684561065801621
   FileSizes:
   - Name: Desktop
-    Value: 2938528
+    Value: 2987456
   Exists: 1
+--- !u!114 &-186477639407087382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Monster/ChidoriPanchi_Collapse
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Monster/ChidoriPanchi_Collapse
+  Guid:
+    Data1: -133784738
+    Data2: 1160683513
+    Data3: 1824805011
+    Data4: -779605281
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 637
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,16 +387,23 @@ MonoBehaviour:
   - {fileID: -3646397642955766658}
   - {fileID: 4730479702173444701}
   - {fileID: 215977827860736700}
-  - {fileID: -3014822312701832242}
-  - {fileID: -7225024919855106959}
   - {fileID: -7174708527007221161}
   - {fileID: 6222241413271260203}
+  - {fileID: 8073345593860685014}
+  - {fileID: -2428507017619066995}
+  - {fileID: -6490647190028858603}
+  - {fileID: -186477639407087382}
+  - {fileID: 5736249539611976684}
+  - {fileID: -6103167679735338929}
+  - {fileID: -2127791996452492447}
+  - {fileID: -7540814831215414520}
+  - {fileID: -4501237979958155379}
   EditorParameters: []
   MasterBanks:
   - {fileID: -1813042681740017314}
   StringsBanks:
   - {fileID: 6107050520195032601}
-  cacheTime: 637684108214701072
+  cacheTime: 637684561065831549
   cacheVersion: 9
 --- !u!114 &215977827860736700
 MonoBehaviour:
@@ -212,6 +459,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 182
+--- !u!114 &5736249539611976684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Monster/GamjaPanchi_Collapse
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Monster/GamjaPanchi_Collapse
+  Guid:
+    Data1: 2092623720
+    Data2: 1181755408
+    Data3: 76500884
+    Data4: 6073854
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 637
 --- !u!114 &6107050520195032601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,10 +501,10 @@ MonoBehaviour:
   Path: Fmod/WakjwaLike/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637684108214701072
+  lastModified: 637684561065831549
   FileSizes:
   - Name: Desktop
-    Value: 1220
+    Value: 1548
   Exists: 1
 --- !u!114 &6222241413271260203
 MonoBehaviour:
@@ -253,9 +527,88 @@ MonoBehaviour:
   Banks:
   - {fileID: -1813042681740017314}
   IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 8
+  MaxDistance: 20
+  Length: 120
+--- !u!114 &6728118464754532081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Monster/Panchi_Hurt
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Monster/Panchi_Hurt
+  Guid:
+    Data1: 907306815
+    Data2: 1228979799
+    Data3: 1915590561
+    Data4: 242273644
+  Banks: []
+  IsStream: 0
   Is3D: 1
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 680
+  Length: 637
+--- !u!114 &8073345593860685014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Monster/Panchi_Collapse
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Monster/Panchi_Collapse
+  Guid:
+    Data1: 907306815
+    Data2: 1228979799
+    Data3: 1915590561
+    Data4: 242273644
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 637
+--- !u!114 &9005567411078047235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Monster/Amoeba_Hurt
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Monster/Amoeba_Hurt
+  Guid:
+    Data1: 864330857
+    Data2: 1162594976
+    Data3: -1268998733
+    Data4: 1979790204
+  Banks: []
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 708

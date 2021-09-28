@@ -42,10 +42,9 @@ public class DamagingObject : MonoBehaviour
         {
             other.gameObject.GetComponent<Wakgood>().ReceiveDamage(monsterAD);
         }
-        
-        if (other.CompareTag("Box"))
+        else if (other.CompareTag("Box"))
         {
-            other.GetComponent<Box>().ReceiveDamage(0);
+            other.GetComponent<Box>().Break();
         }
     }
 }

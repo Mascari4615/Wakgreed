@@ -1,3 +1,4 @@
+using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,7 +14,7 @@ public class StreamingManager : MonoBehaviour
     [SerializeField] private IntVariable Nyang;
     [SerializeField] private IntVariable Viewer;
     private Queue<int> viewerQueue = new();
-    int[] viewerHistory;
+    private int[] viewerHistory;
 
     public void StartStreaming()
     {
@@ -41,6 +42,8 @@ public class StreamingManager : MonoBehaviour
                 donationUI.SetActive(false);
                 donationUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"Ttmdacl´Ô ²¾¼­ {donationAmount}°ñµå Á¶°ø";
                 donationUI.SetActive(true);
+
+                RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
             }
 
             yield return ws;
@@ -93,16 +96,16 @@ public class StreamingManager : MonoBehaviour
                     {
                         viewerGraphDot[j].transform.localPosition = new Vector3(
                             viewerGraphDot[j].transform.localPosition.x,
-                            (2 * ((viewerHistory[j] - curViewerMin) / (float)((curViewerMax - curViewerMin))) - 1) * 70+20,
+                            (2 * ((viewerHistory[j] - curViewerMin) / (float)((curViewerMax - curViewerMin))) - 1) * 70 + 20,
                             0);
-                    }   
+                    }
                 }
             }
 
             viewerHistory[4] = Viewer.RuntimeValue;
             viewerGraphDot[4].transform.localPosition = new Vector3(
                 viewerGraphDot[4].transform.localPosition.x,
-                (2 * ((Viewer.RuntimeValue - curViewerMin) / (float)((curViewerMax - curViewerMin))) - 1) * 70 +20,
+                (2 * ((Viewer.RuntimeValue - curViewerMin) / (float)((curViewerMax - curViewerMin))) - 1) * 70 + 20,
                 0);
 
             yield return ws;

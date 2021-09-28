@@ -61,6 +61,8 @@ public abstract class Monster : MonoBehaviour, Damagable
 
     protected virtual IEnumerator Collapse()
     {
+        RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("("), 7) : name)}_Collapse", transform.position);
+
         capsuleCollider2D.enabled = false;
         rigidbody2D.velocity = Vector2.zero;
         rigidbody2D.bodyType = RigidbodyType2D.Static;
