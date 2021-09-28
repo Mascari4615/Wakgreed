@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wakgood : MonoBehaviour
+public class Wakgood : MonoBehaviour, Damagable
 {
     private static Wakgood instance;
     [HideInInspector] public static Wakgood Instance { get { return instance; } }

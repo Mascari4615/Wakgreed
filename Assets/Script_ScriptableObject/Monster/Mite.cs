@@ -126,9 +126,9 @@ public class Mite : NormalMonster
         }
     }
 
-    public override void ReceiveDamage(int damage, TextType damageType = TextType.Normal)
+    public override void ReceiveDamage(int damage)
     {
-        base.ReceiveDamage(damage, damageType);
+        base.ReceiveDamage(damage);
 
         if (transform.position.x > Wakgood.Instance.transform.position.x)
             spriteRenderer.flipX = true;
