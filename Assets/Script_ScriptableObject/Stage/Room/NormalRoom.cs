@@ -13,6 +13,8 @@ public class NormalRoom : Room
     {
         public GameObject monster;
         public Transform spawnPoint;
+        public float spawnDuration;
+        public float spawnDelay;
     }
     [SerializeField] private Wave[] waves;
     private int curWaveMonsterCount;
@@ -39,15 +41,21 @@ public class NormalRoom : Room
             curWaveMonsterCount = wave.mobSpawnDatas.Length;
             foreach (var mobSpawnData in wave.mobSpawnDatas)
             {
-                ObjectManager.Instance.PopObject("SpawnCircle", mobSpawnData.spawnPoint.position);
-                yield return new WaitForSeconds(0.3f);
-                //EnemyRunTimeSet.Add());
-                ObjectManager.Instance.PopObject(mobSpawnData.monster.name, mobSpawnData.spawnPoint.position);
+                yield return new WaitForSeconds(mobSpawnData.spawnDelay);
+                StartCoroutine(SpawnMonster(mobSpawnData));              
             }
             while (!waveClearFlag) yield return null;
             waveClearFlag = false;
         }
         RoomClear();
+    }
+
+    private IEnumerator SpawnMonster(MobSpawnData mobSpawnData)
+    {
+        ObjectManager.Instance.PopObject("SpawnCircle", mobSpawnData.spawnPoint.position).GetComponent<Animator>().SetFloat("SPEED", 1 / mobSpawnData.spawnDuration);
+        yield return new WaitForSeconds(mobSpawnData.spawnDuration);
+        //EnemyRunTimeSet.Add());
+        ObjectManager.Instance.PopObject(mobSpawnData.monster.name, mobSpawnData.spawnPoint.position);
     }
 
     public void CheckMonsterCount() { if (--curWaveMonsterCount <= 0) waveClearFlag = true; }

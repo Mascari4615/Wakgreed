@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public abstract class Monster : MonoBehaviour
+public abstract class Monster : MonoBehaviour, Damagable
 {
     [SerializeField] private int baseHP, baseAD, baseMoveSpeed;
     protected int maxHP, HP, AD, moveSpeed;
@@ -39,9 +39,8 @@ public abstract class Monster : MonoBehaviour
         spriteRenderer.sortingOrder = -(int)System.Math.Truncate(transform.position.y * 10);
     }
 
-    public virtual void ReceiveDamage(int damage, TextType damageType = TextType.Normal)
+    public virtual void ReceiveDamage(int damage)
     {
-        ObjectManager.Instance.PopObject("DamageText", transform).GetComponent<AnimatedText>().SetText(damage.ToString(), damageType);
         HP -= damage;
         rigidbody2D.velocity = Vector3.zero;
         rigidbody2D.AddForce((transform.position - Wakgood.Instance.transform.position).normalized, ForceMode2D.Impulse);

@@ -49,7 +49,7 @@ public class Hikiking : BossMonster
                     yield return StartCoroutine(Skill1());
                     break;
                 default:
-                    Debug.LogError($"{name} : Á¸ÀçÇÏÁö ¾Ê´Â °ø°Ý ÀÎµ¦½º");
+                    Debug.LogError($"{name} : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½");
                     break;
             }
 
@@ -60,7 +60,7 @@ public class Hikiking : BossMonster
     }
 
     /// <summary>
-    /// ¿Î±» ÁÖº¯À¸·Î ÀÌµ¿ ÈÄ ½»½» ±Ü±â
+    /// ï¿½Î±ï¿½ ï¿½Öºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ü±ï¿½
     /// </summary>
     private IEnumerator BaseAttack()
     {
@@ -93,15 +93,15 @@ public class Hikiking : BossMonster
     }
 
     /// <summary>
-    /// ´À±×ÀÏ¼¶. 1 > 3 > 6 ¹ø
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼ï¿½. 1 > 3 > 6 ï¿½ï¿½
     /// </summary>
     private IEnumerator ULT()
     {
         Debug.Log($"{name} : 1 ULT Start");
-        UIManager.Instance.aaa.text = "°ø±â°¡ ¿äµ¿Ä¨´Ï´Ù...";
+        UIManager.Instance.aaa.text = "ï¿½ï¿½ï¿½â°¡ ï¿½äµ¿Ä¨ï¿½Ï´ï¿½...";
         UIManager.Instance.aaa.gameObject.SetActive(true);
 
-        // ¿¬Ãâ
+        // ï¿½ï¿½ï¿½ï¿½
         yield return new WaitForSeconds(1f);
 
         UIManager.Instance.aaa.gameObject.SetActive(false);
@@ -138,7 +138,7 @@ public class Hikiking : BossMonster
     }
 
     /// <summary>
-    /// ¸Ê¿¡ Â¬»ì´ë »Ñ¸®±â
+    /// ï¿½Ê¿ï¿½ Â¬ï¿½ï¿½ï¿½ ï¿½Ñ¸ï¿½ï¿½ï¿½
     /// </summary>
     private IEnumerator Skill1()
     {
@@ -149,9 +149,9 @@ public class Hikiking : BossMonster
         }
     }
 
-    public override void ReceiveDamage(int damage, TextType damageType = TextType.Normal)
+    public override void ReceiveDamage(int damage)
     {
-        base.ReceiveDamage(damage, damageType);
+        base.ReceiveDamage(damage);
     }
 
     protected override IEnumerator Collapse()
