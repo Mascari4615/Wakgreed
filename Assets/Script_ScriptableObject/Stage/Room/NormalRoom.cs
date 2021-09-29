@@ -67,6 +67,6 @@ public class NormalRoom : Room
         foreach (var hider in DoorHiders) hider.SetActive(false);
         foreach (var particle in DoorParticles) particle.SetActive(true);
         StartCoroutine(GameManager.Instance.RoomClearSpeedWagon());
-        ObjectManager.Instance.PopObject("Chest", transform.Find("ChestPoint")).GetComponent<Chest>().Initialize(ItemGrade.Common);
+        ObjectManager.Instance.PopObject("Chest", transform.Find("ChestPoint")).GetComponent<Chest>().InitializeRandom();
     }
 }

@@ -30,7 +30,7 @@ public class ItemGameObject : LootGameObject
 
     public void InitializeRandom()
     {
-        ItemGrade itemGrade = (ItemGrade)Random.Range(0, 4);
+        ItemGrade itemGrade = (ItemGrade)Random.Range(0, 3);
         IEnumerable<int> itemRange = Enumerable.Range(0, 100);
 
         if (itemGrade == ItemGrade.Common) itemRange = Enumerable.Range(0, 100);
