@@ -18634,6 +18634,7 @@ TilemapCollider2D:
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0.00001
+  m_UseDelaunayMesh: 0
 --- !u!50 &9047170061532899087
 Rigidbody2D:
   serializedVersion: 4
@@ -19243,6 +19244,7 @@ CompositeCollider2D:
       - {x: -2.999971, y: -24}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
+  m_UseDelaunayMesh: 0
 --- !u!1 &5014567177088328717
 GameObject:
   m_ObjectHideFlags: 0
@@ -19514,6 +19516,7 @@ PolygonCollider2D:
       - {x: 3.1809635, y: 0.27865195}
       - {x: 3.7009592, y: 0.20083952}
       - {x: 3.8472607, y: 2.932497}
+  m_UseDelaunayMesh: 0
 --- !u!1 &7443713773822755211
 GameObject:
   m_ObjectHideFlags: 0
@@ -19658,6 +19661,7 @@ CompositeCollider2D:
       - {x: -29.56761, y: -19.150002}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
+  m_UseDelaunayMesh: 0
 --- !u!61 &391146954843516250
 BoxCollider2D:
   m_ObjectHideFlags: 0

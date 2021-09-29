@@ -9,8 +9,8 @@ public class BulletRotate : MonoBehaviour
         Random
     }
     private Vector3 rotationVector;
-    [SerializeField] private float rotateSpeed = 1f;
-    [SerializeField] private Direction direction;
+    [SerializeField] private float rotateSpeed = 50f;
+    [SerializeField] private Direction direction = Direction.Clockwise;
 
     private void OnEnable()
     {

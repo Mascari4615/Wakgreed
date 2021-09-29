@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        Application.targetFrameRate = 60;
         testNpc.SetActive(DataManager.Instance.curGameData.isNPCRescued);
 
         instance = this;

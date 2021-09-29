@@ -8,7 +8,7 @@ public class EffectPickaxe : Effect
     private void GetOre(Transform transform)
     {
         //Debug.Log($"{name} : GetOre");
-        ObjectManager.Instance.PopObject("Item", transform.position).GetComponent<ItemGameObject>().Initialize(100);
+        ObjectManager.Instance.PopObject("Item", transform.position).GetComponent<ItemGameObject>().Initialize(400);
     }
 
     public override void _Effect()
