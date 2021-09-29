@@ -10,9 +10,22 @@ public class MasteryManager : MonoBehaviour
     [SerializeField] private Image[] buttonImages;
     [SerializeField] private ToolTipTrigger[] toolTipTriggers;
     private int selectMasteryStack = 0;
-    [SerializeField] private AudioClip soundEffect;
+    private int selectedMasteryStack = 0;
     private Mastery[] randomMasteries = new Mastery[3];
+    [SerializeField] private VerticalLayoutGroup masteryGrid;
 
+
+    private void Update() 
+    {
+        if (Input.GetKey(KeyCode.X))   
+        {
+            masteryGrid.transform.parent.gameObject.SetActive(true);
+        } 
+        else
+        {
+            masteryGrid.transform.parent.gameObject.SetActive(false);
+        }
+    }
     private void Initialize()
     {
         randomMasteries[0] = KnightMasteryDataBuffer.Items[Random.Range(0, KnightMasteryDataBuffer.Items.Length)];
@@ -42,6 +55,7 @@ public class MasteryManager : MonoBehaviour
         RuntimeManager.PlayOneShot("event:/SFX/ETC/UI", transform.position);
         ToolTipManager.Hide();
         selectMasteryStack--;
+        selectedMasteryStack++;
 
         MasteryInventory.Add(randomMasteries[i]);
         randomMasteries[i].OnEquip();
@@ -52,5 +66,9 @@ public class MasteryManager : MonoBehaviour
             selectMasteryPanel.SetActive(true);
         }
         else selectMasteryPanel.SetActive(false);
+
+        GameObject temp = masteryGrid.transform.GetChild(selectedMasteryStack - 1).gameObject;
+        temp.SetActive(true);
+        temp.transform.GetChild(i).GetComponent<Slot>().SetSlot(randomMasteries[i]);
     }
 }
