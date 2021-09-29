@@ -15,10 +15,23 @@ public class EffectSatellite : Effect
             temp.transform.SetParent(Wakgood.Instance.transform);
             temp.AddComponent<BulletRotate>();
         }
-        
+         
         // satelliteInstance = ObjectManager.Instance.PopObject(satellitePrefab.name, Wakgood.Instance.transform.Find("SatelliteParent"), false, true);
         satelliteInstance = Instantiate(satellitePrefab, Wakgood.Instance.transform.Find("SatelliteParent"));
-        satelliteInstance.transform.localPosition = Vector3.up * 3f;
+
+        if (Wakgood.Instance.transform.Find("SatelliteParent").childCount == 1)
+        {
+            satelliteInstance.transform.localPosition = Vector3.up * 3f;          
+        }
+        else if (Wakgood.Instance.transform.Find("SatelliteParent").childCount == 2)
+        {
+            satelliteInstance.transform.localPosition = Vector3.down * 3f;       
+        }
+        else if (Wakgood.Instance.transform.Find("SatelliteParent").childCount == 3)
+        {
+            Wakgood.Instance.transform.Find("SatelliteParent").GetChild(1).transform.localPosition = new Vector3( Mathf.Sin(210),Mathf.Cos(210)) * 3;  
+            satelliteInstance.transform.localPosition = new Vector3(Mathf.Sin(330), Mathf.Cos(330)) * 3f;  
+        }   
     }
 
     public override void Return()
