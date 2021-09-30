@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "WakgoodItemInventory", menuName = "GameSystem/RunTimeSet/WakgoodItemInventory")]
 public class WakgoodItemInventory : ItemInventory
 {
+    [SerializeField] private ItemVariable LastEquippedItem;
     [SerializeField] private GameEvent OnItemEquip;
     [SerializeField] private GameEvent OnItemRemove;
 
@@ -10,6 +11,7 @@ public class WakgoodItemInventory : ItemInventory
     {
         base.Add(item);
         item.OnEquip();
+        LastEquippedItem.RuntimeValue = item;
         OnItemEquip.Raise();
     }
 

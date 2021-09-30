@@ -14,11 +14,11 @@ public class ItemGameObject : LootGameObject
 
     public void Initialize(ItemGrade itemGrade)
     {
-        IEnumerable<int> itemRange = Enumerable.Range(0, 100);
-
+        IEnumerable<int> itemRange = Enumerable.Range(0, 0);
         if (itemGrade == ItemGrade.Common) itemRange = Enumerable.Range(0, 100);
-        else if (itemGrade == ItemGrade.Uncommon) itemRange = Enumerable.Range(100, 200);
-        else if (itemGrade == ItemGrade.Legendary) itemRange = Enumerable.Range(200, 300);
+        else if (itemGrade == ItemGrade.Uncommon) itemRange = Enumerable.Range(100, 100);
+        else if (itemGrade == ItemGrade.Legendary) itemRange = Enumerable.Range(200, 100);
+        else { Debug.Log("Error"); return; }
 
         var itemList = (from itemID in DataManager.Instance.ItemDic.Keys where itemRange.Contains(itemID) select itemID).ToList();
 

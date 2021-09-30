@@ -9,7 +9,6 @@ public abstract class LootGameObject : MonoBehaviour
     private float moveSpeed;
     private CircleCollider2D circleCollider2D;
     protected SpriteRenderer spriteRenderer;
-    [SerializeField] private GameEvent gameEvent;
 
     private void Awake()
     {
@@ -52,8 +51,6 @@ public abstract class LootGameObject : MonoBehaviour
         {
             RuntimeManager.PlayOneShot("event:/SFX/ETC/LootGameObject", transform.position);
             OnEquip();
-
-            if (!(gameEvent is null)) gameEvent.Raise();
             gameObject.SetActive(false);
         }
     }
