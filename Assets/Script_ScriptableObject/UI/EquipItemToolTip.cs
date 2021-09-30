@@ -1,7 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
-using System.Collections;
 
 public class EquipItemToolTip : MonoBehaviour
 {
@@ -10,29 +10,34 @@ public class EquipItemToolTip : MonoBehaviour
     [SerializeField] private Text nameField;
     [SerializeField] private Text simpleDescriptionField;
     [SerializeField] private Image image;
-    [SerializeField] private ItemInventory ItemInventory;
+    [SerializeField] private ItemVariable LastEquippedItem;
     private bool isShowing = false;
 
     public void EquipItem()
     {
-        // Debug.Log("EquipItem");
-        if (ItemInventory.Items[ItemInventory.Items.Count - 1].itemGrade.Equals(ItemGrade.Material)) return;
-        toolTipStacks.Enqueue(ItemInventory.Items[ItemInventory.Items.Count - 1]);
+        if (LastEquippedItem) Debug.Log("1");
+        if (LastEquippedItem.RuntimeValue) Debug.Log("2");
+        if (LastEquippedItem.RuntimeValue.itemGrade == ItemGrade.Material) Debug.Log("3");
+
+        if (LastEquippedItem.RuntimeValue.itemGrade == ItemGrade.Material) { Debug.Log("ASD"); return; }
+        toolTipStacks.Enqueue(LastEquippedItem.RuntimeValue);
         if (!isShowing) StartCoroutine(ShowToolTip());
     }
 
     private IEnumerator ShowToolTip()
     {
+        Item item;
+        WaitForSeconds ws2 = new(2f);
+
         isShowing = true;
+        toolTip.SetActive(true);
         while (toolTipStacks.Count > 0)
         {
-            // Debug.Log("ShowToolTip");
-            Item item = toolTipStacks.Dequeue();
+            item = toolTipStacks.Dequeue();
             nameField.text = item.name;
             simpleDescriptionField.text = item.simpleDescription;
             image.sprite = item.sprite;
-            toolTip.SetActive(true);
-            yield return new WaitForSeconds(2f);
+            yield return ws2;
         }
         toolTip.SetActive(false);
         isShowing = false;

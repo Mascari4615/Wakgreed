@@ -1,6 +1,6 @@
-using UnityEngine;
 using FMOD.Studio;
 using FMODUnity;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
@@ -26,10 +26,9 @@ public class AudioManager : MonoBehaviour
     private Bus Master;
     private EventInstance SFXVolumeTestEvent;
     private EventInstance BGMVolumeTestEvent;
-
-    float BGMVolume = 0.5f;
-    float SFXVolume = 0.5f;
-    float MasterVolume = 0.5f;
+    private float BGMVolume = 0.5f;
+    private float SFXVolume = 0.5f;
+    private float MasterVolume = 0.5f;
 
     public static AudioManager Create()
     {
@@ -46,7 +45,7 @@ public class AudioManager : MonoBehaviour
         BGMVolumeTestEvent = RuntimeManager.CreateInstance("event:/BGM/BGMVolumeTest");
     }
 
-    public void MasterVolumeLevel (Slider newMasterVoume)
+    public void MasterVolumeLevel(Slider newMasterVoume)
     {
         MasterVolume = newMasterVoume.value;
         Master.setVolume(newMasterVoume.value);

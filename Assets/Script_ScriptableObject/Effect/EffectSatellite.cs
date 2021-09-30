@@ -3,40 +3,34 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EffectSatellite", menuName = "Effect/EffectSatellite")]
 public class EffectSatellite : Effect
 {
-    [SerializeField] private GameObject satellitePrefab;
-    private GameObject satelliteInstance;
+    [SerializeField] private GameObject prefab;
+    private GameObject instance;
 
     public override void _Effect()
     {
-        if (!Wakgood.Instance.transform.Find("SatelliteParent"))
+        Transform parent = Wakgood.Instance.transform.Find("SatelliteParent");
+        if (parent == null)
         {
-            GameObject temp = new("SatelliteParent");
-            temp.transform.SetPositionAndRotation(Wakgood.Instance.transform.position, Quaternion.identity);
-            temp.transform.SetParent(Wakgood.Instance.transform);
-            temp.AddComponent<BulletRotate>();
+            parent = new GameObject("SatelliteParent").transform;
+            parent.SetPositionAndRotation(Wakgood.Instance.transform.position, Quaternion.identity);
+            parent.SetParent(Wakgood.Instance.transform);
+            parent.gameObject.AddComponent<BulletRotate>();
         }
-         
-        // satelliteInstance = ObjectManager.Instance.PopObject(satellitePrefab.name, Wakgood.Instance.transform.Find("SatelliteParent"), false, true);
-        satelliteInstance = Instantiate(satellitePrefab, Wakgood.Instance.transform.Find("SatelliteParent"));
 
-        if (Wakgood.Instance.transform.Find("SatelliteParent").childCount == 1)
+        instance = Instantiate(prefab, parent);
+        Vector3 localPos = new();
+        if (parent.childCount == 1) localPos.Set(0, 1, 0);
+        else if (parent.childCount == 2) localPos.Set(0, -1, 0);
+        else if (parent.childCount == 3)
         {
-            satelliteInstance.transform.localPosition = Vector3.up * 3f;          
+            localPos.Set(Mathf.Cos(330 * Mathf.Deg2Rad), Mathf.Sin(330 * Mathf.Deg2Rad), 0);
+            parent.GetChild(1).transform.localPosition = new Vector3(Mathf.Cos(210 * Mathf.Deg2Rad), Mathf.Sin(210 * Mathf.Deg2Rad));
         }
-        else if (Wakgood.Instance.transform.Find("SatelliteParent").childCount == 2)
-        {
-            satelliteInstance.transform.localPosition = Vector3.down * 3f;       
-        }
-        else if (Wakgood.Instance.transform.Find("SatelliteParent").childCount == 3)
-        {
-            Wakgood.Instance.transform.Find("SatelliteParent").GetChild(1).transform.localPosition = new Vector3( Mathf.Sin(210),Mathf.Cos(210)) * 3;  
-            satelliteInstance.transform.localPosition = new Vector3(Mathf.Sin(330), Mathf.Cos(330)) * 3f;  
-        }   
+        instance.transform.localPosition = localPos * 3;
     }
 
     public override void Return()
     {
-        //ObjectManager.Instance.PushObject(Wakgood.Instance.transform.Find("SatelliteParent").Find(satelliteInstance.name).gameObject);
-        Destroy(Wakgood.Instance.transform.Find("SatelliteParent").Find(satelliteInstance.name).gameObject);
+        Destroy(instance);
     }
 }
