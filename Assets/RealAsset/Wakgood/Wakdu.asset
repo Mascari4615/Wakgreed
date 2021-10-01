@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfd3f40ae4862674ba4f83870e907d1d, type: 3}
+  m_Name: Wakdu
+  m_EditorClassIdentifier: 
+  name: "\uC6B0\uC641\uAD73"
+  baseHP: 20
+  growthHP: 2
+  baseAD: 2
+  growthAD: 1
+  baseAS: 2
+  growthAS: 0.02
+  baseCriticalChance: 20
+  baseMoveSpeed: 8
+  skillCoolDown:
+  - 1
+  - 1
+  - 1
+  basicAttackAudioClips:
+  - {fileID: 8300000, guid: 643181c50fae4d249959fa6b96e00aa8, type: 3}
+  skill0AudioClips:
+  - {fileID: 8300000, guid: 643181c50fae4d249959fa6b96e00aa8, type: 3}
+  skill1AudioClips:
+  - {fileID: 8300000, guid: 643181c50fae4d249959fa6b96e00aa8, type: 3}
+  skill2AudioClips:
+  - {fileID: 8300000, guid: 643181c50fae4d249959fa6b96e00aa8, type: 3}
+  abilities: {fileID: 11400000, guid: 6617fc2db4880a24e9d6683151e6add6, type: 2}
+  weaponSprite: {fileID: 21300000, guid: 5e1583c96dffcbf42842f61645242f67, type: 3}
