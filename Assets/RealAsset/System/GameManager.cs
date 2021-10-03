@@ -23,7 +23,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameEvent OnFightStart;
     [SerializeField] private GameEvent OnFightEnd;
     [SerializeField] private GameEvent OnRecall;
-    [SerializeField] private MasteryManager MasteryManager;
     [SerializeField] private BuffRunTimeSet buffRunTimeSet;
 
     [SerializeField] private EnemyRunTimeSet EnemyRunTimeSet;
@@ -115,7 +114,7 @@ public class GameManager : MonoBehaviour
         StopAllSpeedWagons();
         StageManager.Instance.StopAllSpeedWagons();
 
-        MasteryManager.selectMasteryPanel.SetActive(false);
+        MasteryManager.Instance.selectMasteryPanel.SetActive(false);
 
         // UpdateMap();
         int count = EnemyRunTimeSet.Items.Count;

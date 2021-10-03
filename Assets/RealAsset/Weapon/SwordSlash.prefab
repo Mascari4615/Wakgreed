@@ -161,11 +161,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc5466ebd09324d40bd2cd21e37538e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canDamageWakgood: 0
+  canDamageMonster: 1
   totalAD: {fileID: 11400000, guid: 0326d210993f63442a9733c8a569e3ec, type: 2}
-  TravellerCriticalChance: {fileID: 11400000, guid: 300f8b12c04c18a45a8f73a08c3ab38b,
-    type: 2}
-  monsterAD: 0
-  target: 0
+  criticalChance: {fileID: 11400000, guid: 300f8b12c04c18a45a8f73a08c3ab38b, type: 2}
+  damage: 0
 --- !u!114 &-5299834073684105160
 MonoBehaviour:
   m_ObjectHideFlags: 0

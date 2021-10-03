@@ -71,7 +71,7 @@ public class ChidoriPanchi : MeleePanchi
                 Vector3 rot = new Vector3(0, 0, Mathf.Atan2(Wakgood.Instance.transform.position.y - (transform.position.y + 0.8f), Wakgood.Instance.transform.position.x - transform.position.x) * Mathf.Rad2Deg - 90);
                 yield return new WaitForSeconds(.7f);              
                 animator.SetTrigger("ATTACK");
-                ObjectManager.Instance.PopObject("MobSlash", transform.position + Vector3.up * 0.8f + direction * 1.5f, rot);
+                ObjectManager.Instance.PopObject("ChimSlash", transform.position + Vector3.up * 0.8f + direction * 1.5f, rot);
                 yield return new WaitForSeconds(1f);
             }
         }

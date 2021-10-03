@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wakgood : MonoBehaviour, Damagable
+public class Wakgood : MonoBehaviour, IDamagable
 {
     private static Wakgood instance;
     [HideInInspector] public static Wakgood Instance { get { return instance; } }
@@ -75,9 +75,9 @@ public class Wakgood : MonoBehaviour, Damagable
         instance = this;
         // attackPosition.transform.position = new Vector3(0, attackPosGap, 0);
 
-        attackPositionParent = transform.GetChild(1);
+        attackPositionParent = transform.Find("AttackPosParent");
         attackPosition = attackPositionParent.GetChild(0);
-        weaponPosition = transform.GetChild(2);
+        weaponPosition = transform.Find("WeaponPos");
         playerRB = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -142,7 +142,7 @@ public class Wakgood : MonoBehaviour, Damagable
         // Targeting();
         Move();
         if (Input.GetMouseButton(0)) BasicAttack();
-        if (Input.GetMouseButtonDown(1) && !isDashing && curDashStack > 0) StartCoroutine(Dash());
+        if (Input.GetKeyDown(KeyCode.Space) && !isDashing && curDashStack > 0) StartCoroutine(Dash());
         if (Input.GetKeyDown(KeyCode.F) && canInteraction) nearInteractiveObject.Interaction();
 
         if (Input.GetKeyDown(KeyCode.Q) && curWeapon.skillQ != null) { curWeapon.skillQ.Use(); }
@@ -221,7 +221,8 @@ public class Wakgood : MonoBehaviour, Damagable
     private IEnumerator Dash()
     {
         isDashing = true;
-        Vector3 direction = new Vector3(worldMousePoint.x - transform.position.x, worldMousePoint.y - transform.position.y, 0).normalized;
+        // Vector3 direction = new Vector3(worldMousePoint.x - transform.position.x, worldMousePoint.y - transform.position.y, 0).normalized;
+        Vector3 direction = new Vector3(h, v, 0).normalized;
         RuntimeManager.PlayOneShot("event:/SFX/Wakgood/Dash", transform.position);
 
         curDashStack--;
@@ -388,15 +389,13 @@ public class Wakgood : MonoBehaviour, Damagable
         bloodingPanel.SetActive(false);
         bloodingPanel.SetActive(true);
 
-        if (HP.RuntimeValue <= 0) StartCoroutine(Collapse());
+        if (HP.RuntimeValue <= 0) { StopAllCoroutines(); StartCoroutine(Collapse()); }
     }
 
     private IEnumerator Collapse()
     {
-        StopAllCoroutines();
         playerRB.bodyType = RigidbodyType2D.Static;
         animator.SetTrigger("Collapse");
-
         yield return new WaitForSeconds(2f);
         OnCollapse.Raise();
         this.enabled = false;

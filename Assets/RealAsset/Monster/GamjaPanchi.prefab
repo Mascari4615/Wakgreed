@@ -414,10 +414,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc5466ebd09324d40bd2cd21e37538e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canDamageWakgood: 1
+  canDamageMonster: 0
   totalAD: {fileID: 0}
-  TravellerCriticalChance: {fileID: 0}
-  monsterAD: 1
-  target: 1
+  criticalChance: {fileID: 0}
+  damage: 3
 --- !u!114 &8037413533191327469
 MonoBehaviour:
   m_ObjectHideFlags: 0
