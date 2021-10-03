@@ -29,7 +29,7 @@ public class Hikiking : BossMonster
 
     private IEnumerator Attack()
     {
-        Debug.Log($"{name} : Now Attack");
+        //Debug.Log($"{name} : Now Attack");
 
         while (true)
         {
@@ -37,34 +37,31 @@ public class Hikiking : BossMonster
             switch (i)
             {
                 case 0:
-                    Debug.Log($"{name} : 0 Call BaseAttack");
+                    //Debug.Log($"{name} : 0 Call BaseAttack");
                     yield return StartCoroutine(BaseAttack());
                     break;
                 case 1:
-                    Debug.Log($"{name} : 1 Call ULT");
+                    //Debug.Log($"{name} : 1 Call ULT");
                     yield return StartCoroutine(ULT());
                     break;
                 case 2:
-                    Debug.Log($"{name} : 2 Call Skill1");
+                    //Debug.Log($"{name} : 2 Call Skill1");
                     yield return StartCoroutine(Skill1());
                     break;
                 default:
-                    Debug.LogError($"{name} : �������� �ʴ� ���� �ε���");
+                    //Debug.LogError($"{name} : �������� �ʴ� ���� �ε���");
                     break;
             }
 
-            Debug.Log($"{name} : Wait");
+            //Debug.Log($"{name} : Wait");
             yield return new WaitForSeconds(2f);
-            Debug.Log($"{name} : WaitEnd");
+            //Debug.Log($"{name} : WaitEnd");
         }      
     }
 
-    /// <summary>
-    /// �α� �ֺ����� �̵� �� ���� �ܱ�
-    /// </summary>
     private IEnumerator BaseAttack()
     {
-        Debug.Log($"{name} : 0 BaseAttack Start");
+        //Debug.Log($"{name} : 0 BaseAttack Start");
         int attackcount = Random.Range(2, 3 + 1);
 
         for (int i = 0; i < attackcount; i++)
@@ -89,16 +86,12 @@ public class Hikiking : BossMonster
 
             yield return new WaitForSeconds(0.2f);
         }
-        Debug.Log($"{name} : 0 BaseAttack End");
+        //Debug.Log($"{name} : 0 BaseAttack End");
     }
 
-    /// <summary>
-    /// �����ϼ�. 1 > 3 > 6 ��
-    /// </summary>
     private IEnumerator ULT()
     {
-        Debug.Log($"{name} : 1 ULT Start");
-        UIManager.Instance.aaa.text = "���Ⱑ �䵿Ĩ�ϴ�...";
+        UIManager.Instance.aaa.text = "공기가 요동칩니다...";
         UIManager.Instance.aaa.gameObject.SetActive(true);
 
         // ����
@@ -134,12 +127,9 @@ public class Hikiking : BossMonster
         }
         Instantiate(baseattack, aoriginpos + (atargetpos - aoriginpos) / 2, Quaternion.Euler(new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan2(atargetpos.y - aoriginpos.y, atargetpos.x - aoriginpos.x)))).transform.localScale = new Vector3(Vector3.Distance(aoriginpos, atargetpos) / 3, 3, 1);
 
-        Debug.Log($"{name} : 1 ULT End");
+        //Debug.Log($"{name} : 1 ULT End");
     }
 
-    /// <summary>
-    /// �ʿ� ¬��� �Ѹ���
-    /// </summary>
     private IEnumerator Skill1()
     {
         int jjabSlayerCount = Random.Range(1, 5 + 1);

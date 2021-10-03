@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public abstract class Monster : MonoBehaviour, Damagable
+public abstract class Monster : MonoBehaviour, IDamagable
 {
     [SerializeField] private int baseHP, baseAD, baseMoveSpeed;
     protected int maxHP, HP, AD, moveSpeed;

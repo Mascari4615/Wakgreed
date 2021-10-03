@@ -4,6 +4,8 @@ using FMODUnity;
 
 public class MasteryManager : MonoBehaviour
 {
+    private static MasteryManager instance;
+    public static MasteryManager Instance { get { return instance; } } 
     [SerializeField] private MasteryInventory MasteryInventory;
     [SerializeField] private WakduMasteryDataBuffer WakduMasteryDataBuffer;
     public GameObject selectMasteryPanel;
@@ -14,6 +16,10 @@ public class MasteryManager : MonoBehaviour
     private Mastery[] randomMasteries = new Mastery[3];
     [SerializeField] private VerticalLayoutGroup masteryGrid;
 
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Update() 
     {
@@ -26,17 +32,15 @@ public class MasteryManager : MonoBehaviour
             masteryGrid.transform.parent.gameObject.SetActive(false);
         }
     }
+
     private void Initialize()
     {
-        randomMasteries[0] = WakduMasteryDataBuffer.Items[Random.Range(0, WakduMasteryDataBuffer.Items.Length)];
-        randomMasteries[1] = WakduMasteryDataBuffer.Items[Random.Range(0, WakduMasteryDataBuffer.Items.Length)];
-        randomMasteries[2] = WakduMasteryDataBuffer.Items[Random.Range(0, WakduMasteryDataBuffer.Items.Length)];
-        buttonImages[0].sprite = randomMasteries[0].sprite;
-        buttonImages[1].sprite = randomMasteries[1].sprite;
-        buttonImages[2].sprite = randomMasteries[2].sprite;
-        toolTipTriggers[0].SetToolTip(randomMasteries[0]);
-        toolTipTriggers[1].SetToolTip(randomMasteries[1]);
-        toolTipTriggers[2].SetToolTip(randomMasteries[2]);
+        for (int i = 0; i < 3; i++)
+        {
+            randomMasteries[i] = WakduMasteryDataBuffer.Items[Random.Range(0, WakduMasteryDataBuffer.Items.Length)];
+            buttonImages[i].sprite = randomMasteries[i].sprite;
+            toolTipTriggers[i].SetToolTip(randomMasteries[i]);
+        }       
     }
 
     public void LevelUp()
