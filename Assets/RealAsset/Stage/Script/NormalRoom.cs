@@ -67,6 +67,11 @@ public class NormalRoom : Room
         foreach (var hider in DoorHiders) hider.SetActive(false);
         foreach (var particle in DoorParticles) particle.SetActive(true);
         StartCoroutine(GameManager.Instance.RoomClearSpeedWagon());
-        ObjectManager.Instance.PopObject("Chest", transform.Find("ChestPoint")).GetComponent<Chest>().InitializeRandom();
+
+        Probability<string> probability = new();
+        probability.Add("CommonChest", 70);
+        probability.Add("UncommonChest", 35);
+        probability.Add("LegendaryChest", 5);
+        ObjectManager.Instance.PopObject(probability.Get(), transform.Find("ChestPoint"));
     }
 }

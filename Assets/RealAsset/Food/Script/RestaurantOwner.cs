@@ -4,8 +4,7 @@ using System.Collections.Generic;
 public class RestaurantOwner : NPC
 {
     [SerializeField] private FoodInventoryUI FoodInventoryUI;
-    [SerializeField] private RestaurantFoodInventory restaurantFoodInventory;  
-
+/*
     private void Start()
     {
         FoodInventoryUI = UIManager.Instance.FoodInventoryUI;
@@ -20,7 +19,7 @@ public class RestaurantOwner : NPC
         for (int i = 0; i < 3; i++)
         {
             int rand = Random.Range(0, asd.Count);
-            restaurantFoodInventory.Add(asd[rand]);
+
             asd.RemoveAt(rand);
         }
     }
@@ -29,6 +28,6 @@ public class RestaurantOwner : NPC
     {
         base.Interaction();
         FoodInventoryUI.Initialize();
-        FoodInventoryUI.GetComponent<Restaurant>().curRestaurantFoodInventory = restaurantFoodInventory;
     }
+    */
 }

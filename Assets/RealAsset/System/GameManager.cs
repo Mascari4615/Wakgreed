@@ -99,7 +99,6 @@ public class GameManager : MonoBehaviour
     // OnCollapse GameEvent로 호출
     public void GameOver()
     {
-        Debug.Log("GameOver");
         gamePanel.SetActive(false);
         gameResultPanel.SetActive(true);
     }
@@ -125,10 +124,7 @@ public class GameManager : MonoBehaviour
         }
         DataManager.Instance.WakgoodItemInventory.Clear();
         DataManager.Instance.WakgoodFoodInventory.Clear();
-        DataManager.Instance.BuffRunTimeSet.Clear();
-
-        Wakgood.Instance.enabled = true;
-        Wakgood.Instance.Initialize(false);
+        DataManager.Instance.BuffRunTimeSet.Clear();   
 
         miniMapCamera.transform.position = new Vector3(0, 0, -100);
 
@@ -138,6 +134,9 @@ public class GameManager : MonoBehaviour
         gamePanel.SetActive(true);
 
         testNpc.SetActive(DataManager.Instance.curGameData.isNPCRescued);
+
+        Wakgood.Instance.enabled = true;
+        Wakgood.Instance.Initialize(false);
 
         Time.timeScale = 1;
     }
@@ -151,14 +150,14 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator RoomClearSpeedWagon()
     {
-        roomClearSpeedWagon.gameObject.SetActive(true);
+        roomClearSpeedWagon.SetActive(true);
         yield return new WaitForSeconds(2f);
-        roomClearSpeedWagon.gameObject.SetActive(false);
+        roomClearSpeedWagon.SetActive(false);
     }
 
     private void StopAllSpeedWagons()
     {
-        StopCoroutine("RoomClearSpeedWagon");
+        StopCoroutine(nameof(RoomClearSpeedWagon));
         roomClearSpeedWagon.SetActive(false);
     }
 }

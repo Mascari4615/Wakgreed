@@ -12,8 +12,8 @@ public class MeleeAtack : Skill
             Wakgood.Instance.weaponPosition.GetChild(0).GetComponent<Animator>().SetTrigger("Attack");
         RuntimeManager.PlayOneShot($"event:/SFX/Weapon/{Wakgood.Instance.curWeapon.ID}", Wakgood.Instance.attackPosition.position);
         string path = $"event:/SFX/Weapon/{Wakgood.Instance.curWeapon.ID}";
-        if ((from event_ in EventManager.Events where event_.Path.Equals(path) select event_).Count() == 0)
-            RuntimeManager.PlayOneShot("event:/SFX/Weapon/EX_Attack", Wakgood.Instance.attackPosition.position);
+        //if ((from event_ in FMODUnity.EventManager.Events where event_.Path.Equals(path) select event_).Count() == 0)
+            //RuntimeManager.PlayOneShot("event:/SFX/Weapon/EX_Attack", Wakgood.Instance.attackPosition.position);
         GameManager.Instance.cinemachineImpulseSource.GenerateImpulse();
     }
 }

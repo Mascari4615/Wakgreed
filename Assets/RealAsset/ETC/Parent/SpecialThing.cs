@@ -27,8 +27,7 @@ public abstract class SpecialThing : ScriptableObject
     }
 }
 
-
-[CustomPropertyDrawer(typeof(Sprite))]
+/*[CustomPropertyDrawer(typeof(Sprite))]
 public class CombinableSpritesAttributeEditor : PropertyDrawer
 {
     float spriteSize = 64;
@@ -45,4 +44,4 @@ public class CombinableSpritesAttributeEditor : PropertyDrawer
     {
         return spriteSize;
     }
-}
+}*/

@@ -24,7 +24,7 @@ public class EffectSatellite : Effect
         else if (parent.childCount == 3)
         {
             localPos.Set(Mathf.Cos(330 * Mathf.Deg2Rad), Mathf.Sin(330 * Mathf.Deg2Rad), 0);
-            parent.GetChild(1).transform.localPosition = new Vector3(Mathf.Cos(210 * Mathf.Deg2Rad), Mathf.Sin(210 * Mathf.Deg2Rad));
+            parent.GetChild(1).transform.localPosition = new Vector3(Mathf.Cos(210 * Mathf.Deg2Rad), Mathf.Sin(210 * Mathf.Deg2Rad)) * 3;
         }
         instance.transform.localPosition = localPos * 3;
     }

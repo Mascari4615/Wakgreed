@@ -3,137 +3,108 @@ using UnityEngine;
 
 public class Amoeba : NormalMonster
 {
-    private enum State {Idle, TenceUp, Ahya, Attack}
-    private State currentState = State.Idle;
-    private bool stateChange = false;
-    private bool bRecognizeTraveller = false;
-    [SerializeField] private GameObject warningLine;
+    private IEnumerator idle;
+    private IEnumerator attack;
+    private IEnumerator ahya;
+    private bool bRecognizeWakgood = false;
+    [SerializeField] private Collider2D bodyCollider;
 
     protected override void OnEnable()
     {
         base.OnEnable();
-        
-        StartCoroutine(Brain());
+
+        bodyCollider.enabled = true;
+        idle = Idle();
+        StartCoroutine(idle);
+        StartCoroutine(CheckWakgood());
     }
 
-    private IEnumerator Brain()
+    private IEnumerator CheckWakgood()
     {
+        WaitForSeconds ws01 = new(0.1f);
         while (true)
         {
-            stateChange = false;
-            yield return StartCoroutine(currentState.ToString());
+            if (Vector2.Distance(transform.position, Wakgood.Instance.transform.position) < 7)
+            {
+                bRecognizeWakgood = true;
+                StopCoroutine(idle);
+                attack = Attack();
+                StartCoroutine(attack);
+                break;
+            }
+            yield return ws01;
         }
-    }
-
-    private void SetState(State newState)
-    {
-        currentState = newState;
-        stateChange = true;
     }
 
     private IEnumerator Idle()
-    {
-        // Debug.Log("Start Idle");
-        float duration = Random.Range(0.5f, 2.5f + 0.1f);
+    { 
+        Vector3 spawnPos = transform.position;
 
-        Vector3 moveDirection = Vector3.zero;
-        bool bIsMoving = Random.Range(0, 1 + 1) == 0 ? true : false;
-
-        animator.SetBool("IsMoving", bIsMoving);
-        if (bIsMoving)
+        while (true)
         {
-            int r = Random.Range(0, 4);
-            moveDirection = r == 0 ? Vector2.up : r == 1 ? Vector2.down : r == 2 ? Vector2.left : Vector2.right;
-            spriteRenderer.flipX = r == 2 ? true : r == 3 ? false : spriteRenderer.flipX;
-        }
-        
-        while (stateChange == false)
-        {
-            if (Vector2.Distance(transform.position, Wakgood.Instance.transform.position) < 10)
+            animator.SetBool("ISMOVING", true);
+            Vector2 targetPos = spawnPos + new Vector3(Random.Range(-2f, 2f), Random.Range(-2f, 2f), 0);
+            Vector2 originPos = transform.position;
+            spriteRenderer.flipX = (targetPos.x > originPos.x) ? false : true;
+            for (int i = 0; i < 50; i++)
             {
-                bRecognizeTraveller = true;
-                SetState(State.TenceUp);
+                rigidbody2D.position += (targetPos - originPos) * 0.02f;
+                yield return new WaitForSeconds(0.02f);
             }
-
-            duration -= Time.deltaTime;
-            if (duration <= 0)
-            {
-                SetState(State.Idle);
-            }
-            
-            rigidbody2D.velocity = moveDirection * moveSpeed;
-            yield return null;
-        }
-    }
-
-    private IEnumerator TenceUp()
-    {
-        // Debug.Log("Start TenceUp");
-        float duration = 6f;
-
-        while (stateChange == false)
-        {
-            duration -= Time.deltaTime;
-            if (duration <= 0)
-            {
-                SetState(State.Attack);
-            }
-
-            yield return null;
+            animator.SetBool("ISMOVING", false);
+            yield return new WaitForSeconds(2f);
         }
     }
 
     private IEnumerator Ahya()
     {
-        //Debug.Log("Start Ahya");
-        float duration = 0.3f;
-
-        while (stateChange == false)
+        animator.SetBool("ISMOVING", false);
+        yield return new WaitForSeconds(1f);
+        if (bRecognizeWakgood)
         {
-            duration -= Time.deltaTime;
-            if (duration <= 0)
-            {
-                SetState(bRecognizeTraveller ? State.TenceUp : State.Idle);
-            }
-            yield return null;
+            attack = Attack();
+            StartCoroutine(attack);
         }
+        else
+        {          
+            idle = Idle();
+            StartCoroutine(idle);
+        }   
     }
 
     private IEnumerator Attack()
     {
-        //Debug.Log("Start Attack");
-        float duration = 0.6f;
-        float delay = 1f;
-
-        warningLine.SetActive(true);
-        Vector2 rushDirection = (Wakgood.Instance.transform.position - transform.position).normalized;
-        while (stateChange == false)
+        animator.SetBool("ISMOVING", true);
+        while (true)
         {
-            delay -= Time.deltaTime;
-            if (delay <= 0)
-            {
-                duration -= Time.deltaTime;
-                if (duration <= 0)
-                {
-                    SetState(State.TenceUp);
-                }
+            spriteRenderer.flipX = transform.position.x > Wakgood.Instance.transform.position.x ? true : false;
 
-                rigidbody2D.velocity = rushDirection * moveSpeed * 10;
-            }
-
+            Vector2 moveDirection = (Wakgood.Instance.transform.position - transform.position).normalized;
+            rigidbody2D.velocity = moveDirection * moveSpeed;
             yield return null;
         }
     }
-    
+
     public override void ReceiveDamage(int damage)
     {
-        base.ReceiveDamage(damage);
+        spriteRenderer.flipX = transform.position.x > Wakgood.Instance.transform.position.x ? true : false;
 
-        if (transform.position.x > Wakgood.Instance.transform.position.x)
-            spriteRenderer.flipX = true;
-        else
-            spriteRenderer.flipX = false;
+        StopAllCoroutines();
+        ahya = Ahya();
+        StartCoroutine(ahya);
 
-        SetState(State.Ahya);
+        base.ReceiveDamage(damage);      
+    }
+
+    protected override IEnumerator Collapse()
+    {
+        bodyCollider.enabled = false;
+        StopAllCoroutines();
+        return base.Collapse();
+    }
+
+    void OnDisable()
+    {
+        StopAllCoroutines();
     }
 }

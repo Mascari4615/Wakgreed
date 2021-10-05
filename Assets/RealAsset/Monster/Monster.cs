@@ -43,12 +43,12 @@ public abstract class Monster : MonoBehaviour, IDamagable
     {
         HP -= damage;
         rigidbody2D.velocity = Vector3.zero;
-        rigidbody2D.AddForce((transform.position - Wakgood.Instance.transform.position).normalized, ForceMode2D.Impulse);
+        rigidbody2D.AddForce((transform.position - Wakgood.Instance.transform.position).normalized * 3f, ForceMode2D.Impulse);
 
         if (HP > 0)
         {
             RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("("), 7) : name)}_Hurt", transform.position);
-            //animator.SetTrigger("Ahya");
+            animator.SetTrigger("Ahya");
         }
         else if (HP <= 0)
         {
