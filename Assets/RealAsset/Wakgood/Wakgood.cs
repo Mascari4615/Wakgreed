@@ -19,7 +19,7 @@ public class Wakgood : MonoBehaviour, IDamagable
     public IntVariable EXP;
     private int requiredExp;
     public IntVariable Level;
-    public GameEvent OnHpChange, OnCollapse, OnExpChange, OnLevelUp;
+    public GameEvent OnCollapse, OnLevelUp;
 
     private Transform attackPositionParent;
     public Transform attackPosition { get; private set; }
@@ -28,14 +28,13 @@ public class Wakgood : MonoBehaviour, IDamagable
     [SerializeField] private GameObject bloodingPanel;
 
     // private float curAttackCoolDown;
-    private bool isHealthy, canAttackA, canAttackB, canInteraction;
+    private bool isHealthy, canAttackA, canAttackB;
 
     private Rigidbody2D playerRB;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
 
     // private GameObject target = null;
-    private InteractiveObject nearInteractiveObject;
     [SerializeField] private EnemyRunTimeSet EnemyRunTimeSet;
     private float bbolBBolCoolDown = 0.3f;
     private float curBBolBBolCoolDown = 0;
@@ -62,6 +61,7 @@ public class Wakgood : MonoBehaviour, IDamagable
     private int maxDashStack = 5;
     private int curDashStack = 0;
     private float dashCoolTime = 1f;
+    private Dictionary<int, InteractiveObject> nearInteractiveObjectDic = new();
 
     private IEnumerator ChangeWithDelay(bool changeValue, float delay, System.Action<bool> makeResult)
     {
@@ -94,7 +94,6 @@ public class Wakgood : MonoBehaviour, IDamagable
 
         maxHP.RuntimeValue = traveller.baseHP;
         HP.RuntimeValue = maxHP.RuntimeValue;
-        OnHpChange.Raise();
 
         AD.RuntimeValue = traveller.baseAD;
         AS.RuntimeValue = traveller.baseAS;
@@ -110,7 +109,6 @@ public class Wakgood : MonoBehaviour, IDamagable
         //curAttackCoolDown = 0;
         canAttackA = true;
         canAttackB = true;
-        canInteraction = false;
 
         playerRB.bodyType = RigidbodyType2D.Dynamic;
         cinemachineTargetGroup.m_Targets[0].target = transform;
@@ -143,7 +141,17 @@ public class Wakgood : MonoBehaviour, IDamagable
         Move();
         if (Input.GetMouseButton(0)) BasicAttack();
         if (Input.GetKeyDown(KeyCode.Space) && !isDashing && curDashStack > 0) StartCoroutine(Dash());
-        if (Input.GetKeyDown(KeyCode.F) && canInteraction) nearInteractiveObject.Interaction();
+        if (Input.GetKeyDown(KeyCode.F) && nearInteractiveObjectDic.Count != 0)
+        {
+            InteractiveObject nearInteractiveObject = null;
+            float distance = float.MaxValue;
+            foreach (var item in nearInteractiveObjectDic.Values)
+            {
+                if (Vector2.Distance(transform.position, item.transform.position) < distance)
+                    nearInteractiveObject = item;
+            }
+            nearInteractiveObject.Interaction();
+        }
 
         if (Input.GetKeyDown(KeyCode.Q) && curWeapon.skillQ != null) { curWeapon.skillQ.Use(); }
         if (Input.GetKeyDown(KeyCode.E) && curWeapon.skillE != null) { curWeapon.skillE.Use(); }
@@ -301,6 +309,7 @@ public class Wakgood : MonoBehaviour, IDamagable
         }
         else
         {
+            // 테스트
             // playerRB.velocity = Vector2.zero;
             animator.SetBool("Move", false);
         }
@@ -382,7 +391,6 @@ public class Wakgood : MonoBehaviour, IDamagable
         if (isHealthy == false) return;
 
         HP.RuntimeValue -= damage;
-        OnHpChange.Raise();
         isHealthy = false;
         StartCoroutine(ChangeWithDelay(true, .5f, value => isHealthy = value));
 
@@ -409,7 +417,6 @@ public class Wakgood : MonoBehaviour, IDamagable
     private void LevelUp()
     {
         maxHP.RuntimeValue += traveller.growthHP;
-        OnHpChange.Raise();
 
         AD.RuntimeValue += traveller.growthAD;
         AS.RuntimeValue += traveller.growthAS;
@@ -418,7 +425,6 @@ public class Wakgood : MonoBehaviour, IDamagable
         Level.RuntimeValue++;
         requiredExp = (100 * (1 + Level.RuntimeValue));
         OnLevelUp.Raise();
-        OnExpChange.Raise();
 
         ObjectManager.Instance.PopObject("LevelUpEffect", transform);
         ObjectManager.Instance.PopObject("DamageText", transform).GetComponent<AnimatedText>().SetText("Level Up!", TextType.Critical);
@@ -436,13 +442,19 @@ public class Wakgood : MonoBehaviour, IDamagable
 
         else if (other.CompareTag("InteractiveObject"))
         {
-            nearInteractiveObject = other.GetComponent<InteractiveObject>();
-            canInteraction = true;
+            if (!nearInteractiveObjectDic.ContainsKey(other.GetInstanceID()))
+                nearInteractiveObjectDic.Add(other.GetInstanceID(), other.GetComponent<InteractiveObject>());
+            else Debug.LogError("ㅈ버그");
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("InteractiveObject")) canInteraction = false;
+        if (other.CompareTag("InteractiveObject"))
+        {
+            if (nearInteractiveObjectDic.ContainsKey(other.GetInstanceID()))
+                nearInteractiveObjectDic.Remove(other.GetInstanceID());
+            else Debug.LogError("ㅈ버그");
+        }
     }
 }

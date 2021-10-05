@@ -1,8 +1,8 @@
 using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class DataManager : MonoBehaviour
 {
@@ -93,9 +93,34 @@ public class DataManager : MonoBehaviour
             return data;
         }
     }
+
+    public int GetRandomItemID()
+    {
+        ItemGrade itemGrade = (ItemGrade)UnityEngine.Random.Range(0, 3);
+        IEnumerable<int> itemRange = Enumerable.Range(0, 0);
+        if (itemGrade == ItemGrade.Common) itemRange = Enumerable.Range(0, 100);
+        else if (itemGrade == ItemGrade.Uncommon) itemRange = Enumerable.Range(100, 100);
+        else if (itemGrade == ItemGrade.Legendary) itemRange = Enumerable.Range(200, 100);
+
+        var itemList = (from _itemID in ItemDic.Keys where itemRange.Contains(_itemID) select _itemID).ToList();
+        int itemID = itemList[Random.Range(0, itemList.Count)];
+        return itemID;
+    }
+
+    public int GetRandomItemID(ItemGrade itemGrade)
+    {
+        IEnumerable<int> itemRange = Enumerable.Range(0, 0);
+        if (itemGrade == ItemGrade.Common) itemRange = Enumerable.Range(0, 100);
+        else if (itemGrade == ItemGrade.Uncommon) itemRange = Enumerable.Range(100, 100);
+        else if (itemGrade == ItemGrade.Legendary) itemRange = Enumerable.Range(200, 100);
+
+        var itemList = (from _itemID in ItemDic.Keys where itemRange.Contains(_itemID) select _itemID).ToList();
+        int itemID = itemList[Random.Range(0, itemList.Count)];
+        return itemID;
+    }
 }
 
-[Serializable]
+[System.Serializable]
 public class GameData
 {
     public bool isNPCRescued = false;

@@ -336,11 +336,38 @@ MonoBehaviour:
   Path: Fmod/WakjwaLike/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637686244268690008
+  lastModified: 637689677443416965
   FileSizes:
   - Name: Desktop
-    Value: 2988608
+    Value: 2999200
   Exists: 1
+--- !u!114 &-1785846771405165444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Monster/Amoeba_Hurt
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Monster/Amoeba_Hurt
+  Guid:
+    Data1: 175178926
+    Data2: 1197437236
+    Data3: -1659577959
+    Data4: -1711052589
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 341
 --- !u!114 &-186477639407087382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,12 +426,14 @@ MonoBehaviour:
   - {fileID: -7540814831215414520}
   - {fileID: -4501237979958155379}
   - {fileID: 3207467460042534057}
+  - {fileID: -1785846771405165444}
+  - {fileID: 5261635927594293306}
   EditorParameters: []
   MasterBanks:
   - {fileID: -1813042681740017314}
   StringsBanks:
   - {fileID: 6107050520195032601}
-  cacheTime: 637686244268719928
+  cacheTime: 637689677443436907
   cacheVersion: 9
 --- !u!114 &215977827860736700
 MonoBehaviour:
@@ -487,6 +516,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 182
+--- !u!114 &5261635927594293306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/UI/Test
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/UI/Test
+  Guid:
+    Data1: -2070399537
+    Data2: 1097926820
+    Data3: 1548678281
+    Data4: 1584058509
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 441
 --- !u!114 &5736249539611976684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -529,10 +585,10 @@ MonoBehaviour:
   Path: Fmod/WakjwaLike/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637686244268719928
+  lastModified: 637689677443436907
   FileSizes:
   - Name: Desktop
-    Value: 1592
+    Value: 1676
   Exists: 1
 --- !u!114 &6222241413271260203
 MonoBehaviour:

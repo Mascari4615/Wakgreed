@@ -9,7 +9,8 @@ public class Altar : InteractiveObject
         if (Gold.RuntimeValue >= 50)
         {
             Gold.RuntimeValue -= 50;
-            ObjectManager.Instance.PopObject("Item", transform).GetComponent<ItemGameObject>().InitializeRandom();
+            int itemID = DataManager.Instance.GetRandomItemID();
+            ObjectManager.Instance.PopObject("Item", transform).GetComponent<ItemGameObject>().Initialize(itemID);
         }
         else
         {

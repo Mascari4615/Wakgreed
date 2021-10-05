@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,8 +8,8 @@ public class EquipItemToolTip : MonoBehaviour
 {
     private Queue<Item> toolTipStacks = new();
     [SerializeField] private GameObject toolTip;
-    [SerializeField] private Text nameField;
-    [SerializeField] private Text simpleDescriptionField;
+    [SerializeField] private TextMeshProUGUI nameField;
+    [SerializeField] private TextMeshProUGUI simpleDescriptionField;
     [SerializeField] private Image image;
     [SerializeField] private ItemVariable LastEquippedItem;
     private bool isShowing = false;
@@ -31,7 +32,7 @@ public class EquipItemToolTip : MonoBehaviour
         {
             item = toolTipStacks.Dequeue();
             nameField.text = item.name;
-            simpleDescriptionField.text = item.simpleDescription;
+            simpleDescriptionField.text = item.description;
             image.sprite = item.sprite;
             yield return ws2;
         }

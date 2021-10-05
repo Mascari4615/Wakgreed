@@ -56,7 +56,7 @@ public class MasteryManager : MonoBehaviour
 
     public void ChooseAbility(int i)
     {
-        RuntimeManager.PlayOneShot("event:/SFX/ETC/UI", transform.position);
+        RuntimeManager.PlayOneShot("event:/SFX/UI/Test", transform.position);
         ToolTipManager.Hide();
         selectMasteryStack--;
         selectedMasteryStack++;
