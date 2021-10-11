@@ -18,9 +18,9 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject needMoreNyang;
 
-    public FoodInventoryUI FoodInventoryUI;
-
     [SerializeField] private GameObject state;
+
+    public Restaurant restaurant;
 
     public TextMeshProUGUI aaa;
 

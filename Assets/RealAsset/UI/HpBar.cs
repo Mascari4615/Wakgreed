@@ -10,6 +10,9 @@ public class HpBar : MonoBehaviour
     [SerializeField] private Image image;
     [SerializeField] private TextMeshProUGUI textField;
 
+    private float originX = 400;
+    private float originY = 25;
+
     public void SetHpBar()
     {
         image.fillAmount = (float)travellerHP.RuntimeValue / travellerMaxHP.RuntimeValue;
@@ -18,6 +21,6 @@ public class HpBar : MonoBehaviour
 
     public void SetHpBarWidth()
     {
-        rectTransform.sizeDelta = new Vector2(400 + (travellerMaxHP.RuntimeValue - 20) * 3, 50);
+        rectTransform.sizeDelta = new Vector2(originX + (travellerMaxHP.RuntimeValue - Wakgood.Instance.wakdu.baseHP) * 3, originY);
     }
 }

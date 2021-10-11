@@ -12,13 +12,12 @@ public class EquipItemToolTip : MonoBehaviour
     [SerializeField] private TextMeshProUGUI simpleDescriptionField;
     [SerializeField] private Image image;
     [SerializeField] private ItemVariable LastEquippedItem;
-    private bool isShowing = false;
 
     public void EquipItem()
     {
         if (LastEquippedItem.RuntimeValue.itemGrade == ItemGrade.Material) return;
         toolTipStacks.Enqueue(LastEquippedItem.RuntimeValue);
-        if (!isShowing) StartCoroutine(ShowToolTip());
+        if (!toolTip.activeSelf) StartCoroutine(ShowToolTip());
     }
 
     private IEnumerator ShowToolTip()
@@ -26,7 +25,6 @@ public class EquipItemToolTip : MonoBehaviour
         Item item;
         WaitForSeconds ws2 = new(2f);
 
-        isShowing = true;
         toolTip.SetActive(true);
         while (toolTipStacks.Count > 0)
         {
@@ -37,6 +35,11 @@ public class EquipItemToolTip : MonoBehaviour
             yield return ws2;
         }
         toolTip.SetActive(false);
-        isShowing = false;
+    }
+
+    public void StopToolTip()
+    {
+        toolTip.SetActive(false);
+        StopAllCoroutines();
     }
 }

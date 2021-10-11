@@ -27,6 +27,8 @@ public abstract class RunTimeSet<T> : ScriptableObject
 
     public virtual void Clear()
     {
+        if (Items == null) return;
+
         int count = Items.Count;
         for (int i = 0; i < count; i++)
         {
