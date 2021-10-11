@@ -37,13 +37,14 @@ public class DamagingObject : MonoBehaviour
                     textType = TextType.Normal;
                 }
 
-                ObjectManager.Instance.PopObject("DamageText", other.transform).GetComponent<AnimatedText>().SetText(damage.ToString(), textType);
                 damagable.ReceiveDamage(damage);
             }
             else
             {
                 damagable.ReceiveDamage(damage);
-            }       
+            } 
+            
+            gameObject.SetActive(false);
         }
     }
 }

@@ -6,7 +6,6 @@ public class ToolTipTrigger : MonoBehaviour, IPointerExitHandler, IPointerEnterH
     private Sprite sprite;
     private string header;
     private string description;
-    private string comment;
     [SerializeField] private PivotType pivotType;
     private bool isInputting = false;
     private float t = 0;
@@ -25,7 +24,7 @@ public class ToolTipTrigger : MonoBehaviour, IPointerExitHandler, IPointerEnterH
             t += Time.deltaTime;
             if (t > 0.1f)
             {
-                ToolTipManager.Show(sprite, header, description, comment, position, pivotType);
+                ToolTipManager.Show(sprite, header, description, position, pivotType);
             }
         }
     }
@@ -35,7 +34,6 @@ public class ToolTipTrigger : MonoBehaviour, IPointerExitHandler, IPointerEnterH
         sprite = specialThing.sprite;
         header = specialThing.name;
         description = specialThing.description;
-        comment = specialThing.comment;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

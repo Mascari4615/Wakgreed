@@ -122,6 +122,9 @@ public class GameManager : MonoBehaviour
             EnemyRunTimeSet.Items[0].SetActive(false);
             EnemyRunTimeSet.Remove(EnemyRunTimeSet.Items[0]);
         }
+
+        ObjectManager.Instance.DeactiveAll();
+
         DataManager.Instance.WakgoodItemInventory.Clear();
         DataManager.Instance.WakgoodFoodInventory.Clear();
         DataManager.Instance.BuffRunTimeSet.Clear();   

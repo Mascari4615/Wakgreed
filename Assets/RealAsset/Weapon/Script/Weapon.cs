@@ -31,7 +31,7 @@ public class Weapon : ScriptableObject, ISerializationCallbackReceiver
     public float magazine;
     [System.NonSerialized] public float ammo;
     public float reloadTime;
-    public bool isReloading = false;
+    private bool isReloading = false;
     [System.NonSerialized] public WaitForSeconds waitReload;
 
     private IEnumerator ChangeWithDelay(bool changeValue, float delay, System.Action<bool> makeResult)
@@ -43,17 +43,60 @@ public class Weapon : ScriptableObject, ISerializationCallbackReceiver
 
     public void BaseAttack()
     {
-        if (!canBaseAttack) return;
-
-        if (magazine != 0)
+        // 공격 쿨타임 중이거나, 장전 중이면
+        if (!canBaseAttack || isReloading)
         {
-            if (isReloading) return;
-            else if (ammo == 0) GameManager.Instance.StartCoroutine(_Reload());
+            return;
         }
 
+        // 원거린데 총알 없으면
+        if (magazine != 0 && ammo == 0)
+        {
+            // 장전
+            GameManager.Instance.StartCoroutine(_Reload());
+            return;
+        }
+;
+        // 공격
         baseAttack.Use(minDamage, maxDamage);
+
+        if (magazine != 0 && ammo == 0)
+        {
+            GameManager.Instance.StartCoroutine(_Reload());
+            return;
+        }
+
+        // 쿨타임
         canBaseAttack = false;
         GameManager.Instance.StartCoroutine(ChangeWithDelay(true, 1f / attackSpeed, value => canBaseAttack = value));
+    }
+
+    public void Reload()
+    {
+        if (magazine != 0)
+        {
+            if (!isReloading) GameManager.Instance.StartCoroutine(_Reload());
+        }
+    }
+
+    private IEnumerator _Reload()
+    {
+        isReloading = true;
+
+        UIManager.Instance.reloadUI.SetActive(true);
+
+        float now = 0;
+        while (now < reloadTime)
+        {
+            now += Time.deltaTime;
+            UIManager.Instance.reloadImage.fillAmount = now / reloadTime;
+            yield return null;
+        }
+
+        UIManager.Instance.reloadUI.SetActive(false);
+
+        ammo = magazine;
+        isReloading = false;
     }
 
     public void SkillQ() 
@@ -74,26 +117,10 @@ public class Weapon : ScriptableObject, ISerializationCallbackReceiver
         GameManager.Instance.StartCoroutine(ChangeWithDelay(true, skillE.coolTime, value => canSkillE = value));
     }
 
-    public void Reload()
-    {
-        if (magazine != 0)
-        {
-            if (!isReloading) GameManager.Instance.StartCoroutine(_Reload());
-        } 
-    }
-
-    private IEnumerator _Reload()
-    {
-        isReloading = true;
-        yield return waitReload;
-        ammo = magazine;
-        isReloading = false;
-    }
-
     public void OnAfterDeserialize()
     {
         ammo = magazine;
-        waitReload = new WaitForSeconds(reloadTime);
+        isReloading = false;
     }
 
     public void OnBeforeSerialize() { }

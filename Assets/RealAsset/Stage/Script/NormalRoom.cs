@@ -72,6 +72,6 @@ public class NormalRoom : Room
         probability.Add("CommonChest", 70);
         probability.Add("UncommonChest", 35);
         probability.Add("LegendaryChest", 5);
-        ObjectManager.Instance.PopObject(probability.Get(), transform.Find("ChestPoint"), setParent : true);
+        ObjectManager.Instance.PopObject(probability.Get(), transform.Find("ChestPoint"));
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using Cinemachine;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -23,6 +24,9 @@ public class UIManager : MonoBehaviour
     public Restaurant restaurant;
 
     public TextMeshProUGUI aaa;
+
+    public GameObject reloadUI;
+    public Image reloadImage;
 
     private void Awake()
     {

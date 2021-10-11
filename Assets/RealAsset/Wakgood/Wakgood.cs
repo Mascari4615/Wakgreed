@@ -33,8 +33,6 @@ public class Wakgood : MonoBehaviour, IDamagable
     private Animator animator;
     private SpriteRenderer spriteRenderer;
 
-    // private GameObject target = null;
-    [SerializeField] private EnemyRunTimeSet EnemyRunTimeSet;
     private float bbolBBolCoolDown = 0.3f;
     private float curBBolBBolCoolDown = 0;
 
@@ -309,49 +307,12 @@ public class Wakgood : MonoBehaviour, IDamagable
             weaponPosition.localPosition = new Vector3(-.3f, .5f, 0);
             weaponPosition.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(weaponPosition.position.y - worldMousePoint.y, weaponPosition.position.x - worldMousePoint.x) * Mathf.Rad2Deg);
         }
-
-        /* if (target != null)
-        {
-            if (target.transform.position.x > transform.position.x) transform.localScale = new Vector3(1, 1, 1);
-            else if (target.transform.position.x < transform.position.x) transform.localScale = new Vector3(-1, 1, 1);
-
-            cinemachineTargetGroup.m_Targets[1].target = target.transform;
-            Debug.DrawRay(transform.position, target.transform.position - transform.position, Color.red);
-        }
-        cinemachineTargetGroup.m_Targets[1].target = null; */
     }
-
-    #region Targeting
-    /*
-    private void Targeting()
-    {
-        target = null;
-        float targetDist = 10;
-        float currentDist;
-
-        foreach (GameObject monster in EnemyRunTimeSet.Items)
-        {
-            currentDist = Vector2.Distance(transform.position, monster.transform.position);
-            if (currentDist > targetDist) continue;
-
-            foreach (RaycastHit2D hitObject in Physics2D.RaycastAll(transform.position, monster.transform.position - transform.position))
-            {
-                // if (hitObject.transform.CompareTag("Wall")) break;
-                if (hitObject.transform.gameObject.layer.Equals("Wall")) break;
-                else if (hitObject.transform.CompareTag("Monster") || hitObject.transform.CompareTag("Boss"))
-                {
-                    target = monster.gameObject;
-                    targetDist = currentDist;
-                }
-            }
-        }
-    }*/
-    #endregion
 
     public void ReceiveDamage(int damage)
     {
         if (isHealthy == false) return;
-
+        RuntimeManager.PlayOneShot($"event:/SFX/Wakgood/Ahya", transform.position);
         OnDamage.Raise();
         HP.RuntimeValue -= damage;
         isHealthy = false;

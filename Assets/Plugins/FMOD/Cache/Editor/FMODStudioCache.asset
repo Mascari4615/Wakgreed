@@ -1,5 +1,32 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8767631776157126786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Weapon/1
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Weapon/1
+  Guid:
+    Data1: -1963813585
+    Data2: 1241576080
+    Data3: 1129859212
+    Data4: -1605856319
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 570
 --- !u!114 &-8641987209450690833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,6 +268,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 230295
+--- !u!114 &-3182281165325497405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Monster/Banshee_Hurt
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Monster/Banshee_Hurt
+  Guid:
+    Data1: -27421417
+    Data2: 1199188909
+    Data3: 302245026
+    Data4: -80074466
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 210
 --- !u!114 &-3014822312701832242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,10 +390,10 @@ MonoBehaviour:
   Path: Fmod/WakjwaLike/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637694433393010386
+  lastModified: 637696048292908294
   FileSizes:
   - Name: Desktop
-    Value: 2999776
+    Value: 3033856
   Exists: 1
 --- !u!114 &-1785846771405165444
 MonoBehaviour:
@@ -368,6 +422,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 341
+--- !u!114 &-704117828586890316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Monster/Banshee_Collapse
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Monster/Banshee_Collapse
+  Guid:
+    Data1: 1065226832
+    Data2: 1294274962
+    Data3: 1348061105
+    Data4: 78734440
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 637
 --- !u!114 &-186477639407087382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,15 +506,18 @@ MonoBehaviour:
   - {fileID: -2127791996452492447}
   - {fileID: -7540814831215414520}
   - {fileID: -4501237979958155379}
-  - {fileID: 3207467460042534057}
   - {fileID: -1785846771405165444}
   - {fileID: 5261635927594293306}
+  - {fileID: -3182281165325497405}
+  - {fileID: -704117828586890316}
+  - {fileID: 6577901507523731066}
+  - {fileID: -8767631776157126786}
   EditorParameters: []
   MasterBanks:
   - {fileID: -1813042681740017314}
   StringsBanks:
   - {fileID: 6107050520195032601}
-  cacheTime: 637694433393030333
+  cacheTime: 637696048292928237
   cacheVersion: 9
 --- !u!114 &215977827860736700
 MonoBehaviour:
@@ -480,8 +564,7 @@ MonoBehaviour:
     Data2: 1241576080
     Data3: 1129859212
     Data4: -1605856319
-  Banks:
-  - {fileID: -1813042681740017314}
+  Banks: []
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -570,6 +653,32 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 637
+--- !u!114 &6014344271869108727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Weapon/Hochi
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Weapon/Hochi
+  Guid:
+    Data1: -1963813585
+    Data2: 1241576080
+    Data3: 1129859212
+    Data4: -1605856319
+  Banks: []
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 610
 --- !u!114 &6107050520195032601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -585,10 +694,10 @@ MonoBehaviour:
   Path: Fmod/WakjwaLike/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637694433393030333
+  lastModified: 637696048292928237
   FileSizes:
   - Name: Desktop
-    Value: 1676
+    Value: 1818
   Exists: 1
 --- !u!114 &6222241413271260203
 MonoBehaviour:
@@ -616,7 +725,34 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 8
   MaxDistance: 20
-  Length: 120
+  Length: 100
+--- !u!114 &6577901507523731066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Wakgood/Ahya
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Wakgood/Ahya
+  Guid:
+    Data1: -1568963227
+    Data2: 1291471898
+    Data3: -348379465
+    Data4: 472833469
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 546
 --- !u!114 &6728118464754532081
 MonoBehaviour:
   m_ObjectHideFlags: 0
