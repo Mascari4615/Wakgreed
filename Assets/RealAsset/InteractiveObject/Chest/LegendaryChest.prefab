@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 3611355034154096834}
   - component: {fileID: -7279126326823275707}
   - component: {fileID: -9216841714981183027}
+  - component: {fileID: 9097935575448911321}
+  - component: {fileID: 3014385911103300077}
   m_Layer: 0
   m_Name: LegendaryChest
   m_TagString: InteractiveObject
@@ -122,6 +124,7 @@ MonoBehaviour:
   commonWeight: 0
   uncommonWeight: 0
   legendaryWeight: 100
+  sprite: {fileID: -1837302650, guid: 761f3bfa5fc958845977425380550a43, type: 3}
 --- !u!61 &-9216841714981183027
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -148,3 +151,28 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 5, y: 5}
   m_EdgeRadius: 0
+--- !u!114 &9097935575448911321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3611355034154096835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adbd2402367b72342a34f86a3488182a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3014385911103300077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3611355034154096835}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83ed4699b865638488b75392fd1eb48a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 5

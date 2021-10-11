@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1249156d1a3a767498320afbc7b1fc23, type: 3}
+  m_Name: 102_Kar98
+  m_EditorClassIdentifier: 
+  ID: 102
+  name: "\uCE74\uAD6C\uD314"
+  description: "\uBC30\uD2C0\uADF8\uB77C\uC6B4\uB4DC"
+  icon: {fileID: 21300000, guid: 3db002c63c1fc184a9358c1cca734525, type: 3}
+  rarity: 3
+  resource: {fileID: 5001691126516465372, guid: 4dca497d0a88e1e4da45de4868e104f6,
+    type: 3}
+  subResources: []
+  buffs: []
+  baseAttack: {fileID: 11400000, guid: 64e7db13549a3e245a00167a3611ec00, type: 2}
+  skillQ: {fileID: 0}
+  skillE: {fileID: 0}
+  minDamage: 5
+  maxDamage: 10
+  inputType: 0
+  attackType: 0
+  attackIntervalTime: 0
+  attackSpeed: 0.5
+  magazine: 5
+  reloadTime: 5

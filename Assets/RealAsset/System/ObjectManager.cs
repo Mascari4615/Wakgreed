@@ -13,6 +13,7 @@ public class ObjectManager : MonoBehaviour
 
     private Dictionary<string, Stack<GameObject>> poolDic = new();
     private Dictionary<string, GameObject> gameObjectDic = new();
+    private Dictionary<string, Transform> poolTfDic = new();
 
     [System.Serializable]
     private struct PoolData
@@ -38,8 +39,8 @@ public class ObjectManager : MonoBehaviour
         {
             poolDic.Add(pD.gameObject.name, new());
             gameObjectDic.Add(pD.gameObject.name, pD.gameObject);
-
             GameObject poolGameObject = new(pD.gameObject.name);
+            poolTfDic.Add(pD.gameObject.name, poolGameObject.transform);
             poolGameObject.transform.SetParent(transform);
             for (int i = 0; i < pD.count; i++) Instantiate(pD.gameObject, poolGameObject.transform).SetActive(false);
         }
@@ -56,7 +57,7 @@ public class ObjectManager : MonoBehaviour
     {
         GameObject targetObject;
         if (poolDic[objectName].Count.Equals(0))
-            targetObject = Instantiate(gameObjectDic[objectName], pos, Quaternion.identity);
+            targetObject = Instantiate(gameObjectDic[objectName], pos, Quaternion.identity, poolTfDic[objectName]);
         else
         {
             targetObject = poolDic[objectName].Pop();
@@ -70,7 +71,7 @@ public class ObjectManager : MonoBehaviour
     {
         GameObject targetObject;
         if (poolDic[objectName].Count.Equals(0))
-            targetObject = Instantiate(gameObjectDic[objectName], pos, Quaternion.Euler(rot));
+            targetObject = Instantiate(gameObjectDic[objectName], pos, Quaternion.Euler(rot), poolTfDic[objectName]);
         else
         {
             targetObject = poolDic[objectName].Pop();
@@ -80,21 +81,37 @@ public class ObjectManager : MonoBehaviour
         return targetObject;
     }
 
-    public GameObject PopObject(string objectName, Transform tr, bool setRot = true, bool setParent = false)
+    public GameObject PopObject(string objectName, Transform tr, bool setRot = true)
     {
         GameObject targetObject;
+
         if (poolDic[objectName].Count.Equals(0))
         {
-            targetObject = Instantiate(gameObjectDic[objectName], tr.position, setRot ? tr.rotation : Quaternion.identity);
-            if (setParent) targetObject.transform.SetParent(tr);
+            targetObject = Instantiate(gameObjectDic[objectName], tr.position, setRot ? tr.rotation : Quaternion.identity, poolTfDic[objectName]);
         }
         else
         {
             targetObject = poolDic[objectName].Pop();
             targetObject.transform.SetPositionAndRotation(tr.position, setRot ? tr.rotation : Quaternion.identity);
-            if (setParent) targetObject.transform.SetParent(tr);
             targetObject.SetActive(true);
         }
         return targetObject;
     }
+
+    public void DeactiveAll()
+    {
+        int count = transform.childCount;
+
+        for (int i = 0; i < count; i++)
+        {
+            Transform pool = transform.GetChild(i);
+            int objectCount = pool.childCount;
+
+            for (int j = 0; j < objectCount; j++)
+            {
+                pool.GetChild(j).gameObject.SetActive(false);
+            }
+        }
+    }
+
 }

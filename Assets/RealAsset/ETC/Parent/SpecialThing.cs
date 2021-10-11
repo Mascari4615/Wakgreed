@@ -7,7 +7,6 @@ public abstract class SpecialThing : ScriptableObject
     public new string name;
     public Sprite sprite;
     [TextArea] public string description;
-    [TextArea] public string comment;  
     [SerializeField] private Effect[] effects;
 
     public virtual void OnEquip()

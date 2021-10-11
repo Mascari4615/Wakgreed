@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8470063552259385272}
   - component: {fileID: -4255844827845511935}
+  - component: {fileID: 2332607099431438473}
   - component: {fileID: -6637130780632506330}
-  - component: {fileID: 993245828655574823}
   - component: {fileID: 8470063552259385273}
   - component: {fileID: 8470063552259385252}
   - component: {fileID: 6461419092144045159}
@@ -55,6 +55,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c29e3ce82043ad64eaa7b9d51c84f59c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2332607099431438473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8470063552259385253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adbd2402367b72342a34f86a3488182a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &-6637130780632506330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,19 +79,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83ed4699b865638488b75392fd1eb48a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPoollingObject: 1
   duration: 1.5
---- !u!114 &993245828655574823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8470063552259385253}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adbd2402367b72342a34f86a3488182a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!23 &8470063552259385273
 MeshRenderer:
   m_ObjectHideFlags: 0
