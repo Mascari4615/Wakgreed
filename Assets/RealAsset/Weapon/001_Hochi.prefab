@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7412002716623546321}
   - component: {fileID: 846557183493897964}
+  - component: {fileID: 5857781076140905269}
   m_Layer: 11
   m_Name: 001_Hochi
   m_TagString: Untagged
@@ -54,6 +55,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5857781076140905269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 254485587223168476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8450d026adf2e13428d8e56ddddab6d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 2
+  distance: 1.5
 --- !u!1 &410540106287179586
 GameObject:
   m_ObjectHideFlags: 0

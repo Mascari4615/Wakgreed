@@ -9,7 +9,6 @@ public abstract class Skill : ScriptableObject
     public GameObject resource;
     public GameObject[] subResource;
     public Buff[] buffs;
-    public int minDamage;
-    public int maxDamage;
-    public abstract void Use();
+    public float coolTime;
+    public abstract void Use(int minDamage, int maxDamage);
 }

@@ -32,7 +32,19 @@ public abstract class ItemInventory : RunTimeSet<Item>
 
     public override void Clear()
     {
-        base.Clear();
+        if (Items == null) return;
+
+        int itemsCount = Items.Count;
+        for (int i = 0; i < itemsCount; i++)
+        {
+            int itemCount = itemCountDic[Items[0].ID];
+            for (int j = 0; j < itemCount; j++)
+            {
+                Remove(Items[0]);
+            }         
+        }
+
+        Items.Clear();
         itemCountDic.Clear();
     }
 }

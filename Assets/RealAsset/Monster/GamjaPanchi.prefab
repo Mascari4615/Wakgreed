@@ -116,8 +116,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 058e48fcdc6a8c94f8efd82a243a6179, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  directionVector: {x: 0, y: 0, z: 0}
   moveSpeed: 6
-  direction: 0
+  direction: 1
 --- !u!114 &923935442468346946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,10 +202,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52d9b42e9c729db40a1736f8bf82f2c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseHP: 100
+  baseHP: 30
   baseAD: 10
   baseMoveSpeed: 10
-  EnemyRunTimeSet: {fileID: 11400000, guid: b88a37a18af2b5d46ba67b2022823cf0, type: 2}
   OnMonsterCollapse: {fileID: 11400000, guid: 1b477f0305627f54d8b1c54462eafc87, type: 2}
   gamja: {fileID: 5122466530263573976}
   attackCoolTime: 3

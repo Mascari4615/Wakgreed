@@ -16,7 +16,9 @@ public class DamagingObject : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") != canDamageWakgood || (other.CompareTag("Monster") || other.CompareTag("Boss")) != canDamageMonster) return;
+        if ((other.CompareTag("Player") != canDamageWakgood) || ((other.CompareTag("Monster") || other.CompareTag("Boss"))) != canDamageMonster) 
+            return;
+
         if (other.TryGetComponent(out damagable))
         {
             if ((other.CompareTag("Monster") || other.CompareTag("Boss")))

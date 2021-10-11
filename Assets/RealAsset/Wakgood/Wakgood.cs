@@ -9,26 +9,25 @@ public class Wakgood : MonoBehaviour, IDamagable
     private static Wakgood instance;
     [HideInInspector] public static Wakgood Instance { get { return instance; } }
 
-    public Wakdu traveller;
-    public IntVariable maxHP;
-    public IntVariable HP;
-    public IntVariable AD;
-    public FloatVariable AS;
-    public IntVariable criticalChance;
-    public FloatVariable moveSpeed;
-    public IntVariable EXP;
+    public Wakdu wakdu;
+    [SerializeField] private IntVariable maxHP;
+    [SerializeField] private IntVariable HP;
+    [SerializeField] private GameEvent OnDamage;
+    [SerializeField] private IntVariable AD;
+    [SerializeField] private FloatVariable AS;
+    [SerializeField] private IntVariable criticalChance;
+    [SerializeField] private FloatVariable moveSpeed;
+    [SerializeField] private IntVariable EXP;
     private int requiredExp;
-    public IntVariable Level;
-    public GameEvent OnCollapse, OnLevelUp;
+    [SerializeField] private IntVariable Level;
+    [SerializeField] private GameEvent OnCollapse, OnLevelUp;
 
     private Transform attackPositionParent;
     public Transform attackPosition { get; private set; }
     public Transform weaponPosition { get; private set; }
     private CinemachineTargetGroup cinemachineTargetGroup;
-    [SerializeField] private GameObject bloodingPanel;
 
-    // private float curAttackCoolDown;
-    private bool isHealthy, canAttackA, canAttackB;
+    private bool isHealthy;
 
     private Rigidbody2D playerRB;
     private Animator animator;
@@ -57,9 +56,8 @@ public class Wakgood : MonoBehaviour, IDamagable
 
     private bool isDashing = false;
     [SerializeField] private float dashParametor = 1;
-    [SerializeField] private GameObject[] dashStackUIs;
     private int maxDashStack = 5;
-    private int curDashStack = 0;
+    [SerializeField] private IntVariable curDashStack;
     private float dashCoolTime = 1f;
     private Dictionary<int, InteractiveObject> nearInteractiveObjectDic = new();
 
@@ -92,23 +90,20 @@ public class Wakgood : MonoBehaviour, IDamagable
         if (spawnZero) transform.position = Vector3.zero;
         else transform.position = Vector3.zero + Vector3.up * -47;
 
-        maxHP.RuntimeValue = traveller.baseHP;
+        maxHP.RuntimeValue = wakdu.baseHP;
         HP.RuntimeValue = maxHP.RuntimeValue;
 
-        AD.RuntimeValue = traveller.baseAD;
-        AS.RuntimeValue = traveller.baseAS;
+        AD.RuntimeValue = wakdu.baseAD;
+        AS.RuntimeValue = wakdu.baseAS;
 
-        criticalChance.RuntimeValue = traveller.baseCriticalChance;
-        moveSpeed.RuntimeValue = traveller.baseMoveSpeed;
+        criticalChance.RuntimeValue = wakdu.baseCriticalChance;
+        moveSpeed.RuntimeValue = wakdu.baseMoveSpeed;
 
         Level.RuntimeValue = 0;
         requiredExp = (100 * (1 + Level.RuntimeValue));
         EXP.RuntimeValue = 0;
 
         isHealthy = true;
-        //curAttackCoolDown = 0;
-        canAttackA = true;
-        canAttackB = true;
 
         playerRB.bodyType = RigidbodyType2D.Dynamic;
         cinemachineTargetGroup.m_Targets[0].target = transform;
@@ -126,7 +121,6 @@ public class Wakgood : MonoBehaviour, IDamagable
             weaponBuff.hasCondition = true;
         }
 
-        StartCoroutine(DashASD());
         StartCoroutine(UpdateDashStack());
     }
 
@@ -139,8 +133,8 @@ public class Wakgood : MonoBehaviour, IDamagable
 
         // Targeting();
         Move();
-        if (Input.GetMouseButton(0)) BasicAttack();
-        if (Input.GetKeyDown(KeyCode.Space) && !isDashing && curDashStack > 0) StartCoroutine(Dash());
+        if (Input.GetMouseButton(0)) curWeapon.BaseAttack();
+        if (Input.GetKeyDown(KeyCode.Space) && !isDashing && curDashStack.RuntimeValue > 0) StartCoroutine(Dash());
         if (Input.GetKeyDown(KeyCode.F) && nearInteractiveObjectDic.Count != 0)
         {
             InteractiveObject nearInteractiveObject = null;
@@ -153,15 +147,14 @@ public class Wakgood : MonoBehaviour, IDamagable
             nearInteractiveObject.Interaction();
         }
 
-        if (Input.GetKeyDown(KeyCode.Q) && curWeapon.skillQ != null) { curWeapon.skillQ.Use(); }
-        if (Input.GetKeyDown(KeyCode.E) && curWeapon.skillE != null) { curWeapon.skillE.Use(); }
+        if (Input.GetKeyDown(KeyCode.Q)) { curWeapon.SkillE(); }
+        if (Input.GetKeyDown(KeyCode.E)) { curWeapon.SkillQ(); }
 
         if (Input.GetAxisRaw("Mouse ScrollWheel") != 0) SwitchWeapon();
         else if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchWeapon(1);
         else if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchWeapon(2);
 
-        if (Input.GetKeyDown(KeyCode.R) && curWeapon.magazine != 0) StartCoroutine((curWeapon.baseAttack as RangedAttack).Reload(this));
-        if (curWeapon.magazine != 0 && curWeapon.ammo == 0) StartCoroutine((curWeapon.baseAttack as RangedAttack).Reload(this));
+        if (Input.GetKeyDown(KeyCode.R)) curWeapon.Reload();
     }
 
     public bool IsSwitching { get; set; } = false;
@@ -190,7 +183,6 @@ public class Wakgood : MonoBehaviour, IDamagable
         }
 
         Instantiate(curWeapon.resource, weaponPosition);
-        AD.RuntimeValue = curWeapon.maxDamage;
         foreach (var weaponBuff in curWeapon.buffs)
         {
             buffRunTimeSet.Add(weaponBuff);
@@ -233,7 +225,7 @@ public class Wakgood : MonoBehaviour, IDamagable
         Vector3 direction = new Vector3(h, v, 0).normalized;
         RuntimeManager.PlayOneShot("event:/SFX/Wakgood/Dash", transform.position);
 
-        curDashStack--;
+        curDashStack.RuntimeValue--;
         playerRB.velocity = Vector3.zero;
         for (float temptime = 0; temptime <= 0.1f; temptime += Time.deltaTime)
         {
@@ -249,27 +241,14 @@ public class Wakgood : MonoBehaviour, IDamagable
         isDashing = false;
     }
 
-    private IEnumerator DashASD()
-    {
-        while (true)
-        {
-            for (int i = 0; i < maxDashStack; i++)
-            {
-                if (i < curDashStack) dashStackUIs[i].transform.GetChild(0).gameObject.SetActive(true);
-                else dashStackUIs[i].transform.GetChild(0).gameObject.SetActive(false);
-            }
-            yield return new WaitForSeconds(0.02f);
-        }
-    }
-
     private IEnumerator UpdateDashStack()
     {
         while (true)
         {
-            if (curDashStack < maxDashStack)
+            if (curDashStack.RuntimeValue < maxDashStack)
             {
                 yield return new WaitForSeconds(dashCoolTime);
-                curDashStack++;
+                curDashStack.RuntimeValue++;
             }
             else
             {
@@ -342,6 +321,7 @@ public class Wakgood : MonoBehaviour, IDamagable
         cinemachineTargetGroup.m_Targets[1].target = null; */
     }
 
+    #region Targeting
     /*
     private void Targeting()
     {
@@ -366,36 +346,16 @@ public class Wakgood : MonoBehaviour, IDamagable
             }
         }
     }*/
-
-    public void BasicAttack()
-    {
-        if (curWeaponNumber == 1 && !canAttackA) return;
-        else if (curWeaponNumber == 2 && !canAttackB) return;
-
-        curWeapon.baseAttack.Use();
-
-        if (curWeaponNumber == 1)
-        {
-            canAttackA = false;
-            StartCoroutine(ChangeWithDelay(true, 1f / curWeapon.attackSpeed, value => canAttackA = value));
-        }
-        if (curWeaponNumber == 2)
-        {
-            canAttackB = false;
-            StartCoroutine(ChangeWithDelay(true, 1f / curWeapon.attackSpeed, value => canAttackB = value));
-        }
-    }
+    #endregion
 
     public void ReceiveDamage(int damage)
     {
         if (isHealthy == false) return;
 
+        OnDamage.Raise();
         HP.RuntimeValue -= damage;
         isHealthy = false;
-        StartCoroutine(ChangeWithDelay(true, .5f, value => isHealthy = value));
-
-        bloodingPanel.SetActive(false);
-        bloodingPanel.SetActive(true);
+        StartCoroutine(ChangeWithDelay(true, .8f, value => isHealthy = value));
 
         if (HP.RuntimeValue <= 0) { StopAllCoroutines(); StartCoroutine(Collapse()); }
     }
@@ -406,7 +366,7 @@ public class Wakgood : MonoBehaviour, IDamagable
         animator.SetTrigger("Collapse");
         yield return new WaitForSeconds(2f);
         OnCollapse.Raise();
-        this.enabled = false;
+        enabled = false;
     }
 
     public void CheckCanLevelUp()
@@ -416,10 +376,10 @@ public class Wakgood : MonoBehaviour, IDamagable
 
     private void LevelUp()
     {
-        maxHP.RuntimeValue += traveller.growthHP;
+        maxHP.RuntimeValue += wakdu.growthHP;
 
-        AD.RuntimeValue += traveller.growthAD;
-        AS.RuntimeValue += traveller.growthAS;
+        AD.RuntimeValue += wakdu.growthAD;
+        AS.RuntimeValue += wakdu.growthAS;
 
         EXP.RuntimeValue -= requiredExp;
         Level.RuntimeValue++;

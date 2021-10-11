@@ -32,7 +32,7 @@ public class AreaTweener : MonoBehaviour
         }
         curAreaType = AreaType.Test;
 
-        curArea = target.parent.GetComponent<Area>();
+        curArea = target.parent.parent.GetComponent<Area>();
         curArea.A.SetActive(false);
         curArea.B.SetActive(true);
         GameObject.Find("CM Camera").GetComponent<CinemachineConfiner2D>().m_BoundingShape2D = curArea.compositeCollider2d;
