@@ -33,17 +33,17 @@ public class DamagingObject : MonoBehaviour
             if ((other.CompareTag("Monster") || other.CompareTag("Boss")))
             {
                 int totalDamage;
-                TextType textType;
+                // TextType textType;
 
                 if (Random.Range(0, 100) < criticalChance.RuntimeValue)
                 {
                     totalDamage = (int)((damage.Equals(0) ? totalAD.GetTotalDamage() : damage) * 1.5f);
-                    textType = TextType.Critical;
+                    // textType = TextType.Critical;
                 }
                 else
                 {
                     totalDamage = damage.Equals(0) ? totalAD.GetTotalDamage() : damage;
-                    textType = TextType.Normal;
+                    // textType = TextType.Normal;
                 }
 
                 damagable.ReceiveHit(totalDamage);

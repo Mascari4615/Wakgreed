@@ -1,7 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public enum AreaType
 {
@@ -16,7 +16,7 @@ public class AreaTweener : MonoBehaviour
 
     private AreaType curAreaType = AreaType.Normal;
     private Area curArea;
-    [SerializeField] private Text speedwagon;
+    [SerializeField] private TextMeshProUGUI speedwagon;
     private Coroutine speedwagon_co;
 
     private void Awake()

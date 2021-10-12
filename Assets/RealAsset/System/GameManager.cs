@@ -143,6 +143,7 @@ public class GameManager : MonoBehaviour
 
         testNpc.SetActive(DataManager.Instance.curGameData.isNPCRescued);
 
+        Wakgood.Instance.StopAllCoroutines();
         Wakgood.Instance.enabled = true;
         Wakgood.Instance.Initialize(false);
 

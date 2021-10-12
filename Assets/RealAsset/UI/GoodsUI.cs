@@ -1,27 +1,13 @@
 using UnityEngine;
 using TMPro;
 
-public class GoodsUI : MonoBehaviour
+public class GoodsUI<T> : MonoBehaviour
 {
-    [SerializeField] bool isMonsterKill = false;
-    [SerializeField] IntVariable IntVariable;
-    [SerializeField] FloatVariable floatVariable;
+    [SerializeField] CustomVariable<T> Variable;
     [SerializeField] TextMeshProUGUI text;
 
     public void UpdateText()
     {
-        if (isMonsterKill)
-        {
-            text.text = IntVariable.RuntimeValue.ToString();
-        }
-        else
-        {
-
-            if (IntVariable != null)
-            {
-                text.text = IntVariable.RuntimeValue.ToString();
-            }
-            else text.text = floatVariable.RuntimeValue.ToString();
-        }
+        text.text = Variable.RuntimeValue.ToString();
     }
 }
