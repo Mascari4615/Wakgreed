@@ -4,7 +4,8 @@ using TMPro;
 public enum TextType
 {
     Normal,
-    Critical
+    Critical,
+    Heal
 }
 
 public class AnimatedText : MonoBehaviour
@@ -37,5 +38,6 @@ public class AnimatedText : MonoBehaviour
         textMesh.text = text;
         if (damageType.Equals(TextType.Normal)) textMesh.color = Color.white;
         else if (damageType.Equals(TextType.Critical)) textMesh.color = Color.yellow;
+        else if (damageType.Equals(TextType.Heal)) textMesh.color = Color.green;
     }
 }

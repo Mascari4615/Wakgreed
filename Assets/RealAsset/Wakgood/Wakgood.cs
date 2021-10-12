@@ -234,7 +234,7 @@ public class Wakgood : MonoBehaviour, IDamagable
             playerRB.velocity = direction * 10 * dashParametor;
             yield return new WaitForFixedUpdate();
         }
-    DashEnd:
+        DashEnd:
         playerRB.velocity = Vector3.zero;
         isDashing = false;
     }
@@ -321,6 +321,15 @@ public class Wakgood : MonoBehaviour, IDamagable
         if (HP.RuntimeValue <= 0) { StopAllCoroutines(); StartCoroutine(Collapse()); }
     }
 
+    public void ReceiveHeal(int amout)
+    {
+        if (HP.RuntimeValue != maxHP.RuntimeValue)
+        {
+            HP.RuntimeValue += amout;
+            ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>().SetText(amout.ToString(), TextType.Heal);
+        }
+    }
+
     private IEnumerator Collapse()
     {
         playerRB.bodyType = RigidbodyType2D.Static;
@@ -348,7 +357,7 @@ public class Wakgood : MonoBehaviour, IDamagable
         OnLevelUp.Raise();
 
         ObjectManager.Instance.PopObject("LevelUpEffect", transform);
-        ObjectManager.Instance.PopObject("DamageText", transform).GetComponent<AnimatedText>().SetText("Level Up!", TextType.Critical);
+        ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>().SetText("Level Up!", TextType.Critical);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameEvent OnRecall;
     [SerializeField] private BuffRunTimeSet buffRunTimeSet;
 
-    [SerializeField] private EnemyRunTimeSet EnemyRunTimeSet;
+    public EnemyRunTimeSet EnemyRunTimeSet;
 
     [SerializeField] private GameObject gamePanel;
     [SerializeField] private GameObject miniMapCamera;
@@ -116,12 +116,17 @@ public class GameManager : MonoBehaviour
         MasteryManager.Instance.selectMasteryPanel.SetActive(false);
 
         // UpdateMap();
+
+        /*
         int count = EnemyRunTimeSet.Items.Count;
         for (int i = 0; i < count; i++)
         {
             EnemyRunTimeSet.Items[0].SetActive(false);
             EnemyRunTimeSet.Remove(EnemyRunTimeSet.Items[0]);
         }
+        */
+
+        EnemyRunTimeSet.Clear();
 
         ObjectManager.Instance.DeactiveAll();
 

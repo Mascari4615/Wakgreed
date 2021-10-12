@@ -7,7 +7,6 @@ public abstract class Monster : MonoBehaviour, IDamagable
     [SerializeField] private int baseHP, baseAD, baseMoveSpeed;
     protected int maxHP, HP, AD, moveSpeed;
 
-    // [SerializeField] private EnemyRunTimeSet EnemyRunTimeSet;
     [SerializeField] private GameEvent OnMonsterCollapse;
 
     protected SpriteRenderer spriteRenderer;
@@ -31,7 +30,7 @@ public abstract class Monster : MonoBehaviour, IDamagable
         moveSpeed = baseMoveSpeed;
         capsuleCollider2D.enabled = true;
         rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
-        // EnemyRunTimeSet.Add(gameObject);
+        GameManager.Instance.EnemyRunTimeSet.Add(gameObject);
     }
 
     protected virtual void Update()
@@ -45,7 +44,7 @@ public abstract class Monster : MonoBehaviour, IDamagable
         rigidbody2D.velocity = Vector3.zero;
         rigidbody2D.AddForce((transform.position - Wakgood.Instance.transform.position).normalized * 3f, ForceMode2D.Impulse);
 
-        ObjectManager.Instance.PopObject("DamageText", transform).GetComponent<AnimatedText>().SetText(damage.ToString(), TextType.Normal);
+        ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>().SetText(damage.ToString(), TextType.Normal);
 
         if (HP > 0)
         {
@@ -69,8 +68,8 @@ public abstract class Monster : MonoBehaviour, IDamagable
         rigidbody2D.velocity = Vector2.zero;
         rigidbody2D.bodyType = RigidbodyType2D.Static;
         animator.SetTrigger("COLLAPSE");
+        GameManager.Instance.EnemyRunTimeSet.Remove(gameObject);
 
-        // EnemyRunTimeSet.Remove(gameObject);
         if (StageManager.Instance.CurrentRoom.roomType == RoomType.Normal)
         {
             OnMonsterCollapse.Raise(transform);
@@ -82,5 +81,11 @@ public abstract class Monster : MonoBehaviour, IDamagable
 
         yield return new WaitForSeconds(3f);
         gameObject.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.EnemyRunTimeSet.Remove(gameObject);
+        StopAllCoroutines();
     }
 }
