@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wakgood : MonoBehaviour, IDamagable
+public class Wakgood : MonoBehaviour, IHitable
 {
     private static Wakgood instance;
     [HideInInspector] public static Wakgood Instance { get { return instance; } }
@@ -21,6 +21,7 @@ public class Wakgood : MonoBehaviour, IDamagable
     private int requiredExp;
     [SerializeField] private IntVariable Level;
     [SerializeField] private GameEvent OnCollapse, OnLevelUp;
+    [SerializeField] private FloatVariable Evasion;
 
     private Transform attackPositionParent;
     public Transform attackPosition { get; private set; }
@@ -40,7 +41,6 @@ public class Wakgood : MonoBehaviour, IDamagable
     public Weapon curWeapon { get; private set; }
     [SerializeField] private Weapon weaponA;
     [SerializeField] private Weapon weaponB;
-    [SerializeField] private GameObject hand;
 
     [SerializeField] private BuffRunTimeSet buffRunTimeSet;
 
@@ -90,17 +90,12 @@ public class Wakgood : MonoBehaviour, IDamagable
 
         maxHP.RuntimeValue = wakdu.baseHP;
         HP.RuntimeValue = maxHP.RuntimeValue;
-
-        AD.RuntimeValue = wakdu.baseAD;
         AS.RuntimeValue = wakdu.baseAS;
-
         criticalChance.RuntimeValue = wakdu.baseCriticalChance;
         moveSpeed.RuntimeValue = wakdu.baseMoveSpeed;
-
         Level.RuntimeValue = 0;
         requiredExp = (100 * (1 + Level.RuntimeValue));
         EXP.RuntimeValue = 0;
-
         isHealthy = true;
 
         playerRB.bodyType = RigidbodyType2D.Dynamic;
@@ -129,10 +124,18 @@ public class Wakgood : MonoBehaviour, IDamagable
         spriteRenderer.color = isHealthy == true ? Color.white : new Color(1, 1, 1, (float)100 / 255);
         if (Time.timeScale == 0) return;
 
-        // Targeting();
         Move();
-        if (Input.GetMouseButton(0)) curWeapon.BaseAttack();
         if (Input.GetKeyDown(KeyCode.Space) && !isDashing && curDashStack.RuntimeValue > 0) StartCoroutine(Dash());
+
+        if (Input.GetMouseButton(0)) curWeapon.BaseAttack();
+        if (Input.GetKeyDown(KeyCode.Q)) curWeapon.SkillE();
+        if (Input.GetKeyDown(KeyCode.E)) curWeapon.SkillQ();
+        if (Input.GetKeyDown(KeyCode.R)) curWeapon.Reload();
+
+        if (Input.GetAxisRaw("Mouse ScrollWheel") != 0) SwitchWeapon();
+        else if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchWeapon(1);
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchWeapon(2);
+
         if (Input.GetKeyDown(KeyCode.F) && nearInteractiveObjectDic.Count != 0)
         {
             InteractiveObject nearInteractiveObject = null;
@@ -143,16 +146,7 @@ public class Wakgood : MonoBehaviour, IDamagable
                     nearInteractiveObject = item;
             }
             nearInteractiveObject.Interaction();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Q)) { curWeapon.SkillE(); }
-        if (Input.GetKeyDown(KeyCode.E)) { curWeapon.SkillQ(); }
-
-        if (Input.GetAxisRaw("Mouse ScrollWheel") != 0) SwitchWeapon();
-        else if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchWeapon(1);
-        else if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchWeapon(2);
-
-        if (Input.GetKeyDown(KeyCode.R)) curWeapon.Reload();
+        }            
     }
 
     public bool IsSwitching { get; set; } = false;
@@ -309,16 +303,32 @@ public class Wakgood : MonoBehaviour, IDamagable
         }
     }
 
-    public void ReceiveDamage(int damage)
+    public void ReceiveHit(int damage)
     {
-        if (isHealthy == false) return;
-        RuntimeManager.PlayOneShot($"event:/SFX/Wakgood/Ahya", transform.position);
-        OnDamage.Raise();
-        HP.RuntimeValue -= damage;
-        isHealthy = false;
-        StartCoroutine(ChangeWithDelay(true, .8f, value => isHealthy = value));
+        if (isHealthy)
+        {
+            if (Evasion.RuntimeValue >= Random.Range(1, 100 + 1))
+            {
+                RuntimeManager.PlayOneShot($"event:/SFX/Wakgood/Evasion", transform.position);
+                ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>().SetText("MISS", TextType.Critical);
+            }
+            else
+            {
+                RuntimeManager.PlayOneShot($"event:/SFX/Wakgood/Ahya", transform.position);
+                
+                HP.RuntimeValue -= damage;
+                OnDamage.Raise();
 
-        if (HP.RuntimeValue <= 0) { StopAllCoroutines(); StartCoroutine(Collapse()); }
+                isHealthy = false;
+                StartCoroutine(ChangeWithDelay(true, .8f, value => isHealthy = value));
+
+                if (HP.RuntimeValue <= 0)
+                {
+                    StopAllCoroutines();
+                    StartCoroutine(Collapse());
+                }
+            }
+        }
     }
 
     public void ReceiveHeal(int amout)

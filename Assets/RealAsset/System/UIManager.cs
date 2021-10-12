@@ -17,8 +17,6 @@ public class UIManager : MonoBehaviour
     public GameObject bossHpBar;
     public GameObject redParent;
 
-    [SerializeField] private GameObject needMoreNyang;
-
     [SerializeField] private GameObject state;
 
     public Restaurant restaurant;
@@ -52,12 +50,5 @@ public class UIManager : MonoBehaviour
         bossSpeedWagon.gameObject.SetActive(false);
         Wakgood.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         cinemachineTargetGroup.m_Targets[0].target = Wakgood.Instance.transform;
-    }
-
-    public IEnumerator NeedMoreNyang()
-    {
-        needMoreNyang.SetActive(true);
-        yield return new WaitForSeconds(1);
-        needMoreNyang.SetActive(false);
     }
 }

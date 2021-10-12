@@ -85,7 +85,7 @@ public class Amoeba : NormalMonster
         }
     }
 
-    public override void ReceiveDamage(int damage)
+    public override void ReceiveHit(int damage)
     {
         spriteRenderer.flipX = transform.position.x > Wakgood.Instance.transform.position.x ? true : false;
 
@@ -93,7 +93,7 @@ public class Amoeba : NormalMonster
         ahya = Ahya();
         StartCoroutine(ahya);
 
-        base.ReceiveDamage(damage);      
+        base.ReceiveHit(damage);      
     }
 
     protected override IEnumerator Collapse()

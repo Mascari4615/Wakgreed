@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
-public interface IDamagable
+public interface IHitable
 {
-    void ReceiveDamage(int damage);
+    void ReceiveHit(int damage);
 }
 
 public class DamagingObject : MonoBehaviour
@@ -15,8 +15,8 @@ public class DamagingObject : MonoBehaviour
     [SerializeField] private int damage = 0;
     [SerializeField] private bool offOnHit = true;
     [SerializeField] [Range(0f, 100f)] private float ggambbakDelay = 0f;
-    private Collider2D collider2D;
-    private IDamagable damagable;
+    private new Collider2D collider2D;
+    private IHitable damagable;
 
     private void Awake()
     {
@@ -46,11 +46,11 @@ public class DamagingObject : MonoBehaviour
                     textType = TextType.Normal;
                 }
 
-                damagable.ReceiveDamage(totalDamage);
+                damagable.ReceiveHit(totalDamage);
             }
             else
             {
-                damagable.ReceiveDamage(damage);
+                damagable.ReceiveHit(damage);
             } 
             
             if (offOnHit)

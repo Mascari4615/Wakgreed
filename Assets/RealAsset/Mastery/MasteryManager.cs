@@ -5,32 +5,19 @@ using FMODUnity;
 public class MasteryManager : MonoBehaviour
 {
     private static MasteryManager instance;
-    public static MasteryManager Instance { get { return instance; } } 
+    public static MasteryManager Instance { get { return instance; } }
     [SerializeField] private MasteryInventory MasteryInventory;
     [SerializeField] private WakduMasteryDataBuffer WakduMasteryDataBuffer;
     public GameObject selectMasteryPanel;
     [SerializeField] private Image[] buttonImages;
     [SerializeField] private ToolTipTrigger[] toolTipTriggers;
     private int selectMasteryStack = 0;
-    private int selectedMasteryStack = 0;
     private Mastery[] randomMasteries = new Mastery[3];
-    [SerializeField] private VerticalLayoutGroup masteryGrid;
+    [SerializeField] private GameEvent MasterySelect;
 
     private void Awake()
     {
         instance = this;
-    }
-
-    private void Update() 
-    {
-        if (Input.GetKey(KeyCode.X))   
-        {
-            masteryGrid.transform.parent.gameObject.SetActive(true);
-        } 
-        else
-        {
-            masteryGrid.transform.parent.gameObject.SetActive(false);
-        }
     }
 
     private void Initialize()
@@ -40,7 +27,7 @@ public class MasteryManager : MonoBehaviour
             randomMasteries[i] = WakduMasteryDataBuffer.Items[Random.Range(0, WakduMasteryDataBuffer.Items.Length)];
             buttonImages[i].sprite = randomMasteries[i].sprite;
             toolTipTriggers[i].SetToolTip(randomMasteries[i]);
-        }       
+        }
     }
 
     public void LevelUp()
@@ -59,10 +46,10 @@ public class MasteryManager : MonoBehaviour
         RuntimeManager.PlayOneShot("event:/SFX/UI/Test", transform.position);
         ToolTipManager.Hide();
         selectMasteryStack--;
-        selectedMasteryStack++;
 
         MasteryInventory.Add(randomMasteries[i]);
         randomMasteries[i].OnEquip();
+        MasterySelect.Raise();
 
         if (selectMasteryStack > 0)
         {
@@ -70,9 +57,5 @@ public class MasteryManager : MonoBehaviour
             selectMasteryPanel.SetActive(true);
         }
         else selectMasteryPanel.SetActive(false);
-
-        GameObject temp = masteryGrid.transform.GetChild(selectedMasteryStack - 1).gameObject;
-        temp.SetActive(true);
-        temp.transform.GetChild(i).GetComponent<Slot>().SetSlot(randomMasteries[i]);
     }
 }

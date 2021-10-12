@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
+using FMODUnity;
 using UnityEngine;
 
 public class Pet : MonoBehaviour
@@ -39,9 +39,11 @@ public class Pet : MonoBehaviour
                         transform.SetPositionAndRotation(Vector3.Lerp(transform.position, mob.position, temp * 1.5f), Quaternion.identity);
                         yield return null;
                     }
-                    mob.GetComponent<IDamagable>().ReceiveDamage(1);
+                    RuntimeManager.PlayOneShot($"event:/SFX/Item/Wakgi", transform.position);
+                    mob.GetComponent<IHitable>().ReceiveHit(1);
 
-                    Wakgood.Instance.ReceiveHeal(1);
+                    if (3 >= Random.Range(1, 10 + 1))
+                        Wakgood.Instance.ReceiveHeal(1);
 
                     temp = 0;
                     while (Vector3.Distance(transform.position, Wakgood.Instance.transform.position + originalDistance) > .5f)

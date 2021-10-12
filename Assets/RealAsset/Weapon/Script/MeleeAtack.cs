@@ -13,7 +13,7 @@ public class MeleeAtack : Skill
         RaycastHit2D[] hit = Physics2D.CircleCastAll(Wakgood.Instance.attackPosition.position, radius, Vector2.zero, 0, layerMask);
         foreach (var item in hit)
         {
-            item.transform.GetComponent<IDamagable>().ReceiveDamage(Random.Range(minDamage, maxDamage + 1));
+            item.transform.GetComponent<IHitable>().ReceiveHit(Random.Range(minDamage, maxDamage + 1));
         }
 
         ObjectManager.Instance.PopObject(resource.name, Wakgood.Instance.attackPosition);

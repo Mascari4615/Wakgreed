@@ -321,6 +321,60 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-2872244398054779927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/ETC/NPC_Temp
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/ETC/NPC_Temp
+  Guid:
+    Data1: -723855989
+    Data2: 1080402085
+    Data3: 1764138914
+    Data4: -914573318
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 449
+--- !u!114 &-2568837561767273770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Wakgood/Evasion
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Wakgood/Evasion
+  Guid:
+    Data1: -1582489787
+    Data2: 1269848021
+    Data3: -1598803580
+    Data4: 2019799371
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 962
 --- !u!114 &-2428507017619066995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,10 +444,10 @@ MonoBehaviour:
   Path: Fmod/WakjwaLike/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637696048292908294
+  lastModified: 637696741715595026
   FileSizes:
   - Name: Desktop
-    Value: 3033856
+    Value: 3054432
   Exists: 1
 --- !u!114 &-1785846771405165444
 MonoBehaviour:
@@ -512,12 +566,15 @@ MonoBehaviour:
   - {fileID: -704117828586890316}
   - {fileID: 6577901507523731066}
   - {fileID: -8767631776157126786}
+  - {fileID: 2937497299557672315}
+  - {fileID: -2568837561767273770}
+  - {fileID: -2872244398054779927}
   EditorParameters: []
   MasterBanks:
   - {fileID: -1813042681740017314}
   StringsBanks:
   - {fileID: 6107050520195032601}
-  cacheTime: 637696048292928237
+  cacheTime: 637696741715614963
   cacheVersion: 9
 --- !u!114 &215977827860736700
 MonoBehaviour:
@@ -546,6 +603,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 208
+--- !u!114 &2937497299557672315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Item/Wakgi
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Item/Wakgi
+  Guid:
+    Data1: -34342356
+    Data2: 1145988250
+    Data3: -1349552251
+    Data4: 806305920
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 572
 --- !u!114 &3207467460042534057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -694,10 +778,10 @@ MonoBehaviour:
   Path: Fmod/WakjwaLike/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637696048292928237
+  lastModified: 637696741715614963
   FileSizes:
   - Name: Desktop
-    Value: 1818
+    Value: 1936
   Exists: 1
 --- !u!114 &6222241413271260203
 MonoBehaviour:
