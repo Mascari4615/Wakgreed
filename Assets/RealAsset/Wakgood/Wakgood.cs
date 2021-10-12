@@ -85,6 +85,8 @@ public class Wakgood : MonoBehaviour, IHitable
 
     public void Initialize(bool spawnZero)
     {
+        StopAllCoroutines();
+
         if (spawnZero) transform.position = Vector3.zero;
         else transform.position = Vector3.zero + Vector3.up * -47;
 

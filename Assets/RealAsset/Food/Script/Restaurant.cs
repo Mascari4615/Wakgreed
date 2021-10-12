@@ -7,11 +7,6 @@ public class Restaurant : MonoBehaviour
     [SerializeField] private IntVariable nyang;
     [SerializeField] private FoodInventoryUI FoodInventoryUI;
 
-    private void OnEnable()
-    {
-        FoodInventoryUI.Initialize();
-    }
-
     public void BuyFood(Slot slot)
     {
         if (nyang.RuntimeValue >= (slot.specialThing as Food).price)
