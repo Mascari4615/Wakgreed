@@ -102,9 +102,4 @@ public class Amoeba : NormalMonster
         StopAllCoroutines();
         return base.Collapse();
     }
-
-    void OnDisable()
-    {
-        StopAllCoroutines();
-    }
 }

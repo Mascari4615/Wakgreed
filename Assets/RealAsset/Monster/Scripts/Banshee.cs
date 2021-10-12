@@ -67,16 +67,6 @@ public class Banshee : NormalMonster
         {
             notes[i].gameObject.SetActive(false);
         }
-        StopAllCoroutines();
         return base.Collapse();
-    }
-
-    private void OnDisable()
-    {
-        for (int i = 0; i < notes.Length; i++)
-        {
-            notes[i].gameObject.SetActive(false);
-        }
-        StopAllCoroutines();
     }
 }

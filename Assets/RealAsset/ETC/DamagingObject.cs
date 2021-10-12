@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public interface IDamagable
 {
@@ -11,8 +12,16 @@ public class DamagingObject : MonoBehaviour
     [SerializeField] private bool canDamageMonster;
     [SerializeField] private TotalAD totalAD;
     [SerializeField] private IntVariable criticalChance;
-    [SerializeField] private int damage;
+    [SerializeField] private int damage = 0;
+    [SerializeField] private bool offOnHit = true;
+    [SerializeField] [Range(0f, 100f)] private float ggambbakDelay = 0f;
+    private Collider2D collider2D;
     private IDamagable damagable;
+
+    private void Awake()
+    {
+        collider2D = GetComponent<Collider2D>();
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -23,28 +32,47 @@ public class DamagingObject : MonoBehaviour
         {
             if ((other.CompareTag("Monster") || other.CompareTag("Boss")))
             {
-                int damage;
+                int totalDamage;
                 TextType textType;
 
                 if (Random.Range(0, 100) < criticalChance.RuntimeValue)
                 {
-                    damage = (int)(totalAD.GetTotalDamage() * 1.5f);
+                    totalDamage = (int)((damage.Equals(0) ? totalAD.GetTotalDamage() : damage) * 1.5f);
                     textType = TextType.Critical;
                 }
                 else
                 {
-                    damage = totalAD.GetTotalDamage();
+                    totalDamage = damage.Equals(0) ? totalAD.GetTotalDamage() : damage;
                     textType = TextType.Normal;
                 }
 
-                damagable.ReceiveDamage(damage);
+                damagable.ReceiveDamage(totalDamage);
             }
             else
             {
                 damagable.ReceiveDamage(damage);
             } 
             
-            gameObject.SetActive(false);
+            if (offOnHit)
+            {
+                gameObject.SetActive(false);
+            }
+            else if (ggambbakDelay != 0)
+            {
+                StartCoroutine(Test());
+            }
         }
+    }
+
+    private IEnumerator Test()
+    {
+        collider2D.enabled = false;
+        yield return new WaitForSeconds(ggambbakDelay);
+        collider2D.enabled = true;
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
     }
 }

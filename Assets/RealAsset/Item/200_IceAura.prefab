@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 9073546157783568338}
   - component: {fileID: 9073546157783568339}
   - component: {fileID: 9073546157783568340}
+  - component: {fileID: 1889723176232406603}
+  - component: {fileID: 7925458248831599759}
+  - component: {fileID: 1422966202354856499}
   m_Layer: 0
   m_Name: 200_IceAura
   m_TagString: Untagged
@@ -99,3 +102,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotateSpeed: 25
   direction: 0
+--- !u!114 &1889723176232406603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9073546157783568337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc5466ebd09324d40bd2cd21e37538e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canDamageWakgood: 0
+  canDamageMonster: 1
+  totalAD: {fileID: 11400000, guid: 0326d210993f63442a9733c8a569e3ec, type: 2}
+  criticalChance: {fileID: 11400000, guid: 300f8b12c04c18a45a8f73a08c3ab38b, type: 2}
+  damage: 1
+  offOnHit: 0
+  ggambbakDelay: 0.5
+--- !u!70 &7925458248831599759
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9073546157783568337}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 2.21, y: 2.01}
+  m_Direction: 1
+--- !u!114 &1422966202354856499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9073546157783568337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 022df02562d61814b8b27c7ed5c6b3b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
