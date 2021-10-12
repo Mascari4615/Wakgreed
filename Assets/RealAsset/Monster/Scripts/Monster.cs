@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public abstract class Monster : MonoBehaviour, IDamagable
+public abstract class Monster : MonoBehaviour, IHitable
 {
     [SerializeField] private int baseHP, baseAD, baseMoveSpeed;
     protected int maxHP, HP, AD, moveSpeed;
@@ -38,7 +38,7 @@ public abstract class Monster : MonoBehaviour, IDamagable
         spriteRenderer.sortingOrder = -(int)System.Math.Truncate(transform.position.y * 10);
     }
 
-    public virtual void ReceiveDamage(int damage)
+    public virtual void ReceiveHit(int damage)
     {
         HP -= damage;
         rigidbody2D.velocity = Vector3.zero;

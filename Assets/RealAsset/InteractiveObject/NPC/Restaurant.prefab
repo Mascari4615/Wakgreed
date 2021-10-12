@@ -25,12 +25,12 @@ PrefabInstance:
     - target: {fileID: 3193277810173341929, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.6499996
+      value: -4.2
       objectReference: {fileID: 0}
     - target: {fileID: 3193277810173341929, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.12
+      value: 2.58
       objectReference: {fileID: 0}
     - target: {fileID: 3193277810173341929, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
@@ -75,7 +75,7 @@ PrefabInstance:
     - target: {fileID: 3193277810173341930, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_Name
-      value: NPC_Restaurant
+      value: Restaurant
       objectReference: {fileID: 0}
     - target: {fileID: 5046749009189004234, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
@@ -89,6 +89,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a941390648b43b489b97695ee406140, type: 3}
+--- !u!114 &748218174579569263 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8243128164301347225, guid: 0a941390648b43b489b97695ee406140,
+    type: 3}
+  m_PrefabInstance: {fileID: 8648966353815694326}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6077467151129216275 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3193277808626691813, guid: 0a941390648b43b489b97695ee406140,
@@ -119,6 +131,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d52547d4888a640bbbcafce3c13e98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ui: {fileID: 0}
   cinemachineVirtualCamera: {fileID: 6077467151129216275}
-  FoodInventoryUI: {fileID: 0}
+  ui: {fileID: 0}
+  chat: {fileID: 6840221384003694881}
+  chatText: {fileID: 748218174579569263}
+  temp: {fileID: 8941123466723490311}
+  comment:
+  - "\uD14C\uC2A4\uD2B8"
+  foodInventory: {fileID: 11400000, guid: 546fa6a1bf043354494b4242fa3461bb, type: 2}
+--- !u!1 &6840221384003694881 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2804075744931568343, guid: 0a941390648b43b489b97695ee406140,
+    type: 3}
+  m_PrefabInstance: {fileID: 8648966353815694326}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8941123466723490311 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 293311737590649329, guid: 0a941390648b43b489b97695ee406140,
+    type: 3}
+  m_PrefabInstance: {fileID: 8648966353815694326}
+  m_PrefabAsset: {fileID: 0}

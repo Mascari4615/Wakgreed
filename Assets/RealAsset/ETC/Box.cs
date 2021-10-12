@@ -1,10 +1,10 @@
 using UnityEngine;
 using FMODUnity;
-public class Box : MonoBehaviour, IDamagable
+public class Box : MonoBehaviour, IHitable
 {
     [SerializeField] private GameObject[] fragments;
 
-    public void ReceiveDamage(int damage)
+    public void ReceiveHit(int damage)
     {
         RuntimeManager.PlayOneShot("event:/SFX/ETC/Box", Wakgood.Instance.attackPosition.position);
         ObjectManager.Instance.PopObject("HealObject", transform);
