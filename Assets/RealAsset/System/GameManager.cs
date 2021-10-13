@@ -42,6 +42,9 @@ public class GameManager : MonoBehaviour
 
     public CinemachineImpulseSource cinemachineImpulseSource;
 
+    [SerializeField] private IntVariable nyang;
+    [SerializeField] private IntVariable viewer;
+
     private void Awake()
     {
         Application.targetFrameRate = 60;
@@ -132,6 +135,7 @@ public class GameManager : MonoBehaviour
 
         DataManager.Instance.WakgoodItemInventory.Clear();
         DataManager.Instance.WakgoodFoodInventory.Clear();
+        DataManager.Instance.WakgoodMasteryInventory.Clear();
         DataManager.Instance.BuffRunTimeSet.Clear();   
 
         miniMapCamera.transform.position = new Vector3(0, 0, -100);
@@ -146,6 +150,9 @@ public class GameManager : MonoBehaviour
         Wakgood.Instance.StopAllCoroutines();
         Wakgood.Instance.enabled = true;
         Wakgood.Instance.Initialize(false);
+
+        nyang.RuntimeValue = 0;
+        viewer.RuntimeValue = 0;
 
         Time.timeScale = 1;
     }

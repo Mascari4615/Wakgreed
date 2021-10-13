@@ -6,7 +6,8 @@ using TMPro;
 public enum AreaType
 {
     Normal,
-    Test
+    Restaurant,
+    Shop
 }
 
 public class AreaTweener : MonoBehaviour
@@ -14,52 +15,30 @@ public class AreaTweener : MonoBehaviour
     private static AreaTweener instance = null;
     public static AreaTweener Instance { get { return instance; } }
 
-    private AreaType curAreaType = AreaType.Normal;
-    private Area curArea;
+    private CinemachineConfiner2D cinemachineConfiner2D;
     [SerializeField] private TextMeshProUGUI speedwagon;
-    private Coroutine speedwagon_co;
+    private IEnumerator speedwagon_co;
 
     private void Awake()
     {
         instance = this;
+        cinemachineConfiner2D = GameObject.Find("CM Camera").GetComponent<CinemachineConfiner2D>();
+        speedwagon_co = AreaSpeedWagon("Temp");
     }
 
-    public void NormalToArea(Transform target = null)
+    public void ChangeArea(Transform areaDoor)
     {
-        if (curAreaType == AreaType.Test)
-        {
-            return;
-        }
-        curAreaType = AreaType.Test;
-
-        curArea = target.parent.parent.GetComponent<Area>();
-        curArea.A.SetActive(false);
-        curArea.B.SetActive(true);
-        GameObject.Find("CM Camera").GetComponent<CinemachineConfiner2D>().m_BoundingShape2D = curArea.compositeCollider2d;
-
-        if (speedwagon_co != null)
-        {
-            StopCoroutine(speedwagon_co);
-        }
-        speedwagon_co = StartCoroutine(AreaSpeedWagon());
+        AreaDoor targetArea = areaDoor.GetComponent<AreaDoor>();
+        targetArea.originalAreaObject.SetActive(false);
+        targetArea.targetAreaObject.SetActive(true);
+        cinemachineConfiner2D.m_BoundingShape2D = targetArea.Equals(AreaType.Normal) ? null : targetArea.compositeCollider2d;
+        StopCoroutine(speedwagon_co);
+        StartCoroutine(speedwagon_co = AreaSpeedWagon(targetArea.targetAreaType.ToString()));
     }
 
-    public void AreaToNormal()
+    public IEnumerator AreaSpeedWagon(string text)
     {
-        if (curAreaType == AreaType.Normal)
-        {
-            return;
-        }
-        curAreaType = AreaType.Normal;
-
-        GameObject.Find("CM Camera").GetComponent<CinemachineConfiner2D>().m_BoundingShape2D = null;
-        curArea.A.SetActive(true);
-        curArea.B.SetActive(false);
-    }
-
-    public IEnumerator AreaSpeedWagon()
-    {
-        speedwagon.text = curAreaType.ToString();
+        speedwagon.text = text;
         speedwagon.gameObject.SetActive(true);
         yield return new WaitForSeconds(2f);
         speedwagon.gameObject.SetActive(false);

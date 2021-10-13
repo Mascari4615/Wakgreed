@@ -58,13 +58,7 @@ public class Wakgood : MonoBehaviour, IHitable
     [SerializeField] private IntVariable curDashStack;
     private float dashCoolTime = 1f;
     private Dictionary<int, InteractiveObject> nearInteractiveObjectDic = new();
-
-    private IEnumerator ChangeWithDelay(bool changeValue, float delay, System.Action<bool> makeResult)
-    {
-        // 참고 : https://velog.io/@sonohoshi/10.-Unity에서-일정-시간-이후-값을-바꾸는-방법
-        yield return new WaitForSeconds(delay);
-        makeResult(changeValue);
-    }
+    public bool IsSwitching { get; set; } = false;
 
     private void Awake()
     {
@@ -99,6 +93,7 @@ public class Wakgood : MonoBehaviour, IHitable
         requiredExp = (100 * (1 + Level.RuntimeValue));
         EXP.RuntimeValue = 0;
         isHealthy = true;
+        IsSwitching = false;
 
         playerRB.bodyType = RigidbodyType2D.Dynamic;
         cinemachineTargetGroup.m_Targets[0].target = transform;
@@ -151,8 +146,6 @@ public class Wakgood : MonoBehaviour, IHitable
         }            
     }
 
-    public bool IsSwitching { get; set; } = false;
-
     public void SwitchWeapon(int targetWeaponNumber = 0)
     {
         if (IsSwitching) return;
@@ -183,7 +176,7 @@ public class Wakgood : MonoBehaviour, IHitable
             weaponBuff.hasCondition = true;
         }
 
-        StartCoroutine(ChangeWithDelay(false, .25f, value => IsSwitching = value));
+        StartCoroutine(TtmdaclExtension.ChangeWithDelay(false, .25f, value => IsSwitching = value));
     }
 
     public void SwitchWeapon(Weapon targetWeapon)
@@ -209,7 +202,7 @@ public class Wakgood : MonoBehaviour, IHitable
             weaponBuff.hasCondition = true;
         }
 
-        StartCoroutine(ChangeWithDelay(false, .25f, value => IsSwitching = value));
+        StartCoroutine(TtmdaclExtension.ChangeWithDelay(false, .25f, value => IsSwitching = value));
     }
 
     private IEnumerator Dash()
@@ -322,7 +315,7 @@ public class Wakgood : MonoBehaviour, IHitable
                 OnDamage.Raise();
 
                 isHealthy = false;
-                StartCoroutine(ChangeWithDelay(true, .8f, value => isHealthy = value));
+                StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, .8f, value => isHealthy = value));
 
                 if (HP.RuntimeValue <= 0)
                 {
@@ -379,8 +372,7 @@ public class Wakgood : MonoBehaviour, IHitable
         else if (other.CompareTag("LeftDoor")) GameManager.Instance.StartCoroutine(StageManager.Instance.MigrateRoom(Vector2.left, 3));
         else if (other.CompareTag("RightDoor")) GameManager.Instance.StartCoroutine(StageManager.Instance.MigrateRoom(Vector2.right, 2));
 
-        else if (other.CompareTag("NormalArea")) AreaTweener.Instance.AreaToNormal();
-        else if (other.CompareTag("Area")) AreaTweener.Instance.NormalToArea(other.transform);
+        else if (other.CompareTag("AreaDoor")) AreaTweener.Instance.ChangeArea(other.transform);
 
         else if (other.CompareTag("InteractiveObject"))
         {

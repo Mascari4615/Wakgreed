@@ -4,12 +4,12 @@ using UnityEngine;
 
 public static class TtmdaclExtension
 {
-    /*
-    public static IEnumerator ChangeWithDelay(this bool origin, bool changeValue, float delay, Action<bool> makeResult)
+    // 참고 : https://velog.io/@sonohoshi/10.-Unity에서-일정-시간-이후-값을-바꾸는-방법
+
+    public static IEnumerator ChangeWithDelay(bool changeValue, float delay, Action<bool> makeResult)
     {
         yield return new WaitForSeconds(delay);
         makeResult(changeValue);
-        Debug.Log("어디서 종료될까?");
     }
 
     public static IEnumerator ChangeWithDelay(this float origin, float coolTime, Action<float> makeResult)
@@ -22,5 +22,4 @@ public static class TtmdaclExtension
             yield return null;
         }   
     }
-    */
 }
