@@ -208,7 +208,6 @@ public class Wakgood : MonoBehaviour, IHitable
     private IEnumerator Dash()
     {
         isDashing = true;
-        // Vector3 direction = new Vector3(worldMousePoint.x - transform.position.x, worldMousePoint.y - transform.position.y, 0).normalized;
         Vector3 direction = new Vector3(h, v, 0).normalized;
         RuntimeManager.PlayOneShot("event:/SFX/Wakgood/Dash", transform.position);
 
@@ -216,14 +215,11 @@ public class Wakgood : MonoBehaviour, IHitable
         playerRB.velocity = Vector3.zero;
         for (float temptime = 0; temptime <= 0.1f; temptime += Time.deltaTime)
         {
-            foreach (RaycastHit2D hitObject in Physics2D.RaycastAll(transform.position, direction, 0.9f))
-                if (hitObject.transform.gameObject.layer.Equals("Wall")) goto DashEnd;
+            if (Physics2D.BoxCast(transform.position, new Vector2(.5f, .5f), 0f, direction, 0.9f, LayerMask.GetMask("Wall")).collider != null) break;
 
-            // transform.position += direction * Time.deltaTime * 10 * dashParametor;
-            playerRB.velocity = direction * 10 * dashParametor;
+            playerRB.velocity = 10 * dashParametor * direction;
             yield return new WaitForFixedUpdate();
         }
-        DashEnd:
         playerRB.velocity = Vector3.zero;
         isDashing = false;
     }
@@ -257,8 +253,8 @@ public class Wakgood : MonoBehaviour, IHitable
 
         if (isDashing) return;
 
-        h = hInputList.Count == 0 ? 0 : hInputList[hInputList.Count - 1];
-        v = vInputList.Count == 0 ? 0 : vInputList[vInputList.Count - 1];
+        h = hInputList.Count == 0 ? 0 : hInputList[^1];
+        v = vInputList.Count == 0 ? 0 : vInputList[^1];
 
         if ((h != 0 || v != 0) && playerRB.bodyType.Equals(RigidbodyType2D.Dynamic))
         {
