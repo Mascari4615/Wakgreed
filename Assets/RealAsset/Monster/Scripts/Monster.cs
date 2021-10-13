@@ -14,6 +14,8 @@ public abstract class Monster : MonoBehaviour, IHitable
     protected new Rigidbody2D rigidbody2D;
     private CapsuleCollider2D capsuleCollider2D;
 
+    private bool isCollapsed = false;
+
     protected virtual void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -24,6 +26,8 @@ public abstract class Monster : MonoBehaviour, IHitable
 
     protected virtual void OnEnable()
     {
+        isCollapsed = false;
+
         maxHP = baseHP;
         HP = maxHP;
         AD = baseAD;
@@ -40,6 +44,8 @@ public abstract class Monster : MonoBehaviour, IHitable
 
     public virtual void ReceiveHit(int damage)
     {
+        if (isCollapsed) return;
+
         HP -= damage;
         rigidbody2D.velocity = Vector3.zero;
         rigidbody2D.AddForce((transform.position - Wakgood.Instance.transform.position).normalized * 3f, ForceMode2D.Impulse);
@@ -53,8 +59,9 @@ public abstract class Monster : MonoBehaviour, IHitable
         }
         else if (HP <= 0)
         {
-            RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("("), 7) : name)}_Hurt", transform.position);
+            isCollapsed = true;
 
+            RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("("), 7) : name)}_Hurt", transform.position);
             StopAllCoroutines();
             StartCoroutine(Collapse());
         }

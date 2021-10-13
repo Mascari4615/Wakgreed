@@ -44,7 +44,7 @@ public class MasteryManager : MonoBehaviour
     public void ChooseAbility(int i)
     {
         RuntimeManager.PlayOneShot("event:/SFX/UI/Test", transform.position);
-        ToolTipManager.Hide();
+        ToolTipManager.Instance.Hide();
         selectMasteryStack--;
 
         MasteryInventory.Add(randomMasteries[i]);

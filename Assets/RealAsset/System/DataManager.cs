@@ -22,17 +22,49 @@ public class DataManager : MonoBehaviour
         private set { instance = value; }
     }
 
+    [Header("CustomVariables")]
+    public IntVariable DashCount;
+    public FloatVariable Evasion;
+    public IntVariable I_AD;
+    public IntVariable I_ADper;
+    public ItemVariable LastEquippedItem;
+    public IntVariable M_AD;
+    public IntVariable M_ADper;
+    public IntVariable MonsterKill;
+    public IntVariable Nyang;
+    public IntVariable T_AD;
+    public FloatVariable T_AS;
+    public IntVariable CriticalChance;
+    public IntVariable T_EXP;
+    public IntVariable T_HP;
+    public IntVariable T_Level;
+    public IntVariable T_MaxHP;
+    public FloatVariable T_MoveSpeed;
+    public IntVariable TotalAD;
+    public IntVariable Viewer;
+
+    // 스크립터블 오브젝트 쓰는 이유를 깨뜨리는 것 같은데..
+
+    [Header("Item")]
     [SerializeField] private ItemDataBuffer ItemDataBuffer;
     public Dictionary<int, Item> ItemDic = new();
     public WakgoodItemInventory WakgoodItemInventory;
 
+    [Header("Weapon")]
     [SerializeField] private WeaponDataBuffer WeaponDataBuffer;
     public Dictionary<int, Weapon> WeaponDic = new();
 
+    [Header("Food")]
     [SerializeField] private FoodDataBuffer FoodDataBuffer;
     public Dictionary<int, Food> FoodDic = new();
     public WakgoodFoodInventory WakgoodFoodInventory;
 
+    [Header("Mastery")]
+    [SerializeField] private WakduMasteryDataBuffer WakduMasteryDataBuffer;
+    public Dictionary<int, Mastery> MasteryDic = new();
+    public MasteryInventory WakgoodMasteryInventory;
+
+    [Header("Buff")]
     public BuffRunTimeSet BuffRunTimeSet;
 
     public GameData curGameData;
@@ -55,6 +87,7 @@ public class DataManager : MonoBehaviour
         foreach (var weapon in WeaponDataBuffer.Items) WeaponDic.Add(weapon.ID, weapon);
         foreach (var item in ItemDataBuffer.Items) ItemDic.Add(item.ID, item);
         foreach (var food in FoodDataBuffer.Items) FoodDic.Add(food.ID, food);
+        foreach (var mastery in WakduMasteryDataBuffer.Items) MasteryDic.Add(mastery.ID, mastery);
     }
 
     public void SaveGameData(GameData gameData = null)

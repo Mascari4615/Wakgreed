@@ -1,33 +1,13 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ToolTipTrigger : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler, IPointerMoveHandler
-{ 
+public class ToolTipTrigger : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
+{
     private Sprite sprite;
     private string header;
     private string description;
-    [SerializeField] private PivotType pivotType;
-    private bool isInputting = false;
-    private float t = 0;
-    private Vector2 position;
 
-    private void OnEnable()
-    {
-        isInputting = false;
-        t = 0;
-    }
-
-    private void Update()
-    {
-        if (isInputting)
-        {
-            t += Time.deltaTime;
-            if (t > 0.1f)
-            {
-                ToolTipManager.Show(sprite, header, description, position, pivotType);
-            }
-        }
-    }
+    private bool isShowingThis = false;
 
     public void SetToolTip(SpecialThing specialThing)
     {
@@ -38,19 +18,18 @@ public class ToolTipTrigger : MonoBehaviour, IPointerExitHandler, IPointerEnterH
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        isInputting = true;
-        position = eventData.position;
-    }
-
-    public void OnPointerMove(PointerEventData eventData)
-    {
-        position = eventData.position;
+        ToolTipManager.Instance.Show(sprite, header, description);
+        isShowingThis = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
-    {        
-        isInputting = false;
-        t = 0;
-        ToolTipManager.Hide();
+    {
+        ToolTipManager.Instance.Hide();
+        isShowingThis = false;
+    }
+
+    private void OnDisable()
+    {
+        if (isShowingThis) ToolTipManager.Instance.Hide();
     }
 }

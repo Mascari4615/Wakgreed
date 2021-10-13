@@ -21,7 +21,7 @@ public class Restaurant : MonoBehaviour
         }
         else
         {
-            ObjectManager.Instance.PopObject("AnimatedText", transform.position).GetComponent<AnimatedText>().SetText("∞ÒµÂ ∫Œ¡∑!", TextType.Critical);
+            ObjectManager.Instance.PopObject("AnimatedText", Wakgood.Instance.transform.position).GetComponent<AnimatedText>().SetText("∞ÒµÂ ∫Œ¡∑!", TextType.Critical);
         }     
     }
 }

@@ -2,22 +2,16 @@ using System.Collections;
 using FMODUnity;
 using UnityEngine;
 
-public class Pet : MonoBehaviour
+public class WakgiGameObject : MonoBehaviour, IEffectGameObject
 {
     [SerializeField] private float moveSpeed = 1;
     private bool canWakggiddi = true;
     private float coolTime = 3f;
+    private int damage = 1;
 
-    void Start()
+    private void Start()
     {
         StartCoroutine(FollowWakgood());
-    }
-
-    private IEnumerator ChangeWithDelay(bool changeValue, float delay, System.Action<bool> makeResult)
-    {
-        // 참고 : https://velog.io/@sonohoshi/10.-Unity에서-일정-시간-이후-값을-바꾸는-방법
-        yield return new WaitForSeconds(delay);
-        makeResult(changeValue);
     }
 
     private IEnumerator FollowWakgood()
@@ -40,7 +34,7 @@ public class Pet : MonoBehaviour
                         yield return null;
                     }
                     RuntimeManager.PlayOneShot($"event:/SFX/Item/Wakgi", transform.position);
-                    mob.GetComponent<IHitable>().ReceiveHit(1);
+                    mob.GetComponent<IHitable>().ReceiveHit(damage);
 
                     if (3 >= Random.Range(1, 10 + 1))
                         Wakgood.Instance.ReceiveHeal(1);
@@ -54,7 +48,7 @@ public class Pet : MonoBehaviour
                     }
 
                     canWakggiddi = false;
-                    StartCoroutine(ChangeWithDelay(true, coolTime, (value) => canWakggiddi = value));
+                    StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, coolTime, (value) => canWakggiddi = value));
                 }
             }
 
@@ -80,5 +74,15 @@ public class Pet : MonoBehaviour
         }
 
         return target;
+    }
+
+    public void Effect()
+    {
+        damage++;
+    }
+
+    public void Return()
+    {
+        damage--;
     }
 }

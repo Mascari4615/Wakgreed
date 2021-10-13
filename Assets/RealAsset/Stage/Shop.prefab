@@ -16487,7 +16487,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2989097281374526458}
-  - component: {fileID: 5107427278939323751}
   m_Layer: 0
   m_Name: Shop
   m_TagString: Untagged
@@ -16512,21 +16511,6 @@ Transform:
   m_Father: {fileID: 1529938171293534474}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5107427278939323751
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1371118525405512630}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e60473b832173b4aa43327e16c59b41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  compositeCollider2d: {fileID: 4256002710304349068}
-  A: {fileID: 3756323325299690840}
-  B: {fileID: 5139600440032138790}
 --- !u!1 &3397399513831461592
 GameObject:
   m_ObjectHideFlags: 0
@@ -19178,9 +19162,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6979534475181791301}
   - component: {fileID: 4447303743879444998}
+  - component: {fileID: 2753222826587819434}
   m_Layer: 0
-  m_Name: NormalArea
-  m_TagString: NormalArea
+  m_Name: NormalAreaDoor
+  m_TagString: AreaDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19226,6 +19211,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.869257, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &2753222826587819434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5014567177088328717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e60473b832173b4aa43327e16c59b41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetAreaType: 0
+  compositeCollider2d: {fileID: 0}
+  originalAreaObject: {fileID: 5139600440032138790}
+  targetAreaObject: {fileID: 3756323325299690840}
 --- !u!1 &5139600440032138790
 GameObject:
   m_ObjectHideFlags: 0
@@ -19301,9 +19302,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7472443114657324758}
   - component: {fileID: 3173733068671972266}
+  - component: {fileID: 5881997200959992921}
   m_Layer: 0
-  m_Name: Area
-  m_TagString: Area
+  m_Name: ShopAreaDoor
+  m_TagString: AreaDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19345,6 +19347,22 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!114 &5881997200959992921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7068125124956087337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e60473b832173b4aa43327e16c59b41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetAreaType: 1
+  compositeCollider2d: {fileID: 4256002710304349068}
+  originalAreaObject: {fileID: 3756323325299690840}
+  targetAreaObject: {fileID: 5139600440032138790}
 --- !u!1 &7443713773822755211
 GameObject:
   m_ObjectHideFlags: 0
@@ -19356,7 +19374,7 @@ GameObject:
   - component: {fileID: 3566225519480677572}
   - component: {fileID: 1244385211128714619}
   m_Layer: 0
-  m_Name: ShoipImage
+  m_Name: ShopImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19417,7 +19435,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 62
+  m_SortingOrder: -3
   m_Sprite: {fileID: 110931416489072030, guid: 160260eba59033f40b3cbae115d46b18, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
