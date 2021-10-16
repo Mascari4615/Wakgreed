@@ -26,6 +26,23 @@ public class UIManager : MonoBehaviour
     public GameObject reloadUI;
     public Image reloadImage;
 
+    [SerializeField] private RectTransform weapon1;
+    [SerializeField] private RectTransform weapon2;
+    public Image weapon1Sprite;
+    public Image weapon2Sprite;
+    public GameObject weapon1SkillQ;
+    public Image weapon1SkillQSprite;
+    public Image weapon1SkillQCoolTime;
+    public GameObject weapon1SkillE;
+    public Image weapon1SkillESprite;
+    public Image weapon1SkillECoolTime;
+    public GameObject weapon2SkillQ;
+    public Image weapon2SkillQSprite;
+    public Image weapon2SkillQCoolTime;
+    public GameObject weapon2SkillE;
+    public Image weapon2SkillESprite;
+    public Image weapon2SkillECoolTime;
+
     private void Awake()
     {
         instance = this;
@@ -50,5 +67,19 @@ public class UIManager : MonoBehaviour
         bossSpeedWagon.gameObject.SetActive(false);
         Wakgood.Instance.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         cinemachineTargetGroup.m_Targets[0].target = Wakgood.Instance.transform;
+    }
+
+    public IEnumerator SwitchWeapon()
+    {
+        Debug.Log("Start");
+        Vector3 weapon1Origin = weapon1.localPosition;
+        Vector3 weapon2Origin = weapon2.localPosition;
+        for (float i = 0; i < .20f; i += Time.deltaTime)
+        {
+            weapon1.localPosition = Vector3.Lerp(weapon1Origin, weapon2Origin, i * 6);
+            weapon2.localPosition = Vector3.Lerp(weapon2Origin, weapon1Origin, i * 6);
+            yield return null;
+        }
+        Debug.Log("End");
     }
 }

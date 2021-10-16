@@ -530,8 +530,10 @@ MonoBehaviour:
   OnCollapse: {fileID: 11400000, guid: fe1091c644e3ead409241a61978b243a, type: 2}
   OnLevelUp: {fileID: 11400000, guid: 42476068b34aa7c4aa6cb152cd3b3ac9, type: 2}
   Evasion: {fileID: 11400000, guid: 94c9fcb6a039eaa45bea8b541fcf3a4a, type: 2}
-  weaponA: {fileID: 11400000, guid: 6f0c64661c1a3f0478ff1675dac49c9e, type: 2}
-  weaponB: {fileID: 11400000, guid: 6030eff9fbb2ddc4098e06e8ac949622, type: 2}
+  weapon1: {fileID: 11400000, guid: 6f0c64661c1a3f0478ff1675dac49c9e, type: 2}
+  weapon2: {fileID: 11400000, guid: 6030eff9fbb2ddc4098e06e8ac949622, type: 2}
+  hand: {fileID: 11400000, guid: 6030eff9fbb2ddc4098e06e8ac949622, type: 2}
+  hochi: {fileID: 11400000, guid: 6f0c64661c1a3f0478ff1675dac49c9e, type: 2}
   buffRunTimeSet: {fileID: 11400000, guid: f608be8f86825a44f9ea671a80318ac3, type: 2}
   dashParametor: 4
   curDashStack: {fileID: 11400000, guid: c20a2f08316b1cd42b58ff3ddb60051d, type: 2}
@@ -703,7 +705,7 @@ MonoBehaviour:
   - {x: 0.30981255, y: 0.141006, z: 0}
   m_ShapePathHash: 1465180444
   m_Mesh: {fileID: 0}
-  m_InstanceId: -11102
+  m_InstanceId: -11118
 --- !u!1 &4705426193356466244
 GameObject:
   m_ObjectHideFlags: 0

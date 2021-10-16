@@ -39,9 +39,11 @@ public class Wakgood : MonoBehaviour, IHitable
 
     private int curWeaponNumber = 1;
     public Weapon curWeapon { get; private set; }
-    [SerializeField] private Weapon weaponA;
-    [SerializeField] private Weapon weaponB;
-
+    [SerializeField] private Weapon weapon1;
+    [SerializeField] private Weapon weapon2;
+    [SerializeField] private Weapon hochi;
+    [SerializeField] private Weapon hand;
+    
     [SerializeField] private BuffRunTimeSet buffRunTimeSet;
 
     private Camera mainCamera;
@@ -101,7 +103,33 @@ public class Wakgood : MonoBehaviour, IHitable
         animator.SetBool("Move", false);
 
         if (weaponPosition.childCount > 0) Destroy(weaponPosition.GetChild(0).gameObject);
-        curWeapon = weaponA;
+
+        foreach (var weaponBuff in weapon1.buffs)
+        {
+            buffRunTimeSet.Add(weaponBuff);
+            weaponBuff.hasCondition = true;
+        }
+        foreach (var weaponBuff in weapon2.buffs)
+        {
+            buffRunTimeSet.Add(weaponBuff);
+            weaponBuff.hasCondition = true;
+        }
+
+        weapon1 = hochi;
+        UIManager.Instance.weapon1Sprite.sprite = weapon1.icon;
+        UIManager.Instance.weapon1SkillQ.gameObject.SetActive(false);
+        UIManager.Instance.weapon1SkillQSprite.sprite = weapon1.skillQ?.icon;
+        UIManager.Instance.weapon1SkillE.gameObject.SetActive(false);
+        UIManager.Instance.weapon1SkillESprite.sprite = weapon1.skillE?.icon;
+
+        weapon2 = hand;
+        UIManager.Instance.weapon2Sprite.sprite = weapon2.icon;
+        UIManager.Instance.weapon2SkillQ.gameObject.SetActive(false);
+        UIManager.Instance.weapon2SkillQSprite.sprite = weapon2.skillQ?.icon;
+        UIManager.Instance.weapon2SkillE.gameObject.SetActive(false);
+        UIManager.Instance.weapon2SkillESprite.sprite = weapon2.skillE?.icon;
+
+        curWeapon = weapon1;
         Instantiate(curWeapon.resource, weaponPosition);
 
         AD.RuntimeValue = curWeapon.maxDamage;
@@ -129,9 +157,9 @@ public class Wakgood : MonoBehaviour, IHitable
         if (Input.GetKeyDown(KeyCode.E)) curWeapon.SkillQ();
         if (Input.GetKeyDown(KeyCode.R)) curWeapon.Reload();
 
-        if (Input.GetAxisRaw("Mouse ScrollWheel") != 0) SwitchWeapon();
-        else if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchWeapon(1);
-        else if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchWeapon(2);
+        if (Input.GetAxisRaw("Mouse ScrollWheel") != 0) SwitchCurWeapon();
+        else if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchCurWeapon(1);
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchCurWeapon(2);
 
         if (Input.GetKeyDown(KeyCode.F) && nearInteractiveObjectDic.Count != 0)
         {
@@ -143,13 +171,16 @@ public class Wakgood : MonoBehaviour, IHitable
                     nearInteractiveObject = item;
             }
             nearInteractiveObject.Interaction();
-        }            
+        }
     }
 
-    public void SwitchWeapon(int targetWeaponNumber = 0)
+    public void SwitchCurWeapon(int targetWeaponNumber = 0)
     {
         if (IsSwitching) return;
         IsSwitching = true;
+
+        Debug.Log("Ang");
+        UIManager.Instance.StartCoroutine(UIManager.Instance.SwitchWeapon());
 
         foreach (var weaponBuff in curWeapon.buffs)
         {
@@ -160,13 +191,13 @@ public class Wakgood : MonoBehaviour, IHitable
 
         if (targetWeaponNumber == 0)
         {   // 스크롤 스위칭
-            if (curWeaponNumber == 1) { curWeaponNumber = 2; curWeapon = weaponB; }
-            else if (curWeaponNumber == 2) { curWeaponNumber = 1; curWeapon = weaponA; }
+            if (curWeaponNumber == 1) { curWeaponNumber = 2; curWeapon = weapon2; }
+            else if (curWeaponNumber == 2) { curWeaponNumber = 1; curWeapon = weapon1; }
         }
         else
         {   // 넘버 스위칭
-            if (targetWeaponNumber == 1) { curWeaponNumber = 1; curWeapon = weaponA; }
-            else if (targetWeaponNumber == 2) { curWeaponNumber = 2; curWeapon = weaponB; }
+            if (targetWeaponNumber == 1) { curWeaponNumber = 1; curWeapon = weapon1; }
+            else if (targetWeaponNumber == 2) { curWeaponNumber = 2; curWeapon = weapon2; }
         }
 
         Instantiate(curWeapon.resource, weaponPosition);
@@ -175,6 +206,7 @@ public class Wakgood : MonoBehaviour, IHitable
             buffRunTimeSet.Add(weaponBuff);
             weaponBuff.hasCondition = true;
         }
+        Debug.Log("Ong");
 
         StartCoroutine(TtmdaclExtension.ChangeWithDelay(false, .25f, value => IsSwitching = value));
     }
@@ -191,8 +223,28 @@ public class Wakgood : MonoBehaviour, IHitable
         }
         Destroy(weaponPosition.GetChild(0).gameObject);
 
-        if (curWeaponNumber == 1) { weaponA = targetWeapon; curWeapon = weaponA; }
-        else if (curWeaponNumber == 2) { weaponB = targetWeapon; curWeapon = weaponB; }
+        if (curWeaponNumber == 1)
+        {
+            weapon1 = targetWeapon;
+            curWeapon = weapon1;
+
+            UIManager.Instance.weapon1Sprite.sprite = curWeapon.icon;
+            UIManager.Instance.weapon1SkillQ.gameObject.SetActive(curWeapon.skillQ);
+            UIManager.Instance.weapon1SkillQSprite.sprite = curWeapon.skillQ?.icon;
+            UIManager.Instance.weapon1SkillE.gameObject.SetActive(curWeapon.skillE);
+            UIManager.Instance.weapon1SkillESprite.sprite = curWeapon.skillE?.icon;
+        }
+        else if (curWeaponNumber == 2)
+        {
+            weapon2 = targetWeapon;
+            curWeapon = weapon2;
+
+            UIManager.Instance.weapon2Sprite.sprite = curWeapon.icon;
+            UIManager.Instance.weapon2SkillQ.gameObject.SetActive(curWeapon.skillQ);
+            UIManager.Instance.weapon2SkillQSprite.sprite = curWeapon.skillQ?.icon;
+            UIManager.Instance.weapon2SkillE.gameObject.SetActive(curWeapon.skillE);
+            UIManager.Instance.weapon2SkillESprite.sprite = curWeapon.skillE?.icon;
+        }
 
         Instantiate(curWeapon.resource, weaponPosition);
         AD.RuntimeValue = curWeapon.maxDamage;
@@ -306,7 +358,7 @@ public class Wakgood : MonoBehaviour, IHitable
             else
             {
                 RuntimeManager.PlayOneShot($"event:/SFX/Wakgood/Ahya", transform.position);
-                
+
                 HP.RuntimeValue -= damage;
                 OnDamage.Raise();
 

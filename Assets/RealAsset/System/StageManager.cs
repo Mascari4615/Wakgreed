@@ -30,15 +30,22 @@ public class StageManager : MonoBehaviour
     public GameObject mapPanel;
     [SerializeField] private GridLayoutGroup mapGridLayoutGroup;
     [SerializeField] private RectTransform scrollRectBackGround;
-    private Dictionary<Vector2, GameObject> roomUiDic = new();
+    private Dictionary<Vector2, Transform> roomUiDic = new();
 
     [SerializeField] private GameObject fadePanel;
     [SerializeField] private Animator fadePanelAnimator;
     [SerializeField] private TextMeshProUGUI noticeText;
 
+    [SerializeField] private TextMeshProUGUI stageNumberText, stageNameCommentText;
+    [SerializeField] private GameObject stageSpeedWagon;
+
+    private IEnumerator canOpenText;
+    private WaitForSeconds ws02;
+
     private void Awake()
     {
         instance = this;
+        ws02 = new WaitForSeconds(.2f);
     }
 
     private void Update()
@@ -53,41 +60,55 @@ public class StageManager : MonoBehaviour
         roomMolds.Clear();
         roomDic.Clear();
 
-        roomDatas = new List<Room>(stageDataBuffer.Items[++currentStageID].roomDatas);
-        roomMolds.Add(new RoomMold() { coordinate = Vector2.zero });
+        roomDatas = new(stageDataBuffer.Items[++currentStageID].roomDatas);
+        roomMolds.Add(new() { coordinate = Vector2.zero });
 
-        while (roomMolds.Count < roomCount)
+        /* 스테이지 틀 만들기 */
         {
-            RoomMold originalRoomMold = roomMolds[Random.Range(0, roomMolds.Count)];
-            int i = Random.Range(0, 4);
-            Vector2 totalRoomMoldCoordinante = originalRoomMold.coordinate + ((i == 0) ? Vector2.up : (i == 1) ? Vector2.down : (i == 2) ? Vector2.left : Vector2.right);
+            RoomMold originalRoomMold, totalRoomMold;
+            Vector2 totalRoomMoldCoordinante;
+            int doorOpenIndex;
 
-            if (roomMolds.Find(x => x.coordinate == totalRoomMoldCoordinante) != null) continue;
-            if (i == 0 && originalRoomMold.coordinate.y == (stageEdgeLength - 1) / 2) continue;
-            else if (i == 1 && originalRoomMold.coordinate.y == -(stageEdgeLength - 1) / 2) continue;
-            else if (i == 2 && originalRoomMold.coordinate.x == -(stageEdgeLength - 1) / 2) continue;
-            else if (i == 3 && originalRoomMold.coordinate.x == (stageEdgeLength - 1) / 2) continue;
+            while (roomMolds.Count < roomCount)
+            {
+                originalRoomMold = roomMolds[Random.Range(0, roomMolds.Count)];
+                doorOpenIndex = Random.Range(0, 4);
+                totalRoomMoldCoordinante = originalRoomMold.coordinate +
+                    ((doorOpenIndex == 0) ? Vector2.up : (doorOpenIndex == 1) ? Vector2.down : (doorOpenIndex == 2) ? Vector2.left : Vector2.right);
 
-            RoomMold totalRoomMold = new() { coordinate = totalRoomMoldCoordinante };
+                if (roomMolds.Find(x => x.coordinate == totalRoomMoldCoordinante) != null) continue;
+                if (doorOpenIndex == 0 && originalRoomMold.coordinate.y == (stageEdgeLength - 1) / 2) continue;
+                else if (doorOpenIndex == 1 && originalRoomMold.coordinate.y == -(stageEdgeLength - 1) / 2) continue;
+                else if (doorOpenIndex == 2 && originalRoomMold.coordinate.x == -(stageEdgeLength - 1) / 2) continue;
+                else if (doorOpenIndex == 3 && originalRoomMold.coordinate.x == (stageEdgeLength - 1) / 2) continue;
 
-            originalRoomMold.isConnectToNearbyRoom[i] = true;
-            totalRoomMold.isConnectToNearbyRoom[(i == 0) ? 1 : (i == 1) ? 0 : (i == 2) ? 3 : 2] = true;
+                totalRoomMold = new() { coordinate = totalRoomMoldCoordinante };
 
-            roomMolds.Add(totalRoomMold);
+                originalRoomMold.isConnectToNearbyRoom[doorOpenIndex] = true;
+                totalRoomMold.isConnectToNearbyRoom[(doorOpenIndex == 0) ? 1 : (doorOpenIndex == 1) ? 0 : (doorOpenIndex == 2) ? 3 : 2] = true;
+
+                roomMolds.Add(totalRoomMold);
+            }
         }
 
-        for (int i = 0; i < roomCount; i++)
+        /* 스테이지 채우기 */
         {
-            int roomMoldIndex = (i == 0) ? 0 : Random.Range(0, roomMolds.Count);
-            int roomDataIndex = (i <= 2) ? 0 : Random.Range((DataManager.Instance.curGameData.isNPCRescued) ? 1 : 0, roomDatas.Count);
+            int roomMoldIndex, roomDataIndex;
+            Room room;
 
-            // 스테이지 별 룸 데이타 딕셔너리 혹은 배열만들어야 함
-            Room r = Instantiate(roomDatas[roomDataIndex].gameObject, stageGrid.transform).GetComponent<Room>();
-            r.Initialize(roomMolds[roomMoldIndex].coordinate, roomMolds[roomMoldIndex].isConnectToNearbyRoom);
+            for (int i = 0; i < roomCount; i++)
+            {
+                roomMoldIndex = (i == 0) ? 0 : Random.Range(0, roomMolds.Count);
+                roomDataIndex = (i <= 2) ? 0 : Random.Range((DataManager.Instance.curGameData.isNPCRescued) ? 1 : 0, roomDatas.Count);
 
-            roomMolds.RemoveAt(roomMoldIndex);
-            roomDatas.RemoveAt(roomDataIndex);
-            roomDic.Add(r.Coordinate, r);
+                // Todo : 스테이지 별 룸 데이타 딕셔너리 혹은 배열만들어야 함
+                room = Instantiate(roomDatas[roomDataIndex].gameObject, stageGrid.transform).GetComponent<Room>();
+                room.Initialize(roomMolds[roomMoldIndex].coordinate, roomMolds[roomMoldIndex].isConnectToNearbyRoom);
+
+                roomMolds.RemoveAt(roomMoldIndex);
+                roomDatas.RemoveAt(roomDataIndex);
+                roomDic.Add(room.Coordinate, room);
+            }
         }
 
         StartCoroutine(StartStage());
@@ -112,40 +133,50 @@ public class StageManager : MonoBehaviour
 
         fadePanelAnimator.SetTrigger("FadeIn");
         StartCoroutine("StageSpeedWagon");
-        yield return new WaitForSeconds(0.2f);
+        yield return ws02;
         fadePanel.SetActive(false);
     }
 
     private void InitialzeMap()
     {
         mapGridLayoutGroup.constraintCount = stageEdgeLength;
-        roomUiDic = new Dictionary<Vector2, GameObject>();
+        roomUiDic = new();
 
         int x = -(stageEdgeLength - 1) / 2;
         int y = (stageEdgeLength - 1) / 2;
+
+        Transform targetRoomUI;
+        Vector2 targetRoomCoordinate;
+        Room targetRoom;
+        Transform temp;
+
         for (int i = 0; i < mapGridLayoutGroup.transform.childCount; i++)
         {
             if (i <= stageEdgeLength * stageEdgeLength - 1)
             {
-                GameObject targetRoomUI = mapGridLayoutGroup.transform.GetChild(i).gameObject;
-                Vector2 targetRoomCoordinate = new(x, y);
+                targetRoomUI = mapGridLayoutGroup.transform.GetChild(i);
+                targetRoomCoordinate = new(x, y);
                 // Debug.Log(targetRoomCoordinate);
-                targetRoomUI.SetActive(true);
                 targetRoomUI.GetComponent<Image>().enabled = false;
-                targetRoomUI.transform.GetChild(0).gameObject.SetActive(false);
+                targetRoomUI.GetChild(0).gameObject.SetActive(false); // Door
+                targetRoomUI.GetChild(1).gameObject.SetActive(false); // Property
 
                 if (roomDic.ContainsKey(targetRoomCoordinate))
                 {
-                    Room targetRoom = roomDic[targetRoomCoordinate];
+                    targetRoom = roomDic[targetRoomCoordinate];
                     roomUiDic.Add(targetRoomCoordinate, targetRoomUI);
-                    targetRoomUI.transform.GetChild(0).Find("Boss").gameObject.SetActive(targetRoom.roomType == RoomType.Boss);
-                    targetRoomUI.transform.GetChild(0).Find("Spawn").gameObject.SetActive(targetRoom.roomType == RoomType.Spawn);
-                    targetRoomUI.transform.GetChild(0).Find("Shop").gameObject.SetActive(targetRoom.roomType == RoomType.Shop);
-                    targetRoomUI.transform.GetChild(0).Find("Up").gameObject.SetActive(targetRoom.IsConnectToNearbyRoom[0]);
-                    targetRoomUI.transform.GetChild(0).Find("Down").gameObject.SetActive(targetRoom.IsConnectToNearbyRoom[1]);
-                    targetRoomUI.transform.GetChild(0).Find("Left").gameObject.SetActive(targetRoom.IsConnectToNearbyRoom[2]);
-                    targetRoomUI.transform.GetChild(0).Find("Right").gameObject.SetActive(targetRoom.IsConnectToNearbyRoom[3]);
-                    targetRoomUI.transform.GetChild(0).Find("CurrentRoom").GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f);
+                    temp = targetRoomUI.GetChild(0); // Door
+                    temp.GetChild(0).gameObject.SetActive(targetRoom.IsConnectToNearbyRoom[0]); // Door\Up
+                    temp.GetChild(1).gameObject.SetActive(targetRoom.IsConnectToNearbyRoom[1]); // Door\Down
+                    temp.GetChild(2).gameObject.SetActive(targetRoom.IsConnectToNearbyRoom[2]); // Door\Left
+                    temp.GetChild(3).gameObject.SetActive(targetRoom.IsConnectToNearbyRoom[3]); // Door\Right
+                    temp = targetRoomUI.GetChild(1); // Property
+                    temp.GetChild(0).GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f); // Property\CurrentRoom
+                    temp = temp.GetChild(2); // Icon
+                    temp.GetChild(0).gameObject.SetActive(targetRoom.roomType == RoomType.Boss); // Property\Icon\Boss
+                    temp.GetChild(1).gameObject.SetActive(targetRoom.roomType == RoomType.Spawn); // Property\Icon\Spawn
+                    temp.GetChild(2).gameObject.SetActive(targetRoom.roomType == RoomType.Shop); // Property\Icon\Shop
+                    temp.GetChild(2).gameObject.SetActive(targetRoom.roomType == RoomType.Shop); // Property\Icon\Shop
                 }
 
                 x++;
@@ -168,16 +199,17 @@ public class StageManager : MonoBehaviour
     {
         scrollRectBackGround.localPosition = -CurrentRoom.Coordinate * (mapGridLayoutGroup.cellSize.x + mapGridLayoutGroup.spacing.x);
         roomUiDic[CurrentRoom.Coordinate].GetComponent<Image>().enabled = true;
-        roomUiDic[CurrentRoom.Coordinate].transform.GetChild(0).gameObject.SetActive(true);
-        roomUiDic[CurrentRoom.Coordinate].transform.GetChild(0).Find("CurrentRoom").GetComponent<Image>().color = new Color(0f / 255f, 200f / 255f, 255f / 255f);
+        roomUiDic[CurrentRoom.Coordinate].GetChild(0).gameObject.SetActive(true); // Door
+        roomUiDic[CurrentRoom.Coordinate].GetChild(1).gameObject.SetActive(true); // Property
+        roomUiDic[CurrentRoom.Coordinate].GetChild(1).GetChild(0).GetComponent<Image>().color = new Color(0f / 255f, 200f / 255f, 255f / 255f); // Property\CurrentRoom
     }
 
     public IEnumerator MigrateRoom(Vector2 moveDirection, int spawnDirection)
     {
         fadePanel.SetActive(true);
-        yield return new WaitForSeconds(0.2f);
+        yield return ws02;
 
-        roomUiDic[CurrentRoom.Coordinate].transform.GetChild(0).Find("CurrentRoom").GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f);
+        roomUiDic[CurrentRoom.Coordinate].GetChild(1).GetChild(0).GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f); // Property\CurrentRoom
 
         CurrentRoom = roomDic[CurrentRoom.Coordinate + moveDirection];
         Wakgood.Instance.transform.position = CurrentRoom.Doors[spawnDirection].transform.position + (Vector3)moveDirection * 4;
@@ -189,9 +221,9 @@ public class StageManager : MonoBehaviour
 
         CurrentRoom.Enter();
 
-        yield return new WaitForSeconds(0.1f);
+        yield return ws02;
         fadePanelAnimator.SetTrigger("FadeIn");
-        yield return new WaitForSeconds(0.2f);
+        yield return ws02;
         fadePanel.SetActive(false);
     }
 
@@ -199,20 +231,17 @@ public class StageManager : MonoBehaviour
     {
         if (GameManager.Instance.IsFighting)
         {
-            StopCoroutine("CantOpenText");
-            StartCoroutine("CantOpenText");
+            if (canOpenText != null) StopCoroutine(canOpenText);
+            StartCoroutine(canOpenText = CantOpenText());
         }
         else
         {
-            StopCoroutine("CantOpenText");
+            if (canOpenText != null) StopCoroutine(canOpenText);
 
             scrollRectBackGround.localPosition = -CurrentRoom.Coordinate * (mapGridLayoutGroup.cellSize.x + mapGridLayoutGroup.spacing.x);
             mapPanel.SetActive(bOpen);
         }
     }
-
-    [SerializeField] private TextMeshProUGUI stageNumberText, stageNameCommentText;
-    [SerializeField] private GameObject stageSpeedWagon;
 
     private IEnumerator StageSpeedWagon()
     {

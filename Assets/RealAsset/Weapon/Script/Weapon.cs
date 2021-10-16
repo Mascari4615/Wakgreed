@@ -18,9 +18,9 @@ public class Weapon : ScriptableObject, ISerializationCallbackReceiver
     public Buff[] buffs;
     [SerializeField] private Skill baseAttack;
     [System.NonSerialized] private bool canBaseAttack = true;
-    [SerializeField] private Skill skillQ;
+    public Skill skillQ;
     [System.NonSerialized] private bool canSkillQ = true;
-    [SerializeField] private Skill skillE;
+    public Skill skillE;
     [System.NonSerialized] private bool canSkillE = true;
     public int minDamage = 5;
     public int maxDamage = 10;
@@ -33,13 +33,6 @@ public class Weapon : ScriptableObject, ISerializationCallbackReceiver
     public float reloadTime;
     private bool isReloading = false;
     [System.NonSerialized] public WaitForSeconds waitReload;
-
-    private IEnumerator ChangeWithDelay(bool changeValue, float delay, System.Action<bool> makeResult)
-    {
-        // 참고 : https://velog.io/@sonohoshi/10.-Unity에서-일정-시간-이후-값을-바꾸는-방법
-        yield return new WaitForSeconds(delay);
-        makeResult(changeValue);
-    }
 
     public void BaseAttack()
     {
@@ -68,7 +61,7 @@ public class Weapon : ScriptableObject, ISerializationCallbackReceiver
 
         // 쿨타임
         canBaseAttack = false;
-        GameManager.Instance.StartCoroutine(ChangeWithDelay(true, 1f / attackSpeed, value => canBaseAttack = value));
+        GameManager.Instance.StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, 1f / attackSpeed, value => canBaseAttack = value));
     }
 
     public void Reload()
@@ -105,7 +98,7 @@ public class Weapon : ScriptableObject, ISerializationCallbackReceiver
 
         skillQ?.Use(minDamage, maxDamage);
         canSkillQ = false;
-        GameManager.Instance.StartCoroutine(ChangeWithDelay(true, skillQ.coolTime, value => canSkillQ = value));
+        GameManager.Instance.StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, skillQ.coolTime, value => canSkillQ = value));
     }
 
     public void SkillE() 
@@ -114,7 +107,7 @@ public class Weapon : ScriptableObject, ISerializationCallbackReceiver
 
         skillE?.Use(minDamage, maxDamage);
         canSkillE = false;
-        GameManager.Instance.StartCoroutine(ChangeWithDelay(true, skillE.coolTime, value => canSkillE = value));
+        GameManager.Instance.StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, skillE.coolTime, value => canSkillE = value));
     }
 
     public void OnAfterDeserialize()
