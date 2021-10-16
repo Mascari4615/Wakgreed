@@ -1,4 +1,4 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Mastery", menuName = "Variable/Mastery")]
-public class Mastery : SpecialThing {}
+public class Mastery : Equiptable { }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public static class TtmdaclExtension
 {
@@ -10,7 +11,19 @@ public static class TtmdaclExtension
     {
         yield return new WaitForSeconds(delay);
         makeResult(changeValue);
-        Debug.Log("Ing");
+    }
+
+    public static IEnumerator ChangeWithDelay(bool changeValue, float coolTime, Action<bool> makeResult, Image image)
+    {
+        image.fillAmount = 1f;
+        float curCoolTime = coolTime;     
+        do
+        {
+            image.fillAmount = curCoolTime / coolTime;
+            yield return null;
+        } while ((curCoolTime -= Time.deltaTime) > 0);
+        image.fillAmount = 0f;
+        makeResult(changeValue);
     }
 
     public static IEnumerator ChangeWithDelay(this float origin, float coolTime, Action<float> makeResult)
@@ -21,6 +34,6 @@ public static class TtmdaclExtension
             now += Time.deltaTime;
             makeResult(coolTime - now);
             yield return null;
-        }   
+        }
     }
 }

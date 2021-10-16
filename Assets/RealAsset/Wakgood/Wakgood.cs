@@ -37,7 +37,7 @@ public class Wakgood : MonoBehaviour, IHitable
     private float bbolBBolCoolDown = 0.3f;
     private float curBBolBBolCoolDown = 0;
 
-    private int curWeaponNumber = 1;
+    public int curWeaponNumber { get; private set; } = 1;
     public Weapon curWeapon { get; private set; }
     [SerializeField] private Weapon weapon1;
     [SerializeField] private Weapon weapon2;
@@ -46,7 +46,6 @@ public class Wakgood : MonoBehaviour, IHitable
     
     [SerializeField] private BuffRunTimeSet buffRunTimeSet;
 
-    private Camera mainCamera;
     private Vector3 worldMousePoint;
 
     private List<int> hInputList = new();
@@ -74,7 +73,7 @@ public class Wakgood : MonoBehaviour, IHitable
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         cinemachineTargetGroup = GameObject.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>();
-        mainCamera = Camera.main;
+        curWeapon = hochi;
 
         Initialize(true);
     }
@@ -103,48 +102,38 @@ public class Wakgood : MonoBehaviour, IHitable
         animator.SetBool("Move", false);
 
         if (weaponPosition.childCount > 0) Destroy(weaponPosition.GetChild(0).gameObject);
-
-        foreach (var weaponBuff in weapon1.buffs)
-        {
-            buffRunTimeSet.Add(weaponBuff);
-            weaponBuff.hasCondition = true;
-        }
-        foreach (var weaponBuff in weapon2.buffs)
-        {
-            buffRunTimeSet.Add(weaponBuff);
-            weaponBuff.hasCondition = true;
-        }
+        curWeapon.OnRemove();
 
         weapon1 = hochi;
-        UIManager.Instance.weapon1Sprite.sprite = weapon1.icon;
+        UIManager.Instance.weapon1Sprite.SetSlot(weapon1);
         UIManager.Instance.weapon1SkillQ.gameObject.SetActive(false);
-        UIManager.Instance.weapon1SkillQSprite.sprite = weapon1.skillQ?.icon;
+        if (weapon1.skillQ) UIManager.Instance.weapon1SkillQ.SetSlot(weapon1.skillQ);
         UIManager.Instance.weapon1SkillE.gameObject.SetActive(false);
-        UIManager.Instance.weapon1SkillESprite.sprite = weapon1.skillE?.icon;
+        if (weapon1.skillE) UIManager.Instance.weapon1SkillE.SetSlot(weapon1.skillE);
 
         weapon2 = hand;
-        UIManager.Instance.weapon2Sprite.sprite = weapon2.icon;
+        UIManager.Instance.weapon2Sprite.SetSlot(weapon2);
         UIManager.Instance.weapon2SkillQ.gameObject.SetActive(false);
-        UIManager.Instance.weapon2SkillQSprite.sprite = weapon2.skillQ?.icon;
+        if (weapon2.skillQ) UIManager.Instance.weapon2SkillQ.SetSlot(weapon2.skillQ);
         UIManager.Instance.weapon2SkillE.gameObject.SetActive(false);
-        UIManager.Instance.weapon2SkillESprite.sprite = weapon2.skillE?.icon;
+        if (weapon2.skillE) UIManager.Instance.weapon2SkillE.SetSlot(weapon2.skillE);
 
+        if (curWeaponNumber != 1)
+        {
+            curWeaponNumber = 1;
+            UIManager.Instance.StartCoroutine(UIManager.Instance.SwitchWeapon());
+        }
         curWeapon = weapon1;
+        curWeapon.OnEquip();
         Instantiate(curWeapon.resource, weaponPosition);
 
-        AD.RuntimeValue = curWeapon.maxDamage;
-        foreach (var weaponBuff in curWeapon.buffs)
-        {
-            buffRunTimeSet.Add(weaponBuff);
-            weaponBuff.hasCondition = true;
-        }
-
+        AD.RuntimeValue = curWeapon.maxDamage;      
         StartCoroutine(UpdateDashStack());
     }
 
     private void Update()
     {
-        worldMousePoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        worldMousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         spriteRenderer.sortingOrder = -(int)System.Math.Truncate(transform.position.y * 10);
         spriteRenderer.color = isHealthy == true ? Color.white : new Color(1, 1, 1, (float)100 / 255);
         if (Time.timeScale == 0) return;
@@ -153,8 +142,8 @@ public class Wakgood : MonoBehaviour, IHitable
         if (Input.GetKeyDown(KeyCode.Space) && !isDashing && curDashStack.RuntimeValue > 0) StartCoroutine(Dash());
 
         if (Input.GetMouseButton(0)) curWeapon.BaseAttack();
-        if (Input.GetKeyDown(KeyCode.Q)) curWeapon.SkillE();
-        if (Input.GetKeyDown(KeyCode.E)) curWeapon.SkillQ();
+        if (Input.GetKeyDown(KeyCode.Q)) curWeapon.SkillQ();
+        if (Input.GetKeyDown(KeyCode.E)) curWeapon.SkillE();
         if (Input.GetKeyDown(KeyCode.R)) curWeapon.Reload();
 
         if (Input.GetAxisRaw("Mouse ScrollWheel") != 0) SwitchCurWeapon();
@@ -179,14 +168,9 @@ public class Wakgood : MonoBehaviour, IHitable
         if (IsSwitching) return;
         IsSwitching = true;
 
-        Debug.Log("Ang");
         UIManager.Instance.StartCoroutine(UIManager.Instance.SwitchWeapon());
 
-        foreach (var weaponBuff in curWeapon.buffs)
-        {
-            weaponBuff.hasCondition = false;
-            buffRunTimeSet.Remove(weaponBuff);
-        }
+        curWeapon.OnRemove();
         Destroy(weaponPosition.GetChild(0).gameObject);
 
         if (targetWeaponNumber == 0)
@@ -201,12 +185,7 @@ public class Wakgood : MonoBehaviour, IHitable
         }
 
         Instantiate(curWeapon.resource, weaponPosition);
-        foreach (var weaponBuff in curWeapon.buffs)
-        {
-            buffRunTimeSet.Add(weaponBuff);
-            weaponBuff.hasCondition = true;
-        }
-        Debug.Log("Ong");
+        curWeapon.OnEquip();
 
         StartCoroutine(TtmdaclExtension.ChangeWithDelay(false, .25f, value => IsSwitching = value));
     }
@@ -216,11 +195,7 @@ public class Wakgood : MonoBehaviour, IHitable
         if (IsSwitching) return;
         IsSwitching = true;
 
-        foreach (var weaponBuff in curWeapon.buffs)
-        {
-            weaponBuff.hasCondition = false;
-            buffRunTimeSet.Remove(weaponBuff);
-        }
+        curWeapon.OnRemove();
         Destroy(weaponPosition.GetChild(0).gameObject);
 
         if (curWeaponNumber == 1)
@@ -228,31 +203,27 @@ public class Wakgood : MonoBehaviour, IHitable
             weapon1 = targetWeapon;
             curWeapon = weapon1;
 
-            UIManager.Instance.weapon1Sprite.sprite = curWeapon.icon;
-            UIManager.Instance.weapon1SkillQ.gameObject.SetActive(curWeapon.skillQ);
-            UIManager.Instance.weapon1SkillQSprite.sprite = curWeapon.skillQ?.icon;
-            UIManager.Instance.weapon1SkillE.gameObject.SetActive(curWeapon.skillE);
-            UIManager.Instance.weapon1SkillESprite.sprite = curWeapon.skillE?.icon;
+            UIManager.Instance.weapon1Sprite.SetSlot(weapon1);
+            UIManager.Instance.weapon1SkillQ.gameObject.SetActive(weapon1.skillQ);
+            if (weapon1.skillQ) UIManager.Instance.weapon1SkillQ.SetSlot(weapon1.skillQ);
+            UIManager.Instance.weapon1SkillE.gameObject.SetActive(weapon1.skillE);
+            if (weapon1.skillE) UIManager.Instance.weapon1SkillE.SetSlot(weapon1.skillE);
         }
         else if (curWeaponNumber == 2)
         {
             weapon2 = targetWeapon;
             curWeapon = weapon2;
 
-            UIManager.Instance.weapon2Sprite.sprite = curWeapon.icon;
-            UIManager.Instance.weapon2SkillQ.gameObject.SetActive(curWeapon.skillQ);
-            UIManager.Instance.weapon2SkillQSprite.sprite = curWeapon.skillQ?.icon;
-            UIManager.Instance.weapon2SkillE.gameObject.SetActive(curWeapon.skillE);
-            UIManager.Instance.weapon2SkillESprite.sprite = curWeapon.skillE?.icon;
+            UIManager.Instance.weapon2Sprite.SetSlot(weapon2);
+            UIManager.Instance.weapon2SkillQ.gameObject.SetActive(weapon2.skillQ);
+            if (weapon2.skillQ) UIManager.Instance.weapon2SkillQ.SetSlot(weapon2.skillQ);
+            UIManager.Instance.weapon2SkillE.gameObject.SetActive(weapon2.skillE);
+            if (weapon2.skillE) UIManager.Instance.weapon2SkillE.SetSlot(weapon2.skillE);
         }
 
         Instantiate(curWeapon.resource, weaponPosition);
         AD.RuntimeValue = curWeapon.maxDamage;
-        foreach (var weaponBuff in curWeapon.buffs)
-        {
-            buffRunTimeSet.Add(weaponBuff);
-            weaponBuff.hasCondition = true;
-        }
+        curWeapon.OnEquip();
 
         StartCoroutine(TtmdaclExtension.ChangeWithDelay(false, .25f, value => IsSwitching = value));
     }

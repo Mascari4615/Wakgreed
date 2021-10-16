@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEditor;
 
 public abstract class SpecialThing : ScriptableObject
 {
@@ -7,6 +6,10 @@ public abstract class SpecialThing : ScriptableObject
     public new string name;
     public Sprite sprite;
     [TextArea] public string description;
+}
+
+public abstract class Equiptable : SpecialThing
+{
     [SerializeField] private Effect[] effects;
 
     public virtual void OnEquip()
@@ -16,7 +19,7 @@ public abstract class SpecialThing : ScriptableObject
             effects[i]._Effect();
         }
     }
-    
+
     public virtual void OnRemove()
     {
         for (int i = 0; i < effects.Length; i++)
@@ -25,22 +28,3 @@ public abstract class SpecialThing : ScriptableObject
         }
     }
 }
-
-/*[CustomPropertyDrawer(typeof(Sprite))]
-public class CombinableSpritesAttributeEditor : PropertyDrawer
-{
-    float spriteSize = 64;
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-    {
-        var labelRect = new Rect(position.x, position.y - (spriteSize/2) + 10, position.width, position.height);
-        EditorGUI.LabelField(labelRect, "Sprite");
-
-        var spriteRect = new Rect(position.xMax - spriteSize, position.y, spriteSize, spriteSize);
-        property.objectReferenceValue = EditorGUI.ObjectField(spriteRect, property.objectReferenceValue, typeof(Sprite), false);
-    }
-
-    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-    {
-        return spriteSize;
-    }
-}*/
