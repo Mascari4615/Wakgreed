@@ -6,16 +6,11 @@ public enum InputType { ONCE, CONTINUE }
 public enum AttackType { MELEE, RANGED }
 
 [CreateAssetMenu]
-public class Weapon : ScriptableObject, ISerializationCallbackReceiver
+public class Weapon : Equiptable, ISerializationCallbackReceiver
 {
-    public int ID;
-    public new string name;
-    public string description;
-    public Sprite icon;
     public Rarity rarity;
     public GameObject resource;
     public GameObject[] subResources;
-    public Buff[] buffs;
     [SerializeField] private Skill baseAttack;
     [System.NonSerialized] private bool canBaseAttack = true;
     public Skill skillQ;
@@ -46,7 +41,7 @@ public class Weapon : ScriptableObject, ISerializationCallbackReceiver
         if (magazine != 0 && ammo == 0)
         {
             // ÀåÀü
-            GameManager.Instance.StartCoroutine(_Reload());
+            Reload();
             return;
         }
 ;
@@ -55,7 +50,7 @@ public class Weapon : ScriptableObject, ISerializationCallbackReceiver
 
         if (magazine != 0 && ammo == 0)
         {
-            GameManager.Instance.StartCoroutine(_Reload());
+            Reload();
             return;
         }
 
@@ -68,28 +63,13 @@ public class Weapon : ScriptableObject, ISerializationCallbackReceiver
     {
         if (magazine != 0)
         {
-            if (!isReloading) GameManager.Instance.StartCoroutine(_Reload());
+            if (!isReloading)
+            {
+                isReloading = false;
+                GameManager.Instance.StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, reloadTime, value => isReloading = value, UIManager.Instance.reloadImage));
+                ammo = magazine;
+            }
         }
-    }
-
-    private IEnumerator _Reload()
-    {
-        isReloading = true;
-
-        UIManager.Instance.reloadUI.SetActive(true);
-
-        float now = 0;
-        while (now < reloadTime)
-        {
-            now += Time.deltaTime;
-            UIManager.Instance.reloadImage.fillAmount = now / reloadTime;
-            yield return null;
-        }
-
-        UIManager.Instance.reloadUI.SetActive(false);
-
-        ammo = magazine;
-        isReloading = false;
     }
 
     public void SkillQ() 
@@ -98,7 +78,8 @@ public class Weapon : ScriptableObject, ISerializationCallbackReceiver
 
         skillQ?.Use(minDamage, maxDamage);
         canSkillQ = false;
-        GameManager.Instance.StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, skillQ.coolTime, value => canSkillQ = value));
+        GameManager.Instance.StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, skillQ.coolTime, value => canSkillQ = value, 
+            Wakgood.Instance.curWeaponNumber == 1 ? UIManager.Instance.weapon1SkillQCoolTime : UIManager.Instance.weapon2SkillQCoolTime));
     }
 
     public void SkillE() 
@@ -107,7 +88,8 @@ public class Weapon : ScriptableObject, ISerializationCallbackReceiver
 
         skillE?.Use(minDamage, maxDamage);
         canSkillE = false;
-        GameManager.Instance.StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, skillE.coolTime, value => canSkillE = value));
+        GameManager.Instance.StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, skillQ.coolTime, value => canSkillQ = value,
+            Wakgood.Instance.curWeaponNumber == 1 ? UIManager.Instance.weapon1SkillECoolTime : UIManager.Instance.weapon2SkillECoolTime));
     }
 
     public void OnAfterDeserialize()

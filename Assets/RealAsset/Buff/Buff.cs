@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Buff", menuName = "Variable/Buff")]
-public class Buff : SpecialThing
+public class Buff : Equiptable
 {
     public bool hasCondition;
     [SerializeField] private float duration;

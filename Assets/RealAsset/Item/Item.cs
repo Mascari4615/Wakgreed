@@ -6,7 +6,7 @@ public enum ItemGrade
 }
 
 [CreateAssetMenu(fileName = "Item", menuName = "Variable/Item")]
-public class Item : SpecialThing
+public class Item : Equiptable
 {
     public ItemGrade itemGrade;
     public int price;

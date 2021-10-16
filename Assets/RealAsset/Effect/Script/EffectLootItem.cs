@@ -8,7 +8,7 @@ public class EffectLootItem : Effect
 
     private void DropItem(Transform transform)
     {
-        ObjectManager.Instance.PopObject("Item", transform.position).GetComponent<ItemGameObject>().Initialize(id);
+        ObjectManager.Instance.PopObject("ItemGameObject", transform.position).GetComponent<ItemGameObject>().Initialize(id);
     }
 
     public override void _Effect()

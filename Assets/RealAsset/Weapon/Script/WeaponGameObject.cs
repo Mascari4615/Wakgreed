@@ -12,7 +12,7 @@ public class WeaponGameObject : InteractiveObject
     public void Initialize(int id)
     {
         weapon = DataManager.Instance.WeaponDic[id];
-        spriteRenderer.sprite = weapon.icon;
+        spriteRenderer.sprite = weapon.sprite;
     }
 
     public override void Interaction()
@@ -22,7 +22,7 @@ public class WeaponGameObject : InteractiveObject
             Weapon temp = Wakgood.Instance.curWeapon;
             Wakgood.Instance.SwitchWeapon(targetWeapon: weapon);
             weapon = temp;
-            spriteRenderer.sprite = weapon.icon;
+            spriteRenderer.sprite = weapon.sprite;
         }
     }
 }

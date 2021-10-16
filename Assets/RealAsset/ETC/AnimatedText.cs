@@ -40,4 +40,10 @@ public class AnimatedText : MonoBehaviour
         else if (damageType.Equals(TextType.Critical)) textMesh.color = Color.yellow;
         else if (damageType.Equals(TextType.Heal)) textMesh.color = Color.green;
     }
+
+    public void SetText(string text, Color color)
+    {
+        textMesh.text = text;
+        textMesh.color = color;
+    }
 }
