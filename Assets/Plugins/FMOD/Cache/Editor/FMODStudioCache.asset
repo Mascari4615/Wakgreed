@@ -241,6 +241,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 410
+--- !u!114 &-4180121826518267754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Monster/Gorilla_Collapse
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Monster/Gorilla_Collapse
+  Guid:
+    Data1: 1858858405
+    Data2: 1119486271
+    Data3: -477894468
+    Data4: -1186278685
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 708
 --- !u!114 &-3646397642955766658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,6 +402,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 962
+--- !u!114 &-2513828582181713980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Monster/BabyPanchi_Hurt
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Monster/BabyPanchi_Hurt
+  Guid:
+    Data1: 863136961
+    Data2: 1182824776
+    Data3: 1490829491
+    Data4: 60949854
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 708
 --- !u!114 &-2428507017619066995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,6 +456,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-2419743792338509262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Monster/BabyPanchi_Collapse
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Monster/BabyPanchi_Collapse
+  Guid:
+    Data1: -2018015844
+    Data2: 1324007844
+    Data3: -940780926
+    Data4: 2121487509
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 708
 --- !u!114 &-2127791996452492447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -444,10 +525,10 @@ MonoBehaviour:
   Path: Fmod/WakjwaLike/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637699256528795909
+  lastModified: 637700083412244914
   FileSizes:
   - Name: Desktop
-    Value: 3054432
+    Value: 3059040
   Exists: 1
 --- !u!114 &-1785846771405165444
 MonoBehaviour:
@@ -569,12 +650,16 @@ MonoBehaviour:
   - {fileID: 2937497299557672315}
   - {fileID: -2568837561767273770}
   - {fileID: -2872244398054779927}
+  - {fileID: -2419743792338509262}
+  - {fileID: -4180121826518267754}
+  - {fileID: 3585337137243528775}
+  - {fileID: -2513828582181713980}
   EditorParameters: []
   MasterBanks:
   - {fileID: -1813042681740017314}
   StringsBanks:
   - {fileID: 6107050520195032601}
-  cacheTime: 637699256528825819
+  cacheTime: 637700083412274790
   cacheVersion: 9
 --- !u!114 &215977827860736700
 MonoBehaviour:
@@ -656,6 +741,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 560
+--- !u!114 &3585337137243528775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Monster/Gorilla_Hurt
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Monster/Gorilla_Hurt
+  Guid:
+    Data1: -1078115655
+    Data2: 1180751228
+    Data3: 2006450822
+    Data4: -237062386
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 708
 --- !u!114 &4730479702173444701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -778,10 +890,10 @@ MonoBehaviour:
   Path: Fmod/WakjwaLike/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637699256528825819
+  lastModified: 637700083412274790
   FileSizes:
   - Name: Desktop
-    Value: 1936
+    Value: 2148
   Exists: 1
 --- !u!114 &6222241413271260203
 MonoBehaviour:

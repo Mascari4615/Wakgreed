@@ -33,6 +33,7 @@ public class Wakgood : MonoBehaviour, IHitable
     private Rigidbody2D playerRB;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
+    private WakgoodCollider wakgoodCollider;
 
     private float bbolBBolCoolDown = 0.3f;
     private float curBBolBBolCoolDown = 0;
@@ -58,7 +59,6 @@ public class Wakgood : MonoBehaviour, IHitable
     private int maxDashStack = 5;
     [SerializeField] private IntVariable curDashStack;
     private float dashCoolTime = 1f;
-    private Dictionary<int, InteractiveObject> nearInteractiveObjectDic = new();
     public bool IsSwitching { get; set; } = false;
 
     private void Awake()
@@ -72,6 +72,7 @@ public class Wakgood : MonoBehaviour, IHitable
         playerRB = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        wakgoodCollider = transform.GetChild(0).GetComponent<WakgoodCollider>();
         cinemachineTargetGroup = GameObject.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>();
         curWeapon = hochi;
 
@@ -150,11 +151,11 @@ public class Wakgood : MonoBehaviour, IHitable
         else if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchCurWeapon(1);
         else if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchCurWeapon(2);
 
-        if (Input.GetKeyDown(KeyCode.F) && nearInteractiveObjectDic.Count != 0)
+        if (Input.GetKeyDown(KeyCode.F) && wakgoodCollider.NearInteractiveObjectDic.Count != 0)
         {
             InteractiveObject nearInteractiveObject = null;
             float distance = float.MaxValue;
-            foreach (var item in nearInteractiveObjectDic.Values)
+            foreach (var item in wakgoodCollider.NearInteractiveObjectDic.Values)
             {
                 if (Vector2.Distance(transform.position, item.transform.position) < distance)
                     nearInteractiveObject = item;
@@ -382,32 +383,5 @@ public class Wakgood : MonoBehaviour, IHitable
 
         ObjectManager.Instance.PopObject("LevelUpEffect", transform);
         ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>().SetText("Level Up!", TextType.Critical);
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("UpperDoor")) GameManager.Instance.StartCoroutine(StageManager.Instance.MigrateRoom(Vector2.up, 1));
-        else if (other.CompareTag("LowerDoor")) GameManager.Instance.StartCoroutine(StageManager.Instance.MigrateRoom(Vector2.down, 0));
-        else if (other.CompareTag("LeftDoor")) GameManager.Instance.StartCoroutine(StageManager.Instance.MigrateRoom(Vector2.left, 3));
-        else if (other.CompareTag("RightDoor")) GameManager.Instance.StartCoroutine(StageManager.Instance.MigrateRoom(Vector2.right, 2));
-
-        else if (other.CompareTag("AreaDoor")) AreaTweener.Instance.ChangeArea(other.transform);
-
-        else if (other.CompareTag("InteractiveObject"))
-        {
-            if (!nearInteractiveObjectDic.ContainsKey(other.GetInstanceID()))
-                nearInteractiveObjectDic.Add(other.GetInstanceID(), other.GetComponent<InteractiveObject>());
-            else Debug.LogError("ㅈ버그");
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("InteractiveObject"))
-        {
-            if (nearInteractiveObjectDic.ContainsKey(other.GetInstanceID()))
-                nearInteractiveObjectDic.Remove(other.GetInstanceID());
-            else Debug.LogError("ㅈ버그");
-        }
     }
 }
