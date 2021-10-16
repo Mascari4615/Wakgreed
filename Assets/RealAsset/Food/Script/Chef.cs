@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class RestaurantOwner : NPC
+public class Chef : NPC
 {
     [SerializeField] private FoodInventory foodInventory;
 

@@ -10,6 +10,7 @@ public static class TtmdaclExtension
     {
         yield return new WaitForSeconds(delay);
         makeResult(changeValue);
+        Debug.Log("Ing");
     }
 
     public static IEnumerator ChangeWithDelay(this float origin, float coolTime, Action<float> makeResult)

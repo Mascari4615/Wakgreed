@@ -1,8 +1,31 @@
 using UnityEngine;
 using System.Linq;
+using System.Collections.Generic;
 
 public class ShopKeeper : NPC
 {
+    [SerializeField] private FoodInventory foodInventory;
+
+    private void Start()
+    {
+        if (foodInventory.Items != null) foodInventory.Clear();
+        ui = UIManager.Instance.restaurant.gameObject;
+
+        List<Food> asd = new();
+        foreach (var kav in DataManager.Instance.FoodDic)
+        {
+            asd.Add(kav.Value);
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            int rand = Random.Range(0, asd.Count);
+            foodInventory.Add(asd[rand]);
+            asd.RemoveAt(rand);
+        }
+    }
+
+    /*
     [SerializeField] private ItemInventoryUI itemInventoryUI_Sell;
     [SerializeField] private ItemInventoryUI itemInventoryUI_Buy;
     [SerializeField] private ShopKeeperItemInventory ShopKeeperItemInventory;
@@ -48,4 +71,5 @@ public class ShopKeeper : NPC
         ObjectManager.Instance.PopObject("Item", transform).GetComponent<ItemGameObject>().Initialize((slot.specialThing as Item).ID);
         itemInventoryUI_Buy.Initialize();
     }
+    */
 }

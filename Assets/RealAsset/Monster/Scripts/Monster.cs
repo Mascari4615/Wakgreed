@@ -14,7 +14,7 @@ public abstract class Monster : MonoBehaviour, IHitable
     protected new Rigidbody2D rigidbody2D;
     private CapsuleCollider2D capsuleCollider2D;
 
-    private bool isCollapsed = false;
+    protected bool isCollapsed = false;
 
     protected virtual void Awake()
     {
