@@ -19,8 +19,6 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject state;
 
-    public Restaurant restaurant;
-
     public TextMeshProUGUI aaa;
 
     public GameObject reloadUI;

@@ -45,7 +45,7 @@ public class Amoeba : NormalMonster
             animator.SetBool("ISMOVING", true);
             Vector2 targetPos = spawnPos + new Vector3(Random.Range(-2f, 2f), Random.Range(-2f, 2f), 0);
             Vector2 originPos = transform.position;
-            spriteRenderer.flipX = (targetPos.x > originPos.x) ? false : true;
+            spriteRenderer.flipX = targetPos.x <= originPos.x;
             for (int i = 0; i < 50; i++)
             {
                 rigidbody2D.position += (targetPos - originPos) * 0.02f;
@@ -77,7 +77,7 @@ public class Amoeba : NormalMonster
         animator.SetBool("ISMOVING", true);
         while (true)
         {
-            spriteRenderer.flipX = transform.position.x > Wakgood.Instance.transform.position.x ? true : false;
+            spriteRenderer.flipX = transform.position.x > Wakgood.Instance.transform.position.x;
 
             Vector2 moveDirection = (Wakgood.Instance.transform.position - transform.position).normalized;
             rigidbody2D.velocity = moveDirection * moveSpeed;
@@ -85,15 +85,13 @@ public class Amoeba : NormalMonster
         }
     }
 
-    public override void ReceiveHit(int damage)
+    protected override void _ReceiveHit()
     {
-        spriteRenderer.flipX = transform.position.x > Wakgood.Instance.transform.position.x ? true : false;
+        spriteRenderer.flipX = transform.position.x > Wakgood.Instance.transform.position.x;
 
         StopAllCoroutines();
         ahya = Ahya();
-        StartCoroutine(ahya);
-
-        base.ReceiveHit(damage);      
+        StartCoroutine(ahya);       
     }
 
     protected override IEnumerator Collapse()

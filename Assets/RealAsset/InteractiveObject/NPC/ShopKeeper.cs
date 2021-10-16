@@ -1,49 +1,19 @@
-using UnityEngine;
 using System.Linq;
-using System.Collections.Generic;
+using UnityEngine;
 
 public class ShopKeeper : NPC
 {
-    [SerializeField] private FoodInventory foodInventory;
-
-    private void Start()
-    {
-        if (foodInventory.Items != null) foodInventory.Clear();
-        ui = UIManager.Instance.restaurant.gameObject;
-
-        List<Food> asd = new();
-        foreach (var kav in DataManager.Instance.FoodDic)
-        {
-            asd.Add(kav.Value);
-        }
-
-        for (int i = 0; i < 3; i++)
-        {
-            int rand = Random.Range(0, asd.Count);
-            foodInventory.Add(asd[rand]);
-            asd.RemoveAt(rand);
-        }
-    }
-
-    /*
+    [SerializeField] private ShopKeeperItemInventory itemInventory;
     [SerializeField] private ItemInventoryUI itemInventoryUI_Sell;
     [SerializeField] private ItemInventoryUI itemInventoryUI_Buy;
-    [SerializeField] private ShopKeeperItemInventory ShopKeeperItemInventory;
     [SerializeField] private IntVariable nyang;
 
-    private void Start()
+    private void Awake()
     {
         for (int i = 0; i < 10; i++)
         {
-            ShopKeeperItemInventory.Add(DataManager.Instance.ItemDic.ElementAt(Random.Range(0, DataManager.Instance.ItemDic.Count)).Value);
+            itemInventory.Add(DataManager.Instance.ItemDic.ElementAt(Random.Range(0, DataManager.Instance.ItemDic.Count)).Value);
         }
-    }
-
-    public override void Interaction()
-    {
-        base.Interaction();
-        itemInventoryUI_Sell.Initialize();
-        itemInventoryUI_Buy.Initialize();
     }
 
     public void SellItem(Slot slot)
@@ -57,19 +27,19 @@ public class ShopKeeper : NPC
 
     public void BuyItem(Slot slot)
     {
-        if (nyang.RuntimeValue < (slot.specialThing as Item).price)
+        if (nyang.RuntimeValue >= (slot.specialThing as Item).price)
         {
-            UIManager.Instance.StopCoroutine("NeedMoreNyang");
-            UIManager.Instance.StartCoroutine("NeedMoreNyang");
-            return;
+            nyang.RuntimeValue -= (slot.specialThing as Item).price;
+
+            slot.gameObject.SetActive(false);
+
+            itemInventory.Remove(slot.specialThing as Item);
+            ObjectManager.Instance.PopObject("ItemGameObject", transform).GetComponent<ItemGameObject>().Initialize((slot.specialThing as Item).ID);
+            itemInventoryUI_Buy.Initialize();
         }
-
-        nyang.RuntimeValue -= (slot.specialThing as Item).price;
-
-        slot.gameObject.SetActive(false);
-        ShopKeeperItemInventory.Remove(slot.specialThing as Item);
-        ObjectManager.Instance.PopObject("Item", transform).GetComponent<ItemGameObject>().Initialize((slot.specialThing as Item).ID);
-        itemInventoryUI_Buy.Initialize();
+        else
+        {
+            ObjectManager.Instance.PopObject("AnimatedText", Wakgood.Instance.transform.position).GetComponent<AnimatedText>().SetText("∞ÒµÂ ∫Œ¡∑!", TextType.Critical);
+        }
     }
-    */
 }

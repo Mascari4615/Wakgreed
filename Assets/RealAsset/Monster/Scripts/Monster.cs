@@ -42,7 +42,7 @@ public abstract class Monster : MonoBehaviour, IHitable
         spriteRenderer.sortingOrder = -(int)System.Math.Truncate(transform.position.y * 10);
     }
 
-    public virtual void ReceiveHit(int damage)
+    public void ReceiveHit(int damage)
     {
         if (isCollapsed) return;
 
@@ -51,6 +51,8 @@ public abstract class Monster : MonoBehaviour, IHitable
         rigidbody2D.AddForce((transform.position - Wakgood.Instance.transform.position).normalized * 3f, ForceMode2D.Impulse);
 
         ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>().SetText(damage.ToString(), TextType.Normal);
+
+        _ReceiveHit();
 
         if (HP > 0)
         {
@@ -66,6 +68,8 @@ public abstract class Monster : MonoBehaviour, IHitable
             StartCoroutine(Collapse());
         }
     }
+
+    protected virtual void _ReceiveHit() { }
 
     protected virtual IEnumerator Collapse()
     {

@@ -139,11 +139,6 @@ public class Hikiking : BossMonster
         }
     }
 
-    public override void ReceiveHit(int damage)
-    {
-        base.ReceiveHit(damage);
-    }
-
     protected override IEnumerator Collapse()
     {
         return base.Collapse();

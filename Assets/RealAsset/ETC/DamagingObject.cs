@@ -15,12 +15,14 @@ public class DamagingObject : MonoBehaviour
     [SerializeField] private int damage = 0;
     [SerializeField] private bool offOnHit = true;
     [SerializeField] [Range(0f, 100f)] private float ggambbakDelay = 0f;
+    private WaitForSeconds wsDelay;
     private new Collider2D collider2D;
     private IHitable damagable;
 
     private void Awake()
     {
         collider2D = GetComponent<Collider2D>();
+        wsDelay = new WaitForSeconds(ggambbakDelay);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -51,23 +53,27 @@ public class DamagingObject : MonoBehaviour
             else
             {
                 damagable.ReceiveHit(damage);
-            } 
-            
-            if (offOnHit)
-            {
-                gameObject.SetActive(false);
-            }
-            else if (ggambbakDelay != 0)
-            {
-                StartCoroutine(Test());
-            }
+            }     
+        }
+        else
+        {
+            Wakgood.Instance.ReceiveHit(damage);
+        }
+
+        if (offOnHit)
+        {
+            gameObject.SetActive(false);
+        }
+        else if (ggambbakDelay != 0)
+        {
+            StartCoroutine(Test());
         }
     }
 
     private IEnumerator Test()
     {
         collider2D.enabled = false;
-        yield return new WaitForSeconds(ggambbakDelay);
+        yield return wsDelay;
         collider2D.enabled = true;
     }
 
