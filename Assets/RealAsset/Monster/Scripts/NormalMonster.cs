@@ -25,7 +25,7 @@ public abstract class NormalMonster : Monster
         yellowParent.transform.localScale = Vector3.one;
     }
 
-    protected override void Update()
+    private void Update()
     {
         redParent.transform.localScale = new Vector3(Mathf.Lerp(redParent.transform.localScale.x, (float)HP / maxHP, Time.deltaTime * 30f), 1, 1);
 

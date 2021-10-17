@@ -20,10 +20,8 @@ public class Hikiking : BossMonster
         StartCoroutine(Attack());
     }
 
-    protected override void Update()
+    private void Update()
     {
-        spriteRenderer.sortingOrder = -(int)System.Math.Truncate(transform.position.y * 10);
-
         UIManager.Instance.redParent.transform.localScale = new Vector3(Mathf.Lerp(UIManager.Instance.redParent.transform.localScale.x, (float)HP / maxHP, Time.deltaTime * 30f), 1, 1);
     }
 

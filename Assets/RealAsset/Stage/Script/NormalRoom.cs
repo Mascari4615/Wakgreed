@@ -20,13 +20,14 @@ public class NormalRoom : Room
     private int curWaveMonsterCount;
     private bool isCleared = false;
     private bool waveClearFlag = false;
+    [SerializeField] private BoolVariable isFighting;
 
     public override void Enter()
     {
         if (IsVisited == false) IsVisited = true;
         if (isCleared == false)
         {
-            GameManager.Instance.IsFighting = true;
+            isFighting.RuntimeValue = true;
             foreach (var hider in DoorHiders) hider.SetActive(true);
             foreach (var particle in DoorParticles) particle.SetActive(false);
             StartCoroutine(StartWave());
@@ -62,7 +63,7 @@ public class NormalRoom : Room
 
     private void RoomClear()
     {
-        GameManager.Instance.IsFighting = false;
+        isFighting.RuntimeValue = false;
         isCleared = true;
         foreach (var hider in DoorHiders) hider.SetActive(false);
         foreach (var particle in DoorParticles) particle.SetActive(true);

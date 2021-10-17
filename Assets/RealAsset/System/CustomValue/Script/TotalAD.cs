@@ -1,5 +1,4 @@
 using UnityEngine;
-
 [CreateAssetMenu(fileName = "TotalAD", menuName = "Variable/TotalAD")]
 public class TotalAD : ScriptableObject
 {
@@ -11,7 +10,6 @@ public class TotalAD : ScriptableObject
 
     public int GetTotalDamage()
     {
-        return (T_AD.RuntimeValue + I_AD.RuntimeValue + M_AD.RuntimeValue)
-         * ((100 + I_ADper.RuntimeValue + M_ADper.RuntimeValue) / 100); 
+        return (T_AD.RuntimeValue + I_AD.RuntimeValue + M_AD.RuntimeValue) * ((100 + I_ADper.RuntimeValue + M_ADper.RuntimeValue) / 100);
     }
 }

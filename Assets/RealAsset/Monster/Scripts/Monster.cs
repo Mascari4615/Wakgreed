@@ -37,11 +37,6 @@ public abstract class Monster : MonoBehaviour, IHitable
         GameManager.Instance.EnemyRunTimeSet.Add(gameObject);
     }
 
-    protected virtual void Update()
-    {
-        spriteRenderer.sortingOrder = -(int)System.Math.Truncate(transform.position.y * 10);
-    }
-
     public void ReceiveHit(int damage)
     {
         if (isCollapsed) return;

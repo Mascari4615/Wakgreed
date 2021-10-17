@@ -1,3 +1,3 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "IntVariable", menuName = "Variable/Int", order = 0)]
+[CreateAssetMenu(fileName = "IntVariable", menuName = "Variable/Int")]
 public class IntVariable : CustomVariable<int> { }
