@@ -51,7 +51,7 @@ public class DataManager : MonoBehaviour
 
     public static DataManager Create()
     {
-        var DataManagerPrefab = Resources.Load<DataManager>("Manager_Data");
+        var DataManagerPrefab = Resources.Load<DataManager>("Data Manager");
         return Instantiate(DataManagerPrefab);
     }
 

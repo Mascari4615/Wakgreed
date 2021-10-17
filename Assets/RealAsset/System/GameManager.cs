@@ -70,7 +70,11 @@ public class GameManager : MonoBehaviour
     {
         // 뒤로가기 버튼을 눌렀을 때, 정지 및 재개 ★ Time을 통한 실질적인 게임 정지 및 재개
         // # 정지 > 귀환 (StopCoroutine) 오류 가능성 : 따라서 플래그를 통해 현재 정지 시킬 수 있는지 확인해야함
-        if (Input.GetKeyDown(KeyCode.Escape)) PauseGame();
+        if (Input.GetKeyDown(KeyCode.Escape)) 
+        {
+            if (SettingManager.Instance.settingPanel.activeSelf) SettingManager.Instance.settingPanel.SetActive(false);
+            else PauseGame(); 
+        }
     }
 
     public void PauseGame() // 정지 버튼에서 호출

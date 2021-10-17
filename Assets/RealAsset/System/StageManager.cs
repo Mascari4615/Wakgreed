@@ -180,6 +180,7 @@ public class StageManager : MonoBehaviour
                 targetRoomUI = mapGridLayoutGroup.transform.GetChild(i);
                 targetRoomCoordinate = new(x, y);
                 // Debug.Log(targetRoomCoordinate);
+                targetRoomUI.GetComponent<RoomSlot>().coordinate = targetRoomCoordinate;
                 targetRoomUI.GetComponent<Image>().enabled = false;
                 targetRoomUI.GetChild(0).gameObject.SetActive(false); // Door
                 targetRoomUI.GetChild(1).gameObject.SetActive(false); // Property
@@ -236,6 +237,29 @@ public class StageManager : MonoBehaviour
 
         CurrentRoom = roomDic[CurrentRoom.Coordinate + moveDirection];
         Wakgood.Instance.transform.position = CurrentRoom.Doors[spawnDirection].transform.position + (Vector3)moveDirection * 4;
+        miniMapCamera.transform.position = new Vector3(CurrentRoom.Coordinate.x, CurrentRoom.Coordinate.y, -1) * 100;
+
+        UpdateMap();
+
+        if (CurrentRoom.IsVisited == false) mapPanel.SetActive(false);
+
+        CurrentRoom.Enter();
+
+        yield return ws02;
+        fadePanelAnimator.SetTrigger("FadeIn");
+        yield return ws02;
+        fadePanel.SetActive(false);
+    }
+
+    public IEnumerator MigrateRoom(Vector2 coordinate)
+    {
+        fadePanel.SetActive(true);
+        yield return ws02;
+
+        roomUiDic[CurrentRoom.Coordinate].GetChild(1).GetChild(0).GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f); // Property\CurrentRoom
+
+        CurrentRoom = roomDic[coordinate];
+        Wakgood.Instance.transform.position = CurrentRoom.transform.position;
         miniMapCamera.transform.position = new Vector3(CurrentRoom.Coordinate.x, CurrentRoom.Coordinate.y, -1) * 100;
 
         UpdateMap();
