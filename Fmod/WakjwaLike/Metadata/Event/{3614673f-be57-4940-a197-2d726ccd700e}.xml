@@ -5,7 +5,7 @@
 			<value>Panchi_Collapse</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{2cecdb0f-0a87-4236-9d78-db811f8b2187}</destination>
@@ -113,7 +113,6 @@
 	<object class="MixerBusEffectChain" id="{845a9633-3b4b-4de3-aac5-e7f49c65979f}">
 		<relationship name="effects">
 			<destination>{77df04f2-8041-45cd-9548-58b6c6990811}</destination>
-			<destination>{baa3813c-e9cd-4999-a495-27f479ea3e6d}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{fba80df8-17d1-43d2-a78a-9006429f227c}" />
@@ -125,6 +124,5 @@
 	</object>
 	<object class="MixerBusPanner" id="{623b4c27-5cca-41b7-8468-8b5d9f57393a}" />
 	<object class="MixerBusFader" id="{77df04f2-8041-45cd-9548-58b6c6990811}" />
-	<object class="SpatialiserEffect" id="{baa3813c-e9cd-4999-a495-27f479ea3e6d}" />
 	<object class="MixerBusFader" id="{00fc9cde-a987-463a-8f88-ba3c050f7541}" />
 </objects>

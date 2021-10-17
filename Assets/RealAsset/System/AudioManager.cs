@@ -29,7 +29,8 @@ public class AudioManager : MonoBehaviour
     private float MasterVolume = 0.5f;
 
     public EventInstance BGMEvent;
-    public PLAYBACK_STATE PbState;
+    private PLAYBACK_STATE pbState;
+    public PLAYBACK_STATE PbState { get { return pbState; } private set { pbState = value; } }
 
     public static AudioManager Create()
     {
@@ -56,7 +57,7 @@ public class AudioManager : MonoBehaviour
 
     private void Update()
     {
-        BGMEvent.getPlaybackState(out PbState);
+        BGMEvent.getPlaybackState(out pbState);
         if (PbState != PLAYBACK_STATE.PLAYING)
         {
             BGMEvent.start();

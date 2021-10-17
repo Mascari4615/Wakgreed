@@ -5,7 +5,7 @@
 			<value>Amoeba_Collapse</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{2cecdb0f-0a87-4236-9d78-db811f8b2187}</destination>
@@ -113,7 +113,6 @@
 	<object class="MixerBusEffectChain" id="{ac5b146f-a5a7-4a8d-9e53-1ceec82f61ff}">
 		<relationship name="effects">
 			<destination>{c93f6374-bf5b-40bf-af3b-c78d062a6e82}</destination>
-			<destination>{3a2905d5-d603-4230-ad2b-9a019fd3fba3}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{48cee7d0-355b-427f-b5d1-773b72549b7d}" />
@@ -125,6 +124,5 @@
 	</object>
 	<object class="MixerBusPanner" id="{6c5eacd3-c3e6-40e2-9a75-2d298bd7d340}" />
 	<object class="MixerBusFader" id="{c93f6374-bf5b-40bf-af3b-c78d062a6e82}" />
-	<object class="SpatialiserEffect" id="{3a2905d5-d603-4230-ad2b-9a019fd3fba3}" />
 	<object class="MixerBusFader" id="{a527c172-021e-461c-afa3-01bc3b6ec0cf}" />
 </objects>

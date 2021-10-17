@@ -5,7 +5,7 @@
 			<value>ChidoriPanchi_Hurt</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{2cecdb0f-0a87-4236-9d78-db811f8b2187}</destination>
@@ -113,7 +113,6 @@
 	<object class="MixerBusEffectChain" id="{6826af46-621f-43e6-b3b0-174d65c40faa}">
 		<relationship name="effects">
 			<destination>{be338496-d1f7-4376-b090-71b29d0ffdaf}</destination>
-			<destination>{09187f49-4c0f-4fd1-8fa3-0bc024e9e359}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{37b559bd-0949-41d3-a23f-2f2bc4c838da}" />
@@ -125,6 +124,5 @@
 	</object>
 	<object class="MixerBusPanner" id="{20a132ec-eda2-4877-8b4c-e0660d3fade0}" />
 	<object class="MixerBusFader" id="{be338496-d1f7-4376-b090-71b29d0ffdaf}" />
-	<object class="SpatialiserEffect" id="{09187f49-4c0f-4fd1-8fa3-0bc024e9e359}" />
 	<object class="MixerBusFader" id="{aa6108e4-3821-4841-b17c-feb0fc71cfda}" />
 </objects>

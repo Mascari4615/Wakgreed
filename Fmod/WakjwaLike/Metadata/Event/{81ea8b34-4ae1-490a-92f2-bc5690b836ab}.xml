@@ -5,7 +5,7 @@
 			<value>LootGameObject</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{eec5b353-fd0f-4688-9f52-b528d24e2a4d}</destination>
@@ -113,7 +113,6 @@
 	<object class="MixerBusEffectChain" id="{2efaac02-8e25-43ed-a0ff-a0c8b7954e6b}">
 		<relationship name="effects">
 			<destination>{68d3f134-3df9-4c8d-a3a8-a06fc7f886f7}</destination>
-			<destination>{722f1fbb-c0e4-4432-9634-ac0a1eebf834}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{03a97564-ab5e-49b7-963f-c95603b914c8}" />
@@ -125,6 +124,5 @@
 	</object>
 	<object class="MixerBusPanner" id="{ef8f6c6f-5c99-4573-aadd-baf27514d674}" />
 	<object class="MixerBusFader" id="{68d3f134-3df9-4c8d-a3a8-a06fc7f886f7}" />
-	<object class="SpatialiserEffect" id="{722f1fbb-c0e4-4432-9634-ac0a1eebf834}" />
 	<object class="MixerBusFader" id="{e2358e0c-c788-414a-929c-b309327c2572}" />
 </objects>

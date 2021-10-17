@@ -5,7 +5,7 @@
 			<value>GamjaPanchi_Collapse</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{2cecdb0f-0a87-4236-9d78-db811f8b2187}</destination>
@@ -113,7 +113,6 @@
 	<object class="MixerBusEffectChain" id="{bc620025-c00b-48b9-aa22-22d2607b4bef}">
 		<relationship name="effects">
 			<destination>{a50f8b4a-a410-4047-a587-eff05f1af60c}</destination>
-			<destination>{d21e8f2f-5a79-4fe3-a635-1f4e7cff2f58}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{59a6a0f0-32b4-4baa-b5e8-48419a021a28}" />
@@ -125,6 +124,5 @@
 	</object>
 	<object class="MixerBusPanner" id="{ffbe04fc-ee29-4ec0-ab0a-79f94a5486f0}" />
 	<object class="MixerBusFader" id="{a50f8b4a-a410-4047-a587-eff05f1af60c}" />
-	<object class="SpatialiserEffect" id="{d21e8f2f-5a79-4fe3-a635-1f4e7cff2f58}" />
 	<object class="MixerBusFader" id="{68d85123-11b5-49fb-a864-8ee7b967454c}" />
 </objects>

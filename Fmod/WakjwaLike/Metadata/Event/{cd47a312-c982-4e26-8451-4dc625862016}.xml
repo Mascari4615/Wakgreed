@@ -5,7 +5,7 @@
 			<value>GamjaPanchi_Hurt</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{2cecdb0f-0a87-4236-9d78-db811f8b2187}</destination>
@@ -113,7 +113,6 @@
 	<object class="MixerBusEffectChain" id="{6cf9d8a4-8fbe-42a3-a303-9f3367137503}">
 		<relationship name="effects">
 			<destination>{56af2b33-3255-49b5-ae3f-517fe6bde4a4}</destination>
-			<destination>{fc3c16bf-3f20-40d2-9a33-310670381eb8}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{4bd0272f-8a40-4727-84c5-a8c99ef40a2d}" />
@@ -125,6 +124,5 @@
 	</object>
 	<object class="MixerBusPanner" id="{72145304-dac2-490d-857d-c315521c3ddd}" />
 	<object class="MixerBusFader" id="{56af2b33-3255-49b5-ae3f-517fe6bde4a4}" />
-	<object class="SpatialiserEffect" id="{fc3c16bf-3f20-40d2-9a33-310670381eb8}" />
 	<object class="MixerBusFader" id="{099582df-278e-4714-9b71-70c3aa7cdee2}" />
 </objects>

@@ -6,33 +6,20 @@ using FMODUnity;
 public class WakgoodMove : MonoBehaviour
 {
     [SerializeField] private FloatVariable moveSpeed;
-
-    private Vector3 worldMousePoint;
-
-    private bool isDashing = false;
-    [SerializeField] private float dashParametor = 1;
-    private int maxDashStack = 5;
+    [SerializeField] private IntVariable maxDashStack;
     [SerializeField] private IntVariable curDashStack;
-    private float dashCoolTime = 1f;
-
-    private float bbolBBolCoolDown = 0.3f;
-    private float curBBolBBolCoolDown = 0;
-
+    [SerializeField] private FloatVariable dashCoolTime;
     private Rigidbody2D playerRB;
     private Animator animator;
-    private SpriteRenderer spriteRenderer;
-
     private List<int> hInputList = new();
     private List<int> vInputList = new();
-    private int h;
-    private int v;
-
-    private void Awake()
-    {
-        playerRB = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-    }
+    private int horizontalInput;
+    private int verticalInput;
+    private Vector2 moveDirection;
+    private bool mbMoving;
+    private bool mbDashing;
+    private bool mbCanBbolBbol = true;
+    private const float DASH_PARAMETOR = 4;
 
     public void Initialize()
     {
@@ -42,13 +29,23 @@ public class WakgoodMove : MonoBehaviour
         StartCoroutine(UpdateDashStack());
     }
 
+    private void Awake()
+    {
+        playerRB = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+    }
+
     private void Update()
     {
-        if (Time.timeScale == 0) return;
+        if (Time.timeScale == 0 || Wakgood.Instance.IsCollapsed)
+            return;
+        if (!mbDashing)
+            Move();
 
-        worldMousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Move();
-        if (Input.GetKeyDown(KeyCode.Space) && !isDashing && curDashStack.RuntimeValue > 0) StartCoroutine(Dash());
+        if (Input.GetKeyDown(KeyCode.Space) && !mbDashing && curDashStack.RuntimeValue > 0)
+        {
+            StartCoroutine(Dash());
+        }
     }
 
     private void Move()
@@ -60,75 +57,51 @@ public class WakgoodMove : MonoBehaviour
         if (Input.GetKey(KeyCode.W)) { if (!vInputList.Contains(1)) vInputList.Add(1); }
         else if (vInputList.Contains(1)) vInputList.Remove(1);
         if (Input.GetKey(KeyCode.S)) { if (!vInputList.Contains(-1)) vInputList.Add(-1); }
-        else if (vInputList.Contains(-1)) vInputList.Remove(-1); ;
+        else if (vInputList.Contains(-1)) vInputList.Remove(-1);
 
-        if (isDashing) return;
+        horizontalInput = hInputList.Count == 0 ? 0 : hInputList[^1];
+        verticalInput = vInputList.Count == 0 ? 0 : vInputList[^1];
 
-        h = hInputList.Count == 0 ? 0 : hInputList[^1];
-        v = vInputList.Count == 0 ? 0 : vInputList[^1];
+        moveDirection = new Vector2(horizontalInput, verticalInput).normalized;
+        mbMoving = !moveDirection.Equals(Vector2.zero);
+        animator.SetBool("Move", mbMoving);
+        playerRB.velocity = moveDirection * moveSpeed.RuntimeValue;
 
-        if ((h != 0 || v != 0) && playerRB.bodyType.Equals(RigidbodyType2D.Dynamic))
+        if (mbMoving && mbCanBbolBbol)
         {
-            playerRB.velocity = new Vector2(h, v).normalized * moveSpeed.RuntimeValue;
-            animator.SetBool("Move", true);
-
-            if (curBBolBBolCoolDown > bbolBBolCoolDown)
-            {
-                ObjectManager.Instance.PopObject("BBolBBol", transform, true);
-                curBBolBBolCoolDown = 0;
-                bbolBBolCoolDown = Random.Range(0.1f, 0.3f);
-            }
-            else curBBolBBolCoolDown += Time.deltaTime;
-        }
-        else
-        {
-            // Å×½ºÆ®
-            // playerRB.velocity = Vector2.zero;
-            animator.SetBool("Move", false);
-        }
-
-        if (transform.position.x < worldMousePoint.x)
-        {
-            spriteRenderer.flipX = false;
-        }
-        else
-        {
-            spriteRenderer.flipX = true;
+            RuntimeManager.PlayOneShot("event:/SFX/Wakgood/BbolBbol");
+            ObjectManager.Instance.PopObject("BBolBBol", transform);
+            StartCoroutine(TtmdaclExtension.ChangeWithDelay(!(mbCanBbolBbol = false), Random.Range(0.1f, 0.3f), value => mbCanBbolBbol = value));
         }
     }
 
     private IEnumerator Dash()
     {
-        isDashing = true;
-        Vector3 direction = new Vector3(h, v, 0).normalized;
-        RuntimeManager.PlayOneShot("event:/SFX/Wakgood/Dash", transform.position);
-
+        mbDashing = true;
+        RuntimeManager.PlayOneShot("event:/SFX/Wakgood/Dash");
         curDashStack.RuntimeValue--;
-        playerRB.velocity = Vector3.zero;
         for (float temptime = 0; temptime <= 0.1f; temptime += Time.deltaTime)
         {
-            if (Physics2D.BoxCast(transform.position, new Vector2(.5f, .5f), 0f, direction, 0.9f, LayerMask.GetMask("Wall")).collider != null) break;
+            if (Physics2D.BoxCast(transform.position, new Vector2(.5f, .5f), 0f, moveDirection, 0.9f, LayerMask.GetMask("Wall")).collider != null)
+                break;
 
-            playerRB.velocity = 10 * dashParametor * direction;
+            playerRB.velocity = 10 * DASH_PARAMETOR * moveDirection;
             yield return new WaitForFixedUpdate();
         }
-        playerRB.velocity = Vector3.zero;
-        isDashing = false;
+        mbDashing = false;
     }
 
     private IEnumerator UpdateDashStack()
     {
         while (true)
         {
-            if (curDashStack.RuntimeValue < maxDashStack)
+            if (curDashStack.RuntimeValue < maxDashStack.RuntimeValue)
             {
-                yield return new WaitForSeconds(dashCoolTime);
+                yield return new WaitForSeconds(dashCoolTime.RuntimeValue);
                 curDashStack.RuntimeValue++;
             }
-            else
-            {
-                yield return new WaitForFixedUpdate();
-            }
+
+            yield return null;
         }
     }
 }

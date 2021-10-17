@@ -77,6 +77,6 @@ public class UIManager : MonoBehaviour
 
     public void OpenSetting()
     {
-        SettingManager.Instance.settingPanel.SetActive(true);
+        SettingManager.Instance.SettingPanel.SetActive(true);
     }
 }

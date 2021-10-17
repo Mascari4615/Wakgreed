@@ -44,7 +44,9 @@ public class Wakgood : MonoBehaviour, IHitable
 
     [SerializeField] private BuffRunTimeSet buffRunTimeSet;
 
-    public bool IsSwitching { get; set; } = false;
+    public bool IsSwitching { get; private set; } = false;
+    public bool IsCollapsed { get; private set; } = false;
+
 
     private void Awake()
     {
@@ -69,7 +71,7 @@ public class Wakgood : MonoBehaviour, IHitable
     public void Initialize()
     {
         StopAllCoroutines();
-        
+
         transform.position = Vector3.zero;
 
         maxHP.RuntimeValue = wakdu.baseHP;
@@ -82,6 +84,7 @@ public class Wakgood : MonoBehaviour, IHitable
         EXP.RuntimeValue = 0;
         isHealthy = true;
         IsSwitching = false;
+        IsCollapsed = false;
 
         cinemachineTargetGroup.m_Targets[0].target = transform;
 
@@ -113,15 +116,18 @@ public class Wakgood : MonoBehaviour, IHitable
 
         AD.RuntimeValue = curWeapon.maxDamage;
 
+        wakgoodCollider.enabled = true;
+        wakgoodMove.enabled = true;
         wakgoodMove.StopAllCoroutines();
         wakgoodMove.Initialize();
     }
 
     private void Update()
     {
-        if (Time.timeScale == 0) return;
+        if (Time.timeScale == 0 || IsCollapsed) return;
 
         spriteRenderer.color = isHealthy == true ? Color.white : new Color(1, 1, 1, (float)100 / 255);
+        spriteRenderer.flipX = transform.position.x > worldMousePoint.x;
         worldMousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         if (Input.GetMouseButton(0)) curWeapon.BaseAttack();
@@ -248,7 +254,6 @@ public class Wakgood : MonoBehaviour, IHitable
                 if (HP.RuntimeValue <= 0)
                 {
                     StopAllCoroutines();
-                    wakgoodMove.StopAllCoroutines();
                     StartCoroutine(Collapse());
                 }
             }
@@ -266,8 +271,12 @@ public class Wakgood : MonoBehaviour, IHitable
 
     private IEnumerator Collapse()
     {
+        wakgoodMove.StopAllCoroutines();
+        IsCollapsed = true;
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         GetComponent<Animator>().SetTrigger("Collapse");
+        wakgoodCollider.enabled = false;
+        wakgoodMove.enabled = false;
         yield return new WaitForSeconds(2f);
         OnCollapse.Raise();
         enabled = false;

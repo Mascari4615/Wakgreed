@@ -5,7 +5,7 @@
 			<value>Banshee_Collapse</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{2cecdb0f-0a87-4236-9d78-db811f8b2187}</destination>
@@ -53,7 +53,7 @@
 			<destination>{9630a26b-8807-4f17-9ea3-d638b8d85659}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{6180e657-ef1f-4969-8b7d-7be160d19320}</destination>
+			<destination>{a6e08f9c-6db1-41a7-a78f-26b6b89fe614}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{4bd5dbd4-fa08-437e-827d-86e87ea2c1f7}" />
@@ -113,7 +113,6 @@
 	<object class="MixerBusEffectChain" id="{3c1abd7c-1403-4001-8b65-33d6745a3aa5}">
 		<relationship name="effects">
 			<destination>{570b971c-9ed6-4575-9f9a-edb1a2a63a5b}</destination>
-			<destination>{040936bb-2f48-4b97-ba10-6888d4d487f7}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{82c558f6-744a-4e6a-9f95-54947f14f01a}" />
@@ -125,6 +124,5 @@
 	</object>
 	<object class="MixerBusPanner" id="{15647d26-2f23-482f-ad54-9de34d6496a8}" />
 	<object class="MixerBusFader" id="{570b971c-9ed6-4575-9f9a-edb1a2a63a5b}" />
-	<object class="SpatialiserEffect" id="{040936bb-2f48-4b97-ba10-6888d4d487f7}" />
 	<object class="MixerBusFader" id="{30e19e2b-9932-411b-aef0-cac31b6d240e}" />
 </objects>

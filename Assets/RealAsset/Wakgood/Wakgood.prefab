@@ -663,8 +663,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: {fileID: 11400000, guid: ab222d65ff7ce974fa0c23c97750945f, type: 2}
-  dashParametor: 4
+  maxDashStack: {fileID: 11400000, guid: 58948826cb3fe924f88741759c39f172, type: 2}
   curDashStack: {fileID: 11400000, guid: c20a2f08316b1cd42b58ff3ddb60051d, type: 2}
+  dashCoolTime: {fileID: 11400000, guid: 30cb8f962599816488c3a10bcb178bd8, type: 2}
 --- !u!50 &5395718573743074757
 Rigidbody2D:
   serializedVersion: 4
@@ -673,11 +674,11 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4705426193227314241}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 1
+  m_Mass: 1.2076283
   m_LinearDrag: 6.5
   m_AngularDrag: 0.05
   m_GravityScale: 1

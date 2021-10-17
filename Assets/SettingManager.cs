@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,43 +6,24 @@ public class SettingManager : MonoBehaviour
     protected static SettingManager instance;
     public static SettingManager Instance
     {
-        get
-        {
-            if (instance == null)
-            {
-                var obj = FindObjectOfType<SettingManager>();
-                if (obj != null) { instance = obj; }
-                else { instance = Create(); }
-            }
-            return instance;
-        }
+        get { return instance ?? FindObjectOfType<SettingManager>() ?? Instantiate(Resources.Load<SettingManager>("Setting_Manager")); }
         private set { instance = value; }
     }
 
-    public GameObject settingPanel { get; private set; }
+    public GameObject SettingPanel { get; private set; }
     private Slider slider1;
     private Slider slider2;
     private Slider slider3;
 
-    public static SettingManager Create()
-    {
-        var AudioManagerPrefab = Resources.Load<SettingManager>("Canvas_Setting");
-        return Instantiate(AudioManagerPrefab);
-    }
-
     private void Awake()
     {
-        if (Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
+        if (Instance != this) { Destroy(gameObject); return; }
         DontDestroyOnLoad(gameObject);
 
-        settingPanel = transform.GetChild(0).gameObject;
-        slider1 = settingPanel.transform.GetChild(0).GetComponent<Slider>();
-        slider2 = settingPanel.transform.GetChild(1).GetComponent<Slider>();
-        slider3 = settingPanel.transform.GetChild(2).GetComponent<Slider>();
+        SettingPanel = transform.GetChild(0).gameObject;
+        slider1 = SettingPanel.transform.GetChild(0).GetComponent<Slider>();
+        slider2 = SettingPanel.transform.GetChild(1).GetComponent<Slider>();
+        slider3 = SettingPanel.transform.GetChild(2).GetComponent<Slider>();
     }
 
     private void Start()
