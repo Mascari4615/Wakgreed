@@ -87,6 +87,8 @@ public class Amoeba : NormalMonster
 
     protected override void _ReceiveHit()
     {
+        base._ReceiveHit();
+
         spriteRenderer.flipX = transform.position.x > Wakgood.Instance.transform.position.x;
 
         StopAllCoroutines();

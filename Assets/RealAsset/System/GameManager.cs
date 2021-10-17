@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMOD.Studio;
+using FMODUnity;
 
 public class GameManager : MonoBehaviour
 {
@@ -40,6 +42,9 @@ public class GameManager : MonoBehaviour
 
         instance = this;
         StartCoroutine(CheckBuff());
+        AudioManager.Instance.BGMEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        AudioManager.Instance.BGMEvent = RuntimeManager.CreateInstance($"event:/BGM/Undo");
+        AudioManager.Instance.BGMEvent.start();
     }
 
     private IEnumerator CheckBuff()
@@ -138,10 +143,14 @@ public class GameManager : MonoBehaviour
 
         Wakgood.Instance.StopAllCoroutines();
         Wakgood.Instance.enabled = true;
-        Wakgood.Instance.Initialize(false);
+        Wakgood.Instance.Initialize();
 
         nyang.RuntimeValue = 0;
         viewer.RuntimeValue = 0;
+
+        AudioManager.Instance.BGMEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        AudioManager.Instance.BGMEvent = RuntimeManager.CreateInstance($"event:/BGM/Undo");
+        AudioManager.Instance.BGMEvent.start();
 
         Time.timeScale = 1;
     }

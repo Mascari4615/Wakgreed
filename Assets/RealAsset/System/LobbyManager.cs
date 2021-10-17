@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class LobbyManager : MonoBehaviour
 {
+    public void OpenSetting()
+    {
+        SettingManager.Instance.settingPanel.SetActive(true);
+    }
+
     public void LoadGameScene()
     {
         SceneLoader.Instance.LoadScene("Game");

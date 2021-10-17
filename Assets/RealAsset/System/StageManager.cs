@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using FMOD.Studio;
+using FMODUnity;
+
 
 public class StageManager : MonoBehaviour
 {
@@ -64,7 +67,7 @@ public class StageManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Tab) && shortCut.activeSelf == false) shortCut.SetActive(true);
             else if (Input.GetKeyUp(KeyCode.Tab) && shortCut.activeSelf == true) shortCut.SetActive(false);
-        }   
+        }
     }
 
     public void GenerateStage()
@@ -140,6 +143,10 @@ public class StageManager : MonoBehaviour
 
     private IEnumerator StartStage()
     {
+        AudioManager.Instance.BGMEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        AudioManager.Instance.BGMEvent = RuntimeManager.CreateInstance($"event:/BGM/{stageDataBuffer.Items[currentStageID].name}");
+        AudioManager.Instance.BGMEvent.start();
+
         CurrentRoom = roomDic[Vector2.zero];
         CurrentRoom.Enter();
         InitialzeMap();

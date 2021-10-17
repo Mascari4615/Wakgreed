@@ -74,4 +74,9 @@ public class UIManager : MonoBehaviour
             yield return null;
         }
     }
+
+    public void OpenSetting()
+    {
+        SettingManager.Instance.settingPanel.SetActive(true);
+    }
 }

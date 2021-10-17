@@ -1,7 +1,6 @@
 using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
@@ -25,10 +24,12 @@ public class AudioManager : MonoBehaviour
     private Bus SFX;
     private Bus Master;
     private EventInstance SFXVolumeTestEvent;
-    private EventInstance BGMVolumeTestEvent;
     private float BGMVolume = 0.5f;
     private float SFXVolume = 0.5f;
     private float MasterVolume = 0.5f;
+
+    public EventInstance BGMEvent;
+    public PLAYBACK_STATE PbState;
 
     public static AudioManager Create()
     {
@@ -38,61 +39,47 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject);
+
         BGM = RuntimeManager.GetBus("bus:/Master/BGM");
         SFX = RuntimeManager.GetBus("bus:/Master/SFX");
         Master = RuntimeManager.GetBus("bus:/Master");
         SFXVolumeTestEvent = RuntimeManager.CreateInstance("event:/SFX/SFXVolumeTest");
-        BGMVolumeTestEvent = RuntimeManager.CreateInstance("event:/BGM/BGMVolumeTest");
+
+        BGMEvent = RuntimeManager.CreateInstance("event:/BGM/Lobby");
     }
 
-    public void MasterVolumeLevel(Slider newMasterVoume)
+    private void Update()
     {
-        MasterVolume = newMasterVoume.value;
-        Master.setVolume(newMasterVoume.value);
-    }
-
-    public void BGMVolumeLevel(Slider newBGMVoume)
-    {
-        BGMVolume = newBGMVoume.value;
-        BGM.setVolume(newBGMVoume.value);
-
-        PLAYBACK_STATE PbState;
-        BGMVolumeTestEvent.getPlaybackState(out PbState);
+        BGMEvent.getPlaybackState(out PbState);
         if (PbState != PLAYBACK_STATE.PLAYING)
         {
-            BGMVolumeTestEvent.start();
+            BGMEvent.start();
         }
     }
 
-    public void SFXVolumeLevel(Slider newSFXVoume)
+    public void MasterVolumeLevel(float newMasterVoume)
     {
-        SFXVolume = newSFXVoume.value;
-        SFX.setVolume(newSFXVoume.value);
-
-        PLAYBACK_STATE PbState;
-        SFXVolumeTestEvent.getPlaybackState(out PbState);
-        if (PbState != PLAYBACK_STATE.PLAYING)
-        {
-            SFXVolumeTestEvent.start();
-        }
+        MasterVolume = newMasterVoume;
+        Master.setVolume(newMasterVoume);
     }
 
-    public void TestBGMVolume()
+    public void BGMVolumeLevel(float newBGMVoume)
     {
-        PLAYBACK_STATE PbState;
-        BGMVolumeTestEvent.getPlaybackState(out PbState);
-        if (PbState != PLAYBACK_STATE.PLAYING)
-        {
-            BGMVolumeTestEvent.start();
-        }
-        else
-        {
-            BGMVolumeTestEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-        }
+        BGMVolume = newBGMVoume;
+        BGM.setVolume(newBGMVoume);
     }
 
-    public void TestSFXVolume()
+    public void SFXVolumeLevel(float newSFXVoume)
     {
+        SFXVolume = newSFXVoume;
+        SFX.setVolume(newSFXVoume);
+
         PLAYBACK_STATE PbState;
         SFXVolumeTestEvent.getPlaybackState(out PbState);
         if (PbState != PLAYBACK_STATE.PLAYING)
