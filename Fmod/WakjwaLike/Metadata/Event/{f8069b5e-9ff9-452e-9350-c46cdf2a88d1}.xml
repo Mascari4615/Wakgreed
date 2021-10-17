@@ -5,7 +5,7 @@
 			<value>ChidoriPanchi_Collapse</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{2cecdb0f-0a87-4236-9d78-db811f8b2187}</destination>
@@ -113,7 +113,6 @@
 	<object class="MixerBusEffectChain" id="{65287dcc-1df2-4767-b2b6-718457f1882f}">
 		<relationship name="effects">
 			<destination>{227dbb76-2dc6-47d4-b757-e20a41bb3566}</destination>
-			<destination>{e3942f78-bd8b-421e-b670-0f60d382f57d}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{43bd5e22-3d85-4992-a7ab-07c70d20b6dc}" />
@@ -125,6 +124,5 @@
 	</object>
 	<object class="MixerBusPanner" id="{0c22cb16-95f7-4d97-9564-ddaeabfb214f}" />
 	<object class="MixerBusFader" id="{227dbb76-2dc6-47d4-b757-e20a41bb3566}" />
-	<object class="SpatialiserEffect" id="{e3942f78-bd8b-421e-b670-0f60d382f57d}" />
 	<object class="MixerBusFader" id="{6b136400-4479-46df-b266-63909a81d4ed}" />
 </objects>

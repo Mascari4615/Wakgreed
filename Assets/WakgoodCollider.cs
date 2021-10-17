@@ -16,8 +16,7 @@ public class WakgoodCollider : MonoBehaviour
 
         else if (other.CompareTag("InteractiveObject"))
         {
-            if (!NearInteractiveObjectDic.ContainsKey(other.GetInstanceID()))
-                NearInteractiveObjectDic.Add(other.GetInstanceID(), other.GetComponent<InteractiveObject>());
+            if (!NearInteractiveObjectDic.ContainsKey(other.GetInstanceID())) NearInteractiveObjectDic.Add(other.GetInstanceID(), other.GetComponent<InteractiveObject>());
             else Debug.LogError("ㅈ버그");
         }
     }
@@ -26,8 +25,7 @@ public class WakgoodCollider : MonoBehaviour
     {
         if (other.CompareTag("InteractiveObject"))
         {
-            if (NearInteractiveObjectDic.ContainsKey(other.GetInstanceID()))
-                NearInteractiveObjectDic.Remove(other.GetInstanceID());
+            if (NearInteractiveObjectDic.ContainsKey(other.GetInstanceID())) NearInteractiveObjectDic.Remove(other.GetInstanceID());
             else Debug.LogError("ㅈ버그");
         }
     }

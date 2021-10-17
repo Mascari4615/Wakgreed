@@ -6,7 +6,7 @@ public class LobbyManager : MonoBehaviour
 {
     public void OpenSetting()
     {
-        SettingManager.Instance.settingPanel.SetActive(true);
+        SettingManager.Instance.SettingPanel.SetActive(true);
     }
 
     public void LoadGameScene()

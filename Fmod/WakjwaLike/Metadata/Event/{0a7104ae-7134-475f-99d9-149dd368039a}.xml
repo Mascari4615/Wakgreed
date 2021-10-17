@@ -5,7 +5,7 @@
 			<value>Amoeba_Hurt</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{2cecdb0f-0a87-4236-9d78-db811f8b2187}</destination>
@@ -53,7 +53,7 @@
 			<destination>{66878a00-954c-4b1c-85c6-a4d3c387e4a2}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{6180e657-ef1f-4969-8b7d-7be160d19320}</destination>
+			<destination>{a6e08f9c-6db1-41a7-a78f-26b6b89fe614}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{e807339f-b147-4969-89f0-64c2f37de265}" />
@@ -116,7 +116,6 @@
 	<object class="MixerBusEffectChain" id="{cbb26ebb-a71a-41be-9677-3c225fa674b1}">
 		<relationship name="effects">
 			<destination>{2df33496-5f5f-4b7f-8212-66778fcac14b}</destination>
-			<destination>{570dac25-6595-4b2f-a844-db479cbd1f90}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{aacd8a96-9a38-4ec8-8538-49b81917e8b5}" />
@@ -128,6 +127,5 @@
 	</object>
 	<object class="MixerBusPanner" id="{bafbd2dc-501b-454e-abb2-f6445017b466}" />
 	<object class="MixerBusFader" id="{2df33496-5f5f-4b7f-8212-66778fcac14b}" />
-	<object class="SpatialiserEffect" id="{570dac25-6595-4b2f-a844-db479cbd1f90}" />
 	<object class="MixerBusFader" id="{825d1e94-380c-4da3-86cf-51a5f4d1c8dc}" />
 </objects>

@@ -21,12 +21,12 @@ MonoBehaviour:
   Banks:
   - {fileID: -1813042681740017314}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 708
+  Length: 210
 --- !u!114 &-8767631776157126786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,7 +128,7 @@ MonoBehaviour:
   Banks:
   - {fileID: -1813042681740017314}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -182,7 +182,7 @@ MonoBehaviour:
   Banks:
   - {fileID: -1813042681740017314}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -505,7 +505,7 @@ MonoBehaviour:
   Banks:
   - {fileID: -1813042681740017314}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -532,7 +532,7 @@ MonoBehaviour:
   Banks:
   - {fileID: -1813042681740017314}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -586,12 +586,12 @@ MonoBehaviour:
   Banks:
   - {fileID: -1813042681740017314}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 708
+  Length: 637
 --- !u!114 &-3182281165325497405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -849,10 +849,10 @@ MonoBehaviour:
   Path: Fmod/WakjwaLike/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637701120545123229
+  lastModified: 637701319433055816
   FileSizes:
   - Name: Desktop
-    Value: 5501184
+    Value: 5496640
   Exists: 1
 --- !u!114 &-1785846771405165444
 MonoBehaviour:
@@ -902,7 +902,7 @@ MonoBehaviour:
   Banks:
   - {fileID: -1813042681740017314}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -929,7 +929,7 @@ MonoBehaviour:
   Banks:
   - {fileID: -1813042681740017314}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -1034,12 +1034,13 @@ MonoBehaviour:
   - {fileID: -8503793037619259208}
   - {fileID: -5603257626260311674}
   - {fileID: -2251266303057029684}
+  - {fileID: 3048263058265523716}
   EditorParameters: []
   MasterBanks:
   - {fileID: -1813042681740017314}
   StringsBanks:
   - {fileID: 6107050520195032601}
-  cacheTime: 637701120545153156
+  cacheTime: 637701319433075761
   cacheVersion: 9
 --- !u!114 &215977827860736700
 MonoBehaviour:
@@ -1089,7 +1090,7 @@ MonoBehaviour:
   Banks:
   - {fileID: -1813042681740017314}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -1143,7 +1144,7 @@ MonoBehaviour:
   Banks:
   - {fileID: -1813042681740017314}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -1170,7 +1171,7 @@ MonoBehaviour:
   Banks:
   - {fileID: -1813042681740017314}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -1197,12 +1198,12 @@ MonoBehaviour:
   Banks:
   - {fileID: -1813042681740017314}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 708
+  Length: 210
 --- !u!114 &2675696334676233480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1224,7 +1225,7 @@ MonoBehaviour:
   Banks:
   - {fileID: -1813042681740017314}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -1257,6 +1258,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 572
+--- !u!114 &3048263058265523716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Wakgood/BbolBbol
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Wakgood/BbolBbol
+  Guid:
+    Data1: 917114092
+    Data2: 1272235278
+    Data3: -1156244040
+    Data4: -122781133
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &3207467460042534057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1357,7 +1385,7 @@ MonoBehaviour:
   Banks:
   - {fileID: -1813042681740017314}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -1411,12 +1439,12 @@ MonoBehaviour:
   Banks:
   - {fileID: -1813042681740017314}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 708
+  Length: 637
 --- !u!114 &4730479702173444701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1620,10 +1648,10 @@ MonoBehaviour:
   Path: Fmod/WakjwaLike/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637701120545153156
+  lastModified: 637701319433075761
   FileSizes:
   - Name: Desktop
-    Value: 2224
+    Value: 2262
   Exists: 1
 --- !u!114 &6110770951763433383
 MonoBehaviour:
@@ -1646,7 +1674,7 @@ MonoBehaviour:
   Banks:
   - {fileID: -1813042681740017314}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -1753,7 +1781,7 @@ MonoBehaviour:
   Banks:
   - {fileID: -1813042681740017314}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -1807,7 +1835,7 @@ MonoBehaviour:
   Banks:
   - {fileID: -1813042681740017314}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1

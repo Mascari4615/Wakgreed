@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
         // # 정지 > 귀환 (StopCoroutine) 오류 가능성 : 따라서 플래그를 통해 현재 정지 시킬 수 있는지 확인해야함
         if (Input.GetKeyDown(KeyCode.Escape)) 
         {
-            if (SettingManager.Instance.settingPanel.activeSelf) SettingManager.Instance.settingPanel.SetActive(false);
+            if (SettingManager.Instance.SettingPanel.activeSelf) SettingManager.Instance.SettingPanel.SetActive(false);
             else PauseGame(); 
         }
     }
