@@ -12,7 +12,7 @@ public abstract class Monster : MonoBehaviour, IHitable
     protected SpriteRenderer spriteRenderer;
     protected Animator animator;
     protected new Rigidbody2D rigidbody2D;
-    private CapsuleCollider2D capsuleCollider2D;
+    private Collider2D collider2D;
 
     protected bool isCollapsed = false;
 
@@ -21,7 +21,7 @@ public abstract class Monster : MonoBehaviour, IHitable
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         rigidbody2D = GetComponent<Rigidbody2D>();
-        capsuleCollider2D = GetComponent<CapsuleCollider2D>();
+        collider2D = GetComponent<Collider2D>();
     }
 
     protected virtual void OnEnable()
@@ -32,7 +32,7 @@ public abstract class Monster : MonoBehaviour, IHitable
         HP = maxHP;
         AD = baseAD;
         moveSpeed = baseMoveSpeed;
-        capsuleCollider2D.enabled = true;
+        collider2D.enabled = true;
         rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
         GameManager.Instance.EnemyRunTimeSet.Add(gameObject);
     }
@@ -70,7 +70,7 @@ public abstract class Monster : MonoBehaviour, IHitable
     {
         RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("("), 7) : name)}_Collapse", transform.position);
 
-        capsuleCollider2D.enabled = false;
+        collider2D.enabled = false;
         rigidbody2D.velocity = Vector2.zero;
         rigidbody2D.bodyType = RigidbodyType2D.Static;
         animator.SetTrigger("COLLAPSE");

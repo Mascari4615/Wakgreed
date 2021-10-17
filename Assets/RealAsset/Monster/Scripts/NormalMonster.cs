@@ -1,47 +1,49 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class NormalMonster : Monster
 {
-    private GameObject hpBarGameObject;
-    private GameObject yellowParent;
-    private SpriteRenderer yellow;
-    private GameObject redParent;
+    private GameObject hpBar;
+    private Image yellow;
+    private Image red;
 
     protected override void Awake()
     {
         base.Awake();
-        hpBarGameObject = transform.Find("HpBar").gameObject;
-        yellowParent = hpBarGameObject.transform.GetChild(2).gameObject;
-        yellow = yellowParent.transform.GetChild(0).GetComponent<SpriteRenderer>();
-        redParent = hpBarGameObject.transform.GetChild(3).gameObject;
+        hpBar = transform.Find("Mob_Canvas").Find("HPBar").gameObject;
+        yellow = hpBar.transform.GetChild(0).Find("Yellow").GetComponent<Image>();
+        red = hpBar.transform.GetChild(0).Find("Red").GetComponent<Image>();
     }
 
     protected override void OnEnable()
     {
         base.OnEnable();
-        hpBarGameObject.SetActive(true);
-        redParent.transform.localScale = Vector3.one;
-        yellowParent.transform.localScale = Vector3.one;
+        hpBar.SetActive(false);
+        yellow.fillAmount = 1;
+        red.fillAmount = 1;
+    }
+
+    protected override void _ReceiveHit()
+    {
+        if (hpBar.activeSelf == false) hpBar.SetActive(true);
     }
 
     private void Update()
     {
-        redParent.transform.localScale = new Vector3(Mathf.Lerp(redParent.transform.localScale.x, (float)HP / maxHP, Time.deltaTime * 30f), 1, 1);
+        red.fillAmount = Mathf.Lerp(red.fillAmount, (float)HP / maxHP, Time.deltaTime * 30f);
+        yellow.fillAmount = Mathf.Lerp(yellow.fillAmount, red.fillAmount, Time.deltaTime * 10f);
 
-        yellow.color = new Color(1, 1, Mathf.Lerp(0, 1, Time.deltaTime * 30f));
-        yellowParent.transform.localScale = new Vector3(Mathf.Lerp(yellowParent.transform.localScale.x, redParent.transform.localScale.x, Time.deltaTime * 15f), 1, 1);
-
-        if (yellowParent.transform.localScale.x - 0.01f <= redParent.transform.localScale.x)
+        if (yellow.fillAmount - 0.05f <= red.fillAmount)
         {
             yellow.color = new Color(1, 1, 0);
-            yellowParent.transform.localScale = new Vector3(redParent.transform.localScale.x, 1, 1);
+            yellow.fillAmount = red.fillAmount;
         }
     }
 
     protected override IEnumerator Collapse()
     {
-        hpBarGameObject.SetActive(false);
-        yield return base.Collapse();      
+        hpBar.SetActive(false);
+        yield return base.Collapse();
     }
 }

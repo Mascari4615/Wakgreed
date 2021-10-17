@@ -48,9 +48,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 314eab922b297d7439e7542d6f4dbd4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameEvent: {fileID: 11400000, guid: 988394039040cf84bb7d2f4edc46a2a0, type: 2}
-  soundEffect: {fileID: 8300000, guid: 10dca0960d5439b4aa65c2c7a78b5c86, type: 3}
-  ItemInventory: {fileID: 11400000, guid: a5c92c03073bea2449e06f5de960d602, type: 2}
 --- !u!58 &2406070895336611356
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -105,15 +102,15 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 978103407
+  m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f7f1f119e3727ae439e2aa7dbd9d868b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e0c93456ebe4c5f4b893da9557ace163, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.5, y: 0.5}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -157,7 +154,7 @@ Transform:
   m_GameObject: {fileID: 4013162843585213154}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.89, z: 0}
-  m_LocalScale: {x: 9, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1662768577662441813}
@@ -201,10 +198,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 978103407
+  m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 5ec94a2301181a74981dddd7402075f5, type: 3}
   m_Color: {r: 0.17254902, g: 0.17254902, b: 0.17254902, a: 0.39215687}
   m_FlipX: 0
   m_FlipY: 0

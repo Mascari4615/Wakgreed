@@ -22,33 +22,13 @@ public class DataManager : MonoBehaviour
         private set { instance = value; }
     }
 
-    [Header("CustomVariables")]
-    public IntVariable DashCount;
-    public FloatVariable Evasion;
-    public IntVariable I_AD;
-    public IntVariable I_ADper;
-    public ItemVariable LastEquippedItem;
-    public IntVariable M_AD;
-    public IntVariable M_ADper;
-    public IntVariable MonsterKill;
-    public IntVariable Nyang;
-    public IntVariable T_AD;
-    public FloatVariable T_AS;
-    public IntVariable CriticalChance;
-    public IntVariable T_EXP;
-    public IntVariable T_HP;
-    public IntVariable T_Level;
-    public IntVariable T_MaxHP;
-    public FloatVariable T_MoveSpeed;
-    public IntVariable TotalAD;
-    public IntVariable Viewer;
-
-    // 스크립터블 오브젝트 쓰는 이유를 깨뜨리는 것 같은데..
-
     [Header("Item")]
     [SerializeField] private ItemDataBuffer ItemDataBuffer;
     public Dictionary<int, Item> ItemDic = new();
     public WakgoodItemInventory WakgoodItemInventory;
+    public Dictionary<int, Item> CommonItemDic = new();
+    public Dictionary<int, Item> UnCommonItemDic = new();
+    public Dictionary<int, Item> LegendaryItemDic = new();
 
     [Header("Weapon")]
     [SerializeField] private WeaponDataBuffer WeaponDataBuffer;
@@ -85,7 +65,13 @@ public class DataManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         foreach (var weapon in WeaponDataBuffer.Items) WeaponDic.Add(weapon.ID, weapon);
-        foreach (var item in ItemDataBuffer.Items) ItemDic.Add(item.ID, item);
+        foreach (var item in ItemDataBuffer.Items)
+        {
+            ItemDic.Add(item.ID, item);
+            if (item.grade.Equals(ItemGrade.Common)) CommonItemDic.Add(item.ID, item);
+            else if (item.grade.Equals(ItemGrade.Uncommon)) UnCommonItemDic.Add(item.ID, item);
+            else if (item.grade.Equals(ItemGrade.Legendary)) LegendaryItemDic.Add(item.ID, item);
+        }
         foreach (var food in FoodDataBuffer.Items) FoodDic.Add(food.ID, food);
         foreach (var mastery in WakduMasteryDataBuffer.Items) MasteryDic.Add(mastery.ID, mastery);
     }
@@ -129,26 +115,20 @@ public class DataManager : MonoBehaviour
 
     public int GetRandomItemID()
     {
-        ItemGrade itemGrade = (ItemGrade)UnityEngine.Random.Range(0, 3);
-        IEnumerable<int> itemRange = Enumerable.Range(0, 0);
-        if (itemGrade == ItemGrade.Common) itemRange = Enumerable.Range(0, 100);
-        else if (itemGrade == ItemGrade.Uncommon) itemRange = Enumerable.Range(100, 100);
-        else if (itemGrade == ItemGrade.Legendary) itemRange = Enumerable.Range(200, 100);
-
-        var itemList = (from _itemID in ItemDic.Keys where itemRange.Contains(_itemID) select _itemID).ToList();
-        int itemID = itemList[Random.Range(0, itemList.Count)];
+        int itemID = -1;
+        ItemGrade itemGrade = (ItemGrade)Random.Range(0, 3);
+        if (itemGrade == ItemGrade.Common) itemID = CommonItemDic.ElementAt(Random.Range(0, CommonItemDic.Count)).Value.ID;
+        else if (itemGrade == ItemGrade.Uncommon) itemID = UnCommonItemDic.ElementAt(Random.Range(0, UnCommonItemDic.Count)).Value.ID;
+        else if (itemGrade == ItemGrade.Legendary) itemID = LegendaryItemDic.ElementAt(Random.Range(0, LegendaryItemDic.Count)).Value.ID;
         return itemID;
     }
 
     public int GetRandomItemID(ItemGrade itemGrade)
     {
-        IEnumerable<int> itemRange = Enumerable.Range(0, 0);
-        if (itemGrade == ItemGrade.Common) itemRange = Enumerable.Range(0, 100);
-        else if (itemGrade == ItemGrade.Uncommon) itemRange = Enumerable.Range(100, 100);
-        else if (itemGrade == ItemGrade.Legendary) itemRange = Enumerable.Range(200, 100);
-
-        var itemList = (from _itemID in ItemDic.Keys where itemRange.Contains(_itemID) select _itemID).ToList();
-        int itemID = itemList[Random.Range(0, itemList.Count)];
+        int itemID = -1;
+        if (itemGrade == ItemGrade.Common) itemID = CommonItemDic.ElementAt(Random.Range(0, CommonItemDic.Count)).Value.ID;
+        else if (itemGrade == ItemGrade.Uncommon) itemID = UnCommonItemDic.ElementAt(Random.Range(0, UnCommonItemDic.Count)).Value.ID;
+        else if (itemGrade == ItemGrade.Legendary) itemID = LegendaryItemDic.ElementAt(Random.Range(0, LegendaryItemDic.Count)).Value.ID;
         return itemID;
     }
 }

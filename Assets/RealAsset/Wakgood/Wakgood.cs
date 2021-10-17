@@ -63,15 +63,14 @@ public class Wakgood : MonoBehaviour, IHitable
 
     private void Start()
     {
-        Initialize(true);
+        Initialize();
     }
 
-    public void Initialize(bool spawnZero)
+    public void Initialize()
     {
         StopAllCoroutines();
         
-        if (spawnZero) transform.position = Vector3.zero;
-        else transform.position = Vector3.zero + Vector3.up * -47;
+        transform.position = Vector3.zero;
 
         maxHP.RuntimeValue = wakdu.baseHP;
         HP.RuntimeValue = maxHP.RuntimeValue;

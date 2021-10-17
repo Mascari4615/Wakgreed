@@ -15,7 +15,6 @@ public class EquipItemToolTip : MonoBehaviour
 
     public void EquipItem()
     {
-        if (LastEquippedItem.RuntimeValue.itemGrade == ItemGrade.Material) return;
         toolTipStacks.Enqueue(LastEquippedItem.RuntimeValue);
         if (!toolTip.activeSelf) StartCoroutine(ShowToolTip());
     }
