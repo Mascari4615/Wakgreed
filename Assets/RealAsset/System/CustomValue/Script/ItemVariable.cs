@@ -1,3 +1,3 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "ItemVariable", menuName = "Variable/Item", order = 0)]
+[CreateAssetMenu(fileName = "ItemVariable", menuName = "Variable/Item")]
 public class ItemVariable : CustomVariable<Item> { }

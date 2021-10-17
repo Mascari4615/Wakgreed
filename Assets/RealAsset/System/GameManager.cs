@@ -8,20 +8,8 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     [HideInInspector] public static GameManager Instance { get { return instance; } }
 
-    private bool isFighting;
-    public bool IsFighting
-    {
-        get { return isFighting; }
-        set
-        {
-            isFighting = value;
-            if (isFighting == true) OnFightStart.Raise();
-            else if (isFighting == false) OnFightEnd.Raise();
-        }
-    }
-    [SerializeField] private GameEvent OnGameStart;
-    [SerializeField] private GameEvent OnFightStart;
-    [SerializeField] private GameEvent OnFightEnd;
+    [SerializeField] private BoolVariable IsFighting;
+    [SerializeField] private BoolVariable IsGaming;
     [SerializeField] private GameEvent OnRecall;
     [SerializeField] private BuffRunTimeSet buffRunTimeSet;
 
@@ -85,7 +73,6 @@ public class GameManager : MonoBehaviour
         if (Time.timeScale == 1) Time.timeScale = 0;
         else if (Time.timeScale == 0) Time.timeScale = 1;
 
-        StageManager.Instance.mapPanel.SetActive(false);
         pausePanel.SetActive(!pausePanel.activeSelf);
     }
 
@@ -96,7 +83,7 @@ public class GameManager : MonoBehaviour
 
         undo.SetActive(false);
         StageManager.Instance.GenerateStage();
-        OnGameStart.Raise();
+        IsGaming.RuntimeValue = true;
     }
 
     // OnCollapse GameEvent로 호출
@@ -109,6 +96,9 @@ public class GameManager : MonoBehaviour
     public void Recall()
     {
         OnRecall.Raise();
+        IsGaming.RuntimeValue = false;
+        IsFighting.RuntimeValue = false;
+
         StageManager.Instance.DestroyStage();
         undo.SetActive(true);
         StageManager.Instance.currentStageID = -1;
@@ -140,7 +130,6 @@ public class GameManager : MonoBehaviour
 
         miniMapCamera.transform.position = new Vector3(0, 0, -100);
 
-        isFighting = false;
         pausePanel.SetActive(false);
         gameResultPanel.SetActive(false);
         gamePanel.SetActive(true);

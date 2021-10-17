@@ -27,7 +27,7 @@ public class StageManager : MonoBehaviour
 
     [SerializeField] private GameObject miniMapCamera;
 
-    public GameObject mapPanel;
+    [SerializeField] private GameObject mapPanel;
     [SerializeField] private GridLayoutGroup mapGridLayoutGroup;
     [SerializeField] private RectTransform scrollRectBackGround;
     private Dictionary<Vector2, Transform> roomUiDic = new();
@@ -39,8 +39,13 @@ public class StageManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI stageNumberText, stageNameCommentText;
     [SerializeField] private GameObject stageSpeedWagon;
 
+    [SerializeField] private GameObject shortCut;
+
     private IEnumerator canOpenText;
     private WaitForSeconds ws02;
+
+    [SerializeField] private BoolVariable isFighting;
+    [SerializeField] private BoolVariable isGaming;
 
     private void Awake()
     {
@@ -50,12 +55,23 @@ public class StageManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab) && mapPanel.activeSelf == false) MapDoor(true);
-        else if (Input.GetKeyUp(KeyCode.Tab) && mapPanel.activeSelf == true) MapDoor(false);
+        if (isGaming.RuntimeValue)
+        {
+            if (Input.GetKeyDown(KeyCode.Tab) && mapPanel.activeSelf == false) MapDoor(true);
+            else if (Input.GetKeyUp(KeyCode.Tab) && mapPanel.activeSelf == true) MapDoor(false);
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.Tab) && shortCut.activeSelf == false) shortCut.SetActive(true);
+            else if (Input.GetKeyUp(KeyCode.Tab) && shortCut.activeSelf == true) shortCut.SetActive(false);
+        }   
     }
 
     public void GenerateStage()
     {
+        shortCut.SetActive(false);
+        mapPanel.SetActive(false);
+
         DestroyStage();
         roomMolds.Clear();
         roomDic.Clear();
@@ -229,7 +245,7 @@ public class StageManager : MonoBehaviour
 
     private void MapDoor(bool bOpen)
     {
-        if (GameManager.Instance.IsFighting)
+        if (isFighting.RuntimeValue)
         {
             if (canOpenText != null) StopCoroutine(canOpenText);
             StartCoroutine(canOpenText = CantOpenText());
