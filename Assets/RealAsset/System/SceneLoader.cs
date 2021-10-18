@@ -5,19 +5,10 @@ using UnityEngine.UI;
 
 public class SceneLoader : MonoBehaviour
 {
-    protected static SceneLoader instance;
+    private static SceneLoader instance;
     public static SceneLoader Instance
     {
-        get
-        {
-            if (instance == null)
-            {
-                var obj = FindObjectOfType<SceneLoader>();
-                if (obj != null) { instance = obj; }
-                else { instance = Create(); }
-            }
-            return instance;
-        }
+        get { return instance ?? FindObjectOfType<SceneLoader>() ?? Instantiate(Resources.Load<SceneLoader>("Scene_Loader")); }
         private set { instance = value; }
     }
 
@@ -25,19 +16,9 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] private Image progressBar;
     private string loadSceneName;
 
-    public static SceneLoader Create()
-    {
-        var SceneLoaderPrefab = Resources.Load<SceneLoader>("Scene Loader");
-        return Instantiate(SceneLoaderPrefab);
-    }
-
     private void Awake()
     {
-        if (Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
+        if (Instance != this) { Destroy(gameObject); return; }
         DontDestroyOnLoad(gameObject);
     }
 
@@ -62,7 +43,7 @@ public class SceneLoader : MonoBehaviour
             yield return null;
             timer += Time.unscaledDeltaTime;
 
-            // ·Îµù 90% ±îÁö
+            // ï¿½Îµï¿½ 90% ï¿½ï¿½ï¿½ï¿½
             if (op.progress < 0.9f)
             {
                 progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, op.progress, timer);
@@ -71,7 +52,7 @@ public class SceneLoader : MonoBehaviour
                     timer = 0f;
                 }
             }
-            // ·Îµù 90% ÀÌ»ó
+            // ï¿½Îµï¿½ 90% ï¿½Ì»ï¿½
             else
             {
                 progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, 1f, timer);

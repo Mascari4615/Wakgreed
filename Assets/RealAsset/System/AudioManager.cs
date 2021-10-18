@@ -4,19 +4,10 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    protected static AudioManager instance;
+    private static AudioManager instance;
     public static AudioManager Instance
     {
-        get
-        {
-            if (instance == null)
-            {
-                var obj = FindObjectOfType<AudioManager>();
-                if (obj != null) { instance = obj; }
-                else { instance = Create(); }
-            }
-            return instance;
-        }
+        get { return instance ?? FindObjectOfType<AudioManager>() ?? Instantiate(Resources.Load<AudioManager>("Audio_Manager")); }
         private set { instance = value; }
     }
 
@@ -32,19 +23,10 @@ public class AudioManager : MonoBehaviour
     private PLAYBACK_STATE pbState;
     public PLAYBACK_STATE PbState { get { return pbState; } private set { pbState = value; } }
 
-    public static AudioManager Create()
-    {
-        var AudioManagerPrefab = Resources.Load<AudioManager>("Audio Manager");
-        return Instantiate(AudioManagerPrefab);
-    }
 
     private void Awake()
     {
-        if (Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
+        if (Instance != this) { Destroy(gameObject); return; }
         DontDestroyOnLoad(gameObject);
 
         BGM = RuntimeManager.GetBus("bus:/Master/BGM");

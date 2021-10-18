@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class SettingManager : MonoBehaviour
 {
-    protected static SettingManager instance;
+    private static SettingManager instance;
     public static SettingManager Instance
     {
         get { return instance ?? FindObjectOfType<SettingManager>() ?? Instantiate(Resources.Load<SettingManager>("Setting_Manager")); }
