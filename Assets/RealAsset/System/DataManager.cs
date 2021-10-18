@@ -6,19 +6,10 @@ using System.Linq;
 
 public class DataManager : MonoBehaviour
 {
-    protected static DataManager instance;
+    private static DataManager instance;
     public static DataManager Instance
     {
-        get
-        {
-            if (instance == null)
-            {
-                var obj = FindObjectOfType<DataManager>();
-                if (obj != null) { instance = obj; }
-                else { instance = Create(); }
-            }
-            return instance;
-        }
+        get { return instance ?? FindObjectOfType<DataManager>() ?? Instantiate(Resources.Load<DataManager>("Data_Manager")); }
         private set { instance = value; }
     }
 
@@ -49,19 +40,9 @@ public class DataManager : MonoBehaviour
 
     public GameData curGameData;
 
-    public static DataManager Create()
-    {
-        var DataManagerPrefab = Resources.Load<DataManager>("Data Manager");
-        return Instantiate(DataManagerPrefab);
-    }
-
     private void Awake()
     {
-        if (Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
+        if (Instance != this) { Destroy(gameObject); return; }
         DontDestroyOnLoad(gameObject);
 
         foreach (var weapon in WeaponDataBuffer.Items) WeaponDic.Add(weapon.ID, weapon);

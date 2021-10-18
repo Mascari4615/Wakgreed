@@ -70,7 +70,7 @@ public class WakgoodMove : MonoBehaviour
         if (mbMoving && mbCanBbolBbol)
         {
             RuntimeManager.PlayOneShot("event:/SFX/Wakgood/BbolBbol");
-            ObjectManager.Instance.PopObject("BBolBBol", transform);
+            ObjectManager.Instance.PopObject("BBolBBol", transform.position);
             StartCoroutine(TtmdaclExtension.ChangeWithDelay(!(mbCanBbolBbol = false), Random.Range(0.1f, 0.3f), value => mbCanBbolBbol = value));
         }
     }
