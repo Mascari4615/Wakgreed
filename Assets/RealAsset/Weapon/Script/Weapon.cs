@@ -12,11 +12,8 @@ public class Weapon : Equiptable, ISerializationCallbackReceiver
     public GameObject resource;
     public GameObject[] subResources;
     [SerializeField] private Skill baseAttack;
-    [System.NonSerialized] private bool canBaseAttack = true;
     public Skill skillQ;
-    [System.NonSerialized] private bool canSkillQ = true;
     public Skill skillE;
-    [System.NonSerialized] private bool canSkillE = true;
     public int minDamage = 5;
     public int maxDamage = 10;
     public InputType inputType;
@@ -26,27 +23,19 @@ public class Weapon : Equiptable, ISerializationCallbackReceiver
     public float magazine;
     [System.NonSerialized] public float ammo;
     public float reloadTime;
-    private bool isReloading = false;
-    [System.NonSerialized] public WaitForSeconds waitReload;
+     public float curReloadTime {get; private set;}
+    public bool isReloading {get; private set;}
+    public bool SkillEcanUse { get; private set; } = true;
+    public float SkillEcurCoolTime { get; private set; }
+     public bool SkillQcanUse { get; private set; } = true;
+    public float SkillQcurCoolTime { get; private set; }
+     public bool BaseAttackcanUse { get; private set; } = true;
+    public float BaseAttackcurCoolTime { get; private set; }
+    private IEnumerator reload;
 
     public void BaseAttack()
     {
-        // 공격 쿨타임 중이거나, 장전 중이면
-        if (!canBaseAttack || isReloading)
-        {
-            return;
-        }
-
-        // 원거린데 총알 없으면
-        if (magazine != 0 && ammo == 0)
-        {
-            // 장전
-            Reload();
-            return;
-        }
-;
-        // 공격
-        baseAttack.Use(minDamage, maxDamage);
+        if (!BaseAttackcanUse || isReloading) return;
 
         if (magazine != 0 && ammo == 0)
         {
@@ -54,42 +43,80 @@ public class Weapon : Equiptable, ISerializationCallbackReceiver
             return;
         }
 
-        // 쿨타임
-        canBaseAttack = false;
-        GameManager.Instance.StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, 1f / attackSpeed, value => canBaseAttack = value));
+        BaseAttackcanUse = false;
+        GameManager.Instance.StartCoroutine(BaseAttackCoolTime());
+        baseAttack.Use();
+
+        if (magazine != 0 && ammo == 0)
+        {
+            Reload();
+            return;
+        }
     }
 
     public void Reload()
     {
-        if (magazine != 0)
+        if (ammo != magazine && !isReloading)
         {
-            if (!isReloading)
-            {
-                isReloading = false;
-                GameManager.Instance.StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, reloadTime, value => isReloading = value, UIManager.Instance.reloadImage));
-                ammo = magazine;
-            }
+            isReloading = true;
+            GameManager.Instance.StartCoroutine(reload = Reloadd());     
         }
+    }
+    
+    private IEnumerator Reloadd()
+    {
+        curReloadTime = 0;
+        while ((curReloadTime += Time.deltaTime) < reloadTime) yield return null;
+        ammo = magazine;
+        isReloading = false;
     }
 
     public void SkillQ() 
     { 
-        if (!canSkillQ || skillQ == null) return;
-
-        skillQ?.Use(minDamage, maxDamage);
-        canSkillQ = false;
-        GameManager.Instance.StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, skillQ.coolTime, value => canSkillQ = value, 
-            Wakgood.Instance.curWeaponNumber == 1 ? UIManager.Instance.weapon1SkillQCoolTime : UIManager.Instance.weapon2SkillQCoolTime));
+        if (!SkillQcanUse || !skillQ) return;
+        SkillQcanUse = false;
+        GameManager.Instance.StartCoroutine(SkillQCoolTime());
+        skillQ?.Use();
     }
 
     public void SkillE() 
     { 
-        if (!canSkillE || skillE == null) return;
+        if (!SkillEcanUse || !skillE) return;
+        SkillEcanUse = false;
+        GameManager.Instance.StartCoroutine(SkillECoolTime());
+        skillE?.Use();
+    }
+    
+    private IEnumerator BaseAttackCoolTime()
+    {
+        BaseAttackcurCoolTime = 1 / attackSpeed;
+        do yield return null;
+        while ((BaseAttackcurCoolTime -= Time.deltaTime) > 0);
+        BaseAttackcanUse = true;
+    }
 
-        skillE?.Use(minDamage, maxDamage);
-        canSkillE = false;
-        GameManager.Instance.StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, skillQ.coolTime, value => canSkillQ = value,
-            Wakgood.Instance.curWeaponNumber == 1 ? UIManager.Instance.weapon1SkillECoolTime : UIManager.Instance.weapon2SkillECoolTime));
+     private IEnumerator SkillQCoolTime()
+    {
+        SkillQcurCoolTime = skillQ.coolTime;
+        do yield return null;
+        while ((SkillQcurCoolTime -= Time.deltaTime) > 0);
+        SkillQcanUse = true;
+    }
+
+    private IEnumerator SkillECoolTime()
+    {
+        SkillEcurCoolTime = skillE.coolTime;
+        do yield return null;
+        while ((SkillEcurCoolTime -= Time.deltaTime) > 0);
+        SkillEcanUse = true;
+    }
+
+    public override void OnRemove()
+    {
+        base.OnRemove();
+        if (reload is not null) GameManager.Instance.StopCoroutine(reload);
+        isReloading = false;
+        curReloadTime = 0;
     }
 
     public void OnAfterDeserialize()

@@ -81,18 +81,18 @@ public class ObjectManager : MonoBehaviour
         return targetObject;
     }
 
-    public GameObject PopObject(string objectName, Transform tr)
+    public GameObject PopObject(string objectName, Transform tr, bool setRot = false)
     {
         GameObject targetObject;
 
         if (poolDic[objectName].Count.Equals(0))
         {
-            targetObject = Instantiate(gameObjectDic[objectName], tr.position, Quaternion.identity, poolTfDic[objectName]);
+            targetObject = Instantiate(gameObjectDic[objectName], tr.position, setRot ? tr.rotation : Quaternion.identity, poolTfDic[objectName]);
         }
         else
         {
             targetObject = poolDic[objectName].Pop();
-            targetObject.transform.SetPositionAndRotation(tr.position, Quaternion.identity);
+            targetObject.transform.SetPositionAndRotation(tr.position, setRot ? tr.rotation : Quaternion.identity);
             targetObject.SetActive(true);
         }
         return targetObject;

@@ -48,6 +48,14 @@ public class UIManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.C)) state.SetActive(true);
         else if (Input.GetKeyUp(KeyCode.C)) state.SetActive(false);
+
+        if (Wakgood.Instance.curWeapon.isReloading) 
+        {if (!reloadUI.activeSelf) reloadUI.SetActive(true); reloadImage.fillAmount = Wakgood.Instance.curWeapon.curReloadTime / Wakgood.Instance.curWeapon.reloadTime;}
+        else if (reloadUI.activeSelf) reloadUI.SetActive(false);
+        if (Wakgood.Instance.weapon1.skillQ is not null) weapon1SkillQCoolTime.fillAmount = Wakgood.Instance.weapon1.SkillQcurCoolTime / Wakgood.Instance.weapon1.skillQ.coolTime;
+        if (Wakgood.Instance.weapon1.skillE is not null) weapon1SkillECoolTime.fillAmount = Wakgood.Instance.weapon1.SkillEcurCoolTime/ Wakgood.Instance.weapon1.skillE.coolTime;
+        if (Wakgood.Instance.weapon2.skillQ is not null) weapon2SkillQCoolTime.fillAmount = Wakgood.Instance.weapon2.SkillQcurCoolTime / Wakgood.Instance.weapon2.skillQ.coolTime;
+        if (Wakgood.Instance.weapon2.skillE is not null) weapon2SkillECoolTime.fillAmount = Wakgood.Instance.weapon2.SkillEcurCoolTime / Wakgood.Instance.weapon2.skillE.coolTime;
     }
 
     public IEnumerator SpeedWagon_Boss(GameObject boss)

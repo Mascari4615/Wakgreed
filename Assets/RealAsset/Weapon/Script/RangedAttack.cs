@@ -4,20 +4,10 @@ using FMODUnity;
 [CreateAssetMenu(fileName = "RangedAttack", menuName = "Skill/RangedAttack")]
 public class RangedAttack : Skill
 {
-    public override void Use(int minDamage, int maxDamage)
+    public override void Use()
     {
-        RuntimeManager.PlayOneShot("event:/SFX/Weapon/EX_Attack", Wakgood.Instance.attackPosition.position);
-
-        if (resource != null)
-        {
-            ObjectManager.Instance.PopObject(resource.name, Wakgood.Instance.attackPosition);
-        }
-        else
-        {
-            ObjectManager.Instance.PopObject("Arrow", Wakgood.Instance.attackPosition);
-        }
-
+        RuntimeManager.PlayOneShot("event:/SFX/Weapon/EX_Attack");
+        ObjectManager.Instance.PopObject(resource.name, Wakgood.Instance.attackPosition, true);
         Wakgood.Instance.curWeapon.ammo--;
-        Debug.Log("CurAmmo : " + Wakgood.Instance.curWeapon.ammo);
     }
 }
