@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 203
   name: "\uAE08 \uACE1\uAD2D\uC774"
+  sprite: {fileID: -106990688, guid: 881da7ae8c699e749866e3506ea7dea7, type: 3}
   description: 
-  icon: {fileID: -106990688, guid: 881da7ae8c699e749866e3506ea7dea7, type: 3}
+  effects:
+  - {fileID: 11400000, guid: 20e61461f5182bf478dc1d59ce85d136, type: 2}
   rarity: 0
   resource: {fileID: 2744222233995733343, guid: 5be6e39acb4a58d4d97af8dd0fc6b274,
     type: 3}
   subResources: []
-  buffs:
-  - {fileID: 11400000, guid: 57fb85ecea620f04aa151faa49f63448, type: 2}
   baseAttack: {fileID: 11400000, guid: 898635fdb6aac0248b2c10106f890b06, type: 2}
   skillQ: {fileID: 11400000, guid: e8e8ba6ca63c59647b5c38835df37fba, type: 2}
   skillE: {fileID: 0}
@@ -33,4 +33,3 @@ MonoBehaviour:
   attackSpeed: 5
   magazine: 0
   reloadTime: 0
-  isReloading: 0

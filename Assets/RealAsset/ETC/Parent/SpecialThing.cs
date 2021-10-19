@@ -14,6 +14,7 @@ public abstract class Equiptable : SpecialThing
 
     public virtual void OnEquip()
     {
+        if (effects is null) return;
         for (int i = 0; i < effects.Length; i++)
         {
             effects[i]._Effect();
@@ -22,6 +23,7 @@ public abstract class Equiptable : SpecialThing
 
     public virtual void OnRemove()
     {
+        if (effects is null) return;
         for (int i = 0; i < effects.Length; i++)
         {
             effects[i].Return();

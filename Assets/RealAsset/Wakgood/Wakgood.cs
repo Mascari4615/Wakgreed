@@ -37,8 +37,8 @@ public class Wakgood : MonoBehaviour, IHitable
 
     public int curWeaponNumber { get; private set; } = 1;
     public Weapon curWeapon { get; private set; }
-    [SerializeField] private Weapon weapon1;
-    [SerializeField] private Weapon weapon2;
+    public Weapon weapon1 {get; private set;}
+    public Weapon weapon2 {get; private set;}
     [SerializeField] private Weapon hochi;
     [SerializeField] private Weapon hand;
 

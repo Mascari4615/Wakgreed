@@ -13,19 +13,6 @@ public static class TtmdaclExtension
         makeResult(changeValue);
     }
 
-    public static IEnumerator ChangeWithDelay(bool changeValue, float coolTime, Action<bool> makeResult, Image image)
-    {
-        image.fillAmount = 1f;
-        float curCoolTime = coolTime;     
-        do
-        {
-            image.fillAmount = curCoolTime / coolTime;
-            yield return null;
-        } while ((curCoolTime -= Time.deltaTime) > 0);
-        image.fillAmount = 0f;
-        makeResult(changeValue);
-    }
-
     public static IEnumerator ChangeWithDelay(this float origin, float coolTime, Action<float> makeResult)
     {
         float now = 0f;
