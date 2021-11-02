@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Chest : InteractiveObject
 {
-    private bool isWeapon;
+    private bool isItem;
     private int itemID;
 
     [SerializeField] private float commonWeight;
@@ -39,7 +39,8 @@ public class Chest : InteractiveObject
         probability.Add(ItemGrade.Uncommon,uncommonWeight);
         probability.Add(ItemGrade.Legendary, legendaryWeight);
 
-        itemID = Random.Range(0, 100) < 70 ? DataManager.Instance.GetRandomItemID(probability.Get()) : DataManager.Instance.GetRandomWeaponID(probability.Get());
+        isItem = Random.Range(0, 100) < 90;
+        itemID = isItem ? DataManager.Instance.GetRandomItemID(probability.Get()) : DataManager.Instance.GetRandomWeaponID(probability.Get());
     }
 
     public override void Interaction()
@@ -53,7 +54,7 @@ public class Chest : InteractiveObject
     // 상자가 열리는 애니메이션이 실행될 때 애니메이션 이벤트로 호출됨
     private void OpenChest()
     {
-        if (isWeapon)
+        if (isItem)
             ObjectManager.Instance.PopObject(nameof(ItemGameObject), transform.position).GetComponent<ItemGameObject>().Initialize(itemID);
         else    
             ObjectManager.Instance.PopObject(nameof(WeaponGameObject), transform.position).GetComponent<WeaponGameObject>().Initialize(itemID);
