@@ -23,8 +23,7 @@ public class DashUI : MonoBehaviour
     {
         for (int i = 0; i < maxDashStack.RuntimeValue; i++)
         {
-            if (i < curDashStack.RuntimeValue) dashStackUIs[i].GetChild(0).gameObject.SetActive(true);
-            else dashStackUIs[i].GetChild(0).gameObject.SetActive(false);
+            dashStackUIs[i].GetChild(0).gameObject.SetActive(i < curDashStack.RuntimeValue);
         }
     }
 
@@ -32,8 +31,7 @@ public class DashUI : MonoBehaviour
     {
         for (int i = 0; i < dashStackUIs.Length; i++)
         {
-            if (i < maxDashStack.RuntimeValue) dashStackUIs[i].gameObject.SetActive(true);
-            else dashStackUIs[i].gameObject.SetActive(false);
+            dashStackUIs[i].gameObject.SetActive(i < maxDashStack.RuntimeValue);
         }
     }
 }

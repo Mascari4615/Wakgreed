@@ -7,7 +7,7 @@ public class WeaponGizmo : MonoBehaviour
     [SerializeField] [Range(0, 10)] [Tooltip("공격 콜라이더 생성 위치")]
     private float distance = 1.5f;
     private Vector3 cross, prev, next;
-    private readonly int step = 10;
+    private const int Step = 10;
     private float theta;
 
     private Transform attackTransform;
@@ -17,14 +17,14 @@ public class WeaponGizmo : MonoBehaviour
     {
         if (Wakgood.Instance is not null)
         {
-            attackTransform = Wakgood.Instance.attackPosition;
+            attackTransform = Wakgood.Instance.AttackPosition;
         }
         else attackTransform = transform;
     }
 
     private void OnDrawGizmos()
     {
-        theta = 360f / step;
+        theta = 360f / Step;
         cross = Vector3.Cross(Vector3.forward, Vector3.up);
         if (cross.magnitude == 0f)
         {
@@ -42,7 +42,7 @@ public class WeaponGizmo : MonoBehaviour
             attackPosition = attackTransform.position;
         }
 
-        for (int i = 1; i <= step; ++i)
+        for (int i = 1; i <= Step; ++i)
         {
             prev = attackPosition + Quaternion.AngleAxis(theta * (i - 1), Vector3.forward) * cross * radius;
             next = attackPosition + Quaternion.AngleAxis(theta * i, Vector3.forward) * cross * radius;

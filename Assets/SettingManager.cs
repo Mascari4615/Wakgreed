@@ -6,8 +6,8 @@ public class SettingManager : MonoBehaviour
     private static SettingManager instance;
     public static SettingManager Instance
     {
-        get { return instance ?? FindObjectOfType<SettingManager>() ?? Instantiate(Resources.Load<SettingManager>("Setting_Manager")); }
-        private set { instance = value; }
+        get => instance ? instance : FindObjectOfType<SettingManager>() ?? Instantiate(Resources.Load<SettingManager>("Setting_Manager"));
+        private set => instance = value;
     }
 
     public GameObject SettingPanel { get; private set; }
@@ -29,7 +29,7 @@ public class SettingManager : MonoBehaviour
     private void Start()
     {
         slider1.onValueChanged.AddListener(AudioManager.Instance.MasterVolumeLevel);
-        slider2.onValueChanged.AddListener(AudioManager.Instance.BGMVolumeLevel);
-        slider3.onValueChanged.AddListener(AudioManager.Instance.SFXVolumeLevel);
+        slider2.onValueChanged.AddListener(AudioManager.Instance.BgmVolumeLevel);
+        slider3.onValueChanged.AddListener(AudioManager.Instance.SfxVolumeLevel);
     }
 }
