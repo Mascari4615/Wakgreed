@@ -8010,8 +8010,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   donationUI: {fileID: 1285523798}
-  Nyang: {fileID: 11400000, guid: 7036349cfb7157d4eb77704cb729a17b, type: 2}
-  Viewer: {fileID: 11400000, guid: 8bd532667c67bf946a119c7fda59194a, type: 2}
+  nyang: {fileID: 11400000, guid: 7036349cfb7157d4eb77704cb729a17b, type: 2}
+  viewer: {fileID: 11400000, guid: 8bd532667c67bf946a119c7fda59194a, type: 2}
 --- !u!114 &300167012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38568,7 +38568,6 @@ MonoBehaviour:
   m_YawDamping: 0
   m_RollDamping: 0
   m_AngularDamping: 0
-  m_HideOffsetInInspector: 0
 --- !u!1001 &835684614
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39910,7 +39909,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3439fcb5e4cd81439e736869544f954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolDatas:
+  poolData:
   - gameObject: {fileID: 8470063552259385253, guid: a0c0c61347e7d334191016a923bc721e,
       type: 3}
     count: 10
@@ -39984,6 +39983,9 @@ MonoBehaviour:
       type: 3}
     count: 5
   - gameObject: {fileID: 8633538259678075035, guid: c5823766512ca6c4ba25ac6c0a1f0c27,
+      type: 3}
+    count: 5
+  - gameObject: {fileID: 3938977003366753616, guid: 3750e17606170c844be99c75ac386f1d,
       type: 3}
     count: 5
 --- !u!1001 &917803284
@@ -44167,11 +44169,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d9a289c19ce8bd49befd028cd5e10fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsFighting: {fileID: 11400000, guid: 36d968d443b40aa4b94a068e61f26280, type: 2}
-  IsGaming: {fileID: 11400000, guid: b5106d5025f50ad49990a2b70b24d67e, type: 2}
-  OnRecall: {fileID: 11400000, guid: c278a968b1806c242a5fdea01f348603, type: 2}
+  isFighting: {fileID: 11400000, guid: 36d968d443b40aa4b94a068e61f26280, type: 2}
+  isGaming: {fileID: 11400000, guid: b5106d5025f50ad49990a2b70b24d67e, type: 2}
+  onRecall: {fileID: 11400000, guid: c278a968b1806c242a5fdea01f348603, type: 2}
   buffRunTimeSet: {fileID: 11400000, guid: f608be8f86825a44f9ea671a80318ac3, type: 2}
-  EnemyRunTimeSet: {fileID: 11400000, guid: b88a37a18af2b5d46ba67b2022823cf0, type: 2}
+  enemyRunTimeSet: {fileID: 11400000, guid: b88a37a18af2b5d46ba67b2022823cf0, type: 2}
   gamePanel: {fileID: 1210154864}
   miniMapCamera: {fileID: 1115853960}
   gameResultPanel: {fileID: 800900489}
@@ -51871,7 +51873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 211a16f1db92fab4d99564d3e7a2e21a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedWagons: []
+  speedWagons: []
   bossSpeedWagon: {fileID: 215755431}
   bossHpBar: {fileID: 568832537}
   redParent: {fileID: 1012487413}

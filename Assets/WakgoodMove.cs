@@ -9,29 +9,31 @@ public class WakgoodMove : MonoBehaviour
     [SerializeField] private IntVariable maxDashStack;
     [SerializeField] private IntVariable curDashStack;
     [SerializeField] private FloatVariable dashCoolTime;
-    private Rigidbody2D playerRB;
+    private Rigidbody2D playerRb;
     private Animator animator;
-    private List<int> hInputList = new();
-    private List<int> vInputList = new();
+    private readonly List<int> hInputList = new();
+    private readonly List<int> vInputList = new();
     private int horizontalInput;
     private int verticalInput;
     private Vector2 moveDirection;
     private bool mbMoving;
     private bool mbDashing;
     private bool mbCanBbolBbol = true;
-    private const float DASH_PARAMETOR = 4;
+    private static readonly int wakeUp = Animator.StringToHash("WakeUp");
+    private static readonly int move = Animator.StringToHash("Move");
+    private const float DashParameter = 4;
 
     public void Initialize()
     {
-        animator.SetTrigger("WakeUp");
-        animator.SetBool("Move", false);
-        playerRB.bodyType = RigidbodyType2D.Dynamic;
+        animator.SetTrigger(wakeUp);
+        animator.SetBool(move, false);
+        playerRb.bodyType = RigidbodyType2D.Dynamic;
         StartCoroutine(UpdateDashStack());
     }
 
     private void Awake()
     {
-        playerRB = GetComponent<Rigidbody2D>();
+        playerRb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
 
@@ -64,15 +66,15 @@ public class WakgoodMove : MonoBehaviour
 
         moveDirection = new Vector2(horizontalInput, verticalInput).normalized;
         mbMoving = !moveDirection.Equals(Vector2.zero);
-        animator.SetBool("Move", mbMoving);
-        playerRB.velocity = moveDirection * moveSpeed.RuntimeValue;
+        animator.SetBool(move, mbMoving);
+        playerRb.velocity = moveDirection * moveSpeed.RuntimeValue;
 
-        if (mbMoving && mbCanBbolBbol)
-        {
-            RuntimeManager.PlayOneShot("event:/SFX/Wakgood/BbolBbol");
-            ObjectManager.Instance.PopObject("BBolBBol", transform.position);
-            StartCoroutine(TtmdaclExtension.ChangeWithDelay(!(mbCanBbolBbol = false), Random.Range(0.1f, 0.3f), value => mbCanBbolBbol = value));
-        }
+        if (!mbMoving || !mbCanBbolBbol)
+            return;
+
+        RuntimeManager.PlayOneShot("event:/SFX/Wakgood/BbolBbol");
+        ObjectManager.Instance.PopObject("BBolBBol", transform.position);
+        StartCoroutine(TtmdaclExtension.ChangeWithDelay(!(mbCanBbolBbol = false), Random.Range(0.1f, 0.3f), value => mbCanBbolBbol = value));
     }
 
     private IEnumerator Dash()
@@ -85,7 +87,7 @@ public class WakgoodMove : MonoBehaviour
             if (Physics2D.BoxCast(transform.position, new Vector2(.5f, .5f), 0f, moveDirection, 0.9f, LayerMask.GetMask("Wall")).collider != null)
                 break;
 
-            playerRB.velocity = 10 * DASH_PARAMETOR * moveDirection;
+            playerRb.velocity = 10 * DashParameter * moveDirection;
             yield return new WaitForFixedUpdate();
         }
         mbDashing = false;

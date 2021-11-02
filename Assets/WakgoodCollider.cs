@@ -17,16 +17,16 @@ public class WakgoodCollider : MonoBehaviour
         else if (other.CompareTag("InteractiveObject"))
         {
             if (!NearInteractiveObjectDic.ContainsKey(other.GetInstanceID())) NearInteractiveObjectDic.Add(other.GetInstanceID(), other.GetComponent<InteractiveObject>());
-            else Debug.LogError("¤¸¹ö±×");
+            else Debug.LogError("ã…ˆë²„ê·¸");
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("InteractiveObject"))
-        {
-            if (NearInteractiveObjectDic.ContainsKey(other.GetInstanceID())) NearInteractiveObjectDic.Remove(other.GetInstanceID());
-            else Debug.LogError("¤¸¹ö±×");
-        }
+        if (!other.CompareTag("InteractiveObject"))
+            return;
+
+        if (NearInteractiveObjectDic.ContainsKey(other.GetInstanceID())) NearInteractiveObjectDic.Remove(other.GetInstanceID());
+        else Debug.LogError("ã…ˆë²„ê·¸");
     }
 }

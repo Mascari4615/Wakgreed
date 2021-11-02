@@ -6,7 +6,7 @@ public class WakgiGameObject : MonoBehaviour, IEffectGameObject
 {
     [SerializeField] private float moveSpeed = 1;
     private bool canWakggiddi = true;
-    private float coolTime = 3f;
+    private const float CoolTime = 3f;
     private int damage = 1;
 
     private void Start()
@@ -21,7 +21,7 @@ public class WakgiGameObject : MonoBehaviour, IEffectGameObject
         {
             if (canWakggiddi)
             {
-                if (GameManager.Instance.EnemyRunTimeSet.Items.Count > 0)
+                if (GameManager.Instance.enemyRunTimeSet.Items.Count > 0)
                 {
                     Vector3 originalDistance = transform.position - Wakgood.Instance.transform.position;
                     Transform mob = GetNearestMob();
@@ -48,11 +48,14 @@ public class WakgiGameObject : MonoBehaviour, IEffectGameObject
                     }
 
                     canWakggiddi = false;
-                    StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, coolTime, (value) => canWakggiddi = value));
+                    StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, CoolTime, (value) => canWakggiddi = value));
                 }
             }
 
-            transform.position = Vector3.Lerp(transform.position, Wakgood.Instance.transform.position + (transform.position - Wakgood.Instance.transform.position).normalized * 2, Time.deltaTime * moveSpeed);
+            Vector3 position = transform.position;
+            Vector3 wakgoodPosition = Wakgood.Instance.transform.position;
+            position = Vector3.Lerp(position, wakgoodPosition + (position - wakgoodPosition).normalized * 2, Time.deltaTime * moveSpeed);
+            transform.position = position;
 
             yield return null;
         }
@@ -64,7 +67,7 @@ public class WakgiGameObject : MonoBehaviour, IEffectGameObject
         float targetDist = 100;
         float currentDist;
 
-        foreach (GameObject monster in GameManager.Instance.EnemyRunTimeSet.Items)
+        foreach (GameObject monster in GameManager.Instance.enemyRunTimeSet.Items)
         {
             currentDist = Vector2.Distance(transform.position, monster.transform.position);
             if (currentDist > targetDist) continue;
