@@ -10,6 +10,7 @@ public class LogManager : MonoBehaviour
     public GameObject chatPanel;
     [SerializeField] private GameObject textGameObjectPrefab;
     [SerializeField] private TMP_InputField inputField;
+    public TMP_InputField InputField {get; [SerializeField] private set; }
     private float t = 0;
 
     [SerializeField] private Connect twitchConnect;
@@ -25,16 +26,51 @@ public class LogManager : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Z)) { if (!chatGameObject.activeSelf) { chatGameObject.SetActive(true); } }
-        else if (Input.GetKeyUp(KeyCode.Z)) t = 2; // chatGameObject.SetActive(false);
+        if (Input.GetKey(KeyCode.Z))
+        {
+            if (chatGameObject.activeSelf)
+            {
+                return;
+            }
+
+            chatGameObject.SetActive(true);
+        }
+        else if (Input.GetKeyUp(KeyCode.Z))
+        {
+            t = 2;
+            // chatGameObject.SetActive(false);
+        }
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            if (inputField.gameObject.activeSelf == false) { chatGameObject.SetActive(true); inputField.gameObject.SetActive(true); inputField.ActivateInputField(); }
-            else { if (inputField.text != "") { Chat(inputField.text); inputField.text = ""; } inputField.gameObject.SetActive(false); t = 5; }
+            if (inputField.gameObject.activeSelf == false)
+            {
+                chatGameObject.SetActive(true);
+                inputField.gameObject.SetActive(true);
+                inputField.ActivateInputField();
+            }
+            else
+            {
+                if (inputField.text != "")
+                {
+                    Chat(inputField.text);
+                    inputField.text = "";
+                }
+                inputField.gameObject.SetActive(false);
+                t = 5;
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.Slash)) 
-            if (inputField.gameObject.activeSelf == false) { chatGameObject.SetActive(true); inputField.gameObject.SetActive(true); inputField.ActivateInputField(); inputField.text = "/"; inputField.stringPosition = 10; }
+        else if (Input.GetKeyDown(KeyCode.Slash))
+        {
+            if (inputField.gameObject.activeSelf == false)
+            {
+                chatGameObject.SetActive(true);
+                inputField.gameObject.SetActive(true);
+                inputField.ActivateInputField();
+                inputField.text = "/";
+                inputField.stringPosition = 10;
+            }
+        }
 
         if (chatGameObject.activeSelf && !inputField.gameObject.activeSelf && !Input.GetKey(KeyCode.Z))
         {

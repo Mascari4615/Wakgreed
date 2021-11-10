@@ -3,6 +3,7 @@ using FMODUnity;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 
 public class Wakgood : MonoBehaviour, IHitable
@@ -133,7 +134,7 @@ public class Wakgood : MonoBehaviour, IHitable
         spriteRenderer.flipX = transform.position.x > worldMousePoint.x;
         worldMousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (Input.GetMouseButton(0)) CurWeapon.BaseAttack();
+        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject()) CurWeapon.BaseAttack();
         if (Input.GetKeyDown(KeyCode.Q)) CurWeapon.SkillQ();
         if (Input.GetKeyDown(KeyCode.E)) CurWeapon.SkillE();
         if (Input.GetKeyDown(KeyCode.R)) CurWeapon.Reload();
