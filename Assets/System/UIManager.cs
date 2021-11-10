@@ -81,6 +81,8 @@ public class UIManager : MonoBehaviour
             weapon2.localPosition = Vector3.Lerp(weapon2Origin, weapon1Origin, i * 6);
             yield return null;
         }
+        weapon1.localPosition = weapon2Origin;
+        weapon2.localPosition = weapon1Origin;
     }
 
     public void OpenSetting()
