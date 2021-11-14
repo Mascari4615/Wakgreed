@@ -67,7 +67,7 @@ public class TwitchConnect : ScriptableObject
             lastLine = await Reader.ReadLineAsync();
             logs.Add(lastLine);
 
-            LogManager.Instance.Chat(messageDetails(lastLine));
+            StreamingManager.Instance.Chat(messageDetails(lastLine));
             // Debug.Log(lastLine);
 
             /*

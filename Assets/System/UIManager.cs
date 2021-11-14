@@ -8,14 +8,12 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
-
-    [FormerlySerializedAs("SpeedWagons")] [SerializeField] private GameObject[] speedWagons;
+    
     [SerializeField] private GameObject bossSpeedWagon;
 
     private CinemachineTargetGroup cinemachineTargetGroup;
 
-    public GameObject bossHpBar;
-    public GameObject redParent;
+    public BossHpBar bossHpBar;
 
     [SerializeField] private GameObject state;
 
