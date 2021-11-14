@@ -10,12 +10,12 @@ public class GameManager : MonoBehaviour
 {
     [HideInInspector] public static GameManager Instance { get; private set; }
 
-    [FormerlySerializedAs("IsFighting")] [SerializeField] private BoolVariable isFighting;
-    [FormerlySerializedAs("IsGaming")] [SerializeField] private BoolVariable isGaming;
-    [FormerlySerializedAs("OnRecall")] [SerializeField] private GameEvent onRecall;
+    [SerializeField] private BoolVariable isFighting;
+    [SerializeField] private BoolVariable isGaming;
+    [SerializeField] private GameEvent onRecall;
     [SerializeField] private BuffRunTimeSet buffRunTimeSet;
 
-    [FormerlySerializedAs("EnemyRunTimeSet")] public EnemyRunTimeSet enemyRunTimeSet;
+    public EnemyRunTimeSet enemyRunTimeSet;
 
     [SerializeField] private GameObject gamePanel;
     [SerializeField] private GameObject miniMapCamera;

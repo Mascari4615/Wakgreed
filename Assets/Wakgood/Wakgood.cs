@@ -11,19 +11,19 @@ public class Wakgood : MonoBehaviour, IHitable
     [HideInInspector] public static Wakgood Instance { get; private set; }
 
     [SerializeField] private Wakdu wakdu;
-    [FormerlySerializedAs("maxHP")] [SerializeField] private IntVariable maxHp;
-    [FormerlySerializedAs("HP")] [SerializeField] private IntVariable hp;
-    [FormerlySerializedAs("OnDamage")] [SerializeField] private GameEvent onDamage;
-    [FormerlySerializedAs("AD")] [SerializeField] private IntVariable ad;
-    [FormerlySerializedAs("AS")] [SerializeField] private FloatVariable @as;
+    [SerializeField] private IntVariable maxHp;
+    [SerializeField] private IntVariable hp;
+    [SerializeField] private GameEvent onDamage;
+    [SerializeField] private IntVariable ad;
+    [SerializeField] private FloatVariable @as;
     [SerializeField] private IntVariable criticalChance;
     [SerializeField] private FloatVariable moveSpeed;
-    [FormerlySerializedAs("EXP")] [SerializeField] private IntVariable exp;
+    [SerializeField] private IntVariable exp;
     private int requiredExp;
-    [FormerlySerializedAs("Level")] [SerializeField] private IntVariable level;
-    [FormerlySerializedAs("OnCollapse")] [SerializeField] private GameEvent onCollapse;
-    [FormerlySerializedAs("OnLevelUp")] [SerializeField] private GameEvent onLevelUp;
-    [FormerlySerializedAs("Evasion")] [SerializeField] private FloatVariable evasion;
+    [SerializeField] private IntVariable level;
+    [SerializeField] private GameEvent onCollapse;
+    [SerializeField] private GameEvent onLevelUp;
+    [SerializeField] private FloatVariable evasion;
 
     private Transform attackPositionParent;
     public Transform AttackPosition { get; private set; }

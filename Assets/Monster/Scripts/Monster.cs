@@ -7,13 +7,14 @@ using Random = UnityEngine.Random;
 
 public abstract class Monster : MonoBehaviour, IHitable
 {
-    [FormerlySerializedAs("baseHP")] [SerializeField] private int baseHp;
+    [SerializeField] private int baseHp;
     [SerializeField] private int baseAD, baseMoveSpeed;
-    protected int MAXHp, Hp;
-    private int ad;
+    public int MAXHp { get; protected set; }
+    public int Hp { get; protected set; }
+    public int ad { get; protected set; }
     protected int MoveSpeed;
 
-    [FormerlySerializedAs("OnMonsterCollapse")] [SerializeField] private GameEvent onMonsterCollapse;
+    [SerializeField] private GameEvent onMonsterCollapse;
 
     protected SpriteRenderer SpriteRenderer;
     protected Animator Animator;
@@ -21,6 +22,7 @@ public abstract class Monster : MonoBehaviour, IHitable
     private new Collider2D collider2D;
 
     private bool isCollapsed = false;
+    
     private static readonly int ahya = Animator.StringToHash("AHYA");
     private static readonly int collapse = Animator.StringToHash("COLLAPSE");
 
@@ -57,18 +59,18 @@ public abstract class Monster : MonoBehaviour, IHitable
 
         _ReceiveHit();
 
-        if (Hp > 0)
+        switch (Hp)
         {
-            RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("(", StringComparison.Ordinal), 7) : name)}_Hurt", transform.position);
-            Animator.SetTrigger(ahya);
-        }
-        else if (Hp <= 0)
-        {
-            isCollapsed = true;
-
-            RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("(", StringComparison.Ordinal), 7) : name)}_Hurt", transform.position);
-            StopAllCoroutines();
-            StartCoroutine(Collapse());
+            case > 0:
+                RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("(", StringComparison.Ordinal), 7) : name)}_Hurt", transform.position);
+                Animator.SetTrigger(ahya);
+                break;
+            case <= 0:
+                isCollapsed = true;
+                RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("(", StringComparison.Ordinal), 7) : name)}_Collapse", transform.position);
+                StopAllCoroutines();
+                StartCoroutine(Collapse());
+                break;
         }
     }
 

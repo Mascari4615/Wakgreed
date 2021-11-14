@@ -38,8 +38,7 @@ public abstract class NormalMonster : Monster
         {
             return;
         }
-
-        yellow.color = new Color(1, 1, 0);
+        
         yellow.fillAmount = red.fillAmount;
     }
 
