@@ -35,6 +35,8 @@ public class UIManager : MonoBehaviour
     public Slot weapon2SkillE;
     public Image weapon2SkillECoolTime;
 
+    [SerializeField] private BoolVariable isFocusOnSomething;
+
     private void Awake()
     {
         Instance = this;
@@ -44,11 +46,22 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C)) state.SetActive(true);
-        else if (Input.GetKeyUp(KeyCode.C)) state.SetActive(false);
+        if (isFocusOnSomething.RuntimeValue)
+        {
+            if (state.activeSelf )state.SetActive(false);
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.C)) state.SetActive(true);
+            else if (Input.GetKeyUp(KeyCode.C)) state.SetActive(false);
+        }       
 
         if (Wakgood.Instance.CurWeapon.IsReloading) 
-        {if (!reloadUI.activeSelf) reloadUI.SetActive(true); reloadImage.fillAmount = Wakgood.Instance.CurWeapon.CurReloadTime / Wakgood.Instance.CurWeapon.reloadTime;}
+        {
+            if (!reloadUI.activeSelf) 
+                reloadUI.SetActive(true); 
+            reloadImage.fillAmount = Wakgood.Instance.CurWeapon.CurReloadTime / Wakgood.Instance.CurWeapon.reloadTime;
+        }
         else if (reloadUI.activeSelf) reloadUI.SetActive(false);
         if (Wakgood.Instance.Weapon1.skillQ is not null) weapon1SkillQCoolTime.fillAmount = Wakgood.Instance.Weapon1.CurSkillQCoolTime / Wakgood.Instance.Weapon1.skillQ.coolTime;
         if (Wakgood.Instance.Weapon1.skillE is not null) weapon1SkillECoolTime.fillAmount = Wakgood.Instance.Weapon1.CurSkillECoolTime/ Wakgood.Instance.Weapon1.skillE.coolTime;

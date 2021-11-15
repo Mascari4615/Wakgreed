@@ -47,6 +47,8 @@ public class StageManager : MonoBehaviour
 
     [SerializeField] private BoolVariable isFighting;
     [SerializeField] private BoolVariable isGaming;
+    [SerializeField] private BoolVariable isFocusOnSomething;
+
     
     private static readonly int fadeIn = Animator.StringToHash("FadeIn");
 
@@ -58,15 +60,23 @@ public class StageManager : MonoBehaviour
 
     private void Update()
     {
-        if (isGaming.RuntimeValue)
+        if (isFocusOnSomething.RuntimeValue)
         {
-            if (Input.GetKeyDown(KeyCode.Tab) && mapPanel.activeSelf == false) MapDoor(true);
-            else if (Input.GetKeyUp(KeyCode.Tab) && mapPanel.activeSelf) MapDoor(false);
+            if (mapPanel.activeSelf) mapPanel.SetActive(false);
+            if (shortCut.activeSelf) shortCut.SetActive(false);
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.Tab) && shortCut.activeSelf == false) shortCut.SetActive(true);
-            else if (Input.GetKeyUp(KeyCode.Tab) && shortCut.activeSelf) shortCut.SetActive(false);
+            if (isGaming.RuntimeValue)
+            {
+                if (Input.GetKeyDown(KeyCode.Tab) && mapPanel.activeSelf == false) MapDoor(true);
+                else if (Input.GetKeyUp(KeyCode.Tab) && mapPanel.activeSelf) MapDoor(false);
+            }
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.Tab) && shortCut.activeSelf == false) shortCut.SetActive(true);
+                else if (Input.GetKeyUp(KeyCode.Tab) && shortCut.activeSelf) shortCut.SetActive(false);
+            }
         }
     }
 

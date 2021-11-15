@@ -9,6 +9,7 @@ public class WakgoodMove : MonoBehaviour
     [SerializeField] private IntVariable maxDashStack;
     [SerializeField] private IntVariable curDashStack;
     [SerializeField] private FloatVariable dashCoolTime;
+    [SerializeField] private BoolVariable isFocusOnSomething;
     private Rigidbody2D playerRb;
     private Animator animator;
     private readonly List<int> hInputList = new();
@@ -39,8 +40,13 @@ public class WakgoodMove : MonoBehaviour
 
     private void Update()
     {
-        if (Time.timeScale == 0 || Wakgood.Instance.IsCollapsed)
+        if (Time.timeScale == 0 || Wakgood.Instance.IsCollapsed || isFocusOnSomething.RuntimeValue)
+        {
+            mbMoving = false;
+            animator.SetBool(move, mbMoving);
             return;
+        }
+
         if (!mbDashing)
             Move();
 

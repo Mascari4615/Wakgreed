@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
+using TMPro;
 
 public class Wakgood : MonoBehaviour, IHitable
 {
@@ -50,8 +51,10 @@ public class Wakgood : MonoBehaviour, IHitable
 
     public bool IsSwitching { get; private set; } = false;
     public bool IsCollapsed { get; private set; } = false;
+    [SerializeField] private BoolVariable isFocusOnSomething;
 
-
+    public GameObject Chat {get; private set;}
+    public TextMeshProUGUI ChatText {get; private set;}
     private void Awake()
     {
         Instance = this;
@@ -65,6 +68,9 @@ public class Wakgood : MonoBehaviour, IHitable
         wakgoodCollider = transform.GetChild(0).GetComponent<WakgoodCollider>();
         wakgoodMove = GetComponent<WakgoodMove>();
         cinemachineTargetGroup = GameObject.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>();
+
+        Chat = transform.Find("Canvas").Find("Wakgood_Chat").gameObject;
+        ChatText = Chat.transform.GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>();
     }
 
     private void Start()
@@ -134,27 +140,29 @@ public class Wakgood : MonoBehaviour, IHitable
         spriteRenderer.flipX = transform.position.x > worldMousePoint.x;
         worldMousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject()) CurWeapon.BaseAttack();
-        if (Input.GetKeyDown(KeyCode.Q)) CurWeapon.SkillQ();
-        if (Input.GetKeyDown(KeyCode.E)) CurWeapon.SkillE();
-        if (Input.GetKeyDown(KeyCode.R)) CurWeapon.Reload();
-
-        if (Input.GetAxisRaw("Mouse ScrollWheel") != 0) SwitchCurWeapon();
-        else if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchCurWeapon(1);
-        else if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchCurWeapon(2);
-
-        if (Input.GetKeyDown(KeyCode.F) && wakgoodCollider.NearInteractiveObjectDic.Count != 0)
+        if (!isFocusOnSomething.RuntimeValue)
         {
-            InteractiveObject nearInteractiveObject = null;
-            float distance = float.MaxValue;
-            foreach (InteractiveObject item in wakgoodCollider.NearInteractiveObjectDic.Values.Where(item => Vector2.Distance(transform.position, item.transform.position) < distance))
-            {
-                nearInteractiveObject = item;
-                distance = Vector2.Distance(transform.position, item.transform.position);
-            }
-            nearInteractiveObject.Interaction();
-        }
+            if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject()) CurWeapon.BaseAttack();
+            if (Input.GetKeyDown(KeyCode.Q)) CurWeapon.SkillQ();
+            if (Input.GetKeyDown(KeyCode.E)) CurWeapon.SkillE();
+            if (Input.GetKeyDown(KeyCode.R)) CurWeapon.Reload();
 
+            if (Input.GetAxisRaw("Mouse ScrollWheel") != 0) SwitchCurWeapon();
+            else if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchCurWeapon(1);
+            else if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchCurWeapon(2);
+
+            if (Input.GetKeyDown(KeyCode.F) && wakgoodCollider.NearInteractiveObjectDic.Count != 0)
+            {
+                InteractiveObject nearInteractiveObject = null;
+                float distance = float.MaxValue;
+                foreach (InteractiveObject item in wakgoodCollider.NearInteractiveObjectDic.Values.Where(item => Vector2.Distance(transform.position, item.transform.position) < distance))
+                {
+                    nearInteractiveObject = item;
+                    distance = Vector2.Distance(transform.position, item.transform.position);
+                }
+                nearInteractiveObject.Interaction();
+            }
+        }
         attackPositionParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(worldMousePoint.y - (transform.position.y + 0.8f), worldMousePoint.x - transform.position.x) * Mathf.Rad2Deg - 90);
 
         if (transform.position.x < worldMousePoint.x)

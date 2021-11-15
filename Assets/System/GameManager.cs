@@ -68,11 +68,14 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        // 뒤로가기 버튼을 눌렀을 때, 정지 및 재개 ★ Time을 통한 실질적인 게임 정지 및 재개
-        // # 정지 > 귀환 (StopCoroutine) 오류 가능성 : 따라서 플래그를 통해 현재 정지 시킬 수 있는지 확인해야함
         if (!Input.GetKeyDown(KeyCode.Escape)) return;
 
-        if (SettingManager.Instance.SettingPanel.activeSelf) SettingManager.Instance.SettingPanel.SetActive(false);
+        if (StreamingManager.Instance.inputField.gameObject.activeSelf)
+        {
+            StreamingManager.Instance.inputField.text = "";
+            StreamingManager.Instance.inputField.gameObject.SetActive(false);
+            StreamingManager.Instance.t = 5;
+        }
         else PauseGame();
     }
 
@@ -180,5 +183,13 @@ public class GameManager : MonoBehaviour
     {
         StopCoroutine(nameof(RoomClearSpeedWagon));
         roomClearSpeedWagon.SetActive(false);
+    }
+}
+
+public class DebugManager
+{
+    public static void GetItem(int id)
+    {
+        DataManager.Instance.wakgoodItemInventory.Add(DataManager.Instance.ItemDic[id]);
     }
 }

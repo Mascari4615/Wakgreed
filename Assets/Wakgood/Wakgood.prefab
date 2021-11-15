@@ -633,18 +633,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wakdu: {fileID: 11400000, guid: 6fae4d6446cc5a24ba764e3141f9592e, type: 2}
-  maxHP: {fileID: 11400000, guid: b28d195b2423d0344a37d3aa321a61f1, type: 2}
-  HP: {fileID: 11400000, guid: 87e24a6bb0485bb43bf414a2be282fe6, type: 2}
-  OnDamage: {fileID: 11400000, guid: 5192cc26768a1974fa631e81a4b5a319, type: 2}
-  AD: {fileID: 11400000, guid: ad758efcb5cd4674fba16426548099e4, type: 2}
-  AS: {fileID: 11400000, guid: 320dd9e1a35eb354ba45330eb0aaaa6d, type: 2}
+  maxHp: {fileID: 11400000, guid: b28d195b2423d0344a37d3aa321a61f1, type: 2}
+  hp: {fileID: 11400000, guid: 87e24a6bb0485bb43bf414a2be282fe6, type: 2}
+  onDamage: {fileID: 11400000, guid: 5192cc26768a1974fa631e81a4b5a319, type: 2}
+  ad: {fileID: 11400000, guid: ad758efcb5cd4674fba16426548099e4, type: 2}
+  as: {fileID: 11400000, guid: 320dd9e1a35eb354ba45330eb0aaaa6d, type: 2}
   criticalChance: {fileID: 11400000, guid: 300f8b12c04c18a45a8f73a08c3ab38b, type: 2}
   moveSpeed: {fileID: 11400000, guid: ab222d65ff7ce974fa0c23c97750945f, type: 2}
-  EXP: {fileID: 11400000, guid: 17f006d9f52da1d47bf33575680fcc1b, type: 2}
-  Level: {fileID: 11400000, guid: 4a71ab267992a93479cfd1a716594562, type: 2}
-  OnCollapse: {fileID: 11400000, guid: fe1091c644e3ead409241a61978b243a, type: 2}
-  OnLevelUp: {fileID: 11400000, guid: 42476068b34aa7c4aa6cb152cd3b3ac9, type: 2}
-  Evasion: {fileID: 11400000, guid: 94c9fcb6a039eaa45bea8b541fcf3a4a, type: 2}
+  exp: {fileID: 11400000, guid: 17f006d9f52da1d47bf33575680fcc1b, type: 2}
+  level: {fileID: 11400000, guid: 4a71ab267992a93479cfd1a716594562, type: 2}
+  onCollapse: {fileID: 11400000, guid: fe1091c644e3ead409241a61978b243a, type: 2}
+  onLevelUp: {fileID: 11400000, guid: 42476068b34aa7c4aa6cb152cd3b3ac9, type: 2}
+  evasion: {fileID: 11400000, guid: 94c9fcb6a039eaa45bea8b541fcf3a4a, type: 2}
   hochi: {fileID: 11400000, guid: 6f0c64661c1a3f0478ff1675dac49c9e, type: 2}
   hand: {fileID: 11400000, guid: 6030eff9fbb2ddc4098e06e8ac949622, type: 2}
   buffRunTimeSet: {fileID: 11400000, guid: f608be8f86825a44f9ea671a80318ac3, type: 2}
@@ -664,6 +664,7 @@ MonoBehaviour:
   maxDashStack: {fileID: 11400000, guid: 58948826cb3fe924f88741759c39f172, type: 2}
   curDashStack: {fileID: 11400000, guid: c20a2f08316b1cd42b58ff3ddb60051d, type: 2}
   dashCoolTime: {fileID: 11400000, guid: 30cb8f962599816488c3a10bcb178bd8, type: 2}
+  isFocusOnSomething: {fileID: 11400000, guid: 09c5c35381403234b99f53accc0b3cdc, type: 2}
 --- !u!50 &5395718573743074757
 Rigidbody2D:
   serializedVersion: 4
@@ -792,7 +793,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4705426193227314241}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
   m_Name: 
@@ -815,7 +816,7 @@ MonoBehaviour:
   - {x: 0.30981255, y: 0.141006, z: 0}
   m_ShapePathHash: 1465180444
   m_Mesh: {fileID: 0}
-  m_InstanceId: -11938
+  m_InstanceId: -13366
 --- !u!1 &4705426193356466244
 GameObject:
   m_ObjectHideFlags: 0
@@ -1023,7 +1024,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4705426194128990787}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
   m_Name: 
@@ -1033,7 +1034,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.14
+  m_Intensity: 0.06
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: 00000000
