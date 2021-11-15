@@ -1,6 +1,7 @@
 using FMODUnity;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -18,20 +19,24 @@ public class StreamingManager : MonoBehaviour
     
     [SerializeField] private GameObject chatGameObject;
     [SerializeField] private GameObject chatPanel;
-    [SerializeField] private GameObject textGameObjectPrefab;
-    [SerializeField] private TMP_InputField inputField;
-    private float t = 0;
+    private List<TextMeshProUGUI> chatPool = new();
+    private int chatIndex = 0;
+    public TMP_InputField inputField;
+    [SerializeField] private BoolVariable isFocusOnSomething;
+    public float t = 0;
 
     [SerializeField] private Connect twitchConnect;
+
+    private Coroutine showWakgoodChat;
 
     
     private void Awake()
     {
         Instance = this;
         
-        for (int i = 1; i < chatPanel.transform.childCount; i++)
+        for (int i = 0; i < chatPanel.transform.childCount; i++)
         {
-            Destroy(chatPanel.transform.GetChild(i).gameObject);
+            chatPool.Add(chatPanel.transform.GetChild(i).GetComponent<TextMeshProUGUI>());
         }
     }
     
@@ -106,6 +111,9 @@ public class StreamingManager : MonoBehaviour
     
     private void Update()
     {
+        // isChatting 으로 분리하고, isFocusOnSomething 으로 합치는 코드 필요
+        isFocusOnSomething.RuntimeValue = inputField.gameObject.activeSelf;
+
         if (Input.GetKey(KeyCode.Z))
         {
             if (chatGameObject.activeSelf)
@@ -118,7 +126,6 @@ public class StreamingManager : MonoBehaviour
         else if (Input.GetKeyUp(KeyCode.Z))
         {
             t = 2;
-            // chatGameObject.SetActive(false);
         }
 
         if (Input.GetKeyDown(KeyCode.Return))
@@ -170,16 +177,45 @@ public class StreamingManager : MonoBehaviour
     
     public void Chat(string msg)
     {
-        // Log log = new Log();
+        if (msg.StartsWith('/'))
+        {
+            chatPool[chatIndex % 25].text = "<b>명령어</b> : " + msg;
 
-        // 대충 명령어인지 일반 채팅인지 로그인지 판독하는 코드
-        //ObjectManager.Instance.GetQueue("Chat", chatPanel.transform, true).GetComponent<TextMeshProUGUI>().text = "<b>우왁굳</b> : " + msg;
-        Instantiate(textGameObjectPrefab, chatPanel.transform).GetComponent<TextMeshProUGUI>().text = "<b>우왁굳</b> : " + msg;
-        //twitchConnect.SendMassage();
-        t = 5;
-    }
+                Debug.Log($"{msg.Substring(1, msg.IndexOf(' '))}");
+            switch (msg.Substring(1, msg.IndexOf(' ')))
+            {
+                case "Item":
+                    Debug.Log($"{int.Parse(msg.Split(' ')[1])}");
+                    DebugManager.GetItem(int.Parse(msg.Split(' ')[1]));
+                break;
+                default:
+                    Debug.Log("Nope");
+                break;
+            }
+        }
+        else
+        {
+            chatPool[chatIndex % 25].text = "<b>우왁굳</b> : " + msg;
+
+            if (showWakgoodChat != null) StopCoroutine(showWakgoodChat);
+            showWakgoodChat = StartCoroutine(ShowWakgoodChat(msg));
+        }
     
-    public void Chat(string[] msgs)
+        if (chatIndex >= 25)
+        {
+            chatPanel.transform.GetChild(0).transform.SetAsLastSibling();
+        }
+        else
+        {
+            chatPanel.transform.GetChild(chatIndex).gameObject.SetActive(true);
+        }
+        chatIndex++;
+
+        //twitchConnect.SendMassage();
+        t = 5; 
+    }
+
+      public void Chat(string[] msgs)
     {
         if (msgs.Length == 1) return;
         //ObjectManager.Instance.GetQueue("Chat", chatPanel.transform, true).GetComponent<TextMeshProUGUI>().text = $"<b>{msgs[1]}</b> : {msgs[2]}";
@@ -192,5 +228,13 @@ public class StreamingManager : MonoBehaviour
                 ObjectManager.Instance.PushObject(chatPanel.transform.GetChild(0).gameObject);
             }
         }
+    }
+
+    private IEnumerator ShowWakgoodChat(string msg)
+    {
+        Wakgood.Instance.ChatText.text = msg;
+        Wakgood.Instance.Chat.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        Wakgood.Instance.Chat.SetActive(false);
     }
 }
