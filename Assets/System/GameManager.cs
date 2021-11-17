@@ -12,6 +12,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private BoolVariable isFighting;
     [SerializeField] private BoolVariable isGaming;
+    [SerializeField] private BoolVariable isFocusOnSomething;
+    [SerializeField] private BoolVariable isLoading;
+    [SerializeField] private BoolVariable isChatting;
+
     [SerializeField] private GameEvent onRecall;
     [SerializeField] private BuffRunTimeSet buffRunTimeSet;
 
@@ -68,6 +72,9 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log($"{isFocusOnSomething.RuntimeValue}, {isChatting.RuntimeValue}, {isLoading.RuntimeValue}");
+        isFocusOnSomething.RuntimeValue = (isChatting.RuntimeValue || isLoading.RuntimeValue);
+        
         if (!Input.GetKeyDown(KeyCode.Escape)) return;
 
         if (StreamingManager.Instance.inputField.gameObject.activeSelf)
@@ -93,6 +100,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator EnterPortal()
     {
+        isLoading.RuntimeValue = true;
         fadePanel.SetActive(true);
         yield return new WaitForSeconds(0.2f);
 
@@ -191,5 +199,10 @@ public class DebugManager
     public static void GetItem(int id)
     {
         DataManager.Instance.wakgoodItemInventory.Add(DataManager.Instance.ItemDic[id]);
+    }
+
+    public static void GetWeapon(int id)
+    {
+        Wakgood.Instance.SwitchWeapon(DataManager.Instance.WeaponDic[id]);
     }
 }
