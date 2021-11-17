@@ -37,6 +37,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private BoolVariable isFocusOnSomething;
 
+
     private void Awake()
     {
         Instance = this;
@@ -100,4 +101,6 @@ public class UIManager : MonoBehaviour
     {
         SettingManager.Instance.SettingPanel.SetActive(true);
     }
+
+    
 }

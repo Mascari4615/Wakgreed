@@ -11,35 +11,35 @@ using Random = UnityEngine.Random;
 public class StreamingManager : MonoBehaviour
 {
     public static StreamingManager Instance { get; private set; }
-    
+
     [SerializeField] private GameObject donationUI;
     [SerializeField] private TextMeshProUGUI upTimeUI;
     [SerializeField] private IntVariable nyang;
     [SerializeField] private IntVariable viewer;
-    
+
     [SerializeField] private GameObject chatGameObject;
     [SerializeField] private GameObject chatPanel;
     private List<TextMeshProUGUI> chatPool = new();
     private int chatIndex = 0;
     public TMP_InputField inputField;
-    [SerializeField] private BoolVariable isFocusOnSomething;
+    [SerializeField] private BoolVariable isChatting;
     public float t = 0;
 
     [SerializeField] private Connect twitchConnect;
 
     private Coroutine showWakgoodChat;
 
-    
+
     private void Awake()
     {
         Instance = this;
-        
+
         for (int i = 0; i < chatPanel.transform.childCount; i++)
         {
             chatPool.Add(chatPanel.transform.GetChild(i).GetComponent<TextMeshProUGUI>());
         }
     }
-    
+
     public void StartStreaming()
     {
         // GameEventListener 클래스를 통해 꼼수로 코루틴 실행하기
@@ -65,7 +65,8 @@ public class StreamingManager : MonoBehaviour
                 // 꼼수로 애니메이션 실행하기
                 // # UI를 분리시키는 작업 필요
                 donationUI.SetActive(false);
-                donationUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"Ttmdacl님 꼐서 {donationAmount}골드 조공";
+                donationUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text =
+                    $"Ttmdacl님 꼐서 {donationAmount}골드 조공";
                 donationUI.SetActive(true);
 
                 RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
@@ -85,12 +86,12 @@ public class StreamingManager : MonoBehaviour
             yield return ws;
         }
     }
-    
+
     private IEnumerator UpdateUptime()
     {
         float startTime = Time.time;
         WaitForSeconds ws02 = new WaitForSeconds(0.2f);
-        
+
         while (true)
         {
             int curTime = (int)(Time.time - startTime);
@@ -98,7 +99,7 @@ public class StreamingManager : MonoBehaviour
             int minute = (curTime -= hour * 3600) / 60;
             int second = (curTime -= hour * 3600) % 60;
             DateTime dt = new DateTime(1987, 7, 24, hour, minute, second);
-            
+
             upTimeUI.SetText($"{dt:HH:mm:ss}");
             yield return ws02;
         }
@@ -108,11 +109,10 @@ public class StreamingManager : MonoBehaviour
     {
         viewer.RuntimeValue += amount;
     }
-    
+
     private void Update()
     {
-        // isChatting 으로 분리하고, isFocusOnSomething 으로 합치는 코드 필요
-        isFocusOnSomething.RuntimeValue = inputField.gameObject.activeSelf;
+        isChatting.RuntimeValue = inputField.gameObject.activeSelf;
 
         if (Input.GetKey(KeyCode.Z))
         {
@@ -143,6 +143,7 @@ public class StreamingManager : MonoBehaviour
                     Chat(inputField.text);
                     inputField.text = "";
                 }
+
                 inputField.gameObject.SetActive(false);
                 t = 5;
             }
@@ -174,23 +175,43 @@ public class StreamingManager : MonoBehaviour
             }
         }
     }
-    
+
     public void Chat(string msg)
     {
         if (msg.StartsWith('/'))
         {
             chatPool[chatIndex % 25].text = "<b>명령어</b> : " + msg;
 
-                Debug.Log($"{msg.Substring(1, msg.IndexOf(' '))}");
-            switch (msg.Substring(1, msg.IndexOf(' ')))
+            Debug.Log(msg.Substring(1, msg.IndexOf(' ')));
+            switch (msg.Substring(1, msg.IndexOf(' ') - 1))
             {
                 case "Item":
-                    Debug.Log($"{int.Parse(msg.Split(' ')[1])}");
-                    DebugManager.GetItem(int.Parse(msg.Split(' ')[1]));
-                break;
+                case "item":
+                case "아이템":
+                    for (int i = 0; i < (msg.Split(' ').Length > 3 ? int.Parse(msg.Split(' ')[2]) : 0); i++)
+                        DebugManager.GetItem(int.Parse(msg.Split(' ')[1]));
+                    break;
+                case "Weapon":
+                case "weapon":
+                case "무기":
+                    DebugManager.GetWeapon(int.Parse(msg.Split(' ')[1]));
+                    break;
+                case "Food":
+                case "food":
+                case "음식":
+                    DataManager.Instance.wakgoodFoodInventory.Add(DataManager.Instance.FoodDic[int.Parse(msg.Split(' ')[1])]);
+                    break;;
+                case "Clear":
+                case "clear":
+                case "초기화":
+                    DataManager.Instance.wakgoodItemInventory.Clear();
+                    DataManager.Instance.wakgoodFoodInventory.Clear();
+                    DataManager.Instance.wakgoodMasteryInventory.Clear();
+                    DataManager.Instance.buffRunTimeSet.Clear(); 
+                    break;
                 default:
                     Debug.Log("Nope");
-                break;
+                    break;
             }
         }
         else
@@ -200,7 +221,7 @@ public class StreamingManager : MonoBehaviour
             if (showWakgoodChat != null) StopCoroutine(showWakgoodChat);
             showWakgoodChat = StartCoroutine(ShowWakgoodChat(msg));
         }
-    
+
         if (chatIndex >= 25)
         {
             chatPanel.transform.GetChild(0).transform.SetAsLastSibling();
@@ -209,13 +230,14 @@ public class StreamingManager : MonoBehaviour
         {
             chatPanel.transform.GetChild(chatIndex).gameObject.SetActive(true);
         }
+
         chatIndex++;
 
         //twitchConnect.SendMassage();
-        t = 5; 
+        t = 5;
     }
 
-      public void Chat(string[] msgs)
+    public void Chat(string[] msgs)
     {
         if (msgs.Length == 1) return;
         //ObjectManager.Instance.GetQueue("Chat", chatPanel.transform, true).GetComponent<TextMeshProUGUI>().text = $"<b>{msgs[1]}</b> : {msgs[2]}";

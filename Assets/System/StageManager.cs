@@ -8,9 +8,10 @@ using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 public class StageManager : MonoBehaviour
 {
-    [HideInInspector] public static StageManager Instance { get; private set; }
+    public static StageManager Instance { get; private set; }
 
-    public int currentStageID = -1;
+    public int currentStageID = 0;
+    [HideInInspector] public Stage currentStage;
     [SerializeField] private StageDataBuffer stageDataBuffer;
 
     [SerializeField] private int roomCount;
@@ -37,9 +38,6 @@ public class StageManager : MonoBehaviour
     [SerializeField] private Animator fadePanelAnimator;
     [SerializeField] private TextMeshProUGUI noticeText;
 
-    [SerializeField] private TextMeshProUGUI stageNumberText, stageNameCommentText;
-    [SerializeField] private GameObject stageSpeedWagon;
-
     [SerializeField] private GameObject shortCut;
 
     private IEnumerator canOpenText;
@@ -48,8 +46,14 @@ public class StageManager : MonoBehaviour
     [SerializeField] private BoolVariable isFighting;
     [SerializeField] private BoolVariable isGaming;
     [SerializeField] private BoolVariable isFocusOnSomething;
+    [SerializeField] private BoolVariable isLoading;
 
+    [SerializeField] private Animator stageLoading;
+    [SerializeField] private TextMeshProUGUI stageNumberText, stageNameCommentText;
+    [SerializeField] private GameObject stageSpeedWagon;
     
+    private static readonly int stageid = Animator.StringToHash("STAGEID");
+    private static readonly int start = Animator.StringToHash("START");
     private static readonly int fadeIn = Animator.StringToHash("FadeIn");
 
     private void Awake()
@@ -89,7 +93,8 @@ public class StageManager : MonoBehaviour
         roomMolds.Clear();
         roomDic.Clear();
 
-        roomData = new List<Room>(stageDataBuffer.items[++currentStageID].roomDatas);
+        currentStage = stageDataBuffer.items[++currentStageID];
+        roomData = new List<Room>(currentStage.roomDatas);
         roomMolds.Add(new RoomMold { Coordinate = Vector2.zero });
 
         /* 스테이지 틀 만들기 */
@@ -178,8 +183,16 @@ public class StageManager : MonoBehaviour
         Wakgood.Instance.transform.position = new Vector3(CurrentRoom.Coordinate.x, CurrentRoom.Coordinate.y, 0) * 100;
         miniMapCamera.transform.position = new Vector3(CurrentRoom.Coordinate.x, CurrentRoom.Coordinate.y, -1) * 100;
 
+        stageNumberText.text = $"1-{currentStage.id}";
+        stageNameCommentText.text = $"{currentStage.name} : {currentStage.comment}";
+        stageLoading.SetInteger(stageid, currentStage.id - 1);
+        stageLoading.SetTrigger(start);
+
+        yield return null;
+        yield return new WaitForSeconds(stageLoading.GetCurrentAnimatorStateInfo(0).length);
+        
+        isLoading.RuntimeValue = false;
         fadePanelAnimator.SetTrigger(fadeIn);
-        StartCoroutine(nameof(StageSpeedWagon));
         yield return ws02;
         fadePanel.SetActive(false);
     }
@@ -293,7 +306,7 @@ public class StageManager : MonoBehaviour
         yield return ws02;
         fadePanel.SetActive(false);
     }
-
+    
     private void MapDoor(bool bOpen)
     {
         if (isFighting.RuntimeValue)
@@ -309,16 +322,14 @@ public class StageManager : MonoBehaviour
             mapPanel.SetActive(bOpen);
         }
     }
-
-    private IEnumerator StageSpeedWagon()
+    
+    public void StopAllSpeedWagons()
     {
-        stageSpeedWagon.SetActive(true);
-        stageNumberText.text = $"1-{stageDataBuffer.items[currentStageID].id}";
-        stageNameCommentText.text = $"{stageDataBuffer.items[currentStageID].name} : {stageDataBuffer.items[currentStageID].comment}";
-        yield return new WaitForSeconds(2f);
         stageSpeedWagon.SetActive(false);
+        StopCoroutine(nameof(CantOpenText));
+        noticeText.gameObject.SetActive(false);
     }
-
+    
     private IEnumerator CantOpenText()
     {
         noticeText.text = "전투 중에는 열 수 없습니다.";
@@ -326,15 +337,7 @@ public class StageManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         noticeText.gameObject.SetActive(false);
     }
-
-    public void StopAllSpeedWagons()
-    {
-        StopCoroutine(nameof(StageSpeedWagon));
-        stageSpeedWagon.SetActive(false);
-        StopCoroutine(nameof(CantOpenText));
-        noticeText.gameObject.SetActive(false);
-    }
-
+    
     public void CheckMonsterCount()
     {
         if (CurrentRoom is NormalRoom room) room.CheckMonsterCount();
