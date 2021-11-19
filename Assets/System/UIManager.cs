@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
-    
+
     [SerializeField] private GameObject bossSpeedWagon;
 
     private CinemachineTargetGroup cinemachineTargetGroup;
@@ -37,37 +37,46 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private BoolVariable isFocusOnSomething;
 
-
     private void Awake()
     {
         Instance = this;
 
-        cinemachineTargetGroup = GameObject.Find("Cameras").transform.GetChild(3).GetComponent<CinemachineTargetGroup>();
+        cinemachineTargetGroup =
+            GameObject.Find("Cameras").transform.GetChild(3).GetComponent<CinemachineTargetGroup>();
     }
 
     private void Update()
     {
         if (isFocusOnSomething.RuntimeValue)
         {
-            if (state.activeSelf )state.SetActive(false);
+            if (state.activeSelf) state.SetActive(false);
         }
         else
         {
             if (Input.GetKeyDown(KeyCode.C)) state.SetActive(true);
             else if (Input.GetKeyUp(KeyCode.C)) state.SetActive(false);
-        }       
+        }
 
-        if (Wakgood.Instance.CurWeapon.IsReloading) 
+        if (Wakgood.Instance.CurWeapon.IsReloading)
         {
-            if (!reloadUI.activeSelf) 
-                reloadUI.SetActive(true); 
+            if (!reloadUI.activeSelf)
+                reloadUI.SetActive(true);
             reloadImage.fillAmount = Wakgood.Instance.CurWeapon.CurReloadTime / Wakgood.Instance.CurWeapon.reloadTime;
         }
         else if (reloadUI.activeSelf) reloadUI.SetActive(false);
-        if (Wakgood.Instance.Weapon1.skillQ is not null) weapon1SkillQCoolTime.fillAmount = Wakgood.Instance.Weapon1.CurSkillQCoolTime / Wakgood.Instance.Weapon1.skillQ.coolTime;
-        if (Wakgood.Instance.Weapon1.skillE is not null) weapon1SkillECoolTime.fillAmount = Wakgood.Instance.Weapon1.CurSkillECoolTime/ Wakgood.Instance.Weapon1.skillE.coolTime;
-        if (Wakgood.Instance.Weapon2.skillQ is not null) weapon2SkillQCoolTime.fillAmount = Wakgood.Instance.Weapon2.CurSkillQCoolTime / Wakgood.Instance.Weapon2.skillQ.coolTime;
-        if (Wakgood.Instance.Weapon2.skillE is not null) weapon2SkillECoolTime.fillAmount = Wakgood.Instance.Weapon2.CurSkillECoolTime / Wakgood.Instance.Weapon2.skillE.coolTime;
+
+        if (Wakgood.Instance.Weapon1.skillQ is not null)
+            weapon1SkillQCoolTime.fillAmount =
+                Wakgood.Instance.Weapon1.CurSkillQCoolTime / Wakgood.Instance.Weapon1.skillQ.coolTime;
+        if (Wakgood.Instance.Weapon1.skillE is not null)
+            weapon1SkillECoolTime.fillAmount =
+                Wakgood.Instance.Weapon1.CurSkillECoolTime / Wakgood.Instance.Weapon1.skillE.coolTime;
+        if (Wakgood.Instance.Weapon2.skillQ is not null)
+            weapon2SkillQCoolTime.fillAmount =
+                Wakgood.Instance.Weapon2.CurSkillQCoolTime / Wakgood.Instance.Weapon2.skillQ.coolTime;
+        if (Wakgood.Instance.Weapon2.skillE is not null)
+            weapon2SkillECoolTime.fillAmount =
+                Wakgood.Instance.Weapon2.CurSkillECoolTime / Wakgood.Instance.Weapon2.skillE.coolTime;
     }
 
     public IEnumerator SpeedWagon_Boss(GameObject boss)
@@ -93,6 +102,7 @@ public class UIManager : MonoBehaviour
             weapon2.localPosition = Vector3.Lerp(weapon2Origin, weapon1Origin, i * 6);
             yield return null;
         }
+
         weapon1.localPosition = weapon2Origin;
         weapon2.localPosition = weapon1Origin;
     }
@@ -101,6 +111,4 @@ public class UIManager : MonoBehaviour
     {
         SettingManager.Instance.SettingPanel.SetActive(true);
     }
-
-    
 }

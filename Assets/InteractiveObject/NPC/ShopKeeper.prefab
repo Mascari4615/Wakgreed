@@ -3830,6 +3830,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 293311737590649329, guid: 0a941390648b43b489b97695ee406140,
@@ -3928,6 +3929,11 @@ PrefabInstance:
       value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1901189169330470234, guid: 0a941390648b43b489b97695ee406140,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9102536067283061328}
   m_SourcePrefab: {fileID: 100100000, guid: 0a941390648b43b489b97695ee406140, type: 3}
 --- !u!114 &748218174579569263 stripped
 MonoBehaviour:

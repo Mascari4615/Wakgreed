@@ -12,14 +12,8 @@ public class BossRoom : Room
         foreach (var particle in DoorParticles) particle.SetActive(false);
         GameObject bossGO = Instantiate(boss, transform.Find("BossSpawnPoint"));
     }
-
-    public void CheckMonsterCount()
-    {
-        // 페이즈 체크
-        RoomClear();
-    }
-
-    private void RoomClear()
+    
+    public void RoomClear()
     {
         ObjectManager.Instance.PopObject("BossChest", transform.Find("ChestPoint"));
         // 보스 클리어 연출

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 public class StageManager : MonoBehaviour
 {
@@ -147,7 +146,7 @@ public class StageManager : MonoBehaviour
                 int roomMoldIndex = i == 0 ? 0 : Random.Range(0, roomMolds.Count);
                 int roomDataIndex = i <= 2
                     ? 0
-                    : Random.Range(DataManager.Instance.curGameData.isNpcRescued ? 1 : 0, roomData.Count);
+                    : Random.Range(DataManager.Instance.CurGameData.isNpcRescued ? 1 : 0, roomData.Count);
 
                 // Todo : 스테이지 별 룸 데이타 딕셔너리 혹은 배열만들어야 함
                 Room room = Instantiate(roomData[roomDataIndex].gameObject, stageGrid.transform).GetComponent<Room>();
@@ -172,10 +171,6 @@ public class StageManager : MonoBehaviour
 
     private IEnumerator StartStage()
     {
-        AudioManager.Instance.BgmEvent.stop(STOP_MODE.IMMEDIATE);
-        AudioManager.Instance.BgmEvent = RuntimeManager.CreateInstance($"event:/BGM/{stageDataBuffer.items[currentStageID].name}");
-        AudioManager.Instance.BgmEvent.start();
-
         CurrentRoom = roomDic[Vector2.zero];
         CurrentRoom.Enter();
         InitialzeMap();
@@ -188,13 +183,49 @@ public class StageManager : MonoBehaviour
         stageLoading.SetInteger(stageid, currentStage.id - 1);
         stageLoading.SetTrigger(start);
 
-        yield return null;
-        yield return new WaitForSeconds(stageLoading.GetCurrentAnimatorStateInfo(0).length);
-        
+        IEnumerator temp1 = WaitLoading();
+        Coroutine temp2 = StartCoroutine(CheckSkip(temp1));
+        yield return StartCoroutine(temp1);
+        StopCoroutine(temp2);
+        Debug.Log("FinOut");
+
         isLoading.RuntimeValue = false;
+        isGaming.RuntimeValue = true;
         fadePanelAnimator.SetTrigger(fadeIn);
         yield return ws02;
         fadePanel.SetActive(false);
+        
+        AudioManager.Instance.BgmEvent = RuntimeManager.CreateInstance($"event:/BGM/{stageDataBuffer.items[currentStageID].name}");
+        AudioManager.Instance.BgmEvent.start();
+    }
+
+    private IEnumerator CheckSkip(IEnumerator waitLoading)
+    {
+        do
+        {
+            yield return null;
+            Debug.Log("Checking");
+        }
+        while (!Input.GetKeyDown(KeyCode.F));
+        Debug.Log("CheckingOut");
+
+        stageLoading.SetTrigger("SKIP");
+        StopCoroutine(waitLoading);
+    }
+
+    private IEnumerator WaitLoading()
+    {
+        Debug.Log("In");
+        yield return null;
+        yield return new WaitForSeconds(stageLoading.GetCurrentAnimatorStateInfo(0).length);        Debug.Log("Out1");
+
+        yield return ws02;
+        yield return new WaitForSeconds(stageLoading.GetCurrentAnimatorStateInfo(0).length);        Debug.Log("Out2");
+
+        yield return ws02;
+        yield return new WaitForSeconds(stageLoading.GetCurrentAnimatorStateInfo(0).length);
+        Debug.Log("Out3");
+
     }
 
     private void InitialzeMap()
