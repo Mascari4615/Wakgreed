@@ -183,13 +183,15 @@ public class StageManager : MonoBehaviour
         stageLoading.SetInteger(stageid, currentStage.id - 1);
         stageLoading.SetTrigger(start);
 
-        IEnumerator temp1 = WaitLoading();
-        Coroutine temp2 = StartCoroutine(CheckSkip(temp1));
-        yield return StartCoroutine(temp1);
+        Coroutine temp1 = StartCoroutine(WaitLoading());
+        Coroutine temp2 = StartCoroutine(CheckSkip());
+        while (isLoading.RuntimeValue)
+        {
+            yield return null;
+        }
+        StopCoroutine(temp1);
         StopCoroutine(temp2);
         Debug.Log("FinOut");
-
-        isLoading.RuntimeValue = false;
         isGaming.RuntimeValue = true;
         fadePanelAnimator.SetTrigger(fadeIn);
         yield return ws02;
@@ -199,33 +201,26 @@ public class StageManager : MonoBehaviour
         AudioManager.Instance.BgmEvent.start();
     }
 
-    private IEnumerator CheckSkip(IEnumerator waitLoading)
+    private IEnumerator CheckSkip()
     {
-        do
-        {
-            yield return null;
-            Debug.Log("Checking");
-        }
+        do yield return null;
         while (!Input.GetKeyDown(KeyCode.F));
-        Debug.Log("CheckingOut");
 
         stageLoading.SetTrigger("SKIP");
-        StopCoroutine(waitLoading);
+        isLoading.RuntimeValue = false;
     }
 
     private IEnumerator WaitLoading()
     {
-        Debug.Log("In");
         yield return null;
-        yield return new WaitForSeconds(stageLoading.GetCurrentAnimatorStateInfo(0).length);        Debug.Log("Out1");
-
-        yield return ws02;
-        yield return new WaitForSeconds(stageLoading.GetCurrentAnimatorStateInfo(0).length);        Debug.Log("Out2");
+        yield return new WaitForSeconds(stageLoading.GetCurrentAnimatorStateInfo(0).length);
 
         yield return ws02;
         yield return new WaitForSeconds(stageLoading.GetCurrentAnimatorStateInfo(0).length);
-        Debug.Log("Out3");
 
+        yield return ws02;
+        yield return new WaitForSeconds(stageLoading.GetCurrentAnimatorStateInfo(0).length);
+        isLoading.RuntimeValue = false;
     }
 
     private void InitialzeMap()

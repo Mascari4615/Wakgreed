@@ -23,17 +23,24 @@ public class StreamingManager : MonoBehaviour
     private int chatIndex = 0;
     public TMP_InputField inputField;
     [SerializeField] private BoolVariable isChatting;
+    [SerializeField] private BoolVariable isLoading;
     public float t = 0;
 
-    [SerializeField] private Connect twitchConnect;
+    [SerializeField] private TwitchConnect twitchConnect;
 
     private Coroutine showWakgoodChat;
-
-
+    private bool isStreaming = false;
+    
+    // TwitchConnect SendToChannel
+    
     private void Awake()
     {
-        Instance = this;
-
+        Instance = this;  
+        
+        //Application.targetFrameRate = 60;
+        //Application.runInBackground = true;
+        twitchConnect.ConnectToTwitch();
+        
         for (int i = 0; i < chatPanel.transform.childCount; i++)
         {
             chatPool.Add(chatPanel.transform.GetChild(i).GetComponent<TextMeshProUGUI>());
@@ -42,10 +49,21 @@ public class StreamingManager : MonoBehaviour
 
     public void StartStreaming()
     {
+        if (isStreaming) return;
+
+        isStreaming = true;
+        viewer.RuntimeValue = 3000;
+
         // GameEventListener 클래스를 통해 꼼수로 코루틴 실행하기
         StartCoroutine(GetDonation());
         StartCoroutine(CheckViewer());
         StartCoroutine(UpdateUptime());
+    }
+
+    public void BangJong()
+    {
+        isStreaming = false;
+        StopAllCoroutines();
     }
 
     private IEnumerator GetDonation()
@@ -55,6 +73,9 @@ public class StreamingManager : MonoBehaviour
         // GameEventListener 클래스를 통해 꼼수로 코루틴 종료하기 (StopCoroutime 실행)
         while (true)
         {
+            if (isLoading.RuntimeValue)
+                yield return null;
+            
             viewer.RuntimeValue -= Random.Range(1, 10 + 1);
 
             if (Random.Range(0, 100) < 30)
@@ -80,11 +101,16 @@ public class StreamingManager : MonoBehaviour
     {
         WaitForSeconds ws = new(.5f);
 
-        while (true)
+        while (viewer.RuntimeValue > 0)
         {
+            if (isLoading.RuntimeValue)
+                yield return null;
+            
             viewer.RuntimeValue -= Random.Range(1, 3 + 1);
             yield return ws;
         }
+
+        Debug.Log("!");
     }
 
     private IEnumerator UpdateUptime()
@@ -94,6 +120,9 @@ public class StreamingManager : MonoBehaviour
 
         while (true)
         {
+            if (isLoading.RuntimeValue)
+                yield return null;
+            
             int curTime = (int)(Time.time - startTime);
             int hour = curTime / 3600;
             int minute = (curTime -= hour * 3600) / 60;
@@ -233,25 +262,26 @@ public class StreamingManager : MonoBehaviour
 
         chatIndex++;
 
-        //twitchConnect.SendMassage();
+        // twitchConnect.SendMassage();
         t = 5;
     }
-
-    public void Chat(string[] msgs)
+    
+    public void TwitchChat(string nickname, string msg)
     {
-        if (msgs.Length == 1) return;
-        //ObjectManager.Instance.GetQueue("Chat", chatPanel.transform, true).GetComponent<TextMeshProUGUI>().text = $"<b>{msgs[1]}</b> : {msgs[2]}";
-        t = 5;
-
-        if (chatPanel.transform.childCount > 50)
+        if (chatGameObject.activeSelf == false) chatGameObject.SetActive(true);
+        chatPool[chatIndex % 25].text = $"<b>{nickname}</b> : {msg}";
+        if (chatIndex >= 25)
         {
-            for (int i = 0; i < chatPanel.transform.childCount - 50; i++)
-            {
-                ObjectManager.Instance.PushObject(chatPanel.transform.GetChild(0).gameObject);
-            }
+            chatPanel.transform.GetChild(0).transform.SetAsLastSibling();
         }
+        else
+        {
+            chatPanel.transform.GetChild(chatIndex).gameObject.SetActive(true);
+        }
+        chatIndex++;
+        t = 5;
     }
-
+    
     private IEnumerator ShowWakgoodChat(string msg)
     {
         Wakgood.Instance.ChatText.text = msg;
@@ -259,4 +289,6 @@ public class StreamingManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         Wakgood.Instance.Chat.SetActive(false);
     }
+    
+    private void OnApplicationQuit() => twitchConnect.LeaveChannel();
 }

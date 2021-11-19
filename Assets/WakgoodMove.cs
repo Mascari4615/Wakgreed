@@ -18,7 +18,7 @@ public class WakgoodMove : MonoBehaviour
     private int verticalInput;
     private Vector2 moveDirection;
     private bool mbMoving;
-    private bool mbDashing;
+    public bool MbDashing { get; private set; }
     private bool mbCanBbolBbol = true;
     private static readonly int wakeUp = Animator.StringToHash("WakeUp");
     private static readonly int move = Animator.StringToHash("Move");
@@ -47,10 +47,10 @@ public class WakgoodMove : MonoBehaviour
             return;
         }
 
-        if (!mbDashing)
+        if (!MbDashing)
             Move();
 
-        if (Input.GetKeyDown(KeyCode.Space) && !mbDashing && curDashStack.RuntimeValue > 0)
+        if (Input.GetKeyDown(KeyCode.Space) && !MbDashing && curDashStack.RuntimeValue > 0)
         {
             StartCoroutine(Dash());
         }
@@ -85,7 +85,7 @@ public class WakgoodMove : MonoBehaviour
 
     private IEnumerator Dash()
     {
-        mbDashing = true;
+        MbDashing = true;
         RuntimeManager.PlayOneShot("event:/SFX/Wakgood/Dash");
         curDashStack.RuntimeValue--;
         for (float temptime = 0; temptime <= 0.1f; temptime += Time.deltaTime)
@@ -96,7 +96,7 @@ public class WakgoodMove : MonoBehaviour
             playerRb.velocity = 10 * DashParameter * moveDirection;
             yield return new WaitForFixedUpdate();
         }
-        mbDashing = false;
+        MbDashing = false;
     }
 
     private IEnumerator UpdateDashStack()

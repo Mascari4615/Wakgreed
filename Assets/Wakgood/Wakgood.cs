@@ -56,6 +56,7 @@ public class Wakgood : MonoBehaviour, IHitable
     private void Awake()
     {
         Instance = this;
+        
         // attackPosition.transform.position = new Vector3(0, attackPosGap, 0);
 
         attackPositionParent = transform.Find("AttackPosParent");
@@ -256,7 +257,7 @@ public class Wakgood : MonoBehaviour, IHitable
 
     public void ReceiveHit(int damage)
     {
-        if (!isHealthy)
+        if (!isHealthy || wakgoodMove.MbDashing)
         {
             return;
         }
@@ -318,7 +319,7 @@ public class Wakgood : MonoBehaviour, IHitable
     private void LevelUp()
     {
         hpMax.RuntimeValue += wakdu.growthHp;
-        powerInt.RuntimeValue += wakdu.basePower;
+        powerInt.RuntimeValue += wakdu.growthPower;
         attackSpeed.RuntimeValue += wakdu.growthAttackSpeed;
 
         exp.RuntimeValue -= requiredExp;
