@@ -9,15 +9,14 @@ using TMPro;
 
 public class Wakgood : MonoBehaviour, IHitable
 {
-    [HideInInspector] public static Wakgood Instance { get; private set; }
+    public static Wakgood Instance { get; private set; }
 
     [SerializeField] private Wakdu wakdu;
-    [SerializeField] private IntVariable maxHp;
-    [SerializeField] private IntVariable hp;
+    [SerializeField] private IntVariable hpMax;
+    [SerializeField] private IntVariable hpCur;
     [SerializeField] private GameEvent onDamage;
-    [SerializeField] private IntVariable ad;
-    [SerializeField] private FloatVariable @as;
-    [SerializeField] private IntVariable criticalChance;
+    [SerializeField] private IntVariable powerInt;
+    [SerializeField] private FloatVariable attackSpeed;
     [SerializeField] private FloatVariable moveSpeed;
     [SerializeField] private IntVariable exp;
     private int requiredExp;
@@ -45,8 +44,7 @@ public class Wakgood : MonoBehaviour, IHitable
     public Weapon Weapon2 {get; private set;}
     [SerializeField] private Weapon hochi;
     [SerializeField] private Weapon hand;
-
-    [SerializeField] private BuffRunTimeSet buffRunTimeSet;
+    
     private static readonly int collapse = Animator.StringToHash("Collapse");
 
     public bool IsSwitching { get; private set; } = false;
@@ -84,10 +82,10 @@ public class Wakgood : MonoBehaviour, IHitable
 
         transform.position = Vector3.zero;
 
-        maxHp.RuntimeValue = wakdu.baseHp;
-        hp.RuntimeValue = maxHp.RuntimeValue;
-        @as.RuntimeValue = wakdu.baseAs;
-        criticalChance.RuntimeValue = wakdu.baseCriticalChance;
+        hpMax.RuntimeValue = wakdu.baseHp;
+        hpCur.RuntimeValue = hpMax.RuntimeValue;
+        powerInt.RuntimeValue = wakdu.basePower;
+        attackSpeed.RuntimeValue = wakdu.baseAttackSpeed;
         moveSpeed.RuntimeValue = wakdu.baseMoveSpeed;
         level.RuntimeValue = 0;
         requiredExp = (100 * (1 + level.RuntimeValue));
@@ -123,8 +121,6 @@ public class Wakgood : MonoBehaviour, IHitable
         CurWeapon = Weapon1;
         CurWeapon.OnEquip();
         Instantiate(CurWeapon.resource, WeaponPosition);
-
-        ad.RuntimeValue = CurWeapon.maxDamage;
 
         wakgoodCollider.enabled = true;
         wakgoodMove.enabled = true;
@@ -253,7 +249,6 @@ public class Wakgood : MonoBehaviour, IHitable
         }
 
         Instantiate(CurWeapon.resource, WeaponPosition);
-        ad.RuntimeValue = CurWeapon.maxDamage;
         CurWeapon.OnEquip();
 
         StartCoroutine(TtmdaclExtension.ChangeWithDelay(false, .25f, value => IsSwitching = value));
@@ -275,13 +270,13 @@ public class Wakgood : MonoBehaviour, IHitable
         {
             RuntimeManager.PlayOneShot($"event:/SFX/Wakgood/Ahya", transform.position);
 
-            hp.RuntimeValue -= damage;
+            hpCur.RuntimeValue -= damage;
             onDamage.Raise();
 
             isHealthy = false;
             StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, .8f, value => isHealthy = value));
 
-            if (hp.RuntimeValue > 0)
+            if (hpCur.RuntimeValue > 0)
             {
                 return;
             }
@@ -293,12 +288,12 @@ public class Wakgood : MonoBehaviour, IHitable
 
     public void ReceiveHeal(int amount)
     {
-        if (hp.RuntimeValue == maxHp.RuntimeValue)
+        if (hpCur.RuntimeValue == hpMax.RuntimeValue)
         {
             return;
         }
 
-        hp.RuntimeValue += amount;
+        hpCur.RuntimeValue += amount;
         ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>().SetText(amount.ToString(), TextType.Heal);
     }
 
@@ -322,10 +317,9 @@ public class Wakgood : MonoBehaviour, IHitable
 
     private void LevelUp()
     {
-        maxHp.RuntimeValue += wakdu.growthHp;
-
-        ad.RuntimeValue += wakdu.growthAD;
-        @as.RuntimeValue += wakdu.growthAs;
+        hpMax.RuntimeValue += wakdu.growthHp;
+        powerInt.RuntimeValue += wakdu.basePower;
+        attackSpeed.RuntimeValue += wakdu.growthAttackSpeed;
 
         exp.RuntimeValue -= requiredExp;
         level.RuntimeValue++;

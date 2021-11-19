@@ -11,9 +11,7 @@ public class SettingManager : MonoBehaviour
     }
 
     public GameObject SettingPanel { get; private set; }
-    private Slider slider1;
-    private Slider slider2;
-    private Slider slider3;
+    public Slider masterSlider, bgmSlider, sfxSlider;
 
     private void Awake()
     {
@@ -21,15 +19,8 @@ public class SettingManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         SettingPanel = transform.GetChild(0).gameObject;
-        slider1 = SettingPanel.transform.GetChild(0).GetComponent<Slider>();
-        slider2 = SettingPanel.transform.GetChild(1).GetComponent<Slider>();
-        slider3 = SettingPanel.transform.GetChild(2).GetComponent<Slider>();
-    }
-
-    private void Start()
-    {
-        slider1.onValueChanged.AddListener(AudioManager.Instance.MasterVolumeLevel);
-        slider2.onValueChanged.AddListener(AudioManager.Instance.BgmVolumeLevel);
-        slider3.onValueChanged.AddListener(AudioManager.Instance.SfxVolumeLevel);
+        masterSlider = SettingPanel.transform.GetChild(0).GetComponent<Slider>();
+        bgmSlider = SettingPanel.transform.GetChild(1).GetComponent<Slider>();
+        sfxSlider = SettingPanel.transform.GetChild(2).GetComponent<Slider>();
     }
 }

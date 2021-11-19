@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Application.targetFrameRate = 60;
-        testNpc.SetActive(DataManager.Instance.curGameData.isNpcRescued);
+        testNpc.SetActive(DataManager.Instance.CurGameData.isNpcRescued);
 
         Instance = this;
         StartCoroutine(CheckBuff());
@@ -72,18 +72,19 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log($"{isFocusOnSomething.RuntimeValue}, {isChatting.RuntimeValue}, {isLoading.RuntimeValue}");
         isFocusOnSomething.RuntimeValue = (isChatting.RuntimeValue || isLoading.RuntimeValue);
-        
-        if (!Input.GetKeyDown(KeyCode.Escape)) return;
 
-        if (StreamingManager.Instance.inputField.gameObject.activeSelf)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            StreamingManager.Instance.inputField.text = "";
-            StreamingManager.Instance.inputField.gameObject.SetActive(false);
-            StreamingManager.Instance.t = 5;
+            if (SettingManager.Instance.SettingPanel.activeSelf) SettingManager.Instance.SettingPanel.SetActive(false);
+            else if (StreamingManager.Instance.inputField.gameObject.activeSelf)
+            {
+                StreamingManager.Instance.inputField.text = "";
+                StreamingManager.Instance.inputField.gameObject.SetActive(false);
+                StreamingManager.Instance.t = 5;
+            }
+            else PauseGame();
         }
-        else PauseGame();
     }
 
     public void PauseGame() // 정지 버튼에서 호출
@@ -100,13 +101,13 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator EnterPortal()
     {
+        AudioManager.Instance.BgmEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         isLoading.RuntimeValue = true;
         fadePanel.SetActive(true);
         yield return new WaitForSeconds(0.2f);
 
         undo.SetActive(false);
         StageManager.Instance.GenerateStage();
-        isGaming.RuntimeValue = true;
     }
 
     // OnCollapse GameEvent로 호출
@@ -157,7 +158,8 @@ public class GameManager : MonoBehaviour
         gameResultPanel.SetActive(false);
         gamePanel.SetActive(true);
 
-        testNpc.SetActive(DataManager.Instance.curGameData.isNpcRescued);
+        testNpc.SetActive(DataManager.Instance.CurGameData.isNpcRescued);
+        UIManager.Instance.bossHpBar.HpBarOff();
 
         Wakgood.Instance.StopAllCoroutines();
         Wakgood.Instance.enabled = true;
@@ -166,7 +168,7 @@ public class GameManager : MonoBehaviour
         nyang.RuntimeValue = 0;
         viewer.RuntimeValue = 0;
 
-        AudioManager.Instance.BgmEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        AudioManager.Instance.BgmEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         AudioManager.Instance.BgmEvent = RuntimeManager.CreateInstance($"event:/BGM/Undo");
         AudioManager.Instance.BgmEvent.start();
 

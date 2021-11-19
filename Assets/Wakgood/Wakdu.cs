@@ -5,11 +5,11 @@ using UnityEngine.Serialization;
 public class Wakdu : ScriptableObject
 {
     public new string name;
-    [FormerlySerializedAs("baseHP")] public int baseHp;
-    [FormerlySerializedAs("growthHP")] public int growthHp;
-    public int baseAD, growthAD;
-    [FormerlySerializedAs("baseAS")] public float baseAs;
-    [FormerlySerializedAs("growthAS")] public float growthAs;
-    public int baseCriticalChance;
+    public int baseHp;
+    public int growthHp;
+    [FormerlySerializedAs("baseAD")] public int basePower;
+    [FormerlySerializedAs("growthAD")] public int growthPower;
+    [FormerlySerializedAs("baseAs")] public float baseAttackSpeed;
+    [FormerlySerializedAs("growthAs")] public float growthAttackSpeed;
     public float baseMoveSpeed;
 }

@@ -188,7 +188,7 @@ public class StreamingManager : MonoBehaviour
                 case "Item":
                 case "item":
                 case "아이템":
-                    for (int i = 0; i < (msg.Split(' ').Length > 3 ? int.Parse(msg.Split(' ')[2]) : 0); i++)
+                    for (int i = 0; i < (msg.Split(' ').Length == 3 ? int.Parse(msg.Split(' ')[2]) : 0); i++)
                         DebugManager.GetItem(int.Parse(msg.Split(' ')[1]));
                     break;
                 case "Weapon":

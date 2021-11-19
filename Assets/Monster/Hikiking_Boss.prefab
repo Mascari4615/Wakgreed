@@ -261,11 +261,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3035457898370817614}
+  - component: {fileID: 2942887708771458359}
   - component: {fileID: 3035457898370817615}
+  - component: {fileID: 7089862009284845594}
   - component: {fileID: 936163698904388890}
   - component: {fileID: 1194972627027808675}
-  - component: {fileID: 2942887708771458359}
-  - component: {fileID: 7089862009284845594}
   m_Layer: 7
   m_Name: Hikiking_Boss
   m_TagString: Boss
@@ -294,6 +294,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2942887708771458359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3035457898370817608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4adc2114dd9f604599578d27d7536c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseHp: 300
+  baseAD: 10
+  baseMoveSpeed: 10
+  onMonsterCollapse: {fileID: 11400000, guid: 1b477f0305627f54d8b1c54462eafc87, type: 2}
+  baseAttack: {fileID: 5168828908313417421, guid: d7540f4bd46a48740bfd71113d4557c9,
+    type: 3}
 --- !u!50 &3035457898370817615
 Rigidbody2D:
   serializedVersion: 4
@@ -315,6 +333,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!58 &7089862009284845594
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3035457898370817608}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1
 --- !u!212 &936163698904388890
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -387,40 +421,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &2942887708771458359
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3035457898370817608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4adc2114dd9f604599578d27d7536c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseHp: 4000
-  baseAD: 10
-  baseMoveSpeed: 10
-  onMonsterCollapse: {fileID: 11400000, guid: 1b477f0305627f54d8b1c54462eafc87, type: 2}
-  baseAttack: {fileID: 5168828908313417421, guid: d7540f4bd46a48740bfd71113d4557c9,
-    type: 3}
---- !u!58 &7089862009284845594
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3035457898370817608}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 1
 --- !u!1 &3063216174480736597
 GameObject:
   m_ObjectHideFlags: 0
@@ -882,6 +882,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 3035457898370817614}
     m_Modifications:
     - target: {fileID: 329041787447088879, guid: 130b3a84bde3190479b257e66ad1aa0a,
@@ -945,6 +946,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 130b3a84bde3190479b257e66ad1aa0a, type: 3}
 --- !u!4 &1596118196606588283 stripped
 Transform:

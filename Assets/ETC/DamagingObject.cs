@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Serialization;
 
 public interface IHitable
 {
@@ -9,9 +11,10 @@ public interface IHitable
 public class DamagingObject : MonoBehaviour
 {
     [SerializeField] private bool canDamageWakgood;
-    [SerializeField] private bool canDamageMonster;
-    [SerializeField] private TotalAD totalAD;
+    [FormerlySerializedAs("canDamageMonster")] [SerializeField] private bool canDamageMob;
+    [SerializeField] private TotalPower totalPower;
     [SerializeField] private IntVariable criticalChance;
+    [SerializeField] private IntVariable criticalDamagePer;
     [SerializeField] private int damage = 0;
     [SerializeField] private bool offOnHit = true;
     [SerializeField] [Range(0f, 100f)] private float ggambbakDelay = 0f;
@@ -27,7 +30,7 @@ public class DamagingObject : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if ((other.CompareTag("Player") != canDamageWakgood) || ((other.CompareTag("Monster") || other.CompareTag("Boss"))) != canDamageMonster) 
+        if ((other.CompareTag("Player") != canDamageWakgood) || ((other.CompareTag("Monster") || other.CompareTag("Boss"))) != canDamageMob) 
             return;
 
         if (other.TryGetComponent(out damageable))
@@ -37,14 +40,14 @@ public class DamagingObject : MonoBehaviour
                 int totalDamage;
                 // TextType textType;
 
-                if (Random.Range(0, 100) < criticalChance.RuntimeValue)
+                if (UnityEngine.Random.Range(0, 100) < criticalChance.RuntimeValue)
                 {
-                    totalDamage = (int)((damage.Equals(0) ? totalAD.GetTotalDamage() : damage) * 1.5f);
+                    totalDamage = (int) Math.Round(damage * totalPower.RuntimeValue * (1 + criticalDamagePer.RuntimeValue * 0.01f), MidpointRounding.AwayFromZero);
                     // textType = TextType.Critical;
                 }
                 else
                 {
-                    totalDamage = damage.Equals(0) ? totalAD.GetTotalDamage() : damage;
+                    totalDamage = damage * totalPower.RuntimeValue;
                     // textType = TextType.Normal;
                 }
 

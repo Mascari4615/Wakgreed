@@ -52,10 +52,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91a9f9fd0d1a8f24ab514a09a7b8adf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseHP: 60
+  baseHp: 10
   baseAD: 10
   baseMoveSpeed: 5
-  OnMonsterCollapse: {fileID: 11400000, guid: 1b477f0305627f54d8b1c54462eafc87, type: 2}
+  onMonsterCollapse: {fileID: 11400000, guid: 1b477f0305627f54d8b1c54462eafc87, type: 2}
 --- !u!114 &6520139255365978244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,6 +183,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 8633538259678075036}
     m_Modifications:
     - target: {fileID: 329041787447088879, guid: 130b3a84bde3190479b257e66ad1aa0a,
@@ -246,6 +247,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 130b3a84bde3190479b257e66ad1aa0a, type: 3}
 --- !u!4 &1677166539686171702 stripped
 Transform:
@@ -258,6 +260,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 8633538259678075036}
     m_Modifications:
     - target: {fileID: 893357815935375099, guid: 3054d4efd9e9f024896d0c6ab829f790,
@@ -371,6 +374,7 @@ PrefabInstance:
       value: Mob_Canvas
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 3054d4efd9e9f024896d0c6ab829f790, type: 3}
 --- !u!224 &7995810053942888480 stripped
 RectTransform:
@@ -383,6 +387,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 8633538259678075036}
     m_Modifications:
     - target: {fileID: 8201204497691180524, guid: 694c73a6a6c584841837c783b1946a73,
@@ -446,6 +451,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 694c73a6a6c584841837c783b1946a73, type: 3}
 --- !u!4 &890484173148563851 stripped
 Transform:

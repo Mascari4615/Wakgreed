@@ -46,9 +46,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canDamageWakgood: 1
-  canDamageMonster: 0
-  totalAD: {fileID: 0}
+  canDamageMob: 0
+  totalPower: {fileID: 0}
   criticalChance: {fileID: 0}
+  criticalDamagePer: {fileID: 0}
   damage: 5
   offOnHit: 0
   ggambbakDelay: 0
@@ -121,10 +122,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aa5188b8af92cc4c9f8dd4b095b6318, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseHP: 50
+  baseHp: 50
   baseAD: 3
   baseMoveSpeed: 3
-  OnMonsterCollapse: {fileID: 11400000, guid: 1b477f0305627f54d8b1c54462eafc87, type: 2}
+  onMonsterCollapse: {fileID: 11400000, guid: 1b477f0305627f54d8b1c54462eafc87, type: 2}
   damagingObject: {fileID: 625877238601118578}
 --- !u!114 &6520139255365978244
 MonoBehaviour:
@@ -253,6 +254,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 8633538259678075036}
     m_Modifications:
     - target: {fileID: 329041787447088879, guid: 130b3a84bde3190479b257e66ad1aa0a,
@@ -316,6 +318,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 130b3a84bde3190479b257e66ad1aa0a, type: 3}
 --- !u!4 &1677166539686171702 stripped
 Transform:
@@ -328,6 +331,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 8633538259678075036}
     m_Modifications:
     - target: {fileID: 893357815935375099, guid: 3054d4efd9e9f024896d0c6ab829f790,
@@ -441,6 +445,7 @@ PrefabInstance:
       value: Mob_Canvas
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 3054d4efd9e9f024896d0c6ab829f790, type: 3}
 --- !u!224 &9208817970683602708 stripped
 RectTransform:
@@ -453,6 +458,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 8633538259678075036}
     m_Modifications:
     - target: {fileID: 8201204497691180524, guid: 694c73a6a6c584841837c783b1946a73,
@@ -516,6 +522,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 694c73a6a6c584841837c783b1946a73, type: 3}
 --- !u!4 &890484173148563851 stripped
 Transform:

@@ -14,13 +14,15 @@ public abstract class BossMonster : Monster
         UIManager.Instance.bossHpBar.HpBarOn(this);
         yield return StartCoroutine(UIManager.Instance.SpeedWagon_Boss(gameObject));
         yield return new WaitForSeconds(2f);
-        StartCoroutine("Attack");
+        StartCoroutine(nameof(Attack));
     }
 
     protected abstract IEnumerator Attack();
-
-    private void OnDisable()
-    {
+    
+    protected override IEnumerator Collapse()
+    {        
         UIManager.Instance.bossHpBar.HpBarOff();
+        (StageManager.Instance.CurrentRoom as BossRoom)?.RoomClear();
+        yield return base.Collapse();
     }
 }

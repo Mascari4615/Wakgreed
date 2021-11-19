@@ -10,52 +10,54 @@ using Random = UnityEngine.Random;
 public class DataManager : MonoBehaviour
 {
     private static DataManager instance;
+
     public static DataManager Instance
     {
-        get => instance ? instance : FindObjectOfType<DataManager>() ?? Instantiate(Resources.Load<DataManager>("Data_Manager"));
+        get => instance
+            ? instance
+            : FindObjectOfType<DataManager>() ?? Instantiate(Resources.Load<DataManager>("Data_Manager"));
         private set => instance = value;
     }
 
-    [FormerlySerializedAs("ItemDataBuffer")]
-    [Header("Item")]
-    [SerializeField] private ItemDataBuffer itemDataBuffer;
+    [Header("Item")] [SerializeField] private ItemDataBuffer itemDataBuffer;
     public readonly Dictionary<int, Item> ItemDic = new();
-    [FormerlySerializedAs("WakgoodItemInventory")] public WakgoodItemInventory wakgoodItemInventory;
+    public WakgoodItemInventory wakgoodItemInventory;
     private readonly Dictionary<int, Item> commonItemDic = new();
     private readonly Dictionary<int, Item> unCommonItemDic = new();
     private readonly Dictionary<int, Item> legendaryItemDic = new();
 
-    [FormerlySerializedAs("WeaponDataBuffer")]
-    [Header("Weapon")]
-    [SerializeField] private WeaponDataBuffer weaponDataBuffer;
+    [Header("Weapon")] [SerializeField] private WeaponDataBuffer weaponDataBuffer;
     public readonly Dictionary<int, Weapon> WeaponDic = new();
     private Dictionary<int, Weapon> commonWeaponDic = new();
     private readonly Dictionary<int, Weapon> unCommonWeaponDic = new();
     private readonly Dictionary<int, Weapon> legendaryWeaponDic = new();
-    
-    [FormerlySerializedAs("FoodDataBuffer")]
-    [Header("Food")]
-    [SerializeField] private FoodDataBuffer foodDataBuffer;
-    public readonly Dictionary<int, Food> FoodDic = new();
-    [FormerlySerializedAs("WakgoodFoodInventory")] public WakgoodFoodInventory wakgoodFoodInventory;
 
-    [FormerlySerializedAs("WakduMasteryDataBuffer")]
-    [Header("Mastery")]
-    [SerializeField] private WakduMasteryDataBuffer wakduMasteryDataBuffer;
+    [Header("Food")] [SerializeField] private FoodDataBuffer foodDataBuffer;
+    public readonly Dictionary<int, Food> FoodDic = new();
+    public WakgoodFoodInventory wakgoodFoodInventory;
+
+    [Header("Mastery")] [SerializeField] private WakduMasteryDataBuffer wakduMasteryDataBuffer;
 
     private readonly Dictionary<int, Mastery> masteryDic = new();
-    [FormerlySerializedAs("WakgoodMasteryInventory")] public MasteryInventory wakgoodMasteryInventory;
+    public MasteryInventory wakgoodMasteryInventory;
 
-    [FormerlySerializedAs("BuffRunTimeSet")] [Header("Buff")]
-    public BuffRunTimeSet buffRunTimeSet;
+    [Header("Buff")] public BuffRunTimeSet buffRunTimeSet;
 
-    public GameData curGameData;
+    public GameData CurGameData { get; private set; }
 
     private void Awake()
     {
-        if (Instance != this) { Destroy(gameObject); return; }
+        if (Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         DontDestroyOnLoad(gameObject);
 
+        CurGameData = LoadGameData();
+        SaveGameData();
+        
         foreach (Weapon weapon in weaponDataBuffer.items)
         {
             WeaponDic.Add(weapon.id, weapon);
@@ -74,6 +76,7 @@ public class DataManager : MonoBehaviour
                     throw new ArgumentOutOfRangeException();
             }
         }
+
         foreach (Item item in itemDataBuffer.items)
         {
             ItemDic.Add(item.id, item);
@@ -92,6 +95,7 @@ public class DataManager : MonoBehaviour
                     throw new ArgumentOutOfRangeException();
             }
         }
+
         foreach (Food food in foodDataBuffer.items) FoodDic.Add(food.id, food);
         foreach (Mastery mastery in wakduMasteryDataBuffer.items) masteryDic.Add(mastery.id, mastery);
     }
@@ -101,7 +105,7 @@ public class DataManager : MonoBehaviour
         BinaryFormatter bf = new();
         FileStream stream = new(Path.Combine(Application.streamingAssetsPath, "game.wak"), FileMode.Create);
 
-        bf.Serialize(stream, gameData ?? curGameData);
+        bf.Serialize(stream, gameData ?? CurGameData);
         stream.Close();
     }
 
@@ -123,7 +127,7 @@ public class DataManager : MonoBehaviour
             BinaryFormatter bf = new();
             FileStream stream = new(Path.Combine(Application.streamingAssetsPath, "game.wak"), FileMode.Create);
 
-            bf.Serialize(stream, new GameData(false));
+            bf.Serialize(stream, new GameData());
             stream.Close();
             stream = new FileStream(Path.Combine(Application.streamingAssetsPath, "game.wak"), FileMode.Open);
             GameData data = bf.Deserialize(stream) as GameData;
@@ -133,6 +137,7 @@ public class DataManager : MonoBehaviour
     }
 
     public int GetRandomItemID() => GetRandomItemID((ItemGrade)Random.Range(0, 3));
+
     public int GetRandomItemID(ItemGrade itemGrade) => itemGrade switch
     {
         ItemGrade.Common => commonItemDic.ElementAt(Random.Range(0, commonItemDic.Count)).Value.id,
@@ -142,6 +147,7 @@ public class DataManager : MonoBehaviour
     };
 
     public int GetRandomWeaponID() => GetRandomWeaponID((ItemGrade)Random.Range(0, 3));
+
     public int GetRandomWeaponID(ItemGrade itemGrade) => itemGrade switch
     {
         ItemGrade.Common => commonWeaponDic.ElementAt(Random.Range(0, commonWeaponDic.Count)).Value.id,
@@ -149,15 +155,19 @@ public class DataManager : MonoBehaviour
         ItemGrade.Legendary => legendaryWeaponDic.ElementAt(Random.Range(0, legendaryWeaponDic.Count)).Value.id,
         _ => throw new ArgumentOutOfRangeException(nameof(itemGrade), itemGrade, null)
     };
+
+    private void OnApplicationQuit()
+    {
+        SaveGameData();
+    }
+
 }
 
 [System.Serializable]
 public class GameData
 {
-    [FormerlySerializedAs("isNPCRescued")] public bool isNpcRescued = false;
-
-    public GameData(bool asd)
-    {
-        isNpcRescued = asd;
-    }
+    public bool isNpcRescued = false;
+    public float BGMVolume = .5f;
+    public float SfxVolume= .5f;
+    public float MasterVolume= .5f;
 }
