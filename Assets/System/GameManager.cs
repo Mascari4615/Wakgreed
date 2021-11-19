@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
-    [HideInInspector] public static GameManager Instance { get; private set; }
+    public static GameManager Instance { get; private set; }
 
     [SerializeField] private BoolVariable isFighting;
     [SerializeField] private BoolVariable isGaming;
@@ -166,7 +166,7 @@ public class GameManager : MonoBehaviour
         Wakgood.Instance.Initialize();
 
         nyang.RuntimeValue = 0;
-        viewer.RuntimeValue = 0;
+        // viewer.RuntimeValue = 0;
 
         AudioManager.Instance.BgmEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         AudioManager.Instance.BgmEvent = RuntimeManager.CreateInstance($"event:/BGM/Undo");
