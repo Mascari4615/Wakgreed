@@ -2,9 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using FMOD.Studio;
 using FMODUnity;
-using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -28,7 +26,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject pausePanel;
 
-    [SerializeField] private GameObject fadePanel;
+    [SerializeField] private Animator fadePanel;
 
     [SerializeField] private GameObject roomClearSpeedWagon;
     [SerializeField] private GameObject undo;
@@ -38,6 +36,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private IntVariable nyang;
     [SerializeField] private IntVariable viewer;
+    
+    private static readonly int @out = Animator.StringToHash("OUT");
+    private static readonly int @in = Animator.StringToHash("IN");
 
     private void Awake()
     {
@@ -74,7 +75,7 @@ public class GameManager : MonoBehaviour
     {
         isFocusOnSomething.RuntimeValue = (isChatting.RuntimeValue || isLoading.RuntimeValue);
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !isLoading.RuntimeValue)
         {
             if (SettingManager.Instance.SettingPanel.activeSelf) SettingManager.Instance.SettingPanel.SetActive(false);
             else if (StreamingManager.Instance.inputField.gameObject.activeSelf)
@@ -102,8 +103,10 @@ public class GameManager : MonoBehaviour
     public IEnumerator EnterPortal()
     {
         AudioManager.Instance.BgmEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        ObjectManager.Instance.DeactivateAll();
+        
         isLoading.RuntimeValue = true;
-        fadePanel.SetActive(true);
+        fadePanel.SetTrigger(@out);
         yield return new WaitForSeconds(0.2f);
 
         undo.SetActive(false);
