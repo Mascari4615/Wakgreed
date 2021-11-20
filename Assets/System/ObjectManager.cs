@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 /// <summary>
 /// 오브젝트 풀링에 사용되는 게임 오브젝트들은 반드시 Pooling Object 스크립트나 PushObject(~) 코드를 포함한 스크립트를 컴포넌트로 가지고 있어야 함.
@@ -12,56 +12,42 @@ public class ObjectManager : MonoBehaviour
 {
     public static ObjectManager Instance { get; private set; }
 
-    private readonly Dictionary<string, Stack<GameObject>> poolDic = new();
-    private readonly Dictionary<string, GameObject> gameObjectDic = new();
-    private readonly Dictionary<string, Transform> poolTfDic = new();
-
-    [Serializable]
-    private struct PoolData
+    [Serializable] private class PoolData
     {
         public GameObject gameObject;
-        public int count;
+        public Stack<GameObject> Stack = new();
+        [HideInInspector] public Transform transform;
     }
-    [FormerlySerializedAs("poolDatas")] [SerializeField] private PoolData[] poolData;
+    [SerializeField] private PoolData[] poolData;
+    private readonly Dictionary<string, PoolData> poolDic = new();
 
     private void Awake()
     {
-        if (Instance != null)
-        {
-            Debug.LogWarning($"ObjectManager Is Already Exist");
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
+        Instance = this;
 
         foreach (PoolData pD in poolData)
         {
-            poolDic.Add(pD.gameObject.name, new Stack<GameObject>());
-            gameObjectDic.Add(pD.gameObject.name, pD.gameObject);
-            GameObject poolGameObject = new(pD.gameObject.name);
-            poolTfDic.Add(pD.gameObject.name, poolGameObject.transform);
-            poolGameObject.transform.SetParent(transform);
-            for (int i = 0; i < pD.count; i++) Instantiate(pD.gameObject, poolGameObject.transform).SetActive(false);
+            poolDic.Add(pD.gameObject.name, pD);
+            (poolDic[pD.gameObject.name].transform = new GameObject(pD.gameObject.name).transform).SetParent(transform);
+            for (int i = 0; i < 10; i++) Instantiate(pD.gameObject, poolDic[pD.gameObject.name].transform).SetActive(false);
         }
     }
 
     public void PushObject(GameObject go)
     {
         string objectName = go.name.Contains("(Clone)") ? go.name.Remove(go.name.IndexOf("(", StringComparison.Ordinal), 7) : go.name;
-        poolDic[objectName].Push(go);
+        poolDic[objectName].Stack.Push(go);
         go.SetActive(false);
     }
 
     public GameObject PopObject(string objectName, Vector3 pos)
     {
         GameObject targetObject;
-        if (poolDic[objectName].Count.Equals(0))
-            targetObject = Instantiate(gameObjectDic[objectName], pos, Quaternion.identity, poolTfDic[objectName]);
+        if (poolDic[objectName].Stack.Count.Equals(0))
+            targetObject = Instantiate(poolDic[objectName].gameObject, pos, Quaternion.identity, poolDic[objectName].transform);
         else
         {
-            targetObject = poolDic[objectName].Pop();
+            targetObject = poolDic[objectName].Stack.Pop();
             targetObject.transform.SetPositionAndRotation(pos, Quaternion.identity);
             targetObject.SetActive(true);
         }
@@ -71,11 +57,11 @@ public class ObjectManager : MonoBehaviour
     public GameObject PopObject(string objectName, Vector3 pos, Vector3 rot)
     {
         GameObject targetObject;
-        if (poolDic[objectName].Count.Equals(0))
-            targetObject = Instantiate(gameObjectDic[objectName], pos, Quaternion.Euler(rot), poolTfDic[objectName]);
+        if (poolDic[objectName].Stack.Count.Equals(0))
+            targetObject = Instantiate(poolDic[objectName].gameObject, pos, Quaternion.Euler(rot), poolDic[objectName].transform);
         else
         {
-            targetObject = poolDic[objectName].Pop();
+            targetObject = poolDic[objectName].Stack.Pop();
             targetObject.transform.SetPositionAndRotation(pos, Quaternion.Euler(rot));
             targetObject.SetActive(true);
         }
@@ -85,14 +71,13 @@ public class ObjectManager : MonoBehaviour
     public GameObject PopObject(string objectName, Transform tr, bool setRot = false)
     {
         GameObject targetObject;
-
-        if (poolDic[objectName].Count.Equals(0))
+        if (poolDic[objectName].Stack.Count.Equals(0))
         {
-            targetObject = Instantiate(gameObjectDic[objectName], tr.position, setRot ? tr.rotation : Quaternion.identity, poolTfDic[objectName]);
+            targetObject = Instantiate(poolDic[objectName].gameObject, tr.position, setRot ? tr.rotation : Quaternion.identity, poolDic[objectName].transform);
         }
         else
         {
-            targetObject = poolDic[objectName].Pop();
+            targetObject = poolDic[objectName].Stack.Pop();
             targetObject.transform.SetPositionAndRotation(tr.position, setRot ? tr.rotation : Quaternion.identity);
             targetObject.SetActive(true);
         }
@@ -101,18 +86,10 @@ public class ObjectManager : MonoBehaviour
 
     public void DeactivateAll()
     {
-        int count = transform.childCount;
-
-        for (int i = 0; i < count; i++)
+        foreach (Transform poolTransform in poolDic.Select(keyValuePair => keyValuePair.Value.transform))
         {
-            Transform pool = transform.GetChild(i);
-            int objectCount = pool.childCount;
-
-            for (int j = 0; j < objectCount; j++)
-            {
-                pool.GetChild(j).gameObject.SetActive(false);
-            }
+            for (int j = 0; j < poolTransform.childCount; j++)
+                poolTransform.GetChild(j).gameObject.SetActive(false);
         }
     }
-
 }

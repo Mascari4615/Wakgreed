@@ -13,8 +13,9 @@ public class StreamingManager : MonoBehaviour
     public static StreamingManager Instance { get; private set; }
 
     [SerializeField] private GameObject donationUI;
+    [SerializeField] private TextMeshProUGUI donationText;
     [SerializeField] private TextMeshProUGUI upTimeUI;
-    [SerializeField] private IntVariable nyang;
+    [FormerlySerializedAs("nyang")] [SerializeField] private IntVariable goldu;
     [SerializeField] private IntVariable viewer;
 
     [SerializeField] private GameObject chatGameObject;
@@ -81,13 +82,12 @@ public class StreamingManager : MonoBehaviour
             if (Random.Range(0, 100) < 30)
             {
                 int donationAmount = Random.Range(1, 1001);
-                nyang.RuntimeValue += donationAmount;
+                goldu.RuntimeValue += donationAmount;
 
                 // 꼼수로 애니메이션 실행하기
                 // # UI를 분리시키는 작업 필요
                 donationUI.SetActive(false);
-                donationUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text =
-                    $"Ttmdacl님 꼐서 {donationAmount}골드 조공";
+                donationText.text = $"Ttmdacl님 께서 {donationAmount}골두 조공!";
                 donationUI.SetActive(true);
 
                 RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");

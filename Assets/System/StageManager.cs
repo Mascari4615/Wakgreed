@@ -32,8 +32,7 @@ public class StageManager : MonoBehaviour
     [SerializeField] private GridLayoutGroup mapGridLayoutGroup;
     [SerializeField] private RectTransform scrollRectBackGround;
     private Dictionary<Vector2, Transform> roomUiDic = new();
-
-    [SerializeField] private GameObject fadePanel;
+    
     [SerializeField] private Animator fadePanelAnimator;
     [SerializeField] private TextMeshProUGUI noticeText;
 
@@ -50,10 +49,8 @@ public class StageManager : MonoBehaviour
     [SerializeField] private Animator stageLoading;
     [SerializeField] private TextMeshProUGUI stageNumberText, stageNameCommentText;
     [SerializeField] private GameObject stageSpeedWagon;
-    
-    private static readonly int stageid = Animator.StringToHash("STAGEID");
-    private static readonly int start = Animator.StringToHash("START");
-    private static readonly int fadeIn = Animator.StringToHash("FadeIn");
+    private static readonly int @in = Animator.StringToHash("IN");
+    private static readonly int @out = Animator.StringToHash("OUT");
 
     private void Awake()
     {
@@ -180,32 +177,33 @@ public class StageManager : MonoBehaviour
 
         stageNumberText.text = $"1-{currentStage.id}";
         stageNameCommentText.text = $"{currentStage.name} : {currentStage.comment}";
-        stageLoading.SetInteger(stageid, currentStage.id - 1);
-        stageLoading.SetTrigger(start);
-
+        stageLoading.SetInteger("STAGEID", currentStage.id - 1);
+        stageLoading.gameObject.SetActive(true);
+        stageLoading.SetTrigger("START");
+        
         Coroutine temp1 = StartCoroutine(WaitLoading());
         Coroutine temp2 = StartCoroutine(CheckSkip());
-        while (isLoading.RuntimeValue)
-        {
-            yield return null;
-        }
+        
+        while (isLoading.RuntimeValue) yield return null;
+        
         StopCoroutine(temp1);
         StopCoroutine(temp2);
-        Debug.Log("FinOut");
-        isGaming.RuntimeValue = true;
-        fadePanelAnimator.SetTrigger(fadeIn);
-        yield return ws02;
-        fadePanel.SetActive(false);
-        
-        AudioManager.Instance.BgmEvent = RuntimeManager.CreateInstance($"event:/BGM/{stageDataBuffer.items[currentStageID].name}");
+        stageLoading.gameObject.SetActive(false);
+
+        //AudioManager.Instance.BgmEvent = RuntimeManager.CreateInstance($"event:/BGM/{stageDataBuffer.items[currentStageID].name}");
+        AudioManager.Instance.BgmEvent = RuntimeManager.CreateInstance("event:/BGM/Wakzoo");
         AudioManager.Instance.BgmEvent.start();
+        
+        isGaming.RuntimeValue = true;
+        fadePanelAnimator.SetTrigger(@in);
+        yield return ws02;
     }
 
     private IEnumerator CheckSkip()
     {
         do yield return null;
         while (!Input.GetKeyDown(KeyCode.F));
-
+        Debug.Log("SKIP");
         stageLoading.SetTrigger("SKIP");
         isLoading.RuntimeValue = false;
     }
@@ -289,7 +287,7 @@ public class StageManager : MonoBehaviour
 
     public IEnumerator MigrateRoom(Vector2 moveDirection, int spawnDirection)
     {
-        fadePanel.SetActive(true);
+        fadePanelAnimator.SetTrigger(@out);
         yield return ws02;
 
         roomUiDic[CurrentRoom.Coordinate].GetChild(1).GetChild(0).GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f); // Property\CurrentRoom
@@ -305,14 +303,13 @@ public class StageManager : MonoBehaviour
         CurrentRoom.Enter();
 
         yield return ws02;
-        fadePanelAnimator.SetTrigger(fadeIn);
+        fadePanelAnimator.SetTrigger(@in);
         yield return ws02;
-        fadePanel.SetActive(false);
     }
 
     public IEnumerator MigrateRoom(Vector2 coordinate)
     {
-        fadePanel.SetActive(true);
+        fadePanelAnimator.SetTrigger(@out);
         yield return ws02;
 
         roomUiDic[CurrentRoom.Coordinate].GetChild(1).GetChild(0).GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f); // Property\CurrentRoom
@@ -328,9 +325,8 @@ public class StageManager : MonoBehaviour
         CurrentRoom.Enter();
 
         yield return ws02;
-        fadePanelAnimator.SetTrigger(fadeIn);
+        fadePanelAnimator.SetTrigger(@in);
         yield return ws02;
-        fadePanel.SetActive(false);
     }
     
     private void MapDoor(bool bOpen)
