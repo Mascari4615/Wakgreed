@@ -331,7 +331,7 @@ Transform:
   - {fileID: 3193277808702400992}
   - {fileID: 293311737590649329}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &3193277810173341844
 CircleCollider2D:
@@ -406,7 +406,7 @@ SpriteRenderer:
   m_SortingLayerID: 978103407
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 113226046409043974, guid: 6964b2609f215de49880c054e8856744, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -414,7 +414,7 @@ SpriteRenderer:
   m_Size: {x: 2, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &3193277810173341847
@@ -427,7 +427,7 @@ Animator:
   m_GameObject: {fileID: 3193277810173341930}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 65988706df4ef894980de261f42637d3, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -774,7 +774,7 @@ PrefabInstance:
     - target: {fileID: 3801948226245305307, guid: 883b85daafda0f94f8c257404a5440ed,
         type: 3}
       propertyPath: m_text
-      value: "\uCD95\uBCF5 \uAD00\uB9AC\uC790"
+      value: "\uC9C1 \uC5C5"
       objectReference: {fileID: 0}
     - target: {fileID: 3801948226245305309, guid: 883b85daafda0f94f8c257404a5440ed,
         type: 3}
@@ -789,7 +789,7 @@ PrefabInstance:
     - target: {fileID: 3801948226905854969, guid: 883b85daafda0f94f8c257404a5440ed,
         type: 3}
       propertyPath: m_text
-      value: "\uC5D4 \uC824"
+      value: "\uC774 \uB984"
       objectReference: {fileID: 0}
     - target: {fileID: 3801948226905854971, guid: 883b85daafda0f94f8c257404a5440ed,
         type: 3}
