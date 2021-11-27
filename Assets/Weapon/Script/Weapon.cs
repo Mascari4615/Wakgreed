@@ -44,7 +44,7 @@ public class Weapon : Equiptable, ISerializationCallbackReceiver
 
         canUseBaseAttack = false;
         GameManager.Instance.StartCoroutine(BaseAttackCoolTime());
-        baseAttack.Use();
+        baseAttack.Use(this);
 
         if (magazine == 0 || Ammo != 0)
         {
@@ -79,7 +79,7 @@ public class Weapon : Equiptable, ISerializationCallbackReceiver
         if (!canUseSkillQ || !skillQ) return;
         canUseSkillQ = false;
         GameManager.Instance.StartCoroutine(SkillQCoolTime());
-        skillQ?.Use();
+        skillQ?.Use(this);
     }
 
     public void SkillE() 
@@ -87,12 +87,12 @@ public class Weapon : Equiptable, ISerializationCallbackReceiver
         if (!canUseSkillE || !skillE) return;
         canUseSkillE = false;
         GameManager.Instance.StartCoroutine(SkillECoolTime());
-        skillE?.Use();
+        skillE?.Use(this);
     }
     
     private IEnumerator BaseAttackCoolTime()
     {
-        curBaseAttackCoolTime = 1 / attackSpeed;
+        curBaseAttackCoolTime = 1 / (attackSpeed * (1 + Wakgood.Instance.attackSpeed.RuntimeValue / 100));
         do yield return null;
         while ((curBaseAttackCoolTime -= Time.deltaTime) > 0);
         canUseBaseAttack = true;

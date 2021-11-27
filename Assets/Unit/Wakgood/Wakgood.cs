@@ -16,7 +16,8 @@ public class Wakgood : MonoBehaviour, IHitable
     [SerializeField] private IntVariable hpCur;
     [SerializeField] private GameEvent onDamage;
     [SerializeField] private IntVariable powerInt;
-    [SerializeField] private FloatVariable attackSpeed;
+    public TotalPower totalPower;
+    public FloatVariable attackSpeed;
     [SerializeField] private FloatVariable moveSpeed;
     [SerializeField] private IntVariable exp;
     private int requiredExp;
