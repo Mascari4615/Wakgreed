@@ -2,34 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class EquipItemToolTip : MonoBehaviour
 {
-    private Queue<Item> toolTipStacks = new();
+    private readonly Queue<Item> toolTipStacks = new();
     [SerializeField] private GameObject toolTip;
     [SerializeField] private TextMeshProUGUI nameField;
-    [SerializeField] private TextMeshProUGUI simpleDescriptionField;
     [SerializeField] private Image image;
-    [SerializeField] private ItemVariable LastEquippedItem;
+    [SerializeField] private ItemVariable lastEquippedItem;
+    private WaitForSeconds ws2 = new(2f);
 
     public void EquipItem()
     {
-        toolTipStacks.Enqueue(LastEquippedItem.RuntimeValue);
+        toolTipStacks.Enqueue(lastEquippedItem.RuntimeValue);
         if (!toolTip.activeSelf) StartCoroutine(ShowToolTip());
     }
 
     private IEnumerator ShowToolTip()
     {
-        Item item;
-        WaitForSeconds ws2 = new(2f);
-
         toolTip.SetActive(true);
         while (toolTipStacks.Count > 0)
         {
-            item = toolTipStacks.Dequeue();
+            Item item = toolTipStacks.Dequeue();
             nameField.text = item.name;
-            simpleDescriptionField.text = item.description;
             image.sprite = item.sprite;
             yield return ws2;
         }

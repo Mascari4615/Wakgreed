@@ -17,8 +17,6 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject state;
 
-    public TextMeshProUGUI aaa;
-
     public GameObject reloadUI;
     public Image reloadImage;
 

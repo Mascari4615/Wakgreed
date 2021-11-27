@@ -2,7 +2,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public abstract class Monster : MonoBehaviour, IHitable
@@ -18,10 +17,10 @@ public abstract class Monster : MonoBehaviour, IHitable
 
     protected SpriteRenderer SpriteRenderer;
     protected Animator Animator;
-    protected new Rigidbody2D Rigidbody2D;
+    protected Rigidbody2D Rigidbody2D;
     private new Collider2D collider2D;
 
-    private bool isCollapsed = false;
+    private bool isCollapsed;
     
     private static readonly int ahya = Animator.StringToHash("AHYA");
     private static readonly int collapse = Animator.StringToHash("COLLAPSE");

@@ -1,10 +1,12 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class Hikiking : BossMonster
 {
     [SerializeField] private GameObject baseAttack;
+    [SerializeField] private TextMeshProUGUI text;
     private int ultStack = 0;
 
     protected override IEnumerator Attack()
@@ -62,12 +64,12 @@ public class Hikiking : BossMonster
 
     private IEnumerator Ult()
     {
-        UIManager.Instance.aaa.text = "공기가 요동칩니다...";
-        UIManager.Instance.aaa.gameObject.SetActive(true);
+        text.text = "공기가 요동칩니다...";
+        text.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(1f);
 
-        UIManager.Instance.aaa.gameObject.SetActive(false);
+        text.gameObject.SetActive(false);
 
         ultStack++;
         int ultCount = ultStack switch
@@ -84,7 +86,7 @@ public class Hikiking : BossMonster
                 ((i + 2) % 2 == 1 ? 1 : -1) * Random.Range(5f, 10f),
                 (-1 + Random.Range(0, 2) * 2) * Random.Range(5f, 10f));
 
-            for (float j = 0; j <= 1; j += 0.02f * 10)
+            for (float j = 0; j <= 1; j += 0.02f * 15)
             {
                 Rigidbody2D.transform.position = Vector3.Lerp(originPos, targetPos, j);
                 yield return new WaitForSeconds(0.02f);
@@ -102,7 +104,7 @@ public class Hikiking : BossMonster
         Vector3 aTargetPos = Wakgood.Instance.transform.position +
                              (Wakgood.Instance.transform.position - transform.position).normalized * 5;
 
-        for (float j = 0; j <= 1; j += 0.02f * 10)
+        for (float j = 0; j <= 1; j += 0.02f * 20)
         {
             Rigidbody2D.transform.position = Vector3.Lerp(aOriginPos, aTargetPos, j);
             yield return new WaitForSeconds(0.02f);

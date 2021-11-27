@@ -5,7 +5,6 @@ public class ToolTipManager : MonoBehaviour
     public static ToolTipManager Instance { get; private set; }
 
     [SerializeField] private ToolTip toolTip;
-    [SerializeField] private RectTransform toolTipBackGround;
     private float toolTipWidth;
     private float toolTipHeight;
     private float toolTipFloatAmount;
@@ -14,9 +13,10 @@ public class ToolTipManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        toolTipWidth = toolTipBackGround.sizeDelta.x;
-        toolTipHeight = toolTipBackGround.sizeDelta.y;
-        toolTipFloatAmount = toolTipBackGround.localPosition.y;
+        RectTransform rectTransform = toolTip.GetComponent<RectTransform>();
+        toolTipWidth = rectTransform.sizeDelta.x;
+        toolTipHeight = rectTransform.sizeDelta.y;
+        toolTipFloatAmount = rectTransform.localPosition.y;
     }
 
     public void Show(Sprite sprite, string header, string description)
