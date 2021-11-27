@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Net.Sockets;
@@ -23,6 +24,15 @@ public class TwitchConnect : ScriptableObject
         twitch = new TcpClient();
         await twitch.ConnectAsync(URL, Port);
 
+        try
+        {
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
         reader = new StreamReader(twitch.GetStream());
         writer = new StreamWriter(twitch.GetStream()) { NewLine = "\r\n", AutoFlush = true };
 

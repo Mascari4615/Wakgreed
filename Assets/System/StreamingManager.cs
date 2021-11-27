@@ -11,28 +11,21 @@ using Random = UnityEngine.Random;
 public class StreamingManager : MonoBehaviour
 {
     public static StreamingManager Instance { get; private set; }
-
-    [SerializeField] private GameObject donationUI;
-    [SerializeField] private TextMeshProUGUI donationText;
-    [SerializeField] private TextMeshProUGUI upTimeUI;
-    [FormerlySerializedAs("nyang")] [SerializeField] private IntVariable goldu;
-    [SerializeField] private IntVariable viewer;
-
-    [SerializeField] private GameObject chatGameObject;
-    [SerializeField] private GameObject chatPanel;
-    private List<TextMeshProUGUI> chatPool = new();
-    private int chatIndex = 0;
-    public TMP_InputField inputField;
-    [SerializeField] private BoolVariable isChatting;
-    [SerializeField] private BoolVariable isLoading;
-    public float t = 0;
-
-    [SerializeField] private TwitchConnect twitchConnect;
-
-    private Coroutine showWakgoodChat;
-    private bool isStreaming = false;
     
-    // TwitchConnect SendToChannel
+    [HideInInspector] public float t;
+    public TMP_InputField inputField;
+    
+    [SerializeField] private TextMeshProUGUI donationText, upTimeUI;
+    [SerializeField] private GameObject donationUI, chatGameObject, chatPanel;
+    [SerializeField] private IntVariable goldu, viewer;
+    [SerializeField] private BoolVariable isChatting, isLoading;
+    [SerializeField] private TwitchConnect twitchConnect;
+    
+    private readonly List<TextMeshProUGUI> chatPool = new();
+    private int chatIndex;
+    private Coroutine showWakgoodChat;
+    private bool isStreaming;
+    private readonly WaitForSeconds ws5 = new(5f), ws05 = new(.5f), ws02 = new(0.2f);
     
     private void Awake()
     {
@@ -69,9 +62,7 @@ public class StreamingManager : MonoBehaviour
 
     private IEnumerator GetDonation()
     {
-        WaitForSeconds ws = new(5f);
-
-        // GameEventListener 클래스를 통해 꼼수로 코루틴 종료하기 (StopCoroutime 실행)
+        // GameEventListener 클래스를 통해 꼼수로 코루틴 종료하기 (StopCoroutine 실행)
         while (true)
         {
             if (isLoading.RuntimeValue)
@@ -87,27 +78,25 @@ public class StreamingManager : MonoBehaviour
                 // 꼼수로 애니메이션 실행하기
                 // # UI를 분리시키는 작업 필요
                 donationUI.SetActive(false);
-                donationText.text = $"Ttmdacl님 께서 {donationAmount}골두 조공!";
+                donationText.text = $"@@님께서 {donationAmount}골두 조공!";
                 donationUI.SetActive(true);
 
                 RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
             }
 
-            yield return ws;
+            yield return ws5;
         }
     }
 
     private IEnumerator CheckViewer()
     {
-        WaitForSeconds ws = new(.5f);
-
         while (viewer.RuntimeValue > 0)
         {
             if (isLoading.RuntimeValue)
                 yield return null;
             
             viewer.RuntimeValue -= Random.Range(1, 3 + 1);
-            yield return ws;
+            yield return ws05;
         }
 
         Debug.Log("!");
@@ -116,7 +105,6 @@ public class StreamingManager : MonoBehaviour
     private IEnumerator UpdateUptime()
     {
         float startTime = Time.time;
-        WaitForSeconds ws02 = new WaitForSeconds(0.2f);
 
         while (true)
         {
@@ -127,7 +115,7 @@ public class StreamingManager : MonoBehaviour
             int hour = curTime / 3600;
             int minute = (curTime -= hour * 3600) / 60;
             int second = (curTime -= hour * 3600) % 60;
-            DateTime dt = new DateTime(1987, 7, 24, hour, minute, second);
+            DateTime dt = new(1987, 7, 24, hour, minute, second);
 
             upTimeUI.SetText($"{dt:HH:mm:ss}");
             yield return ws02;

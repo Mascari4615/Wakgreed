@@ -23,7 +23,7 @@ public class DashUI : MonoBehaviour
     {
         for (int i = 0; i < maxDashStack.RuntimeValue; i++)
         {
-            dashStackUIs[i].GetChild(0).gameObject.SetActive(i < curDashStack.RuntimeValue);
+            dashStackUIs[i].GetChild(1).gameObject.SetActive(i < curDashStack.RuntimeValue);
         }
     }
 
