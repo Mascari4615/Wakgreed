@@ -6,5 +6,5 @@ public abstract class Skill : SpecialThing
     public GameObject resource;
     public GameObject[] subResource;
     public float coolTime;
-    public abstract void Use();
+    public abstract void Use(Weapon weapon);
 }

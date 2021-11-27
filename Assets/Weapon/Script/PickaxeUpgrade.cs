@@ -5,7 +5,7 @@ public class PickaxeUpgrade : Skill
 {
     private const int stoneID = 400;
 
-    public override void Use()
+    public override void Use(Weapon weapon)
     {       
         if (DataManager.Instance.wakgoodItemInventory.Items.Find(x => x.id == stoneID))
         {

@@ -37,11 +37,12 @@ public class Banshee : NormalMonster
 
     private IEnumerator Attack()
     {
-        yield return new WaitForSeconds(3f);
-
-        WaitForSeconds ws5 = new(6f);
+        WaitForSeconds ws2 = new(2f), ws5 = new(5f);
+        
         while (true)
         {
+            yield return ws2;
+            yield return StartCoroutine(Casting(1f));
             Cry();
             Animator.SetTrigger(attack);
             yield return ws5;
