@@ -10,8 +10,8 @@ public class WakgoodMove : MonoBehaviour
     [SerializeField] private IntVariable curDashStack;
     [SerializeField] private FloatVariable dashCoolTime;
     [SerializeField] private BoolVariable isFocusOnSomething;
-    private Rigidbody2D playerRb;
-    private Animator animator;
+    public Rigidbody2D PlayerRb { get; private set; }
+    public Animator Animator{ get; private set; }
     private readonly List<int> hInputList = new();
     private readonly List<int> vInputList = new();
     private int horizontalInput;
@@ -26,16 +26,16 @@ public class WakgoodMove : MonoBehaviour
 
     public void Initialize()
     {
-        animator.SetTrigger(wakeUp);
-        animator.SetBool(move, false);
-        playerRb.bodyType = RigidbodyType2D.Dynamic;
+        Animator.SetTrigger(wakeUp);
+        Animator.SetBool(move, false);
+        PlayerRb.bodyType = RigidbodyType2D.Dynamic;
         StartCoroutine(UpdateDashStack());
     }
 
     private void Awake()
     {
-        playerRb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        PlayerRb = GetComponent<Rigidbody2D>();
+        Animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -43,7 +43,7 @@ public class WakgoodMove : MonoBehaviour
         if (Time.timeScale == 0 || Wakgood.Instance.IsCollapsed || isFocusOnSomething.RuntimeValue)
         {
             mbMoving = false;
-            animator.SetBool(move, mbMoving);
+            Animator.SetBool(move, mbMoving);
             return;
         }
 
@@ -72,8 +72,8 @@ public class WakgoodMove : MonoBehaviour
 
         moveDirection = new Vector2(horizontalInput, verticalInput).normalized;
         mbMoving = !moveDirection.Equals(Vector2.zero);
-        animator.SetBool(move, mbMoving);
-        playerRb.velocity = moveDirection * moveSpeed.RuntimeValue;
+        Animator.SetBool(move, mbMoving);
+        PlayerRb.velocity = moveDirection * moveSpeed.RuntimeValue;
 
         if (!mbMoving || !mbCanBbolBbol)
             return;
@@ -93,7 +93,7 @@ public class WakgoodMove : MonoBehaviour
             if (Physics2D.BoxCast(transform.position, new Vector2(.5f, .5f), 0f, moveDirection, 0.9f, LayerMask.GetMask("Wall")).collider != null)
                 break;
 
-            playerRb.velocity = 10 * DashParameter * moveDirection;
+            PlayerRb.velocity = 10 * DashParameter * moveDirection;
             yield return new WaitForFixedUpdate();
         }
         MbDashing = false;

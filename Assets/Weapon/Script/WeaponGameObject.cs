@@ -23,7 +23,7 @@ public class WeaponGameObject : InteractiveObject
         }
 
         Weapon temp = Wakgood.Instance.CurWeapon;
-        Wakgood.Instance.SwitchWeapon(targetWeapon: weapon);
+        Wakgood.Instance.SwitchWeapon(Wakgood.Instance.CurWeaponNumber, weapon);
         weapon = temp;
         spriteRenderer.sprite = weapon.sprite;
     }

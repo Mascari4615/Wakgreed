@@ -119,7 +119,8 @@ public class GameManager : MonoBehaviour
         gamePanel.SetActive(false);
         gameResultPanel.SetActive(true);
     }
-
+    
+    // Todo : 귀환 할 때에도 결과 창 나오도록
     public void Recall()
     {
         onRecall.Raise();
@@ -136,18 +137,8 @@ public class GameManager : MonoBehaviour
         MasteryManager.Instance.selectMasteryPanel.SetActive(false);
 
         // UpdateMap();
-
-        /*
-        int count = EnemyRunTimeSet.Items.Count;
-        for (int i = 0; i < count; i++)
-        {
-            EnemyRunTimeSet.Items[0].SetActive(false);
-            EnemyRunTimeSet.Remove(EnemyRunTimeSet.Items[0]);
-        }
-        */
-
+        
         enemyRunTimeSet.Clear();
-
         ObjectManager.Instance.DeactivateAll();
 
         DataManager.Instance.wakgoodItemInventory.Clear();
@@ -208,6 +199,6 @@ public class DebugManager
 
     public static void GetWeapon(int id)
     {
-        Wakgood.Instance.SwitchWeapon(DataManager.Instance.WeaponDic[id]);
+        Wakgood.Instance.SwitchWeapon(Wakgood.Instance.CurWeaponNumber, DataManager.Instance.WeaponDic[id]);
     }
 }
