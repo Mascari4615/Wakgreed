@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class WakgoodCollider : MonoBehaviour
 {
-    public Dictionary<int, InteractiveObject> NearInteractiveObjectDic { get; private set; } = new();
+    private readonly Dictionary<int, InteractiveObject> nearInteractiveObjectDic = new();
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -16,7 +17,7 @@ public class WakgoodCollider : MonoBehaviour
 
         else if (other.CompareTag("InteractiveObject"))
         {
-            if (!NearInteractiveObjectDic.ContainsKey(other.GetInstanceID())) NearInteractiveObjectDic.Add(other.GetInstanceID(), other.GetComponent<InteractiveObject>());
+            if (!nearInteractiveObjectDic.ContainsKey(other.GetInstanceID())) nearInteractiveObjectDic.Add(other.GetInstanceID(), other.GetComponent<InteractiveObject>());
             else Debug.LogError("ㅈ버그");
         }
     }
@@ -26,7 +27,21 @@ public class WakgoodCollider : MonoBehaviour
         if (!other.CompareTag("InteractiveObject"))
             return;
 
-        if (NearInteractiveObjectDic.ContainsKey(other.GetInstanceID())) NearInteractiveObjectDic.Remove(other.GetInstanceID());
+        if (nearInteractiveObjectDic.ContainsKey(other.GetInstanceID())) nearInteractiveObjectDic.Remove(other.GetInstanceID());
         else Debug.LogError("ㅈ버그");
+    }
+
+    public InteractiveObject GetNearestInteractiveObject()
+    {
+        InteractiveObject nearInteractiveObject = null;
+        float distance = float.MaxValue;
+        
+        foreach (InteractiveObject item in nearInteractiveObjectDic.Values.Where(item => Vector2.Distance(transform.position, item.transform.position) < distance))
+        {
+            nearInteractiveObject = item;
+            distance = Vector2.Distance(transform.position, item.transform.position);
+        }
+
+        return nearInteractiveObject;
     }
 }

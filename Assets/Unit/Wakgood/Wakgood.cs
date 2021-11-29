@@ -1,30 +1,25 @@
 using Cinemachine;
 using FMODUnity;
 using System.Collections;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 using TMPro;
+
+// Todo : 방종마다 강해지는 요소 > 방송용으로, 아무튼 클리어는 해야하니까
+// Todo : 인트로, 진짜 왁굳, 엔딩 크레딧
 
 public class Wakgood : MonoBehaviour, IHitable
 {
     public static Wakgood Instance { get; private set; }
 
     [SerializeField] private Wakdu wakdu;
-    [SerializeField] private IntVariable hpMax;
-    [SerializeField] private IntVariable hpCur;
-    [SerializeField] private GameEvent onDamage;
+    [SerializeField] private IntVariable exp, level;
+    [SerializeField] private IntVariable hpMax, hpCur;
     [SerializeField] private IntVariable powerInt;
     public TotalPower totalPower;
     public FloatVariable attackSpeed;
-    [SerializeField] private FloatVariable moveSpeed;
-    [SerializeField] private IntVariable exp;
-    private int requiredExp;
-    [SerializeField] private IntVariable level;
-    [SerializeField] private GameEvent onCollapse;
-    [SerializeField] private GameEvent onLevelUp;
-    [SerializeField] private FloatVariable evasion;
+    [SerializeField] private FloatVariable moveSpeed, evasion;
+    [SerializeField] private GameEvent onDamage, onCollapse, onLevelUp;
 
     private Transform attackPositionParent;
     public Transform AttackPosition { get; private set; }
@@ -39,25 +34,24 @@ public class Wakgood : MonoBehaviour, IHitable
 
     private Vector3 worldMousePoint;
 
-    private int CurWeaponNumber { get; set; } = 1;
+    public int CurWeaponNumber { get; private set; }
     public Weapon CurWeapon { get; private set; }
-    public Weapon Weapon1 {get; private set;}
-    public Weapon Weapon2 {get; private set;}
-    [SerializeField] private Weapon hochi;
-    [SerializeField] private Weapon hand;
-    
+    public Weapon[] Weapon { get; } = new Weapon[2];
+    [SerializeField] private Weapon hochi, hand;
+
     private static readonly int collapse = Animator.StringToHash("Collapse");
 
-    public bool IsSwitching { get; private set; } = false;
-    public bool IsCollapsed { get; private set; } = false;
+    public bool IsSwitching { get; private set; }
+    public bool IsCollapsed { get; private set; }
     [SerializeField] private BoolVariable isFocusOnSomething;
 
-    public GameObject Chat {get; private set;}
-    public TextMeshProUGUI ChatText {get; private set;}
+    public GameObject Chat { get; private set; }
+    public TextMeshProUGUI ChatText { get; private set; }
+
     private void Awake()
     {
         Instance = this;
-        
+
         // attackPosition.transform.position = new Vector3(0, attackPosGap, 0);
 
         attackPositionParent = transform.Find("AttackPosParent");
@@ -89,8 +83,7 @@ public class Wakgood : MonoBehaviour, IHitable
         powerInt.RuntimeValue = wakdu.basePower;
         attackSpeed.RuntimeValue = wakdu.baseAttackSpeed;
         moveSpeed.RuntimeValue = wakdu.baseMoveSpeed;
-        level.RuntimeValue = 0;
-        requiredExp = (100 * (1 + level.RuntimeValue));
+        level.RuntimeValue = 1;
         exp.RuntimeValue = 0;
         isHealthy = true;
         IsSwitching = false;
@@ -101,26 +94,16 @@ public class Wakgood : MonoBehaviour, IHitable
         if (WeaponPosition.childCount > 0) Destroy(WeaponPosition.GetChild(0).gameObject);
         if (CurWeapon != null) CurWeapon.OnRemove();
 
-        Weapon1 = hochi;
-        UIManager.Instance.weapon1Sprite.SetSlot(Weapon1);
-        UIManager.Instance.weapon1SkillQ.gameObject.SetActive(false);
-        if (Weapon1.skillQ) UIManager.Instance.weapon1SkillQ.SetSlot(Weapon1.skillQ);
-        UIManager.Instance.weapon1SkillE.gameObject.SetActive(false);
-        if (Weapon1.skillE) UIManager.Instance.weapon1SkillE.SetSlot(Weapon1.skillE);
+        UIManager.Instance.SetWeaponUI(0, Weapon[0] = hochi);
+        UIManager.Instance.SetWeaponUI(1, Weapon[1] = hand);
 
-        Weapon2 = hand;
-        UIManager.Instance.weapon2Sprite.SetSlot(Weapon2);
-        UIManager.Instance.weapon2SkillQ.gameObject.SetActive(false);
-        if (Weapon2.skillQ) UIManager.Instance.weapon2SkillQ.SetSlot(Weapon2.skillQ);
-        UIManager.Instance.weapon2SkillE.gameObject.SetActive(false);
-        if (Weapon2.skillE) UIManager.Instance.weapon2SkillE.SetSlot(Weapon2.skillE);
-
-        if (CurWeaponNumber != 1)
+        if (CurWeaponNumber != 0)
         {
-            CurWeaponNumber = 1;
+            CurWeaponNumber = 0;
             UIManager.Instance.StartCoroutine(UIManager.Instance.SwitchWeapon());
         }
-        CurWeapon = Weapon1;
+
+        CurWeapon = Weapon[0];
         CurWeapon.OnEquip();
         Instantiate(CurWeapon.resource, WeaponPosition);
 
@@ -134,126 +117,65 @@ public class Wakgood : MonoBehaviour, IHitable
     {
         if (Time.timeScale == 0 || IsCollapsed) return;
 
-        spriteRenderer.color = isHealthy == true ? Color.white : new Color(1, 1, 1, (float)100 / 255);
+        spriteRenderer.color = isHealthy ? Color.white : new Color(1, 1, 1, (float)100 / 255);
+        if (!isFocusOnSomething.RuntimeValue) return;
+
         spriteRenderer.flipX = transform.position.x > worldMousePoint.x;
         worldMousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (!isFocusOnSomething.RuntimeValue)
-        {
-            if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject()) CurWeapon.BaseAttack();
-            if (Input.GetKeyDown(KeyCode.Q)) CurWeapon.SkillQ();
-            if (Input.GetKeyDown(KeyCode.E)) CurWeapon.SkillE();
-            if (Input.GetKeyDown(KeyCode.R)) CurWeapon.Reload();
+        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject()) CurWeapon.BaseAttack();
+        else if (Input.GetKeyDown(KeyCode.Q)) CurWeapon.SkillQ();
+        else if (Input.GetKeyDown(KeyCode.E)) CurWeapon.SkillE();
+        else if (Input.GetKeyDown(KeyCode.R)) CurWeapon.Reload();
+        else if (Input.GetKeyDown(KeyCode.F)) wakgoodCollider.GetNearestInteractiveObject().Interaction();
 
-            if (Input.GetAxisRaw("Mouse ScrollWheel") != 0) SwitchCurWeapon();
-            else if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchCurWeapon(1);
-            else if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchCurWeapon(2);
+        if (Input.GetAxisRaw("Mouse ScrollWheel") != 0) SwitchWeapon();
+        else if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchWeapon(0);
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchWeapon(1);
 
-            if (Input.GetKeyDown(KeyCode.F) && wakgoodCollider.NearInteractiveObjectDic.Count != 0)
-            {
-                InteractiveObject nearInteractiveObject = null;
-                float distance = float.MaxValue;
-                foreach (InteractiveObject item in wakgoodCollider.NearInteractiveObjectDic.Values.Where(item => Vector2.Distance(transform.position, item.transform.position) < distance))
-                {
-                    nearInteractiveObject = item;
-                    distance = Vector2.Distance(transform.position, item.transform.position);
-                }
-                nearInteractiveObject.Interaction();
-            }
-        }
-        attackPositionParent.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(worldMousePoint.y - (transform.position.y + 0.8f), worldMousePoint.x - transform.position.x) * Mathf.Rad2Deg - 90);
+        attackPositionParent.transform.rotation = Quaternion.Euler(0, 0,
+            Mathf.Atan2(worldMousePoint.y - (transform.position.y + 0.8f), worldMousePoint.x - transform.position.x) *
+            Mathf.Rad2Deg - 90);
 
         if (transform.position.x < worldMousePoint.x)
         {
             WeaponPosition.localScale = Vector3.one;
             WeaponPosition.localPosition = new Vector3(.3f, .5f, 0);
-            WeaponPosition.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(worldMousePoint.y - WeaponPosition.position.y, worldMousePoint.x - WeaponPosition.position.x) * Mathf.Rad2Deg);
+            WeaponPosition.rotation = Quaternion.Euler(0, 0,
+                Mathf.Atan2(worldMousePoint.y - WeaponPosition.position.y,
+                    worldMousePoint.x - WeaponPosition.position.x) * Mathf.Rad2Deg);
         }
         else
         {
             WeaponPosition.localScale = new Vector3(-1, 1, 1);
             WeaponPosition.localPosition = new Vector3(-.3f, .5f, 0);
-            WeaponPosition.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(WeaponPosition.position.y - worldMousePoint.y, WeaponPosition.position.x - worldMousePoint.x) * Mathf.Rad2Deg);
+            WeaponPosition.rotation = Quaternion.Euler(0, 0,
+                Mathf.Atan2(WeaponPosition.position.y - worldMousePoint.y,
+                    WeaponPosition.position.x - worldMousePoint.x) * Mathf.Rad2Deg);
         }
     }
 
-    private void SwitchCurWeapon(int targetWeaponNumber = 0)
+    private void SwitchWeapon() => SwitchWeapon(CurWeaponNumber == 0 ? 1 : 0);
+
+    public void SwitchWeapon(int targetWeaponNum, Weapon targetWeapon = null)
     {
         if (IsSwitching) return;
         IsSwitching = true;
+        StartCoroutine(TtmdaclExtension.ChangeWithDelay(false, .25f, value => IsSwitching = value));
+        
+        CurWeapon.OnRemove();
+        Destroy(WeaponPosition.GetChild(0).gameObject);
 
+        CurWeaponNumber = targetWeaponNum;
+        if (targetWeapon != null)
+            Weapon[targetWeaponNum] = targetWeapon;
+        CurWeapon = Weapon[targetWeaponNum];
+
+        Instantiate(CurWeapon.resource, WeaponPosition);
+        CurWeapon.OnEquip();
+        
+        UIManager.Instance.SetWeaponUI(CurWeaponNumber, Weapon[CurWeaponNumber]);
         UIManager.Instance.StartCoroutine(UIManager.Instance.SwitchWeapon());
-
-        CurWeapon.OnRemove();
-        Destroy(WeaponPosition.GetChild(0).gameObject);
-
-        switch (targetWeaponNumber)
-        {
-            // 스크롤 스위칭
-            case 0 when CurWeaponNumber == 1:
-                CurWeaponNumber = 2; CurWeapon = Weapon2;
-                break;
-            case 0:
-                {
-                    if (CurWeaponNumber == 2) { CurWeaponNumber = 1; CurWeapon = Weapon1; }
-
-                    break;
-                }
-            // 넘버 스위칭
-            case 1:
-                CurWeaponNumber = 1; CurWeapon = Weapon1;
-                break;
-            case 2:
-                CurWeaponNumber = 2; CurWeapon = Weapon2;
-                break;
-        }
-
-        Instantiate(CurWeapon.resource, WeaponPosition);
-        CurWeapon.OnEquip();
-
-        StartCoroutine(TtmdaclExtension.ChangeWithDelay(false, .25f, value => IsSwitching = value));
-    }
-
-    public void SwitchWeapon(Weapon targetWeapon)
-    {
-        if (IsSwitching) return;
-        IsSwitching = true;
-
-        CurWeapon.OnRemove();
-        Destroy(WeaponPosition.GetChild(0).gameObject);
-
-        switch (CurWeaponNumber)
-        {
-            case 1:
-                {
-                    Weapon1 = targetWeapon;
-                    CurWeapon = Weapon1;
-
-                    UIManager.Instance.weapon1Sprite.SetSlot(Weapon1);
-                    UIManager.Instance.weapon1SkillQ.gameObject.SetActive(Weapon1.skillQ);
-                    if (Weapon1.skillQ) UIManager.Instance.weapon1SkillQ.SetSlot(Weapon1.skillQ);
-                    UIManager.Instance.weapon1SkillE.gameObject.SetActive(Weapon1.skillE);
-                    if (Weapon1.skillE) UIManager.Instance.weapon1SkillE.SetSlot(Weapon1.skillE);
-                    break;
-                }
-            case 2:
-                {
-                    Weapon2 = targetWeapon;
-                    CurWeapon = Weapon2;
-
-                    UIManager.Instance.weapon2Sprite.SetSlot(Weapon2);
-                    UIManager.Instance.weapon2SkillQ.gameObject.SetActive(Weapon2.skillQ);
-                    if (Weapon2.skillQ) UIManager.Instance.weapon2SkillQ.SetSlot(Weapon2.skillQ);
-                    UIManager.Instance.weapon2SkillE.gameObject.SetActive(Weapon2.skillE);
-                    if (Weapon2.skillE) UIManager.Instance.weapon2SkillE.SetSlot(Weapon2.skillE);
-                    break;
-                }
-        }
-
-        Instantiate(CurWeapon.resource, WeaponPosition);
-        CurWeapon.OnEquip();
-
-        StartCoroutine(TtmdaclExtension.ChangeWithDelay(false, .25f, value => IsSwitching = value));
     }
 
     public void ReceiveHit(int damage)
@@ -266,25 +188,25 @@ public class Wakgood : MonoBehaviour, IHitable
         if (evasion.RuntimeValue >= Random.Range(1, 100 + 1))
         {
             RuntimeManager.PlayOneShot($"event:/SFX/Wakgood/Evasion", transform.position);
-            ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>().SetText("MISS", TextType.Critical);
+            ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>()
+                .SetText("MISS", TextType.Critical);
         }
         else
         {
             RuntimeManager.PlayOneShot($"event:/SFX/Wakgood/Ahya", transform.position);
-
-            hpCur.RuntimeValue -= damage;
             onDamage.Raise();
 
-            isHealthy = false;
-            StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, .8f, value => isHealthy = value));
-
-            if (hpCur.RuntimeValue > 0)
+            if ((hpCur.RuntimeValue -= damage) > 0)
             {
-                return;
+                isHealthy = false;
+                StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, .8f, value => isHealthy = value));
             }
-
-            StopAllCoroutines();
-            StartCoroutine(Collapse());
+            else
+            {
+                hpCur.RuntimeValue = 0;
+                StopAllCoroutines();
+                StartCoroutine(Collapse());
+            }
         }
     }
 
@@ -296,17 +218,20 @@ public class Wakgood : MonoBehaviour, IHitable
         }
 
         hpCur.RuntimeValue += amount;
-        ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>().SetText(amount.ToString(), TextType.Heal);
+        ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>()
+            .SetText(amount.ToString(), TextType.Heal);
     }
 
     private IEnumerator Collapse()
     {
         wakgoodMove.StopAllCoroutines();
+
         IsCollapsed = true;
-        GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-        GetComponent<Animator>().SetTrigger(collapse);
-        wakgoodCollider.enabled = false;
+        wakgoodMove.PlayerRb.bodyType = RigidbodyType2D.Static;
+        wakgoodMove.Animator.SetTrigger(collapse);
         wakgoodMove.enabled = false;
+        wakgoodCollider.enabled = false;
+
         yield return new WaitForSeconds(2f);
         onCollapse.Raise();
         enabled = false;
@@ -314,7 +239,7 @@ public class Wakgood : MonoBehaviour, IHitable
 
     public void CheckCanLevelUp()
     {
-        if (exp.RuntimeValue >= requiredExp) LevelUp();
+        if (exp.RuntimeValue >= 100 * level.RuntimeValue) LevelUp();
     }
 
     private void LevelUp()
@@ -323,12 +248,17 @@ public class Wakgood : MonoBehaviour, IHitable
         powerInt.RuntimeValue += wakdu.growthPower;
         attackSpeed.RuntimeValue += wakdu.growthAttackSpeed;
 
-        exp.RuntimeValue -= requiredExp;
+        exp.RuntimeValue -= 100 * level.RuntimeValue;
         level.RuntimeValue++;
-        requiredExp = (100 * (1 + level.RuntimeValue));
         onLevelUp.Raise();
 
         ObjectManager.Instance.PopObject("LevelUpEffect", transform);
-        ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>().SetText("Level Up!", TextType.Critical);
+        ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>()
+            .SetText("Level Up!", TextType.Critical);
+    }
+
+    public void SetRigidBodyType(RigidbodyType2D rigidbodyType2D)
+    {
+        wakgoodMove.PlayerRb.bodyType = rigidbodyType2D;
     }
 }

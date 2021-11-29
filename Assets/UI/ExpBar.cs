@@ -4,13 +4,11 @@ using TMPro;
 
 public class ExpBar : MonoBehaviour
 {
-    [SerializeField] private IntVariable travellerEXP;
-    [SerializeField] private IntVariable travellerLevel;
-    [SerializeField] private Image expBarImage;
-    [SerializeField] private TextMeshProUGUI expTextField;
-    [SerializeField] private TextMeshProUGUI levelTextField; 
+    [SerializeField] private IntVariable exp, level;
+    [SerializeField] private Image bar;
+    [SerializeField] private TextMeshProUGUI expTextField, levelTextField; 
 
-    private void Awkae()
+    private void Awake()
     {
         SetExpBar();
         SetLevelText();
@@ -18,12 +16,12 @@ public class ExpBar : MonoBehaviour
 
     public void SetExpBar()
     {
-        expBarImage.fillAmount = (float)travellerEXP.RuntimeValue / (100 * (1 + travellerLevel.RuntimeValue));
-        expTextField.text = Mathf.Floor((float)travellerEXP.RuntimeValue / (100 * (1 + travellerLevel.RuntimeValue)) * 100) + "%";
+        bar.fillAmount = (float)exp.RuntimeValue / (100 * level.RuntimeValue);
+        expTextField.SetText((Mathf.Floor((float)exp.RuntimeValue / (100 * level.RuntimeValue) * 100) + "%"));
     }
 
     public void SetLevelText()
     {
-        levelTextField.text = $"Lv. {travellerLevel.RuntimeValue}";
+        levelTextField.SetText($"Lv. {level.RuntimeValue}");
     }
 }
