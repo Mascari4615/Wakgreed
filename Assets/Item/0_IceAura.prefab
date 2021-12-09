@@ -56,7 +56,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -115,9 +115,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canDamageWakgood: 0
-  canDamageMonster: 1
-  totalAD: {fileID: 11400000, guid: 0326d210993f63442a9733c8a569e3ec, type: 2}
+  canDamageMob: 1
+  totalPower: {fileID: 0}
   criticalChance: {fileID: 11400000, guid: 300f8b12c04c18a45a8f73a08c3ab38b, type: 2}
+  criticalDamagePer: {fileID: 0}
   damage: 1
   offOnHit: 0
   ggambbakDelay: 0.5
@@ -149,4 +150,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 022df02562d61814b8b27c7ed5c6b3b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnMonsterKill: {fileID: 0}
+  onMonsterKill: {fileID: 0}

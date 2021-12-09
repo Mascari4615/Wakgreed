@@ -40,6 +40,11 @@ public class GameManager : MonoBehaviour
     private static readonly int @out = Animator.StringToHash("OUT");
     private static readonly int @in = Animator.StringToHash("IN");
 
+    [SerializeField] private GameObject endingGameObject;
+    [SerializeField] private GameObject endingPanel;
+    [SerializeField] private Animator endingAnimator;
+    private bool clickRecall;
+
     private void Awake()
     {
         Application.targetFrameRate = 60;
@@ -112,17 +117,26 @@ public class GameManager : MonoBehaviour
         undo.SetActive(false);
         StageManager.Instance.GenerateStage();
     }
+    
+    public void ClickRecall() => clickRecall = true;
 
     // OnCollapse GameEvent로 호출
-    public void GameOver()
-    {
-        gamePanel.SetActive(false);
-        gameResultPanel.SetActive(true);
-    }
-    
     // Todo : 귀환 할 때에도 결과 창 나오도록
-    public void Recall()
+    public void GameOverAndRecall() => StartCoroutine(_GameOverAndRecall());
+
+    private IEnumerator _GameOverAndRecall()
     {
+        Wakgood.Instance.gameObject.SetActive(false);
+        Time.timeScale = 1;
+        gamePanel.SetActive(false);
+        pausePanel.SetActive(false);
+        gameResultPanel.SetActive(true);
+
+        while (clickRecall == false) yield return null;
+        clickRecall = false;
+        
+        gamePanel.SetActive(true);
+        
         onRecall.Raise();
         isGaming.RuntimeValue = false;
         isFighting.RuntimeValue = false;
@@ -187,6 +201,18 @@ public class GameManager : MonoBehaviour
     {
         StopCoroutine(nameof(RoomClearSpeedWagon));
         roomClearSpeedWagon.SetActive(false);
+    }
+
+    public IEnumerator Ending()
+    {
+        endingGameObject.SetActive(true);
+        endingPanel.SetActive(true);
+
+        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(endingAnimator.GetCurrentAnimatorStateInfo(0).length);
+        
+        endingGameObject.SetActive(false);
+        endingPanel.SetActive(false);
     }
 }
 
