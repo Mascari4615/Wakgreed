@@ -418,9 +418,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canDamageWakgood: 0
-  canDamageMonster: 0
-  totalAD: {fileID: 0}
+  canDamageMob: 0
+  totalPower: {fileID: 0}
   criticalChance: {fileID: 0}
+  criticalDamagePer: {fileID: 0}
   damage: 0
   offOnHit: 1
   ggambbakDelay: 0
@@ -501,6 +502,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 8633538259678075036}
     m_Modifications:
     - target: {fileID: 893357815935375099, guid: 3054d4efd9e9f024896d0c6ab829f790,
@@ -614,6 +616,7 @@ PrefabInstance:
       value: Mob_Canvas
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 3054d4efd9e9f024896d0c6ab829f790, type: 3}
 --- !u!224 &3183973212305557381 stripped
 RectTransform:

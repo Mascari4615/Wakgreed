@@ -690,7 +690,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1185,17 +1185,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wakdu: {fileID: 11400000, guid: 6fae4d6446cc5a24ba764e3141f9592e, type: 2}
-  hpMax: {fileID: 11400000, guid: b28d195b2423d0344a37d3aa321a61f1, type: 2}
-  hpCur: {fileID: 11400000, guid: 87e24a6bb0485bb43bf414a2be282fe6, type: 2}
-  onDamage: {fileID: 11400000, guid: 5192cc26768a1974fa631e81a4b5a319, type: 2}
-  powerInt: {fileID: 11400000, guid: 78641f81562c8ca419aba38ff53f07ca, type: 2}
-  attackSpeed: {fileID: 11400000, guid: 320dd9e1a35eb354ba45330eb0aaaa6d, type: 2}
-  moveSpeed: {fileID: 11400000, guid: ab222d65ff7ce974fa0c23c97750945f, type: 2}
   exp: {fileID: 11400000, guid: 17f006d9f52da1d47bf33575680fcc1b, type: 2}
   level: {fileID: 11400000, guid: 4a71ab267992a93479cfd1a716594562, type: 2}
+  hpMax: {fileID: 11400000, guid: b28d195b2423d0344a37d3aa321a61f1, type: 2}
+  hpCur: {fileID: 11400000, guid: 87e24a6bb0485bb43bf414a2be282fe6, type: 2}
+  powerInt: {fileID: 11400000, guid: 78641f81562c8ca419aba38ff53f07ca, type: 2}
+  totalPower: {fileID: 0}
+  attackSpeed: {fileID: 11400000, guid: 320dd9e1a35eb354ba45330eb0aaaa6d, type: 2}
+  moveSpeed: {fileID: 11400000, guid: ab222d65ff7ce974fa0c23c97750945f, type: 2}
+  evasion: {fileID: 11400000, guid: 94c9fcb6a039eaa45bea8b541fcf3a4a, type: 2}
+  onDamage: {fileID: 11400000, guid: 5192cc26768a1974fa631e81a4b5a319, type: 2}
   onCollapse: {fileID: 11400000, guid: fe1091c644e3ead409241a61978b243a, type: 2}
   onLevelUp: {fileID: 11400000, guid: 42476068b34aa7c4aa6cb152cd3b3ac9, type: 2}
-  evasion: {fileID: 11400000, guid: 94c9fcb6a039eaa45bea8b541fcf3a4a, type: 2}
   hochi: {fileID: 11400000, guid: 6f0c64661c1a3f0478ff1675dac49c9e, type: 2}
   hand: {fileID: 11400000, guid: 6030eff9fbb2ddc4098e06e8ac949622, type: 2}
   isFocusOnSomething: {fileID: 11400000, guid: 09c5c35381403234b99f53accc0b3cdc, type: 2}

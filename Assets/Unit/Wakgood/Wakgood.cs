@@ -118,7 +118,7 @@ public class Wakgood : MonoBehaviour, IHitable
         if (Time.timeScale == 0 || IsCollapsed) return;
 
         spriteRenderer.color = isHealthy ? Color.white : new Color(1, 1, 1, (float)100 / 255);
-        if (!isFocusOnSomething.RuntimeValue) return;
+        if (isFocusOnSomething.RuntimeValue) return;
 
         spriteRenderer.flipX = transform.position.x > worldMousePoint.x;
         worldMousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
