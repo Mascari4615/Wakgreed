@@ -123,11 +123,13 @@ public class Wakgood : MonoBehaviour, IHitable
         spriteRenderer.flipX = transform.position.x > worldMousePoint.x;
         worldMousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
+        Debug.Log(EventSystem.current.IsPointerOverGameObject());
+
         if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject()) CurWeapon.BaseAttack();
         else if (Input.GetKeyDown(KeyCode.Q)) CurWeapon.SkillQ();
         else if (Input.GetKeyDown(KeyCode.E)) CurWeapon.SkillE();
         else if (Input.GetKeyDown(KeyCode.R)) CurWeapon.Reload();
-        else if (Input.GetKeyDown(KeyCode.F)) wakgoodCollider.GetNearestInteractiveObject().Interaction();
+        else if (Input.GetKeyDown(KeyCode.F)) wakgoodCollider.GetNearestInteractiveObject()?.Interaction();
 
         if (Input.GetAxisRaw("Mouse ScrollWheel") != 0) SwitchWeapon();
         else if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchWeapon(0);
