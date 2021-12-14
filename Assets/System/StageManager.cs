@@ -240,6 +240,7 @@ public class StageManager : MonoBehaviour
                 targetRoomUI.GetComponent<Image>().enabled = false;
                 targetRoomUI.GetChild(0).gameObject.SetActive(false); // Door
                 targetRoomUI.GetChild(1).gameObject.SetActive(false); // Property
+                targetRoomUI.GetChild(2).gameObject.SetActive(false); // Icon
 
                 if (roomDic.ContainsKey(targetRoomCoordinate))
                 {
@@ -252,11 +253,10 @@ public class StageManager : MonoBehaviour
                     temp.GetChild(3).gameObject.SetActive(targetRoom.IsConnectToNearbyRoom[3]); // Door\Right
                     temp = targetRoomUI.GetChild(1); // Property
                     temp.GetChild(0).GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f); // Property\CurrentRoom
-                    temp = temp.GetChild(2); // Icon
-                    temp.GetChild(0).gameObject.SetActive(targetRoom.roomType == RoomType.Boss); // Property\Icon\Boss
-                    temp.GetChild(1).gameObject.SetActive(targetRoom.roomType == RoomType.Spawn); // Property\Icon\Spawn
-                    temp.GetChild(2).gameObject.SetActive(targetRoom.roomType == RoomType.Shop); // Property\Icon\Shop
-                    temp.GetChild(2).gameObject.SetActive(targetRoom.roomType == RoomType.Shop); // Property\Icon\Shop
+                    temp = targetRoomUI.GetChild(2); // Icon
+                    temp.GetChild(0).gameObject.SetActive(targetRoom is SpawnRoom);   // Property\Icon\Spawn
+                    temp.GetChild(1).gameObject.SetActive(targetRoom is BossRoom);    // Property\Icon\Boss
+                    temp.GetChild(2).gameObject.SetActive(targetRoom is ShopRoom);  // Property\Icon\Shop
                 }
 
                 x++;
@@ -282,6 +282,7 @@ public class StageManager : MonoBehaviour
         roomUiDic[CurrentRoom.Coordinate].GetComponent<Image>().enabled = true;
         roomUiDic[CurrentRoom.Coordinate].GetChild(0).gameObject.SetActive(true); // Door
         roomUiDic[CurrentRoom.Coordinate].GetChild(1).gameObject.SetActive(true); // Property
+        roomUiDic[CurrentRoom.Coordinate].GetChild(2).gameObject.SetActive(true); // Icon
         roomUiDic[CurrentRoom.Coordinate].GetChild(1).GetChild(0).GetComponent<Image>().color = new Color(0f / 255f, 200f / 255f, 255f / 255f); // Property\CurrentRoom
     }
 

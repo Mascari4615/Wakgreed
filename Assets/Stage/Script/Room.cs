@@ -1,19 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public enum RoomType
-{
-    Spawn,
-    Portal,
-    Boss,
-    Shop,
-    Interaction,
-    Normal
-}
-
 public abstract class Room : MonoBehaviour
 {
-    [HideInInspector] public RoomType roomType = RoomType.Normal;
     public Vector2 Coordinate { get; private set; }
     public bool IsVisited { get; protected set; } = false;
     public bool[] IsConnectToNearbyRoom { get; private set; } = { false, false, false, false };

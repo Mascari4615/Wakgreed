@@ -28,7 +28,7 @@ public class Chest : InteractiveObject
 
     private void OnEnable()
     {
-        spriteRenderer.sprite = sprite;
+        // spriteRenderer.sprite = sprite;
         objectWithDuration.enabled = false;
         boxCollider2D.enabled = true;
 

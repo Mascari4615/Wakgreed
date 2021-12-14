@@ -21,9 +21,11 @@ public class ToolTipManager : MonoBehaviour
 
     public void Show(Sprite sprite, string header, string description)
     {
-        toolTip.gameObject.SetActive(true);
         toolTip.SetToolTip(sprite, header, description);
-        toolTip.transform.position = new Vector3(Mathf.Clamp(Input.mousePosition.x, toolTipWidth / 2, Screen.width - toolTipWidth / 2), Input.mousePosition.y, 0);
+        toolTip.transform.position = new Vector3(
+                Mathf.Clamp(Input.mousePosition.x, toolTipWidth / 2 + ToolTipPadding, Screen.width - toolTipWidth / 2 - ToolTipPadding),
+                Mathf.Clamp(Input.mousePosition.y + 100, toolTipHeight / 2 + ToolTipPadding - toolTipFloatAmount, Screen.height - toolTipHeight / 2 - ToolTipPadding - toolTipFloatAmount), 0);
+        toolTip.gameObject.SetActive(true);
     }
 
     private void Update()
@@ -32,7 +34,7 @@ public class ToolTipManager : MonoBehaviour
         {
             toolTip.transform.position = new Vector3(
                 Mathf.Clamp(Input.mousePosition.x, toolTipWidth / 2 + ToolTipPadding, Screen.width - toolTipWidth / 2 - ToolTipPadding),
-                Mathf.Clamp(Input.mousePosition.y, toolTipHeight / 2 + ToolTipPadding - toolTipFloatAmount, Screen.height - toolTipHeight / 2 - ToolTipPadding - toolTipFloatAmount), 0);
+                Mathf.Clamp(Input.mousePosition.y + 100, toolTipHeight / 2 + ToolTipPadding - toolTipFloatAmount, Screen.height - toolTipHeight / 2 - ToolTipPadding - toolTipFloatAmount) , 0);
         }
     }
 

@@ -86,7 +86,7 @@ public abstract class Monster : MonoBehaviour, IHitable
         Animator.SetTrigger(collapse);
         GameManager.Instance.enemyRunTimeSet.Remove(gameObject);
 
-        if (StageManager.Instance.CurrentRoom.roomType == RoomType.Normal)
+        if (StageManager.Instance.CurrentRoom is NormalRoom)
         {
             onMonsterCollapse.Raise(transform);
             int randCount = Random.Range(0, 5);
