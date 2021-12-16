@@ -7,24 +7,31 @@ using UnityEngine;
 
 public abstract class NPC : InteractiveObject
 {
-    [TextArea] [SerializeField] private List<string> comment;
-    protected CinemachineVirtualCamera cinemachineVirtualCamera;
+    [TextArea] [SerializeField] private List<string> firstComment;
+    protected CinemachineVirtualCamera cvm1;
+    [TextArea] [SerializeField] private List<string> randomComment;
+    protected CinemachineVirtualCamera cvm2;
     protected GameObject ui;
     protected GameObject chat;
+    protected bool canOpenUI = true;
     private TextMeshProUGUI chatText;
-    private CinemachineTargetGroup cinemachineTargetGroup;
-    private bool isTalking, inputSkip;
-    private WaitForSeconds ws005 = new(0.05f);
-    private WaitForSeconds ws02 = new(0.2f);
+    protected CinemachineTargetGroup cinemachineTargetGroup;
+    private bool isFirstTalking = true, isTalking, inputSkip;
+    private readonly WaitForSeconds ws005 = new(0.05f);
+    private readonly WaitForSeconds ws02 = new(0.2f);
+    [SerializeField] private BoolVariable isShowingSomething;
+    protected Animator animator;
 
-    private void Awake()
+    protected virtual void Awake()
     {
-        cinemachineVirtualCamera = transform.Find("CM").GetComponent<CinemachineVirtualCamera>();
+        cvm1 = transform.Find("CM").GetComponent<CinemachineVirtualCamera>();
+        cvm2 = transform.Find("CM2").GetComponent<CinemachineVirtualCamera>();
         ui = transform.Find("CustomUI").gameObject;
         chat = transform.Find("DefaultUI").Find("Chat").gameObject;
         chatText = chat.transform.GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>();
-        cinemachineVirtualCamera.Follow = GameObject.Find("CM TargetGroup").transform;
-        cinemachineTargetGroup = GameObject.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>();
+        cvm1.Follow = GameObject.Find("Cameras").transform.GetChild(3);
+        cinemachineTargetGroup = GameObject.Find("Cameras").transform.GetChild(3).GetComponent<CinemachineTargetGroup>();
+        animator = GetComponent<Animator>();
     }
 
     public override void Interaction()
@@ -34,6 +41,7 @@ public abstract class NPC : InteractiveObject
             return;
         }
 
+        isShowingSomething.RuntimeValue = true;
         isTalking = true;
         inputSkip = false;
 
@@ -50,13 +58,30 @@ public abstract class NPC : InteractiveObject
         
         cinemachineTargetGroup.m_Targets[1].target = null;
         cinemachineTargetGroup.m_Targets[1].weight = 1;
-        cinemachineVirtualCamera.Priority = -100;
+        cvm1.Priority = -100;
+        cvm2.Priority = -100;
         ui.SetActive(false);
         chat.SetActive(false);
 
         StopAllCoroutines();
         isTalking = false;
         inputSkip = false;
+        isShowingSomething.RuntimeValue = false;
+    }
+
+    public void FocusOff()
+    {
+        cinemachineTargetGroup.m_Targets[1].target = null;
+        cinemachineTargetGroup.m_Targets[1].weight = 1;
+        cvm1.Priority = -100;
+        cvm2.Priority = -100;
+        ui.SetActive(false);
+        chat.SetActive(false);
+
+        StopAllCoroutines();
+        isTalking = false;
+        inputSkip = false;
+        isShowingSomething.RuntimeValue = false;
     }
 
     private IEnumerator OnType()
@@ -64,12 +89,25 @@ public abstract class NPC : InteractiveObject
         cinemachineTargetGroup.m_Targets[1].target = transform;
         cinemachineTargetGroup.m_Targets[1].weight = 5;
         //GameObject.Find("CM Camera").GetComponent<CinemachineVirtualCamera>().m_Lens.OrthographicSize = 9;
-        cinemachineVirtualCamera.Priority = 200;
-        
-        if (comment.Count > 0)
+        cvm1.Priority = 200;
+
+        List<string> tempComment;
+
+        if (isFirstTalking)
+        {
+            isFirstTalking = false;
+            tempComment = firstComment;
+        }
+        else
+        {
+            tempComment = new List<string>(1);
+            tempComment.Add(randomComment[Random.Range(0, randomComment.Count)]);
+        }
+
+        if (tempComment.Count > 0)
         {
             chat.SetActive(true);
-            foreach (string t in comment)
+            foreach (string t in tempComment)
             {
                 chatText.text = "";
 
@@ -102,10 +140,18 @@ public abstract class NPC : InteractiveObject
         
         cinemachineTargetGroup.m_Targets[1].target = null;
         cinemachineTargetGroup.m_Targets[1].weight = 1;
-        cinemachineVirtualCamera.Priority = -100;
+        cvm1.Priority = -100;
         isTalking = false;
         
-        ui.SetActive(ui.activeSelf == false);
+        if (canOpenUI)
+        {
+            ui.SetActive(true);
+            cvm2.Priority = 300;
+        }
+        else
+        {
+            FocusOff();
+        }
     }
 
     private IEnumerator CheckSkipInput()
