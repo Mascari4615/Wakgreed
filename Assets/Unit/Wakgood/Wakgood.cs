@@ -131,7 +131,7 @@ public class Wakgood : MonoBehaviour, IHitable
         else if (Input.GetKeyDown(KeyCode.R)) CurWeapon.Reload();
         else if (Input.GetKeyDown(KeyCode.F)) wakgoodCollider.GetNearestInteractiveObject()?.Interaction();
 
-        if (Input.GetAxisRaw("Mouse ScrollWheel") != 0) SwitchWeapon();
+        if (Input.GetAxisRaw("Mouse ScrollWheel") != 0) SwitchWeapon(CurWeaponNumber == 0 ? 1 : 0);
         else if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchWeapon(0);
         else if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchWeapon(1);
 
@@ -157,14 +157,12 @@ public class Wakgood : MonoBehaviour, IHitable
         }
     }
 
-    private void SwitchWeapon() => SwitchWeapon(CurWeaponNumber == 0 ? 1 : 0);
-
     public void SwitchWeapon(int targetWeaponNum, Weapon targetWeapon = null)
     {
         if (IsSwitching) return;
         IsSwitching = true;
         StartCoroutine(TtmdaclExtension.ChangeWithDelay(false, .25f, value => IsSwitching = value));
-        
+
         CurWeapon.OnRemove();
         Destroy(WeaponPosition.GetChild(0).gameObject);
 
@@ -175,9 +173,15 @@ public class Wakgood : MonoBehaviour, IHitable
 
         Instantiate(CurWeapon.resource, WeaponPosition);
         CurWeapon.OnEquip();
-        
-        UIManager.Instance.SetWeaponUI(CurWeaponNumber, Weapon[CurWeaponNumber]);
-        UIManager.Instance.StartCoroutine(UIManager.Instance.SwitchWeapon());
+
+        if (targetWeapon != null)
+        { 
+            UIManager.Instance.SetWeaponUI(CurWeaponNumber, Weapon[CurWeaponNumber]);
+        }
+        else
+        {
+            UIManager.Instance.StartCoroutine(UIManager.Instance.SwitchWeapon());
+        }
     }
 
     public void ReceiveHit(int damage)

@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private BoolVariable isFocusOnSomething;
     [SerializeField] private BoolVariable isLoading;
     [SerializeField] private BoolVariable isChatting;
+    [SerializeField] private BoolVariable isShowingSomething;
 
     [SerializeField] private GameEvent onRecall;
     [SerializeField] private BuffRunTimeSet buffRunTimeSet;
@@ -78,7 +79,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        isFocusOnSomething.RuntimeValue = (isChatting.RuntimeValue || isLoading.RuntimeValue);
+        isFocusOnSomething.RuntimeValue = (isChatting.RuntimeValue || isLoading.RuntimeValue || isShowingSomething.RuntimeValue);
 
         if (Input.GetKeyDown(KeyCode.Escape) && !isLoading.RuntimeValue)
         {

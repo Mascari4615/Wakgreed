@@ -71,15 +71,33 @@ public class UIManager : MonoBehaviour
                 Wakgood.Instance.Weapon[1].CurSkillECoolTime / Wakgood.Instance.Weapon[1].skillE.coolTime;
     }
 
-    public IEnumerator SpeedWagon_Boss(GameObject boss)
+    public IEnumerator SpeedWagon_BossOn(BossMonster boss)
     {
         cinemachineTargetGroup.m_Targets[0].target = boss.transform;
         Wakgood.Instance.SetRigidBodyType(RigidbodyType2D.Static);
-        bossSpeedWagon.gameObject.SetActive(true);
+        bossSpeedWagon.SetActive(true);
 
         yield return new WaitForSeconds(3f);
 
-        bossSpeedWagon.gameObject.SetActive(false);
+        bossSpeedWagon.SetActive(false);
+        Wakgood.Instance.SetRigidBodyType(RigidbodyType2D.Dynamic);
+        cinemachineTargetGroup.m_Targets[0].target = Wakgood.Instance.transform;
+
+        bossHpBar.HpBarOn(boss);
+    }
+
+    public IEnumerator SpeedWagon_BossOff(BossMonster boss)
+    {
+        bossHpBar.HpBarOff();
+
+        cinemachineTargetGroup.m_Targets[0].target = boss.transform;
+        Time.timeScale = 0.3f;
+
+        Wakgood.Instance.SetRigidBodyType(RigidbodyType2D.Static);
+
+        yield return new WaitForSecondsRealtime(3f);
+
+        Time.timeScale = 1;
         Wakgood.Instance.SetRigidBodyType(RigidbodyType2D.Dynamic);
         cinemachineTargetGroup.m_Targets[0].target = Wakgood.Instance.transform;
     }

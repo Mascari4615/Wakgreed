@@ -11,8 +11,6 @@ public class RealWakgood : BossMonster
     
     protected override IEnumerator Collapse()
     {        
-        UIManager.Instance.bossHpBar.HpBarOff();
-        (StageManager.Instance.CurrentRoom as BossRoom)?.RoomClear();
         GameManager.Instance.StartCoroutine(GameManager.Instance.Ending());
         yield return base.Collapse();
     }
