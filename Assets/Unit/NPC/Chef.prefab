@@ -3843,6 +3843,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3193277808702400992, guid: 0a941390648b43b489b97695ee406140,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3193277810173341929, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_RootOrder
@@ -3955,11 +3960,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   comment:
   - "\uD14C\uC2A4\uD2B8"
-  FoodInventoryUI: {fileID: 8216823159221260692}
+  isShowingSomething: {fileID: 0}
+  foodDataBuffer: {fileID: 0}
   wakgoodFoodInventory: {fileID: 11400000, guid: 29a69b4a5b0be874386e18073d24aeb8,
     type: 2}
   foodInventory: {fileID: 11400000, guid: 546fa6a1bf043354494b4242fa3461bb, type: 2}
-  nyang: {fileID: 11400000, guid: 7036349cfb7157d4eb77704cb729a17b, type: 2}
+  goldu: {fileID: 0}
 --- !u!224 &7090122018279806636 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1901189169330470234, guid: 0a941390648b43b489b97695ee406140,

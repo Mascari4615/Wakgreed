@@ -56,7 +56,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 10
@@ -198,6 +198,7 @@ GameObject:
   - component: {fileID: 3193277810173341845}
   - component: {fileID: 3193277810173341846}
   - component: {fileID: 3193277810173341847}
+  - component: {fileID: 1860044281306513150}
   m_Layer: 3
   m_Name: Parent
   m_TagString: InteractiveObject
@@ -298,17 +299,17 @@ SpriteRenderer:
   m_SortingLayerID: 978103407
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 876197706, guid: 08f0ebd33cd74d6418927f09924c0543, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!95 &3193277810173341847
 Animator:
   serializedVersion: 4
@@ -319,7 +320,7 @@ Animator:
   m_GameObject: {fileID: 3193277810173341930}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a142255d414aa1148aa1f775d85d5c90, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -329,6 +330,26 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1860044281306513150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3193277810173341930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a030a04ee2ec2e49b895e88ed1a95a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstComment: []
+  randomComment: []
+  isShowingSomething: {fileID: 0}
+  foodDataBuffer: {fileID: 11400000, guid: 2b7b0ffebb0ed6747999d11e19664775, type: 2}
+  wakgoodFoodInventory: {fileID: 11400000, guid: 29a69b4a5b0be874386e18073d24aeb8,
+    type: 2}
+  foodInventory: {fileID: 11400000, guid: 655cdf684e33a804abb88aa1941f7fc2, type: 2}
+  goldu: {fileID: 11400000, guid: 7036349cfb7157d4eb77704cb729a17b, type: 2}
 --- !u!1 &3193277810396361462
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,7 +443,7 @@ PrefabInstance:
     - target: {fileID: 5273487457641995858, guid: a23fe9d910ac6a74a8d1a9076f12bc3c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5273487457641995858, guid: a23fe9d910ac6a74a8d1a9076f12bc3c,
         type: 3}
@@ -494,7 +515,7 @@ PrefabInstance:
     - target: {fileID: 5583574142001140744, guid: f083512505affb74e8352e2dd905c127,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5583574142001140744, guid: f083512505affb74e8352e2dd905c127,
         type: 3}
