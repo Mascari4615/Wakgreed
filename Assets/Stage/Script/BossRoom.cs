@@ -10,7 +10,7 @@ public class BossRoom : Room
     {
         foreach (var hider in DoorHiders) hider.SetActive(true);
         foreach (var particle in DoorParticles) particle.SetActive(false);
-        GameObject bossGO = Instantiate(boss, transform.Find("BossSpawnPoint"));
+        Instantiate(boss, transform.Find("BossSpawnPoint"));
     }
     
     public void RoomClear()

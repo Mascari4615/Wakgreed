@@ -13,17 +13,17 @@ public abstract class Monster : MonoBehaviour, IHitable
     public int ad { get; protected set; }
     protected int MoveSpeed;
 
-    [SerializeField] private GameEvent onMonsterCollapse;
+    [SerializeField] protected GameEvent onMonsterCollapse;
 
     protected SpriteRenderer SpriteRenderer;
     protected Animator Animator;
     protected Rigidbody2D Rigidbody2D;
-    private new Collider2D collider2D;
+    protected new Collider2D collider2D;
 
-    private bool isCollapsed;
+    protected bool isCollapsed;
     
     private static readonly int ahya = Animator.StringToHash("AHYA");
-    private static readonly int collapse = Animator.StringToHash("COLLAPSE");
+    protected static readonly int collapse = Animator.StringToHash("COLLAPSE");
 
     protected virtual void Awake()
     {
@@ -66,7 +66,6 @@ public abstract class Monster : MonoBehaviour, IHitable
                 Animator.SetTrigger(ahya);
                 break;
             case <= 0:
-                isCollapsed = true;
                 RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("(", StringComparison.Ordinal), 7) : name)}_Collapse", transform.position);
                 StopAllCoroutines();
                 StartCoroutine(Collapse());
@@ -78,6 +77,7 @@ public abstract class Monster : MonoBehaviour, IHitable
 
     protected virtual IEnumerator Collapse()
     {
+        isCollapsed = true;
         RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("(", StringComparison.Ordinal), 7) : name)}_Collapse", transform.position);
 
         collider2D.enabled = false;
