@@ -30,7 +30,7 @@ public class Wakgood : MonoBehaviour, IHitable
 
     private SpriteRenderer spriteRenderer;
     private WakgoodCollider wakgoodCollider;
-    private WakgoodMove wakgoodMove;
+    public WakgoodMove WakgoodMove { get; private set; }
 
     private Vector3 worldMousePoint;
 
@@ -60,14 +60,14 @@ public class Wakgood : MonoBehaviour, IHitable
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         wakgoodCollider = transform.GetChild(0).GetComponent<WakgoodCollider>();
-        wakgoodMove = GetComponent<WakgoodMove>();
+        WakgoodMove = GetComponent<WakgoodMove>();
         cinemachineTargetGroup = GameObject.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>();
 
         Chat = transform.Find("Canvas").Find("Wakgood_Chat").gameObject;
         ChatText = Chat.transform.GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>();
     }
 
-    private void Start()
+    private void OnEnable()
     {
         Initialize();
     }
@@ -108,9 +108,9 @@ public class Wakgood : MonoBehaviour, IHitable
         Instantiate(CurWeapon.resource, WeaponPosition);
 
         wakgoodCollider.enabled = true;
-        wakgoodMove.enabled = true;
-        wakgoodMove.StopAllCoroutines();
-        wakgoodMove.Initialize();
+        WakgoodMove.enabled = true;
+        WakgoodMove.StopAllCoroutines();
+        WakgoodMove.Initialize();
     }
 
     private void Update()
@@ -186,7 +186,7 @@ public class Wakgood : MonoBehaviour, IHitable
 
     public void ReceiveHit(int damage)
     {
-        if (!isHealthy || wakgoodMove.MbDashing)
+        if (!isHealthy || WakgoodMove.MbDashing)
         {
             return;
         }
@@ -230,12 +230,12 @@ public class Wakgood : MonoBehaviour, IHitable
 
     private IEnumerator Collapse()
     {
-        wakgoodMove.StopAllCoroutines();
+        WakgoodMove.StopAllCoroutines();
 
         IsCollapsed = true;
-        wakgoodMove.PlayerRb.bodyType = RigidbodyType2D.Static;
-        wakgoodMove.Animator.SetTrigger(collapse);
-        wakgoodMove.enabled = false;
+        WakgoodMove.PlayerRb.bodyType = RigidbodyType2D.Static;
+        WakgoodMove.Animator.SetTrigger(collapse);
+        WakgoodMove.enabled = false;
         wakgoodCollider.enabled = false;
 
         yield return new WaitForSeconds(2f);
@@ -265,6 +265,6 @@ public class Wakgood : MonoBehaviour, IHitable
 
     public void SetRigidBodyType(RigidbodyType2D rigidbodyType2D)
     {
-        wakgoodMove.PlayerRb.bodyType = rigidbodyType2D;
+        WakgoodMove.PlayerRb.bodyType = rigidbodyType2D;
     }
 }

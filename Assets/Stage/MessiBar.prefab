@@ -51,17 +51,7 @@ CompositeCollider2D:
   m_GeometryType: 0
   m_GenerationType: 0
   m_EdgeRadius: 0
-  m_ColliderPaths:
-  - m_Collider: {fileID: 8358332123649945570}
-    m_ColliderPaths:
-    - - X: 292659680
-        Y: 306390720
-      - X: -295059680
-        Y: 306390720
-      - X: -295059680
-        Y: -232390688
-      - X: 292659680
-        Y: -232390688
+  m_ColliderPaths: []
   m_CompositePaths:
     m_Paths:
     - - {x: 29.26594, y: -23.239069}
@@ -168,7 +158,7 @@ EdgeCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 4.55}
   m_EdgeRadius: 0.5
   m_Points:
   - {x: 6.5807085, y: -6.6853547}
@@ -294,7 +284,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4272103454217281150}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 3.64, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4196,7 +4186,7 @@ EdgeCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 4.08}
   m_EdgeRadius: 0.37
   m_Points:
   - {x: 2.896598, y: -3.0483298}
@@ -4269,7 +4259,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 4.03, y: -5.84}
+  m_Offset: {x: 4.03, y: -1.52}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -4345,7 +4335,7 @@ EdgeCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 4.59}
   m_EdgeRadius: 0.56
   m_Points:
   - {x: 5.3376837, y: -0.39398456}
@@ -4498,7 +4488,7 @@ PrefabInstance:
     - target: {fileID: 894024401320713537, guid: 6e1044c56999020429fdcb83c482e0cb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.98
+      value: 12.29
       objectReference: {fileID: 0}
     - target: {fileID: 894024401320713537, guid: 6e1044c56999020429fdcb83c482e0cb,
         type: 3}

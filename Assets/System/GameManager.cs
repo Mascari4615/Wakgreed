@@ -170,9 +170,8 @@ public class GameManager : MonoBehaviour
         testNpc.SetActive(DataManager.Instance.CurGameData.isNpcRescued);
         UIManager.Instance.bossHpBar.HpBarOff();
 
-        Wakgood.Instance.StopAllCoroutines();
         Wakgood.Instance.enabled = true;
-        Wakgood.Instance.Initialize();
+        Wakgood.Instance.gameObject.SetActive(true);
 
         nyang.RuntimeValue = 0;
         // viewer.RuntimeValue = 0;
