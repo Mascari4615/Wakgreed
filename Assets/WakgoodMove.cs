@@ -5,20 +5,24 @@ using FMODUnity;
 
 public class WakgoodMove : MonoBehaviour
 {
+    public Rigidbody2D PlayerRb => playerRb ??= GetComponent<Rigidbody2D>();
+    public Animator Animator => animator ??= GetComponent<Animator>();
+    public bool MbDashing { get; private set; }
+
+
     [SerializeField] private FloatVariable moveSpeed;
     [SerializeField] private IntVariable maxDashStack;
     [SerializeField] private IntVariable curDashStack;
     [SerializeField] private FloatVariable dashCoolTime;
     [SerializeField] private BoolVariable isFocusOnSomething;
-    public Rigidbody2D PlayerRb { get; private set; }
-    public Animator Animator{ get; private set; }
+    private Rigidbody2D playerRb;
+    private Animator animator;
     private readonly List<int> hInputList = new();
     private readonly List<int> vInputList = new();
     private int horizontalInput;
     private int verticalInput;
     private Vector2 moveDirection;
     private bool mbMoving;
-    public bool MbDashing { get; private set; }
     private bool mbCanBbolBbol = true;
     private static readonly int wakeUp = Animator.StringToHash("WakeUp");
     private static readonly int move = Animator.StringToHash("Move");
@@ -30,12 +34,6 @@ public class WakgoodMove : MonoBehaviour
         Animator.SetBool(move, false);
         PlayerRb.bodyType = RigidbodyType2D.Dynamic;
         StartCoroutine(UpdateDashStack());
-    }
-
-    private void Awake()
-    {
-        PlayerRb = GetComponent<Rigidbody2D>();
-        Animator = GetComponent<Animator>();
     }
 
     private void Update()
