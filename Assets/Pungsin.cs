@@ -15,6 +15,7 @@ public class Pungsin : BossMonster
         // skill1 = transform.Find("Skill1").gameObject;
         ult = transform.Find("ult").gameObject;
         ultAttackPos = new GameObject[ult.transform.childCount];
+        ultAttackGos = new BulletMove[ult.transform.childCount];
         for (int i = 0; i < ult.transform.childCount; i++)
         {
             ultAttackPos[i] = ult.transform.GetChild(i).gameObject;
@@ -43,22 +44,23 @@ public class Pungsin : BossMonster
 
     private IEnumerator Ult()
     {
-        int temp = 0;
+        float temp = 0;
 
         ult.SetActive(true);
 
-        while (temp < 40)
+        while (temp < 4)
         {
-            Wakgood.Instance.WakgoodMove.PlayerRb.AddForce((transform.position - Wakgood.Instance.transform.position).normalized * 200);
-            yield return new WaitForSeconds(.1f);
-            temp++;
+            Wakgood.Instance.WakgoodMove.PlayerRb.AddForce((transform.position - Wakgood.Instance.transform.position).normalized * 600);
+            yield return new WaitForFixedUpdate();
+            temp += Time.fixedDeltaTime;
         }
 
         for (int i = 0; i < ultAttackGos.Length; i++)
         {
+            ultAttackGos[i].transform.position = transform.position;
             ultAttackGos[i].SetDirection((ultAttackPos[i].transform.position - transform.position).normalized);
             ultAttackGos[i].gameObject.SetActive(true);
-            yield return new WaitForSeconds(.2f);
+            yield return new WaitForSeconds(.05f);
         }
 
         ult.SetActive(false);
