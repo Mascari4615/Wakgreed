@@ -12,7 +12,8 @@ public class BulletRotate : MonoBehaviour
     [SerializeField] private float rotateSpeed = 50f;
     private float curRotateSpeed = 50f;
     [SerializeField] private Direction direction = Direction.Clockwise;
-    [SerializeField] private float weight = 0;
+    [SerializeField] private bool gotoZero;
+    [SerializeField] private float gotoZeroWeight;
 
     private void OnEnable()
     {
@@ -33,6 +34,10 @@ public class BulletRotate : MonoBehaviour
 
     private void FixedUpdate()
     {
-        transform.Rotate(rotationVector * (curRotateSpeed += weight) * Time.deltaTime);
+        if (gotoZero)
+        {
+            curRotateSpeed = Mathf.Lerp(curRotateSpeed, 0, Time.deltaTime * gotoZeroWeight);
+        }
+        transform.Rotate(rotationVector * curRotateSpeed * Time.deltaTime);
     }
 }
