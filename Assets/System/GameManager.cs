@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Application.targetFrameRate = 60;
-        testNpc.SetActive(DataManager.Instance.CurGameData.isNpcRescued);
+        // testNpc.SetActive(DataManager.Instance.CurGameData.isNpcRescued);
 
         Instance = this;
         StartCoroutine(CheckBuff());
@@ -167,7 +167,7 @@ public class GameManager : MonoBehaviour
         gameResultPanel.SetActive(false);
         gamePanel.SetActive(true);
 
-        testNpc.SetActive(DataManager.Instance.CurGameData.isNpcRescued);
+        // testNpc.SetActive(DataManager.Instance.CurGameData.isNpcRescued);
         UIManager.Instance.bossHpBar.HpBarOff();
 
         Wakgood.Instance.enabled = true;
