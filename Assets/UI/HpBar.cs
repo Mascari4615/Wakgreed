@@ -14,14 +14,15 @@ public class HpBar : MonoBehaviour
     [SerializeField] private Wakdu wakdu;
     private bool isUpdating = false;
 
-    private float originX;
-    private float originY;
+    private readonly float originX = 450;
+    private readonly float originY = 40;
 
+    /*
     private void Awake()
     {
         originX = rectTransform.sizeDelta.x;
         originY = rectTransform.sizeDelta.y;
-    }
+    }*/
 
     public void SetHpBar()
     {
@@ -50,6 +51,6 @@ public class HpBar : MonoBehaviour
 
     public void SetHpBarWidth()
     {
-        rectTransform.sizeDelta = new Vector2( Mathf.Clamp(originX + (travellerMaxHp.RuntimeValue - wakdu.baseHp) * 3, originX, 1250), originY);
+        rectTransform.sizeDelta = new Vector2(Mathf.Clamp(originX + (travellerMaxHp.RuntimeValue - wakdu.baseHp) * 10, originX, 1250), originY);
     }
 }

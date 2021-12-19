@@ -7,19 +7,15 @@ using UnityEngine;
 
 public abstract class NPC : InteractiveObject
 {
-    [TextArea] [SerializeField] private List<string> firstComment;
-    protected CinemachineVirtualCamera cvm1;
-    [TextArea] [SerializeField] private List<string> randomComment;
-    protected CinemachineVirtualCamera cvm2;
-    protected GameObject ui;
-    protected GameObject chat;
-    protected bool canOpenUI = true;
+    [TextArea] [SerializeField] private List<string> firstComment, randomComment;
+    [SerializeField] protected bool canOpenUI = true;
+    [SerializeField] private BoolVariable isShowingSomething;
+    protected CinemachineVirtualCamera cvm1, cvm2;
+    protected GameObject ui, chat;
     private TextMeshProUGUI chatText;
     protected CinemachineTargetGroup cinemachineTargetGroup;
     private bool isFirstTalking = true, isTalking, inputSkip;
-    private readonly WaitForSeconds ws005 = new(0.05f);
-    private readonly WaitForSeconds ws02 = new(0.2f);
-    [SerializeField] private BoolVariable isShowingSomething;
+    private readonly WaitForSeconds ws005 = new(0.05f), ws02 = new(0.2f);
     protected Animator animator;
 
     protected virtual void Awake()
