@@ -4,8 +4,6 @@ public class BossRoom : Room
 {
     [SerializeField] private GameObject boss;
 
-    public override void Enter() { if (IsVisited == false) IsVisited = true; }
-
     public void SummonBoss()
     {
         foreach (var hider in DoorHiders) hider.SetActive(true);

@@ -166,8 +166,7 @@ public class DataManager : MonoBehaviour
 [System.Serializable]
 public class GameData
 {
-    public bool isNpcRescued = false;
-    public float BGMVolume = .5f;
-    public float SfxVolume= .5f;
-    public float MasterVolume= .5f;
+    public bool[] rescuedNPC = new bool[20];
+    public bool[] talkedOnceNPC = new bool[20];
+    public float[] Volume = { .8f, 1, 1 };
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class BossMonster : Monster
 {
     [SerializeField] private BoolVariable isShowingSomething;
+    public new string name;
 
     protected override void OnEnable()
     {

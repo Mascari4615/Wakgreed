@@ -123,7 +123,7 @@ public class Wakgood : MonoBehaviour, IHitable
         spriteRenderer.flipX = transform.position.x > worldMousePoint.x;
         worldMousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        Debug.Log(EventSystem.current.IsPointerOverGameObject());
+        // Debug.Log(EventSystem.current.IsPointerOverGameObject());
 
         if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject()) CurWeapon.BaseAttack();
         else if (Input.GetKeyDown(KeyCode.Q)) CurWeapon.SkillQ();

@@ -9,7 +9,6 @@ public class BossHpBar : MonoBehaviour
     [SerializeField] private Image bossSprite;
     [SerializeField] private Image red;
     [SerializeField] private Image yellow;
-    [SerializeField] private TextMeshProUGUI bossHpText;
 
     private BossMonster boss;
 
@@ -40,8 +39,6 @@ public class BossHpBar : MonoBehaviour
   
             if (Mathf.Abs(red.fillAmount - yellow.fillAmount) < 0.002f)
                 yellow.fillAmount = red.fillAmount;
-            
-            bossHpText.SetText($"{boss.Hp}<size=25>/{boss.MAXHp}");
 
             yield return null;
         }

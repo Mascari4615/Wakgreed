@@ -26,8 +26,6 @@ public class StageManager : MonoBehaviour
     public Room CurrentRoom { get; private set; }
     [SerializeField] private GameObject stageGrid;
 
-    [SerializeField] private GameObject miniMapCamera;
-
     [SerializeField] private GameObject mapPanel;
     [SerializeField] private GridLayoutGroup mapGridLayoutGroup;
     [SerializeField] private RectTransform scrollRectBackGround;
@@ -120,7 +118,7 @@ public class StageManager : MonoBehaviour
                         continue;
                 }
 
-                RoomMold totalRoomMold = new() {Coordinate = totalRoomMoldCoordinate};
+                RoomMold totalRoomMold = new() { Coordinate = totalRoomMoldCoordinate };
 
                 originalRoomMold.IsConnectToNearbyRoom[doorOpenIndex] = true;
                 totalRoomMold.IsConnectToNearbyRoom[
@@ -138,14 +136,17 @@ public class StageManager : MonoBehaviour
 
         /* 스테이지 채우기 */
         {
+            int nrcCount = currentStage.nrcCount;
+            foreach (var id in currentStage.nrcID)
+                if (DataManager.Instance.CurGameData.rescuedNPC[id])
+                    nrcCount--;
+
             for (int i = 0; i < roomCount; i++)
             {
-                int roomMoldIndex = i == 0 ? 0 : Random.Range(0, roomMolds.Count);
-                int roomDataIndex = i <= 2
-                    ? 0
-                    : Random.Range(DataManager.Instance.CurGameData.isNpcRescued ? 1 : 0, roomData.Count);
+                int roomMoldIndex = i == 0 ? 0 : Random.Range(0, roomMolds.Count);            
+                int roomDataIndex = i <= 3 ? 0 : Random.Range(nrcCount > 0 ? 0 : 1, roomData.Count);
 
-                // Todo : 스테이지 별 룸 데이타 딕셔너리 혹은 배열만들어야 함
+                // 0 spawn, 1 boss, 2 restourant, 3 shop, 4 nrc, 5 ~
                 Room room = Instantiate(roomData[roomDataIndex].gameObject, stageGrid.transform).GetComponent<Room>();
                 room.Initialize(roomMolds[roomMoldIndex].Coordinate, roomMolds[roomMoldIndex].IsConnectToNearbyRoom);
 
@@ -173,7 +174,6 @@ public class StageManager : MonoBehaviour
         InitialzeMap();
 
         Wakgood.Instance.transform.position = new Vector3(CurrentRoom.Coordinate.x, CurrentRoom.Coordinate.y, 0) * 100;
-        miniMapCamera.transform.position = new Vector3(CurrentRoom.Coordinate.x, CurrentRoom.Coordinate.y, -1) * 100;
 
         stageNumberText.text = $"1-{currentStage.id}";
         stageNameCommentText.text = $"{currentStage.name} : {currentStage.comment}";
@@ -295,7 +295,6 @@ public class StageManager : MonoBehaviour
 
         CurrentRoom = roomDic[CurrentRoom.Coordinate + moveDirection];
         Wakgood.Instance.transform.position = CurrentRoom.Doors[spawnDirection].transform.position + (Vector3)moveDirection * 4;
-        miniMapCamera.transform.position = new Vector3(CurrentRoom.Coordinate.x, CurrentRoom.Coordinate.y, -1) * 100;
 
         UpdateMap();
 
@@ -317,7 +316,6 @@ public class StageManager : MonoBehaviour
 
         CurrentRoom = roomDic[coordinate];
         Wakgood.Instance.transform.position = CurrentRoom.transform.position;
-        miniMapCamera.transform.position = new Vector3(CurrentRoom.Coordinate.x, CurrentRoom.Coordinate.y, -1) * 100;
 
         UpdateMap();
 

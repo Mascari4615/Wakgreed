@@ -4465,7 +4465,7 @@ Transform:
   - {fileID: 2459713633235152996}
   - {fileID: 6188362144775136199}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3596587142947433845
 PrefabInstance:
@@ -4475,6 +4475,11 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 6188362144775136199}
     m_Modifications:
+    - target: {fileID: 894024400721969997, guid: 6e1044c56999020429fdcb83c482e0cb,
+        type: 3}
+      propertyPath: m_Lens.OrthographicSize
+      value: 4.34
+      objectReference: {fileID: 0}
     - target: {fileID: 894024401320713537, guid: 6e1044c56999020429fdcb83c482e0cb,
         type: 3}
       propertyPath: m_RootOrder

@@ -7,6 +7,7 @@ using UnityEngine;
 
 public abstract class NPC : InteractiveObject
 {
+    public int ID;
     [TextArea] [SerializeField] private List<string> firstComment, randomComment;
     [SerializeField] protected bool canOpenUI = true;
     [SerializeField] private BoolVariable isShowingSomething;
@@ -14,7 +15,7 @@ public abstract class NPC : InteractiveObject
     protected GameObject ui, chat;
     private TextMeshProUGUI chatText;
     protected CinemachineTargetGroup cinemachineTargetGroup;
-    private bool isFirstTalking = true, isTalking, inputSkip;
+    private bool isTalking, inputSkip;
     private readonly WaitForSeconds ws005 = new(0.05f), ws02 = new(0.2f);
     protected Animator animator;
 
@@ -25,8 +26,8 @@ public abstract class NPC : InteractiveObject
         ui = transform.Find("CustomUI").gameObject;
         chat = transform.Find("DefaultUI").Find("Chat").gameObject;
         chatText = chat.transform.GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>();
-        cvm1.Follow = GameObject.Find("Cameras").transform.GetChild(3);
-        cinemachineTargetGroup = GameObject.Find("Cameras").transform.GetChild(3).GetComponent<CinemachineTargetGroup>();
+        cvm1.Follow = GameObject.Find("Cameras").transform.GetChild(2);
+        cinemachineTargetGroup = GameObject.Find("Cameras").transform.GetChild(2).GetComponent<CinemachineTargetGroup>();
         animator = GetComponent<Animator>();
     }
 
@@ -89,9 +90,10 @@ public abstract class NPC : InteractiveObject
 
         List<string> tempComment;
 
-        if (isFirstTalking)
+        if (DataManager.Instance.CurGameData.talkedOnceNPC[ID] == false)
         {
-            isFirstTalking = false;
+            DataManager.Instance.CurGameData.talkedOnceNPC[ID] = true;
+            DataManager.Instance.SaveGameData();
             tempComment = firstComment;
         }
         else
@@ -100,40 +102,37 @@ public abstract class NPC : InteractiveObject
             tempComment.Add(randomComment[Random.Range(0, randomComment.Count)]);
         }
 
-        if (tempComment.Count > 0)
+        chat.SetActive(true);
+        foreach (string t in tempComment)
         {
-            chat.SetActive(true);
-            foreach (string t in tempComment)
+            chatText.text = "";
+
+            IEnumerator checkSkip;
+            StartCoroutine(checkSkip = CheckSkipInput());
+            foreach (char item in t)
             {
-                chatText.text = "";
-
-                IEnumerator checkSkip;
-                StartCoroutine(checkSkip = CheckSkipInput());
-                foreach (char item in t)
+                if (!inputSkip)
                 {
-                    if (!inputSkip)
-                    {
-                        chatText.text += item;
-                        RuntimeManager.PlayOneShot("event:/SFX/ETC/NPC_Temp", transform.position);
-                        yield return ws005;
-                    }
-                    else
-                    {
-                        chatText.text = t;
-                        break;
-                    }
+                    chatText.text += item;
+                    RuntimeManager.PlayOneShot("event:/SFX/ETC/NPC_Rusuk", transform.position);
+                    yield return ws005;
                 }
-                StopCoroutine(checkSkip);
-                inputSkip = false;
-
-                yield return ws02;
-                
-                do yield return null;
-                while (!Input.GetKeyDown(KeyCode.F));
+                else
+                {
+                    chatText.text = t;
+                    break;
+                }
             }
-            chat.SetActive(false);
+            StopCoroutine(checkSkip);
+            inputSkip = false;
+
+            yield return ws02;
+                
+            do yield return null;
+            while (!Input.GetKeyDown(KeyCode.F));
         }
-        
+        chat.SetActive(false);
+            
         cinemachineTargetGroup.m_Targets[1].target = null;
         cinemachineTargetGroup.m_Targets[1].weight = 1;
         cvm1.Priority = -100;

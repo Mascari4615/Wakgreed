@@ -24,7 +24,7 @@ public class NormalRoom : Room
 
     public override void Enter()
     {
-        if (IsVisited == false) IsVisited = true;
+        base.Enter();
         if (isCleared == false)
         {
             isFighting.RuntimeValue = true;
