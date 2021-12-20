@@ -40,17 +40,18 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        BgmVolumeLevel(DataManager.Instance.CurGameData.BGMVolume);
-        SettingManager.Instance.masterSlider.value = DataManager.Instance.CurGameData.BGMVolume;
+        MasterVolumeLevel(DataManager.Instance.CurGameData.Volume[0]);
+        SettingManager.Instance.masterSlider.value = DataManager.Instance.CurGameData.Volume[0];
+        SettingManager.Instance.masterSlider.onValueChanged.AddListener(AudioManager.Instance.MasterVolumeLevel);
+
+        BgmVolumeLevel(DataManager.Instance.CurGameData.Volume[1]);
+        SettingManager.Instance.masterSlider.value = DataManager.Instance.CurGameData.Volume[1];
         SettingManager.Instance.bgmSlider.onValueChanged.AddListener(AudioManager.Instance.BgmVolumeLevel);
 
-        SfxVolumeLevel(DataManager.Instance.CurGameData.SfxVolume);
-        SettingManager.Instance.sfxSlider.value = DataManager.Instance.CurGameData.SfxVolume;
+        SfxVolumeLevel(DataManager.Instance.CurGameData.Volume[2]);
+        SettingManager.Instance.sfxSlider.value = DataManager.Instance.CurGameData.Volume[2];
         SettingManager.Instance.sfxSlider.onValueChanged.AddListener(AudioManager.Instance.SfxVolumeLevel);
-
-        MasterVolumeLevel(DataManager.Instance.CurGameData.MasterVolume);
-        SettingManager.Instance.masterSlider.value = DataManager.Instance.CurGameData.MasterVolume;
-        SettingManager.Instance.masterSlider.onValueChanged.AddListener(AudioManager.Instance.MasterVolumeLevel);
+       
     }
 
     private void Update()
@@ -66,19 +67,13 @@ public class AudioManager : MonoBehaviour
         */
     }
 
-    public void MasterVolumeLevel(float newMasterVolume)
-    {
-        master.setVolume(DataManager.Instance.CurGameData.MasterVolume = newMasterVolume);
-    }
+    public void MasterVolumeLevel(float newMasterVolume) => master.setVolume(DataManager.Instance.CurGameData.Volume[0] = newMasterVolume);
 
-    public void BgmVolumeLevel(float newBgmVolume)
-    {
-        bgm.setVolume(DataManager.Instance.CurGameData.BGMVolume = newBgmVolume);
-    }
+    public void BgmVolumeLevel(float newBgmVolume) => bgm.setVolume(DataManager.Instance.CurGameData.Volume[1] = newBgmVolume);
 
     public void SfxVolumeLevel(float newSfxVolume)
     {
-        sfx.setVolume(DataManager.Instance.CurGameData.SfxVolume = newSfxVolume);
+        sfx.setVolume(DataManager.Instance.CurGameData.Volume[2] = newSfxVolume);
 
         sfxVolumeTestEvent.getPlaybackState(out PLAYBACK_STATE playbackState);
         if (playbackState != PLAYBACK_STATE.PLAYING)

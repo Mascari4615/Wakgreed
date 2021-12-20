@@ -34,5 +34,9 @@ public abstract class Room : MonoBehaviour
         }
     }
 
-    public abstract void Enter();
+    public virtual void Enter() 
+    {
+        if (IsVisited == false) 
+            IsVisited = true; 
+    }
 }

@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance { get; private set; }
 
     [SerializeField] private GameObject bossSpeedWagon;
+    [SerializeField] private TextMeshProUGUI bossSpeedWagonName;
 
     private CinemachineTargetGroup cinemachineTargetGroup;
 
@@ -34,7 +35,7 @@ public class UIManager : MonoBehaviour
         Instance = this;
 
         cinemachineTargetGroup =
-            GameObject.Find("Cameras").transform.GetChild(3).GetComponent<CinemachineTargetGroup>();
+            GameObject.Find("Cameras").transform.GetChild(2).GetComponent<CinemachineTargetGroup>();
     }
 
     private void Update()
@@ -75,6 +76,7 @@ public class UIManager : MonoBehaviour
     {
         cinemachineTargetGroup.m_Targets[0].target = boss.transform;
         Wakgood.Instance.SetRigidBodyType(RigidbodyType2D.Static);
+        bossSpeedWagonName.text = boss.name;
         bossSpeedWagon.SetActive(true);
 
         yield return new WaitForSeconds(3f);

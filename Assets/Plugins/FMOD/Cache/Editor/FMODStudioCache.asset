@@ -149,8 +149,7 @@ MonoBehaviour:
     Data2: 1327857967
     Data3: -1271286114
     Data4: 343488186
-  Banks:
-  - {fileID: -1813042681740017314}
+  Banks: []
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -1657,10 +1656,10 @@ MonoBehaviour:
   Path: Fmod/WakjwaLike/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637746944791733083
+  lastModified: 637755844350538589
   FileSizes:
   - Name: Desktop
-    Value: 7444416
+    Value: 7469056
   Exists: 1
 --- !u!114 &-1785846771405165444
 MonoBehaviour:
@@ -1919,7 +1918,6 @@ MonoBehaviour:
   - {fileID: 6107050520195032601}
   - {fileID: -1813042681740017314}
   EditorEvents:
-  - {fileID: -8401792548484935965}
   - {fileID: 1183194525949114184}
   - {fileID: -7533051834720528341}
   - {fileID: -178073277199973299}
@@ -1950,12 +1948,14 @@ MonoBehaviour:
   - {fileID: -8332254318095374228}
   - {fileID: -2731614966132139864}
   - {fileID: 1054356788294473776}
+  - {fileID: 5030903635543523284}
+  - {fileID: 970506189969763163}
   EditorParameters: []
   MasterBanks:
   - {fileID: -1813042681740017314}
   StringsBanks:
   - {fileID: 6107050520195032601}
-  cacheTime: 637746944791763012
+  cacheTime: 637755844350568605
   cacheVersion: 9
 --- !u!114 &39988272671530022
 MonoBehaviour:
@@ -2063,6 +2063,59 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 210
+--- !u!114 &530868013928197594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFXVolumeTest
+  m_EditorClassIdentifier: 
+  Path: event:/SFXVolumeTest
+  Guid:
+    Data1: -156638451
+    Data2: 1327857967
+    Data3: -1271286114
+    Data4: 343488186
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 182
+--- !u!114 &970506189969763163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/SFXVolumeTest
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/SFXVolumeTest
+  Guid:
+    Data1: -156638451
+    Data2: 1327857967
+    Data3: -1271286114
+    Data4: 343488186
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 182
 --- !u!114 &1054356788294473776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2721,6 +2774,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 572
+--- !u!114 &5030903635543523284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/ETC/NPC_Rusuk
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/ETC/NPC_Rusuk
+  Guid:
+    Data1: 1728742097
+    Data2: 1186892789
+    Data3: 1701456259
+    Data4: 286402429
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 164
 --- !u!114 &5217171793477504632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2974,10 +3054,10 @@ MonoBehaviour:
   Path: Fmod/WakjwaLike/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637746944791763012
+  lastModified: 637755844350568605
   FileSizes:
   - Name: Desktop
-    Value: 2300
+    Value: 2348
   Exists: 1
 --- !u!114 &6110770951763433383
 MonoBehaviour:

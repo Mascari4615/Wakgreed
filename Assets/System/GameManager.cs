@@ -21,12 +21,8 @@ public class GameManager : MonoBehaviour
     public EnemyRunTimeSet enemyRunTimeSet;
 
     [SerializeField] private GameObject gamePanel;
-    [SerializeField] private GameObject miniMapCamera;
-
     [SerializeField] private GameObject gameResultPanel;
-
     [SerializeField] private GameObject pausePanel;
-
     [SerializeField] private Animator fadePanel;
 
     [SerializeField] private GameObject roomClearSpeedWagon;
@@ -81,7 +77,7 @@ public class GameManager : MonoBehaviour
     {
         isFocusOnSomething.RuntimeValue = (isChatting.RuntimeValue || isLoading.RuntimeValue || isShowingSomething.RuntimeValue);
 
-        if (Input.GetKeyDown(KeyCode.Escape) && !isLoading.RuntimeValue)
+        if (Input.GetKeyDown(KeyCode.Escape) && !isLoading.RuntimeValue && !gameResultPanel.activeSelf)
         {
             if (SettingManager.Instance.SettingPanel.activeSelf) SettingManager.Instance.SettingPanel.SetActive(false);
             else if (StreamingManager.Instance.inputField.gameObject.activeSelf)
@@ -159,9 +155,7 @@ public class GameManager : MonoBehaviour
         DataManager.Instance.wakgoodItemInventory.Clear();
         DataManager.Instance.wakgoodFoodInventory.Clear();
         DataManager.Instance.wakgoodMasteryInventory.Clear();
-        DataManager.Instance.buffRunTimeSet.Clear();   
-
-        miniMapCamera.transform.position = new Vector3(0, 0, -100);
+        DataManager.Instance.buffRunTimeSet.Clear();
 
         pausePanel.SetActive(false);
         gameResultPanel.SetActive(false);

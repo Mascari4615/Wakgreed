@@ -243,7 +243,7 @@ PrefabInstance:
     - target: {fileID: 3193277810173341930, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_Name
-      value: Angel
+      value: NRC_Angel
       objectReference: {fileID: 0}
     - target: {fileID: 5046749008975055762, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
@@ -338,7 +338,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6383031373485973147}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3464917366842627832
+--- !u!114 &7596271553935764418
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -347,14 +347,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 8414369011143994993}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff24f62deb9d91d43a1817403f22c5f2, type: 3}
+  m_Script: {fileID: 11500000, guid: ffe10eab9d6f8294687c0fef758e13bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
   firstComment:
-  - <sprite index=[0]>
-  randomComment:
-  - <sprite index=[0]>
-  canOpenUI: 1
+  - "\uCD08\uB85D\uC0C9 \uD558\uD2B8"
+  randomComment: []
+  canOpenUI: 0
   isShowingSomething: {fileID: 11400000, guid: 688a405029d824548b8d1494667c0415, type: 2}
 --- !u!4 &8414369011143994994 stripped
 Transform:

@@ -6,5 +6,7 @@ public class Stage : ScriptableObject
     public int id;
     public new string name;
     public string comment;
+    public int nrcCount;
+    public int[] nrcID;
     public Room[] roomDatas;
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LobbyManager : MonoBehaviour
+public class MenuManager : MonoBehaviour
 {
     public void OpenSetting()
     {
