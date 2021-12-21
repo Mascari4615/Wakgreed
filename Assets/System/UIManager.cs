@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject bossSpeedWagon;
     [SerializeField] private TextMeshProUGUI bossSpeedWagonName;
 
+    private CinemachineVirtualCamera camera;
     private CinemachineTargetGroup cinemachineTargetGroup;
 
     public BossHpBar bossHpBar;
@@ -34,6 +35,7 @@ public class UIManager : MonoBehaviour
     {
         Instance = this;
 
+        camera = GameObject.Find("Cameras").transform.GetChild(1).GetComponent<CinemachineVirtualCamera>();
         cinemachineTargetGroup =
             GameObject.Find("Cameras").transform.GetChild(2).GetComponent<CinemachineTargetGroup>();
     }
@@ -74,6 +76,7 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator SpeedWagon_BossOn(BossMonster boss)
     {
+        camera.m_Lens.OrthographicSize = 6;
         cinemachineTargetGroup.m_Targets[0].target = boss.transform;
         Wakgood.Instance.SetRigidBodyType(RigidbodyType2D.Static);
         bossSpeedWagonName.text = boss.name;
@@ -84,6 +87,7 @@ public class UIManager : MonoBehaviour
         bossSpeedWagon.SetActive(false);
         Wakgood.Instance.SetRigidBodyType(RigidbodyType2D.Dynamic);
         cinemachineTargetGroup.m_Targets[0].target = Wakgood.Instance.transform;
+        camera.m_Lens.OrthographicSize = 12;
 
         bossHpBar.HpBarOn(boss);
     }

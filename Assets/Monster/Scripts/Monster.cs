@@ -6,41 +6,36 @@ using Random = UnityEngine.Random;
 
 public abstract class Monster : MonoBehaviour, IHitable
 {
-    [SerializeField] private int baseHp;
-    [SerializeField] private int baseAD, baseMoveSpeed;
-    public int MAXHp { get; protected set; }
-    public int Hp { get; protected set; }
-    public int ad { get; protected set; }
-    protected int MoveSpeed;
-
     [SerializeField] protected GameEvent onMonsterCollapse;
-
+    public int MaxHp { get; protected set; }
+    public int hp;
+    [SerializeField] protected int MoveSpeed;
+    protected bool isCollapsed;
     protected SpriteRenderer SpriteRenderer;
     protected Animator Animator;
     protected Rigidbody2D Rigidbody2D;
     protected new Collider2D collider2D;
 
-    protected bool isCollapsed;
-    
-    private static readonly int ahya = Animator.StringToHash("AHYA");
-    protected static readonly int collapse = Animator.StringToHash("COLLAPSE");
+    private Material originalMaterial;
+    private Coroutine flashRoutine;
+    [SerializeField] private Material flashMaterial;
 
     protected virtual void Awake()
     {
+        MaxHp = hp;
         SpriteRenderer = GetComponent<SpriteRenderer>();
         Animator = GetComponent<Animator>();
         Rigidbody2D = GetComponent<Rigidbody2D>();
         collider2D = GetComponent<Collider2D>();
+        originalMaterial = SpriteRenderer.material;
     }
 
     protected virtual void OnEnable()
     {
         isCollapsed = false;
 
-        MAXHp = baseHp;
-        Hp = MAXHp;
-        ad = baseAD;
-        MoveSpeed = baseMoveSpeed;
+        MaxHp = hp;
+        hp = MaxHp;
         collider2D.enabled = true;
         Rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
         GameManager.Instance.enemyRunTimeSet.Add(gameObject);
@@ -50,20 +45,27 @@ public abstract class Monster : MonoBehaviour, IHitable
     {
         if (isCollapsed) return;
 
-        Hp -= damage;
+        hp -= damage;
         Rigidbody2D.velocity = Vector3.zero;
         Rigidbody2D.AddForce((transform.position - Wakgood.Instance.transform.position).normalized * 3f, ForceMode2D.Impulse);
 
         ObjectManager.Instance.PopObject("AnimatedText", transform.position + Vector3.up).GetComponent<AnimatedText>().SetText(damage.ToString(), TextType.Normal);
-        ObjectManager.Instance.PopObject("HitEffect", transform.position + Vector3.Normalize(Wakgood.Instance.transform.position - transform.position) * .5f);
+        ObjectManager.Instance.PopObject("Effect_Hit", transform.position + Vector3.Normalize(Wakgood.Instance.transform.position - transform.position) * .5f);
+
+        if (flashRoutine != null)
+        {
+            StopCoroutine(flashRoutine);
+        }
+        flashRoutine = StartCoroutine(FlashRoutine());
 
         _ReceiveHit();
 
-        switch (Hp)
+        switch (hp)
         {
             case > 0:
-                RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("(", StringComparison.Ordinal), 7) : name)}_Hurt", transform.position);
-                Animator.SetTrigger(ahya);
+                //RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("(", StringComparison.Ordinal), 7) : name)}_Hurt", transform.position);
+                RuntimeManager.PlayOneShot($"event:/SFX/Monster/Hurt", transform.position);
+                Animator.SetTrigger("AHYA");
                 break;
             case <= 0:
                 RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("(", StringComparison.Ordinal), 7) : name)}_Collapse", transform.position);
@@ -77,13 +79,15 @@ public abstract class Monster : MonoBehaviour, IHitable
 
     protected virtual IEnumerator Collapse()
     {
+        SpriteRenderer.material = originalMaterial;
+
         isCollapsed = true;
         RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("(", StringComparison.Ordinal), 7) : name)}_Collapse", transform.position);
 
         collider2D.enabled = false;
         Rigidbody2D.velocity = Vector2.zero;
         Rigidbody2D.bodyType = RigidbodyType2D.Static;
-        Animator.SetTrigger(collapse);
+        Animator.SetTrigger("COLLAPSE");
         GameManager.Instance.enemyRunTimeSet.Remove(gameObject);
 
         if (StageManager.Instance.CurrentRoom is NormalRoom)
@@ -104,4 +108,13 @@ public abstract class Monster : MonoBehaviour, IHitable
         GameManager.Instance.enemyRunTimeSet.Remove(gameObject);
         StopAllCoroutines();
     }
+
+    private IEnumerator FlashRoutine()
+    {
+        SpriteRenderer.material = flashMaterial;
+        yield return new WaitForSeconds(.05f);
+        SpriteRenderer.material = originalMaterial;
+        flashRoutine = null;
+    }
+
 }

@@ -57,14 +57,11 @@ public class AudioManager : MonoBehaviour
     private void Update()
     {
         //Debug.Log($"{DataManager.Instance.CurGameData.BGMVolume}, {DataManager.Instance.CurGameData.SfxVolume}, {DataManager.Instance.CurGameData.MasterVolume}");
-        
-        /*
         BgmEvent.getPlaybackState(out pbState);
         if (pbState != PLAYBACK_STATE.PLAYING)
         {
             BgmEvent.start();
         }
-        */
     }
 
     public void MasterVolumeLevel(float newMasterVolume) => master.setVolume(DataManager.Instance.CurGameData.Volume[0] = newMasterVolume);

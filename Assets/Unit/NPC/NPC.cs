@@ -66,7 +66,7 @@ public abstract class NPC : InteractiveObject
         isShowingSomething.RuntimeValue = false;
     }
 
-    public void FocusOff()
+    public virtual void FocusOff()
     {
         cinemachineTargetGroup.m_Targets[1].target = null;
         cinemachineTargetGroup.m_Targets[1].weight = 1;
