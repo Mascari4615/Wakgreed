@@ -189,10 +189,6 @@ public class StageManager : MonoBehaviour
         StopCoroutine(temp1);
         StopCoroutine(temp2);
         stageLoading.gameObject.SetActive(false);
-
-        //AudioManager.Instance.BgmEvent = RuntimeManager.CreateInstance($"event:/BGM/{stageDataBuffer.items[currentStageID].name}");
-        AudioManager.Instance.BgmEvent = RuntimeManager.CreateInstance("event:/BGM/Wakzoo");
-        AudioManager.Instance.BgmEvent.start();
         
         isGaming.RuntimeValue = true;
         fadePanelAnimator.SetTrigger(@in);
@@ -203,8 +199,9 @@ public class StageManager : MonoBehaviour
     {
         do yield return null;
         while (!Input.GetKeyDown(KeyCode.F));
-        Debug.Log("SKIP");
         stageLoading.SetTrigger("SKIP");
+        AudioManager.Instance.BgmEvent = RuntimeManager.CreateInstance($"event:/BGM/{stageDataBuffer.items[currentStageID].name}");
+        AudioManager.Instance.BgmEvent.start();
         isLoading.RuntimeValue = false;
     }
 
@@ -218,6 +215,8 @@ public class StageManager : MonoBehaviour
 
         yield return ws02;
         yield return new WaitForSeconds(stageLoading.GetCurrentAnimatorStateInfo(0).length);
+        AudioManager.Instance.BgmEvent = RuntimeManager.CreateInstance($"event:/BGM/{stageDataBuffer.items[currentStageID].name}");
+        AudioManager.Instance.BgmEvent.start();
         isLoading.RuntimeValue = false;
     }
 

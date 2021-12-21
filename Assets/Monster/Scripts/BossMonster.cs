@@ -1,12 +1,22 @@
 using FMODUnity;
 using System.Collections;
 using UnityEngine;
+using Cinemachine;
 
 public abstract class BossMonster : Monster
 {
     [SerializeField] private BoolVariable isShowingSomething;
     public new string name;
     public int ID;
+    protected CinemachineTargetGroup cinemachineTargetGroup;
+    protected new CinemachineVirtualCamera camera;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        camera = GameObject.Find("Cameras").transform.GetChild(1).GetComponent<CinemachineVirtualCamera>();
+        cinemachineTargetGroup = GameObject.Find("Cameras").transform.GetChild(2).GetComponent<CinemachineTargetGroup>();
+    }
 
     protected override void OnEnable()
     {
@@ -29,6 +39,9 @@ public abstract class BossMonster : Monster
     protected override IEnumerator Collapse()
     {
         isCollapsed = true;
+        SpriteRenderer.material = originalMaterial;
+
+        cinemachineTargetGroup.m_Targets[1].target = null;
         RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("(", System.StringComparison.Ordinal), 7) : name)}_Collapse", transform.position);
 
         collider2D.enabled = false;

@@ -6,6 +6,8 @@ public class Pungsin : BossMonster
 {
     [SerializeField] private GameObject ultAttackGo;
     [SerializeField] private GameObject ult;
+    [SerializeField] private GameObject ultParticle1;
+    [SerializeField] private GameObject ultParticle2;
     private GameObject[] ultAttackPos;
     private BulletMove[] ultAttackGos;
     [SerializeField] private GameObject stun;
@@ -43,32 +45,54 @@ public class Pungsin : BossMonster
 
     private IEnumerator Ult()
     {
+        Animator.SetBool("ULT", true);
+        cinemachineTargetGroup.m_Targets[1].target = transform;
+
         float temp = 0;
+        while (temp < .2f)
+        {
+            if (camera.m_Lens.OrthographicSize < 17) camera.m_Lens.OrthographicSize += 8 * Time.fixedDeltaTime;
+            Wakgood.Instance.WakgoodMove.PlayerRb.AddForce((transform.position - Wakgood.Instance.transform.position).normalized * 600);
+            yield return null;
+            temp += Time.deltaTime;
+        }
 
         ult.SetActive(true);
-        Animator.SetBool("ULT", true);
+        ultParticle1.SetActive(true);
 
-        while (temp < 4)
+        temp = 0;
+        while (temp < 4f)
         {
+            if (camera.m_Lens.OrthographicSize > 12) camera.m_Lens.OrthographicSize -= 6 * Time.fixedDeltaTime;
+            else if (camera.m_Lens.OrthographicSize > 10) camera.m_Lens.OrthographicSize -= 1 * Time.fixedDeltaTime;
             Wakgood.Instance.WakgoodMove.PlayerRb.AddForce((transform.position - Wakgood.Instance.transform.position).normalized * 600);
             yield return new WaitForFixedUpdate();
             temp += Time.fixedDeltaTime;
         }
+        ultParticle1.SetActive(false);
 
+        ultParticle2.SetActive(true);
         for (int i = 0; i < ultAttackGos.Length; i++)
         {
             ultAttackGos[i].transform.position = transform.position;
             ultAttackGos[i].SetDirection((ultAttackPos[i].transform.position - transform.position).normalized);
             ultAttackGos[i].gameObject.SetActive(true);
-            yield return new WaitForSeconds(.05f);
+        }
+
+        while (camera.m_Lens.OrthographicSize < 12)
+        {
+            camera.m_Lens.OrthographicSize += 5 * Time.deltaTime;
+            yield return null;
         }
 
         ult.SetActive(false);
         Animator.SetBool("ULT", false);
+        camera.m_Lens.OrthographicSize = 12;
 
         stun.SetActive(true);
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(6f);
         stun.SetActive(false);
+        ultParticle2.SetActive(false);
     }
 
     private IEnumerator Skill0()

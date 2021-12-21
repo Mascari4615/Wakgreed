@@ -1656,7 +1656,7 @@ MonoBehaviour:
   Path: Fmod/WakjwaLike/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637756741561817378
+  lastModified: 637757067944891909
   FileSizes:
   - Name: Desktop
     Value: 7473056
@@ -1954,7 +1954,6 @@ MonoBehaviour:
   - {fileID: 5217171793477504632}
   - {fileID: -8310717547081625499}
   - {fileID: -2851911952042828748}
-  - {fileID: 6425401348269243004}
   - {fileID: 7433194527024786716}
   - {fileID: 1575601881277585923}
   - {fileID: -3225794938397494451}
@@ -1978,12 +1977,13 @@ MonoBehaviour:
   - {fileID: 5030903635543523284}
   - {fileID: 970506189969763163}
   - {fileID: -862336676192479125}
+  - {fileID: 3341423631709954499}
   EditorParameters: []
   MasterBanks:
   - {fileID: -1813042681740017314}
   StringsBanks:
   - {fileID: 6107050520195032601}
-  cacheTime: 637756741561847301
+  cacheTime: 637757067944921829
   cacheVersion: 9
 --- !u!114 &39988272671530022
 MonoBehaviour:
@@ -2566,6 +2566,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 560
+--- !u!114 &3341423631709954499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: "event:/BGM/\uC641\uBB3C\uC6D0"
+  m_EditorClassIdentifier: 
+  Path: "event:/BGM/\uC641\uBB3C\uC6D0"
+  Guid:
+    Data1: -19073717
+    Data2: 1218488381
+    Data3: 828240001
+    Data4: -998652640
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 171216
 --- !u!114 &3384855234089284044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3082,10 +3109,10 @@ MonoBehaviour:
   Path: Fmod/WakjwaLike/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637756741561847301
+  lastModified: 637757067944921829
   FileSizes:
   - Name: Desktop
-    Value: 2382
+    Value: 2386
   Exists: 1
 --- !u!114 &6110770951763433383
 MonoBehaviour:
@@ -3185,8 +3212,7 @@ MonoBehaviour:
     Data2: 1218488381
     Data3: 828240001
     Data4: -998652640
-  Banks:
-  - {fileID: -1813042681740017314}
+  Banks: []
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
