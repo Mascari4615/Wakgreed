@@ -175,13 +175,9 @@ public class Wakgood : MonoBehaviour, IHitable
         CurWeapon.OnEquip();
 
         if (targetWeapon != null)
-        { 
             UIManager.Instance.SetWeaponUI(CurWeaponNumber, Weapon[CurWeaponNumber]);
-        }
         else
-        {
             UIManager.Instance.StartCoroutine(UIManager.Instance.SwitchWeapon());
-        }
     }
 
     public void ReceiveHit(int damage)
