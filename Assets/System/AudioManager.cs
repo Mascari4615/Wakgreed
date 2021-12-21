@@ -20,6 +20,7 @@ public class AudioManager : MonoBehaviour
     private EventInstance sfxVolumeTestEvent;
     public EventInstance BgmEvent;
     private PLAYBACK_STATE pbState;
+    [SerializeField] private BoolVariable isLoading;
 
     private void Awake()
     {
@@ -56,11 +57,13 @@ public class AudioManager : MonoBehaviour
 
     private void Update()
     {
-        //Debug.Log($"{DataManager.Instance.CurGameData.BGMVolume}, {DataManager.Instance.CurGameData.SfxVolume}, {DataManager.Instance.CurGameData.MasterVolume}");
-        BgmEvent.getPlaybackState(out pbState);
-        if (pbState != PLAYBACK_STATE.PLAYING)
+        if (isLoading.RuntimeValue == false)
         {
-            BgmEvent.start();
+            BgmEvent.getPlaybackState(out pbState);
+            if (pbState != PLAYBACK_STATE.PLAYING)
+            {
+                BgmEvent.start();
+            }
         }
     }
 

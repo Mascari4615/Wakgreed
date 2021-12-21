@@ -16,7 +16,7 @@ public abstract class Monster : MonoBehaviour, IHitable
     protected Rigidbody2D Rigidbody2D;
     protected new Collider2D collider2D;
 
-    private Material originalMaterial;
+    protected Material originalMaterial;
     private Coroutine flashRoutine;
     [SerializeField] private Material flashMaterial;
 
