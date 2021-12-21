@@ -20,6 +20,7 @@ public class BossHpBar : MonoBehaviour
         bossSprite.transform.parent.gameObject.SetActive(true);
         red.transform.parent.gameObject.SetActive(true);
         bossName.text = boss.name;
+        bossName.gameObject.SetActive(true);
 
         StartCoroutine(UpdateHpBar());
     }
@@ -28,7 +29,8 @@ public class BossHpBar : MonoBehaviour
     {
         bossSprite.transform.parent.gameObject.SetActive(false);
         red.transform.parent.gameObject.SetActive(false);
-        
+        bossName.gameObject.SetActive(false);
+
         StopAllCoroutines();
     }
 

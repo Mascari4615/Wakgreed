@@ -18,12 +18,13 @@ public class WeaponGameObject : InteractiveObject
     public override void Interaction()
     {
         if (Wakgood.Instance.IsSwitching)
-        {
             return;
-        }
 
         Weapon temp = Wakgood.Instance.CurWeapon;
         Wakgood.Instance.SwitchWeapon(Wakgood.Instance.CurWeaponNumber, weapon);
+
+        if (temp.id == 0) ObjectManager.Instance.PushObject(gameObject);
+
         weapon = temp;
         spriteRenderer.sprite = weapon.sprite;
     }

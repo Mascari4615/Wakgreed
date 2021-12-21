@@ -1082,6 +1082,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 230295
+--- !u!114 &-3464521998071433867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/ETC/Chest
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/ETC/Chest
+  Guid:
+    Data1: 1566914230
+    Data2: 1339524459
+    Data3: 2096857514
+    Data4: -1784242578
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1200
 --- !u!114 &-3410408769428894699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1656,10 +1683,10 @@ MonoBehaviour:
   Path: Fmod/WakjwaLike/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637757067944891909
+  lastModified: 637757098083306092
   FileSizes:
   - Name: Desktop
-    Value: 7473056
+    Value: 7537088
   Exists: 1
 --- !u!114 &-1785846771405165444
 MonoBehaviour:
@@ -1978,12 +2005,13 @@ MonoBehaviour:
   - {fileID: 970506189969763163}
   - {fileID: -862336676192479125}
   - {fileID: 3341423631709954499}
+  - {fileID: -3464521998071433867}
   EditorParameters: []
   MasterBanks:
   - {fileID: -1813042681740017314}
   StringsBanks:
   - {fileID: 6107050520195032601}
-  cacheTime: 637757067944921829
+  cacheTime: 637757098083336017
   cacheVersion: 9
 --- !u!114 &39988272671530022
 MonoBehaviour:
@@ -3109,10 +3137,10 @@ MonoBehaviour:
   Path: Fmod/WakjwaLike/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637757067944921829
+  lastModified: 637757098083336017
   FileSizes:
   - Name: Desktop
-    Value: 2386
+    Value: 2422
   Exists: 1
 --- !u!114 &6110770951763433383
 MonoBehaviour:
