@@ -136,7 +136,7 @@ public class StageManager : MonoBehaviour
 
         /* 스테이지 채우기 */
         {
-            int nrcCount = currentStage.nrcCount;
+            int nrcCount = currentStage.nrcID.Length;
             foreach (var id in currentStage.nrcID)
                 if (DataManager.Instance.CurGameData.rescuedNPC[id])
                     nrcCount--;
@@ -144,7 +144,7 @@ public class StageManager : MonoBehaviour
             for (int i = 0; i < roomCount; i++)
             {
                 int roomMoldIndex = i == 0 ? 0 : Random.Range(0, roomMolds.Count);            
-                int roomDataIndex = i <= 3 ? 0 : Random.Range(nrcCount > 0 ? 0 : 1, roomData.Count);
+                int roomDataIndex = i <= 3 ? 0 : nrcCount > 0 ? 0 : Random.Range(0, roomData.Count);
 
                 // 0 spawn, 1 boss, 2 restourant, 3 shop, 4 nrc, 5 ~
                 Room room = Instantiate(roomData[roomDataIndex].gameObject, stageGrid.transform).GetComponent<Room>();

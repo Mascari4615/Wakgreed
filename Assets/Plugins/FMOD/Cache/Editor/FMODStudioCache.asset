@@ -1656,10 +1656,10 @@ MonoBehaviour:
   Path: Fmod/WakjwaLike/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637755844350538589
+  lastModified: 637756741561817378
   FileSizes:
   - Name: Desktop
-    Value: 7469056
+    Value: 7473056
   Exists: 1
 --- !u!114 &-1785846771405165444
 MonoBehaviour:
@@ -1768,6 +1768,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 570
+--- !u!114 &-862336676192479125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Monster/Hurt
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Monster/Hurt
+  Guid:
+    Data1: 2085686334
+    Data2: 1212663799
+    Data3: 803861693
+    Data4: 1610206135
+  Banks:
+  - {fileID: -1813042681740017314}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 160
 --- !u!114 &-782648153113888079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1950,12 +1977,13 @@ MonoBehaviour:
   - {fileID: 1054356788294473776}
   - {fileID: 5030903635543523284}
   - {fileID: 970506189969763163}
+  - {fileID: -862336676192479125}
   EditorParameters: []
   MasterBanks:
   - {fileID: -1813042681740017314}
   StringsBanks:
   - {fileID: 6107050520195032601}
-  cacheTime: 637755844350568605
+  cacheTime: 637756741561847301
   cacheVersion: 9
 --- !u!114 &39988272671530022
 MonoBehaviour:
@@ -3054,10 +3082,10 @@ MonoBehaviour:
   Path: Fmod/WakjwaLike/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637755844350568605
+  lastModified: 637756741561847301
   FileSizes:
   - Name: Desktop
-    Value: 2348
+    Value: 2382
   Exists: 1
 --- !u!114 &6110770951763433383
 MonoBehaviour:

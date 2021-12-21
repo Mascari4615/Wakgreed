@@ -37,7 +37,7 @@ public abstract class NormalMonster : Monster
 
     private void Update()
     {
-        red.fillAmount = Mathf.Lerp(red.fillAmount, (float)Hp / MAXHp, Time.deltaTime * 20f);
+        red.fillAmount = Mathf.Lerp(red.fillAmount, (float)hp / MaxHp, Time.deltaTime * 20f);
         yellow.fillAmount = Mathf.Lerp(yellow.fillAmount, red.fillAmount, Time.deltaTime * 5f);
 
         if (yellow.fillAmount - 0.02f <= red.fillAmount)

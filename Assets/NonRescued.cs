@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class NonRescued : NPC
 {
-    public override void Interaction()
+    public override void FocusOff()
     {
-        base.Interaction();
+        base.FocusOff();
         DataManager.Instance.CurGameData.rescuedNPC[ID] = true;
         DataManager.Instance.SaveGameData();
         gameObject.SetActive(false);

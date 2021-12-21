@@ -6,6 +6,7 @@ public abstract class BossMonster : Monster
 {
     [SerializeField] private BoolVariable isShowingSomething;
     public new string name;
+    public int ID;
 
     protected override void OnEnable()
     {
@@ -33,7 +34,7 @@ public abstract class BossMonster : Monster
         collider2D.enabled = false;
         Rigidbody2D.velocity = Vector2.zero;
         Rigidbody2D.bodyType = RigidbodyType2D.Static;
-        Animator.SetTrigger(collapse);
+        Animator.SetTrigger("COLLAPSE");
         GameManager.Instance.enemyRunTimeSet.Remove(gameObject);
         onMonsterCollapse.Raise(transform);
         int randCount = Random.Range(0, 5);
@@ -46,6 +47,8 @@ public abstract class BossMonster : Monster
         ObjectManager.Instance.PopObject("LevelUpEffect", transform);
 
         (StageManager.Instance.CurrentRoom as BossRoom)?.RoomClear();
+        DataManager.Instance.CurGameData.rescuedNPC[ID] = true;
+        DataManager.Instance.SaveGameData();
         gameObject.SetActive(false);
     }
 }

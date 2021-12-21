@@ -166,7 +166,7 @@ public class DataManager : MonoBehaviour
 [System.Serializable]
 public class GameData
 {
-    public bool[] rescuedNPC = new bool[20];
-    public bool[] talkedOnceNPC = new bool[20];
+    public bool[] rescuedNPC = Enumerable.Repeat(false, 20).ToArray();
+    public bool[] talkedOnceNPC = Enumerable.Repeat(false, 20).ToArray();
     public float[] Volume = { .8f, 1, 1 };
 }

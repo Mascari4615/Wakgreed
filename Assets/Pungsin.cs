@@ -8,6 +8,7 @@ public class Pungsin : BossMonster
     [SerializeField] private GameObject ult;
     private GameObject[] ultAttackPos;
     private BulletMove[] ultAttackGos;
+    [SerializeField] private GameObject stun;
 
     protected override void Awake()
     {
@@ -37,8 +38,6 @@ public class Pungsin : BossMonster
                     yield return StartCoroutine(Ult());
                     break;
             }
-
-            yield return new WaitForSeconds(2f);
         }
     }
 
@@ -47,6 +46,7 @@ public class Pungsin : BossMonster
         float temp = 0;
 
         ult.SetActive(true);
+        Animator.SetBool("ULT", true);
 
         while (temp < 4)
         {
@@ -64,6 +64,11 @@ public class Pungsin : BossMonster
         }
 
         ult.SetActive(false);
+        Animator.SetBool("ULT", false);
+
+        stun.SetActive(true);
+        yield return new WaitForSeconds(4f);
+        stun.SetActive(false);
     }
 
     private IEnumerator Skill0()
