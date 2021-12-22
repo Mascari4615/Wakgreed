@@ -4,7 +4,7 @@ using UnityEngine;
 public class ShopKeeper : NPC
 {
     [SerializeField] private ShopKeeperItemInventory itemInventory;
-    [SerializeField] private ItemInventoryUI itemInventoryUI_Sell;
+    // [SerializeField] private ItemInventoryUI itemInventoryUI_Sell;
     [SerializeField] private ItemInventoryUI itemInventoryUI_Buy;
     [SerializeField] private IntVariable nyang;
 
@@ -13,11 +13,10 @@ public class ShopKeeper : NPC
         base.Awake();
 
         for (int i = 0; i < 10; i++)
-        {
             itemInventory.Add(DataManager.Instance.ItemDic.ElementAt(Random.Range(0, DataManager.Instance.ItemDic.Count)).Value);
-        }
     }
 
+    /*
     public void SellItem(Slot slot)
     {
         if (DataManager.Instance.wakgoodItemInventory.itemCountDic[(slot.specialThing as Item).id] == 1) { slot.gameObject.SetActive(false); }
@@ -26,6 +25,7 @@ public class ShopKeeper : NPC
         for (int i = 0; i < (slot.specialThing as Item).price % 10; i++) ObjectManager.Instance.PopObject("Nyang", transform);
         itemInventoryUI_Sell.Initialize();
     }
+    */
 
     public void BuyItem(Slot slot)
     {

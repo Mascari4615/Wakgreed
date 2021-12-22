@@ -122,10 +122,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aa5188b8af92cc4c9f8dd4b095b6318, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseHp: 50
-  baseAD: 3
-  baseMoveSpeed: 3
+  flashMaterial: {fileID: 2100000, guid: c74166bc298345945a7d9a9e8218b4ec, type: 2}
   onMonsterCollapse: {fileID: 11400000, guid: 1b477f0305627f54d8b1c54462eafc87, type: 2}
+  hp: 60
+  MoveSpeed: 5
   damagingObject: {fileID: 625877238601118578}
 --- !u!114 &6520139255365978244
 MonoBehaviour:

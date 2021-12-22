@@ -10,7 +10,7 @@ public class Rusuk : Chef
     {
         tempSlot = slot;
         canOpenUI = false;
-        ui.SetActive(false);
+        customUI.SetActive(false);
         StartCoroutine(nameof(Shaking));
     }
 

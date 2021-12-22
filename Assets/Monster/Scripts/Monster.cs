@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 
 public abstract class Monster : MonoBehaviour, IHitable
 {
+    [SerializeField] private Material flashMaterial;
     [SerializeField] protected GameEvent onMonsterCollapse;
     public int MaxHp { get; protected set; }
     public int hp;
@@ -15,10 +16,8 @@ public abstract class Monster : MonoBehaviour, IHitable
     protected Animator Animator;
     protected Rigidbody2D Rigidbody2D;
     protected new Collider2D collider2D;
-
     protected Material originalMaterial;
     private Coroutine flashRoutine;
-    [SerializeField] private Material flashMaterial;
 
     protected virtual void Awake()
     {
@@ -33,8 +32,6 @@ public abstract class Monster : MonoBehaviour, IHitable
     protected virtual void OnEnable()
     {
         isCollapsed = false;
-
-        MaxHp = hp;
         hp = MaxHp;
         collider2D.enabled = true;
         Rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
@@ -60,11 +57,11 @@ public abstract class Monster : MonoBehaviour, IHitable
 
         _ReceiveHit();
 
+        RuntimeManager.PlayOneShot($"event:/SFX/Monster/Hurt", transform.position);
+
         switch (hp)
         {
             case > 0:
-                //RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("(", StringComparison.Ordinal), 7) : name)}_Hurt", transform.position);
-                RuntimeManager.PlayOneShot($"event:/SFX/Monster/Hurt", transform.position);
                 Animator.SetTrigger("AHYA");
                 break;
             case <= 0:

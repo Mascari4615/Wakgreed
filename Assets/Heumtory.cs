@@ -12,7 +12,7 @@ public class Heumtory : MonoBehaviour
 
     private void OnEnable()
     {
-        AudioManager.Instance.PlayMusic("나쁜게츠비 - 가즈아");
+        AudioManager.Instance.PlayMusic("Badassgatsby - 가즈아");
         StartCoroutine("Show");
     }
 

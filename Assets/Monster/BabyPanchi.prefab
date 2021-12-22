@@ -353,10 +353,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c0089d2d6552864d896f026d4d0cb97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseHp: 100
-  baseAD: 10
-  baseMoveSpeed: 10
+  flashMaterial: {fileID: 2100000, guid: c74166bc298345945a7d9a9e8218b4ec, type: 2}
   onMonsterCollapse: {fileID: 11400000, guid: 1b477f0305627f54d8b1c54462eafc87, type: 2}
+  hp: 20
+  MoveSpeed: 5
   gamja: {fileID: 5122466530263573976}
   attackCoolTime: 3
 --- !u!114 &6520139255365978244

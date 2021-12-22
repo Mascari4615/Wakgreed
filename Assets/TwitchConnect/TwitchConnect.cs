@@ -23,8 +23,13 @@ public class TwitchConnect : ScriptableObject
         twitch = new TcpClient();
         await twitch.ConnectAsync(URL, Port);
 
-        reader = new StreamReader(twitch.GetStream());
-        writer = new StreamWriter(twitch.GetStream()) { NewLine = "\r\n", AutoFlush = true };
+        try
+        {
+            reader = new StreamReader(twitch.GetStream());
+            writer = new StreamWriter(twitch.GetStream()) { NewLine = "\r\n", AutoFlush = true };
+        }
+        catch (IOException ioException)
+        { Debug.Log("! :" + ioException); }
 
         await writer.WriteLineAsync("PASS " + token);
         await writer.WriteLineAsync("NICK " + userName.ToLower());
@@ -40,9 +45,7 @@ public class TwitchConnect : ScriptableObject
             string lastLine = null;
 
             try
-            {
-                lastLine = await reader.ReadLineAsync();
-            }
+            { lastLine = await reader.ReadLineAsync(); }
             catch (IOException ioException)
             {
                 Debug.Log("! :" + ioException);
@@ -61,7 +64,11 @@ public class TwitchConnect : ScriptableObject
 
     public async void Temp()
     {
-        await writer.WriteLineAsync("PART #" + channelName);
+        try
+        { await writer.WriteLineAsync("PART #" + channelName); }
+        catch (IOException ioException)
+        { Debug.Log("! :" + ioException); }
+        
         ConnectToTwitch();
     }
     

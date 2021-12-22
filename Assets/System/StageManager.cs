@@ -312,7 +312,7 @@ public class StageManager : MonoBehaviour
         roomUiDic[CurrentRoom.Coordinate].GetChild(1).GetChild(0).GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f); // Property\CurrentRoom
 
         CurrentRoom = roomDic[coordinate];
-        Wakgood.Instance.transform.position = CurrentRoom.transform.position;
+        Wakgood.Instance.transform.position = CurrentRoom.CenterSpawnPoint != null ? CurrentRoom.CenterSpawnPoint.position : CurrentRoom.transform.position;
 
         UpdateMap();
 

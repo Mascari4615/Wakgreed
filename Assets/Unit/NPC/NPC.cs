@@ -12,7 +12,7 @@ public abstract class NPC : InteractiveObject
     [SerializeField] protected bool canOpenUI = true;
     [SerializeField] private BoolVariable isShowingSomething;
     protected CinemachineVirtualCamera cvm1, cvm2;
-    protected GameObject ui, chat;
+    protected GameObject customUI, defaultUI, chat;
     private TextMeshProUGUI chatText;
     protected CinemachineTargetGroup cinemachineTargetGroup;
     private bool isTalking, inputSkip;
@@ -23,8 +23,9 @@ public abstract class NPC : InteractiveObject
     {
         cvm1 = transform.Find("CM").GetComponent<CinemachineVirtualCamera>();
         cvm2 = transform.Find("CM2").GetComponent<CinemachineVirtualCamera>();
-        ui = transform.Find("CustomUI").gameObject;
-        chat = transform.Find("DefaultUI").Find("Chat").gameObject;
+        customUI = transform.Find("CustomUI").gameObject;
+        defaultUI = transform.Find("DefaultUI").gameObject;
+        chat = defaultUI.transform.Find("Chat").gameObject;
         chatText = chat.transform.GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>();
         cvm1.Follow = GameObject.Find("Cameras").transform.GetChild(2);
         cinemachineTargetGroup = GameObject.Find("Cameras").transform.GetChild(2).GetComponent<CinemachineTargetGroup>();
@@ -57,7 +58,7 @@ public abstract class NPC : InteractiveObject
         cinemachineTargetGroup.m_Targets[1].weight = 1;
         cvm1.Priority = -100;
         cvm2.Priority = -100;
-        ui.SetActive(false);
+        customUI.SetActive(false);
         chat.SetActive(false);
 
         StopAllCoroutines();
@@ -72,7 +73,7 @@ public abstract class NPC : InteractiveObject
         cinemachineTargetGroup.m_Targets[1].weight = 1;
         cvm1.Priority = -100;
         cvm2.Priority = -100;
-        ui.SetActive(false);
+        customUI.SetActive(false);
         chat.SetActive(false);
 
         StopAllCoroutines();
@@ -98,8 +99,10 @@ public abstract class NPC : InteractiveObject
         }
         else
         {
-            tempComment = new List<string>(1);
-            tempComment.Add(randomComment[Random.Range(0, randomComment.Count)]);
+            tempComment = new List<string>(1)
+            {
+                randomComment[Random.Range(0, randomComment.Count)]
+            };
         }
 
         chat.SetActive(true);
@@ -114,7 +117,7 @@ public abstract class NPC : InteractiveObject
                 if (!inputSkip)
                 {
                     chatText.text += item;
-                    RuntimeManager.PlayOneShot("event:/SFX/ETC/NPC_Rusuk", transform.position);
+                    RuntimeManager.PlayOneShot($"event:/SFX/ETC/NPC_{ID}", transform.position);
                     yield return ws005;
                 }
                 else
@@ -140,7 +143,7 @@ public abstract class NPC : InteractiveObject
         
         if (canOpenUI)
         {
-            ui.SetActive(true);
+            customUI.SetActive(true);
             cvm2.Priority = 300;
         }
         else
