@@ -47,8 +47,7 @@ public class StageManager : MonoBehaviour
     [SerializeField] private Animator stageLoading;
     [SerializeField] private TextMeshProUGUI stageNumberText, stageNameCommentText;
     [SerializeField] private GameObject stageSpeedWagon;
-    private static readonly int @in = Animator.StringToHash("IN");
-    private static readonly int @out = Animator.StringToHash("OUT");
+
 
     private void Awake()
     {
@@ -173,6 +172,7 @@ public class StageManager : MonoBehaviour
         CurrentRoom.Enter();
         InitialzeMap();
 
+        UIManager.Instance.SetStageName($"{currentStage.id}-{1} {currentStage.name}");
         Wakgood.Instance.transform.position = new Vector3(CurrentRoom.Coordinate.x, CurrentRoom.Coordinate.y, 0) * 100;
 
         stageNumberText.text = $"1-{currentStage.id}";
@@ -191,7 +191,7 @@ public class StageManager : MonoBehaviour
         stageLoading.gameObject.SetActive(false);
         
         isGaming.RuntimeValue = true;
-        fadePanelAnimator.SetTrigger(@in);
+        fadePanelAnimator.SetTrigger("IN");
         yield return ws02;
     }
 
@@ -200,8 +200,7 @@ public class StageManager : MonoBehaviour
         do yield return null;
         while (!Input.GetKeyDown(KeyCode.F));
         stageLoading.SetTrigger("SKIP");
-        AudioManager.Instance.BgmEvent = RuntimeManager.CreateInstance($"event:/BGM/{stageDataBuffer.items[currentStageID].name}");
-        AudioManager.Instance.BgmEvent.start();
+        AudioManager.Instance.PlayMusic(currentStage.musicName);
         isLoading.RuntimeValue = false;
     }
 
@@ -215,8 +214,7 @@ public class StageManager : MonoBehaviour
 
         yield return ws02;
         yield return new WaitForSeconds(stageLoading.GetCurrentAnimatorStateInfo(0).length);
-        AudioManager.Instance.BgmEvent = RuntimeManager.CreateInstance($"event:/BGM/{stageDataBuffer.items[currentStageID].name}");
-        AudioManager.Instance.BgmEvent.start();
+        AudioManager.Instance.PlayMusic(currentStage.musicName);
         isLoading.RuntimeValue = false;
     }
 
@@ -287,7 +285,7 @@ public class StageManager : MonoBehaviour
 
     public IEnumerator MigrateRoom(Vector2 moveDirection, int spawnDirection)
     {
-        fadePanelAnimator.SetTrigger(@out);
+        fadePanelAnimator.SetTrigger("OUT");
         yield return ws02;
 
         roomUiDic[CurrentRoom.Coordinate].GetChild(1).GetChild(0).GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f); // Property\CurrentRoom
@@ -302,13 +300,13 @@ public class StageManager : MonoBehaviour
         CurrentRoom.Enter();
 
         yield return ws02;
-        fadePanelAnimator.SetTrigger(@in);
+        fadePanelAnimator.SetTrigger("IN");
         yield return ws02;
     }
 
     public IEnumerator MigrateRoom(Vector2 coordinate)
     {
-        fadePanelAnimator.SetTrigger(@out);
+        fadePanelAnimator.SetTrigger("OUT");
         yield return ws02;
 
         roomUiDic[CurrentRoom.Coordinate].GetChild(1).GetChild(0).GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f); // Property\CurrentRoom
@@ -323,7 +321,7 @@ public class StageManager : MonoBehaviour
         CurrentRoom.Enter();
 
         yield return ws02;
-        fadePanelAnimator.SetTrigger(@in);
+        fadePanelAnimator.SetTrigger("IN");
         yield return ws02;
     }
     

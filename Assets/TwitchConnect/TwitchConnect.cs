@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using System.Net.Sockets;
 using System.IO;
@@ -22,17 +21,17 @@ public class TwitchConnect : ScriptableObject
     public async void ConnectToTwitch()
     {
         twitch = new TcpClient();
-        await twitch.ConnectAsync(URL, Port);
 
         try
         {
-
+            await twitch.ConnectAsync(URL, Port);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Console.WriteLine(e + "Ang");
             throw;
         }
+
         reader = new StreamReader(twitch.GetStream());
         writer = new StreamWriter(twitch.GetStream()) { NewLine = "\r\n", AutoFlush = true };
 
@@ -54,11 +53,13 @@ public class TwitchConnect : ScriptableObject
             {
                 string user = lastLine.Split(' ')[0].Split('!')[0][1..];
                 string message = lastLine.Split(':')[2];
-                StreamingManager.Instance.TwitchChat(user, message);
+                StreamingManager.Instance.Chat(message, user);
             }
         }
     }
     
-    public async void WriteToChannel(string messageToSend) => await writer.WriteLineAsync($"PRIVMSG #{channelName} :{messageToSend}");
+    public async void WriteToChannel(string messageToSend) =>
+        await writer.WriteLineAsync($"PRIVMSG #{channelName} :{messageToSend}");
+
     public async void LeaveChannel() => await writer.WriteLineAsync("PART #" + channelName);
 }

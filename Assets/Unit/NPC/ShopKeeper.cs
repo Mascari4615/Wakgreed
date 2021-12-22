@@ -8,8 +8,10 @@ public class ShopKeeper : NPC
     [SerializeField] private ItemInventoryUI itemInventoryUI_Buy;
     [SerializeField] private IntVariable nyang;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         for (int i = 0; i < 10; i++)
         {
             itemInventory.Add(DataManager.Instance.ItemDic.ElementAt(Random.Range(0, DataManager.Instance.ItemDic.Count)).Value);

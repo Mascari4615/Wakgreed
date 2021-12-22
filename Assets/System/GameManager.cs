@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using FMODUnity;
 
 public class GameManager : MonoBehaviour
 {
@@ -33,9 +32,6 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private IntVariable nyang;
     [SerializeField] private IntVariable viewer;
-    
-    private static readonly int @out = Animator.StringToHash("OUT");
-    private static readonly int @in = Animator.StringToHash("IN");
 
     [SerializeField] private GameObject endingGameObject;
     [SerializeField] private GameObject endingPanel;
@@ -45,13 +41,14 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Application.targetFrameRate = 60;
-        // testNpc.SetActive(DataManager.Instance.CurGameData.isNpcRescued);
+        Instance = this;    
+    }
 
-        Instance = this;
+    private void Start()
+    {
         StartCoroutine(CheckBuff());
-        AudioManager.Instance.BgmEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-        AudioManager.Instance.BgmEvent = RuntimeManager.CreateInstance($"event:/BGM/Undo");
-        AudioManager.Instance.BgmEvent.start();
+        UIManager.Instance.SetStageName("0-0 로비");
+        AudioManager.Instance.PlayMusic("Vendredi - Here I Am");
     }
 
     private IEnumerator CheckBuff()
@@ -79,14 +76,9 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape) && !isLoading.RuntimeValue && !gameResultPanel.activeSelf)
         {
-            if (SettingManager.Instance.SettingPanel.activeSelf) SettingManager.Instance.SettingPanel.SetActive(false);
-            else if (StreamingManager.Instance.inputField.gameObject.activeSelf)
-            {
-                StreamingManager.Instance.inputField.text = "";
-                StreamingManager.Instance.inputField.gameObject.SetActive(false);
-                StreamingManager.Instance.t = 5;
-            }
-            else PauseGame();
+            if (!SettingManager.Instance.Temp())
+                if (!StreamingManager.Instance.Temp())
+                    PauseGame();
         }
     }
 
@@ -104,11 +96,11 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator EnterPortal()
     {
-        AudioManager.Instance.BgmEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        AudioManager.Instance.StopMusic();
         ObjectManager.Instance.DeactivateAll();
         
         isLoading.RuntimeValue = true;
-        fadePanel.SetTrigger(@out);
+        fadePanel.SetTrigger("OUT");
         yield return new WaitForSeconds(0.2f);
 
         undo.SetActive(false);
@@ -118,7 +110,6 @@ public class GameManager : MonoBehaviour
     public void ClickRecall() => clickRecall = true;
 
     // OnCollapse GameEvent로 호출
-    // Todo : 귀환 할 때에도 결과 창 나오도록
     public void GameOverAndRecall() => StartCoroutine(_GameOverAndRecall());
 
     private IEnumerator _GameOverAndRecall()
@@ -140,14 +131,14 @@ public class GameManager : MonoBehaviour
 
         StageManager.Instance.DestroyStage();
         undo.SetActive(true);
+        UIManager.Instance.SetStageName("0-0 로비");
+        AudioManager.Instance.PlayMusic("Vendredi - Here I Am");
         StageManager.Instance.currentStageID = -1;
 
         StopAllSpeedWagons();
         StageManager.Instance.StopAllSpeedWagons();
 
         MasteryManager.Instance.selectMasteryPanel.SetActive(false);
-
-        // UpdateMap();
         
         enemyRunTimeSet.Clear();
         ObjectManager.Instance.DeactivateAll();
@@ -161,18 +152,13 @@ public class GameManager : MonoBehaviour
         gameResultPanel.SetActive(false);
         gamePanel.SetActive(true);
 
-        // testNpc.SetActive(DataManager.Instance.CurGameData.isNpcRescued);
         UIManager.Instance.bossHpBar.HpBarOff();
 
         Wakgood.Instance.enabled = true;
         Wakgood.Instance.gameObject.SetActive(true);
 
         nyang.RuntimeValue = 0;
-        // viewer.RuntimeValue = 0;
-
-        AudioManager.Instance.BgmEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-        AudioManager.Instance.BgmEvent = RuntimeManager.CreateInstance($"event:/BGM/Undo");
-        AudioManager.Instance.BgmEvent.start();
+        viewer.RuntimeValue = 0;     
 
         Time.timeScale = 1;
     }

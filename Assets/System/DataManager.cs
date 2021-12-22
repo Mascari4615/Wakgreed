@@ -156,17 +156,15 @@ public class DataManager : MonoBehaviour
         _ => throw new ArgumentOutOfRangeException(nameof(itemGrade), itemGrade, null)
     };
 
-    private void OnApplicationQuit()
-    {
-        SaveGameData();
-    }
-
+    private void OnApplicationQuit() => SaveGameData();
 }
 
 [System.Serializable]
 public class GameData
 {
+    public bool youtubeHi = true;
     public bool[] rescuedNPC = Enumerable.Repeat(false, 20).ToArray();
     public bool[] talkedOnceNPC = Enumerable.Repeat(false, 20).ToArray();
     public float[] Volume = { .8f, 1, 1 };
+    public int deathCount = 0;
 }
