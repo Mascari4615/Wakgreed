@@ -31,6 +31,9 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private BoolVariable isFocusOnSomething;
 
+    [SerializeField] private TextMeshProUGUI musicName;
+    [SerializeField] private TextMeshProUGUI stageName;
+
     private void Awake()
     {
         Instance = this;
@@ -135,8 +138,7 @@ public class UIManager : MonoBehaviour
         if (weapon.skillE) weaponSkillE[weaponNum].SetSlot(weapon.skillE);
     }
 
-    public void OpenSetting()
-    {
-        SettingManager.Instance.SettingPanel.SetActive(true);
-    }
+    public void OpenSetting() => SettingManager.Instance.OpenSetting();
+    public void SetMusicName(string name) => musicName.text = name;
+    public void SetStageName(string name) => stageName.text = name;
 }

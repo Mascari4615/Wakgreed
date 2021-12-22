@@ -45,8 +45,8 @@ public class Wakgood : MonoBehaviour, IHitable
     public bool IsCollapsed { get; private set; }
     [SerializeField] private BoolVariable isFocusOnSomething;
 
-    public GameObject Chat { get; private set; }
-    public TextMeshProUGUI ChatText { get; private set; }
+    private GameObject chat;
+    private TextMeshProUGUI chatText;
 
     private void Awake()
     {
@@ -63,14 +63,11 @@ public class Wakgood : MonoBehaviour, IHitable
         WakgoodMove = GetComponent<WakgoodMove>();
         cinemachineTargetGroup = GameObject.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>();
 
-        Chat = transform.Find("Canvas").Find("Wakgood_Chat").gameObject;
-        ChatText = Chat.transform.GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>();
+        chat = transform.Find("Canvas").Find("Chat").gameObject;
+        chatText = chat.transform.GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>();
     }
 
-    private void OnEnable()
-    {
-        Initialize();
-    }
+    private void OnEnable() => Initialize();
 
     public void Initialize()
     {
@@ -235,6 +232,7 @@ public class Wakgood : MonoBehaviour, IHitable
         wakgoodCollider.enabled = false;
 
         yield return new WaitForSeconds(2f);
+        DataManager.Instance.CurGameData.deathCount++;
         onCollapse.Raise();
         enabled = false;
     }
@@ -262,5 +260,13 @@ public class Wakgood : MonoBehaviour, IHitable
     public void SetRigidBodyType(RigidbodyType2D rigidbodyType2D)
     {
         WakgoodMove.PlayerRb.bodyType = rigidbodyType2D;
+    }
+
+    public IEnumerator ShowChat(string msg)
+    {
+        chatText.text = msg;
+        chat.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        chat.SetActive(false);
     }
 }

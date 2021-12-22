@@ -10,7 +10,7 @@ public class SettingManager : MonoBehaviour
         private set => instance = value;
     }
 
-    public GameObject SettingPanel { get; private set; }
+    private GameObject settingPanel;
     public Slider masterSlider, bgmSlider, sfxSlider;
 
     private void Awake()
@@ -18,9 +18,21 @@ public class SettingManager : MonoBehaviour
         if (Instance != this) { Destroy(gameObject); return; }
         DontDestroyOnLoad(gameObject);
 
-        SettingPanel = transform.GetChild(0).gameObject;
-        masterSlider = SettingPanel.transform.GetChild(0).GetComponent<Slider>();
-        bgmSlider = SettingPanel.transform.GetChild(1).GetComponent<Slider>();
-        sfxSlider = SettingPanel.transform.GetChild(2).GetComponent<Slider>();
+        settingPanel = transform.GetChild(0).gameObject;
+        masterSlider = settingPanel.transform.GetChild(0).GetComponent<Slider>();
+        bgmSlider = settingPanel.transform.GetChild(1).GetComponent<Slider>();
+        sfxSlider = settingPanel.transform.GetChild(2).GetComponent<Slider>();
     }
+
+    public bool Temp()
+    {
+        if (settingPanel.activeSelf)
+        {
+            settingPanel.SetActive(false);
+            return true;
+        }
+        else return false;
+    }
+
+    public void OpenSetting() => settingPanel.SetActive(true);
 }

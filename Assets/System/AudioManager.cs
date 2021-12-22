@@ -1,8 +1,6 @@
 using FMOD.Studio;
 using FMODUnity;
-using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
@@ -18,7 +16,7 @@ public class AudioManager : MonoBehaviour
 
     private Bus bgm, sfx, master;
     private EventInstance sfxVolumeTestEvent;
-    public EventInstance BgmEvent;
+    private EventInstance BgmEvent;
     private PLAYBACK_STATE pbState;
     [SerializeField] private BoolVariable isLoading;
 
@@ -36,7 +34,7 @@ public class AudioManager : MonoBehaviour
         sfx = RuntimeManager.GetBus("bus:/Master/SFX");
         master = RuntimeManager.GetBus("bus:/Master");
         sfxVolumeTestEvent = RuntimeManager.CreateInstance("event:/SFX/SFXVolumeTest");
-        BgmEvent = RuntimeManager.CreateInstance("event:/BGM/Lobby");
+        BgmEvent = RuntimeManager.CreateInstance("event:/BGM/Vendredi - Here I Am");
     }
 
     private void Start()
@@ -65,6 +63,16 @@ public class AudioManager : MonoBehaviour
                 BgmEvent.start();
             }
         }
+    }
+       
+    public void StopMusic() => BgmEvent.stop(STOP_MODE.ALLOWFADEOUT);
+
+    public void PlayMusic(string musicName)
+    {
+        StopMusic();
+        BgmEvent = RuntimeManager.CreateInstance($"event:/BGM/{musicName}");
+        BgmEvent.start();
+        if (UIManager.Instance != null) UIManager.Instance.SetMusicName(musicName);
     }
 
     public void MasterVolumeLevel(float newMasterVolume) => master.setVolume(DataManager.Instance.CurGameData.Volume[0] = newMasterVolume);

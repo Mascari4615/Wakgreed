@@ -1,18 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
-    public void OpenSetting()
+    [SerializeField] GameObject fakeMenu;
+    [SerializeField] GameObject heumtory;
+
+    private void Awake()
     {
-        SettingManager.Instance.SettingPanel.SetActive(true);
+        if (DataManager.Instance.CurGameData.youtubeHi)
+        {
+            // DataManager.Instance.CurGameData.youtubeHi = false;
+            DataManager.Instance.SaveGameData();
+            fakeMenu.SetActive(true);
+            AudioManager.Instance.PlayMusic("Gark - Don't Shoot");
+        }
+        else
+        {
+            fakeMenu.SetActive(false);
+            AudioManager.Instance.PlayMusic("Bensound - Memories");
+        }
     }
 
-    public void LoadGameScene()
-    {
-        SceneLoader.Instance.LoadScene("Game");
-    }
+    public void OpenSetting() => SettingManager.Instance.OpenSetting();
+    public void LoadGameScene() => SceneLoader.Instance.LoadScene("Game");
+    public void LoadTutorialScene() { fakeMenu.SetActive(false); heumtory.SetActive(true); }
 
     public void Quit()
     {
