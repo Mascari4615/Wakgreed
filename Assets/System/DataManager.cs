@@ -163,8 +163,8 @@ public class DataManager : MonoBehaviour
 public class GameData
 {
     public bool youtubeHi = true;
-    public bool[] rescuedNPC = Enumerable.Repeat(false, 20).ToArray();
-    public bool[] talkedOnceNPC = Enumerable.Repeat(false, 20).ToArray();
+    public bool[] rescuedNPC = Enumerable.Repeat(false, 30 + 1).ToArray();
+    public bool[] talkedOnceNPC = Enumerable.Repeat(false, 30 + 1).ToArray();
     public float[] Volume = { .8f, 1, 1 };
     public int deathCount = 0;
 }

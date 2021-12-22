@@ -6,6 +6,7 @@ public abstract class Room : MonoBehaviour
     public Vector2 Coordinate { get; private set; }
     public bool IsVisited { get; protected set; } = false;
     public bool[] IsConnectToNearbyRoom { get; private set; } = { false, false, false, false };
+    public Transform CenterSpawnPoint;
     public GameObject[] Doors { get; private set; } = new GameObject[4];
     protected List<GameObject> DoorHiders { get; private set; } = new();
     protected List<GameObject> DoorParticles { get; private set; } = new();

@@ -1,12 +1,16 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
     [SerializeField] GameObject fakeMenu;
     [SerializeField] GameObject heumtory;
+    [SerializeField] Image wakdu;
 
     private void Awake()
     {
+        wakdu.alphaHitTestMinimumThreshold = 0.1f;
+
         if (DataManager.Instance.CurGameData.youtubeHi)
         {
             DataManager.Instance.CurGameData.youtubeHi = false;
@@ -29,11 +33,6 @@ public class MenuManager : MonoBehaviour
 
     public void OpenSetting() => SettingManager.Instance.OpenSetting();
     public void LoadGameScene() => SceneLoader.Instance.LoadScene("Game");
-    public void LoadTutorialScene() { fakeMenu.SetActive(false); heumtory.SetActive(true); }
-
-    public void Quit()
-    {
-        SceneLoader.Instance.LoadScene("Game");
-        Application.Quit();
-    }
+    public void StartHeumtory() { fakeMenu.SetActive(false); heumtory.SetActive(true); }
+    public void Quit() => Application.Quit();
 }

@@ -6,6 +6,7 @@ public class Amoeba : NormalMonster
     private IEnumerator idle;
     private IEnumerator attack;
     private IEnumerator ahya;
+    private IEnumerator checkWakgood;
     private bool bRecognizeWakgood = false;
     [SerializeField] private Collider2D bodyCollider;
     private static readonly int ismoving = Animator.StringToHash("ISMOVING");
@@ -15,9 +16,11 @@ public class Amoeba : NormalMonster
         base.OnEnable();
 
         bodyCollider.enabled = true;
-        idle = Idle();
-        StartCoroutine(idle);
-        StartCoroutine(CheckWakgood());
+
+        attack = Attack();
+        ahya = Ahya();
+        StartCoroutine(idle = Idle());
+        StartCoroutine(checkWakgood = CheckWakgood());
     }
 
     private IEnumerator CheckWakgood()
@@ -29,8 +32,7 @@ public class Amoeba : NormalMonster
             {
                 bRecognizeWakgood = true;
                 StopCoroutine(idle);
-                attack = Attack();
-                StartCoroutine(attack);
+                StartCoroutine(attack = Attack());
                 break;
             }
             yield return ws01;
@@ -62,15 +64,9 @@ public class Amoeba : NormalMonster
         Animator.SetBool(ismoving, false);
         yield return new WaitForSeconds(1f);
         if (bRecognizeWakgood)
-        {
-            attack = Attack();
-            StartCoroutine(attack);
-        }
+            StartCoroutine(attack = Attack());
         else
-        {          
-            idle = Idle();
-            StartCoroutine(idle);
-        }   
+            StartCoroutine(idle = Idle());
     }
 
     private IEnumerator Attack()
@@ -92,7 +88,10 @@ public class Amoeba : NormalMonster
 
         SpriteRenderer.flipX = transform.position.x > Wakgood.Instance.transform.position.x;
 
-        StopAllCoroutines();
+        StopCoroutine(idle);
+        StopCoroutine(attack);
+        StopCoroutine(ahya);
+        StopCoroutine(checkWakgood);
         ahya = Ahya();
         StartCoroutine(ahya);       
     }

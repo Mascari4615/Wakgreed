@@ -21,15 +21,15 @@ public abstract class LootGameObject : MonoBehaviour
 
     private IEnumerator Move()
     {
-        const float speed = 0.03f;
-        Vector3 waitPosition = transform.position + new Vector3(Random.Range(-1.5f, 1.6f), Random.Range(-1.5f, 1.6f), 0);
+        const float speed = 2f;
+        Vector3 waitPosition = transform.position + (Vector3)Random.insideUnitCircle * 1.5f;
         float temp = 0;
         
         while (temp < 1)
-        {
-            temp += speed;
+        {         
+            yield return null;
+            temp += Time.deltaTime * speed;
             transform.position = Vector3.Lerp(transform.position, waitPosition, temp);
-            yield return new WaitForSeconds(0.02f);
         }
 
         circleCollider2D.enabled = true;
@@ -37,9 +37,9 @@ public abstract class LootGameObject : MonoBehaviour
         temp = 0;
         while (true)
         {
-            temp += speed;
+            yield return null;
+            temp += Time.deltaTime * speed;
             transform.position = Vector3.Lerp(transform.position, Wakgood.Instance.transform.position, temp);
-            yield return new WaitForSeconds(0.02f);
         }
     }
 
