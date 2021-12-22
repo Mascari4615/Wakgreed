@@ -21,16 +21,7 @@ public class TwitchConnect : ScriptableObject
     public async void ConnectToTwitch()
     {
         twitch = new TcpClient();
-
-        try
-        {
-            await twitch.ConnectAsync(URL, Port);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e + "Ang");
-            throw;
-        }
+        await twitch.ConnectAsync(URL, Port);
 
         reader = new StreamReader(twitch.GetStream());
         writer = new StreamWriter(twitch.GetStream()) { NewLine = "\r\n", AutoFlush = true };
@@ -46,8 +37,18 @@ public class TwitchConnect : ScriptableObject
     {
         while (true)
         {
-            string lastLine = await reader.ReadLineAsync();
-            // Debug.Log(lastLine);
+            string lastLine = null;
+
+            try
+            {
+                lastLine = await reader.ReadLineAsync();
+            }
+            catch (IOException ioException)
+            {
+                Debug.Log("! :" + ioException);
+                Temp();
+                return;
+            }
 
             if ((lastLine != null) && (lastLine.Contains("PRIVMSG")))
             {
@@ -56,6 +57,12 @@ public class TwitchConnect : ScriptableObject
                 StreamingManager.Instance.Chat(message, user);
             }
         }
+    }
+
+    public async void Temp()
+    {
+        await writer.WriteLineAsync("PART #" + channelName);
+        ConnectToTwitch();
     }
     
     public async void WriteToChannel(string messageToSend) =>

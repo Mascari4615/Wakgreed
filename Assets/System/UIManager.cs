@@ -139,6 +139,6 @@ public class UIManager : MonoBehaviour
     }
 
     public void OpenSetting() => SettingManager.Instance.OpenSetting();
-    public void SetMusicName(string name) => musicName.text = name;
+    public void SetMusicName(string name) => musicName.text = $"[À½¾Ç] {name}";
     public void SetStageName(string name) => stageName.text = name;
 }
