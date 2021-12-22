@@ -9,7 +9,7 @@ public class MenuManager : MonoBehaviour
     {
         if (DataManager.Instance.CurGameData.youtubeHi)
         {
-            // DataManager.Instance.CurGameData.youtubeHi = false;
+            DataManager.Instance.CurGameData.youtubeHi = false;
             DataManager.Instance.SaveGameData();
             fakeMenu.SetActive(true);
             AudioManager.Instance.PlayMusic("Gark - Don't Shoot");
@@ -19,6 +19,12 @@ public class MenuManager : MonoBehaviour
             fakeMenu.SetActive(false);
             AudioManager.Instance.PlayMusic("Bensound - Memories");
         }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            SettingManager.Instance.OpenSetting();
     }
 
     public void OpenSetting() => SettingManager.Instance.OpenSetting();

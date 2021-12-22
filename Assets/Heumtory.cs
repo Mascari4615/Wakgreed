@@ -18,6 +18,9 @@ public class Heumtory : MonoBehaviour
 
     private IEnumerator Show()
     {
+        chatText.text = "";
+        yield return new WaitForSeconds(1f);
+
         foreach (string text in texts)
         {
             chatText.text = "";
@@ -25,12 +28,14 @@ public class Heumtory : MonoBehaviour
             foreach (char c in text)
             {
                 chatText.text += c;
-                RuntimeManager.PlayOneShot("event:/SFX/ETC/NPC_Temp", transform.position);
+                RuntimeManager.PlayOneShot("event:/SFX/ETC/Text", transform.position);
                 yield return ws005;
             }
 
             yield return ws5;
         }
+
+        yield return new WaitForSeconds(1f);
 
         gameObject.SetActive(false);
     }
