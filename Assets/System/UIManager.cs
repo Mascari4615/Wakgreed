@@ -118,10 +118,10 @@ public class UIManager : MonoBehaviour
         Vector3 weapon1Origin = weaponUI[0].localPosition;
         Vector3 weapon2Origin = weaponUI[1].localPosition;
         
-        for (float i = 0; i < .20f; i += Time.deltaTime)
+        for (float i = 0; i <= 1; i += Time.deltaTime * 10)
         {
-            weaponUI[0].localPosition = Vector3.Lerp(weapon1Origin, weapon2Origin, i * 6);
-            weaponUI[1].localPosition = Vector3.Lerp(weapon2Origin, weapon1Origin, i * 6);
+            weaponUI[0].localPosition = Vector3.Lerp(weapon1Origin, weapon2Origin, i);
+            weaponUI[1].localPosition = Vector3.Lerp(weapon2Origin, weapon1Origin, i);
             yield return null;
         }
 

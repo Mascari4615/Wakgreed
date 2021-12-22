@@ -158,7 +158,7 @@ public class Wakgood : MonoBehaviour, IHitable
     {
         if (IsSwitching) return;
         IsSwitching = true;
-        StartCoroutine(TtmdaclExtension.ChangeWithDelay(false, .25f, value => IsSwitching = value));
+        StartCoroutine(TtmdaclExtension.ChangeWithDelay(false, .3f, value => IsSwitching = value));
 
         CurWeapon.OnRemove();
         Destroy(WeaponPosition.GetChild(0).gameObject);
