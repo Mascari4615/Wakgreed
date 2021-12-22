@@ -124,7 +124,10 @@ public class GameManager : MonoBehaviour
         clickRecall = false;
         
         gamePanel.SetActive(true);
-        
+
+        nyang.RuntimeValue = 0;
+        viewer.RuntimeValue = 0;
+
         onRecall.Raise();
         isGaming.RuntimeValue = false;
         isFighting.RuntimeValue = false;
@@ -156,9 +159,6 @@ public class GameManager : MonoBehaviour
 
         Wakgood.Instance.enabled = true;
         Wakgood.Instance.gameObject.SetActive(true);
-
-        nyang.RuntimeValue = 0;
-        viewer.RuntimeValue = 0;     
 
         Time.timeScale = 1;
     }

@@ -22,8 +22,11 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
+        Debug.Log("Awake");
         if (Instance != this)
         {
+            Debug.Log("Nope");
             Destroy(gameObject);
             return;
         }
@@ -34,7 +37,6 @@ public class AudioManager : MonoBehaviour
         sfx = RuntimeManager.GetBus("bus:/Master/SFX");
         master = RuntimeManager.GetBus("bus:/Master");
         sfxVolumeTestEvent = RuntimeManager.CreateInstance("event:/SFX/SFXVolumeTest");
-        BgmEvent = RuntimeManager.CreateInstance("event:/BGM/Vendredi - Here I Am");
     }
 
     private void Start()
@@ -57,10 +59,8 @@ public class AudioManager : MonoBehaviour
         if (isLoading.RuntimeValue == false)
         {
             BgmEvent.getPlaybackState(out pbState);
-            if (pbState != PLAYBACK_STATE.PLAYING)
-            {
+            if (pbState == PLAYBACK_STATE.STOPPED)
                 BgmEvent.start();
-            }
         }
     }
        
@@ -68,7 +68,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMusic(string musicName)
     {
-        StopMusic();
+        BgmEvent.stop(STOP_MODE.ALLOWFADEOUT);
         BgmEvent = RuntimeManager.CreateInstance($"event:/BGM/{musicName}");
         BgmEvent.start();
         if (UIManager.Instance != null) UIManager.Instance.SetMusicName(musicName);

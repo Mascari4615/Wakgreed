@@ -26,11 +26,16 @@ public class StreamingManager : MonoBehaviour
     
     private void Awake()
     {
-        Instance = this;  
-        twitchConnect.ConnectToTwitch();
+        Instance = this;
 
         for (int i = 0; i < chatPanel.transform.childCount; i++)
-            chatPool.Add(chatPanel.transform.GetChild(i).GetComponent<TextMeshProUGUI>());
+            chatPool.Add(chatPanel.transform.GetChild(i).GetComponent<TextMeshProUGUI>()); 
+    }
+
+    private IEnumerator Start()
+    {
+        yield return new WaitForSeconds(1f);
+        twitchConnect.ConnectToTwitch();
     }
 
     public void StartStreaming()
@@ -122,17 +127,17 @@ public class StreamingManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            inputField.gameObject.SetActive(!inputField.gameObject.activeSelf);
-
             if (inputField.gameObject.activeSelf == false)
             {
                 chatGameObject.SetActive(true);
+                inputField.gameObject.SetActive(true);
                 inputField.ActivateInputField();
             }
             else if (inputField.text != "")
             { 
                 Chat(inputField.text);
                 inputField.text = "";
+                inputField.gameObject.SetActive(false);
             }
         }
 
@@ -195,7 +200,9 @@ public class StreamingManager : MonoBehaviour
             // twitchConnect.SendMassage();
         }
 
-        chatPool[chatIndex % 25].text = $"<b>{nickName}</b> : {msg}";
+        chatPool[chatIndex % 25].text = 
+            $"<b><color=#{ColorUtility.ToHtmlStringRGBA(Random.ColorHSV())}>{nickName}</color></b>\n{msg}";
+
         chatPanel.transform.GetChild(0).transform.SetAsLastSibling();
         chatIndex++;
 
