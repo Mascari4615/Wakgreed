@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class Pungsin : BossMonster
 {
-    [SerializeField] private GameObject ultAttackGo;
+    [SerializeField] private GameObject ultAttackPrefab;
+    [SerializeField] private GameObject skill1AttackPrefab;
+    
+    private BulletMove[] skill1AttackGo;
     [SerializeField] private GameObject ult;
     [SerializeField] private GameObject ultParticle1;
     [SerializeField] private GameObject ultParticle2;
     private GameObject[] ultAttackPos;
     private BulletMove[] ultAttackGos;
     [SerializeField] private GameObject stun;
+    [SerializeField] private LineRenderer lineRenderer;
 
     protected override void Awake()
     {
@@ -22,8 +26,17 @@ public class Pungsin : BossMonster
         for (int i = 0; i < ult.transform.childCount; i++)
         {
             ultAttackPos[i] = ult.transform.GetChild(i).gameObject;
-            (ultAttackGos[i] = Instantiate(ultAttackGo, transform).GetComponent<BulletMove>()).gameObject.SetActive(false);
+            (ultAttackGos[i] = Instantiate(ultAttackPrefab, transform).GetComponent<BulletMove>()).gameObject.SetActive(false);
         }
+
+
+        skill1AttackGo = new BulletMove[3];
+        for (int i = 0; i < 3; i++)
+        {
+            (skill1AttackGo[i] = Instantiate(skill1AttackPrefab, transform).GetComponent<BulletMove>()).gameObject.SetActive(false);
+        }
+
+        lineRenderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 0.3f));
     }
 
     protected override IEnumerator Attack()
@@ -98,32 +111,47 @@ public class Pungsin : BossMonster
     private IEnumerator Skill0()
     {
         yield return new WaitForSeconds(.2f);
+        Animator.SetBool("SKILL1", true);
 
-        /*
-        if (t == 0)
+        // int attackCount = Random.Range(2, 3 + 1);
+
+        for (int i = 0; i < 3; i++)
         {
-            spawnPosParent.gameObject.SetActive(true);
-            rand1 = Random.Range(-40, 41);
-            spawnPosParent.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(transform.position.y - GameManager.Instance.player.transform.position.y, transform.position.x - GameManager.Instance.player.transform.position.x) * Mathf.Rad2Deg - 90 + rand1);
-        }
-        t += Time.deltaTime;
-        if (t < 1.5f)
-        {
-            spawnPosParent.rotation = Quaternion.Euler(0, 0, Mathf.Lerp(Mathf.Atan2(transform.position.y - GameManager.Instance.player.transform.position.y, transform.position.x - GameManager.Instance.player.transform.position.x) * Mathf.Rad2Deg - 90 + rand1, Mathf.Atan2(transform.position.y - GameManager.Instance.player.transform.position.y, transform.position.x - GameManager.Instance.player.transform.position.x) * Mathf.Rad2Deg - 90, t * 0.3f));
-        }
-        else if (t >= 1.5f)
-        {
-            isReadyToAttack = false;
-            t = 0;
+            Vector3 originPos = transform.position;
+            Vector3 targetPos = Wakgood.Instance.transform.position + new Vector3(
+                (-1 + Random.Range(0, 2) * 2) * Random.Range(3f, 5f),
+                (-1 + Random.Range(0, 2) * 2) * Random.Range(3f, 5f));
 
-            GameObject g = ObjectManager.Instance.GetQueue(PoolType.Slime2, spawnPos.position);
-            GameManager.Instance.monsters.Add(g);
+            Animator.SetTrigger("SKILL1CHARGE");
 
-            g.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
-            g.GetComponent<Rigidbody2D>().AddForce((Vector2)(spawnPos.position - transform.position).normalized * force);
+            SpriteRenderer.flipX = targetPos.x > Wakgood.Instance.transform.position.x;
 
-            spawnPosParent.gameObject.SetActive(false);
+            for (float j = 0; j <= 1; j += Time.deltaTime * 7)
+            {
+                Rigidbody2D.transform.position = Vector3.Lerp(originPos, targetPos, j);
+                yield return null;
+            }
+
+            Vector3 attackDirection = (Wakgood.Instance.transform.position - transform.position).normalized;
+
+            lineRenderer.SetPosition(0, transform.position + (Vector3)Vector2.up);
+            lineRenderer.SetPosition(1, transform.position + (Vector3)Vector2.up + attackDirection * 100);
+            lineRenderer.gameObject.SetActive(true);
+
+            yield return i == 0 ? new WaitForSeconds(.7f) : (object)new WaitForSeconds(.2f);
+
+            Animator.SetTrigger("SKILL1GO");
+
+            skill1AttackGo[i].transform.position = transform.position + (Vector3)Vector2.up;
+            skill1AttackGo[i].SetDirection(attackDirection);
+            skill1AttackGo[i].gameObject.SetActive(true);
+            lineRenderer.gameObject.SetActive(false);
+
+            yield return new WaitForSeconds(.2f);
         }
-        */
+
+        Animator.SetBool("SKILL1", false);
+        yield return new WaitForSeconds(2f);
+
     }
 }

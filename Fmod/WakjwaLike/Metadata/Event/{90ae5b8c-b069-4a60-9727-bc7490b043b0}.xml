@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{90ae5b8c-b069-4a60-9727-bc7490b043b0}">
 		<property name="name">
-			<value>yeppSun - 버거워 (시티팝 ver.)</value>
+			<value>yeppSun - 버거워 MR</value>
 		</property>
 		<property name="outputFormat">
 			<value>1</value>
@@ -60,7 +60,7 @@
 	<object class="MarkerTrack" id="{a1b972be-26c7-4122-94aa-04f9bf9e86e2}" />
 	<object class="GroupTrack" id="{658214cf-c0bc-49dd-b7cf-c85bd4f963a0}">
 		<relationship name="modules">
-			<destination>{78a25241-a4ce-4ccf-8d63-afa4528d8125}</destination>
+			<destination>{02bcdeff-dea8-4c79-85ca-76d83a818800}</destination>
 		</relationship>
 		<relationship name="mixerGroup">
 			<destination>{02dac929-4902-4a10-a7fe-0c337cd537f8}</destination>
@@ -68,7 +68,7 @@
 	</object>
 	<object class="Timeline" id="{6c064ed0-ba2f-4e95-8c45-342df9c12689}">
 		<relationship name="modules">
-			<destination>{78a25241-a4ce-4ccf-8d63-afa4528d8125}</destination>
+			<destination>{02bcdeff-dea8-4c79-85ca-76d83a818800}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{26922d44-0abf-4b5f-8e02-ce06338e5c8e}">
@@ -88,15 +88,15 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{1b571a3b-d511-4c1c-b82d-36a0d7de0079}" />
-	<object class="SingleSound" id="{78a25241-a4ce-4ccf-8d63-afa4528d8125}">
+	<object class="SingleSound" id="{02bcdeff-dea8-4c79-85ca-76d83a818800}">
 		<property name="length">
-			<value>228.70200000000011</value>
+			<value>230</value>
 		</property>
 		<property name="timelockedOffset">
-			<value>1.05</value>
+			<value>2</value>
 		</property>
 		<relationship name="audioFile">
-			<destination>{920d3fdf-b113-43bf-8c55-0e78f4fad6d8}</destination>
+			<destination>{75502393-2ac0-47d4-8644-477ebfc7b072}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{02dac929-4902-4a10-a7fe-0c337cd537f8}">
