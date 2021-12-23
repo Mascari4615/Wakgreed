@@ -176,14 +176,14 @@ public class StreamingManager : MonoBehaviour
                 case "음식":
                     DataManager.Instance.wakgoodFoodInventory.Add(DataManager.Instance.FoodDic[int.Parse(msg.Split(' ')[1])]);
                     break;;
-                case "clear":
-                case "초기화":
-                    DataManager.Instance.wakgoodItemInventory.Clear();
-                    DataManager.Instance.wakgoodFoodInventory.Clear();
-                    DataManager.Instance.wakgoodMasteryInventory.Clear();
-                    DataManager.Instance.buffRunTimeSet.Clear(); 
-                    break;
                 default:
+                    if (msg[1..(msg.Length - 1)] == "clear" || msg[1..(msg.Length - 1)] == "초기화")
+                    {
+                        DataManager.Instance.wakgoodItemInventory.Clear();
+                        DataManager.Instance.wakgoodFoodInventory.Clear();
+                        DataManager.Instance.wakgoodMasteryInventory.Clear();
+                        DataManager.Instance.buffRunTimeSet.Clear();
+                    }
                     Debug.Log("Nope");
                     break;
             }

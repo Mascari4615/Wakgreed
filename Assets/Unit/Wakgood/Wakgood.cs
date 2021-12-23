@@ -160,21 +160,38 @@ public class Wakgood : MonoBehaviour, IHitable
         IsSwitching = true;
         StartCoroutine(TtmdaclExtension.ChangeWithDelay(false, .3f, value => IsSwitching = value));
 
-        CurWeapon.OnRemove();
-        Destroy(WeaponPosition.GetChild(0).gameObject);
+        if (targetWeapon == null)
+        {
+            CurWeapon.OnRemove();
+            Destroy(WeaponPosition.GetChild(0).gameObject);
 
-        CurWeaponNumber = targetWeaponNum;
-        if (targetWeapon != null)
-            Weapon[targetWeaponNum] = targetWeapon;
-        CurWeapon = Weapon[targetWeaponNum];
+            CurWeaponNumber = targetWeaponNum;
+            CurWeapon = Weapon[targetWeaponNum];
 
-        Instantiate(CurWeapon.resource, WeaponPosition);
-        CurWeapon.OnEquip();
+            Instantiate(CurWeapon.resource, WeaponPosition);
+            CurWeapon.OnEquip();
 
-        if (targetWeapon != null)
-            UIManager.Instance.SetWeaponUI(CurWeaponNumber, Weapon[CurWeaponNumber]);
-        else
             UIManager.Instance.StartCoroutine(UIManager.Instance.SwitchWeapon());
+        }
+        else
+        {
+            if (CurWeaponNumber == targetWeaponNum)
+            {
+                Weapon[targetWeaponNum] = targetWeapon;
+            }
+            else
+            {
+                CurWeapon.OnRemove();
+                Destroy(WeaponPosition.GetChild(0).gameObject);
+
+                Weapon[targetWeaponNum] = targetWeapon;
+
+                Instantiate(targetWeapon.resource, WeaponPosition);
+                Weapon[targetWeaponNum].OnEquip();
+            }
+
+            UIManager.Instance.SetWeaponUI(targetWeaponNum, targetWeapon);
+        }
     }
 
     public void ReceiveHit(int damage)

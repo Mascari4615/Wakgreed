@@ -95,7 +95,6 @@ GameObject:
   - component: {fileID: 8771537095725460371}
   - component: {fileID: 8771537095725460368}
   - component: {fileID: 219650475}
-  - component: {fileID: 8672114651356915491}
   m_Layer: 0
   m_Name: Banyan Tree
   m_TagString: Untagged
@@ -187,26 +186,3 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.95
---- !u!114 &8672114651356915491
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8771537095725460369}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c620606ab33e62141a6ccfff2dcd3f42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  treeSprites:
-  - {fileID: -1555870814, guid: a6ca8cd2577f03145bbf1da7a1a51a36, type: 3}
-  - {fileID: -1522585404, guid: a6ca8cd2577f03145bbf1da7a1a51a36, type: 3}
-  - {fileID: 669469845, guid: a6ca8cd2577f03145bbf1da7a1a51a36, type: 3}
-  - {fileID: 101924792, guid: a6ca8cd2577f03145bbf1da7a1a51a36, type: 3}
-  shadowSprites:
-  - {fileID: 333215171, guid: 5bc778f658f542d4b8e6184320402fd1, type: 3}
-  - {fileID: -973833571, guid: 5bc778f658f542d4b8e6184320402fd1, type: 3}
-  - {fileID: 618176736, guid: 5bc778f658f542d4b8e6184320402fd1, type: 3}
-  - {fileID: -626579961, guid: 5bc778f658f542d4b8e6184320402fd1, type: 3}
-  power: {fileID: 11400000, guid: 78641f81562c8ca419aba38ff53f07ca, type: 2}
