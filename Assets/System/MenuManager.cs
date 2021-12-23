@@ -13,8 +13,6 @@ public class MenuManager : MonoBehaviour
 
         if (DataManager.Instance.CurGameData.youtubeHi)
         {
-            DataManager.Instance.CurGameData.youtubeHi = false;
-            DataManager.Instance.SaveGameData();
             fakeMenu.SetActive(true);
             AudioManager.Instance.PlayMusic("Gark - Don't Shoot");
         }

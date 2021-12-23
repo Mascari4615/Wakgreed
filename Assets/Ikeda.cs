@@ -6,15 +6,20 @@ public class Ikeda : ShopKeeper
 {
     private SpriteRenderer spriteRenderer;
     private GameObject shadow;
+    private GameObject fakeChest;
 
     protected override void Awake()
     {
         base.Awake();
         spriteRenderer = GetComponent<SpriteRenderer>();
         shadow = transform.Find("Shadow").gameObject;
+        fakeChest = transform.Find("FakeChest").gameObject;
+
+        fakeChest.SetActive(false);
 
         if (DataManager.Instance.CurGameData.talkedOnceNPC[ID] == false)
         {
+            fakeChest.SetActive(true);
             spriteRenderer.color = new Color(1, 1, 1, 0);
             defaultUI.SetActive(false);
             shadow.SetActive(false);
@@ -33,6 +38,7 @@ public class Ikeda : ShopKeeper
 
         if (DataManager.Instance.CurGameData.talkedOnceNPC[ID] == false)
         {
+            fakeChest.SetActive(false);
             defaultUI.SetActive(true);
             shadow.SetActive(true);
             Interaction();

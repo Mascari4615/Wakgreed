@@ -9,7 +9,7 @@ public class StageManager : MonoBehaviour
 {
     public static StageManager Instance { get; private set; }
 
-    public int currentStageID = 0;
+    public int currentStageID = -1;
     [HideInInspector] public Stage currentStage;
     [SerializeField] private StageDataBuffer stageDataBuffer;
 
@@ -32,11 +32,9 @@ public class StageManager : MonoBehaviour
     private Dictionary<Vector2, Transform> roomUiDic = new();
     
     [SerializeField] private Animator fadePanelAnimator;
-    [SerializeField] private TextMeshProUGUI noticeText;
 
     [SerializeField] private GameObject shortCut;
 
-    private IEnumerator canOpenText;
     private WaitForSeconds ws02;
 
     [SerializeField] private BoolVariable isFighting;
@@ -45,9 +43,8 @@ public class StageManager : MonoBehaviour
     [SerializeField] private BoolVariable isLoading;
 
     [SerializeField] private Animator stageLoading;
-    [SerializeField] private TextMeshProUGUI stageNumberText, stageNameCommentText;
-    [SerializeField] private GameObject stageSpeedWagon;
-
+    [SerializeField] private Image[] stageIcons;
+    [SerializeField] private Image[] stamps;
 
     private void Awake()
     {
@@ -175,47 +172,36 @@ public class StageManager : MonoBehaviour
         UIManager.Instance.SetStageName($"{currentStage.id}-{1} {currentStage.name}");
         Wakgood.Instance.transform.position = new Vector3(CurrentRoom.Coordinate.x, CurrentRoom.Coordinate.y, 0) * 100;
 
-        stageNumberText.text = $"1-{currentStage.id}";
-        stageNameCommentText.text = $"{currentStage.name} : {currentStage.comment}";
-        stageLoading.SetInteger("STAGEID", currentStage.id - 1);
+        for (int i = 0; i < stageIcons.Length; i++)
+        {
+            if (i < currentStageID)
+            {
+                stageIcons[i].color = new Color(1, 1, 1, 1);
+                stamps[i].enabled = true;
+            }
+            else if (i == currentStageID)
+            {
+                stageIcons[i].color = new Color(1, 1, 1, 1);
+                stamps[i].enabled = false;
+            }
+            else
+            {
+                stageIcons[i].color = new Color(0, 0, 0, 1);
+                stamps[i].enabled = false;
+            }
+        }
+
         stageLoading.gameObject.SetActive(true);
-        stageLoading.SetTrigger("START");
-        
-        Coroutine temp1 = StartCoroutine(WaitLoading());
-        Coroutine temp2 = StartCoroutine(CheckSkip());
-        
-        while (isLoading.RuntimeValue) yield return null;
-        
-        StopCoroutine(temp1);
-        StopCoroutine(temp2);
+        yield return new WaitForSeconds(5f);
         stageLoading.gameObject.SetActive(false);
-        
+
+        AudioManager.Instance.PlayMusic(currentStage.musicName);
+
+        isLoading.RuntimeValue = false;
         isGaming.RuntimeValue = true;
+        StartCoroutine(UIManager.Instance.SpeedWagon_Stage());
+
         fadePanelAnimator.SetTrigger("IN");
-        yield return ws02;
-    }
-
-    private IEnumerator CheckSkip()
-    {
-        do yield return null;
-        while (!Input.GetKeyDown(KeyCode.F));
-        stageLoading.SetTrigger("SKIP");
-        AudioManager.Instance.PlayMusic(currentStage.musicName);
-        isLoading.RuntimeValue = false;
-    }
-
-    private IEnumerator WaitLoading()
-    {
-        yield return null;
-        yield return new WaitForSeconds(stageLoading.GetCurrentAnimatorStateInfo(0).length);
-
-        yield return ws02;
-        yield return new WaitForSeconds(stageLoading.GetCurrentAnimatorStateInfo(0).length);
-
-        yield return ws02;
-        yield return new WaitForSeconds(stageLoading.GetCurrentAnimatorStateInfo(0).length);
-        AudioManager.Instance.PlayMusic(currentStage.musicName);
-        isLoading.RuntimeValue = false;
     }
 
     private void InitialzeMap()
@@ -329,31 +315,13 @@ public class StageManager : MonoBehaviour
     {
         if (isFighting.RuntimeValue)
         {
-            if (canOpenText != null) StopCoroutine(canOpenText);
-            StartCoroutine(canOpenText = CantOpenText());
+            UIManager.Instance.SpeedWagon_CantOpen();
         }
         else
         {
-            if (canOpenText != null) StopCoroutine(canOpenText);
-
             scrollRectBackGround.localPosition = -CurrentRoom.Coordinate * (mapGridLayoutGroup.cellSize.x + mapGridLayoutGroup.spacing.x);
             mapPanel.SetActive(bOpen);
         }
-    }
-    
-    public void StopAllSpeedWagons()
-    {
-        stageSpeedWagon.SetActive(false);
-        StopCoroutine(nameof(CantOpenText));
-        noticeText.gameObject.SetActive(false);
-    }
-    
-    private IEnumerator CantOpenText()
-    {
-        noticeText.text = "전투 중에는 열 수 없습니다.";
-        noticeText.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1f);
-        noticeText.gameObject.SetActive(false);
     }
     
     public void CheckMonsterCount()

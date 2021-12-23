@@ -36,7 +36,8 @@ public class Heumtory : MonoBehaviour
         }
 
         yield return new WaitForSeconds(1f);
-
+        DataManager.Instance.CurGameData.youtubeHi = false;
+        DataManager.Instance.SaveGameData();
         gameObject.SetActive(false);
     }
 }

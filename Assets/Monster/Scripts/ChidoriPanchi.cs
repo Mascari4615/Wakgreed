@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class ChidoriPanchi : MeleePanchi
+public class ChidoriPanchi : NormalMonster
 {
     private IEnumerator idle;
     private static readonly int ismoving = Animator.StringToHash("ISMOVING");

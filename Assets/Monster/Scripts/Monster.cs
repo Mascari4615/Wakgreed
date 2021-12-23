@@ -8,6 +8,7 @@ public abstract class Monster : MonoBehaviour, IHitable
 {
     [SerializeField] private Material flashMaterial;
     [SerializeField] protected GameEvent onMonsterCollapse;
+    public int ID;
     public int MaxHp { get; protected set; }
     public int hp;
     [SerializeField] protected int MoveSpeed;
@@ -77,6 +78,14 @@ public abstract class Monster : MonoBehaviour, IHitable
     protected virtual IEnumerator Collapse()
     {
         SpriteRenderer.material = originalMaterial;
+
+        if (DataManager.Instance.CurGameData.killedOnceMonster[ID] == false)
+        {
+            if (Collection.Instance != null)
+                Collection.Instance.Collect(this);
+            DataManager.Instance.CurGameData.killedOnceMonster[ID] = true;
+            DataManager.Instance.SaveGameData();
+        }
 
         isCollapsed = true;
         RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("(", StringComparison.Ordinal), 7) : name)}_Collapse", transform.position);

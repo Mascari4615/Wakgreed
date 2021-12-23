@@ -7,6 +7,20 @@ using System.Linq;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
+[System.Serializable]
+public class GameData
+{
+    public bool youtubeHi = true;
+    public bool[] rescuedNPC = Enumerable.Repeat(false, 30 + 1).ToArray();
+    public bool[] talkedOnceNPC = Enumerable.Repeat(false, 35 + 1).ToArray();
+    public bool[] killedOnceMonster = Enumerable.Repeat(false, 100 + 1).ToArray();
+    public bool[] killedOnceBoss = Enumerable.Repeat(false, 20 + 1).ToArray();
+    public bool[] equipedOnceItem = Enumerable.Repeat(false, 300 + 1).ToArray();
+    public bool[] getOnceMastery = Enumerable.Repeat(false, 50 + 1).ToArray();
+    public float[] Volume = { .8f, 1, 1 };
+    public int deathCount = 0;
+}
+
 public class DataManager : MonoBehaviour
 {
     private static DataManager instance;
@@ -37,9 +51,13 @@ public class DataManager : MonoBehaviour
     public WakgoodFoodInventory wakgoodFoodInventory;
 
     [Header("Mastery")] [SerializeField] private WakduMasteryDataBuffer wakduMasteryDataBuffer;
-
-    private readonly Dictionary<int, Mastery> masteryDic = new();
+    public readonly Dictionary<int, Mastery> MasteryDic = new();
     public MasteryInventory wakgoodMasteryInventory;
+
+    [Header("Monster")][SerializeField] private MonsterDataBuffer monsterDataBuffer;
+    [SerializeField] private MonsterDataBuffer bossDataBuffer;
+    public readonly Dictionary<int, Monster> MonsterDic = new();
+    public readonly Dictionary<int, Monster> BossDic = new();
 
     [Header("Buff")] public BuffRunTimeSet buffRunTimeSet;
 
@@ -97,7 +115,9 @@ public class DataManager : MonoBehaviour
         }
 
         foreach (Food food in foodDataBuffer.items) FoodDic.Add(food.id, food);
-        foreach (Mastery mastery in wakduMasteryDataBuffer.items) masteryDic.Add(mastery.id, mastery);
+        foreach (Mastery mastery in wakduMasteryDataBuffer.items) MasteryDic.Add(mastery.id, mastery);
+        foreach (Monster monster in monsterDataBuffer.items) MonsterDic.Add(monster.ID, monster);
+        foreach (Monster boss in bossDataBuffer.items) BossDic.Add(boss.ID, boss);
     }
 
     public void SaveGameData(GameData gameData = null)
@@ -157,14 +177,4 @@ public class DataManager : MonoBehaviour
     };
 
     private void OnApplicationQuit() => SaveGameData();
-}
-
-[System.Serializable]
-public class GameData
-{
-    public bool youtubeHi = true;
-    public bool[] rescuedNPC = Enumerable.Repeat(false, 30 + 1).ToArray();
-    public bool[] talkedOnceNPC = Enumerable.Repeat(false, 30 + 1).ToArray();
-    public float[] Volume = { .8f, 1, 1 };
-    public int deathCount = 0;
 }

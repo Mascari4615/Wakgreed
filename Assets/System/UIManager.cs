@@ -30,9 +30,13 @@ public class UIManager : MonoBehaviour
     public Image[] weaponSkillECoolTime = new Image[2];
 
     [SerializeField] private BoolVariable isFocusOnSomething;
+    [SerializeField] private TextMeshProUGUI noticeText;
 
     [SerializeField] private TextMeshProUGUI musicName;
     [SerializeField] private TextMeshProUGUI stageName;
+    public GameObject stageSpeedWagon;
+    [SerializeField] private TextMeshProUGUI stageNumberText, stageNameCommentText;
+    [SerializeField] private GameObject roomClearSpeedWagon;
 
     private void Awake()
     {
@@ -77,6 +81,15 @@ public class UIManager : MonoBehaviour
                 Wakgood.Instance.Weapon[1].CurSkillECoolTime / Wakgood.Instance.Weapon[1].skillE.coolTime;
     }
 
+    public IEnumerator SpeedWagon_Stage()
+    {
+        stageNumberText.text = $"1-{StageManager.Instance.currentStage.id}";
+        stageNameCommentText.text = $"{StageManager.Instance.currentStage.name} : {StageManager.Instance.currentStage.comment}";
+        stageSpeedWagon.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        stageSpeedWagon.SetActive(false);
+    }
+
     public IEnumerator SpeedWagon_BossOn(BossMonster boss)
     {
         camera.m_Lens.OrthographicSize = 6;
@@ -113,6 +126,14 @@ public class UIManager : MonoBehaviour
         cinemachineTargetGroup.m_Targets[0].target = Wakgood.Instance.transform;
     }
 
+    public IEnumerator SpeedWagon_RoomClear()
+    {
+        roomClearSpeedWagon.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        roomClearSpeedWagon.SetActive(false);
+    }
+
+
     public IEnumerator SwitchWeapon()
     {
         Vector3 weapon1Origin = weaponUI[0].localPosition;
@@ -141,4 +162,29 @@ public class UIManager : MonoBehaviour
     public void OpenSetting() => SettingManager.Instance.OpenSetting();
     public void SetMusicName(string name) => musicName.text = $"[음악] {name}";
     public void SetStageName(string name) => stageName.text = name;
+
+    public void StopAllSpeedWagons()
+    {
+        StopCoroutine(nameof(CantOpenText));
+        noticeText.gameObject.SetActive(false);
+        StopCoroutine(nameof(SpeedWagon_Stage));
+        stageSpeedWagon.SetActive(false);
+        StopCoroutine(nameof(SpeedWagon_RoomClear));
+        roomClearSpeedWagon.SetActive(false);
+    }
+    private IEnumerator canOpenText;
+
+    public void SpeedWagon_CantOpen()
+    {
+        if (canOpenText != null) StopCoroutine(canOpenText);
+        StartCoroutine(canOpenText = CantOpenText());
+    }
+
+    private IEnumerator CantOpenText()
+    {
+        noticeText.text = "전투 중에는 열 수 없습니다.";
+        noticeText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        noticeText.gameObject.SetActive(false);
+    }
 }

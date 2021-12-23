@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Gorilla : MeleePanchi
+public class Gorilla : NormalMonster
 {
     private IEnumerator idle;
     [SerializeField] private GameObject damagingObject;

@@ -33,6 +33,16 @@ public class ObjectManager : MonoBehaviour
         }
     }
 
+    public void AddPool(GameObject poolObject)
+    {
+        PoolData pD = new();
+        pD.gameObject = poolObject;
+
+        poolDic.Add(pD.gameObject.name, pD);
+        (poolDic[pD.gameObject.name].transform = new GameObject(pD.gameObject.name).transform).SetParent(transform);
+        for (int i = 0; i < 10; i++) Instantiate(pD.gameObject, poolDic[pD.gameObject.name].transform).SetActive(false);
+    }
+
     public void PushObject(GameObject go)
     {
         string objectName = go.name.Contains("(Clone)") ? go.name.Remove(go.name.IndexOf("(", StringComparison.Ordinal), 7) : go.name;
