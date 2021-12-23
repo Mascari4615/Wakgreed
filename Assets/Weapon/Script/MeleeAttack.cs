@@ -8,6 +8,7 @@ public class MeleeAttack : Skill
 {
     [SerializeField] private float radius = 1;
     private static readonly int attack = Animator.StringToHash("Attack");
+    private Animator animator;
 
     public override void Use(Weapon weapon)
     {
@@ -24,7 +25,9 @@ public class MeleeAttack : Skill
             }
         }
 
-        Wakgood.Instance.WeaponPosition.GetChild(0).GetComponent<Animator>()?.SetTrigger(attack);
+        if (Wakgood.Instance.WeaponPosition.GetChild(0).TryGetComponent(out animator))
+            animator.SetTrigger(attack);
+
         RuntimeManager.PlayOneShot($"event:/SFX/Weapon/{weapon.id}");
         GameManager.Instance.cinemachineImpulseSource.GenerateImpulse();
     }

@@ -192,7 +192,9 @@ public class StageManager : MonoBehaviour
         }
 
         stageLoading.gameObject.SetActive(true);
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
+        stageLoading.GetComponent<Animator>().SetTrigger("IN");
+        yield return new WaitForSeconds(.5f);
         stageLoading.gameObject.SetActive(false);
 
         AudioManager.Instance.PlayMusic(currentStage.musicName);

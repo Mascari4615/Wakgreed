@@ -9,6 +9,7 @@ public abstract class Monster : MonoBehaviour, IHitable
     [SerializeField] private Material flashMaterial;
     [SerializeField] protected GameEvent onMonsterCollapse;
     public int ID;
+    public string description;
     public int MaxHp { get; protected set; }
     public int hp;
     [SerializeField] protected int MoveSpeed;
@@ -93,7 +94,7 @@ public abstract class Monster : MonoBehaviour, IHitable
         collider2D.enabled = false;
         Rigidbody2D.velocity = Vector2.zero;
         Rigidbody2D.bodyType = RigidbodyType2D.Static;
-        Animator.SetTrigger("COLLAPSE");
+        // Animator.SetTrigger("COLLAPSE");
         GameManager.Instance.enemyRunTimeSet.Remove(gameObject);
 
         if (StageManager.Instance.CurrentRoom is NormalRoom)
@@ -105,7 +106,8 @@ public abstract class Monster : MonoBehaviour, IHitable
 
         ObjectManager.Instance.PopObject("LevelUpEffect", transform);
 
-        yield return new WaitForSeconds(3f);
+        // yield return new WaitForSeconds(3f);
+        yield return null;
         gameObject.SetActive(false);
     }
 

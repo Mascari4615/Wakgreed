@@ -8,10 +8,10 @@ public class Collection : MonoBehaviour
     public static Collection Instance;
 
     [SerializeField] private Transform viewPort;
-    private List<Image> bossSlots = new();
-    private List<Image> monsterSlots = new();
-    private List<Image> itemSlots = new();
-    private List<Image> masterySlot = new();
+    private List<Slot> bossSlots = new();
+    private List<Slot> monsterSlots = new();
+    private List<Slot> itemSlots = new();
+    private List<Slot> masterySlot = new();
 
     private void Awake()
     {
@@ -29,16 +29,16 @@ public class Collection : MonoBehaviour
                 switch (i)
                 {
                     case 0:
-                        itemSlots.Add(temp.GetChild(j).GetComponent<Image>());
+                        itemSlots.Add(temp.GetChild(j).GetComponent<Slot>());
                         break;
                     case 1:
-                        masterySlot.Add(temp.GetChild(j).GetComponent<Image>());
+                        masterySlot.Add(temp.GetChild(j).GetComponent<Slot>());
                         break;
                     case 2:
-                        monsterSlots.Add(temp.GetChild(j).GetComponent<Image>());
+                        monsterSlots.Add(temp.GetChild(j).GetComponent<Slot>());
                         break;
                     case 3:
-                        bossSlots.Add(temp.GetChild(j).GetComponent<Image>());
+                        bossSlots.Add(temp.GetChild(j).GetComponent<Slot>());
                         break;
                 }
 
@@ -49,31 +49,19 @@ public class Collection : MonoBehaviour
 
         i = 0;
         foreach (var item in DataManager.Instance.BossDic)
-        {
-            var value = item.Value;
-            bossSlots[i++].sprite = item.Value.GetComponent<SpriteRenderer>().sprite;
-        }
+            bossSlots[i++].SetSlot(item.Value);
 
         i = 0;
         foreach (var item in DataManager.Instance.MonsterDic)
-        {
-            var value = item.Value;
-            monsterSlots[i++].sprite = item.Value.GetComponent<SpriteRenderer>().sprite;
-        }
+            monsterSlots[i++].SetSlot(item.Value);
 
         i = 0;
         foreach (var item in DataManager.Instance.ItemDic)
-        {
-            var value = item.Value;
-            itemSlots[i++].sprite = item.Value.sprite;
-        }
+            itemSlots[i++].SetSlot(item.Value);
 
         i = 0;
         foreach (var item in DataManager.Instance.MasteryDic)
-        {
-            var value = item.Value;
-            masterySlot[i++].sprite = item.Value.sprite;
-        }
+            masterySlot[i++].SetSlot(item.Value);
 
         for (i = 0; i < DataManager.Instance.CurGameData.killedOnceBoss.Length; i++)
             bossSlots[i].gameObject.SetActive(DataManager.Instance.CurGameData.killedOnceBoss[i]);
