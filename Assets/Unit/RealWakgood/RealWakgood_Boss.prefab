@@ -5260,11 +5260,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b334179c0ba96a40b8420be00000af5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseHp: 10
-  baseAD: 0
-  baseMoveSpeed: 0
+  flashMaterial: {fileID: 0}
   onMonsterCollapse: {fileID: 11400000, guid: 1b477f0305627f54d8b1c54462eafc87, type: 2}
+  ID: 0
+  hp: 0
+  MoveSpeed: 0
   isShowingSomething: {fileID: 11400000, guid: 688a405029d824548b8d1494667c0415, type: 2}
+  name: 
+  ID: 0
 --- !u!50 &3035457898370817615
 Rigidbody2D:
   serializedVersion: 4
@@ -6012,7 +6015,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -852166707
-  m_SortingLayer: -1
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: aaaa9a00ccb12774a9aefe16f7477883, type: 3}
   m_Color: {r: 1, g: 0.2216981, b: 0.2216981, a: 1}

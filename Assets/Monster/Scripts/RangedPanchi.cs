@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public abstract class RangedPanchi : Panchi 
+public abstract class RangedPanchi : NormalMonster 
 {
     [SerializeField] private GameObject gamja;
     [SerializeField] private float attackCoolTime;

@@ -7,7 +7,6 @@ public abstract class BossMonster : Monster
 {
     [SerializeField] private BoolVariable isShowingSomething;
     public new string name;
-    public int ID;
     protected CinemachineTargetGroup cinemachineTargetGroup;
     protected new CinemachineVirtualCamera camera;
 
@@ -39,6 +38,15 @@ public abstract class BossMonster : Monster
     protected override IEnumerator Collapse()
     {
         isCollapsed = true;
+
+        if (DataManager.Instance.CurGameData.killedOnceBoss[ID] == false)
+        {
+            if (Collection.Instance != null)
+                Collection.Instance.Collect(this, true);
+            DataManager.Instance.CurGameData.killedOnceBoss[ID] = true;
+            DataManager.Instance.SaveGameData();
+        }
+
         SpriteRenderer.material = originalMaterial;
 
         cinemachineTargetGroup.m_Targets[1].target = null;

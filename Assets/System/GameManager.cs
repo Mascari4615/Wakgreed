@@ -24,9 +24,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private Animator fadePanel;
 
-    [SerializeField] private GameObject roomClearSpeedWagon;
     [SerializeField] private GameObject undo;
-    [SerializeField] private GameObject testNpc;
 
     public CinemachineImpulseSource cinemachineImpulseSource;
 
@@ -138,8 +136,7 @@ public class GameManager : MonoBehaviour
         AudioManager.Instance.PlayMusic("Vendredi - Here I Am");
         StageManager.Instance.currentStageID = -1;
 
-        StopAllSpeedWagons();
-        StageManager.Instance.StopAllSpeedWagons();
+        UIManager.Instance.StopAllSpeedWagons();
 
         MasteryManager.Instance.selectMasteryPanel.SetActive(false);
         
@@ -168,19 +165,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("Quitting Game...");
         DataManager.Instance.SaveGameData();
         Application.Quit();
-    }
-
-    public IEnumerator RoomClearSpeedWagon()
-    {
-        roomClearSpeedWagon.SetActive(true);
-        yield return new WaitForSeconds(2f);
-        roomClearSpeedWagon.SetActive(false);
-    }
-
-    private void StopAllSpeedWagons()
-    {
-        StopCoroutine(nameof(RoomClearSpeedWagon));
-        roomClearSpeedWagon.SetActive(false);
     }
 
     public IEnumerator Ending()

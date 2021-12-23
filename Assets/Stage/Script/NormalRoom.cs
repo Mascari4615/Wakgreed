@@ -67,7 +67,7 @@ public class NormalRoom : Room
         isCleared = true;
         foreach (var hider in DoorHiders) hider.SetActive(false);
         foreach (var particle in DoorParticles) particle.SetActive(true);
-        StartCoroutine(GameManager.Instance.RoomClearSpeedWagon());
+        StartCoroutine(UIManager.Instance.SpeedWagon_RoomClear());
 
         Probability<string> probability = new();
         probability.Add("CommonChest", 70);
