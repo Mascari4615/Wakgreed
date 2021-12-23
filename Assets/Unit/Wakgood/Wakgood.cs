@@ -35,7 +35,6 @@ public class Wakgood : MonoBehaviour, IHitable
     private Vector3 worldMousePoint;
 
     public int CurWeaponNumber { get; private set; }
-    public Weapon CurWeapon { get; private set; }
     public Weapon[] Weapon { get; } = new Weapon[2];
     [SerializeField] private Weapon hochi, hand;
 
@@ -89,7 +88,7 @@ public class Wakgood : MonoBehaviour, IHitable
         cinemachineTargetGroup.m_Targets[0].target = transform;
 
         if (WeaponPosition.childCount > 0) Destroy(WeaponPosition.GetChild(0).gameObject);
-        if (CurWeapon != null) CurWeapon.OnRemove();
+        if (Weapon[CurWeaponNumber] != null) Weapon[CurWeaponNumber].OnRemove();
 
         UIManager.Instance.SetWeaponUI(0, Weapon[0] = hochi);
         UIManager.Instance.SetWeaponUI(1, Weapon[1] = hand);
@@ -100,9 +99,8 @@ public class Wakgood : MonoBehaviour, IHitable
             UIManager.Instance.StartCoroutine(UIManager.Instance.SwitchWeapon());
         }
 
-        CurWeapon = Weapon[0];
-        CurWeapon.OnEquip();
-        Instantiate(CurWeapon.resource, WeaponPosition);
+        Weapon[CurWeaponNumber].OnEquip();
+        Instantiate(Weapon[CurWeaponNumber].resource, WeaponPosition);
 
         wakgoodCollider.enabled = true;
         WakgoodMove.enabled = true;
@@ -122,10 +120,10 @@ public class Wakgood : MonoBehaviour, IHitable
 
         // Debug.Log(EventSystem.current.IsPointerOverGameObject());
 
-        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject()) CurWeapon.BaseAttack();
-        else if (Input.GetKeyDown(KeyCode.Q)) CurWeapon.SkillQ();
-        else if (Input.GetKeyDown(KeyCode.E)) CurWeapon.SkillE();
-        else if (Input.GetKeyDown(KeyCode.R)) CurWeapon.Reload();
+        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject()) Weapon[CurWeaponNumber].BaseAttack();
+        else if (Input.GetKeyDown(KeyCode.Q)) Weapon[CurWeaponNumber].SkillQ();
+        else if (Input.GetKeyDown(KeyCode.E)) Weapon[CurWeaponNumber].SkillE();
+        else if (Input.GetKeyDown(KeyCode.R)) Weapon[CurWeaponNumber].Reload();
         else if (Input.GetKeyDown(KeyCode.F)) wakgoodCollider.GetNearestInteractiveObject()?.Interaction();
 
         if (Input.GetAxisRaw("Mouse ScrollWheel") != 0) SwitchWeapon(CurWeaponNumber == 0 ? 1 : 0);
@@ -162,32 +160,31 @@ public class Wakgood : MonoBehaviour, IHitable
 
         if (targetWeapon == null)
         {
-            CurWeapon.OnRemove();
+            Weapon[CurWeaponNumber].OnRemove();
             Destroy(WeaponPosition.GetChild(0).gameObject);
 
             CurWeaponNumber = targetWeaponNum;
-            CurWeapon = Weapon[targetWeaponNum];
 
-            Instantiate(CurWeapon.resource, WeaponPosition);
-            CurWeapon.OnEquip();
+            Instantiate(Weapon[CurWeaponNumber].resource, WeaponPosition);
+            Weapon[CurWeaponNumber].OnEquip();
 
             UIManager.Instance.StartCoroutine(UIManager.Instance.SwitchWeapon());
         }
         else
         {
-            if (CurWeaponNumber == targetWeaponNum)
+            if (CurWeaponNumber != targetWeaponNum)
             {
                 Weapon[targetWeaponNum] = targetWeapon;
             }
             else
             {
-                CurWeapon.OnRemove();
+                Weapon[CurWeaponNumber].OnRemove();
                 Destroy(WeaponPosition.GetChild(0).gameObject);
 
-                Weapon[targetWeaponNum] = targetWeapon;
+                Weapon[CurWeaponNumber] = targetWeapon;
 
-                Instantiate(targetWeapon.resource, WeaponPosition);
-                Weapon[targetWeaponNum].OnEquip();
+                Instantiate(Weapon[CurWeaponNumber].resource, WeaponPosition);
+                Weapon[CurWeaponNumber].OnEquip();
             }
 
             UIManager.Instance.SetWeaponUI(targetWeaponNum, targetWeapon);
