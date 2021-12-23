@@ -8,6 +8,6 @@ public class RangedAttack : Skill
     {
         RuntimeManager.PlayOneShot("event:/SFX/Weapon/EX_Attack");
         ObjectManager.Instance.PopObject(resource.name, Wakgood.Instance.AttackPosition, true);
-        Wakgood.Instance.CurWeapon.Ammo--;
+        Wakgood.Instance.Weapon[Wakgood.Instance.CurWeaponNumber].Ammo--;
     }
 }

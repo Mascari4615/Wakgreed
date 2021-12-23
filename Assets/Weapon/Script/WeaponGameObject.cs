@@ -33,7 +33,7 @@ public class WeaponGameObject : InteractiveObject
             return;
         }
 
-        Weapon temp = Wakgood.Instance.CurWeapon;
+        Weapon temp = Wakgood.Instance.Weapon[Wakgood.Instance.CurWeaponNumber];
         Wakgood.Instance.SwitchWeapon(Wakgood.Instance.CurWeaponNumber, weapon);
 
         weapon = temp;

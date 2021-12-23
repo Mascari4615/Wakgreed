@@ -59,11 +59,11 @@ public class UIManager : MonoBehaviour
             else if (Input.GetKeyUp(KeyCode.C)) state.SetActive(false);
         }
 
-        if (Wakgood.Instance.CurWeapon.IsReloading)
+        if (Wakgood.Instance.Weapon[Wakgood.Instance.CurWeaponNumber].IsReloading)
         {
             if (!reloadUI.activeSelf)
                 reloadUI.SetActive(true);
-            reloadImage.fillAmount = Wakgood.Instance.CurWeapon.CurReloadTime / Wakgood.Instance.CurWeapon.reloadTime;
+            reloadImage.fillAmount = Wakgood.Instance.Weapon[Wakgood.Instance.CurWeaponNumber].CurReloadTime / Wakgood.Instance.Weapon[Wakgood.Instance.CurWeaponNumber].reloadTime;
         }
         else if (reloadUI.activeSelf) reloadUI.SetActive(false);
 

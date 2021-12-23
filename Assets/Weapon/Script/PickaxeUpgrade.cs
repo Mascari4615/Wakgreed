@@ -16,7 +16,7 @@ public class PickaxeUpgrade : Skill
                 DataManager.Instance.wakgoodItemInventory.Remove(DataManager.Instance.ItemDic[stoneID]);
                 DataManager.Instance.wakgoodItemInventory.Remove(DataManager.Instance.ItemDic[stoneID]);
                 DataManager.Instance.wakgoodItemInventory.Remove(DataManager.Instance.ItemDic[stoneID]);
-                Wakgood.Instance.SwitchWeapon(Wakgood.Instance.CurWeaponNumber, DataManager.Instance.WeaponDic[Wakgood.Instance.CurWeapon.id + 1]);
+                Wakgood.Instance.SwitchWeapon(Wakgood.Instance.CurWeaponNumber, DataManager.Instance.WeaponDic[Wakgood.Instance.Weapon[Wakgood.Instance.CurWeaponNumber].id + 1]);
             }
         }
         else
