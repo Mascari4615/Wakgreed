@@ -7,6 +7,7 @@ public abstract class BossMonster : Monster
 {
     [SerializeField] private BoolVariable isShowingSomething;
     public new string name;
+    public int npcID;
     protected CinemachineTargetGroup cinemachineTargetGroup;
     protected new CinemachineVirtualCamera camera;
 
@@ -44,6 +45,12 @@ public abstract class BossMonster : Monster
             if (Collection.Instance != null)
                 Collection.Instance.Collect(this, true);
             DataManager.Instance.CurGameData.killedOnceBoss[ID] = true;
+            DataManager.Instance.SaveGameData();
+        }
+
+        if (DataManager.Instance.CurGameData.rescuedNPC[npcID] == false)
+        {
+            DataManager.Instance.CurGameData.rescuedNPC[npcID] = true;
             DataManager.Instance.SaveGameData();
         }
 

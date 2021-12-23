@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{71c211d5-3911-4816-9a78-ac5798562645}">
 		<property name="name">
-			<value>yeppSun - 왁버거 리믹스</value>
+			<value>yeppSun - 왁버거 MR</value>
 		</property>
 		<property name="outputFormat">
 			<value>1</value>
@@ -60,7 +60,7 @@
 	<object class="MarkerTrack" id="{3ba5c7fd-9918-43a1-b8d8-d8cd0ee4ff26}" />
 	<object class="GroupTrack" id="{d147bf9b-6171-4892-b98f-fc44f3660ff4}">
 		<relationship name="modules">
-			<destination>{ed0fb16c-3ea5-43c6-bb99-d835e451451d}</destination>
+			<destination>{f810711d-b7cf-4276-bba7-97e4b455c4fc}</destination>
 		</relationship>
 		<relationship name="mixerGroup">
 			<destination>{678f2d7e-fc03-405c-a793-835928db7553}</destination>
@@ -68,7 +68,7 @@
 	</object>
 	<object class="Timeline" id="{ba8c634e-250d-4678-87ca-0221fc1377aa}">
 		<relationship name="modules">
-			<destination>{ed0fb16c-3ea5-43c6-bb99-d835e451451d}</destination>
+			<destination>{f810711d-b7cf-4276-bba7-97e4b455c4fc}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{bc19b6d6-ea67-40e6-968e-94e104561257}">
@@ -88,12 +88,12 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{66b45a5e-8aa0-4597-a5ad-8ce401f3293f}" />
-	<object class="SingleSound" id="{ed0fb16c-3ea5-43c6-bb99-d835e451451d}">
+	<object class="SingleSound" id="{f810711d-b7cf-4276-bba7-97e4b455c4fc}">
 		<property name="length">
-			<value>18.359999999999999</value>
+			<value>18.585999999999999</value>
 		</property>
 		<relationship name="audioFile">
-			<destination>{52952260-8061-4fb8-b35f-032c58da283b}</destination>
+			<destination>{2d15b308-147e-4143-ba49-d5d8ef25bd18}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{678f2d7e-fc03-405c-a793-835928db7553}">

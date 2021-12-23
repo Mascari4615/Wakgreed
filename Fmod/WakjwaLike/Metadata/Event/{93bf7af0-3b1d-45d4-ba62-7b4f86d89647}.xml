@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{93bf7af0-3b1d-45d4-ba62-7b4f86d89647}">
 		<property name="name">
-			<value>yeppSun - 고고 다섯쌍둥이 리믹스</value>
+			<value>yeppSun - 고고 다섯쌍둥이 MR</value>
 		</property>
 		<property name="outputFormat">
 			<value>1</value>
@@ -60,7 +60,7 @@
 	<object class="MarkerTrack" id="{64033c14-2545-4d43-be58-d180e8e188ec}" />
 	<object class="GroupTrack" id="{2542ceba-7d5c-48ce-a5e3-08b158e0cdfe}">
 		<relationship name="modules">
-			<destination>{7d0c6df5-93c2-4954-a630-2a2ea64af3f1}</destination>
+			<destination>{9d3b1f7d-fbb9-4be4-985e-e9590da24b98}</destination>
 		</relationship>
 		<relationship name="mixerGroup">
 			<destination>{f92c8251-09c6-469b-b5dd-32457dbf110e}</destination>
@@ -68,7 +68,7 @@
 	</object>
 	<object class="Timeline" id="{eb43290f-de43-46d5-b8ec-ccc46c930072}">
 		<relationship name="modules">
-			<destination>{7d0c6df5-93c2-4954-a630-2a2ea64af3f1}</destination>
+			<destination>{9d3b1f7d-fbb9-4be4-985e-e9590da24b98}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{faca1320-c645-4963-a93c-feebf65980da}">
@@ -88,12 +88,15 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{44ffef19-d109-4bb7-8204-1be2f3acd131}" />
-	<object class="SingleSound" id="{7d0c6df5-93c2-4954-a630-2a2ea64af3f1}">
+	<object class="SingleSound" id="{9d3b1f7d-fbb9-4be4-985e-e9590da24b98}">
 		<property name="length">
-			<value>104.256</value>
+			<value>104.71814583333334</value>
+		</property>
+		<property name="timelockedOffset">
+			<value>1</value>
 		</property>
 		<relationship name="audioFile">
-			<destination>{93ac219e-a59f-4407-a992-ba711b0f1e0b}</destination>
+			<destination>{e5227c82-444b-44ad-bd3e-6dbbf1fbe840}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{f92c8251-09c6-469b-b5dd-32457dbf110e}">

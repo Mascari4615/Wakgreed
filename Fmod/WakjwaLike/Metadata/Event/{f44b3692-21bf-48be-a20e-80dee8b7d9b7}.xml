@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{f44b3692-21bf-48be-a20e-80dee8b7d9b7}">
 		<property name="name">
-			<value>yeppSun - 세구의 꿈</value>
+			<value>yeppSun - 세구의 꿈 MR</value>
 		</property>
 		<property name="outputFormat">
 			<value>1</value>
@@ -60,7 +60,7 @@
 	<object class="MarkerTrack" id="{b4848e1e-909d-494d-824c-b5e172dbd824}" />
 	<object class="GroupTrack" id="{2565f1be-536e-4441-a090-868a9c689cad}">
 		<relationship name="modules">
-			<destination>{19d65aaf-7f6b-4ede-be6d-a0f495caef27}</destination>
+			<destination>{fdb94cf3-f5fe-426a-9d80-ca0e147e9505}</destination>
 		</relationship>
 		<relationship name="mixerGroup">
 			<destination>{9465ce24-3aee-4e61-8062-137b11e72e64}</destination>
@@ -68,7 +68,7 @@
 	</object>
 	<object class="Timeline" id="{1a0ce099-3dde-47b6-86cd-1925f30369b7}">
 		<relationship name="modules">
-			<destination>{19d65aaf-7f6b-4ede-be6d-a0f495caef27}</destination>
+			<destination>{fdb94cf3-f5fe-426a-9d80-ca0e147e9505}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{ed4ad867-489d-4830-988f-c229b9419a00}">
@@ -88,12 +88,15 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{e420d2f7-d6ed-4733-b8b0-6be49227b3b0}" />
-	<object class="SingleSound" id="{19d65aaf-7f6b-4ede-be6d-a0f495caef27}">
+	<object class="SingleSound" id="{fdb94cf3-f5fe-426a-9d80-ca0e147e9505}">
 		<property name="length">
-			<value>104.01600000000001</value>
+			<value>102.7</value>
+		</property>
+		<property name="timelockedOffset">
+			<value>0.5</value>
 		</property>
 		<relationship name="audioFile">
-			<destination>{d0423a17-40cb-495a-96ad-779422954f85}</destination>
+			<destination>{ab6a57dd-0ec0-4083-bd08-1c37051d9f05}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{9465ce24-3aee-4e61-8062-137b11e72e64}">
