@@ -12,7 +12,7 @@ public class ShopKeeper : NPC
     {
         base.Awake();
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 5; i++)
             itemInventory.Add(DataManager.Instance.ItemDic.ElementAt(Random.Range(0, DataManager.Instance.ItemDic.Count)).Value);
     }
 

@@ -140,7 +140,7 @@ public class StageManager : MonoBehaviour
             for (int i = 0; i < roomCount; i++)
             {
                 int roomMoldIndex = i == 0 ? 0 : Random.Range(0, roomMolds.Count);            
-                int roomDataIndex = i <= 3 ? 0 : nrcCount > 0 ? 0 : Random.Range(0, roomData.Count);
+                int roomDataIndex = i <= 3 ? 0 : nrcCount > 0 ? 0 : Random.Range(1, roomData.Count);
 
                 // 0 spawn, 1 boss, 2 restourant, 3 shop, 4 nrc, 5 ~
                 Room room = Instantiate(roomData[roomDataIndex].gameObject, stageGrid.transform).GetComponent<Room>();

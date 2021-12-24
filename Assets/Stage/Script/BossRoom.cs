@@ -14,7 +14,7 @@ public class BossRoom : Room
     public void RoomClear()
     {
         ObjectManager.Instance.PopObject("BossChest", transform.Find("ChestPoint"));
-        // 보스 클리어 연출
+        ObjectManager.Instance.PopObject("HealObject", transform.Find("ChestPoint").position + Vector3.up);
         transform.Find("Portal").gameObject.SetActive(true);
         foreach (var hider in DoorHiders) hider.SetActive(false);
         foreach (var particle in DoorParticles) particle.SetActive(true);

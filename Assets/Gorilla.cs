@@ -12,6 +12,10 @@ public class Gorilla : NormalMonster
     {
         base.OnEnable();
 
+        damagingObject.SetActive(false);
+        earthQuake.SetActive(false);
+        earthQuakeWarning.SetActive(false);
+
         idle = Idle();
         StartCoroutine(idle);
         StartCoroutine(CheckWakgood());

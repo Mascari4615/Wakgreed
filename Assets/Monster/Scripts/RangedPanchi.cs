@@ -11,6 +11,7 @@ public abstract class RangedPanchi : NormalMonster
     {
         base.OnEnable();
         isTargeting = false;
+
         bullet.SetActive(false);
         bullet.transform.localPosition = Vector3.zero;
 
