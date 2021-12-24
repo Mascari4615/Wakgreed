@@ -76,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 978103407
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: d3feb4a96f9c0e24392f87a5ad73a54b, type: 3}
   m_Color: {r: 0.78431374, g: 1, b: 1, a: 0.78431374}
   m_FlipX: 0
@@ -102,6 +102,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotateSpeed: 25
   direction: 0
+  gotoZero: 0
+  gotoZeroWeight: 0
 --- !u!114 &1889723176232406603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,9 +121,9 @@ MonoBehaviour:
   totalPower: {fileID: 11400000, guid: 1a3eef7a703f4d440869b9541a779c7d, type: 2}
   criticalChance: {fileID: 11400000, guid: 300f8b12c04c18a45a8f73a08c3ab38b, type: 2}
   criticalDamagePer: {fileID: 11400000, guid: 19d3c26c7e7c0fe4fa0f3b7a64ec8d21, type: 2}
-  damage: 1
+  damage: 3
   offOnHit: 0
-  ggambbakDelay: 0.5
+  ggambbakDelay: 1
 --- !u!70 &7925458248831599759
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -150,4 +152,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 022df02562d61814b8b27c7ed5c6b3b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onMonsterKill: {fileID: 0}

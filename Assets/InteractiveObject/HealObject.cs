@@ -4,8 +4,6 @@ using UnityEngine;
 public class HealObject : MonoBehaviour
 {
     [SerializeField] private int healAmount;
-    [SerializeField] private IntVariable wakgoodCurHP;
-    [SerializeField] private MaxHp wakgoodMaxHP;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -19,6 +17,6 @@ public class HealObject : MonoBehaviour
     private void Heal()
     {
         RuntimeManager.PlayOneShot("event:/SFX/ETC/Heal", Wakgood.Instance.AttackPosition.position);
-        wakgoodCurHP.RuntimeValue = Mathf.Clamp(wakgoodCurHP.RuntimeValue + healAmount, 0, wakgoodMaxHP.RuntimeValue);
+        Wakgood.Instance.ReceiveHeal(healAmount);
     }
 }

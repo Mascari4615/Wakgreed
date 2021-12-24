@@ -15,6 +15,7 @@ public abstract class Monster : MonoBehaviour, IHitable
     [SerializeField] protected int MoveSpeed;
     protected bool isCollapsed;
     protected SpriteRenderer SpriteRenderer;
+    public Sprite defaultSprite;
     protected Animator Animator;
     protected Rigidbody2D Rigidbody2D;
     protected new Collider2D collider2D;
@@ -25,6 +26,7 @@ public abstract class Monster : MonoBehaviour, IHitable
     {
         MaxHp = hp;
         SpriteRenderer = GetComponent<SpriteRenderer>();
+        defaultSprite = SpriteRenderer.sprite;
         Animator = GetComponent<Animator>();
         Rigidbody2D = GetComponent<Rigidbody2D>();
         collider2D = GetComponent<Collider2D>();
@@ -38,6 +40,7 @@ public abstract class Monster : MonoBehaviour, IHitable
         collider2D.enabled = true;
         Rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
         GameManager.Instance.enemyRunTimeSet.Add(gameObject);
+        SpriteRenderer.sprite = defaultSprite;
     }
 
     public void ReceiveHit(int damage)

@@ -20,6 +20,7 @@ public class Wakgood : MonoBehaviour, IHitable
     public TotalPower totalPower;
     public FloatVariable attackSpeed;
     [SerializeField] private FloatVariable moveSpeed, evasion;
+    [SerializeField] private BoolVariable canEvasionOnDash;
     [SerializeField] private GameEvent onDamage, onCollapse, onLevelUp;
 
     private Transform attackPositionParent;
@@ -195,8 +196,7 @@ public class Wakgood : MonoBehaviour, IHitable
 
     public void ReceiveHit(int damage)
     {
-        // if (!isHealthy || WakgoodMove.MbDashing)
-        if (!isHealthy)
+        if (!isHealthy || (WakgoodMove.MbDashing && canEvasionOnDash.RuntimeValue))
         {
             return;
         }
