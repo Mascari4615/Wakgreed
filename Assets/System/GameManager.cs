@@ -131,7 +131,6 @@ public class GameManager : MonoBehaviour
         isFighting.RuntimeValue = false;
 
         StageManager.Instance.DestroyStage();
-        undo.SetActive(true);
         UIManager.Instance.SetStageName("0-0 로비");
         AudioManager.Instance.PlayMusic("Vendredi - Here I Am");
         StageManager.Instance.currentStageID = -1;
@@ -156,6 +155,7 @@ public class GameManager : MonoBehaviour
 
         Wakgood.Instance.enabled = true;
         Wakgood.Instance.gameObject.SetActive(true);
+        undo.SetActive(true);
 
         Time.timeScale = 1;
     }

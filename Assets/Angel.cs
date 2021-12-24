@@ -9,8 +9,7 @@ public class Angel : NPC
     [SerializeField] private Sprite[] treeSprites;
     [SerializeField] private Sprite[] shadowSprites;
     [SerializeField] private IntVariable power;
-    [SerializeField] private IntVariable hp;
-    [SerializeField] private IntVariable curHp;
+    [SerializeField] private MaxHp maxhp;
     [SerializeField] private TextMeshProUGUI curGrowthText;
     [SerializeField] private Image[] curEffectStamps;
     [SerializeField] private Image treeImage;
@@ -25,7 +24,7 @@ public class Angel : NPC
 
     private void UpdateTree()
     {
-        hp.RuntimeValue -= bonusHp;
+        maxhp.RuntimeValue -= bonusHp;
         power.RuntimeValue -= bonusPower;
 
         bonusHp = 0;
@@ -63,8 +62,7 @@ public class Angel : NPC
             bonusPower += 10;
         }
 
-        hp.RuntimeValue += bonusHp;
-        curHp.RuntimeValue = hp.RuntimeValue;
+        maxhp.RuntimeValue += bonusHp;
         power.RuntimeValue += bonusPower;
     }
 }
