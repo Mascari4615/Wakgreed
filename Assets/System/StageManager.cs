@@ -273,6 +273,7 @@ public class StageManager : MonoBehaviour
 
     public IEnumerator MigrateRoom(Vector2 moveDirection, int spawnDirection)
     {
+        isFocusOnSomething.RuntimeValue = true;
         fadePanelAnimator.SetTrigger("OUT");
         yield return ws02;
 
@@ -290,10 +291,12 @@ public class StageManager : MonoBehaviour
         yield return ws02;
         fadePanelAnimator.SetTrigger("IN");
         yield return ws02;
+        isFocusOnSomething.RuntimeValue = false;
     }
 
     public IEnumerator MigrateRoom(Vector2 coordinate)
     {
+        isFocusOnSomething.RuntimeValue = true;
         fadePanelAnimator.SetTrigger("OUT");
         yield return ws02;
 
@@ -311,8 +314,9 @@ public class StageManager : MonoBehaviour
         yield return ws02;
         fadePanelAnimator.SetTrigger("IN");
         yield return ws02;
+        isFocusOnSomething.RuntimeValue = false;
     }
-    
+
     private void MapDoor(bool bOpen)
     {
         if (isFighting.RuntimeValue)

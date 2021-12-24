@@ -69,10 +69,13 @@ public class NormalRoom : Room
         foreach (var particle in DoorParticles) particle.SetActive(true);
         StartCoroutine(UIManager.Instance.SpeedWagon_RoomClear());
 
-        Probability<string> probability = new();
-        probability.Add("CommonChest", 70);
-        probability.Add("UncommonChest", 35);
-        probability.Add("LegendaryChest", 5);
-        ObjectManager.Instance.PopObject(probability.Get(), transform.Find("ChestPoint"));
+        if (Random.Range(0, 100) > 60)
+        {
+            Probability<string> probability = new();
+            probability.Add("CommonChest", 70);
+            probability.Add("UncommonChest", 35);
+            probability.Add("LegendaryChest", 5);
+            ObjectManager.Instance.PopObject(probability.Get(), transform.Find("ChestPoint"));
+        }
     }
 }
