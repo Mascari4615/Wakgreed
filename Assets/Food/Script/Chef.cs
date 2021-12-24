@@ -39,4 +39,9 @@ public class Chef : NPC
             ObjectManager.Instance.PopObject("AnimatedText", Wakgood.Instance.transform.position).GetComponent<AnimatedText>().SetText("골드 부족!", TextType.Critical);
         }
     }
+
+    private void OnDestroy()
+    {
+        foodInventory.Clear();
+    }
 }

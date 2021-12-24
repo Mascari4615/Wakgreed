@@ -11,7 +11,7 @@ public abstract class NPC : InteractiveObject
     [TextArea] [SerializeField] private List<string> firstComment, randomComment;
     [SerializeField] protected bool canOpenUI = true;
     [SerializeField] private BoolVariable isShowingSomething;
-    protected CinemachineVirtualCamera cvm1, cvm2;
+    protected CinemachineVirtualCamera cvm1, cvm2; // NPC, UI
     protected GameObject customUI, defaultUI, chat;
     private TextMeshProUGUI chatText;
     protected CinemachineTargetGroup cinemachineTargetGroup;

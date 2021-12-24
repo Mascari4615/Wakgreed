@@ -9,6 +9,11 @@ public abstract class SpecialThing : ScriptableObject
     [TextArea] public string description;
 }
 
+public class Sellable : Equiptable
+{
+    public int price;
+}
+
 public abstract class Equiptable : SpecialThing
 {
     [SerializeField] private Effect[] effects;
