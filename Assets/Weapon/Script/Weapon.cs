@@ -5,7 +5,7 @@ public enum InputType { Once, Continue }
 public enum AttackType { Melee, Ranged }
 
 [CreateAssetMenu]
-public class Weapon : Equiptable, ISerializationCallbackReceiver
+public class Weapon : Sellable, ISerializationCallbackReceiver
 {
     public ItemGrade grade;
     public GameObject resource;

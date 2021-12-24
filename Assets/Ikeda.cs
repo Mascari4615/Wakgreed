@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Ikeda : ShopKeeper
+public class Ikeda : Chef
 {
     private SpriteRenderer spriteRenderer;
     private GameObject shadow;
@@ -15,14 +13,16 @@ public class Ikeda : ShopKeeper
         shadow = transform.Find("Shadow").gameObject;
         fakeChest = transform.Find("FakeChest").gameObject;
 
-        fakeChest.SetActive(false);
-
         if (DataManager.Instance.CurGameData.talkedOnceNPC[ID] == false)
         {
             fakeChest.SetActive(true);
             spriteRenderer.color = new Color(1, 1, 1, 0);
             defaultUI.SetActive(false);
             shadow.SetActive(false);
+        }
+        else
+        {
+            fakeChest.SetActive(false);
         }
     }
 
