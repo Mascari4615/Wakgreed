@@ -3,19 +3,19 @@
 [CreateAssetMenu(fileName = "PickaxeUpgrade", menuName = "Skill/PickaxeUpgrade")]
 public class PickaxeUpgrade : Skill
 {
-    private const int stoneID = 400;
+    [SerializeField] private Item stone;
 
     public override void Use(Weapon weapon)
     {       
-        if (DataManager.Instance.wakgoodItemInventory.Items.Find(x => x.id == stoneID))
+        if (DataManager.Instance.wakgoodItemInventory.Items.Find(x => x.id == stone.id))
         {
-            if (DataManager.Instance.wakgoodItemInventory.itemCountDic[stoneID] >= 5)
+            if (DataManager.Instance.wakgoodItemInventory.itemCountDic[stone.id] >= 5)
             {
-                DataManager.Instance.wakgoodItemInventory.Remove(DataManager.Instance.ItemDic[stoneID]);
-                DataManager.Instance.wakgoodItemInventory.Remove(DataManager.Instance.ItemDic[stoneID]);
-                DataManager.Instance.wakgoodItemInventory.Remove(DataManager.Instance.ItemDic[stoneID]);
-                DataManager.Instance.wakgoodItemInventory.Remove(DataManager.Instance.ItemDic[stoneID]);
-                DataManager.Instance.wakgoodItemInventory.Remove(DataManager.Instance.ItemDic[stoneID]);
+                DataManager.Instance.wakgoodItemInventory.Remove(DataManager.Instance.ItemDic[stone.id]);
+                DataManager.Instance.wakgoodItemInventory.Remove(DataManager.Instance.ItemDic[stone.id]);
+                DataManager.Instance.wakgoodItemInventory.Remove(DataManager.Instance.ItemDic[stone.id]);
+                DataManager.Instance.wakgoodItemInventory.Remove(DataManager.Instance.ItemDic[stone.id]);
+                DataManager.Instance.wakgoodItemInventory.Remove(DataManager.Instance.ItemDic[stone.id]);
                 Wakgood.Instance.SwitchWeapon(Wakgood.Instance.CurWeaponNumber, DataManager.Instance.WeaponDic[Wakgood.Instance.Weapon[Wakgood.Instance.CurWeaponNumber].id + 1]);
             }
         }

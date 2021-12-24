@@ -2,13 +2,13 @@
 
 public class Portal : InteractiveObject
 {
-    [SerializeField] private MeshRenderer interactionIcon = null;
+    [SerializeField] private GameObject interactionIcon;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
-            interactionIcon.enabled = true;
+            interactionIcon.SetActive(true);
         }  
     }
 
@@ -16,8 +16,9 @@ public class Portal : InteractiveObject
     {
         if (other.tag == "Player")
         {
-            interactionIcon.enabled = false;
-        }     
+            interactionIcon.SetActive(false);
+
+        }
     }
 
     public override void Interaction()

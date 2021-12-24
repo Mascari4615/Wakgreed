@@ -273,6 +273,8 @@ public class StageManager : MonoBehaviour
 
     public IEnumerator MigrateRoom(Vector2 moveDirection, int spawnDirection)
     {
+        if (isFocusOnSomething.RuntimeValue) yield break;
+
         isFocusOnSomething.RuntimeValue = true;
         fadePanelAnimator.SetTrigger("OUT");
         yield return ws02;
@@ -296,6 +298,9 @@ public class StageManager : MonoBehaviour
 
     public IEnumerator MigrateRoom(Vector2 coordinate)
     {
+        if (isFocusOnSomething.RuntimeValue) yield break;
+
+
         isFocusOnSomething.RuntimeValue = true;
         fadePanelAnimator.SetTrigger("OUT");
         yield return ws02;

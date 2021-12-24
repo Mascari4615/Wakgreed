@@ -120,7 +120,12 @@ public class GameManager : MonoBehaviour
 
         while (clickRecall == false) yield return null;
         clickRecall = false;
-        
+
+        AudioManager.Instance.StopMusic();
+        fadePanel.SetTrigger("OUT");
+        yield return new WaitForSeconds(1f);
+        fadePanel.SetTrigger("IN");
+
         gamePanel.SetActive(true);
 
         nyang.RuntimeValue = 0;

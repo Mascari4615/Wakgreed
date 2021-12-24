@@ -37,6 +37,7 @@ public class UIManager : MonoBehaviour
     public GameObject stageSpeedWagon;
     [SerializeField] private TextMeshProUGUI stageNumberText, stageNameCommentText;
     [SerializeField] private GameObject roomClearSpeedWagon;
+    [SerializeField] private GameObject rescueSpeedWagon;
 
     private void Awake()
     {
@@ -133,6 +134,13 @@ public class UIManager : MonoBehaviour
         roomClearSpeedWagon.SetActive(false);
     }
 
+    public IEnumerator SpeedWagon_Rescue()
+    {
+        rescueSpeedWagon.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        rescueSpeedWagon.SetActive(false);
+    }
+
 
     public IEnumerator SwitchWeapon()
     {
@@ -171,6 +179,8 @@ public class UIManager : MonoBehaviour
         stageSpeedWagon.SetActive(false);
         StopCoroutine(nameof(SpeedWagon_RoomClear));
         roomClearSpeedWagon.SetActive(false);
+        StopCoroutine(nameof(SpeedWagon_Rescue));
+        rescueSpeedWagon.SetActive(false);
     }
     private IEnumerator canOpenText;
 
