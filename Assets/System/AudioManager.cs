@@ -55,7 +55,11 @@ public class AudioManager : MonoBehaviour
 
     private void Update()
     {
-        if (isLoading.RuntimeValue == false)
+        bool wakgoodCollapsed = false;
+        if (Wakgood.Instance != null)
+            wakgoodCollapsed = Wakgood.Instance.IsCollapsed;
+
+        if (isLoading.RuntimeValue == false && !wakgoodCollapsed)
         {
             BgmEvent.getPlaybackState(out pbState);
             if (pbState == PLAYBACK_STATE.STOPPED)

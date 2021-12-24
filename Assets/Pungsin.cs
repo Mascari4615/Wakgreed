@@ -5,9 +5,11 @@ using UnityEngine;
 public class Pungsin : BossMonster
 {
     [SerializeField] private GameObject ultAttackPrefab;
+    [SerializeField] private GameObject skill0AttackPrefab;
     [SerializeField] private GameObject skill1AttackPrefab;
     
-    private BulletMove[] skill1AttackGo;
+    private BulletMove[] skill0AttackGo;
+    private BulletMoveStar[] skill1AttackGo;
     [SerializeField] private GameObject ult;
     [SerializeField] private GameObject ultParticle1;
     [SerializeField] private GameObject ultParticle2;
@@ -30,10 +32,16 @@ public class Pungsin : BossMonster
         }
 
 
-        skill1AttackGo = new BulletMove[3];
+        skill0AttackGo = new BulletMove[3];
         for (int i = 0; i < 3; i++)
         {
-            (skill1AttackGo[i] = Instantiate(skill1AttackPrefab, transform).GetComponent<BulletMove>()).gameObject.SetActive(false);
+            (skill0AttackGo[i] = Instantiate(skill0AttackPrefab, transform).GetComponent<BulletMove>()).gameObject.SetActive(false);
+        }
+
+        skill1AttackGo = new BulletMoveStar[5];
+        for (int i = 0; i < 5; i++)
+        {
+            (skill1AttackGo[i] = Instantiate(skill1AttackPrefab, transform).GetComponent<BulletMoveStar>()).gameObject.SetActive(false);
         }
 
         lineRenderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 0.3f));
@@ -43,7 +51,8 @@ public class Pungsin : BossMonster
     {
         while (true)
         {
-            int i = Random.Range(0, 1 + 1);
+            int i = Random.Range(0, 2 + 1);
+
             switch (i)
             {
                 case 0:
@@ -52,6 +61,26 @@ public class Pungsin : BossMonster
                 case 1:
                     yield return StartCoroutine(Ult());
                     break;
+                case 2:
+                    yield return StartCoroutine(Skill1());
+                    break;
+            }
+        }
+    }
+
+    private IEnumerator Skill1()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            if (skill1AttackGo[i].gameObject.activeSelf == false)
+            {
+                Animator.SetBool("ULT", true);
+                yield return new WaitForSeconds(1);
+                skill1AttackGo[i].Set(Random.Range(.2f, .5f), Random.Range(2.5f, 5f));
+                skill1AttackGo[i].gameObject.SetActive(true);
+                Animator.SetBool("ULT", false);
+                yield return new WaitForSeconds(2);
+                yield break;
             }
         }
     }
@@ -138,13 +167,13 @@ public class Pungsin : BossMonster
             lineRenderer.SetPosition(1, transform.position + (Vector3)Vector2.up + attackDirection * 100);
             lineRenderer.gameObject.SetActive(true);
 
-            yield return i == 0 ? new WaitForSeconds(.7f) : (object)new WaitForSeconds(.5f);
+            yield return i == 0 ? new WaitForSeconds(.7f) : new WaitForSeconds(.2f);
 
             Animator.SetTrigger("SKILL1GO");
 
-            skill1AttackGo[i].transform.position = transform.position + (Vector3)Vector2.up;
-            skill1AttackGo[i].SetDirection(attackDirection);
-            skill1AttackGo[i].gameObject.SetActive(true);
+            skill0AttackGo[i].transform.position = transform.position + (Vector3)Vector2.up;
+            skill0AttackGo[i].SetDirection(attackDirection);
+            skill0AttackGo[i].gameObject.SetActive(true);
             lineRenderer.gameObject.SetActive(false);
 
             yield return new WaitForSeconds(.2f);

@@ -196,6 +196,8 @@ public class Wakgood : MonoBehaviour, IHitable
 
     public void ReceiveHit(int damage)
     {
+        if (IsCollapsed) return;
+
         if (!isHealthy || (WakgoodMove.MbDashing && canEvasionOnDash.RuntimeValue))
         {
             return;
@@ -241,8 +243,11 @@ public class Wakgood : MonoBehaviour, IHitable
     private IEnumerator Collapse()
     {
         WakgoodMove.StopAllCoroutines();
+        ObjectManager.Instance.PopObject("Zeolite", transform);
 
         IsCollapsed = true;
+        AudioManager.Instance.PlayMusic("위윌왁휴 - 그 디버프 브금");
+
         WakgoodMove.PlayerRb.bodyType = RigidbodyType2D.Static;
         WakgoodMove.Animator.SetTrigger(collapse);
         WakgoodMove.enabled = false;

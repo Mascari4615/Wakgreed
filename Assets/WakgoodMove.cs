@@ -26,6 +26,7 @@ public class WakgoodMove : MonoBehaviour
     private bool mbCanBbolBbol = true;
     private static readonly int wakeUp = Animator.StringToHash("WakeUp");
     private static readonly int move = Animator.StringToHash("Move");
+    private static readonly int collapse = Animator.StringToHash("Collapse");
     private const float DashParameter = 4;
 
     public void Initialize()
@@ -38,6 +39,12 @@ public class WakgoodMove : MonoBehaviour
 
     private void Update()
     {
+        if (Wakgood.Instance.IsCollapsed)
+        {
+            Animator.SetBool(collapse, true);
+            return;
+        }
+
         if (Time.timeScale == 0 || Wakgood.Instance.IsCollapsed || isFocusOnSomething.RuntimeValue)
         {
             mbMoving = false;

@@ -115,6 +115,8 @@ public class Hikiking : BossMonster
         collider2D.enabled = false;
         for (int i = 0; i < ultCount; i++)
         {
+            SpriteRenderer.flipX = transform.position.x > targetPos[i].x;
+
             for (float j = 0; Vector3.Distance(transform.position, targetPos[i]) > .5f; j += Time.fixedDeltaTime * 15)
             {
                 Rigidbody2D.transform.position = Vector3.Lerp(originPos, targetPos[i], j);
@@ -146,6 +148,8 @@ public class Hikiking : BossMonster
         }
 
         collider2D.enabled = false;
+        SpriteRenderer.flipX = transform.position.x > aTargetPos.x;
+
         for (float j = 0; Vector3.Distance(transform.position, aTargetPos) > .5f; j += Time.fixedDeltaTime * 30)
         {
             Rigidbody2D.transform.position = Vector3.Lerp(aOriginPos, aTargetPos, j);
