@@ -117,7 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   directionVector: {x: 0, y: 0, z: 0}
-  moveSpeed: 6
+  moveSpeed: 12
   direction: 1
 --- !u!114 &923935442468346946
 MonoBehaviour:
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83ed4699b865638488b75392fd1eb48a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 1
+  duration: 5
 --- !u!1 &8633538259678075035
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,6 +207,8 @@ MonoBehaviour:
   flashMaterial: {fileID: 2100000, guid: c74166bc298345945a7d9a9e8218b4ec, type: 2}
   onMonsterCollapse: {fileID: 11400000, guid: 1b477f0305627f54d8b1c54462eafc87, type: 2}
   ID: 1
+  description: "\uC7A0\uC790\uAE30\uB97C \uC88B\uC544\uD558\uB294 \uAC10\uC790 \uD32C\uCE58.
+    \uAC10\uC790\uB97C \uB358\uC9D1\uB2C8\uB2E4."
   hp: 20
   MoveSpeed: 5
   bullet: {fileID: 5122466530263573976}

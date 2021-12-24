@@ -138,7 +138,7 @@ public class Pungsin : BossMonster
             lineRenderer.SetPosition(1, transform.position + (Vector3)Vector2.up + attackDirection * 100);
             lineRenderer.gameObject.SetActive(true);
 
-            yield return i == 0 ? new WaitForSeconds(.7f) : (object)new WaitForSeconds(.2f);
+            yield return i == 0 ? new WaitForSeconds(.7f) : (object)new WaitForSeconds(.5f);
 
             Animator.SetTrigger("SKILL1GO");
 

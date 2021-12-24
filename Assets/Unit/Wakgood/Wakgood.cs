@@ -14,7 +14,8 @@ public class Wakgood : MonoBehaviour, IHitable
 
     [SerializeField] private Wakdu wakdu;
     [SerializeField] private IntVariable exp, level;
-    [SerializeField] private IntVariable hpMax, hpCur;
+    [SerializeField] private IntVariable hpCur;
+    [SerializeField] private MaxHp hpMax;
     [SerializeField] private IntVariable powerInt;
     public TotalPower totalPower;
     public FloatVariable attackSpeed;
@@ -120,6 +121,7 @@ public class Wakgood : MonoBehaviour, IHitable
 
         // Debug.Log(EventSystem.current.IsPointerOverGameObject());
 
+        
         if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject()) Weapon[CurWeaponNumber].BaseAttack();
         else if (Input.GetKeyDown(KeyCode.Q)) Weapon[CurWeaponNumber].SkillQ();
         else if (Input.GetKeyDown(KeyCode.E)) Weapon[CurWeaponNumber].SkillE();
@@ -193,7 +195,8 @@ public class Wakgood : MonoBehaviour, IHitable
 
     public void ReceiveHit(int damage)
     {
-        if (!isHealthy || WakgoodMove.MbDashing)
+        // if (!isHealthy || WakgoodMove.MbDashing)
+        if (!isHealthy)
         {
             return;
         }
@@ -212,7 +215,7 @@ public class Wakgood : MonoBehaviour, IHitable
             if ((hpCur.RuntimeValue -= damage) > 0)
             {
                 isHealthy = false;
-                StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, .8f, value => isHealthy = value));
+                StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, .5f, value => isHealthy = value));
             }
             else
             {

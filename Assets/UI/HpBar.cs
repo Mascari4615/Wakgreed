@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class HpBar : MonoBehaviour
 {
     [SerializeField] private RectTransform rectTransform;
-    [SerializeField] private IntVariable travellerMaxHp;
+    [SerializeField] private MaxHp travellerMaxHp;
     [SerializeField] private IntVariable travellerHp;
     [SerializeField] private Image red;
     [SerializeField] private Image yellow;

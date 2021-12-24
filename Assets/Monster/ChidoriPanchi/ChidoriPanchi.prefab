@@ -53,8 +53,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flashMaterial: {fileID: 2100000, guid: c74166bc298345945a7d9a9e8218b4ec, type: 2}
   onMonsterCollapse: {fileID: 11400000, guid: 1b477f0305627f54d8b1c54462eafc87, type: 2}
-  hp: 20
-  MoveSpeed: 5
+  ID: 4
+  description: "\uB1CC\uC808\uD558\uB294 \uD32C\uCE58. \uBE60\uB974\uAC8C \uC811\uADFC\uD558\uC5EC
+    \uCE58\uB3C4\uB9AC\uB97C \uC0AC\uC6A9\uD569\uB2C8\uB2E4."
+  hp: 40
+  MoveSpeed: 10
 --- !u!114 &6520139255365978244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,7 +132,7 @@ SpriteRenderer:
   m_SortingLayerID: 978103407
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7653975790744851721, guid: bf4fc5d648dc4254da38fb3180d8e7f9,
+  m_Sprite: {fileID: 7653975790744851721, guid: 7d2e30d84d4461c4ebed94342316e658,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -151,7 +154,7 @@ Animator:
   m_GameObject: {fileID: 8633538259678075035}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a7ebcb0c5527bed45b34b9b22ff16c59, type: 2}
+  m_Controller: {fileID: 9100000, guid: 7aada7689f1a43f4fa1933ef9f5e77e4, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -371,6 +374,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Mob_Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7294446722720675879, guid: 3054d4efd9e9f024896d0c6ab829f790,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1420385351
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

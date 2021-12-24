@@ -10,8 +10,10 @@ public class Angel : NPC
     [SerializeField] private Sprite[] shadowSprites;
     [SerializeField] private IntVariable power;
     [SerializeField] private IntVariable hp;
+    [SerializeField] private IntVariable curHp;
     [SerializeField] private TextMeshProUGUI curGrowthText;
     [SerializeField] private Image[] curEffectStamps;
+    [SerializeField] private Image treeImage;
     private int bonusPower = 0;
     private int bonusHp = 0;
 
@@ -35,6 +37,7 @@ public class Angel : NPC
         curEffectStamps[2].gameObject.SetActive(DataManager.Instance.CurGameData.deathCount >= 6);
         curEffectStamps[3].gameObject.SetActive(DataManager.Instance.CurGameData.deathCount >= 8);
 
+        treeImage.sprite = treeSprites[(DataManager.Instance.CurGameData.deathCount - 1) / 2];
         treeSpriteRenderer.sprite = treeSprites[(DataManager.Instance.CurGameData.deathCount - 1) / 2];
         shadowSpriteRenderer.sprite = shadowSprites[(DataManager.Instance.CurGameData.deathCount- 1) / 2];
 
@@ -61,6 +64,7 @@ public class Angel : NPC
         }
 
         hp.RuntimeValue += bonusHp;
+        curHp.RuntimeValue = hp.RuntimeValue;
         power.RuntimeValue += bonusPower;
     }
 }
