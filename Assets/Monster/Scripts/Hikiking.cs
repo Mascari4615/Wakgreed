@@ -1,11 +1,16 @@
 using System.Collections;
+using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class Hikiking : BossMonster
 {
-    [SerializeField] private GameObject baseAttack;
+    [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private GameObject ultAttack1;
+    [SerializeField] private GameObject ultAttack2;
     [SerializeField] private TextMeshProUGUI text;
     private int ultStack = 0;
 
@@ -53,7 +58,7 @@ public class Hikiking : BossMonster
             int slashCount = Random.Range(2, 4 + 1);
             for (int k = 0; k < slashCount; k++)
             {
-                Instantiate(baseAttack, Wakgood.Instance.transform.position,
+                Instantiate(ultAttack1, Wakgood.Instance.transform.position,
                     Quaternion.Euler(new Vector3(0, 0, Random.Range(0f, 180f))));
                 yield return new WaitForSeconds(.1f);
             }
@@ -64,12 +69,17 @@ public class Hikiking : BossMonster
 
     private IEnumerator Ult()
     {
+        cinemachineTargetGroup.m_Targets[1].target = transform;
+
         text.text = "공기가 요동칩니다...";
         text.gameObject.SetActive(true);
+        Animator.SetTrigger("READY");
 
-        yield return new WaitForSeconds(1f);
-
-        text.gameObject.SetActive(false);
+        for (float j = 0; j <= 1; j += 3 * Time.fixedDeltaTime)
+        {
+            if (camera.m_Lens.OrthographicSize > 9) camera.m_Lens.OrthographicSize -= 3 * Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
 
         ultStack++;
         int ultCount = ultStack switch
@@ -79,41 +89,88 @@ public class Hikiking : BossMonster
             _ => 5
         };
 
+        Vector3 originPos = Rigidbody2D.transform.position;
+        Vector3[] targetPos = new Vector3[ultCount];
+
         for (int i = 0; i < ultCount; i++)
         {
-            Vector3 originPos = Rigidbody2D.transform.position;
-            Vector3 targetPos = Wakgood.Instance.transform.position + new Vector3(
-                ((i + 2) % 2 == 1 ? 1 : -1) * Random.Range(5f, 10f),
-                (-1 + Random.Range(0, 2) * 2) * Random.Range(5f, 10f));
-
-            for (float j = 0; j <= 1; j += 0.02f * 15)
-            {
-                Rigidbody2D.transform.position = Vector3.Lerp(originPos, targetPos, j);
-                yield return new WaitForSeconds(0.02f);
-            }
-
-            Instantiate(baseAttack, originPos + (targetPos - originPos) / 2,
-                    Quaternion.Euler(new Vector3(0, 0,
-                        Mathf.Rad2Deg * Mathf.Atan2(targetPos.y - originPos.y, targetPos.x - originPos.x)))).transform
-                .localScale = new Vector3(Vector3.Distance(originPos, targetPos) / 3, 1, 1);
+            targetPos[i] = Wakgood.Instance.transform.position + new Vector3(
+            ((i + 2) % 2 == 1 ? 1 : -1) * Random.Range(5f, 10f),
+            (-1 + Random.Range(0, 2) * 2) * Random.Range(5f, 10f));
         }
 
-        yield return new WaitForSeconds(0.5f);
+        lineRenderer.positionCount = ultCount + 1;
+        lineRenderer.SetPosition(0, originPos);
+        for (int i = 1; i < ultCount + 1; i++)
+        {
+            lineRenderer.SetPosition(i, targetPos[i - 1]);
+        }
+        lineRenderer.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(1f);
+
+        Animator.SetTrigger("GO");
+        text.gameObject.SetActive(false);
+
+        collider2D.enabled = false;
+        for (int i = 0; i < ultCount; i++)
+        {
+            for (float j = 0; Vector3.Distance(transform.position, targetPos[i]) > .5f; j += Time.fixedDeltaTime * 15)
+            {
+                Rigidbody2D.transform.position = Vector3.Lerp(originPos, targetPos[i], j);
+                yield return new WaitForFixedUpdate();
+            }
+
+            originPos = targetPos[i];
+
+            var temp = Instantiate(ultAttack1, originPos + (targetPos[i] - originPos) / 2, Quaternion.Euler(new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan2(targetPos[i].y - originPos.y, targetPos[i].x - originPos.x))));
+            temp.transform.localScale = new Vector3(Vector3.Distance(originPos, targetPos[i]) * 0.25f, 1, 1);
+        }
+        collider2D.enabled = true;
+
+        lineRenderer.gameObject.SetActive(false);
+        lineRenderer.positionCount = 2;
 
         Vector3 aOriginPos = transform.position;
         Vector3 aTargetPos = Wakgood.Instance.transform.position +
-                             (Wakgood.Instance.transform.position - transform.position).normalized * 5;
+                             (Wakgood.Instance.transform.position - transform.position).normalized * 20;
 
-        for (float j = 0; j <= 1; j += 0.02f * 20)
+        lineRenderer.SetPosition(0, aOriginPos);
+        lineRenderer.SetPosition(1, aTargetPos);
+        lineRenderer.gameObject.SetActive(true);
+
+        for (float j = 0; j <= 1f; j += 2 * Time.fixedDeltaTime)
         {
-            Rigidbody2D.transform.position = Vector3.Lerp(aOriginPos, aTargetPos, j);
-            yield return new WaitForSeconds(0.02f);
+            if (camera.m_Lens.OrthographicSize > 6) camera.m_Lens.OrthographicSize -= 2 * Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
         }
 
-        Instantiate(baseAttack, aOriginPos + (aTargetPos - aOriginPos) / 2,
-                Quaternion.Euler(new Vector3(0, 0,
-                    Mathf.Rad2Deg * Mathf.Atan2(aTargetPos.y - aOriginPos.y, aTargetPos.x - aOriginPos.x)))).transform
-            .localScale = new Vector3(Vector3.Distance(aOriginPos, aTargetPos) / 3, 3, 1);
+        collider2D.enabled = false;
+        for (float j = 0; Vector3.Distance(transform.position, aTargetPos) > .5f; j += Time.fixedDeltaTime * 30)
+        {
+            Rigidbody2D.transform.position = Vector3.Lerp(aOriginPos, aTargetPos, j);
+            yield return new WaitForFixedUpdate();
+        }
+        collider2D.enabled = true;
+
+        var v = Instantiate(ultAttack2, aOriginPos + (aTargetPos - aOriginPos) / 2, Quaternion.Euler(new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan2(aTargetPos.y - aOriginPos.y, aTargetPos.x - aOriginPos.x))));
+        v.transform.localScale = new Vector3(Vector3.Distance(aOriginPos, aTargetPos) * 0.25f, 8, 1);
+
+        yield return new WaitForSeconds(0.3f);
+        lineRenderer.gameObject.SetActive(false);
+        Animator.SetTrigger("IDLE");
+
+        yield return new WaitForSeconds(1f);
+
+        for (float j = 0; j <= 2; j += 3 * Time.fixedDeltaTime)
+        {
+            if (camera.m_Lens.OrthographicSize < 12) camera.m_Lens.OrthographicSize += 5 * Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+
+        camera.m_Lens.OrthographicSize = 12;
+
+        yield return new WaitForSeconds(1f);
     }
 
     private IEnumerator Skill1()

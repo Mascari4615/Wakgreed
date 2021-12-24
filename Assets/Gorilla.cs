@@ -5,11 +5,8 @@ public class Gorilla : NormalMonster
 {
     private IEnumerator idle;
     [SerializeField] private GameObject damagingObject;
-
-    protected override void Awake()
-    {
-        base.Awake();
-    }
+    [SerializeField] private GameObject earthQuake;
+    [SerializeField] private GameObject earthQuakeWarning;
 
     protected override void OnEnable()
     {
@@ -22,19 +19,21 @@ public class Gorilla : NormalMonster
 
     private IEnumerator Idle()
     {
-        Vector3 spawnPos = transform.position;
+        Vector2 spawnPos = transform.position;
 
         while (true)
         {
             Animator.SetBool("ISMOVING", true);
-            Vector2 targetPos = spawnPos + new Vector3(Random.Range(-2f, 2f), Random.Range(-2f, 2f), 0);
+            Vector2 targetPos = spawnPos + Random.insideUnitCircle * 2;
             Vector2 originPos = transform.position;
             SpriteRenderer.flipX = targetPos.x > originPos.x;
-            for (int i = 0; i < 50; i++)
+
+            for (float i = 0; i <= 1; i += Time.deltaTime)
             {
-                Rigidbody2D.position += (targetPos - originPos) * 0.02f;
-                yield return new WaitForSeconds(0.02f);
+                Rigidbody2D.position = Vector2.Lerp(originPos, targetPos, i);
+                yield return null;
             }
+
             Animator.SetBool("ISMOVING", false);
             yield return new WaitForSeconds(2f);
         }
@@ -48,14 +47,14 @@ public class Gorilla : NormalMonster
             if (Vector2.Distance(transform.position, Wakgood.Instance.transform.position) < 7)
             {
                 StopCoroutine(idle);
-                StartCoroutine(Attack());
+                StartCoroutine(Rush());
                 break;
             }
             yield return ws01;
         }
     }
 
-    private IEnumerator Attack()
+    private IEnumerator Rush()
     {
         WaitForSeconds ws002 = new(0.02f);
         while (true)
@@ -69,23 +68,38 @@ public class Gorilla : NormalMonster
             }
             else
             {
+                Rigidbody2D.velocity = Vector2.zero;
+
                 Animator.SetBool("ISMOVING", false);
                 Vector2 direction = (Wakgood.Instance.transform.position - transform.position).normalized;
-                yield return new WaitForSeconds(1f);
+                SpriteRenderer.flipX = direction.x > 0;
+
+                yield return StartCoroutine(Casting(1f));
                 Animator.SetBool("ISMOVING", true);
                 damagingObject.SetActive(true);
 
                 Rigidbody2D.velocity = Vector2.zero;
-                for (float temptime = 0; temptime <= 2f; temptime += Time.deltaTime)
+                for (float temptime = 0; temptime <= 1f; temptime += Time.fixedDeltaTime)
                 {
                     if (Physics2D.BoxCast(transform.position, new Vector2(.5f, .5f), 0f, direction, 0.9f, LayerMask.GetMask("Wall")).collider != null) break;
 
-                    Rigidbody2D.velocity = direction * 10;
+                    Rigidbody2D.velocity = direction * 20;
                     yield return new WaitForFixedUpdate();
                 }
                 Rigidbody2D.velocity = Vector2.zero;
                 Animator.SetBool("ISMOVING", false);
                 damagingObject.SetActive(false);
+
+                yield return new WaitForSeconds(.5f);
+
+                Animator.SetTrigger("ATTACKREADY");
+                earthQuakeWarning.SetActive(true);
+                yield return StartCoroutine(Casting(.8f));
+
+                Animator.SetTrigger("ATTACKGO");
+                earthQuakeWarning.SetActive(false);
+                earthQuake.SetActive(true);
+
                 yield return new WaitForSeconds(5f);
             }
         }

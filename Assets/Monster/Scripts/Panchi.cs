@@ -18,12 +18,12 @@ public class Panchi : NormalMonster
 
     private IEnumerator Idle()
     {
-        Vector3 spawnPos = transform.position;
+        Vector2 spawnPos = transform.position;
 
         while (true)
         {
             Animator.SetBool(ismoving, true);
-            Vector2 targetPos = spawnPos + new Vector3(Random.Range(-2f, 2f), Random.Range(-2f, 2f), 0);
+            Vector2 targetPos = spawnPos + Random.insideUnitCircle * 2;
             Vector2 originPos = transform.position;
             SpriteRenderer.flipX = (targetPos.x > originPos.x) ? true : false;
             for (int i = 0; i < 50; i++)

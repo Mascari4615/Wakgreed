@@ -16,12 +16,10 @@ public class Collection : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-
         int i = 0;
 
         for (i = 0; i < viewPort.childCount; i++)
         {
-            // i item mastery
             Transform temp = viewPort.GetChild(i);
 
             for (int j = 0; j < temp.childCount; j++)
@@ -50,28 +48,22 @@ public class Collection : MonoBehaviour
         i = 0;
         foreach (var item in DataManager.Instance.BossDic)
             bossSlots[i++].SetSlot(item.Value);
-
         i = 0;
         foreach (var item in DataManager.Instance.MonsterDic)
             monsterSlots[i++].SetSlot(item.Value);
-
         i = 0;
         foreach (var item in DataManager.Instance.ItemDic)
             itemSlots[i++].SetSlot(item.Value);
-
         i = 0;
         foreach (var item in DataManager.Instance.MasteryDic)
             masterySlot[i++].SetSlot(item.Value);
 
         for (i = 0; i < DataManager.Instance.CurGameData.killedOnceBoss.Length; i++)
             bossSlots[i].gameObject.SetActive(DataManager.Instance.CurGameData.killedOnceBoss[i]);
-
         for (i = 0; i < DataManager.Instance.CurGameData.killedOnceMonster.Length; i++)
             monsterSlots[i].gameObject.SetActive(DataManager.Instance.CurGameData.killedOnceMonster[i]);
-
         for (i = 0; i < DataManager.Instance.ItemDic.Count; i++)
             itemSlots[i].gameObject.SetActive(DataManager.Instance.CurGameData.equipedOnceItem[i]);
-
         for (i = 0; i < DataManager.Instance.MasteryDic.Count; i++)
             masterySlot[i].gameObject.SetActive(DataManager.Instance.CurGameData.getOnceMastery[i]);
     }

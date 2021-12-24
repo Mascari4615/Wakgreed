@@ -5,7 +5,7 @@ public class HealObject : MonoBehaviour
 {
     [SerializeField] private int healAmount;
     [SerializeField] private IntVariable wakgoodCurHP;
-    [SerializeField] private IntVariable wakgoodMaxHP;
+    [SerializeField] private MaxHp wakgoodMaxHP;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

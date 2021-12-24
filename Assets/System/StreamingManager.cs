@@ -71,6 +71,11 @@ public class StreamingManager : MonoBehaviour
                 int donationAmount = Random.Range(500, 1001);
                 goldu.RuntimeValue += donationAmount;
 
+                if (DataManager.Instance.CurGameData.rescuedNPC[2] == true && Random.Range(0, 100) < 30)
+                {
+                    Wakgood.Instance.ReceiveHeal(1);
+                }
+
                 // 꼼수로 애니메이션 실행하기
                 // # UI를 분리시키는 작업 필요
                 donationUI.SetActive(false);
