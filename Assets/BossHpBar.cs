@@ -19,7 +19,7 @@ public class BossHpBar : MonoBehaviour
         bossSprite.sprite = boss.GetComponent<SpriteRenderer>().sprite;
         bossSprite.transform.parent.gameObject.SetActive(true);
         red.transform.parent.gameObject.SetActive(true);
-        bossName.text = boss.name;
+        bossName.text = boss.mobName;
         bossName.gameObject.SetActive(true);
 
         StartCoroutine(UpdateHpBar());

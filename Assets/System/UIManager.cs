@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject bossSpeedWagon;
     [SerializeField] private TextMeshProUGUI bossSpeedWagonName;
+    [SerializeField] private TextMeshProUGUI bossNickNameSpeedWagonName;
 
     private new CinemachineVirtualCamera camera;
     private CinemachineTargetGroup cinemachineTargetGroup;
@@ -111,7 +112,8 @@ public class UIManager : MonoBehaviour
         camera.m_Lens.OrthographicSize = 6;
         cinemachineTargetGroup.m_Targets[0].target = boss.transform;
         Wakgood.Instance.SetRigidBodyType(RigidbodyType2D.Static);
-        bossSpeedWagonName.text = boss.name;
+        bossSpeedWagonName.text = boss.mobName;
+        bossNickNameSpeedWagonName.text = boss.nickName;
         bossSpeedWagon.SetActive(true);
 
         yield return new WaitForSeconds(3f);

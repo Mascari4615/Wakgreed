@@ -37,7 +37,7 @@ public abstract class Room : MonoBehaviour
                 Doors[i].transform.Find("Particle").gameObject.SetActive(true);
                 DoorHiders.Add(Doors[i].transform.Find("Hider").gameObject);
                 Doors[i].transform.Find("Wall").gameObject.SetActive(false);
-                Doors[i].transform.Find("Debug").gameObject.SetActive(true);
+                // Doors[i].transform.Find("Debug").gameObject.SetActive(true);
             }
         }
     }
