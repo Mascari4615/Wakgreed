@@ -3493,7 +3493,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e86c7a8b24a20764fb813a40071d0e80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Inventory: {fileID: 11400000, guid: 655cdf684e33a804abb88aa1941f7fc2, type: 2}
+  Inventory: {fileID: 0}
+  NpcInventory: []
 --- !u!1 &5681089910702901603
 GameObject:
   m_ObjectHideFlags: 0
@@ -6263,10 +6264,10 @@ MonoBehaviour:
     \uC788\uC2B5\uB2C8\uB2E4."
   canOpenUI: 1
   isShowingSomething: {fileID: 11400000, guid: 688a405029d824548b8d1494667c0415, type: 2}
+  inventoryUI: {fileID: 7105673569385260763}
   foodDataBuffer: {fileID: 11400000, guid: 2b7b0ffebb0ed6747999d11e19664775, type: 2}
   wakgoodFoodInventory: {fileID: 11400000, guid: 29a69b4a5b0be874386e18073d24aeb8,
     type: 2}
-  foodInventory: {fileID: 11400000, guid: 655cdf684e33a804abb88aa1941f7fc2, type: 2}
   goldu: {fileID: 11400000, guid: 7036349cfb7157d4eb77704cb729a17b, type: 2}
 --- !u!224 &4204842737969090802 stripped
 RectTransform:
