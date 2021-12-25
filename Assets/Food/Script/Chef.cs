@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Chef : NPC
 {
+    [SerializeField] protected FoodInventoryUI inventoryUI;
     [SerializeField] protected FoodDataBuffer foodDataBuffer;
     [SerializeField] protected WakgoodFoodInventory wakgoodFoodInventory;
-    [SerializeField] protected RestaurantFoodInventory foodInventory;
     [SerializeField] protected IntVariable goldu; 
 
     protected override void Awake()
@@ -18,7 +18,7 @@ public class Chef : NPC
         for (int i = 0; i < 8; i++)
         {
             int random = Random.Range(0, temp.Count);
-            foodInventory.Add(temp[random]);
+            inventoryUI.NpcInventory.Add(temp[random]);
             temp.RemoveAt(random);
         }
     }
@@ -30,18 +30,12 @@ public class Chef : NPC
             goldu.RuntimeValue -= (slot.specialThing as Food).price;
 
             slot.gameObject.SetActive(false);
-
-            foodInventory.Remove(slot.specialThing as Food);
+            inventoryUI.NpcInventory.Remove(slot.specialThing as Food);
             wakgoodFoodInventory.Add(slot.specialThing as Food);
         }
         else
         {
             ObjectManager.Instance.PopObject("AnimatedText", Wakgood.Instance.transform.position).GetComponent<AnimatedText>().SetText("골드 부족!", TextType.Critical);
         }
-    }
-
-    private void OnDestroy()
-    {
-        foodInventory.Clear();
     }
 }

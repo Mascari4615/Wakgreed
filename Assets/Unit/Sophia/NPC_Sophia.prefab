@@ -755,7 +755,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b936982269fc2844ac6ed9a7a9571af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Inventory: {fileID: 11400000, guid: 487d24e7aeb01d74fb7ddcce7a1d7915, type: 2}
+  Inventory: {fileID: 0}
+  NpcInventory: []
 --- !u!1 &7362445068931842551
 GameObject:
   m_ObjectHideFlags: 0
@@ -1760,7 +1761,6 @@ MonoBehaviour:
   - "\u3141\u3134\u3147"
   canOpenUI: 1
   isShowingSomething: {fileID: 11400000, guid: 688a405029d824548b8d1494667c0415, type: 2}
-  itemInventory: {fileID: 11400000, guid: 487d24e7aeb01d74fb7ddcce7a1d7915, type: 2}
   itemInventoryUI_Buy: {fileID: 5339968833107414057}
   nyang: {fileID: 11400000, guid: 7036349cfb7157d4eb77704cb729a17b, type: 2}
 --- !u!224 &4204842737969090802 stripped
