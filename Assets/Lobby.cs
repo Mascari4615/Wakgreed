@@ -24,7 +24,11 @@ public class Lobby : MonoBehaviour
         library.SetActive(curGameData.rescuedNPC[8] || curGameData.rescuedNPC[10] || curGameData.rescuedNPC[17] || curGameData.rescuedNPC[18]);
         convenienceStore.SetActive(curGameData.rescuedNPC[28]);
 
-        for (int i = 0; i < npcs.Length; i++)
-            npcs[i].gameObject.SetActive(curGameData.rescuedNPC[i]);
+        /*for (int i = 0; i < npcs.Length; i++)
+            npcs[i].gameObject.SetActive(curGameData.rescuedNPC[i]);*/
+
+        foreach (var npc in npcs)
+            npc.gameObject.SetActive(curGameData.rescuedNPC[npc.ID]);
+
     }
 }
