@@ -38,6 +38,9 @@ public class Ikeda : Chef
 
         if (DataManager.Instance.CurGameData.talkedOnceNPC[ID] == false)
         {
+            if (DataManager.Instance.CurGameData.rescuedNPC[ID] == false)
+                DataManager.Instance.CurGameData.rescuedNPC[ID] = true;
+
             fakeChest.SetActive(false);
             defaultUI.SetActive(true);
             shadow.SetActive(true);
