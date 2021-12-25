@@ -54,14 +54,14 @@ public class Panchi : NormalMonster
     private IEnumerator Attack()
     {
         WaitForSeconds ws002 = new(0.02f);
+        Animator.SetBool(ismoving, false);
+
         while (true)
         {
             if (Vector2.Distance(transform.position, Wakgood.Instance.transform.position) > 2)
             {
-                SpriteRenderer.flipX = (Rigidbody2D.velocity.x > 0) ? true : false;
+                SpriteRenderer.flipX = Rigidbody2D.velocity.x > 0;
                 Animator.SetBool(ismoving, true);
-                // 길찾기
-                // rigidbody2D.position += ((Vector2)TravellerController.Instance.transform.position - rigidbody2D.position).normalized * Time.deltaTime * moveSpeed;
                 Rigidbody2D.velocity = ((Vector2)Wakgood.Instance.transform.position - Rigidbody2D.position).normalized * MoveSpeed;
                 yield return ws002;
             }

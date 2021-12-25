@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class StreamingManager : MonoBehaviour
@@ -13,6 +14,8 @@ public class StreamingManager : MonoBehaviour
     [SerializeField] private TMP_InputField inputField; 
     [SerializeField] private TextMeshProUGUI donationText, upTimeUI;
     [SerializeField] private GameObject donationUI, chatGameObject, chatPanel;
+    [SerializeField] private Image donationImageUI;
+    [SerializeField] private Sprite[] donationImages;
     [SerializeField] private IntVariable goldu, viewer;
     [SerializeField] private BoolVariable isChatting, isLoading;
     [SerializeField] private TwitchConnect twitchConnect;
@@ -22,7 +25,7 @@ public class StreamingManager : MonoBehaviour
     private int chatIndex;
     private Coroutine showWakgoodChat;
     private bool isStreaming;
-    private readonly WaitForSeconds ws5 = new(5f), ws05 = new(.5f), ws02 = new(0.2f);
+    private readonly WaitForSeconds ws10 = new(10f), ws05 = new(.5f), ws02 = new(0.2f);
     
     private void Awake()
     {
@@ -63,18 +66,22 @@ public class StreamingManager : MonoBehaviour
         while (true)
         {
             while (isLoading.RuntimeValue) yield return null;
-            
-            viewer.RuntimeValue -= Random.Range(1, 10 + 1);
 
-            if (Random.Range(0, 100) < 30)
+            if (DataManager.Instance.CurGameData.rescuedNPC[2] == true && Random.Range(0, 100) < 30)
+            {
+                Wakgood.Instance.ReceiveHeal(1);
+
+                donationUI.SetActive(false);
+                donationText.text = $"비밀소녀의 응원으로 체력 1 회복!";
+                donationUI.SetActive(true);
+                donationImageUI.sprite = donationImages[0];
+                RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
+            }
+
+            /*if (Random.Range(0, 100) < 30)
             {
                 int donationAmount = Random.Range(500, 1001);
                 goldu.RuntimeValue += donationAmount;
-
-                if (DataManager.Instance.CurGameData.rescuedNPC[2] == true && Random.Range(0, 100) < 30)
-                {
-                    Wakgood.Instance.ReceiveHeal(1);
-                }
 
                 // 꼼수로 애니메이션 실행하기
                 // # UI를 분리시키는 작업 필요
@@ -83,9 +90,9 @@ public class StreamingManager : MonoBehaviour
                 donationUI.SetActive(true);
 
                 RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
-            }
+            }*/
 
-            yield return ws5;
+            yield return ws10;
         }
     }
 

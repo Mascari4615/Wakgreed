@@ -92,7 +92,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 978103407
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 098e44ee2dc341944a20c215d8a4a317, type: 3}
   m_Color: {r: 0.6037736, g: 0.4756141, b: 0.4756141, a: 1}
   m_FlipX: 0
@@ -211,6 +211,7 @@ MonoBehaviour:
     \uAC10\uC790\uB97C \uB358\uC9D1\uB2C8\uB2E4."
   hp: 20
   MoveSpeed: 5
+  defaultSprite: {fileID: 0}
   bullet: {fileID: 5122466530263573976}
   attackCoolTime: 3
 --- !u!114 &6520139255365978244

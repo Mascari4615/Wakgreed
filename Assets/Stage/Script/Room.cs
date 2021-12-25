@@ -10,6 +10,12 @@ public abstract class Room : MonoBehaviour
     public GameObject[] Doors { get; private set; } = new GameObject[4];
     protected List<GameObject> DoorHiders { get; private set; } = new();
     protected List<GameObject> DoorParticles { get; private set; } = new();
+    public GameObject particle;
+
+    protected virtual void Awake()
+    {
+        particle = transform.Find("Particle System").gameObject;
+    }
 
     public void Initialize(Vector2 coordinate, bool[] isConnectToNearbyRoom)
     {

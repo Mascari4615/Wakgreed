@@ -44,4 +44,10 @@ public class AnimatedText : MonoBehaviour
             _ => textMesh.color
         };
     }
+
+    public void SetText(string text, Color _color)
+    {
+        textMesh.text = text;
+        textMesh.color = _color;
+    }
 }

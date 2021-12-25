@@ -61,6 +61,10 @@ public class Gorilla : NormalMonster
     private IEnumerator Rush()
     {
         WaitForSeconds ws002 = new(0.02f);
+
+        Animator.SetBool("ISMOVING", false);
+        yield return new WaitForSeconds(2f);
+
         while (true)
         {
             if (Vector2.Distance(transform.position, Wakgood.Instance.transform.position) > 10)

@@ -52,6 +52,7 @@ public class Wakgood : MonoBehaviour, IHitable
     private void Awake()
     {
         Instance = this;
+        hpMax.RuntimeValue = wakdu.baseHp;
 
         // attackPosition.transform.position = new Vector3(0, attackPosGap, 0);
 
@@ -76,7 +77,6 @@ public class Wakgood : MonoBehaviour, IHitable
 
         transform.position = Vector3.zero;
 
-        hpMax.RuntimeValue = wakdu.baseHp;
         hpCur.RuntimeValue = hpMax.RuntimeValue;
         powerInt.RuntimeValue = wakdu.basePower;
         attackSpeed.RuntimeValue = wakdu.baseAttackSpeed;
@@ -119,10 +119,7 @@ public class Wakgood : MonoBehaviour, IHitable
 
         spriteRenderer.flipX = transform.position.x > worldMousePoint.x;
         worldMousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        // Debug.Log(EventSystem.current.IsPointerOverGameObject());
-
-        
+  
         if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject()) Weapon[CurWeaponNumber].BaseAttack();
         else if (Input.GetKeyDown(KeyCode.Q)) Weapon[CurWeaponNumber].SkillQ();
         else if (Input.GetKeyDown(KeyCode.E)) Weapon[CurWeaponNumber].SkillE();
@@ -223,7 +220,7 @@ public class Wakgood : MonoBehaviour, IHitable
             {
                 hpCur.RuntimeValue = 0;
                 StopAllCoroutines();
-                StartCoroutine(Collapse());
+                Collapse();
             }
         }
     }
@@ -240,20 +237,18 @@ public class Wakgood : MonoBehaviour, IHitable
             .SetText(amount.ToString(), TextType.Heal);
     }
 
-    private IEnumerator Collapse()
+    private void Collapse()
     {
         WakgoodMove.StopAllCoroutines();
         ObjectManager.Instance.PopObject("Zeolite", transform);
 
         IsCollapsed = true;
-        AudioManager.Instance.PlayMusic("위윌왁휴 - 그 디버프 브금");
 
         WakgoodMove.PlayerRb.bodyType = RigidbodyType2D.Static;
         WakgoodMove.Animator.SetTrigger(collapse);
         WakgoodMove.enabled = false;
         wakgoodCollider.enabled = false;
 
-        yield return new WaitForSeconds(2f);
         DataManager.Instance.CurGameData.deathCount++;
         onCollapse.Raise();
         enabled = false;
