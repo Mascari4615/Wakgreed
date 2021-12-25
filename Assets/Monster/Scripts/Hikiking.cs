@@ -11,6 +11,7 @@ public class Hikiking : BossMonster
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private GameObject ultAttack1;
     [SerializeField] private GameObject ultAttack2;
+    [SerializeField] private GameObject monster;
     [SerializeField] private TextMeshProUGUI text;
     private int ultStack = 0;
 
@@ -18,7 +19,7 @@ public class Hikiking : BossMonster
     {
         while (true)
         {
-            int i = Random.Range(0, 1 + 1);
+            int i = Random.Range(0, 3 + 1);
             switch (i)
             {
                 case 0:
@@ -29,6 +30,9 @@ public class Hikiking : BossMonster
                     break;
                 case 2:
                     yield return StartCoroutine(Skill1());
+                    break;
+                case 3:
+                    yield return StartCoroutine(Skill2());
                     break;
             }
 
@@ -94,17 +98,13 @@ public class Hikiking : BossMonster
 
         for (int i = 0; i < ultCount; i++)
         {
-            targetPos[i] = Wakgood.Instance.transform.position + new Vector3(
-            ((i + 2) % 2 == 1 ? 1 : -1) * Random.Range(5f, 10f),
-            (-1 + Random.Range(0, 2) * 2) * Random.Range(5f, 10f));
+            targetPos[i] = Wakgood.Instance.transform.position + new Vector3(((i + 2) % 2 == 1 ? 1 : -1) * Random.Range(7f, 10f), (-1 + Random.Range(0, 2) * 2) * Random.Range(7f, 10f));
         }
 
         lineRenderer.positionCount = ultCount + 1;
         lineRenderer.SetPosition(0, originPos);
         for (int i = 1; i < ultCount + 1; i++)
-        {
             lineRenderer.SetPosition(i, targetPos[i - 1]);
-        }
         lineRenderer.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(1f);
@@ -152,9 +152,11 @@ public class Hikiking : BossMonster
 
         for (float j = 0; Vector3.Distance(transform.position, aTargetPos) > .5f; j += Time.fixedDeltaTime * 30)
         {
+            if (camera.m_Lens.OrthographicSize < 12) camera.m_Lens.OrthographicSize += 5 * Time.fixedDeltaTime;
             Rigidbody2D.transform.position = Vector3.Lerp(aOriginPos, aTargetPos, j);
             yield return new WaitForFixedUpdate();
         }
+        camera.m_Lens.OrthographicSize = 12;
         collider2D.enabled = true;
 
         var v = Instantiate(ultAttack2, aOriginPos + (aTargetPos - aOriginPos) / 2, Quaternion.Euler(new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan2(aTargetPos.y - aOriginPos.y, aTargetPos.x - aOriginPos.x))));
@@ -164,25 +166,32 @@ public class Hikiking : BossMonster
         lineRenderer.gameObject.SetActive(false);
         Animator.SetTrigger("IDLE");
 
-        yield return new WaitForSeconds(1f);
-
-        for (float j = 0; j <= 2; j += 3 * Time.fixedDeltaTime)
-        {
-            if (camera.m_Lens.OrthographicSize < 12) camera.m_Lens.OrthographicSize += 5 * Time.fixedDeltaTime;
-            yield return new WaitForFixedUpdate();
-        }
-
-        camera.m_Lens.OrthographicSize = 12;
-
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
     }
 
     private IEnumerator Skill1()
     {
-        int jjabSlayerCount = Random.Range(1, 5 + 1);
+        int jjabSlayerCount = Random.Range(2, 5 + 1);
         for (int i = 0; i < jjabSlayerCount; i++)
-        {
-            yield return new WaitForSeconds(0.2f);
-        }
+            StartCoroutine(SpawnMob());
+
+        yield return new WaitForSeconds(2f);
+    }
+
+    private IEnumerator SpawnMob()
+    {
+        Vector3 randomPos = transform.position + (Vector3)Random.insideUnitCircle * 10f;
+        ObjectManager.Instance.PopObject("SpawnCircle", randomPos).GetComponent<Animator>().SetFloat("SPEED", 1 / 0.5f);
+        yield return new WaitForSeconds(.5f);
+        ObjectManager.Instance.PopObject(monster.name, randomPos);
+    }
+
+    private IEnumerator Skill2()
+    {
+        /*int jjabSlayerCount = Random.Range(2, 5 + 1);
+        for (int i = 0; i < jjabSlayerCount; i++)
+            StartCoroutine(SpawnMob());*/
+
+        yield return new WaitForSeconds(0.5f);
     }
 }
