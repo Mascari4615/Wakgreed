@@ -8,10 +8,15 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1622794278675028060, guid: 0a941390648b43b489b97695ee406140,
+        type: 3}
+      propertyPath: m_Lens.m_SensorSize.x
+      value: 1.5216731
+      objectReference: {fileID: 0}
     - target: {fileID: 3193277808626691813, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_Lens.m_SensorSize.x
-      value: 1.7777778
+      value: 1.5216731
       objectReference: {fileID: 0}
     - target: {fileID: 3193277810173341846, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
@@ -43,7 +48,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 8138d0e7a54f9ae4ea9f22cc7d741d26, type: 2}
+      objectReference: {fileID: 9100000, guid: b2f3182b599c2ad4a990124b69d85e3c, type: 2}
     - target: {fileID: 3193277810173341929, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_RootOrder
@@ -169,7 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffe10eab9d6f8294687c0fef758e13bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 27
+  ID: 26
   firstComment:
   - "\uBD80\uC815 \uBD80\uC815"
   randomComment: []
