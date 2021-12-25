@@ -6,8 +6,9 @@ public class NrcRoom : Room
 {
     [SerializeField] private List<NPC> nrcs;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         NPC random;
         do
         {

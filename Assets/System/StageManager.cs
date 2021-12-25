@@ -281,7 +281,10 @@ public class StageManager : MonoBehaviour
 
         roomUiDic[CurrentRoom.Coordinate].GetChild(1).GetChild(0).GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f); // Property\CurrentRoom
 
+        CurrentRoom.particle.SetActive(false);
         CurrentRoom = roomDic[CurrentRoom.Coordinate + moveDirection];
+        CurrentRoom.particle.SetActive(true);
+
         Wakgood.Instance.transform.position = CurrentRoom.Doors[spawnDirection].transform.position + (Vector3)moveDirection * 4;
 
         UpdateMap();
@@ -307,7 +310,10 @@ public class StageManager : MonoBehaviour
 
         roomUiDic[CurrentRoom.Coordinate].GetChild(1).GetChild(0).GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f); // Property\CurrentRoom
 
+        CurrentRoom.particle.SetActive(false);
         CurrentRoom = roomDic[coordinate];
+        CurrentRoom.particle.SetActive(true);
+
         Wakgood.Instance.transform.position = CurrentRoom.CenterSpawnPoint != null ? CurrentRoom.CenterSpawnPoint.position : CurrentRoom.transform.position;
 
         UpdateMap();

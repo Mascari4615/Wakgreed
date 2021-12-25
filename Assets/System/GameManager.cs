@@ -112,6 +112,9 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator _GameOverAndRecall()
     {
+        AudioManager.Instance.PlayMusic("위윌왁휴 - 그 디버프 브금");
+        yield return new WaitForSeconds(1f);
+
         Wakgood.Instance.gameObject.SetActive(false);
         Time.timeScale = 1;
         gamePanel.SetActive(false);
@@ -121,7 +124,6 @@ public class GameManager : MonoBehaviour
         while (clickRecall == false) yield return null;
         clickRecall = false;
 
-        AudioManager.Instance.StopMusic();
         fadePanel.SetTrigger("OUT");
         yield return new WaitForSeconds(1f);
         fadePanel.SetTrigger("IN");

@@ -22,8 +22,8 @@ public class Weapon : Sellable, ISerializationCallbackReceiver
     public int magazine;
     [System.NonSerialized] public int Ammo;
     public float reloadTime;
-    public float CurReloadTime {get; private set;}
-    public bool IsReloading {get; private set;}
+    public float CurReloadTime { get; private set; }
+    public bool IsReloading { get; private set; }
     private bool canUseSkillE = true;
     public float CurSkillECoolTime { get; private set; }
     private bool canUseSkillQ = true;
@@ -65,7 +65,7 @@ public class Weapon : Sellable, ISerializationCallbackReceiver
         IsReloading = true;
         GameManager.Instance.StartCoroutine(reload = Reloadd());
     }
-    
+
     private IEnumerator Reloadd()
     {
         CurReloadTime = 0;
@@ -74,22 +74,22 @@ public class Weapon : Sellable, ISerializationCallbackReceiver
         IsReloading = false;
     }
 
-    public void SkillQ() 
-    { 
+    public void SkillQ()
+    {
         if (!canUseSkillQ || !skillQ) return;
         canUseSkillQ = false;
         GameManager.Instance.StartCoroutine(SkillQCoolTime());
         skillQ?.Use(this);
     }
 
-    public void SkillE() 
-    { 
+    public void SkillE()
+    {
         if (!canUseSkillE || !skillE) return;
         canUseSkillE = false;
         GameManager.Instance.StartCoroutine(SkillECoolTime());
         skillE?.Use(this);
     }
-    
+
     private IEnumerator BaseAttackCoolTime()
     {
         curBaseAttackCoolTime = 1 / (attackSpeed * (1 + Wakgood.Instance.attackSpeed.RuntimeValue / 100));
@@ -98,7 +98,7 @@ public class Weapon : Sellable, ISerializationCallbackReceiver
         canUseBaseAttack = true;
     }
 
-     private IEnumerator SkillQCoolTime()
+    private IEnumerator SkillQCoolTime()
     {
         CurSkillQCoolTime = skillQ.coolTime;
         do yield return null;

@@ -103,8 +103,13 @@ public abstract class Monster : MonoBehaviour, IHitable
         if (StageManager.Instance.CurrentRoom is NormalRoom)
         {
             onMonsterCollapse.Raise(transform);
-            int randCount = Random.Range(0, 5);
+            int randCount = Random.Range(0, 5 + 1);
             for (int i = 0; i < randCount; i++) ObjectManager.Instance.PopObject("ExpOrb", transform);
+
+            randCount = Random.Range(0, 5 + 1);
+            for (int i = 0; i < randCount; i++) ObjectManager.Instance.PopObject("Goldu10", transform);
+            randCount = Random.Range(0, 5 + 1);
+            for (int i = 0; i < randCount; i++) ObjectManager.Instance.PopObject("Goldu", transform);
         }
 
         ObjectManager.Instance.PopObject("LevelUpEffect", transform);
