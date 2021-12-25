@@ -4981,7 +4981,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3035457898370817608}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.94, y: 0.95, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5009,13 +5009,13 @@ MonoBehaviour:
   onMonsterCollapse: {fileID: 11400000, guid: 1b477f0305627f54d8b1c54462eafc87, type: 2}
   name: "\uD788\uD0A4\uD0B9"
   ID: 1
-  description: 
+  description: "\uC6B0\uCE58\uD558 \uC77C\uC871\uC758 \uB2CC\uC790."
   hp: 1000
   MoveSpeed: 3
-  defaultSprite: {fileID: 0}
+  defaultSprite: {fileID: 421904671, guid: e4f39639acc5bc3499b7c9d3821458eb, type: 3}
   isShowingSomething: {fileID: 11400000, guid: 688a405029d824548b8d1494667c0415, type: 2}
   npcID: 5
-  nickName: 
+  nickName: "\uC6B0\uCE58\uD558 \uC77C\uC871\uC758 \uB2CC\uC790"
   lineRenderer: {fileID: 7145819515679802912}
   ultAttack1: {fileID: 5168828908313417421, guid: d7540f4bd46a48740bfd71113d4557c9,
     type: 3}
@@ -5100,7 +5100,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 978103407
   m_SortingLayer: 1
-  m_SortingOrder: 10
+  m_SortingOrder: 0
   m_Sprite: {fileID: 421904671, guid: e4f39639acc5bc3499b7c9d3821458eb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

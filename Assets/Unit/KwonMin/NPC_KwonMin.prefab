@@ -8,6 +8,16 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1622794278675028060, guid: 0a941390648b43b489b97695ee406140,
+        type: 3}
+      propertyPath: m_Lens.m_SensorSize.x
+      value: 1.5216731
+      objectReference: {fileID: 0}
+    - target: {fileID: 3193277808626691813, guid: 0a941390648b43b489b97695ee406140,
+        type: 3}
+      propertyPath: m_Lens.m_SensorSize.x
+      value: 1.5216731
+      objectReference: {fileID: 0}
     - target: {fileID: 3193277810173341846, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_FlipX
@@ -27,7 +37,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 358230353, guid: f88edc9ee842fc5498ee072a5224d33e,
+      objectReference: {fileID: -1776296370, guid: 129af9952dd31314d9e266712b502474,
         type: 3}
     - target: {fileID: 3193277810173341846, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
@@ -38,11 +48,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 7d0c0393b19e2a04d86437a767ea78a6, type: 2}
+      objectReference: {fileID: 9100000, guid: a5233b821a0c5b64d822bfd6c8a49004, type: 2}
     - target: {fileID: 3193277810173341929, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3193277810173341929, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
@@ -102,12 +112,12 @@ PrefabInstance:
     - target: {fileID: 5046749008975055762, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 80.42
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 5046749009189004234, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_text
-      value: "\uB9DD\uB839\uC655"
+      value: "\uCCA0\uD559\uACFC \uCD9C\uC2E0"
       objectReference: {fileID: 0}
     - target: {fileID: 5046749009189004234, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
@@ -124,12 +134,12 @@ PrefabInstance:
     - target: {fileID: 5046749009258310256, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 129.55
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 5046749009597862888, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_text
-      value: "\uBE44\uC9C0\uB2C8\uC2A4 \uD0B4"
+      value: "\uAD8C\uBBFC"
       objectReference: {fileID: 0}
     - target: {fileID: 5046749009597862888, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
@@ -166,7 +176,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 15
   firstComment:
-  - asd
-  randomComment: []
+  - "\uC5B4!"
+  randomComment:
+  - "\uAFC8\uC744 \uC774\uB8E8\uACE0\uC790 \uD558\uB294 \uC694\uAE30\uB9CC \uC788\uB2E4\uBA74,
+    \uBAA8\uB4E0 \uAFC8\uC744 \uC774\uB8F0 \uC218 \uC788\uB2E4\uACE0 \uD558\uC8E0,
+    \uC640\uAD73\uB2D8."
+  - "\uC6C3\uC74C\uC774 \uC5C6\uB294 \uD558\uB8E8\uB294 \uBC84\uB9B0 \uD558\uB8E8\uB77C\uACE0
+    \uD569\uB2C8\uB2E4, \uC640\uAD73\uB2D8. \uC624\uB298 \uD55C \uBC88\uC774\uB77C\uB3C4
+    \uC6C3\uC73C\uC168\uB098\uC694?"
+  - "\uBCC0\uD654\uB294 \uC6B0\uB9AC\uAC00 \uB204\uAD70\uAC00\uB098 \uBB34\uC5C7,
+    \uD639\uC740 \uD6C4\uC77C\uC744 \uAE30\uB2E4\uB9B0\uB2E4\uACE0 \uCC3E\uC544\uC624\uC9C0
+    \uC54A\uC2B5\uB2C8\uB2E4. \uC6B0\uB9AC \uC790\uC2E0\uC774 \uC6B0\uB9AC\uAC00
+    \uAE30\uB2E4\uB9AC\uB358 \uC0AC\uB78C\uC774\uACE0 \uC6B0\uB9AC\uAC00 \uBC14\uB85C
+    \uC6B0\uB9AC\uAC00 \uCD94\uAD6C\uD558\uB294 \uBCC0\uD654\uC785\uB2C8\uB2E4."
+  - "\uC560\uCD08\uC5D0 \uAE30\uB300\uB97C \uD558\uB2C8\uAE4C \uC2E4\uB9DD\uD558\uB294
+    \uAC81\uB2C8\uB2E4 \uC640\uAD7F\uB2D8. \uCC98\uC74C\uBD80\uD130 \uC544\uBB34
+    \uAC83\uB3C4 \uAE30\uB300\uD558\uC9C0 \uC54A\uC73C\uBA74, \uC2E4\uB9DD\uD560
+    \uC77C\uB3C4 \uC5C6\uC74D\uB2C8\uB2E4."
   canOpenUI: 0
   isShowingSomething: {fileID: 11400000, guid: 688a405029d824548b8d1494667c0415, type: 2}
