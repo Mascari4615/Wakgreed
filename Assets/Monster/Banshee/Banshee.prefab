@@ -61,10 +61,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flashMaterial: {fileID: 2100000, guid: c74166bc298345945a7d9a9e8218b4ec, type: 2}
   onMonsterCollapse: {fileID: 11400000, guid: 1b477f0305627f54d8b1c54462eafc87, type: 2}
-  ID: 2
-  hp: 20
+  ID: 30
+  description: "\uBBF8\uCE20\uB124 \uD558\uCFE0\uC758 \uBAA8\uC2B5\uC744 \uD55C \uB610
+    \uB2E4\uB978 \uB85C\uBD07. \uBE44\uBA85\uC744 \uC9C8\uB7EC \uC74C\uD45C\uB97C
+    \uBC1C\uC0AC\uD55C\uB2E4."
+  hp: 60
   MoveSpeed: 5
-  SpriteRenderer: {fileID: 0}
+  defaultSprite: {fileID: 2032037298, guid: 637f632878d351e428dd2a1eb935a852, type: 3}
   notes:
   - {fileID: 978016053675003504}
   - {fileID: 3652242391917843088}
@@ -148,9 +151,8 @@ SpriteRenderer:
   m_SortingLayerID: 978103407
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7653975790744851721, guid: bf4fc5d648dc4254da38fb3180d8e7f9,
-    type: 3}
-  m_Color: {r: 0, g: 0.0575552, b: 1, a: 1}
+  m_Sprite: {fileID: 2032037298, guid: 637f632878d351e428dd2a1eb935a852, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -170,7 +172,7 @@ Animator:
   m_GameObject: {fileID: 8633538259678075035}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a7ebcb0c5527bed45b34b9b22ff16c59, type: 2}
+  m_Controller: {fileID: 9100000, guid: eaad745c15ec70a4eaba313785e1b145, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

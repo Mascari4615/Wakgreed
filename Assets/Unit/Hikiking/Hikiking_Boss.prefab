@@ -4982,7 +4982,7 @@ Transform:
   m_GameObject: {fileID: 3035457898370817608}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.94, y: 0.95, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6625662807787167382}
@@ -4991,7 +4991,7 @@ Transform:
   - {fileID: 6971041814311315467}
   - {fileID: 5622897779329834460}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2942887708771458359
 MonoBehaviour:
@@ -5020,6 +5020,7 @@ MonoBehaviour:
     type: 3}
   ultAttack2: {fileID: 5168828908313417421, guid: ff957e51e25019a4e948af06c02e3651,
     type: 3}
+  monster: {fileID: 8633538259678075035, guid: a07137be4cabe62479e398c69f74cb36, type: 3}
   text: {fileID: 1761901946}
 --- !u!50 &3035457898370817615
 Rigidbody2D:
@@ -5033,7 +5034,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 3.1415927
+  m_Mass: 7.0685835
   m_LinearDrag: 4
   m_AngularDrag: 0.05
   m_GravityScale: 1

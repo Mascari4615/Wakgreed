@@ -25,7 +25,7 @@ public class StreamingManager : MonoBehaviour
     private int chatIndex;
     private Coroutine showWakgoodChat;
     private bool isStreaming;
-    private readonly WaitForSeconds ws10 = new(10f), ws05 = new(.5f), ws02 = new(0.2f);
+    private readonly WaitForSeconds ws15 = new(15f), ws05 = new(.5f), ws02 = new(0.2f);
     
     private void Awake()
     {
@@ -44,6 +44,7 @@ public class StreamingManager : MonoBehaviour
     public void StartStreaming()
     {
         if (isStreaming) return;
+        Debug.Log("BangOn");
 
         isStreaming = true;
         viewer.RuntimeValue = 3000;
@@ -56,6 +57,7 @@ public class StreamingManager : MonoBehaviour
 
     public void BangJong()
     {
+        Debug.Log("BangJong");
         isStreaming = false;
         StopAllCoroutines();
     }
@@ -92,7 +94,7 @@ public class StreamingManager : MonoBehaviour
                 RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
             }*/
 
-            yield return ws10;
+            yield return ws15;
         }
     }
 

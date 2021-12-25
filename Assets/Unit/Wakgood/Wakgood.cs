@@ -5,9 +5,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 
-// Todo : 방종마다 강해지는 요소 > 방송용으로, 아무튼 클리어는 해야하니까
-// Todo : 인트로, 진짜 왁굳, 엔딩 크레딧
-
 public class Wakgood : MonoBehaviour, IHitable
 {
     public static Wakgood Instance { get; private set; }
@@ -35,8 +32,7 @@ public class Wakgood : MonoBehaviour, IHitable
     public WakgoodMove WakgoodMove { get; private set; }
 
     private Vector3 worldMousePoint;
-
-    public int CurWeaponNumber { get; private set; }
+    public int CurWeaponNumber { get; private set; } = 0;
     public Weapon[] Weapon { get; } = new Weapon[2];
     [SerializeField] private Weapon hochi, hand;
 
@@ -53,8 +49,6 @@ public class Wakgood : MonoBehaviour, IHitable
     {
         Instance = this;
         hpMax.RuntimeValue = wakdu.baseHp;
-
-        // attackPosition.transform.position = new Vector3(0, attackPosGap, 0);
 
         attackPositionParent = transform.Find("AttackPosParent");
         AttackPosition = attackPositionParent.GetChild(0);
@@ -119,7 +113,7 @@ public class Wakgood : MonoBehaviour, IHitable
 
         spriteRenderer.flipX = transform.position.x > worldMousePoint.x;
         worldMousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-  
+
         if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject()) Weapon[CurWeaponNumber].BaseAttack();
         else if (Input.GetKeyDown(KeyCode.Q)) Weapon[CurWeaponNumber].SkillQ();
         else if (Input.GetKeyDown(KeyCode.E)) Weapon[CurWeaponNumber].SkillE();
