@@ -91,7 +91,11 @@ public abstract class NPC : InteractiveObject
 
         List<string> tempComment;
 
-        if (DataManager.Instance.CurGameData.talkedOnceNPC[ID] == false)
+        if (DataManager.Instance.CurGameData.rescuedNPC[ID] == false)
+        {
+            tempComment = firstComment;
+        }
+        else if (DataManager.Instance.CurGameData.talkedOnceNPC[ID] == false)
         {
             DataManager.Instance.CurGameData.talkedOnceNPC[ID] = true;
             DataManager.Instance.SaveGameData();

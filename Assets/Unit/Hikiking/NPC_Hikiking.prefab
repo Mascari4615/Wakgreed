@@ -42,12 +42,12 @@ PrefabInstance:
     - target: {fileID: 3193277810173341929, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3193277810173341929, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.39
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3193277810173341929, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
@@ -102,12 +102,12 @@ PrefabInstance:
     - target: {fileID: 5046749008975055762, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 80.42
+      value: 170
       objectReference: {fileID: 0}
     - target: {fileID: 5046749009189004234, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_text
-      value: "\uD789\uD789\uD79D"
+      value: "\uC6B0\uCE58\uD558 \uC77C\uC871 \uB2CC\uC790"
       objectReference: {fileID: 0}
     - target: {fileID: 5046749009189004234, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
@@ -124,7 +124,7 @@ PrefabInstance:
     - target: {fileID: 5046749009258310256, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 104.72
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 5046749009597862888, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
@@ -146,3 +146,33 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a941390648b43b489b97695ee406140, type: 3}
+--- !u!1 &894024401320713538 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3193277810173341930, guid: 0a941390648b43b489b97695ee406140,
+    type: 3}
+  m_PrefabInstance: {fileID: 2321881908084239784}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3923895656630720954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894024401320713538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff24f62deb9d91d43a1817403f22c5f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: 5
+  firstComment:
+  - "\uD640\uB9AC \uC641? \uC641\uAFBF\uB2D8?"
+  randomComment:
+  - "\uD640\uB9AC \uC641?"
+  - "\uD640\uB9AC\uBAB0\uB9AC\uB864\uB9AC\uD3F4\uB9AC\uD560\uB9AC\uAC08\uB9AC\uACFC\uCE74\uBAB0\uB9AC\uCE98\uB9AC\uCE7C\uB9AC
+    \uC641?"
+  - "\uC55E\uC5D0\uC120 \uAD7D\uC2E0\uAD7D\uC2E0, \uB4A4\uC5D0\uC11C \uCE7C\uB85C
+    \uCC0C\uB978\uB2E4!"
+  - "\uC640\uAFBF\uB2D8, \uD788\uB07C\uAFB8\uC708\uB3C4 \uBD88\uB7EC\uB3C4 \uB429\uB2C8\uAE4C?"
+  canOpenUI: 0
+  isShowingSomething: {fileID: 11400000, guid: 688a405029d824548b8d1494667c0415, type: 2}
