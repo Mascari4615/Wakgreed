@@ -6,8 +6,8 @@ using Cinemachine;
 public abstract class BossMonster : Monster
 {
     [SerializeField] private BoolVariable isShowingSomething;
-    public new string name;
     public int npcID;
+    public string nickName;
     protected CinemachineTargetGroup cinemachineTargetGroup;
     protected new CinemachineVirtualCamera camera;
 
