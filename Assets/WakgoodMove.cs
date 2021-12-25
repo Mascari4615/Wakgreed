@@ -55,10 +55,8 @@ public class WakgoodMove : MonoBehaviour
         if (!MbDashing)
             Move();
 
-        if (Input.GetKeyDown(KeyCode.Space) && !MbDashing && curDashStack.RuntimeValue > 0)
-        {
+        if (Input.GetKeyDown(KeyCode.Space) && mbMoving && !MbDashing && curDashStack.RuntimeValue > 0)
             StartCoroutine(Dash());
-        }
     }
 
     private void Move()

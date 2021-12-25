@@ -21,6 +21,12 @@ public abstract class InventoryUI<T> : MonoBehaviour
 
     public void Initialize()
     {
+        if (slots.Count == 0)
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                slots.Add(transform.GetChild(i).GetComponent<Slot>());
+            }
+
         for (int i = 0; i < transform.childCount; i++)
         {
             if (i < Inventory.Items.Count)

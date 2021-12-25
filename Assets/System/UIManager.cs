@@ -39,6 +39,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject roomClearSpeedWagon;
     [SerializeField] private GameObject rescueSpeedWagon;
 
+
+    [SerializeField] private IntVariable Goldu;
+    [SerializeField] private TextMeshProUGUI resultUptimeText;
+    [SerializeField] private TextMeshProUGUI finalStageText;
+    [SerializeField] private TextMeshProUGUI totalEquipGoldu;
+    [SerializeField] private ItemInventoryUI inventoryUI;
+
     private void Awake()
     {
         Instance = this;
@@ -46,6 +53,14 @@ public class UIManager : MonoBehaviour
         camera = GameObject.Find("Cameras").transform.GetChild(1).GetComponent<CinemachineVirtualCamera>();
         cinemachineTargetGroup =
             GameObject.Find("Cameras").transform.GetChild(2).GetComponent<CinemachineTargetGroup>();
+    }
+
+    public void SetResult()
+    {
+        resultUptimeText.text = StreamingManager.Instance.uptime;
+        finalStageText.text = StageManager.Instance.currentStage.name;
+        totalEquipGoldu.text = Goldu.RuntimeValue.ToString();
+        inventoryUI.Initialize();
     }
 
     private void Update()
@@ -167,9 +182,12 @@ public class UIManager : MonoBehaviour
         if (weapon.skillE) weaponSkillE[weaponNum].SetSlot(weapon.skillE);
     }
 
+    [SerializeField] private TextMeshProUGUI viewerUI;
+
     public void OpenSetting() => SettingManager.Instance.OpenSetting();
     public void SetMusicName(string name) => musicName.text = $"[À½¾Ç] {name}";
     public void SetStageName(string name) => stageName.text = name;
+    public void SetCurViewerText(string text) => viewerUI.text = text;
 
     public void StopAllSpeedWagons()
     {

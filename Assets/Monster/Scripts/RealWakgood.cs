@@ -9,6 +9,7 @@ public class RealWakgood : BossMonster
     [SerializeField] private TMP_Text textMesh;
     [SerializeField] private TMP_Text textMesh2;
     [SerializeField] private PostProcessVolume postProcessVolume;
+    [SerializeField] private PostProcessLayer postProcessLayer;
     Mesh mesh;
     Vector3[] vertices;
     List<int> wordIndexes;
@@ -23,11 +24,14 @@ public class RealWakgood : BossMonster
     protected override void Awake()
     {
         base.Awake();
+        postProcessLayer = Camera.main.GetComponent<PostProcessLayer>();
         postProcessVolume = Camera.main.GetComponent<PostProcessVolume>();
     }
 
     void Start()
     {
+        postProcessLayer.enabled = true;
+
         wordIndexes = new List<int> { 0 };
         wordLengths = new List<int>();
 
@@ -219,6 +223,7 @@ public class RealWakgood : BossMonster
     protected override IEnumerator Collapse()
     {        
         GameManager.Instance.StartCoroutine(GameManager.Instance.Ending());
+        postProcessLayer.enabled = false;
         yield return base.Collapse();
     }
 }

@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(CheckBuff());
         UIManager.Instance.SetStageName("0-0 로비");
         AudioManager.Instance.PlayMusic("Vendredi - Here I Am");
+        UIManager.Instance.SetCurViewerText("뱅온 전!");
     }
 
     private IEnumerator CheckBuff()
@@ -108,18 +109,21 @@ public class GameManager : MonoBehaviour
     public void ClickRecall() => clickRecall = true;
 
     // OnCollapse GameEvent로 호출
-    public void GameOverAndRecall() => StartCoroutine(_GameOverAndRecall());
+    public void GameOverAndRecall() => Wakgood.Instance.Collapse();
 
-    private IEnumerator _GameOverAndRecall()
+    public IEnumerator _GameOverAndRecall()
     {
         AudioManager.Instance.PlayMusic("위윌왁휴 - 그 디버프 브금");
-        yield return new WaitForSeconds(1f);
 
-        Wakgood.Instance.gameObject.SetActive(false);
         Time.timeScale = 1;
         gamePanel.SetActive(false);
         pausePanel.SetActive(false);
+        UIManager.Instance.SetResult();
         gameResultPanel.SetActive(true);
+
+        yield return new WaitForSeconds(1f);
+
+        Wakgood.Instance.gameObject.SetActive(false);
 
         while (clickRecall == false) yield return null;
         clickRecall = false;
