@@ -213,7 +213,6 @@ public class Wakgood : MonoBehaviour, IHitable
             else
             {
                 hpCur.RuntimeValue = 0;
-                StopAllCoroutines();
                 Collapse();
             }
         }
@@ -231,8 +230,9 @@ public class Wakgood : MonoBehaviour, IHitable
             .SetText(amount.ToString(), TextType.Heal);
     }
 
-    private void Collapse()
+    public void Collapse()
     {
+        StopAllCoroutines();
         WakgoodMove.StopAllCoroutines();
         ObjectManager.Instance.PopObject("Zeolite", transform);
 
@@ -244,6 +244,7 @@ public class Wakgood : MonoBehaviour, IHitable
         wakgoodCollider.enabled = false;
 
         DataManager.Instance.CurGameData.deathCount++;
+        GameManager.Instance.StartCoroutine(GameManager.Instance._GameOverAndRecall());
         onCollapse.Raise();
         enabled = false;
     }

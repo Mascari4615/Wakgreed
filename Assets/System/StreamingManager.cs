@@ -111,6 +111,8 @@ public class StreamingManager : MonoBehaviour
         Debug.Log("!");
     }
 
+    public string uptime = "";
+
     private IEnumerator UpdateUptime()
     {
         float startTime = Time.time;
@@ -125,7 +127,8 @@ public class StreamingManager : MonoBehaviour
             int second = (curTime -= hour * 3600) % 60;
             DateTime dt = new(1987, 7, 24, hour, minute, second);
 
-            upTimeUI.SetText($"{dt:HH:mm:ss}");
+            uptime = $"{dt:HH:mm:ss}";
+            upTimeUI.SetText(uptime);
             yield return ws02;
         }
     }
