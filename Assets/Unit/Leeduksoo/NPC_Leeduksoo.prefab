@@ -54615,10 +54615,15 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1622794278675028060, guid: 0a941390648b43b489b97695ee406140,
+        type: 3}
+      propertyPath: m_Lens.m_SensorSize.x
+      value: 1.5216731
+      objectReference: {fileID: 0}
     - target: {fileID: 3193277808626691813, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_Lens.m_SensorSize.x
-      value: 1.7777778
+      value: 1.5216731
       objectReference: {fileID: 0}
     - target: {fileID: 3193277810173341846, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
@@ -54654,7 +54659,7 @@ PrefabInstance:
     - target: {fileID: 3193277810173341929, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_RootOrder
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3193277810173341929, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
@@ -54782,12 +54787,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 8
   firstComment:
-  - "\uC548\uB155\uD558\uC138\uC694, \uC641\uAD73\uB2D8,"
-  - "\uC800\uB294 \uC9C0\uAE08 \uC5EC\uB7EC \uAC00\uC9C0\uB97C \uACF5\uBD80\uD558\uACE0
+  - "\uC548\uB155\uD558\uC138\uC694, \uC641\uAD73\uB2D8,,"
+  - "\uC800\uB294, \uC9C0\uAE08 \uC5EC\uB7EC \uAC00\uC9C0\uB97C \uACF5\uBD80\uD558\uACE0
     \uC788\uC74D\uB2C8\uB2E4."
-  - "\uC815\uBCF4\uB97C \uACF5\uC720\uD574\uB4DC\uB9AC\uACA0\uC74D\uB2C8\uB2E4."
+  - "\uC800\uBC88\uC5D0 \uB3C4\uC640\uC8FC\uC2E0 \uC77C\uB3C4 \uC788\uACE0 \uD558\uB2C8,."
+  - "\uC9C0\uAE08\uAE4C\uC9C0 \uC815\uB9AC\uD55C \uAC83\uB4E4\uC744,, \uACF5\uC720\uD574\uB4DC\uB9AC\uACA0\uC74D\uB2C8\uB2E4."
   randomComment:
-  - "\uC5B4\uC11C\uC624\uC2ED\uC2DC\uC624 \uC641\uAD73\uB2D8"
+  - "\uC5B4\uC11C\uC624\uC2DC\uC9C0\uC694, \uC641\uAD73\uB2D8."
   canOpenUI: 1
   isShowingSomething: {fileID: 11400000, guid: 688a405029d824548b8d1494667c0415, type: 2}
 --- !u!224 &4204842737969090802 stripped

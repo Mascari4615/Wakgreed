@@ -8,6 +8,16 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1622794278675028060, guid: 0a941390648b43b489b97695ee406140,
+        type: 3}
+      propertyPath: m_Lens.m_SensorSize.x
+      value: 1.5216731
+      objectReference: {fileID: 0}
+    - target: {fileID: 3193277808626691813, guid: 0a941390648b43b489b97695ee406140,
+        type: 3}
+      propertyPath: m_Lens.m_SensorSize.x
+      value: 1.5216731
+      objectReference: {fileID: 0}
     - target: {fileID: 3193277810173341846, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_FlipX
@@ -27,7 +37,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 421904671, guid: 821377494c899be42aa0437fb2ec5485,
+      objectReference: {fileID: 113226046409043974, guid: 320b47253a87c94428138f82c736f4df,
         type: 3}
     - target: {fileID: 3193277810173341846, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
@@ -38,11 +48,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: f5751dd88f6135245a71936c7065c022, type: 2}
+      objectReference: {fileID: 9100000, guid: 1e3705577c766ca418dc56b5411b9195, type: 2}
     - target: {fileID: 3193277810173341929, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3193277810173341929, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
@@ -102,12 +112,12 @@ PrefabInstance:
     - target: {fileID: 5046749008975055762, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 80.42
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 5046749009189004234, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_text
-      value: "\uD789\uD789\uD79D"
+      value: "\uC774\uC138\uB3CC"
       objectReference: {fileID: 0}
     - target: {fileID: 5046749009189004234, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
@@ -124,12 +134,12 @@ PrefabInstance:
     - target: {fileID: 5046749009258310256, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 104.72
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 5046749009597862888, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_text
-      value: "\uD788\uD0A4\uD0B9"
+      value: "\uB9B4\uD30C"
       objectReference: {fileID: 0}
     - target: {fileID: 5046749009597862888, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
@@ -167,6 +177,7 @@ MonoBehaviour:
   ID: 24
   firstComment:
   - asd
-  randomComment: []
+  randomComment:
+  - 
   canOpenUI: 0
   isShowingSomething: {fileID: 11400000, guid: 688a405029d824548b8d1494667c0415, type: 2}
