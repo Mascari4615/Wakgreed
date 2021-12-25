@@ -6,15 +6,16 @@ public abstract class Room : MonoBehaviour
     public Vector2 Coordinate { get; private set; }
     public bool IsVisited { get; protected set; } = false;
     public bool[] IsConnectToNearbyRoom { get; private set; } = { false, false, false, false };
-    public Transform CenterSpawnPoint;
+    public Transform CenterSpawnPoint { get; private set; }
     public GameObject[] Doors { get; private set; } = new GameObject[4];
     protected List<GameObject> DoorHiders { get; private set; } = new();
     protected List<GameObject> DoorParticles { get; private set; } = new();
-    public GameObject particle;
+    public GameObject particle { get; private set; }
 
     protected virtual void Awake()
     {
         particle = transform.Find("Particle System").gameObject;
+        CenterSpawnPoint = transform.Find("Center");
     }
 
     public void Initialize(Vector2 coordinate, bool[] isConnectToNearbyRoom)
@@ -41,9 +42,9 @@ public abstract class Room : MonoBehaviour
         }
     }
 
-    public virtual void Enter() 
+    public virtual void Enter()
     {
-        if (IsVisited == false) 
-            IsVisited = true; 
+        if (IsVisited == false)
+            IsVisited = true;
     }
 }
