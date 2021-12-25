@@ -213,6 +213,8 @@ public class Wakgood : MonoBehaviour, IHitable
             else
             {
                 hpCur.RuntimeValue = 0;
+                DataManager.Instance.CurGameData.deathCount++;
+
                 Collapse();
             }
         }
@@ -243,7 +245,6 @@ public class Wakgood : MonoBehaviour, IHitable
         WakgoodMove.enabled = false;
         wakgoodCollider.enabled = false;
 
-        DataManager.Instance.CurGameData.deathCount++;
         GameManager.Instance.StartCoroutine(GameManager.Instance._GameOverAndRecall());
         onCollapse.Raise();
         enabled = false;
