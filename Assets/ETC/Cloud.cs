@@ -9,6 +9,7 @@ public class Cloud : MonoBehaviour
     [SerializeField] private float minSize = 1f;
     [SerializeField] private int maxA = 67;
     [SerializeField] private int minA = 67;
+    [SerializeField] private float speedA = 1;
 
     private void Awake()
     {
@@ -17,7 +18,7 @@ public class Cloud : MonoBehaviour
 
     private void OnEnable()
     {
-        speed = Random.Range(1f, 5f);
+        speed = Random.Range(1f, 5f) * speedA;
         size = Random.Range(minSize, maxSize);
         sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, (float)Random.Range(minA, maxA + 1) / 255);
 
