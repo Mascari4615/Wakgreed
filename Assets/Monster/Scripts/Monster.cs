@@ -8,7 +8,7 @@ public abstract class Monster : MonoBehaviour, IHitable
 {
     [SerializeField] private Material flashMaterial;
     [SerializeField] protected GameEvent onMonsterCollapse;
-    public new string name;
+    public string mobName;
     public int ID;
     [TextArea] public string description;
     public int MaxHp { get; protected set; }
