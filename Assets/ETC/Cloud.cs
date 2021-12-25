@@ -28,7 +28,7 @@ public class Cloud : MonoBehaviour
     private void Update()
     {
         transform.position -= new Vector3(1, 0, 0) * Time.deltaTime * speed;
-        if (transform.position.x <= -60)
+        if (transform.position.x <= -100)
         {
             if (ObjectManager.Instance != null)
                 gameObject.SetActive(false);
