@@ -134,4 +134,14 @@ public abstract class Monster : MonoBehaviour, IHitable
         flashRoutine = null;
     }
 
+    protected Vector3 GetRot()
+    {
+        return new(0, 0, Mathf.Atan2(Wakgood.Instance.transform.position.y - (transform.position.y + 0.8f),
+            Wakgood.Instance.transform.position.x - transform.position.x) * Mathf.Rad2Deg - 90);
+    }
+
+    protected Vector3 GetDirection()
+    {
+        return (Wakgood.Instance.transform.position - transform.position).normalized;  
+    }
 }
