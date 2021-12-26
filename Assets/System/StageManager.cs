@@ -87,11 +87,14 @@ public class StageManager : MonoBehaviour
         roomData = new List<Room>(currentStage.roomDatas);
         roomMolds.Add(new RoomMold { Coordinate = Vector2.zero });
 
+        // int _roomCount = currentStageID != 6 ? roomCount : 2;
+        int _roomCount = currentStage.name != "콜로세움" ? roomCount : 2;
+
         /* 스테이지 틀 만들기 */
         {
             Vector2 totalRoomMoldCoordinate;
 
-            while (roomMolds.Count < roomCount)
+            while (roomMolds.Count < _roomCount)
             {
                 RoomMold originalRoomMold = roomMolds[Random.Range(0, roomMolds.Count)];
                 int doorOpenIndex = Random.Range(0, 4);
@@ -137,7 +140,7 @@ public class StageManager : MonoBehaviour
                 if (DataManager.Instance.CurGameData.rescuedNPC[id])
                     nrcCount--;
 
-            for (int i = 0; i < roomCount; i++)
+            for (int i = 0; i < _roomCount; i++)
             {
                 int roomMoldIndex = i == 0 ? 0 : Random.Range(0, roomMolds.Count);            
                 int roomDataIndex = i <= 3 ? 0 : nrcCount > 0 ? 0 : Random.Range(1, roomData.Count);
@@ -158,9 +161,7 @@ public class StageManager : MonoBehaviour
     public void DestroyStage()
     {
         for (int i = 0; i < stageGrid.transform.childCount; i++)
-        {
             Destroy(stageGrid.transform.GetChild(i).gameObject);
-        }
     }
 
     private IEnumerator StartStage()

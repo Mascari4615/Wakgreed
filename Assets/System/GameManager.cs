@@ -134,7 +134,7 @@ public class GameManager : MonoBehaviour
 
         gamePanel.SetActive(true);
 
-        nyang.RuntimeValue = 0;
+        nyang.RuntimeValue = 1000;
         viewer.RuntimeValue = 0;
 
         onRecall.Raise();
