@@ -167,9 +167,7 @@ public class Wakgood : MonoBehaviour, IHitable
         else
         {
             if (CurWeaponNumber != targetWeaponNum)
-            {
                 Weapon[targetWeaponNum] = targetWeapon;
-            }
             else
             {
                 Weapon[CurWeaponNumber].OnRemove();
@@ -187,12 +185,8 @@ public class Wakgood : MonoBehaviour, IHitable
 
     public void ReceiveHit(int damage)
     {
-        if (IsCollapsed) return;
-
-        if (!isHealthy || (WakgoodMove.MbDashing && canEvasionOnDash.RuntimeValue))
-        {
+        if (IsCollapsed || !isHealthy || (WakgoodMove.MbDashing && canEvasionOnDash.RuntimeValue))
             return;
-        }
 
         if (evasion.RuntimeValue >= Random.Range(1, 100 + 1))
         {
@@ -222,14 +216,8 @@ public class Wakgood : MonoBehaviour, IHitable
 
     public void ReceiveHeal(int amount)
     {
-        if (hpCur.RuntimeValue == hpMax.RuntimeValue)
-        {
-            return;
-        }
-
-        hpCur.RuntimeValue += amount;
-        ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>()
-            .SetText(amount.ToString(), TextType.Heal);
+        hpCur.RuntimeValue = Mathf.Clamp(hpCur.RuntimeValue + amount, 0, hpMax.RuntimeValue);
+        ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>().SetText(amount.ToString(), TextType.Heal);
     }
 
     public void Collapse()
@@ -252,7 +240,7 @@ public class Wakgood : MonoBehaviour, IHitable
 
     public void CheckCanLevelUp()
     {
-        if (exp.RuntimeValue >= 100 * level.RuntimeValue) LevelUp();
+        if (exp.RuntimeValue >= 150 * level.RuntimeValue) LevelUp();
     }
 
     private void LevelUp()
@@ -261,7 +249,7 @@ public class Wakgood : MonoBehaviour, IHitable
         powerInt.RuntimeValue += wakdu.growthPower;
         attackSpeed.RuntimeValue += wakdu.growthAttackSpeed;
 
-        exp.RuntimeValue -= 100 * level.RuntimeValue;
+        exp.RuntimeValue -= 150 * level.RuntimeValue;
         level.RuntimeValue++;
         onLevelUp.Raise();
 

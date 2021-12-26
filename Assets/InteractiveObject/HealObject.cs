@@ -9,14 +9,9 @@ public class HealObject : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Heal();
+            RuntimeManager.PlayOneShot("event:/SFX/ETC/Heal", Wakgood.Instance.AttackPosition.position);
+            Wakgood.Instance.ReceiveHeal(healAmount);
             gameObject.SetActive(false);
         }
-    }
-
-    private void Heal()
-    {
-        RuntimeManager.PlayOneShot("event:/SFX/ETC/Heal", Wakgood.Instance.AttackPosition.position);
-        Wakgood.Instance.ReceiveHeal(healAmount);
     }
 }

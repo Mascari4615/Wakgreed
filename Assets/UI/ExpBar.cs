@@ -16,12 +16,9 @@ public class ExpBar : MonoBehaviour
 
     public void SetExpBar()
     {
-        bar.fillAmount = (float)exp.RuntimeValue / (100 * level.RuntimeValue);
-        expTextField.SetText((Mathf.Floor((float)exp.RuntimeValue / (100 * level.RuntimeValue) * 100) + "%"));
+        bar.fillAmount = (float)exp.RuntimeValue / (150 * level.RuntimeValue);
+        expTextField.SetText((Mathf.Floor((float)exp.RuntimeValue / (150 * level.RuntimeValue) * 100) + "%"));
     }
 
-    public void SetLevelText()
-    {
-        levelTextField.SetText($"Lv. {level.RuntimeValue}");
-    }
+    public void SetLevelText() => levelTextField.SetText($"Lv. {level.RuntimeValue}");
 }

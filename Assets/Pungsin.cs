@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Pungsin : BossMonster
@@ -31,27 +30,30 @@ public class Pungsin : BossMonster
             (ultAttackGos[i] = Instantiate(ultAttackPrefab, transform).GetComponent<BulletMove>()).gameObject.SetActive(false);
         }
 
-
         skill0AttackGo = new BulletMove[3];
         for (int i = 0; i < 3; i++)
         {
             (skill0AttackGo[i] = Instantiate(skill0AttackPrefab, transform).GetComponent<BulletMove>()).gameObject.SetActive(false);
         }
 
-        skill1AttackGo = new BulletMoveStar[5];
-        for (int i = 0; i < 5; i++)
-        {
+        skill1AttackGo = new BulletMoveStar[6];
+        for (int i = 0; i < skill1AttackGo.Length; i++)
             (skill1AttackGo[i] = Instantiate(skill1AttackPrefab, transform).GetComponent<BulletMoveStar>()).gameObject.SetActive(false);
-        }
 
         lineRenderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 0.3f));
     }
+    int temp = 0;
 
     protected override IEnumerator Attack()
     {
         while (true)
         {
-            int i = Random.Range(0, 2 + 1);
+            int i = Random.Range(0, 1 + 1);
+
+            if (temp < skill1AttackGo.Length)
+            {
+                i++;
+            }
 
             switch (i)
             {
@@ -70,19 +72,16 @@ public class Pungsin : BossMonster
 
     private IEnumerator Skill1()
     {
-        for (int i = 0; i < 5; i++)
-        {
-            if (skill1AttackGo[i].gameObject.activeSelf == false)
-            {
-                Animator.SetBool("ULT", true);
-                yield return new WaitForSeconds(1);
-                skill1AttackGo[i].Set(Random.Range(.2f, .5f), Random.Range(2.5f, 5f));
-                skill1AttackGo[i].gameObject.SetActive(true);
-                Animator.SetBool("ULT", false);
-                yield return new WaitForSeconds(2);
-                yield break;
-            }
-        }
+        Animator.SetBool("ULT", true);
+        yield return new WaitForSeconds(1);
+        skill1AttackGo[temp * 2].Set(Random.Range(.2f, .5f), Random.Range(2.5f, 5f));
+        skill1AttackGo[temp * 2].gameObject.SetActive(true);
+        skill1AttackGo[temp * 2 + 1].Set(Random.Range(.2f, .5f), Random.Range(2.5f, 5f));
+        skill1AttackGo[temp * 2 + 1].gameObject.SetActive(true);
+        Animator.SetBool("ULT", false);
+        temp++;
+        yield return new WaitForSeconds(2);
+        yield break;
     }
 
     private IEnumerator Ult()

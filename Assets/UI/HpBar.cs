@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class HpBar : MonoBehaviour
 {
     [SerializeField] private RectTransform rectTransform;
-    [SerializeField] private MaxHp travellerMaxHp;
-    [SerializeField] private IntVariable travellerHp;
+    [SerializeField] private MaxHp hpMax;
+    [SerializeField] private IntVariable hpCur;
     [SerializeField] private Image red;
     [SerializeField] private Image yellow;
     [SerializeField] private TextMeshProUGUI textField;
@@ -17,40 +17,31 @@ public class HpBar : MonoBehaviour
     private readonly float originX = 450;
     private readonly float originY = 40;
 
-    /*
-    private void Awake()
-    {
-        originX = rectTransform.sizeDelta.x;
-        originY = rectTransform.sizeDelta.y;
-    }*/
-
     public void SetHpBar()
     {
-        textField.SetText($"{travellerHp.RuntimeValue}<size=25>/{travellerMaxHp.RuntimeValue}");
-        if (!isUpdating) StartCoroutine(UpdateHpBar());
+        textField.SetText($"{hpCur.RuntimeValue}<size=25>/{hpMax.RuntimeValue}");
+        if (!isUpdating)
+            StartCoroutine(UpdateHpBar());
     }
     
     private IEnumerator UpdateHpBar()
     {
         isUpdating = true;
-        float ratio;
+        yellow.fillAmount = red.fillAmount;
 
-        while ((Mathf.Abs((ratio = (float)travellerHp.RuntimeValue / travellerMaxHp.RuntimeValue) - red.fillAmount)) > 0.002f || Mathf.Abs(red.fillAmount - yellow.fillAmount) > 0.002f)
+        while (Mathf.Abs(red.fillAmount - yellow.fillAmount) > 0.002f)
         {
-            red.fillAmount = Mathf.Lerp(red.fillAmount, ratio, Time.deltaTime * 15f);
-            yellow.fillAmount = Mathf.Lerp(yellow.fillAmount, red.fillAmount, Time.deltaTime * 5f);
-  
-            if (Mathf.Abs(red.fillAmount - yellow.fillAmount) < 0.002f)
-                yellow.fillAmount = red.fillAmount;
-
+            red.fillAmount = Mathf.Lerp(red.fillAmount, (float)hpCur.RuntimeValue / hpMax.RuntimeValue, Time.deltaTime * 15f);
+            yellow.fillAmount = Mathf.Lerp(yellow.fillAmount, red.fillAmount, Time.deltaTime * 3f);
             yield return null;
         }
-        
+
+        yellow.fillAmount = red.fillAmount;
         isUpdating = false;
     }
 
     public void SetHpBarWidth()
     {
-        rectTransform.sizeDelta = new Vector2(Mathf.Clamp(originX + (travellerMaxHp.RuntimeValue - wakdu.baseHp) * 10, originX, 1250), originY);
+        rectTransform.sizeDelta = new Vector2(Mathf.Clamp(originX + (hpMax.RuntimeValue - wakdu.baseHp) * 10, originX, 1250), originY);
     }
 }

@@ -13,7 +13,7 @@ public class StreamingManager : MonoBehaviour
     
     [SerializeField] private TMP_InputField inputField; 
     [SerializeField] private TextMeshProUGUI donationText, upTimeUI;
-    [SerializeField] private GameObject donationUI, chatGameObject, chatPanel;
+    [SerializeField] private GameObject donationUI, chatViewport, chatContent;
     [SerializeField] private Image donationImageUI;
     [SerializeField] private Sprite[] donationImages;
     [SerializeField] private IntVariable goldu, viewer;
@@ -31,8 +31,8 @@ public class StreamingManager : MonoBehaviour
     {
         Instance = this;
 
-        for (int i = 0; i < chatPanel.transform.childCount; i++)
-            chatPool.Add(chatPanel.transform.GetChild(i).GetComponent<TextMeshProUGUI>()); 
+        for (int i = 0; i < chatContent.transform.childCount; i++)
+            chatPool.Add(chatContent.transform.GetChild(i).GetComponent<TextMeshProUGUI>()); 
     }
 
     private IEnumerator Start()
@@ -69,7 +69,7 @@ public class StreamingManager : MonoBehaviour
         {
             while (isLoading.RuntimeValue) yield return null;
 
-            if (DataManager.Instance.CurGameData.rescuedNPC[2] == true && Random.Range(0, 100) < 30)
+            if (DataManager.Instance.CurGameData.rescuedNPC[2] == true && Random.Range(0, 100) < 10)
             {
                 Wakgood.Instance.ReceiveHeal(1);
 
@@ -139,14 +139,14 @@ public class StreamingManager : MonoBehaviour
     {
         isChatting.RuntimeValue = inputField.gameObject.activeSelf;
 
-        if (Input.GetKey(KeyCode.Z) && !chatGameObject.activeSelf) chatGameObject.SetActive(true);
+        if (Input.GetKey(KeyCode.Z) && !chatViewport.activeSelf) chatViewport.SetActive(true);
         else if (Input.GetKeyUp(KeyCode.Z)) t = 2;
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
             if (inputField.gameObject.activeSelf == false)
             {
-                chatGameObject.SetActive(true);
+                chatViewport.SetActive(true);
                 inputField.gameObject.SetActive(true);
                 inputField.ActivateInputField();
             }
@@ -160,17 +160,17 @@ public class StreamingManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Slash) && inputField.gameObject.activeSelf == false)
         {
-            chatGameObject.SetActive(true);
+            chatViewport.SetActive(true);
             inputField.gameObject.SetActive(true);
             inputField.ActivateInputField();
             inputField.text = "/";
             inputField.stringPosition = 10;            
         }
 
-        if (chatGameObject.activeSelf && !inputField.gameObject.activeSelf && !Input.GetKey(KeyCode.Z))
+        if (chatViewport.activeSelf && !inputField.gameObject.activeSelf && !Input.GetKey(KeyCode.Z))
         {
             t -= Time.deltaTime;
-            if (t <= 0) chatGameObject.SetActive(false);
+            if (t <= 0) chatViewport.SetActive(false);
         }
     }
 
@@ -208,7 +208,7 @@ public class StreamingManager : MonoBehaviour
             return;
         }
 
-        if (chatGameObject.activeSelf == false) chatGameObject.SetActive(true);
+        if (chatViewport.activeSelf == false) chatViewport.SetActive(true);
 
         if (nickName == "우왁굳")
         {
@@ -217,10 +217,9 @@ public class StreamingManager : MonoBehaviour
             // twitchConnect.SendMassage();
         }
 
-        chatPool[chatIndex % 25].text = 
-            $"<b><color=#{ColorUtility.ToHtmlStringRGBA(Random.ColorHSV())}>{nickName}</color></b>\n{msg}";
+        chatPool[chatIndex % 25].text = $"<b><color=#{ColorUtility.ToHtmlStringRGBA(Random.ColorHSV())}>{nickName}</color></b>\n{msg}";
 
-        chatPanel.transform.GetChild(0).transform.SetAsLastSibling();
+        chatContent.transform.GetChild(0).transform.SetAsLastSibling();
         chatIndex++;
 
         t = 5;
