@@ -98,7 +98,7 @@ public class Dopamine : BossMonster
             monkeys[i].gameObject.SetActive(true);
         }
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.7f);
 
         Animator.SetTrigger("SKILL1GO");
 
@@ -113,18 +113,16 @@ public class Dopamine : BossMonster
 
         yield return new WaitForSeconds(.2f);
         Animator.SetBool("SKILL1", false);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
     }
 
     private IEnumerator MobSpawn()
     {
-        if (monsterList.Count >= 2)
-            yield break;
-
-        const float coolTime = 15f;
-
         bCanUseMobSpawn = false;
-        StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, coolTime, value => bCanUseMobSpawn = value));    
+        StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, 10f, value => bCanUseMobSpawn = value));
+
+        if (monsterList.Count >= 6)
+            yield break;
 
         for (int i = 0; i < 3; i++)
             StartCoroutine(SpawnMob());

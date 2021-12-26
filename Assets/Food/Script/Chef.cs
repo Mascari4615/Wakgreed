@@ -8,6 +8,7 @@ public class Chef : NPC
     [SerializeField] protected FoodDataBuffer foodDataBuffer;
     [SerializeField] protected WakgoodFoodInventory wakgoodFoodInventory;
     [SerializeField] protected IntVariable goldu; 
+    [SerializeField] protected int count = 8; 
 
     protected override void Awake()
     {
@@ -15,7 +16,7 @@ public class Chef : NPC
 
         List<Food> temp = foodDataBuffer.items.ToList();
 
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < count; i++)
         {
             int random = Random.Range(0, temp.Count);
             inventoryUI.NpcInventory.Add(temp[random]);
