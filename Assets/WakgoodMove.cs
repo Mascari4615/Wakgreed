@@ -45,7 +45,7 @@ public class WakgoodMove : MonoBehaviour
             return;
         }
 
-        if (Time.timeScale == 0 || Wakgood.Instance.IsCollapsed || isFocusOnSomething.RuntimeValue)
+        if (Time.timeScale == 0 || isFocusOnSomething.RuntimeValue)
         {
             mbMoving = false;
             Animator.SetBool(move, mbMoving);
