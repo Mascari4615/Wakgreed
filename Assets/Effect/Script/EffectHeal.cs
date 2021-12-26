@@ -3,13 +3,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EffectHeal", menuName = "Effect/Heal")]
 public class EffectHeal : Effect
 {
+    public int Amount;
     public IntVariable HP;
-    public IntVariable MaxHP;
+    public MaxHp MaxHP;
     public GameEvent OnHPChange;
 
     public override void _Effect()
     {
-        HP.RuntimeValue = MaxHP.RuntimeValue;
+        HP.RuntimeValue = Mathf.Clamp(HP.RuntimeValue + Amount, 0, MaxHP.RuntimeValue);
+        ObjectManager.Instance.PopObject("AnimatedText", Wakgood.Instance.transform).GetComponent<AnimatedText>().SetText(Amount.ToString(), TextType.Heal);
         OnHPChange.Raise();
     }
 
