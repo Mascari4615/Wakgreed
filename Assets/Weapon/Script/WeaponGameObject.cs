@@ -4,10 +4,6 @@ public class WeaponGameObject : InteractiveObject
 {
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Weapon weapon;
-    [SerializeField] private GameObject interactionIcon;
-
-    private void OnTriggerEnter2D(Collider2D other) { if (other.CompareTag("Player")) interactionIcon.SetActive(true); }
-    private void OnTriggerExit2D(Collider2D other) { if (other.CompareTag("Player")) interactionIcon.SetActive(false); }
 
     public void Initialize(int id)
     {

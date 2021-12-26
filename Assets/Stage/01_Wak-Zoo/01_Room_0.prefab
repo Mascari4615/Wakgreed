@@ -3949,16 +3949,17 @@ Transform:
   - {fileID: 5263421856452516541}
   - {fileID: 2204780395237562023}
   - {fileID: 2962760013745119540}
+  - {fileID: 8543435842170894440}
   - {fileID: 49824902134818993}
   - {fileID: 8070220647848008424}
   - {fileID: 7804940416528905434}
   - {fileID: 7808843887659403048}
   - {fileID: 318899701465984257}
   - {fileID: 2938418323153167695}
-  - {fileID: 8543435842170894440}
   - {fileID: 3331725569869149035}
   - {fileID: 8232532654217893627}
   - {fileID: 1639869763949838218}
+  - {fileID: 28337965985587418}
   m_Father: {fileID: 0}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4008,41 +4009,6 @@ MonoBehaviour:
       spawnDelay: 0.1
     - monster: {fileID: 8633538259678075035, guid: e0db4e1580ba1c5429b11bfe8ae70d26,
         type: 3}
-      spawnPoint: {fileID: 8232532654217893627}
-      spawnDuration: 0.3
-      spawnDelay: 0.1
-    - monster: {fileID: 8633538259678075035, guid: e0db4e1580ba1c5429b11bfe8ae70d26,
-        type: 3}
-      spawnPoint: {fileID: 1639869763949838218}
-      spawnDuration: 0.3
-      spawnDelay: 0.1
-    - monster: {fileID: 8633538259678075035, guid: e0db4e1580ba1c5429b11bfe8ae70d26,
-        type: 3}
-      spawnPoint: {fileID: 8070220647848008424}
-      spawnDuration: 0.3
-      spawnDelay: 0.1
-    - monster: {fileID: 8633538259678075035, guid: e0db4e1580ba1c5429b11bfe8ae70d26,
-        type: 3}
-      spawnPoint: {fileID: 7804940416528905434}
-      spawnDuration: 0.3
-      spawnDelay: 0.1
-    - monster: {fileID: 8633538259678075035, guid: e0db4e1580ba1c5429b11bfe8ae70d26,
-        type: 3}
-      spawnPoint: {fileID: 7808843887659403048}
-      spawnDuration: 0.3
-      spawnDelay: 0.1
-    - monster: {fileID: 8633538259678075035, guid: e0db4e1580ba1c5429b11bfe8ae70d26,
-        type: 3}
-      spawnPoint: {fileID: 318899701465984257}
-      spawnDuration: 0.3
-      spawnDelay: 0.1
-    - monster: {fileID: 8633538259678075035, guid: e0db4e1580ba1c5429b11bfe8ae70d26,
-        type: 3}
-      spawnPoint: {fileID: 2938418323153167695}
-      spawnDuration: 0.3
-      spawnDelay: 0.1
-    - monster: {fileID: 8633538259678075035, guid: e0db4e1580ba1c5429b11bfe8ae70d26,
-        type: 3}
       spawnPoint: {fileID: 3331725569869149035}
       spawnDuration: 0.3
       spawnDelay: 0.1
@@ -4054,6 +4020,27 @@ MonoBehaviour:
     - monster: {fileID: 8633538259678075035, guid: e0db4e1580ba1c5429b11bfe8ae70d26,
         type: 3}
       spawnPoint: {fileID: 1639869763949838218}
+      spawnDuration: 0.3
+      spawnDelay: 0.1
+  - mobSpawnDatas:
+    - monster: {fileID: 8633538259678075035, guid: dd82c75b91d22f04bb72462681db3292,
+        type: 3}
+      spawnPoint: {fileID: 8070220647848008424}
+      spawnDuration: 0.3
+      spawnDelay: 0
+    - monster: {fileID: 8633538259678075035, guid: dd82c75b91d22f04bb72462681db3292,
+        type: 3}
+      spawnPoint: {fileID: 7804940416528905434}
+      spawnDuration: 0.3
+      spawnDelay: 0.1
+    - monster: {fileID: 8633538259678075035, guid: dd82c75b91d22f04bb72462681db3292,
+        type: 3}
+      spawnPoint: {fileID: 7808843887659403048}
+      spawnDuration: 0.3
+      spawnDelay: 0.1
+    - monster: {fileID: 8633538259678075035, guid: f57b034e672a8514ebdd0111afabf842,
+        type: 3}
+      spawnPoint: {fileID: 7808843887659403048}
       spawnDuration: 0.3
       spawnDelay: 0.1
   isFighting: {fileID: 11400000, guid: 36d968d443b40aa4b94a068e61f26280, type: 2}
@@ -5897,4 +5884,81 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5486421162452040048, guid: fcd7717f1f7a0b54795dde17ac82d332,
     type: 3}
   m_PrefabInstance: {fileID: 7295400879054772292}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &9141499465075730079
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 2
+    m_TransformParent: {fileID: 1529938171293534474}
+    m_Modifications:
+    - target: {fileID: 2600353996248402460, guid: a7d73ec23212d4e4a9545f61b07c5350,
+        type: 3}
+      propertyPath: m_Name
+      value: SpawnPoints
+      objectReference: {fileID: 0}
+    - target: {fileID: 9131484126606083653, guid: a7d73ec23212d4e4a9545f61b07c5350,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9131484126606083653, guid: a7d73ec23212d4e4a9545f61b07c5350,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9131484126606083653, guid: a7d73ec23212d4e4a9545f61b07c5350,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9131484126606083653, guid: a7d73ec23212d4e4a9545f61b07c5350,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9131484126606083653, guid: a7d73ec23212d4e4a9545f61b07c5350,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9131484126606083653, guid: a7d73ec23212d4e4a9545f61b07c5350,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9131484126606083653, guid: a7d73ec23212d4e4a9545f61b07c5350,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9131484126606083653, guid: a7d73ec23212d4e4a9545f61b07c5350,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9131484126606083653, guid: a7d73ec23212d4e4a9545f61b07c5350,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9131484126606083653, guid: a7d73ec23212d4e4a9545f61b07c5350,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9131484126606083653, guid: a7d73ec23212d4e4a9545f61b07c5350,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_AddedGameObjects: []
+  m_SourcePrefab: {fileID: 100100000, guid: a7d73ec23212d4e4a9545f61b07c5350, type: 3}
+--- !u!4 &28337965985587418 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9131484126606083653, guid: a7d73ec23212d4e4a9545f61b07c5350,
+    type: 3}
+  m_PrefabInstance: {fileID: 9141499465075730079}
   m_PrefabAsset: {fileID: 0}
