@@ -166,6 +166,7 @@ GameObject:
   - component: {fileID: 7205154319512897507}
   - component: {fileID: 2065182989448838232}
   - component: {fileID: 6707799825568499963}
+  - component: {fileID: 2973788333000498568}
   m_Layer: 5
   m_Name: Ikeda Food Button
   m_TagString: Untagged
@@ -317,13 +318,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 381da081ddcf0c3419a6d13327d7ddf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toolTipTrigger: {fileID: 0}
+  toolTipTrigger: {fileID: 2973788333000498568}
   image: {fileID: 2043066159297220658}
   specialThing: {fileID: 0}
   countTextField: {fileID: 0}
   priceText: {fileID: 5838977514158605720}
   nameText: {fileID: 5825279435107150084}
   descriptionText: {fileID: 9123993029871342868}
+--- !u!114 &2973788333000498568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2283599794456064816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b8aac8f1932cb64d9f052fd6af6ccb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3498057998085971918
 GameObject:
   m_ObjectHideFlags: 0

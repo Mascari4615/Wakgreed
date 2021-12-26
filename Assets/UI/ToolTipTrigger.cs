@@ -26,12 +26,16 @@ public class ToolTipTrigger : MonoBehaviour, IPointerExitHandler, IPointerEnterH
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (sprite == null) return;
+
         ToolTipManager.Instance.Show(sprite, header, description);
         isShowingThis = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (sprite == null) return;
+
         ToolTipManager.Instance.Hide();
         isShowingThis = false;
     }

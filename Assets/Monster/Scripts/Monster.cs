@@ -27,7 +27,6 @@ public abstract class Monster : MonoBehaviour, IHitable
     {
         MaxHp = hp;
         SpriteRenderer = GetComponent<SpriteRenderer>();
-        defaultSprite = SpriteRenderer.sprite;
         Animator = GetComponent<Animator>();
         Rigidbody2D = GetComponent<Rigidbody2D>();
         collider2D = GetComponent<Collider2D>();
@@ -68,7 +67,7 @@ public abstract class Monster : MonoBehaviour, IHitable
         switch (hp)
         {
             case > 0:
-                Animator.SetTrigger("AHYA");
+                // Animator.SetTrigger("AHYA");
                 break;
             case <= 0:
                 RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("(", StringComparison.Ordinal), 7) : name)}_Collapse", transform.position);

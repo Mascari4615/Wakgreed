@@ -2,19 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class EquipItemToolTip : MonoBehaviour
 {
+    private readonly WaitForSeconds ws1 = new (1f);
     private readonly Queue<SpecialThing> toolTipStacks = new();
+
     [SerializeField] private GameObject toolTip;
     [SerializeField] private TextMeshProUGUI nameField;
     [SerializeField] private TextMeshProUGUI AMGG;
     [SerializeField] private Image image;
     [SerializeField] private ItemVariable lastEquippedItem;
     [SerializeField] private FoodVariable lastEquippedFood;
-    private WaitForSeconds ws2 = new(2f);
 
     public void EquipItem()
     {
@@ -42,7 +42,7 @@ public class EquipItemToolTip : MonoBehaviour
 
             nameField.text = item.name;
             image.sprite = item.sprite;
-            yield return ws2;
+            yield return ws1;
         }
         toolTip.SetActive(false);
     }
