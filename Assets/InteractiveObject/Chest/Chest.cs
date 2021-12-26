@@ -20,8 +20,10 @@ public class Chest : InteractiveObject
     
     private static readonly int open = Animator.StringToHash("OPEN");
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         spriteRenderer = GetComponent<SpriteRenderer>();
         objectWithDuration = GetComponent<ObjectWithDuration>();
         animator = GetComponent<Animator>();

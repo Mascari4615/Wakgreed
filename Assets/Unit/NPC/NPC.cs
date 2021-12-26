@@ -19,8 +19,10 @@ public abstract class NPC : InteractiveObject
     private readonly WaitForSeconds ws005 = new(0.05f), ws02 = new(0.2f);
     protected Animator animator;
 
-    protected virtual void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         cvm1 = transform.Find("CM").GetComponent<CinemachineVirtualCamera>();
         cvm2 = transform.Find("CM2").GetComponent<CinemachineVirtualCamera>();
         customUI = transform.Find("CustomUI").gameObject;
@@ -46,9 +48,11 @@ public abstract class NPC : InteractiveObject
         StopAllCoroutines();
         StartCoroutine(OnType());
     }
-    
-    protected virtual void OnTriggerExit2D(Collider2D other)
+
+    protected override void OnTriggerExit2D(Collider2D other)
     {
+        base.OnTriggerExit2D(other);
+
         if (!other.CompareTag("Player"))
         {
             return;
