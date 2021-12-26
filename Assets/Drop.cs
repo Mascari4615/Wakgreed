@@ -18,13 +18,13 @@ public class Drop : MonoBehaviour
 
     private IEnumerator GO()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.5f);
         warningObject.SetActive(true);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.5f);
 
         drop.transform.localPosition = Vector3.up * 15;
         drop.SetActive(true);
-        for (float i = 0; i <= 1; i += Time.deltaTime)  
+        for (float i = 0; i <= 1; i += Time.deltaTime * 1.3f)  
         {
             drop.transform.localPosition = Vector3.Lerp(drop.transform.localPosition, Vector3.zero, i);
             if (Vector3.Distance(drop.transform.localPosition, Vector3.zero) < .3f)
