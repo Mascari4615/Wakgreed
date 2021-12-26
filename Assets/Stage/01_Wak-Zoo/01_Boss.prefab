@@ -21564,8 +21564,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4952393361129794851}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.4, y: 0.98, z: 0}
-  m_LocalScale: {x: 0.22222224, y: 0.22222224, z: 1}
+  m_LocalPosition: {x: 0.4, y: 3.23, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1444900267185472662}
@@ -21933,6 +21933,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: InteractionIcon
       objectReference: {fileID: 0}
+    - target: {fileID: 2109692586189910599, guid: a7bacf552a2b6a5468b0229b10aad8c1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2245227916671250909, guid: a7bacf552a2b6a5468b0229b10aad8c1,
         type: 3}
       propertyPath: m_fontSize
@@ -22180,7 +22185,7 @@ PrefabInstance:
     - target: {fileID: 5088976565395572449, guid: 80a86f04c298ded43ad36874dad84d4f,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8042053256155139896, guid: 80a86f04c298ded43ad36874dad84d4f,
         type: 3}
