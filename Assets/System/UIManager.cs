@@ -40,6 +40,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject roomClearSpeedWagon;
     [SerializeField] private GameObject rescueSpeedWagon;
 
+    [SerializeField] private BoolVariable isShowingSomething;
 
     [SerializeField] private IntVariable Goldu;
     [SerializeField] private TextMeshProUGUI resultUptimeText;
@@ -51,9 +52,8 @@ public class UIManager : MonoBehaviour
     {
         Instance = this;
 
-        camera = GameObject.Find("Cameras").transform.GetChild(1).GetComponent<CinemachineVirtualCamera>();
-        cinemachineTargetGroup =
-            GameObject.Find("Cameras").transform.GetChild(2).GetComponent<CinemachineTargetGroup>();
+        camera = GameObject.Find("Cameras").transform.Find("CM Camera").GetComponent<CinemachineVirtualCamera>();
+        cinemachineTargetGroup = GameObject.Find("Cameras").transform.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>();
     }
 
     public void SetResult()
@@ -107,6 +107,8 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator SpeedWagon_BossOn(BossMonster boss)
     {
+        isShowingSomething.RuntimeValue = true;
+        Debug.Log(camera);
         camera.m_Lens.OrthographicSize = 6;
         cinemachineTargetGroup.m_Targets[0].target = boss.transform;
         Wakgood.Instance.SetRigidBodyType(RigidbodyType2D.Static);
@@ -115,6 +117,8 @@ public class UIManager : MonoBehaviour
         bossSpeedWagon.SetActive(true);
 
         yield return new WaitForSeconds(3f);
+
+        isShowingSomething.RuntimeValue = false;
 
         bossSpeedWagon.SetActive(false);
         Wakgood.Instance.SetRigidBodyType(RigidbodyType2D.Dynamic);

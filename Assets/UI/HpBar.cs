@@ -29,7 +29,7 @@ public class HpBar : MonoBehaviour
         isUpdating = true;
         yellow.fillAmount = red.fillAmount;
 
-        while (Mathf.Abs(red.fillAmount - yellow.fillAmount) > 0.002f)
+        while ((float)hpCur.RuntimeValue / hpMax.RuntimeValue > 0.002f || Mathf.Abs(red.fillAmount - yellow.fillAmount) > 0.002f)
         {
             red.fillAmount = Mathf.Lerp(red.fillAmount, (float)hpCur.RuntimeValue / hpMax.RuntimeValue, Time.deltaTime * 15f);
             yellow.fillAmount = Mathf.Lerp(yellow.fillAmount, red.fillAmount, Time.deltaTime * 3f);
