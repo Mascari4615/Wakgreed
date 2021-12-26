@@ -5,7 +5,6 @@ using Cinemachine;
 
 public abstract class BossMonster : Monster
 {
-    [SerializeField] private BoolVariable isShowingSomething;
     public int npcID;
     public string nickName;
     protected CinemachineTargetGroup cinemachineTargetGroup;
@@ -14,8 +13,8 @@ public abstract class BossMonster : Monster
     protected override void Awake()
     {
         base.Awake();
-        camera = GameObject.Find("Cameras").transform.GetChild(1).GetComponent<CinemachineVirtualCamera>();
-        cinemachineTargetGroup = GameObject.Find("Cameras").transform.GetChild(2).GetComponent<CinemachineTargetGroup>();
+        camera = GameObject.Find("Cameras").transform.Find("CM Camera").GetComponent<CinemachineVirtualCamera>();
+        cinemachineTargetGroup = GameObject.Find("Cameras").transform.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>();
     }
 
     protected override void OnEnable()
@@ -26,10 +25,7 @@ public abstract class BossMonster : Monster
 
     private IEnumerator Ready()
     {
-        isShowingSomething.RuntimeValue = true;
         yield return StartCoroutine(UIManager.Instance.SpeedWagon_BossOn(this));
-        isShowingSomething.RuntimeValue = false;
-
         yield return new WaitForSeconds(2f);
         StartCoroutine(nameof(Attack));
     }

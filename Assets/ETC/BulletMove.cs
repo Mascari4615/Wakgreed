@@ -17,7 +17,7 @@ public class BulletMove : MonoBehaviour
 
     public void SetDirection(Vector3 direction)
     {
-        directionVector = direction;
+        directionVector = direction.normalized;
     }
 
     private void OnEnable()

@@ -202,7 +202,7 @@ public class Wakgood : MonoBehaviour, IHitable
             if ((hpCur.RuntimeValue -= damage) > 0)
             {
                 isHealthy = false;
-                StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, .5f, value => isHealthy = value));
+                StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, .3f, value => isHealthy = value));
             }
             else
             {
