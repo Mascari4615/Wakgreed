@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject gamePanel;
     [SerializeField] private GameObject gameResultPanel;
     [SerializeField] private GameObject pausePanel;
+    [SerializeField] private GameObject recallButton;
     [SerializeField] private Animator fadePanel;
 
     [SerializeField] private GameObject undo;
@@ -39,7 +40,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Application.targetFrameRate = 60;
-        Instance = this;    
+        Instance = this;
     }
 
     private void Start()
@@ -74,11 +75,9 @@ public class GameManager : MonoBehaviour
         isFocusOnSomething.RuntimeValue = (isChatting.RuntimeValue || isLoading.RuntimeValue || isShowingSomething.RuntimeValue);
 
         if (Input.GetKeyDown(KeyCode.Escape) && !isLoading.RuntimeValue && !gameResultPanel.activeSelf)
-        {
             if (!SettingManager.Instance.Temp())
                 if (!StreamingManager.Instance.Temp())
-                    PauseGame();
-        }
+                        PauseGame();                
     }
 
     public void PauseGame() // 정지 버튼에서 호출
@@ -90,6 +89,7 @@ public class GameManager : MonoBehaviour
             _ => Time.timeScale
         };
 
+        recallButton.SetActive(isGaming.RuntimeValue);
         pausePanel.SetActive(!pausePanel.activeSelf);
     }
 
@@ -158,7 +158,6 @@ public class GameManager : MonoBehaviour
         DataManager.Instance.wakgoodMasteryInventory.Clear();
         DataManager.Instance.buffRunTimeSet.Clear();
 
-        pausePanel.SetActive(false);
         gameResultPanel.SetActive(false);
         gamePanel.SetActive(true);
 
@@ -193,13 +192,6 @@ public class GameManager : MonoBehaviour
 
 public class DebugManager
 {
-    public static void GetItem(int id)
-    {
-        DataManager.Instance.wakgoodItemInventory.Add(DataManager.Instance.ItemDic[id]);
-    }
-
-    public static void GetWeapon(int id)
-    {
-        Wakgood.Instance.SwitchWeapon(Wakgood.Instance.CurWeaponNumber, DataManager.Instance.WeaponDic[id]);
-    }
+    public static void GetItem(int id) => DataManager.Instance.wakgoodItemInventory.Add(DataManager.Instance.ItemDic[id]);
+    public static void GetWeapon(int id) => Wakgood.Instance.SwitchWeapon(Wakgood.Instance.CurWeaponNumber, DataManager.Instance.WeaponDic[id]);
 }

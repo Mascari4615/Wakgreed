@@ -67,9 +67,7 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         if (isFocusOnSomething.RuntimeValue)
-        {
             if (state.activeSelf) state.SetActive(false);
-        }
         else
         {
             if (Input.GetKeyDown(KeyCode.C)) state.SetActive(true);
@@ -157,7 +155,6 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         rescueSpeedWagon.SetActive(false);
     }
-
 
     public IEnumerator SwitchWeapon()
     {
