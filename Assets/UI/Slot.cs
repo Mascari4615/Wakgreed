@@ -31,12 +31,13 @@ public class Slot : MonoBehaviour
 
     public void SetSlot(Monster monster)
     {
+        Debug.Log(monster.defaultSprite);
         image.sprite = monster.defaultSprite;
 
-        toolTipTrigger.SetToolTip(image.sprite, monster.name, monster.description);
+        toolTipTrigger.SetToolTip(image.sprite, monster.mobName, monster.description);
         toolTipTrigger.enabled = true;
 
-        if (nameText != null) nameText.text = monster.name;
+        if (nameText != null) nameText.text = monster.mobName;
         if (descriptionText != null) descriptionText.text = monster.description;
     }
 }
