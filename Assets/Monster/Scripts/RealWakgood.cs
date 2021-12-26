@@ -10,6 +10,8 @@ public class RealWakgood : BossMonster
     [SerializeField] private TMP_Text textMesh2;
     [SerializeField] private PostProcessVolume postProcessVolume;
     [SerializeField] private PostProcessLayer postProcessLayer;
+    [SerializeField] private GameObject icecream;
+    [SerializeField] private LineRenderer lineRenderer;
     Mesh mesh;
     Vector3[] vertices;
     List<int> wordIndexes;
@@ -31,6 +33,7 @@ public class RealWakgood : BossMonster
     void Start()
     {
         postProcessLayer.enabled = true;
+        lineRenderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 0.3f));
 
         wordIndexes = new List<int> { 0 };
         wordLengths = new List<int>();
@@ -38,10 +41,10 @@ public class RealWakgood : BossMonster
         string s = textMesh.text;
         for (int index = s.IndexOf(' '); index > -1; index = s.IndexOf(' ', index + 1))
         {
-            wordLengths.Add(index - wordIndexes[wordIndexes.Count - 1]);
+            wordLengths.Add(index - wordIndexes[^1]);
             wordIndexes.Add(index + 1);
         }
-        wordLengths.Add(s.Length - wordIndexes[wordIndexes.Count - 1]);
+        wordLengths.Add(s.Length - wordIndexes[^1]);
 
 
         wordIndexes2 = new List<int> { 0 };
@@ -49,10 +52,10 @@ public class RealWakgood : BossMonster
         s = textMesh2.text;
         for (int index = s.IndexOf(' '); index > -1; index = s.IndexOf(' ', index + 1))
         {
-            wordLengths2.Add(index - wordIndexes2[wordIndexes2.Count - 1]);
+            wordLengths2.Add(index - wordIndexes2[^1]);
             wordIndexes2.Add(index + 1);
         }
-        wordLengths2.Add(s.Length - wordIndexes2[wordIndexes2.Count - 1]);
+        wordLengths2.Add(s.Length - wordIndexes2[^1]);
     }
 
     void Update()
@@ -170,17 +173,15 @@ public class RealWakgood : BossMonster
     {
         while (true)
         {
-
             Vector3 randomPos = transform.position + (Vector3)Random.insideUnitCircle * 30f;
-
             ObjectManager.Instance.PopObject("Drop", randomPos);
-
             yield return new WaitForSeconds(Random.Range(1f, 3f));
         }
     }
 
     private IEnumerator TheShip()
     {
+        postProcessVolume.enabled = true;
         for (float i = 0; i <= 1; i += Time.deltaTime)
         {
             postProcessVolume.weight = i;
@@ -192,13 +193,29 @@ public class RealWakgood : BossMonster
         textMesh2.text = "왁인마를 조심하세요!";
         textMesh.gameObject.SetActive(true);
         textMesh2.gameObject.SetActive(true);
-        StartCoroutine(Drops());
 
         yield return new WaitForSeconds(3f);
         textMesh.gameObject.SetActive(false);
         textMesh2.gameObject.SetActive(false);
+        cinemachineTargetGroup.m_Targets[1].target = null;
 
-        yield return new WaitForSeconds(5f);
+        Animator.SetTrigger("THE");
+        transform.position += (Vector3)Random.insideUnitCircle * 30;
+        for (float i = 0; i <= 5; i += Time.deltaTime)
+        {
+            Rigidbody2D.velocity = (Wakgood.Instance.transform.position - transform.position).normalized * (MoveSpeed += Time.deltaTime * 3);
+            yield return null;
+        }
+        Animator.SetTrigger("SHIP");
+        Vector3 direction = (Wakgood.Instance.transform.position - transform.position).normalized;
+        Vector3 rot = new(0, 0, Mathf.Atan2(Wakgood.Instance.transform.position.y - (transform.position.y + 0.8f), Wakgood.Instance.transform.position.x - transform.position.x) * Mathf.Rad2Deg - 90);
+        for (int i = 0; i < 3; i++)
+        {
+            ObjectManager.Instance.PopObject("PanchiSlash", transform.position + Vector3.up * 0.8f + direction * 1.5f, rot);
+            yield return new WaitForSeconds(.3f);
+        }
+        MoveSpeed = 5;
+        cinemachineTargetGroup.m_Targets[1].target = transform;
 
         for (float i = 1; i >= 0; i -= Time.deltaTime)
         {
@@ -206,12 +223,43 @@ public class RealWakgood : BossMonster
             yield return null;
         }
         postProcessVolume.weight = 0;
+        postProcessVolume.enabled = false;
 
         yield break;
     }
 
     private IEnumerator GTA()
     {
+        textMesh.text = "오뱅내는 하루종일 '그 타' 입니다.";
+        textMesh2.text = "빠르게 다가오는 자동차들을 조심하세요!";
+        textMesh.gameObject.SetActive(true);
+        textMesh2.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(3f);
+        textMesh.gameObject.SetActive(false);
+        textMesh2.gameObject.SetActive(false);
+
+        lineRenderer.positionCount = 2;
+
+        for (int i = 0; i < 6; i++)
+        {
+            Vector3 pos1 = Wakgood.Instance.transform.position + ((Vector3)Random.insideUnitCircle * 10f).normalized * 100; 
+            Vector3 pos2 = Wakgood.Instance.transform.position + (Wakgood.Instance.transform.position - pos1).normalized * 100;
+
+            lineRenderer.SetPosition(0, pos1);
+            lineRenderer.SetPosition(1, pos2);
+            lineRenderer.gameObject.SetActive(true);
+
+            yield return new WaitForSeconds(.5f);
+            lineRenderer.gameObject.SetActive(false);
+
+            var temp = Instantiate(icecream, pos1 + (pos2 - pos1) / 2, Quaternion.Euler(new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan2(pos2.y - pos1.y, pos2.x - pos1.x))));
+            temp.transform.localScale = new Vector3(Vector3.Distance(pos1, pos2) * 0.25f, 3, 1);
+
+            yield return new WaitForSeconds(.5f);
+        }
+
+        yield return new WaitForSeconds(5f);
         yield break;
     }
 

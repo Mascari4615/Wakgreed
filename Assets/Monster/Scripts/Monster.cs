@@ -13,7 +13,7 @@ public abstract class Monster : MonoBehaviour, IHitable
     [TextArea] public string description;
     public int MaxHp { get; protected set; }
     public int hp;
-    [SerializeField] protected int MoveSpeed;
+    [SerializeField] protected float MoveSpeed;
     protected bool isCollapsed;
     protected SpriteRenderer SpriteRenderer;
     public Sprite defaultSprite;
