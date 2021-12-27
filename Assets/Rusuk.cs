@@ -22,7 +22,7 @@ public class Rusuk : Chef
         animator.SetBool("SAKING", true);
         yield return new WaitForSeconds(1.5f);
         animator.SetBool("SAKING", false);
-        wakgoodFoodInventory.Add(tempSlot.specialThing as Food);
+        wakgoodFoodInventory.Add(tempSlot.SpecialThing as Food);
         base.FocusOff();
     }
 }

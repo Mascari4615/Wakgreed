@@ -271,7 +271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   directionVector: {x: 0, y: 0, z: 0}
-  moveSpeed: 60
+  moveSpeed: 80
   direction: 2
 --- !u!114 &3185410684800534890
 MonoBehaviour:
@@ -312,9 +312,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canDamageWakgood: 0
   canDamageMob: 1
-  totalPower: {fileID: 0}
+  totalPower: {fileID: 11400000, guid: 1a3eef7a703f4d440869b9541a779c7d, type: 2}
   criticalChance: {fileID: 11400000, guid: 300f8b12c04c18a45a8f73a08c3ab38b, type: 2}
-  criticalDamagePer: {fileID: 0}
+  criticalDamagePer: {fileID: 11400000, guid: 300f8b12c04c18a45a8f73a08c3ab38b, type: 2}
   damage: 0
-  offOnHit: 1
-  ggambbakDelay: 0
+  WeaponID: 4
+  offGoOnHit: 0
+  offCollOnHit: 0

@@ -26,13 +26,13 @@ public class Chef : NPC
 
     public virtual void BuyFood(Slot slot)
     {
-        if (goldu.RuntimeValue >= (slot.specialThing as Food).price)
+        if (goldu.RuntimeValue >= (slot.SpecialThing as Food).price)
         {
-            goldu.RuntimeValue -= (slot.specialThing as Food).price;
+            goldu.RuntimeValue -= (slot.SpecialThing as Food).price;
 
             slot.gameObject.SetActive(false);
-            inventoryUI.NpcInventory.Remove(slot.specialThing as Food);
-            wakgoodFoodInventory.Add(slot.specialThing as Food);
+            inventoryUI.NpcInventory.Remove(slot.SpecialThing as Food);
+            wakgoodFoodInventory.Add(slot.SpecialThing as Food);
         }
         else
         {

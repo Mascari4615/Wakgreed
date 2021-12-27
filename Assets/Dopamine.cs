@@ -166,7 +166,7 @@ public class Dopamine : BossMonster
         // ¾Ö´Ï
         yield return StartCoroutine(OnType());
 
-        Instantiate(wakpago);
+        Instantiate(wakpago, spawnedPos, Quaternion.identity);
     }
 
     protected override IEnumerator Collapse()

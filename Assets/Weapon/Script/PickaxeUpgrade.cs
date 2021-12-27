@@ -19,6 +19,10 @@ public class PickaxeUpgrade : Skill
                 Wakgood.Instance.SwitchWeapon(Wakgood.Instance.CurWeaponNumber, DataManager.Instance.WeaponDic[Wakgood.Instance.Weapon[Wakgood.Instance.CurWeaponNumber].id + 1]);
                 ObjectManager.Instance.PopObject("AnimatedText", Wakgood.Instance.transform).GetComponent<AnimatedText>().SetText("업그레이드 성공!", Color.blue);
             }
+            else
+            {
+                ObjectManager.Instance.PopObject("AnimatedText", Wakgood.Instance.transform).GetComponent<AnimatedText>().SetText("재료가 부족합니다!", TextType.Critical);
+            }
         }
         else
         {

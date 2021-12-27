@@ -6,7 +6,7 @@ public class Slot : MonoBehaviour
 {
     [SerializeField] private ToolTipTrigger toolTipTrigger;
     [SerializeField] private Image image;
-    public SpecialThing specialThing;
+    public SpecialThing SpecialThing { get; private set; }
     [SerializeField] private TextMeshProUGUI countTextField;
     [SerializeField] private TextMeshProUGUI priceText;
     [SerializeField] private TextMeshProUGUI nameText;
@@ -14,16 +14,13 @@ public class Slot : MonoBehaviour
 
     public void SetSlot(SpecialThing _specialThing)
     {
-        specialThing = _specialThing;
-        image.sprite = specialThing.sprite;
+        SpecialThing = _specialThing;
+        image.sprite = SpecialThing.sprite;
 
         if (toolTipTrigger != null)
-        {
-            toolTipTrigger.SetToolTip(specialThing);
-            toolTipTrigger.enabled = true;
-        }
-
-        if (countTextField != null) countTextField.text = DataManager.Instance.wakgoodItemInventory.itemCountDic[(specialThing as Item).id].ToString();
+            toolTipTrigger.SetToolTip(SpecialThing);
+   
+        if (countTextField != null) countTextField.text = DataManager.Instance.wakgoodItemInventory.itemCountDic[(SpecialThing as Item).id].ToString();
         if (nameText != null) nameText.text = _specialThing.name;
         if (priceText != null) priceText.text = (_specialThing as Sellable).price.ToString();
         if (descriptionText != null) descriptionText.text = _specialThing.description;

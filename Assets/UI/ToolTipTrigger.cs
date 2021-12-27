@@ -1,21 +1,19 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class ToolTipTrigger : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
 {
+    [SerializeField] private bool isSpecialThings = true;
+    private SpecialThing specialThing;
+
     private Sprite sprite;
     private string header;
     private string description;
 
     private bool isShowingThis = false;
 
-    public void SetToolTip(SpecialThing specialThing)
-    {
-        sprite = specialThing.sprite;
-        header = specialThing.name;
-        description = specialThing.description;
-    }
+    public void SetToolTip(SpecialThing _specialThing) =>
+        specialThing = _specialThing;
 
     public void SetToolTip(Sprite _sprite, string _name, string _description)
     {
@@ -26,16 +24,16 @@ public class ToolTipTrigger : MonoBehaviour, IPointerExitHandler, IPointerEnterH
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (sprite == null) return;
+        if (isSpecialThings)
+            ToolTipManager.Instance.Show(specialThing);
+        else
+            ToolTipManager.Instance.Show(sprite, header, description);
 
-        ToolTipManager.Instance.Show(sprite, header, description);
         isShowingThis = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (sprite == null) return;
-
         ToolTipManager.Instance.Hide();
         isShowingThis = false;
     }

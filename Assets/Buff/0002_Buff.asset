@@ -10,16 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 731074fcf48b08544a2877a25b260067, type: 3}
-  m_Name: 0001_TestBuff
+  m_Name: 0002_Buff
   m_EditorClassIdentifier: 
-  ID: 0
+  id: 0
   name: Pickaxe
   sprite: {fileID: 21300000, guid: 0dfd3512453c58b4bac686ba1b2f09bd, type: 3}
-  description: asdfasdf
+  description: "\uD68C\uD53C\uC728\uC774 5\uCD08 \uB3D9\uC548 30% \uC99D\uAC00\uD569\uB2C8\uB2E4."
   effects:
-  - {fileID: 11400000, guid: 20e61461f5182bf478dc1d59ce85d136, type: 2}
-  - {fileID: 11400000, guid: 7d54cb83459fcb446abf3da3903d5493, type: 2}
-  - {fileID: 11400000, guid: 7d54cb83459fcb446abf3da3903d5493, type: 2}
-  - {fileID: 11400000, guid: 7d54cb83459fcb446abf3da3903d5493, type: 2}
-  hasCondition: 1
-  duration: 0
+  - {fileID: 11400000, guid: 03289632b2ed03d4a931cf8bebf07eb6, type: 2}
+  - {fileID: 11400000, guid: 03289632b2ed03d4a931cf8bebf07eb6, type: 2}
+  - {fileID: 11400000, guid: 03289632b2ed03d4a931cf8bebf07eb6, type: 2}
+  hasCondition: 0
+  duration: 5

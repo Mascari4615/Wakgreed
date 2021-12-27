@@ -20,6 +20,8 @@ public class StreamingManager : MonoBehaviour
     [SerializeField] private BoolVariable isChatting, isLoading;
     [SerializeField] private TwitchConnect twitchConnect;
 
+    [SerializeField] private Buff[] buffs;
+
     private float t;
     private readonly List<TextMeshProUGUI> chatPool = new();
     private int chatIndex;
@@ -52,12 +54,18 @@ public class StreamingManager : MonoBehaviour
 
         // GameEventListener 클래스를 통해 꼼수로 코루틴 실행하기
         StartCoroutine(GetDonation());
+
+        if (DataManager.Instance.CurGameData.rescuedNPC[2])
+            StartCoroutine(Donation_Secret());
+
         StartCoroutine(CheckViewer());
         StartCoroutine(UpdateUptime());
     }
 
     public void BangJong()
     {
+        // GameEventListener 클래스를 통해 꼼수로 코루틴 종료하기 (StopCoroutine 실행)
+
         Debug.Log("BangJong");
         isStreaming = false;
         StopAllCoroutines();
@@ -65,21 +73,11 @@ public class StreamingManager : MonoBehaviour
 
     private IEnumerator GetDonation()
     {
-        // GameEventListener 클래스를 통해 꼼수로 코루틴 종료하기 (StopCoroutine 실행)
         while (true)
         {
             while (isLoading.RuntimeValue) yield return null;
 
-            if (DataManager.Instance.CurGameData.rescuedNPC[2] == true && Random.Range(0, 100) < 10)
-            {
-                Wakgood.Instance.ReceiveHeal(1);
-
-                donationUI.SetActive(false);
-                donationText.text = $"비밀소녀의 응원으로 체력 1 회복!";
-                donationUI.SetActive(true);
-                donationImageUI.sprite = donationImages[0];
-                RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
-            }
+            DataManager.Instance.buffRunTimeSet.Add(buffs[0]);
 
             /*if (Random.Range(0, 100) < 30)
             {
@@ -98,6 +96,25 @@ public class StreamingManager : MonoBehaviour
             yield return ws15;
         }
     }
+
+    private IEnumerator Donation_Secret()
+    {
+        while (true)
+        {
+            while (isLoading.RuntimeValue) yield return null;
+
+            if (Random.Range(0, 100) < 10)
+            {
+                Wakgood.Instance.ReceiveHeal(1);
+                donationUI.SetActive(false);
+                donationText.text = $"비밀소녀의 응원으로 체력 1 회복!";
+                donationImageUI.sprite = donationImages[2];
+                donationUI.SetActive(true);
+                RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
+            }
+            yield return ws15;
+        }
+    }    
 
     private IEnumerator CheckViewer()
     {
@@ -177,11 +194,13 @@ public class StreamingManager : MonoBehaviour
     {
         if (msg.StartsWith('/'))
         {
+            if (msg.Split(' ').Length == 0) return;
+
             switch (msg[1..msg.IndexOf(' ')])
             {
                 case "item":
                 case "아이템":
-                    for (int i = 0; i < (msg.Split(' ').Length == 3 ? int.Parse(msg.Split(' ')[2]) : 0); i++)
+                    for (int i = 0; i < (msg.Split(' ').Length == 3 ? int.Parse(msg.Split(' ')[2]) : 1); i++)
                         DebugManager.GetItem(int.Parse(msg.Split(' ')[1]));
                     break;
                 case "weapon":
@@ -191,7 +210,7 @@ public class StreamingManager : MonoBehaviour
                 case "food":
                 case "음식":
                     DataManager.Instance.wakgoodFoodInventory.Add(DataManager.Instance.FoodDic[int.Parse(msg.Split(' ')[1])]);
-                    break;;
+                    break;
                 default:
                     if (msg[1..(msg.Length - 1)] == "clear" || msg[1..(msg.Length - 1)] == "초기화")
                     {

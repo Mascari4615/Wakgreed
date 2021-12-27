@@ -20,7 +20,7 @@ public class HpBar : MonoBehaviour
 
     private void Update()
     {
-        red.fillAmount = Mathf.Lerp(red.fillAmount, (float)hpCur.RuntimeValue / hpMax.RuntimeValue, Time.deltaTime * 15f);
+        red.fillAmount = Mathf.Lerp(red.fillAmount, (float)hpCur.RuntimeValue / hpMax.RuntimeValue, Time.deltaTime * 5f);
         yellow.fillAmount = Mathf.Lerp(yellow.fillAmount, red.fillAmount, Time.deltaTime * 3f);
     }
 

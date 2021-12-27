@@ -71,6 +71,7 @@ public class Wakgood : MonoBehaviour, IHitable
 
         transform.position = Vector3.zero;
 
+        hpMax.RuntimeValue = wakdu.baseHp;
         hpCur.RuntimeValue = hpMax.RuntimeValue;
         powerInt.RuntimeValue = wakdu.basePower;
         attackSpeed.RuntimeValue = wakdu.baseAttackSpeed;

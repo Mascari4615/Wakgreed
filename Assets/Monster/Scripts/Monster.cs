@@ -51,7 +51,7 @@ public abstract class Monster : MonoBehaviour, IHitable
         Rigidbody2D.velocity = Vector3.zero;
         Rigidbody2D.AddForce((transform.position - Wakgood.Instance.transform.position).normalized * 3f, ForceMode2D.Impulse);
 
-        ObjectManager.Instance.PopObject("AnimatedText", transform.position + Vector3.up).GetComponent<AnimatedText>().SetText(damage.ToString(), TextType.Normal);
+        // ObjectManager.Instance.PopObject("AnimatedText", transform.position + Vector3.up).GetComponent<AnimatedText>().SetText(damage.ToString(), TextType.Normal);
         ObjectManager.Instance.PopObject("Effect_Hit", transform.position + Vector3.Normalize(Wakgood.Instance.transform.position - transform.position) * .5f);
 
         if (flashRoutine != null)
@@ -104,12 +104,16 @@ public abstract class Monster : MonoBehaviour, IHitable
         {
             onMonsterCollapse.Raise(transform);
             int randCount = Random.Range(0, 5 + 1);
-            for (int i = 0; i < randCount; i++) ObjectManager.Instance.PopObject("ExpOrb", transform);
-
+            for (int i = 0; i < randCount; i++) 
+                ObjectManager.Instance.PopObject("ExpOrb", transform);
             randCount = Random.Range(0, 5 + 1);
-            for (int i = 0; i < randCount; i++) ObjectManager.Instance.PopObject("Goldu10", transform);
+            for (int i = 0; i < randCount; i++) 
+                ObjectManager.Instance.PopObject("Goldu10", transform);
             randCount = Random.Range(0, 5 + 1);
-            for (int i = 0; i < randCount; i++) ObjectManager.Instance.PopObject("Goldu", transform);
+            for (int i = 0; i < randCount; i++) 
+                ObjectManager.Instance.PopObject("Goldu", transform);
+            if (Random.Range(0, 100) > 90) 
+                ObjectManager.Instance.PopObject("GreenHeart", transform);
         }
 
         ObjectManager.Instance.PopObject("LevelUpEffect", transform);

@@ -25,9 +25,9 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private RectTransform[] weaponUI = new RectTransform[2];
     public Slot[] weaponSprite = new Slot[2];
-    public Slot[] weaponSkillQ= new Slot[2];
-    public Image[] weaponSkillQCoolTime= new Image[2];
-    public Slot[] weaponSkillE= new Slot[2];
+    public Slot[] weaponSkillQ = new Slot[2];
+    public Image[] weaponSkillQCoolTime = new Image[2];
+    public Slot[] weaponSkillE = new Slot[2];
     public Image[] weaponSkillECoolTime = new Image[2];
 
     [SerializeField] private BoolVariable isFocusOnSomething;
@@ -47,6 +47,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI finalStageText;
     [SerializeField] private TextMeshProUGUI totalEquipGoldu;
     [SerializeField] private ItemInventoryUI inventoryUI;
+
+    [SerializeField] private TextMeshProUGUI ammoText;
 
     private void Awake()
     {
@@ -96,6 +98,17 @@ public class UIManager : MonoBehaviour
         if (Wakgood.Instance.Weapon[1].skillE is not null)
             weaponSkillECoolTime[1].fillAmount =
                 Wakgood.Instance.Weapon[1].CurSkillECoolTime / Wakgood.Instance.Weapon[1].skillE.coolTime;
+        if (Wakgood.Instance.Weapon[Wakgood.Instance.CurWeaponNumber].attackType.Equals(AttackType.Ranged))
+        {
+            if (ammoText.gameObject.activeSelf == false)
+                ammoText.gameObject.SetActive(true);
+            ammoText.text = $"{Wakgood.Instance.Weapon[Wakgood.Instance.CurWeaponNumber].Ammo} / {Wakgood.Instance.Weapon[Wakgood.Instance.CurWeaponNumber].magazine}";
+        }
+        else
+        {
+            if (ammoText.gameObject.activeSelf)
+                ammoText.gameObject.SetActive(false);
+        }
     }
 
     public IEnumerator SpeedWagon_Stage()
@@ -167,7 +180,7 @@ public class UIManager : MonoBehaviour
     {
         Vector3 weapon1Origin = weaponUI[0].localPosition;
         Vector3 weapon2Origin = weaponUI[1].localPosition;
-        
+
         for (float i = 0; i <= 1; i += Time.deltaTime * 10)
         {
             weaponUI[0].localPosition = Vector3.Lerp(weapon1Origin, weapon2Origin, i);
@@ -178,7 +191,7 @@ public class UIManager : MonoBehaviour
         weaponUI[0].localPosition = weapon2Origin;
         weaponUI[1].localPosition = weapon1Origin;
     }
-    
+
     public void SetWeaponUI(int weaponNum, Weapon weapon)
     {
         weaponSprite[weaponNum].SetSlot(weapon);

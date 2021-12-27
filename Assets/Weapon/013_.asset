@@ -13,22 +13,23 @@ MonoBehaviour:
   m_Name: 013_
   m_EditorClassIdentifier: 
   id: 13
-  name: "\uAE30\uD0C0"
-  sprite: {fileID: 0}
-  description: "\uC970\uB0B4\uAC8C \uAE30\uD0C0\uCE58\uAE30"
+  name: M416
+  sprite: {fileID: 21300000, guid: 81826625b58b5154999bf44d390bb1f5, type: 3}
+  description: "\uBC30\uD2C0\uADF8\uB77C\uC6B4\uB4DC\uC758 M416"
   effects: []
+  price: 0
   grade: 0
-  resource: {fileID: 3008666828657372325, guid: 8aa1d3978a512c9429a6a681603be412,
+  resource: {fileID: 5001691126516465372, guid: 2549929d50cd67c419d793048ac4df70,
     type: 3}
   subResources: []
-  baseAttack: {fileID: 11400000, guid: e9b8489ed9162a14fa742534df897a01, type: 2}
+  baseAttack: {fileID: 11400000, guid: d2af5f9b59e2b1d408507caeb5cc681d, type: 2}
   skillQ: {fileID: 0}
   skillE: {fileID: 0}
-  minDamage: 5
-  maxDamage: 10
+  minDamage: 2
+  maxDamage: 4
   inputType: 0
-  attackType: 0
+  attackType: 1
   attackIntervalTime: 0
-  attackSpeed: 2
-  magazine: 0
-  reloadTime: 0
+  attackSpeed: 15
+  magazine: 40
+  reloadTime: 3
