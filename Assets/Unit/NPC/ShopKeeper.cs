@@ -16,14 +16,14 @@ public class ShopKeeper : NPC
 
     public void BuyItem(Slot slot)
     {
-        if (nyang.RuntimeValue >= (slot.specialThing as Item).price)
+        if (nyang.RuntimeValue >= (slot.SpecialThing as Item).price)
         {
-            nyang.RuntimeValue -= (slot.specialThing as Item).price;
+            nyang.RuntimeValue -= (slot.SpecialThing as Item).price;
 
             slot.gameObject.SetActive(false);
 
-            itemInventoryUI_Buy.NpcInventory.Remove(slot.specialThing as Item);
-            ObjectManager.Instance.PopObject("ItemGameObject", transform).GetComponent<ItemGameObject>().Initialize((slot.specialThing as Item).id);
+            itemInventoryUI_Buy.NpcInventory.Remove(slot.SpecialThing as Item);
+            ObjectManager.Instance.PopObject("ItemGameObject", transform).GetComponent<ItemGameObject>().Initialize((slot.SpecialThing as Item).id);
             itemInventoryUI_Buy.Initialize();
         }
         else

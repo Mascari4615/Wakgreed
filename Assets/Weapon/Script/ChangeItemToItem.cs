@@ -19,6 +19,10 @@ public class ChangeItemToItem : Skill
                 DataManager.Instance.wakgoodItemInventory.Add(DataManager.Instance.ItemDic[target[random].id]);
                 ObjectManager.Instance.PopObject("Effect_Hit", Wakgood.Instance.transform);
             }
+            else
+            {
+                ObjectManager.Instance.PopObject("AnimatedText", Wakgood.Instance.transform).GetComponent<AnimatedText>().SetText("재료가 부족합니다!", TextType.Critical);
+            }
         }
         else
         {

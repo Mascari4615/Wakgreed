@@ -57,12 +57,12 @@ public class GameManager : MonoBehaviour
         {
             foreach (Buff buff in new List<Buff>(buffRunTimeSet.Items))
             {
-                //Debug.Log($"{name} : CheckBuff - {buff.name}");
+                // Debug.Log($"{name} : CheckBuff - {buff.name}");
                 if (buff.hasCondition) continue;
                 else if (buff.removeTime <= Time.time)
                 {
                     buffRunTimeSet.Remove(buff);
-                    //Debug.Log($"{name} : CheckBuff, BuffRemove - {buff.name}");
+                    Debug.Log($"{name} : CheckBuff, BuffRemove - {buff.name}");
                 }
             }
 

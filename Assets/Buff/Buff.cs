@@ -12,6 +12,6 @@ public class Buff : Equiptable
         base.OnEquip();
 
         removeTime = Time.time + duration;
-        // Debug.Log($"{name} : Effect, RemoveTime - {removeTime}");
+        Debug.Log($"{name} : Effect, RemoveTime - {removeTime}");
     }
 }

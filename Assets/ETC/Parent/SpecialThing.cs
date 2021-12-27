@@ -22,17 +22,13 @@ public abstract class Equiptable : SpecialThing
     {
         if (effects is null) return;
         foreach (Effect t in effects)
-        {
             t._Effect();
-        }
     }
 
     public virtual void OnRemove()
     {
         if (effects is null) return;
         foreach (Effect t in effects)
-        {
             t.Return();
-        }
     }
 }
