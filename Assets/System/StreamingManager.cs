@@ -77,7 +77,7 @@ public class StreamingManager : MonoBehaviour
         {
             while (isLoading.RuntimeValue) yield return null;
 
-            DataManager.Instance.buffRunTimeSet.Add(buffs[0]);
+            // DataManager.Instance.buffRunTimeSet.Add(buffs[0]);
 
             /*if (Random.Range(0, 100) < 30)
             {
