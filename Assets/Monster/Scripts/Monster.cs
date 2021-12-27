@@ -43,7 +43,7 @@ public abstract class Monster : MonoBehaviour, IHitable
         SpriteRenderer.sprite = defaultSprite;
     }
 
-    public void ReceiveHit(int damage)
+    public virtual void ReceiveHit(int damage)
     {
         if (isCollapsed) return;
 
