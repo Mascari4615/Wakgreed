@@ -242,7 +242,11 @@ public class StageManager : MonoBehaviour
                     temp = targetRoomUI.GetChild(2); // Icon
                     temp.GetChild(0).gameObject.SetActive(targetRoom is SpawnRoom);   // Property\Icon\Spawn
                     temp.GetChild(1).gameObject.SetActive(targetRoom is BossRoom);    // Property\Icon\Boss
-                    temp.GetChild(2).gameObject.SetActive(targetRoom is ShopRoom);  // Property\Icon\Shop
+                    if (targetRoom is ShopRoom)
+                    {
+                        temp.GetChild(2).gameObject.SetActive((targetRoom as ShopRoom).IsItemShop);  // Property\Icon\Item
+                        temp.GetChild(3).gameObject.SetActive(!(targetRoom as ShopRoom).IsItemShop);  // Property\Icon\Food
+                    }
                 }
 
                 x++;

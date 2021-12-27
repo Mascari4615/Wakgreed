@@ -58,9 +58,8 @@ public class Dopamine : BossMonster
     {
         while (true)
         {
-            int i = Random.Range(0, 0 + 1);
-
-            if (bCanUseMobSpawn) i++;
+            int a = bCanUseMobSpawn ? 1 : 0;
+            int i = Random.Range(0, 0 + a + 1);
 
             switch (i)
             {

@@ -16,7 +16,7 @@ public class Chest : InteractiveObject
     private SpriteRenderer spriteRenderer;
     private ObjectWithDuration objectWithDuration;
     private Animator animator;
-    private BoxCollider2D boxCollider2D;
+    private Collider2D collider2D;
     
     private static readonly int open = Animator.StringToHash("OPEN");
 
@@ -27,14 +27,14 @@ public class Chest : InteractiveObject
         spriteRenderer = GetComponent<SpriteRenderer>();
         objectWithDuration = GetComponent<ObjectWithDuration>();
         animator = GetComponent<Animator>();
-        boxCollider2D = GetComponent<BoxCollider2D>();
+        collider2D = GetComponent<Collider2D>();
     }
 
     private void OnEnable()
     {
         // spriteRenderer.sprite = sprite;
         objectWithDuration.enabled = false;
-        boxCollider2D.enabled = true;
+        collider2D.enabled = true;
 
         animator.Play("START", 0);
 
@@ -56,11 +56,11 @@ public class Chest : InteractiveObject
         // 상자가 열린 이후 다시 함수가 호출되고 트리거시켜도 이미 애니메이션이 끝났기 때문에 실행되지 않음, 유용하게 쓸 수 있는 방법일 듯
         animator.SetTrigger(open);
         objectWithDuration.enabled = true;
-        boxCollider2D.enabled = false;
+        collider2D.enabled = false;
     }
 
     // 상자가 열리는 애니메이션이 실행될 때 애니메이션 이벤트로 호출됨
-    private void OpenChest()
+    protected virtual void OpenChest()
     {
         RuntimeManager.PlayOneShot($"event:/SFX/ETC/Chest", transform.position);
         if (isItem)

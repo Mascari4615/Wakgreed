@@ -46,24 +46,23 @@ public class Pungsin : BossMonster
 
     protected override IEnumerator Attack()
     {
+        yield return StartCoroutine(Skill1());
+
         while (true)
         {
-            int i = Random.Range(0, 1 + 1);
-
-            if (temp < skill1AttackGo.Length / 2)
-            {
-                i++;
-            }
+            int a = temp < skill1AttackGo.Length / 2 ? 1 : 0;
+            int i = Random.Range(0, 3 + a);
 
             switch (i)
             {
                 case 0:
+                case 1:
                     yield return StartCoroutine(Skill0());
                     break;
-                case 1:
+                case 2:
                     yield return StartCoroutine(Ult());
                     break;
-                case 2:
+                case 3:
                     yield return StartCoroutine(Skill1());
                     break;
             }
