@@ -7,6 +7,7 @@ public class Wakpago : BossMonster
     [SerializeField] private float moveLimit = 15;
 
     [SerializeField] private GameObject bullet;
+    [SerializeField] private GameObject bomb;
     [SerializeField] private GameObject monster1;
     [SerializeField] private GameObject monster2;
     [SerializeField] private LineRenderer lineRenderer;
@@ -15,6 +16,8 @@ public class Wakpago : BossMonster
     private int phase = 1;
     private Coroutine bulletCO;
     private Coroutine flipCO;
+    private Coroutine bombCO;
+    private Coroutine mobSpawnCO;
     private readonly BulletMove[] bullets = new BulletMove[50];
     private readonly TrailRenderer[] bulletsTR = new TrailRenderer[50];
     private readonly List<GameObject> monsterList = new();
@@ -64,21 +67,20 @@ public class Wakpago : BossMonster
     protected override IEnumerator Attack()
     {
         flipCO = StartCoroutine(Flip());
-        Animator.SetInteger("PHASE", phase);
 
         if (phase == 1)
         {
             while (true)
             {
-                int i = Random.Range(0, 1 + 1);
-
+                int i = Random.Range(0, 0 + 1);
+                if (bCanUseMobSpawn) i++;
                 switch (i)
                 {
                     case 0:
                         yield return bulletCO = StartCoroutine(Bullet());
                         break;
                     case 1:
-                        yield return StartCoroutine(MobSpawn());
+                        yield return mobSpawnCO =StartCoroutine(MobSpawn());
                         break;
                 }
             }
@@ -87,38 +89,52 @@ public class Wakpago : BossMonster
         {
             while (true)
             {
-                int i = Random.Range(0, 1 + 1);
-
+                int i = Random.Range(0, 0+ 1);
+                if (bCanUseMobSpawn) i++;
                 switch (i)
                 {
                     case 0:
                         yield return bulletCO = StartCoroutine(Bullet());
                         break;
                     case 1:
-                        yield return StartCoroutine(MobSpawn());
+                        yield return mobSpawnCO = StartCoroutine(MobSpawn());
+
                         break;
                 }
             }
         }
         else if (phase == 3)
         {
+            bombCO = StartCoroutine(Bombs());
+
             while (true)
             {
-                int i = Random.Range(0, 1 + 1);
-
+                int i = Random.Range(0, 0 + 1);
+                if (bCanUseMobSpawn) i++;
                 switch (i)
                 {
                     case 0:
                         yield return bulletCO = StartCoroutine(Bullet());
                         break;
                     case 1:
-                        yield return StartCoroutine(MobSpawn());
+                        yield return mobSpawnCO = StartCoroutine(MobSpawn());
+
                         break;
                 }
             }
         }
 
         yield break;
+    }
+
+    private IEnumerator Bombs()
+    {
+        while (true)
+        {
+            Vector3 randomPos = transform.position + (Vector3)Random.insideUnitCircle * 30f;
+            ObjectManager.Instance.PopObject("Bomb", randomPos);
+            yield return new WaitForSeconds(Random.Range(1f, 3f));
+        }
     }
 
     private IEnumerator Flip()
@@ -154,10 +170,16 @@ public class Wakpago : BossMonster
 
         ObjectManager.Instance.PopObject("SpawnCircle", a).GetComponent<Animator>().SetFloat("SPEED", 1 / 0.5f);
         yield return new WaitForSeconds(.5f);
-        if (Random.Range(0, 1 + 1) == 0)
+
+        if (phase == 1)
+        {
             monsterList.Add(ObjectManager.Instance.PopObject(monster1.name, a));
-        else
-            monsterList.Add(ObjectManager.Instance.PopObject(monster2.name, a));
+        }
+        else if (phase == 2 || phase == 3)
+            if (Random.Range(0, 1 + 1) == 0)
+                monsterList.Add(ObjectManager.Instance.PopObject(monster1.name, a));
+            else
+                monsterList.Add(ObjectManager.Instance.PopObject(monster2.name, a));
     }
 
     private IEnumerator Bullet()
@@ -210,14 +232,16 @@ public class Wakpago : BossMonster
         yield return new WaitForSeconds(1f);
 
         bAttacking = false;
-
     }
 
     protected override IEnumerator Collapse()
     {
-        StopCoroutine(attackCO);
-        StopCoroutine(flipCO);
-        StopCoroutine(bulletCO);
+        if (attackCO != null) StopCoroutine(attackCO);
+        if (flipCO != null) StopCoroutine(flipCO);
+        if (bulletCO != null) StopCoroutine(bulletCO);
+        if (bombCO != null) StopCoroutine(bombCO);
+        if (mobSpawnCO!= null) StopCoroutine(mobSpawnCO);
+        lineRenderer.gameObject.SetActive(false);
 
         for (int i = 0; i < bullets.Length; i++)
         {
@@ -246,8 +270,8 @@ public class Wakpago : BossMonster
         {
             phase++;
             Initialize();
-
-            nickName = nickNames[phase];
+            Animator.SetInteger("PHASE", phase);
+            nickName = nickNames[phase - 1];
             yield return StartCoroutine(UIManager.Instance.SpeedWagon_BossOn(this));
             attackCO = StartCoroutine(Attack());
             yield break;
@@ -271,6 +295,11 @@ public class Wakpago : BossMonster
         }
 
         Animator.SetTrigger("COLLAPSE");
+        GameManager.Instance.enemyRunTimeSet.Remove(gameObject);
+        int randCount = Random.Range(0, 5);
+        for (int i = 0; i < randCount; i++) ObjectManager.Instance.PopObject("ExpOrb", transform);
+        ObjectManager.Instance.PopObject("LevelUpEffect", transform);
+        (StageManager.Instance.CurrentRoom as BossRoom)?.RoomClear();
         yield return new WaitForSeconds(3f);
         gameObject.SetActive(false);
     }
