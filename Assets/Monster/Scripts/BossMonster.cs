@@ -9,6 +9,7 @@ public abstract class BossMonster : Monster
     public string nickName;
     protected CinemachineTargetGroup cinemachineTargetGroup;
     protected new CinemachineVirtualCamera camera;
+    protected Coroutine attackCO;
 
     protected override void Awake()
     {
@@ -27,7 +28,7 @@ public abstract class BossMonster : Monster
     {
         yield return StartCoroutine(UIManager.Instance.SpeedWagon_BossOn(this));
         yield return new WaitForSeconds(2f);
-        StartCoroutine(nameof(Attack));
+        attackCO = StartCoroutine(nameof(Attack));
     }
 
     protected abstract IEnumerator Attack();
@@ -71,8 +72,6 @@ public abstract class BossMonster : Monster
         ObjectManager.Instance.PopObject("LevelUpEffect", transform);
 
         (StageManager.Instance.CurrentRoom as BossRoom)?.RoomClear();
-        DataManager.Instance.CurGameData.rescuedNPC[ID] = true;
-        DataManager.Instance.SaveGameData();
         gameObject.SetActive(false);
     }
 }
