@@ -54,8 +54,9 @@ MonoBehaviour:
   criticalChance: {fileID: 0}
   criticalDamagePer: {fileID: 0}
   damage: 3
-  offOnHit: 0
-  ggambbakDelay: 0
+  WeaponID: -1
+  offGoOnHit: 0
+  offCollOnHit: 0
 --- !u!114 &6136854340571195525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,7 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83ed4699b865638488b75392fd1eb48a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 2.5
+  duration: 1.4
 --- !u!212 &5588164855678746070
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -88,7 +88,7 @@ public class StageManager : MonoBehaviour
         roomMolds.Add(new RoomMold { Coordinate = Vector2.zero });
 
         // int _roomCount = currentStageID != 6 ? roomCount : 2;
-        int _roomCount = currentStage.name != "콜로세움" ? roomCount : 2;
+        int _roomCount = currentStage.name != "콜로세움" ? roomCount : 1;
 
         /* 스테이지 틀 만들기 */
         {

@@ -8,8 +8,6 @@ public class RealWakgood : BossMonster
 {
     [SerializeField] private TMP_Text textMesh;
     [SerializeField] private TMP_Text textMesh2;
-    [SerializeField] private PostProcessVolume postProcessVolume;
-    [SerializeField] private PostProcessLayer postProcessLayer;
     [SerializeField] private GameObject icecream;
     [SerializeField] private LineRenderer lineRenderer;
     Mesh mesh;
@@ -23,16 +21,8 @@ public class RealWakgood : BossMonster
     List<int> wordLengths2;
     public Gradient rainbow2;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        postProcessLayer = Camera.main.GetComponent<PostProcessLayer>();
-        postProcessVolume = Camera.main.GetComponent<PostProcessVolume>();
-    }
-
     void Start()
     {
-        postProcessLayer.enabled = true;
         lineRenderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 0.3f));
 
         wordIndexes = new List<int> { 0 };
@@ -62,7 +52,6 @@ public class RealWakgood : BossMonster
     {
         if (textMesh.gameObject.activeSelf)
         {
-
             textMesh.ForceMeshUpdate();
             mesh = textMesh.mesh;
             vertices = mesh.vertices;
@@ -99,7 +88,6 @@ public class RealWakgood : BossMonster
 
         if (textMesh2.gameObject.activeSelf)
         {
-
             textMesh2.ForceMeshUpdate();
             mesh2 = textMesh2.mesh;
             vertices2 = mesh2.vertices;
@@ -175,20 +163,12 @@ public class RealWakgood : BossMonster
         {
             Vector3 randomPos = transform.position + (Vector3)Random.insideUnitCircle * 30f;
             ObjectManager.Instance.PopObject("Drop", randomPos);
-            yield return new WaitForSeconds(Random.Range(1f, 3f));
+            yield return new WaitForSeconds(Random.Range(.5f, 3f));
         }
     }
 
     private IEnumerator TheShip()
     {
-        postProcessVolume.enabled = true;
-        for (float i = 0; i <= 1; i += Time.deltaTime)
-        {
-            postProcessVolume.weight = i;
-            yield return null;
-        }
-        postProcessVolume.weight = 1;
-
         textMesh.text = "오뱅내는 하루종일 '더 쉽' 입니다.";
         textMesh2.text = "왁인마를 조심하세요!";
         textMesh.gameObject.SetActive(true);
@@ -216,15 +196,6 @@ public class RealWakgood : BossMonster
         }
         MoveSpeed = 5;
         cinemachineTargetGroup.m_Targets[1].target = transform;
-
-        for (float i = 1; i >= 0; i -= Time.deltaTime)
-        {
-            postProcessVolume.weight = i;
-            yield return null;
-        }
-        postProcessVolume.weight = 0;
-        postProcessVolume.enabled = false;
-
         yield break;
     }
 
@@ -250,17 +221,16 @@ public class RealWakgood : BossMonster
             lineRenderer.SetPosition(1, pos2);
             lineRenderer.gameObject.SetActive(true);
 
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(.8f);
             lineRenderer.gameObject.SetActive(false);
 
             var temp = Instantiate(icecream, pos1 + (pos2 - pos1) / 2, Quaternion.Euler(new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan2(pos2.y - pos1.y, pos2.x - pos1.x))));
             temp.transform.localScale = new Vector3(Vector3.Distance(pos1, pos2) * 0.25f, 3, 1);
 
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(.8f);
         }
 
         yield return new WaitForSeconds(5f);
-        yield break;
     }
 
     private IEnumerator Waktyhall()
@@ -271,7 +241,6 @@ public class RealWakgood : BossMonster
     protected override IEnumerator Collapse()
     {        
         GameManager.Instance.StartCoroutine(GameManager.Instance.Ending());
-        postProcessLayer.enabled = false;
         yield return base.Collapse();
     }
 }
