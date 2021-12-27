@@ -4,7 +4,7 @@ using TMPro;
 
 public class Slot : MonoBehaviour
 {
-    [SerializeField] private ToolTipTrigger toolTipTrigger;
+    public ToolTipTrigger toolTipTrigger;
     [SerializeField] private Image image;
     public SpecialThing SpecialThing { get; private set; }
     [SerializeField] private TextMeshProUGUI countTextField;

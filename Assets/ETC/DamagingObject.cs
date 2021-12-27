@@ -54,7 +54,7 @@ public class DamagingObject : MonoBehaviour
                     totalDamage *= (1 + totalPower.RuntimeValue / 100);
                     textType = TextType.Normal;
                 }
-                ObjectManager.Instance.PopObject("AnimatedText", transform.position + Vector3.up).GetComponent<AnimatedText>().SetText(damage.ToString(), textType);
+                // ObjectManager.Instance.PopObject("AnimatedText", transform.position + Vector3.up).GetComponent<AnimatedText>().SetText(damage.ToString(), textType);
 
                 damageable.ReceiveHit(totalDamage);
             }

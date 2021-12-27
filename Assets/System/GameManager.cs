@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine(CheckBuff());
         UIManager.Instance.SetStageName("0-0 로비");
-        AudioManager.Instance.PlayMusic("Vendredi - Here I Am");
+        AudioManager.Instance.PlayMusic("추르르 - Wakgood FC (INST)");
         UIManager.Instance.SetCurViewerText("뱅온 전!");
     }
 
@@ -143,7 +143,6 @@ public class GameManager : MonoBehaviour
 
         StageManager.Instance.DestroyStage();
         UIManager.Instance.SetStageName("0-0 로비");
-        AudioManager.Instance.PlayMusic("Vendredi - Here I Am");
         StageManager.Instance.currentStageID = -1;
 
         UIManager.Instance.StopAllSpeedWagons();

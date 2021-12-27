@@ -51,7 +51,7 @@ public abstract class Monster : MonoBehaviour, IHitable
         Rigidbody2D.velocity = Vector3.zero;
         Rigidbody2D.AddForce((transform.position - Wakgood.Instance.transform.position).normalized * 3f, ForceMode2D.Impulse);
 
-        // ObjectManager.Instance.PopObject("AnimatedText", transform.position + Vector3.up).GetComponent<AnimatedText>().SetText(damage.ToString(), TextType.Normal);
+        ObjectManager.Instance.PopObject("AnimatedText", transform.position + Vector3.up).GetComponent<AnimatedText>().SetText(damage.ToString(), TextType.Normal);
         ObjectManager.Instance.PopObject("Effect_Hit", transform.position + Vector3.Normalize(Wakgood.Instance.transform.position - transform.position) * .5f);
 
         if (flashRoutine != null)
