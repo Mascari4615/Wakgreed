@@ -247,6 +247,11 @@ public class StageManager : MonoBehaviour
                         temp.GetChild(2).gameObject.SetActive((targetRoom as ShopRoom).IsItemShop);  // Property\Icon\Item
                         temp.GetChild(3).gameObject.SetActive(!(targetRoom as ShopRoom).IsItemShop);  // Property\Icon\Food
                     }
+                    else
+                    {
+                        temp.GetChild(2).gameObject.SetActive(false);
+                        temp.GetChild(3).gameObject.SetActive(false);
+                    }
                 }
 
                 x++;
