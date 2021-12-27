@@ -16,7 +16,7 @@ public class Chest : InteractiveObject
     private SpriteRenderer spriteRenderer;
     private ObjectWithDuration objectWithDuration;
     private Animator animator;
-    private Collider2D collider2D;
+    private new Collider2D collider2D;
     
     private static readonly int open = Animator.StringToHash("OPEN");
 
