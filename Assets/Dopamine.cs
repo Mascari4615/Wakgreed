@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
+using TMPro;
 
 public class Dopamine : BossMonster
 {
@@ -17,7 +19,12 @@ public class Dopamine : BossMonster
 
     private Vector3 spawnedPos = Vector3.zero;
     private bool bCanUseMobSpawn = true;
-    private bool bSpawnedWakpago = false;
+    private Coroutine monkeyCO;
+
+    [TextArea][SerializeField] private List<string> comment;
+    private GameObject chat;
+    private TextMeshProUGUI chatText;
+
 
     protected override void Awake()
     {
@@ -34,6 +41,9 @@ public class Dopamine : BossMonster
 
         foreach (var lineRenderer in lineRenderer)
             lineRenderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 0.3f));
+
+        chat = transform.GetChild(0).transform.Find("Chat").gameObject;
+        chatText = chat.transform.GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>();
     }
 
     protected override void OnEnable()
@@ -55,7 +65,7 @@ public class Dopamine : BossMonster
             switch (i)
             {
                 case 0:
-                    yield return StartCoroutine(Monkey());
+                    yield return monkeyCO = StartCoroutine(Monkey());
                     break;
                 case 1:
                     yield return StartCoroutine(MobSpawn());
@@ -144,44 +154,90 @@ public class Dopamine : BossMonster
         monsterList.Add(ObjectManager.Instance.PopObject(monster.name, a));
     }
 
-    public override void ReceiveHit(int damage)
-    {
-        if (isCollapsed) return;
-
-        if (bSpawnedWakpago == false && hp - damage < MaxHp * 0.7f)
-        {
-            StartCoroutine(SpawnWakpago());
-        }
-
-        base.ReceiveHit(damage);
-    }
-
     private IEnumerator SpawnWakpago()
     {
-        StopCoroutine(Attack());
-        StopCoroutine(Monkey());
+        StopCoroutine(attackCO);
+        StopCoroutine(monkeyCO);
 
         foreach (var monkey in monkeys)
             monkey.gameObject.SetActive(false);
 
-        bSpawnedWakpago = true;
         yield return new WaitForSeconds(1f);
-        cinemachineTargetGroup.m_Targets[1].target = transform;
+
         // ¾Ö´Ï
-        yield return new WaitForSeconds(3f);
+        yield return StartCoroutine(OnType());
+
         Instantiate(wakpago);
-        yield return null;
     }
 
     protected override IEnumerator Collapse()
     {
+        SpriteRenderer.material = originalMaterial;
+
+        isCollapsed = true;
+
+        if (DataManager.Instance.CurGameData.killedOnceBoss[ID] == false)
+        {
+            if (Collection.Instance != null)
+                Collection.Instance.Collect(this, true);
+            DataManager.Instance.CurGameData.killedOnceBoss[ID] = true;
+            DataManager.Instance.SaveGameData();
+        }
+
+        if (DataManager.Instance.CurGameData.rescuedNPC[npcID] == false)
+        {
+            DataManager.Instance.CurGameData.rescuedNPC[npcID] = true;
+            DataManager.Instance.SaveGameData();
+        }
+
+        collider2D.enabled = false;
+        Rigidbody2D.velocity = Vector2.zero;
+        Rigidbody2D.bodyType = RigidbodyType2D.Static;
+        GameManager.Instance.enemyRunTimeSet.Remove(gameObject);
+        onMonsterCollapse.Raise(transform);
+
+        ObjectManager.Instance.PopObject("LevelUpEffect", transform);
+
+        yield return StartCoroutine(UIManager.Instance.SpeedWagon_BossOff(this));
+        yield return StartCoroutine(SpawnWakpago());
+
         foreach (var monster in monsterList)
             ObjectManager.Instance.PushObject(monster);
 
         foreach (var monkey in monkeys)
-            monkey.gameObject.SetActive(false);
+            monkey.gameObject.SetActive(false);        
 
-        StartCoroutine(base.Collapse());
-        yield return null;
+        Animator.SetTrigger("COLLAPSE");
+        yield return new WaitForSeconds(3f);
+        gameObject.SetActive(false);
+    }
+
+    private IEnumerator OnType()
+    {
+        WaitForSeconds ws005 = new(0.05f);
+
+        cinemachineTargetGroup.m_Targets[0].target = transform;
+        cinemachineTargetGroup.m_Targets[1].target = Wakgood.Instance.transform;
+
+        chat.SetActive(true);
+        foreach (string t in comment)
+        {
+            chatText.text = "";
+
+            foreach (char item in t)
+            {
+                chatText.text += item;
+                RuntimeManager.PlayOneShot($"event:/SFX/ETC/NPC_{npcID}", transform.position);
+                yield return ws005;
+            }
+
+            yield return new WaitForSeconds(.5f);
+        }
+        chat.SetActive(false);
+
+        yield return new WaitForSeconds(1f);
+
+        cinemachineTargetGroup.m_Targets[0].target = Wakgood.Instance.transform;
+        cinemachineTargetGroup.m_Targets[1].target = null;
     }
 }

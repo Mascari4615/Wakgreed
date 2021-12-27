@@ -110,7 +110,6 @@ public class UIManager : MonoBehaviour
     public IEnumerator SpeedWagon_BossOn(BossMonster boss)
     {
         isShowingSomething.RuntimeValue = true;
-        Debug.Log(camera);
         camera.m_Lens.OrthographicSize = 6;
         cinemachineTargetGroup.m_Targets[0].target = boss.transform;
         Wakgood.Instance.SetRigidBodyType(RigidbodyType2D.Static);
@@ -134,6 +133,7 @@ public class UIManager : MonoBehaviour
     public IEnumerator SpeedWagon_BossOff(BossMonster boss)
     {
         bossHpBar.HpBarOff();
+        camera.m_Lens.OrthographicSize = 6;
 
         cinemachineTargetGroup.m_Targets[1].target = null;
         cinemachineTargetGroup.m_Targets[0].target = boss.transform;
@@ -146,6 +146,7 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1;
         Wakgood.Instance.SetRigidBodyType(RigidbodyType2D.Dynamic);
         cinemachineTargetGroup.m_Targets[0].target = Wakgood.Instance.transform;
+        camera.m_Lens.OrthographicSize = 12;
     }
 
     public IEnumerator SpeedWagon_RoomClear()
