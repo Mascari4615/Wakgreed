@@ -19,10 +19,6 @@ public abstract class RunTimeSet<T> : ScriptableObject
         {
             Items.Remove(t);
         }
-        else
-        {
-            // Debug.Log("RunTimeSet : �������� �ʴ� ������ ���� �õ�");
-        }
     }
 
     public virtual void Clear()

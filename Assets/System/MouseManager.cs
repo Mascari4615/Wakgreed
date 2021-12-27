@@ -1,25 +1,43 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MouseManager : MonoBehaviour
 {
+    private enum MouseType
+    {
+        Arrow,
+        Attack
+    }
+    private MouseType mouseType;
     [SerializeField] private Texture2D cursorTextureA;
     [SerializeField] private Texture2D cursorTextureB;
     [SerializeField] private CursorMode cursorMode = CursorMode.Auto;
-    [SerializeField] private Vector2 hotSpot = Vector2.zero;
 
-    private void Awake()
+    private void Awake() => ChangeMouseAMode();
+ 
+    private void Update()
     {
-        Cursor.SetCursor(cursorTextureA, hotSpot, cursorMode);
-        //hotSpot.x = cursorTextureA.width / 2;
-        //hotSpot.y = cursorTextureA.height / 2;
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            if (mouseType==MouseType.Arrow) ChangeMouseBMode();
+        }
+        else
+        {
+            if (mouseType == MouseType.Attack) ChangeMouseAMode();
+        }
     }
 
     public void ChangeMouseAMode()
     {
-        Cursor.SetCursor(cursorTextureA, hotSpot, cursorMode);
+        mouseType = MouseType.Arrow;
+        Cursor.SetCursor(cursorTextureA, Vector2.zero, cursorMode);
     }
+
     public void ChangeMouseBMode()
     {
-        Cursor.SetCursor(cursorTextureB, hotSpot, cursorMode);
+        mouseType = MouseType.Attack;
+        // Cursor.SetCursor(cursorTextureB, new Vector2(cursorTextureB.width / 2, cursorTextureB.height / 2), cursorMode);
+        Cursor.SetCursor(cursorTextureB, Vector2.zero, cursorMode);
     }
+ 
 }

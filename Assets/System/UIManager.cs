@@ -58,7 +58,7 @@ public class UIManager : MonoBehaviour
 
     public void SetResult()
     {
-        resultUptimeText.text = StreamingManager.Instance.uptime;
+        resultUptimeText.text = StreamingManager.Instance.Uptime;
         finalStageText.text = StageManager.Instance.currentStage.name;
         totalEquipGoldu.text = Goldu.RuntimeValue.ToString();
         inventoryUI.Initialize();
