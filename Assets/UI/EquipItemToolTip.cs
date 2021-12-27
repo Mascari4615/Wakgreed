@@ -8,13 +8,18 @@ public class EquipItemToolTip : MonoBehaviour
 {
     private readonly WaitForSeconds ws1 = new (1f);
     private readonly Queue<SpecialThing> toolTipStacks = new();
-
+    private Animator animator;
     [SerializeField] private GameObject toolTip;
     [SerializeField] private TextMeshProUGUI nameField;
     [SerializeField] private TextMeshProUGUI AMGG;
     [SerializeField] private Image image;
     [SerializeField] private ItemVariable lastEquippedItem;
     [SerializeField] private FoodVariable lastEquippedFood;
+
+    private void Awake()
+    {
+        animator = toolTip.GetComponent<Animator>();
+    }
 
     public void EquipItem()
     {
@@ -31,8 +36,11 @@ public class EquipItemToolTip : MonoBehaviour
     private IEnumerator ShowToolTip()
     {
         toolTip.SetActive(true);
+
         while (toolTipStacks.Count > 0)
         {
+            animator.SetTrigger("ANG");
+
             SpecialThing item = toolTipStacks.Dequeue();
 
             if (item is Food)

@@ -15,9 +15,11 @@ public class BossRoom : Room
     {
         ObjectManager.Instance.PopObject("BossChest", transform.Find("ChestPoint"));
         ObjectManager.Instance.PopObject("HealObject", transform.Find("ChestPoint").position + Vector3.up);
-        transform.Find("Portal").gameObject.SetActive(true);
         foreach (var hider in DoorHiders) hider.SetActive(false);
         foreach (var particle in DoorParticles) particle.SetActive(true);
         StartCoroutine(UIManager.Instance.SpeedWagon_RoomClear());
     }
+
+    public void OpenPortal() =>
+        transform.Find("Portal").gameObject.SetActive(true);
 }

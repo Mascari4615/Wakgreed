@@ -14,7 +14,7 @@ public class GameData
     public bool[] talkedOnceNPC = Enumerable.Repeat(false, 35 + 1).ToArray();
     public bool[] killedOnceMonster = Enumerable.Repeat(false, 51 + 1).ToArray();
     public bool[] killedOnceBoss = Enumerable.Repeat(false, 20 + 1).ToArray();
-    public bool[] equipedOnceItem = Enumerable.Repeat(false, 72).ToArray();
+    public bool[] equipedOnceItem = Enumerable.Repeat(false, DataManager.Instance.ItemDic.Count).ToArray();
     public bool[] getOnceMastery = Enumerable.Repeat(false, 50 + 1).ToArray();
     public float[] Volume = { .8f, 1, 1 };
     public int deathCount = 0;
@@ -33,14 +33,18 @@ public class DataManager : MonoBehaviour
     }
 
     [Header("Item")] [SerializeField] private ItemDataBuffer itemDataBuffer;
+    [SerializeField] private ItemDataBuffer chestSpawnItemDataBuffer;
     public readonly Dictionary<int, Item> ItemDic = new();
+    public readonly Dictionary<int, Item> ChestItemDic = new();
     public WakgoodItemInventory wakgoodItemInventory;
     private readonly Dictionary<int, Item> commonItemDic = new();
     private readonly Dictionary<int, Item> unCommonItemDic = new();
     private readonly Dictionary<int, Item> legendaryItemDic = new();
 
     [Header("Weapon")] [SerializeField] private WeaponDataBuffer weaponDataBuffer;
+    [SerializeField] private WeaponDataBuffer chestSpawnWeaponDataBuffer;
     public readonly Dictionary<int, Weapon> WeaponDic = new();
+    public readonly Dictionary<int, Weapon> ChestWeaponDic = new();
     private Dictionary<int, Weapon> commonWeaponDic = new();
     private readonly Dictionary<int, Weapon> unCommonWeaponDic = new();
     private readonly Dictionary<int, Weapon> legendaryWeaponDic = new();
@@ -71,13 +75,13 @@ public class DataManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
-
-        CurGameData = LoadGameData();
-        SaveGameData();
         
         foreach (Weapon weapon in weaponDataBuffer.items)
-        {
             WeaponDic.Add(weapon.id, weapon);
+
+        foreach (Weapon weapon in chestSpawnWeaponDataBuffer.items)
+        {
+            ChestWeaponDic.Add(weapon.id, weapon);
             switch (weapon.grade)
             {
                 case ItemGrade.Common:
@@ -95,8 +99,11 @@ public class DataManager : MonoBehaviour
         }
 
         foreach (Item item in itemDataBuffer.items)
-        {
             ItemDic.Add(item.id, item);
+
+        foreach (Item item in chestSpawnItemDataBuffer.items)
+        {
+            ChestItemDic.Add(item.id, item);
             switch (item.grade)
             {
                 case ItemGrade.Common:
@@ -117,6 +124,9 @@ public class DataManager : MonoBehaviour
         foreach (Mastery mastery in wakduMasteryDataBuffer.items) MasteryDic.Add(mastery.id, mastery);
         foreach (Monster monster in monsterDataBuffer.items) MonsterDic.Add(monster.ID, monster);
         foreach (Monster boss in bossDataBuffer.items) BossDic.Add(boss.ID, boss);
+
+        CurGameData = LoadGameData();
+        SaveGameData();
     }
 
     public void SaveGameData(GameData gameData = null)
@@ -155,7 +165,8 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    public int GetRandomItemID() => GetRandomItemID((ItemGrade)Random.Range(0, 3));
+    public int GetRandomItemID() => 
+        GetRandomItemID((ItemGrade)Random.Range(0, 3));
 
     public int GetRandomItemID(ItemGrade itemGrade) => itemGrade switch
     {
@@ -165,7 +176,8 @@ public class DataManager : MonoBehaviour
         _ => throw new ArgumentOutOfRangeException(nameof(itemGrade), itemGrade, null)
     };
 
-    public int GetRandomWeaponID() => GetRandomWeaponID((ItemGrade)Random.Range(0, 3));
+    public int GetRandomWeaponID() => 
+        GetRandomWeaponID((ItemGrade)Random.Range(0, 3));
 
     public int GetRandomWeaponID(ItemGrade itemGrade) => itemGrade switch
     {
