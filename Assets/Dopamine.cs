@@ -5,6 +5,7 @@ using UnityEngine;
 public class Dopamine : BossMonster
 {
     [SerializeField] private float moveLimit = 1;
+    [SerializeField] private GameObject wakpago;
     [SerializeField] private GameObject monkey;
     [SerializeField] private GameObject monster;
     [SerializeField] private LineRenderer[] lineRenderer;
@@ -16,6 +17,7 @@ public class Dopamine : BossMonster
 
     private Vector3 spawnedPos = Vector3.zero;
     private bool bCanUseMobSpawn = true;
+    private bool bSpawnedWakpago = false;
 
     protected override void Awake()
     {
@@ -140,6 +142,35 @@ public class Dopamine : BossMonster
         ObjectManager.Instance.PopObject("SpawnCircle", a).GetComponent<Animator>().SetFloat("SPEED", 1 / 0.5f);
         yield return new WaitForSeconds(.5f);
         monsterList.Add(ObjectManager.Instance.PopObject(monster.name, a));
+    }
+
+    public override void ReceiveHit(int damage)
+    {
+        if (isCollapsed) return;
+
+        if (bSpawnedWakpago == false && hp - damage < MaxHp * 0.7f)
+        {
+            StartCoroutine(SpawnWakpago());
+        }
+
+        base.ReceiveHit(damage);
+    }
+
+    private IEnumerator SpawnWakpago()
+    {
+        StopCoroutine(Attack());
+        StopCoroutine(Monkey());
+
+        foreach (var monkey in monkeys)
+            monkey.gameObject.SetActive(false);
+
+        bSpawnedWakpago = true;
+        yield return new WaitForSeconds(1f);
+        cinemachineTargetGroup.m_Targets[1].target = transform;
+        // ¾Ö´Ï
+        yield return new WaitForSeconds(3f);
+        Instantiate(wakpago);
+        yield return null;
     }
 
     protected override IEnumerator Collapse()
