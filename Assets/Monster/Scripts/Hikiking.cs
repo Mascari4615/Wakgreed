@@ -1,25 +1,27 @@
 using System.Collections;
-using System;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class Hikiking : BossMonster
 {
     [SerializeField] private LineRenderer lineRenderer;
-    [SerializeField] private GameObject ultAttack1;
-    [SerializeField] private GameObject ultAttack2;
-    [SerializeField] private GameObject monster;
     [SerializeField] private TextMeshProUGUI text;
     private int ultStack = 0;
+    private Vector3 spawnedPos = Vector3.zero;
+    [SerializeField] private float moveLimit = 15;
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        spawnedPos = transform.position;
+    }
 
     protected override IEnumerator Attack()
     {
         while (true)
         {
-            int i = Random.Range(0, 3 + 1);
+            int i = Random.Range(0, 2 + 1);
             switch (i)
             {
                 case 0:
@@ -30,9 +32,6 @@ public class Hikiking : BossMonster
                     break;
                 case 2:
                     yield return StartCoroutine(Skill1());
-                    break;
-                case 3:
-                    yield return StartCoroutine(Skill2());
                     break;
             }
 
@@ -47,9 +46,9 @@ public class Hikiking : BossMonster
         for (int i = 0; i < attackCount; i++)
         {
             Vector3 originPos = Rigidbody2D.transform.position;
-            Vector3 targetPos = Wakgood.Instance.transform.position + new Vector3(
-                (-1 + Random.Range(0, 2) * 2) * Random.Range(3f, 5f),
-                (-1 + Random.Range(0, 2) * 2) * Random.Range(3f, 5f));
+            Vector3 targetPos = new(
+        Mathf.Clamp(Wakgood.Instance.transform.position.x + (-1 + Random.Range(0, 2) * 2) * Random.Range(3f, 5f), spawnedPos.x - moveLimit, spawnedPos.x + moveLimit),
+         Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2) * Random.Range(3f, 5f), spawnedPos.y - moveLimit, spawnedPos.y + moveLimit));
 
             for (float j = 0; j <= 1; j += 0.02f * 10)
             {
@@ -62,8 +61,9 @@ public class Hikiking : BossMonster
             int slashCount = Random.Range(2, 4 + 1);
             for (int k = 0; k < slashCount; k++)
             {
-                Instantiate(ultAttack1, Wakgood.Instance.transform.position,
-                    Quaternion.Euler(new Vector3(0, 0, Random.Range(0f, 180f))));
+                ObjectManager.Instance.PopObject("HikiSlash", Wakgood.Instance.transform.position,
+                    new Vector3(0, 0, Random.Range(0f, 180f)));
+
                 yield return new WaitForSeconds(.1f);
             }
 
@@ -98,7 +98,11 @@ public class Hikiking : BossMonster
 
         for (int i = 0; i < ultCount; i++)
         {
-            targetPos[i] = Wakgood.Instance.transform.position + new Vector3(((i + 2) % 2 == 1 ? 1 : -1) * Random.Range(7f, 10f), (-1 + Random.Range(0, 2) * 2) * Random.Range(7f, 10f));
+            targetPos[i] = new(
+        Mathf.Clamp(Wakgood.Instance.transform.position.x + ((i + 2) % 2 == 1 ? 1 : -1) * Random.Range(7f, 10f), spawnedPos.x - moveLimit, spawnedPos.x + moveLimit),
+         Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2) * Random.Range(7f, 10f), spawnedPos.y - moveLimit, spawnedPos.y + moveLimit));
+
+            Debug.Log(targetPos[i]);
         }
 
         lineRenderer.positionCount = ultCount + 1;
@@ -125,7 +129,8 @@ public class Hikiking : BossMonster
 
             originPos = targetPos[i];
 
-            var temp = Instantiate(ultAttack1, originPos + (targetPos[i] - originPos) / 2, Quaternion.Euler(new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan2(targetPos[i].y - originPos.y, targetPos[i].x - originPos.x))));
+            var temp = ObjectManager.Instance.PopObject("HikiSlash", originPos + (targetPos[i] - originPos) / 2,
+             new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan2(targetPos[i].y - originPos.y, targetPos[i].x - originPos.x)));
             temp.transform.localScale = new Vector3(Vector3.Distance(originPos, targetPos[i]) * 0.25f, 1, 1);
         }
         collider2D.enabled = true;
@@ -135,7 +140,7 @@ public class Hikiking : BossMonster
 
         Vector3 aOriginPos = transform.position;
         Vector3 aTargetPos = Wakgood.Instance.transform.position +
-                             (Wakgood.Instance.transform.position - transform.position).normalized * 20;
+                             (Wakgood.Instance.transform.position - transform.position).normalized * 3;
 
         lineRenderer.SetPosition(0, aOriginPos);
         lineRenderer.SetPosition(1, aTargetPos);
@@ -159,7 +164,8 @@ public class Hikiking : BossMonster
         camera.m_Lens.OrthographicSize = 12;
         collider2D.enabled = true;
 
-        var v = Instantiate(ultAttack2, aOriginPos + (aTargetPos - aOriginPos) / 2, Quaternion.Euler(new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan2(aTargetPos.y - aOriginPos.y, aTargetPos.x - aOriginPos.x))));
+        var v = ObjectManager.Instance.PopObject("HikiSlash2", aOriginPos + (aTargetPos - aOriginPos) / 2,
+    new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan2(aTargetPos.y - aOriginPos.y, aTargetPos.x - aOriginPos.x)));
         v.transform.localScale = new Vector3(Vector3.Distance(aOriginPos, aTargetPos) * 0.25f, 8, 1);
 
         yield return new WaitForSeconds(0.3f);
@@ -171,8 +177,7 @@ public class Hikiking : BossMonster
 
     private IEnumerator Skill1()
     {
-        int jjabSlayerCount = Random.Range(2, 5 + 1);
-        for (int i = 0; i < jjabSlayerCount; i++)
+        for (int i = 0; i < 2; i++)
             StartCoroutine(SpawnMob());
 
         yield return new WaitForSeconds(2f);
@@ -180,10 +185,14 @@ public class Hikiking : BossMonster
 
     private IEnumerator SpawnMob()
     {
-        Vector3 randomPos = transform.position + (Vector3)Random.insideUnitCircle * 10f;
-        ObjectManager.Instance.PopObject("SpawnCircle", randomPos).GetComponent<Animator>().SetFloat("SPEED", 1 / 0.5f);
+        Vector3 pos = (Vector3)Random.insideUnitCircle * 10f;
+        Vector3 a = new(
+            Mathf.Clamp(transform.position.x + pos.x, spawnedPos.x - moveLimit, spawnedPos.x + moveLimit),
+             Mathf.Clamp(transform.position.y + pos.y, spawnedPos.y - moveLimit, spawnedPos.y + moveLimit));
+
+        ObjectManager.Instance.PopObject("SpawnCircle", a).GetComponent<Animator>().SetFloat("SPEED", 1 / 0.5f);
         yield return new WaitForSeconds(.5f);
-        ObjectManager.Instance.PopObject(monster.name, randomPos);
+        ObjectManager.Instance.PopObject("ChidoriPanchi", a);
     }
 
     private IEnumerator Skill2()

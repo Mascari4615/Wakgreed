@@ -4784,7 +4784,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 978103407
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_RenderMode: 3
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -4991,7 +4991,7 @@ Transform:
   - {fileID: 6971041814311315467}
   - {fileID: 5622897779329834460}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2942887708771458359
 MonoBehaviour:
@@ -5007,7 +5007,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flashMaterial: {fileID: 2100000, guid: c74166bc298345945a7d9a9e8218b4ec, type: 2}
   onMonsterCollapse: {fileID: 11400000, guid: 1b477f0305627f54d8b1c54462eafc87, type: 2}
-  mobName: 
+  mobName: "\uD788\uD0A4\uD0B9"
   ID: 1
   description: "\uC6B0\uCE58\uD558 \uC77C\uC871\uC758 \uB2CC\uC790."
   hp: 1000
@@ -5016,12 +5016,8 @@ MonoBehaviour:
   npcID: 5
   nickName: "\uC6B0\uCE58\uD558 \uC77C\uC871\uC758 \uB2CC\uC790"
   lineRenderer: {fileID: 7145819515679802912}
-  ultAttack1: {fileID: 5168828908313417421, guid: d7540f4bd46a48740bfd71113d4557c9,
-    type: 3}
-  ultAttack2: {fileID: 5168828908313417421, guid: ff957e51e25019a4e948af06c02e3651,
-    type: 3}
-  monster: {fileID: 8633538259678075035, guid: a07137be4cabe62479e398c69f74cb36, type: 3}
   text: {fileID: 1761901946}
+  moveLimit: 15
 --- !u!50 &3035457898370817615
 Rigidbody2D:
   serializedVersion: 4
@@ -5172,7 +5168,7 @@ TrailRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 978103407
   m_SortingLayer: 1
-  m_SortingOrder: 1
+  m_SortingOrder: -1
   m_Time: 0.3
   m_Parameters:
     serializedVersion: 3
