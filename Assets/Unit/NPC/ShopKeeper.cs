@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEngine;
+using FMODUnity;
 
 public class ShopKeeper : NPC
 {
@@ -10,7 +11,7 @@ public class ShopKeeper : NPC
     {
         base.Awake();
 
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 5; i++)
             itemInventoryUI_Buy.NpcInventory.Add(DataManager.Instance.ItemDic.ElementAt(Random.Range(0, DataManager.Instance.ItemDic.Count)).Value);
     }
 
@@ -24,10 +25,12 @@ public class ShopKeeper : NPC
 
             itemInventoryUI_Buy.NpcInventory.Remove(slot.SpecialThing as Item);
             ObjectManager.Instance.PopObject("ItemGameObject", transform).GetComponent<ItemGameObject>().Initialize((slot.SpecialThing as Item).id);
+            RuntimeManager.PlayOneShot($"event:/SFX/UI/Test", transform.position);
             itemInventoryUI_Buy.Initialize();
         }
         else
         {
+            RuntimeManager.PlayOneShot($"event:/SFX/UI/No", transform.position);
             ObjectManager.Instance.PopObject("AnimatedText", Wakgood.Instance.transform.position).GetComponent<AnimatedText>().SetText("골두 부족!", TextType.Critical);
         }
     }

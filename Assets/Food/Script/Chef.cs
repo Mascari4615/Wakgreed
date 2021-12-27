@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 public class Chef : NPC
 {
@@ -33,10 +34,14 @@ public class Chef : NPC
             slot.gameObject.SetActive(false);
             inventoryUI.NpcInventory.Remove(slot.SpecialThing as Food);
             wakgoodFoodInventory.Add(slot.SpecialThing as Food);
+            RuntimeManager.PlayOneShot($"event:/SFX/UI/Test", transform.position);
+
         }
         else
         {
             ObjectManager.Instance.PopObject("AnimatedText", Wakgood.Instance.transform.position).GetComponent<AnimatedText>().SetText("골두 부족!", TextType.Critical);
+            RuntimeManager.PlayOneShot($"event:/SFX/UI/No", transform.position);
+
         }
     }
 }
