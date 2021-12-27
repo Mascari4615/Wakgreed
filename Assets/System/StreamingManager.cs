@@ -26,7 +26,8 @@ public class StreamingManager : MonoBehaviour
     private Coroutine showWakgoodChat;
     private bool isStreaming;
     private readonly WaitForSeconds ws15 = new(15f), ws05 = new(.5f), ws02 = new(0.2f);
-    
+    public string Uptime { get; private set; } = "";
+
     private void Awake()
     {
         Instance = this;
@@ -111,8 +112,6 @@ public class StreamingManager : MonoBehaviour
         Debug.Log("!");
     }
 
-    public string uptime = "";
-
     private IEnumerator UpdateUptime()
     {
         float startTime = Time.time;
@@ -127,8 +126,8 @@ public class StreamingManager : MonoBehaviour
             int second = (curTime -= hour * 3600) % 60;
             DateTime dt = new(1987, 7, 24, hour, minute, second);
 
-            uptime = $"{dt:HH:mm:ss}";
-            upTimeUI.SetText(uptime);
+            Uptime = $"{dt:HH:mm:ss}";
+            upTimeUI.SetText(Uptime);
             yield return ws02;
         }
     }

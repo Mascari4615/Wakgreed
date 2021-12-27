@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Random = UnityEngine.Random;
 
-[System.Serializable]
+[Serializable]
 public class GameData
 {
     public bool youtubeHi = true;
@@ -14,7 +14,7 @@ public class GameData
     public bool[] talkedOnceNPC = Enumerable.Repeat(false, 35 + 1).ToArray();
     public bool[] killedOnceMonster = Enumerable.Repeat(false, 51 + 1).ToArray();
     public bool[] killedOnceBoss = Enumerable.Repeat(false, 20 + 1).ToArray();
-    public bool[] equipedOnceItem = Enumerable.Repeat(false, DataManager.Instance.ItemDic.Count).ToArray();
+    public bool[] equipedOnceItem = Enumerable.Repeat(false,72+1).ToArray();
     public bool[] getOnceMastery = Enumerable.Repeat(false, 50 + 1).ToArray();
     public float[] Volume = { .8f, 1, 1 };
     public int deathCount = 0;
@@ -45,7 +45,7 @@ public class DataManager : MonoBehaviour
     [SerializeField] private WeaponDataBuffer chestSpawnWeaponDataBuffer;
     public readonly Dictionary<int, Weapon> WeaponDic = new();
     public readonly Dictionary<int, Weapon> ChestWeaponDic = new();
-    private Dictionary<int, Weapon> commonWeaponDic = new();
+    private readonly Dictionary<int, Weapon> commonWeaponDic = new();
     private readonly Dictionary<int, Weapon> unCommonWeaponDic = new();
     private readonly Dictionary<int, Weapon> legendaryWeaponDic = new();
 
@@ -93,8 +93,6 @@ public class DataManager : MonoBehaviour
                 case ItemGrade.Legendary:
                     legendaryWeaponDic.Add(weapon.id, weapon);
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -115,8 +113,6 @@ public class DataManager : MonoBehaviour
                 case ItemGrade.Legendary:
                     legendaryItemDic.Add(item.id, item);
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
 
