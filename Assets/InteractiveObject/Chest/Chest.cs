@@ -44,7 +44,7 @@ public class Chest : InteractiveObject
         probability.Add(ItemGrade.Legendary, legendaryWeight);
 
         isOpened = false;
-        isItem = Random.Range(0, 100) > 25;
+        isItem = Random.Range(0, 100) > 5;
         itemID = isItem ? DataManager.Instance.GetRandomItemID(probability.Get()) : DataManager.Instance.GetRandomWeaponID(probability.Get());
     }
 

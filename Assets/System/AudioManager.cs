@@ -19,6 +19,7 @@ public class AudioManager : MonoBehaviour
     private EventInstance BgmEvent;
     private PLAYBACK_STATE pbState;
     [SerializeField] private BoolVariable isLoading;
+    private string[] asdf = { "yeppSun - 장난기 기능 MR", "yeppSun - 버거워 MR", "yeppSun - 고고 다섯쌍둥이 MR", "추르르 - Wakgood FC (INST)" };
 
     private void Awake()
     {
@@ -53,6 +54,8 @@ public class AudioManager : MonoBehaviour
         SettingManager.Instance.sfxSlider.onValueChanged.AddListener(SfxVolumeLevel);     
     }
 
+    int i = 0;
+
     private void Update()
     {
         bool wakgoodCollapsed = false;
@@ -63,7 +66,12 @@ public class AudioManager : MonoBehaviour
         {
             BgmEvent.getPlaybackState(out pbState);
             if (pbState == PLAYBACK_STATE.STOPPED)
+            {
+                if (UIManager.Instance != null) UIManager.Instance.SetMusicName(asdf[i]);
+                BgmEvent = RuntimeManager.CreateInstance($"event:/BGM/{asdf[i++]}");
+                if (i > asdf.Length) i = 0;
                 BgmEvent.start();
+            }
         }
     }
        

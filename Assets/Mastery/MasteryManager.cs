@@ -47,14 +47,6 @@ public class MasteryManager : MonoBehaviour
         ToolTipManager.Instance.Hide();
         selectMasteryStack--;
 
-        if (DataManager.Instance.CurGameData.getOnceMastery[randomMasteries[i].id] == false)
-        {
-            if (Collection.Instance != null)
-                Collection.Instance.Collect(randomMasteries[i]);
-            DataManager.Instance.CurGameData.getOnceMastery[randomMasteries[i].id] = true;
-            DataManager.Instance.SaveGameData();
-        }
-
         MasteryInventory.Add(randomMasteries[i]);
         randomMasteries[i].OnEquip();
         MasterySelect.Raise();

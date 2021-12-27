@@ -198,8 +198,6 @@ public class StageManager : MonoBehaviour
         yield return new WaitForSeconds(.5f);
         stageLoading.gameObject.SetActive(false);
 
-        AudioManager.Instance.PlayMusic(currentStage.musicName);
-
         isLoading.RuntimeValue = false;
         isGaming.RuntimeValue = true;
         StartCoroutine(UIManager.Instance.SpeedWagon_Stage());
