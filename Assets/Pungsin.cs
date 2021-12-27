@@ -50,7 +50,7 @@ public class Pungsin : BossMonster
         {
             int i = Random.Range(0, 1 + 1);
 
-            if (temp < skill1AttackGo.Length)
+            if (temp < skill1AttackGo.Length / 2)
             {
                 i++;
             }

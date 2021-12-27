@@ -156,8 +156,8 @@ public class Dopamine : BossMonster
 
     private IEnumerator SpawnWakpago()
     {
-        StopCoroutine(attackCO);
-        StopCoroutine(monkeyCO);
+        if (attackCO != null) StopCoroutine(attackCO);
+        if (monkeyCO != null) StopCoroutine(monkeyCO);
 
         foreach (var monkey in monkeys)
             monkey.gameObject.SetActive(false);

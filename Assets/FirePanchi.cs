@@ -9,7 +9,6 @@ public class FirePanchi : NormalMonster
     [SerializeField] private GameObject circle;
     [SerializeField] private GameObject warning;
 
-
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -39,12 +38,12 @@ public class FirePanchi : NormalMonster
         {
             bIsAttacking = true;
 
-            Vector3 randomPos = transform.position + (Vector3) Random.insideUnitCircle * 10f;
+            Vector3 randomPos = Wakgood.Instance.transform.position + (Vector3) Random.insideUnitCircle;
             circle.transform.position = randomPos;
             warning.transform.position = randomPos;
             Animator.SetTrigger("READY");
             warning.SetActive(true);
-            yield return StartCoroutine(Casting(3f));
+            yield return StartCoroutine(Casting(1.5f));
             Animator.SetTrigger("GO");
             yield return new WaitForSeconds(1f);
             warning.SetActive(false);

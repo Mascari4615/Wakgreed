@@ -68,7 +68,7 @@ public class NormalRoom : Room
         foreach (var particle in DoorParticles) particle.SetActive(true);
         StartCoroutine(UIManager.Instance.SpeedWagon_RoomClear());
 
-        if (Random.Range(0, 100) > 60)
+        if (Random.Range(0, 100) > 40)
         {
             Probability<string> probability = new();
             probability.Add("CommonChest", 70);

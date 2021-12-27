@@ -14,7 +14,7 @@ public class GameData
     public bool[] talkedOnceNPC = Enumerable.Repeat(false, 35 + 1).ToArray();
     public bool[] killedOnceMonster = Enumerable.Repeat(false, 51 + 1).ToArray();
     public bool[] killedOnceBoss = Enumerable.Repeat(false, 20 + 1).ToArray();
-    public bool[] equipedOnceItem = Enumerable.Repeat(false, 51 + 1).ToArray();
+    public bool[] equipedOnceItem = Enumerable.Repeat(false, 72).ToArray();
     public bool[] getOnceMastery = Enumerable.Repeat(false, 50 + 1).ToArray();
     public float[] Volume = { .8f, 1, 1 };
     public int deathCount = 0;
