@@ -10,24 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1249156d1a3a767498320afbc7b1fc23, type: 3}
-  m_Name: 002_ShortSword
+  m_Name: 012_LightStick
   m_EditorClassIdentifier: 
-  ID: 2
-  name: "\uC20F\uC18C\uB4ED"
-  sprite: {fileID: 21300000, guid: e0c93456ebe4c5f4b893da9557ace163, type: 3}
-  description: "\uB358\uADF8\uB9AC\uB4DC"
+  id: 12
+  name: "\uC751\uC6D0\uBD09"
+  sprite: {fileID: 594911540, guid: 6363cc9c735fff448ad28060a35a9190, type: 3}
+  description: "\uAE61"
   effects: []
-  rarity: 0
-  resource: {fileID: 254485587223168476, guid: 809c149fb5cce5541ba55bd8df976106, type: 3}
-  subResources: []
-  baseAttack: {fileID: 11400000, guid: fac6159e632282549a883c9e8fe02e4e, type: 2}
+  grade: 1
+  resource: {fileID: 3008666828657372325, guid: 8aa1d3978a512c9429a6a681603be412,
+    type: 3}
+  baseAttack: {fileID: 11400000, guid: e9b8489ed9162a14fa742534df897a01, type: 2}
   skillQ: {fileID: 0}
   skillE: {fileID: 0}
-  minDamage: 5
+  minDamage: 8
   maxDamage: 10
-  inputType: 0
   attackType: 0
-  attackIntervalTime: 0
-  attackSpeed: 2
+  attackSpeed: 3
   magazine: 0
   reloadTime: 0

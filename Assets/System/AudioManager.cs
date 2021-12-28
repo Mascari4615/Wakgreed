@@ -79,9 +79,10 @@ public class AudioManager : MonoBehaviour
             BgmEvent.getPlaybackState(out pbState);
             if (pbState == PLAYBACK_STATE.STOPPED)
             {
+                if (i >= bgmTitles.Length) i = 0;
                 if (UIManager.Instance != null) UIManager.Instance.SetMusicName(bgmTitles[i]);
                 BgmEvent = RuntimeManager.CreateInstance($"event:/BGM/{bgmTitles[i++]}");
-                if (i > bgmTitles.Length) i = 0;
+                if (i >= bgmTitles.Length) i = 0;
                 BgmEvent.start();
             }
         }

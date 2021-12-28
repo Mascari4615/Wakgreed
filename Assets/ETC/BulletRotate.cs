@@ -9,7 +9,7 @@ public class BulletRotate : MonoBehaviour
         Random
     }
     private Vector3 rotationVector;
-    [SerializeField] private float rotateSpeed;
+    public float rotateSpeed;
     [SerializeField] private Direction direction;
 
     private void Awake()

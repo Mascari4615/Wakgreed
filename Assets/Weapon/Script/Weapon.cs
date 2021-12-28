@@ -22,15 +22,15 @@ public class Weapon : Equiptable, ISerializationCallbackReceiver
     public int magazine;
     [System.NonSerialized] public int Ammo;
     public float reloadTime;
-    public float CurReloadTime { get; private set; }
-    public bool IsReloading { get; private set; }
-    private bool canUseSkillE = true;
-    public float CurSkillECoolTime { get; private set; }
-    private bool canUseSkillQ = true;
-    public float CurSkillQCoolTime { get; private set; }
-    private bool canUseBaseAttack = true;
-    private float curBaseAttackCoolTime;
-    private IEnumerator reload;
+    [System.NonSerialized] [HideInInspector] public float CurReloadTime;
+    [System.NonSerialized] [HideInInspector] public bool IsReloading = false;
+    [System.NonSerialized] private bool canUseSkillE = true;
+    [System.NonSerialized] [HideInInspector] public float CurSkillECoolTime;
+    [System.NonSerialized] private bool canUseSkillQ = true;
+    [System.NonSerialized] [HideInInspector] public float CurSkillQCoolTime;
+    [System.NonSerialized] private bool canUseBaseAttack = true;
+    [System.NonSerialized] private float curBaseAttackCoolTime;
+    [System.NonSerialized] private IEnumerator reload;
 
     public void BaseAttack()
     {
@@ -126,6 +126,9 @@ public class Weapon : Equiptable, ISerializationCallbackReceiver
     {
         Ammo = magazine;
         IsReloading = false;
+        canUseBaseAttack = true;
+        canUseSkillE = true;
+        canUseSkillQ = true;
     }
 
     public void OnBeforeSerialize() { }

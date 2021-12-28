@@ -14,7 +14,7 @@ public class EffectSatellite : Effect
             parent = new GameObject("SatelliteParent").transform;
             parent.SetPositionAndRotation(Wakgood.Instance.transform.position, Quaternion.identity);
             parent.SetParent(Wakgood.Instance.transform);
-            parent.gameObject.AddComponent<BulletRotate>();
+            parent.gameObject.AddComponent<BulletRotate>().rotateSpeed = 40f;
         }
 
         instance = Instantiate(prefab, parent);
