@@ -1478,7 +1478,7 @@ Transform:
   - {fileID: 2102512772}
   - {fileID: 1506465046}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4705426193227314245
 MonoBehaviour:
@@ -1495,13 +1495,16 @@ MonoBehaviour:
   wakdu: {fileID: 11400000, guid: 6fae4d6446cc5a24ba764e3141f9592e, type: 2}
   exp: {fileID: 11400000, guid: 17f006d9f52da1d47bf33575680fcc1b, type: 2}
   level: {fileID: 11400000, guid: 4a71ab267992a93479cfd1a716594562, type: 2}
-  hpMax: {fileID: 11400000, guid: b28d195b2423d0344a37d3aa321a61f1, type: 2}
   hpCur: {fileID: 11400000, guid: 87e24a6bb0485bb43bf414a2be282fe6, type: 2}
+  defence: {fileID: 11400000, guid: 5f87fe50b90c7fa4b9fca0227c61773c, type: 2}
+  staticDefence: {fileID: 11400000, guid: f0023d63037370446b6780faa3570aed, type: 2}
+  hpMax: {fileID: 11400000, guid: e862da976520d4847a960ac61d303b50, type: 2}
   powerInt: {fileID: 11400000, guid: 78641f81562c8ca419aba38ff53f07ca, type: 2}
   totalPower: {fileID: 11400000, guid: 1a3eef7a703f4d440869b9541a779c7d, type: 2}
   attackSpeed: {fileID: 11400000, guid: 320dd9e1a35eb354ba45330eb0aaaa6d, type: 2}
   moveSpeed: {fileID: 11400000, guid: ab222d65ff7ce974fa0c23c97750945f, type: 2}
   evasion: {fileID: 11400000, guid: 94c9fcb6a039eaa45bea8b541fcf3a4a, type: 2}
+  canEvasionOnDash: {fileID: 11400000, guid: faf9e652be3337444ac00afd1cd43edc, type: 2}
   onDamage: {fileID: 11400000, guid: 5192cc26768a1974fa631e81a4b5a319, type: 2}
   onCollapse: {fileID: 11400000, guid: fe1091c644e3ead409241a61978b243a, type: 2}
   onLevelUp: {fileID: 11400000, guid: 42476068b34aa7c4aa6cb152cd3b3ac9, type: 2}
@@ -1676,7 +1679,7 @@ MonoBehaviour:
   - {x: 0.30981255, y: 0.141006, z: 0}
   m_ShapePathHash: 1465180444
   m_Mesh: {fileID: 0}
-  m_InstanceId: 1484524
+  m_InstanceId: -22662
 --- !u!1 &4705426193897506535
 GameObject:
   m_ObjectHideFlags: 0

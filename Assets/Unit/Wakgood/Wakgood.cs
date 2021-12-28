@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
+using System;
 
 public class Wakgood : MonoBehaviour, IHitable
 {
@@ -12,6 +13,8 @@ public class Wakgood : MonoBehaviour, IHitable
     [SerializeField] private Wakdu wakdu;
     [SerializeField] private IntVariable exp, level;
     [SerializeField] private IntVariable hpCur;
+    [SerializeField] private IntVariable defence;
+    [SerializeField] private IntVariable staticDefence;
     [SerializeField] private MaxHp hpMax;
     [SerializeField] private IntVariable powerInt;
     public TotalPower totalPower;
@@ -189,14 +192,33 @@ public class Wakgood : MonoBehaviour, IHitable
         if (IsCollapsed || !isHealthy || (WakgoodMove.MbDashing && canEvasionOnDash.RuntimeValue))
             return;
 
-        if (evasion.RuntimeValue >= Random.Range(1, 100 + 1))
+        if (evasion.RuntimeValue >= UnityEngine.Random.Range(1, 100 + 1))
         {
             RuntimeManager.PlayOneShot($"event:/SFX/Wakgood/Evasion", transform.position);
             ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>()
-                .SetText("MISS", TextType.Critical);
+                .SetText("회피!", TextType.Critical);
         }
         else
         {
+            damage -= staticDefence.RuntimeValue;
+
+            if (damage <= 0)
+            {
+                RuntimeManager.PlayOneShot($"event:/SFX/Wakgood/Evasion", transform.position);
+                ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>()
+                    .SetText("무시!", Color.blue);
+                return;
+            }
+
+            damage = (int)Math.Round(damage * (1 - (float)defence.RuntimeValue / 100), MidpointRounding.AwayFromZero);
+
+            if (damage <= 0)
+            {
+                RuntimeManager.PlayOneShot($"event:/SFX/Wakgood/Evasion", transform.position);
+                ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>()
+                    .SetText("무시!", Color.blue);
+                return;
+            }
             RuntimeManager.PlayOneShot($"event:/SFX/Wakgood/Ahya", transform.position);
             onDamage.Raise();
 

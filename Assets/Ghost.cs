@@ -4,15 +4,34 @@ using UnityEngine;
 
 public class Ghost : NormalMonster
 {
-    // Start is called before the first frame update
-    void Start()
+    private Coroutine move;
+
+    protected override void OnEnable()
     {
-        
+        base.OnEnable();
+
+        move = StartCoroutine(Move());
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator Move()
     {
-        
+        Vector2 spawnPos = transform.position;
+        float t = 0;
+
+        while (true)
+        {
+            yield return null;
+            t += Time.deltaTime;
+            transform.position = Vector3.Lerp(spawnPos, transform.position, t);
+            SpriteRenderer.flipX = (Wakgood.Instance.transform.position.x > transform.position.x) ? true : false;
+        }
+    }
+
+    protected override void _ReceiveHit()
+    {
+        base._ReceiveHit();
+        transform.position = Wakgood.Instance.transform.position + (Vector3) Random.insideUnitCircle * 20f;
+        if (move!=null) StartCoroutine(Move());
+        move = StartCoroutine(Move());
     }
 }
