@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1889723176232406603}
   - component: {fileID: 7925458248831599759}
   - component: {fileID: 1422966202354856499}
+  - component: {fileID: 6461798802948034881}
   m_Layer: 0
   m_Name: 0_IceAura
   m_TagString: Untagged
@@ -102,8 +103,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotateSpeed: 25
   direction: 0
-  gotoZero: 0
-  gotoZeroWeight: 0
 --- !u!114 &1889723176232406603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,8 +121,9 @@ MonoBehaviour:
   criticalChance: {fileID: 11400000, guid: 300f8b12c04c18a45a8f73a08c3ab38b, type: 2}
   criticalDamagePer: {fileID: 11400000, guid: 19d3c26c7e7c0fe4fa0f3b7a64ec8d21, type: 2}
   damage: 3
-  offOnHit: 0
-  ggambbakDelay: 1
+  WeaponID: -1
+  offGoOnHit: 0
+  offCollOnHit: 0
 --- !u!70 &7925458248831599759
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -152,3 +152,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 022df02562d61814b8b27c7ed5c6b3b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6461798802948034881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9073546157783568337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd7e09fbad5baf74a8afe37472259647, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 1b477f0305627f54d8b1c54462eafc87, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1422966202354856499}
+        m_TargetAssemblyTypeName: IceAura, Assembly-CSharp
+        m_MethodName: KillMonster
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

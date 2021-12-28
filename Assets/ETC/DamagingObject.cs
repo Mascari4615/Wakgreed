@@ -14,7 +14,7 @@ public class DamagingObject : MonoBehaviour
     [SerializeField] private TotalPower totalPower;
     [SerializeField] private IntVariable criticalChance;
     [SerializeField] private IntVariable criticalDamagePer;
-    [SerializeField] private int damage = 0;
+    public int damage = 0;
     [SerializeField] private int WeaponID = -1;
     private int minDamage = -1;
     private int maxDamage = -1;

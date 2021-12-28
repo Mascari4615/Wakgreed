@@ -143,6 +143,7 @@ public class GameManager : MonoBehaviour
 
         StageManager.Instance.DestroyStage();
         UIManager.Instance.SetStageName("0-0 로비");
+        AudioManager.Instance.PlayMusic("추르르 - Wakgood FC (INST)");
         StageManager.Instance.currentStageID = -1;
 
         UIManager.Instance.StopAllSpeedWagons();

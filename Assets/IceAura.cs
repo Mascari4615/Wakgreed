@@ -1,13 +1,18 @@
 using UnityEngine;
 using System.Collections;
-using UnityEngine.Serialization;
 
-public class IceAura : MonoBehaviour
+public class IceAura : MonoBehaviour, IEffectGameObject
 {
-    bool asdf = false;
+    private bool asdf = false;
     float time = 0;
     int stack = 0;
     WaitForSeconds ws01 = new(0.1f);
+    DamagingObject damagingObject;
+
+    private void Awake()
+    {
+        damagingObject = GetComponent<DamagingObject>();
+    }
 
     private IEnumerator Ang()
     {
@@ -23,7 +28,7 @@ public class IceAura : MonoBehaviour
     }
 
     public void KillMonster()
-    {      
+    {
         time += 3f;
         stack++;
 
@@ -31,5 +36,15 @@ public class IceAura : MonoBehaviour
         {
             StartCoroutine(Ang());
         }
+    }
+
+    public void Effect()
+    {
+        damagingObject.damage++;
+    }
+
+    public void Return()
+    {
+        damagingObject.damage--;
     }
 }
