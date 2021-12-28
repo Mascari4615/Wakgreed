@@ -54,8 +54,9 @@ MonoBehaviour:
   criticalChance: {fileID: 0}
   criticalDamagePer: {fileID: 0}
   damage: 3
-  offOnHit: 0
-  ggambbakDelay: 0
+  WeaponID: -1
+  offGoOnHit: 0
+  offCollOnHit: 0
 --- !u!114 &6936121457006738860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,7 +70,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   directionVector: {x: 0, y: 0, z: 0}
-  moveSpeed: 60
+  moveSpeed: 120
   direction: 0
 --- !u!212 &5588164855678746070
 SpriteRenderer:

@@ -44,6 +44,8 @@ public class Hikiking : BossMonster
         }
     }
 
+    [SerializeField] private GameObject stun;
+
     private IEnumerator BaseAttack()
     {
         int attackCount = Random.Range(2, 3 + 1);
@@ -51,9 +53,10 @@ public class Hikiking : BossMonster
         for (int i = 0; i < attackCount; i++)
         {
             Vector3 originPos = Rigidbody2D.transform.position;
-            Vector3 targetPos = new(
-        Mathf.Clamp(Wakgood.Instance.transform.position.x + (-1 + Random.Range(0, 2) * 2) * Random.Range(3f, 5f), spawnedPos.x - moveLimit, spawnedPos.x + moveLimit),
-         Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2) * Random.Range(3f, 5f), spawnedPos.y - moveLimit, spawnedPos.y + moveLimit));
+            Vector2 temp = new(
+                (Wakgood.Instance.transform.position.x + (-1 + Random.Range(0, 2) * 2) * Random.Range(3f, 5f)), 
+                (Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2) * Random.Range(3f, 5f)));
+            Vector3 targetPos = Vector3.ClampMagnitude(temp, moveLimit);
 
             for (float j = 0; j <= 1; j += 0.02f * 10)
             {
@@ -179,7 +182,9 @@ public class Hikiking : BossMonster
         lineRenderer.gameObject.SetActive(false);
         Animator.SetTrigger("IDLE");
 
-        yield return new WaitForSeconds(3f);
+        stun.SetActive(true);
+        yield return new WaitForSeconds(7f);
+        stun.SetActive(false);
     }
 
     private IEnumerator SpawnMobCo()
