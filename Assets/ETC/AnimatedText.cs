@@ -1,13 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
 
-public enum TextType
-{
-    Normal,
-    Critical,
-    Heal
-}
-
 public class AnimatedText : MonoBehaviour
 {
     private TextMeshPro textMesh;
@@ -33,14 +26,13 @@ public class AnimatedText : MonoBehaviour
         transform.position = new Vector3(Mathf.Lerp(transform.position.x, finalPositionX, MoveSpeed * Time.deltaTime), Mathf.Lerp(transform.position.y, finalPositionY, MoveSpeed * Time.deltaTime * 2), -5);    
     }
 
-    public void SetText(string text, TextType damageType)
+    public void SetText(string text, HitType damageType)
     {
         textMesh.text = text;
         textMesh.color = damageType switch
         {
-            TextType.Normal => Color.white,
-            TextType.Critical => Color.yellow,
-            TextType.Heal => Color.green,
+            HitType.Normal => Color.white,
+            HitType.Critical => Color.yellow,
             _ => textMesh.color
         };
     }

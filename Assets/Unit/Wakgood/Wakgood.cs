@@ -59,7 +59,7 @@ public class Wakgood : MonoBehaviour, IHitable
         WeaponPosition = transform.Find("WeaponPos");
 
         spriteRenderer = GetComponent<SpriteRenderer>();
-        wakgoodCollider = transform.GetChild(0).GetComponent<WakgoodCollider>();
+        wakgoodCollider = GetComponent<WakgoodCollider>();
         WakgoodMove = GetComponent<WakgoodMove>();
         cinemachineTargetGroup = GameObject.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>();
 
@@ -188,7 +188,7 @@ public class Wakgood : MonoBehaviour, IHitable
         }
     }
 
-    public void ReceiveHit(int damage)
+    public void ReceiveHit(int damage, HitType hitType = HitType.Normal)
     {
         if (IsCollapsed || !isHealthy || (WakgoodMove.MbDashing && canEvasionOnDash.RuntimeValue))
             return;
@@ -197,7 +197,7 @@ public class Wakgood : MonoBehaviour, IHitable
         {
             RuntimeManager.PlayOneShot($"event:/SFX/Wakgood/Evasion", transform.position);
             ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>()
-                .SetText("회피!", TextType.Critical);
+                .SetText("회피!", Color.yellow);
         }
         else
         {
@@ -241,7 +241,7 @@ public class Wakgood : MonoBehaviour, IHitable
     public void ReceiveHeal(int amount)
     {
         hpCur.RuntimeValue = Mathf.Clamp(hpCur.RuntimeValue + amount, 0, hpMax.RuntimeValue);
-        ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>().SetText(amount.ToString(), TextType.Heal);
+        ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>().SetText(amount.ToString(), Color.green);
     }
 
     public void Collapse()
@@ -279,7 +279,7 @@ public class Wakgood : MonoBehaviour, IHitable
 
         ObjectManager.Instance.PopObject("LevelUpEffect", transform);
         ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>()
-            .SetText("Level Up!", TextType.Critical);
+            .SetText("Level Up!", Color.yellow);
     }
 
     public void SetRigidBodyType(RigidbodyType2D rigidbodyType2D)

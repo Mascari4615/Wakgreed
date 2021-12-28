@@ -11,7 +11,7 @@ public class EffectHeal : Effect
     public override void _Effect()
     {
         HP.RuntimeValue = Mathf.Clamp(HP.RuntimeValue + Amount, 0, MaxHP.RuntimeValue);
-        ObjectManager.Instance.PopObject("AnimatedText", Wakgood.Instance.transform).GetComponent<AnimatedText>().SetText(Amount.ToString(), TextType.Heal);
+        ObjectManager.Instance.PopObject("AnimatedText", Wakgood.Instance.transform).GetComponent<AnimatedText>().SetText(Amount.ToString(), Color.green);
         OnHPChange.Raise();
     }
 

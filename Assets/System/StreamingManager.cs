@@ -10,14 +10,16 @@ using Random = UnityEngine.Random;
 public class StreamingManager : MonoBehaviour
 {
     public static StreamingManager Instance { get; private set; }
-    
+
+    public bool IsChatting => inputField.gameObject.activeSelf;
+
     [SerializeField] private TMP_InputField inputField; 
     [SerializeField] private TextMeshProUGUI donationText, upTimeUI;
-    [SerializeField] private GameObject donationUI, chatViewport, chatContent;
+    [SerializeField] private GameObject donationUI, viewPort, chatContent;
     [SerializeField] private Image donationImageUI;
     [SerializeField] private Sprite[] donationImages;
     [SerializeField] private IntVariable goldu, viewer;
-    [SerializeField] private BoolVariable isChatting, isLoading;
+    [SerializeField] private BoolVariable isLoading;
     [SerializeField] private TwitchConnect twitchConnect;
     [SerializeField] private IntVariable uMin, uMax;
     [SerializeField] private IntVariable gMin, gMax;
@@ -49,7 +51,6 @@ public class StreamingManager : MonoBehaviour
     public void StartStreaming()
     {
         if (isStreaming) return;
-        Debug.Log("BangOn");
 
         isStreaming = true;
         viewer.RuntimeValue = 2000;
@@ -71,8 +72,6 @@ public class StreamingManager : MonoBehaviour
     public void BangJong()
     {
         // GameEventListener 클래스를 통해 꼼수로 코루틴 종료하기 (StopCoroutine 실행)
-
-        Debug.Log("BangJong");
         isStreaming = false;
         StopAllCoroutines();
     }
@@ -178,16 +177,14 @@ public class StreamingManager : MonoBehaviour
 
     private void Update()
     {
-        isChatting.RuntimeValue = inputField.gameObject.activeSelf;
-
-        if (Input.GetKey(KeyCode.Z) && !chatViewport.activeSelf) chatViewport.SetActive(true);
+        if (Input.GetKey(KeyCode.Z) && !viewPort.activeSelf) viewPort.SetActive(true);
         else if (Input.GetKeyUp(KeyCode.Z)) t = 2;
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
             if (inputField.gameObject.activeSelf == false)
             {
-                chatViewport.SetActive(true);
+                viewPort.SetActive(true);
                 inputField.gameObject.SetActive(true);
                 inputField.ActivateInputField();
             }
@@ -197,21 +194,29 @@ public class StreamingManager : MonoBehaviour
                 inputField.text = "";
                 inputField.gameObject.SetActive(false);
             }
+            else
+            {
+                inputField.gameObject.SetActive(false);
+            }
         }
-
-        if (Input.GetKeyDown(KeyCode.Slash) && inputField.gameObject.activeSelf == false)
+        else if (Input.GetKeyDown(KeyCode.Slash) && inputField.gameObject.activeSelf == false)
         {
-            chatViewport.SetActive(true);
+            viewPort.SetActive(true);
             inputField.gameObject.SetActive(true);
             inputField.ActivateInputField();
             inputField.text = "/";
             inputField.stringPosition = 10;            
         }
 
-        if (chatViewport.activeSelf && !inputField.gameObject.activeSelf && !Input.GetKey(KeyCode.Z))
+        if (viewPort.activeSelf && !inputField.gameObject.activeSelf && !Input.GetKey(KeyCode.Z))
         {
+            Debug.Log(t);
             t -= Time.deltaTime;
-            if (t <= 0) chatViewport.SetActive(false);
+            if (t <= 0)
+            {
+                Debug.Log("a");
+                viewPort.SetActive(false);
+            }
         }
     }
 
@@ -251,7 +256,7 @@ public class StreamingManager : MonoBehaviour
             return;
         }
 
-        if (chatViewport.activeSelf == false) chatViewport.SetActive(true);
+        if (viewPort.activeSelf == false) viewPort.SetActive(true);
 
         if (nickName == "우왁굳")
         {

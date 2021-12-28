@@ -5,19 +5,19 @@ public enum InputType { Once, Continue }
 public enum AttackType { Melee, Ranged }
 
 [CreateAssetMenu]
-public class Weapon : Sellable, ISerializationCallbackReceiver
+public class Weapon : Equiptable, ISerializationCallbackReceiver
 {
     public ItemGrade grade;
     public GameObject resource;
-    public GameObject[] subResources;
+    // public GameObject[] subResources;
     [SerializeField] private Skill baseAttack;
     public Skill skillQ;
     public Skill skillE;
     public int minDamage = 5;
     public int maxDamage = 10;
-    public InputType inputType;
+    // public InputType inputType;
     public AttackType attackType;
-    public float attackIntervalTime;
+    // public float attackIntervalTime;
     public float attackSpeed = 2;
     public int magazine;
     [System.NonSerialized] public int Ammo;

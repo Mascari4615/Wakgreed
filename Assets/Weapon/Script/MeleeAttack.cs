@@ -39,6 +39,6 @@ public class MeleeAttack : Skill
             animator.SetTrigger(attack);
 
         RuntimeManager.PlayOneShot($"event:/SFX/Weapon/{weapon.id}");
-        GameManager.Instance.cinemachineImpulseSource.GenerateImpulse();
+        GameManager.Instance.CinemachineImpulseSource.GenerateImpulse();
     }
 }

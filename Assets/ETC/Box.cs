@@ -4,7 +4,7 @@ public class Box : MonoBehaviour, IHitable
 {
     [SerializeField] private GameObject[] fragments;
 
-    public void ReceiveHit(int damage)
+    public void ReceiveHit(int damage, HitType hitType = HitType.Normal)
     {
         RuntimeManager.PlayOneShot("event:/SFX/ETC/Box", Wakgood.Instance.AttackPosition.position);
         ObjectManager.Instance.PopObject("HealObject", transform);

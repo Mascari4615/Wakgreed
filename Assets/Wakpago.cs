@@ -225,7 +225,7 @@ public class Wakpago : BossMonster
             bullets[i].enabled = true;
             bullets[i].transform.position = transform.position + (Vector3)Vector2.up;
             bullets[i].gameObject.SetActive(true);
-            GameManager.Instance.cinemachineImpulseSource.GenerateImpulse(3);
+            GameManager.Instance.CinemachineImpulseSource.GenerateImpulse(3);
             yield return ws002;
         }
 

@@ -19,7 +19,7 @@ public class Zeolite : MonoBehaviour
             yield return null;
             transform.position = Vector3.Lerp(transform.position, origin, t += Time.deltaTime);
         }
-        GameManager.Instance.cinemachineImpulseSource.GenerateImpulse(30f);
+        GameManager.Instance.CinemachineImpulseSource.GenerateImpulse(30f);
 
         transform.position = origin;
         yield return new WaitForSeconds(3f);

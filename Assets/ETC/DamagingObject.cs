@@ -1,15 +1,20 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
+
+public enum HitType
+{
+    Normal,
+    Critical
+}
 
 public interface IHitable
 {
-    void ReceiveHit(int damage);
+    void ReceiveHit(int damage, HitType hitType = HitType.Normal);
 }
 
 public class DamagingObject : MonoBehaviour
 {
-    [SerializeField] private bool targetWak;
+    [SerializeField] private bool bTargetWak = true;
     [SerializeField] private TotalPower totalPower;
     [SerializeField] private IntVariable criticalChance;
     [SerializeField] private IntVariable criticalDamagePer;
@@ -31,10 +36,15 @@ public class DamagingObject : MonoBehaviour
         collider2D = GetComponent<Collider2D>();
     }
 
+    private void OnEnable()
+    {
+        collider2D.enabled = true;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if ((other.CompareTag("Player") && targetWak == false) ||
-            (other.CompareTag("Monster") || other.CompareTag("Boss")) && targetWak == true) 
+        if ((other.CompareTag("Player") && bTargetWak == false) ||
+            (other.CompareTag("Monster") || other.CompareTag("Boss")) && bTargetWak == true) 
             return;
 
         if (other.TryGetComponent(out IHitable damageable))
@@ -49,9 +59,16 @@ public class DamagingObject : MonoBehaviour
                 }
                 else
                 {
-                    totalDamage = UnityEngine.Random.Range(0, 100) < criticalChance.RuntimeValue
-                        ? (int)Math.Round(totalDamage * totalPower.RuntimeValue * (1 + criticalDamagePer.RuntimeValue * 0.01f), MidpointRounding.AwayFromZero)
-                        : (int)Math.Round(totalDamage * (1 + (float)totalPower.RuntimeValue / 100), MidpointRounding.AwayFromZero);
+                    HitType hitType = HitType.Normal;
+                    if (UnityEngine.Random.Range(0, 100) < criticalChance.RuntimeValue)
+                    {
+                        totalDamage =(int)Math.Round(totalDamage * totalPower.RuntimeValue * (1 + criticalDamagePer.RuntimeValue * 0.01f), MidpointRounding.AwayFromZero);
+                        hitType = HitType.Critical;
+                    }
+                   else
+                    {
+                        totalDamage = (int)Math.Round(totalDamage * (1 + (float)totalPower.RuntimeValue / 100), MidpointRounding.AwayFromZero);
+                    }
 
                     if (other.CompareTag("Monster"))
                     {
@@ -61,7 +78,7 @@ public class DamagingObject : MonoBehaviour
                     {
                         totalDamage = (int)Math.Round(totalDamage * (1 + (float)Wakgood.Instance.BossDamage.RuntimeValue / 100), MidpointRounding.AwayFromZero);
                     }
-                    damageable.ReceiveHit(totalDamage);
+                    damageable.ReceiveHit(totalDamage, hitType);
                 }
             }
             else
@@ -69,14 +86,14 @@ public class DamagingObject : MonoBehaviour
                 damageable.ReceiveHit(damage);
             }
         }
-        else
-        {
-            Wakgood.Instance.ReceiveHit(damage);
-        }
 
         if (offGoOnHit)
+        {
             gameObject.SetActive(false);
+        }
         else if (offCollOnHit)
+        {
             collider2D.enabled = false;
+        }
     }
 }
