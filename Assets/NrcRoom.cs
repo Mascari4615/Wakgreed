@@ -5,10 +5,10 @@ using UnityEngine;
 public class NrcRoom : Room
 {
     [SerializeField] private List<NPC> nrcs;
-
-    protected override void Awake()
+    public override void Enter()
     {
-        base.Awake();
+        base.Enter();
+
         NPC random = null;
         for (int i = 0; i < nrcs.Count; i++)
         {
@@ -25,7 +25,7 @@ public class NrcRoom : Room
             probability.Add("CommonChest", 70);
             probability.Add("UncommonChest", 35);
             probability.Add("LegendaryChest", 5);
-            ObjectManager.Instance.PopObject(probability.Get(), transform.position);        
+            ObjectManager.Instance.PopObject(probability.Get(), transform.position);
         }
         else
         {

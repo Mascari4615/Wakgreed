@@ -52,6 +52,12 @@ public class ObjectManager : MonoBehaviour
 
     public GameObject PopObject(string objectName, Vector3 pos)
     {
+        if (!poolDic.ContainsKey(objectName))
+        {
+            Debug.Log("No");
+            return null;
+        }    
+
         GameObject targetObject;
         if (poolDic[objectName].Stack.Count.Equals(0))
             targetObject = Instantiate(poolDic[objectName].gameObject, pos, Quaternion.identity, poolDic[objectName].transform);
@@ -66,6 +72,13 @@ public class ObjectManager : MonoBehaviour
 
     public GameObject PopObject(string objectName, Vector3 pos, Vector3 rot)
     {
+
+        if (!poolDic.ContainsKey(objectName))
+        {
+            Debug.Log("No");
+            return null;
+        }
+
         GameObject targetObject;
         if (poolDic[objectName].Stack.Count.Equals(0))
             targetObject = Instantiate(poolDic[objectName].gameObject, pos, Quaternion.Euler(rot), poolDic[objectName].transform);
@@ -80,6 +93,14 @@ public class ObjectManager : MonoBehaviour
 
     public GameObject PopObject(string objectName, Transform tr, bool setRot = false)
     {
+
+        if (!poolDic.ContainsKey(objectName))
+        {
+            Debug.Log("No");
+            return null;
+        }
+
+
         GameObject targetObject;
         if (poolDic[objectName].Stack.Count.Equals(0))
         {

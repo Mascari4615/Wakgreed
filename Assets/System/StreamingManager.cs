@@ -53,7 +53,7 @@ public class StreamingManager : MonoBehaviour
         if (isStreaming) return;
 
         isStreaming = true;
-        viewer.RuntimeValue = 2000;
+        viewer.RuntimeValue = 10000;
 
         // GameEventListener 클래스를 통해 꼼수로 코루틴 실행하기
         if (DataManager.Instance.CurGameData.rescuedNPC[16])
@@ -210,7 +210,6 @@ public class StreamingManager : MonoBehaviour
 
         if (viewPort.activeSelf && !inputField.gameObject.activeSelf && !Input.GetKey(KeyCode.Z))
         {
-            Debug.Log(t);
             t -= Time.deltaTime;
             if (t <= 0)
             {
