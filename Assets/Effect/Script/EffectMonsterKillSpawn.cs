@@ -8,7 +8,7 @@ public class EffectMonsterKillSpawn : Effect
     [SerializeField] private GameObject spawnObject;
     [SerializeField] private int percentage;
 
-    private void SpawnObject()
+    private void SpawnObject(Transform transform)
     {
         if (Random.Range(0, 100) < percentage)
             ObjectManager.Instance.PopObject(spawnObject.name, Wakgood.Instance.transform.position);

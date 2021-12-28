@@ -14,6 +14,7 @@ public class WakgoodMove : MonoBehaviour
     [SerializeField] private IntVariable maxDashStack;
     [SerializeField] private IntVariable curDashStack;
     [SerializeField] private FloatVariable dashCoolTime;
+    [SerializeField] private FloatVariable dashChargeSpeed;
     [SerializeField] private BoolVariable isFocusOnSomething;
     private Rigidbody2D playerRb;
     private Animator animator;
@@ -108,7 +109,7 @@ public class WakgoodMove : MonoBehaviour
         {
             if (curDashStack.RuntimeValue < maxDashStack.RuntimeValue)
             {
-                yield return new WaitForSeconds(dashCoolTime.RuntimeValue);
+                yield return new WaitForSeconds(dashCoolTime.RuntimeValue * (1 - dashChargeSpeed.RuntimeValue / 100));
                 curDashStack.RuntimeValue++;
             }
 

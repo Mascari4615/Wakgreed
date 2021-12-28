@@ -25,7 +25,7 @@ public class StatUI : MonoBehaviour
     {
         powerText.text = totalPower.RuntimeValue.ToString();
         evasionText.text = evasion.RuntimeValue.ToString();
-        defText.tag = defence.RuntimeValue.ToString();
-        staticDefText.tag = staticDefence.RuntimeValue.ToString();
+        defText.text = defence.RuntimeValue.ToString();
+        staticDefText.text = staticDefence.RuntimeValue.ToString();
     }
 }

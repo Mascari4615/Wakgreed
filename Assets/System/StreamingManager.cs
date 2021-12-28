@@ -19,6 +19,8 @@ public class StreamingManager : MonoBehaviour
     [SerializeField] private IntVariable goldu, viewer;
     [SerializeField] private BoolVariable isChatting, isLoading;
     [SerializeField] private TwitchConnect twitchConnect;
+    [SerializeField] private IntVariable uMin, uMax;
+    [SerializeField] private IntVariable gMin, gMax;
 
     [SerializeField] private Buff[] buffs;
 
@@ -143,7 +145,8 @@ public class StreamingManager : MonoBehaviour
         {
             while (isLoading.RuntimeValue) yield return null;
             
-            viewer.RuntimeValue += Random.Range(-3, 1 + 1);
+            viewer.RuntimeValue += Random.Range(uMin.RuntimeValue, uMax.RuntimeValue + 1);
+            viewer.RuntimeValue += Random.Range(-1 * gMax.RuntimeValue, -1 * gMin.RuntimeValue + 1);
             yield return ws05;
         }
 

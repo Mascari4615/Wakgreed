@@ -44,19 +44,27 @@ public class DamagingObject : MonoBehaviour
                 int totalDamage = WeaponID != -1 ? UnityEngine.Random.Range(minDamage, maxDamage + 1) : damage;
                 TextType textType;
 
-                if (UnityEngine.Random.Range(0, 100) < criticalChance.RuntimeValue)
+                if (criticalChance == null)
                 {
-                    totalDamage = (int) Math.Round(totalDamage * totalPower.RuntimeValue * (1 + criticalDamagePer.RuntimeValue * 0.01f), MidpointRounding.AwayFromZero);
-                    textType = TextType.Critical;
+                    Debug.Log("DASdsasdsad");
+                    damageable.ReceiveHit(totalDamage);
                 }
                 else
                 {
-                    totalDamage *= (1 + totalPower.RuntimeValue / 100);
-                    textType = TextType.Normal;
-                }
-                // ObjectManager.Instance.PopObject("AnimatedText", transform.position + Vector3.up).GetComponent<AnimatedText>().SetText(damage.ToString(), textType);
+                    if (UnityEngine.Random.Range(0, 100) < criticalChance.RuntimeValue)
+                    {
+                        totalDamage = (int)Math.Round(totalDamage * totalPower.RuntimeValue * (1 + criticalDamagePer.RuntimeValue * 0.01f), MidpointRounding.AwayFromZero);
+                        textType = TextType.Critical;
+                    }
+                    else
+                    {
+                        totalDamage *= (1 + totalPower.RuntimeValue / 100);
+                        textType = TextType.Normal;
+                    }
+                    // ObjectManager.Instance.PopObject("AnimatedText", transform.position + Vector3.up).GetComponent<AnimatedText>().SetText(damage.ToString(), textType);
 
-                damageable.ReceiveHit(totalDamage);
+                    damageable.ReceiveHit(totalDamage);
+                }
             }
             else
             {

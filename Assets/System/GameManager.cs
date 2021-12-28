@@ -153,9 +153,9 @@ public class GameManager : MonoBehaviour
         enemyRunTimeSet.Clear();
         ObjectManager.Instance.DeactivateAll();
 
+        DataManager.Instance.wakgoodMasteryInventory.Clear();
         DataManager.Instance.wakgoodItemInventory.Clear();
         DataManager.Instance.wakgoodFoodInventory.Clear();
-        DataManager.Instance.wakgoodMasteryInventory.Clear();
         DataManager.Instance.buffRunTimeSet.Clear();
 
         gameResultPanel.SetActive(false);
