@@ -19,9 +19,11 @@ public class Hikiking : BossMonster
 
     protected override IEnumerator Attack()
     {
+
+        StartCoroutine(SpawnMobCo());
         while (true)
         {
-            int i = Random.Range(0, 2 + 1);
+            int i = Random.Range(0, 1 + 1);
             switch (i)
             {
                 case 0:
@@ -29,9 +31,6 @@ public class Hikiking : BossMonster
                     break;
                 case 1:
                     yield return StartCoroutine(Ult());
-                    break;
-                case 2:
-                    yield return StartCoroutine(Skill1());
                     break;
             }
 
@@ -58,7 +57,7 @@ public class Hikiking : BossMonster
 
             yield return new WaitForSeconds(0.2f);
 
-            int slashCount = Random.Range(2, 4 + 1);
+            int slashCount = Random.Range(3, 6 + 1);
             for (int k = 0; k < slashCount; k++)
             {
                 ObjectManager.Instance.PopObject("HikiSlash", Wakgood.Instance.transform.position,
@@ -139,8 +138,8 @@ public class Hikiking : BossMonster
         lineRenderer.positionCount = 2;
 
         Vector3 aOriginPos = transform.position;
-        Vector3 aTargetPos = Wakgood.Instance.transform.position +
-                             (Wakgood.Instance.transform.position - transform.position).normalized * 3;
+        Vector3 aTargetPos = Vector3.ClampMagnitude(Wakgood.Instance.transform.position +
+                             (Wakgood.Instance.transform.position - transform.position).normalized * 100, moveLimit);
 
         lineRenderer.SetPosition(0, aOriginPos);
         lineRenderer.SetPosition(1, aTargetPos);
@@ -175,24 +174,24 @@ public class Hikiking : BossMonster
         yield return new WaitForSeconds(3f);
     }
 
-    private IEnumerator Skill1()
+    private IEnumerator SpawnMobCo()
     {
-        for (int i = 0; i < 2; i++)
-            StartCoroutine(SpawnMob());
+        while (true)
+        {
+            for (int i = 0; i < 2; i++)
+                StartCoroutine(SpawnMob());
 
-        yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(Random.Range(2f, 6f));
+        }
     }
 
     private IEnumerator SpawnMob()
     {
-        Vector3 pos = (Vector3)Random.insideUnitCircle * 10f;
-        Vector3 a = new(
-            Mathf.Clamp(transform.position.x + pos.x, spawnedPos.x - moveLimit, spawnedPos.x + moveLimit),
-             Mathf.Clamp(transform.position.y + pos.y, spawnedPos.y - moveLimit, spawnedPos.y + moveLimit));
+        Vector3 pos = spawnedPos + (Vector3)Random.insideUnitCircle * 10f;
 
-        ObjectManager.Instance.PopObject("SpawnCircle", a).GetComponent<Animator>().SetFloat("SPEED", 1 / 0.5f);
+        ObjectManager.Instance.PopObject("SpawnCircle", pos).GetComponent<Animator>().SetFloat("SPEED", 1 / 0.5f);
         yield return new WaitForSeconds(.5f);
-        ObjectManager.Instance.PopObject("ChidoriPanchi", a);
+        ObjectManager.Instance.PopObject("ChidoriPanchi", pos);
     }
 
     private IEnumerator Skill2()

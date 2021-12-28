@@ -18,7 +18,7 @@ public class MeleeAttack : Skill
             if (DataManager.Instance.wakgoodItemInventory.Items.Contains(DataManager.Instance.ItemDic[53]))
             {
                 if (Random.Range(0, 100) < 5 * DataManager.Instance.wakgoodItemInventory.itemCountDic[53])
-                    ObjectManager.Instance.PopObject("Ball",Wakgood.Instance.transform.position).GetComponent<BulletMove>().SetDirection(Wakgood.Instance.AttackPosition.position - Wakgood.Instance.transform.position);
+                    ObjectManager.Instance.PopObject("Ball", Wakgood.Instance.transform.position).GetComponent<BulletMove>().SetDirection((Vector3)Wakgood.Instance.worldMousePoint - Wakgood.Instance.transform.position);
             }
         }
 

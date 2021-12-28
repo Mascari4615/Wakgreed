@@ -44,6 +44,12 @@ public class Pungsin : BossMonster
     }
     int temp = 0;
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        spawnedPos = transform.position;
+    }
+
     protected override IEnumerator Attack()
     {
         yield return StartCoroutine(Skill1());
