@@ -283,14 +283,6 @@ public class Wakpago : BossMonster
         foreach (var monster in monsterList)
             ObjectManager.Instance.PushObject(monster);
 
-        if (DataManager.Instance.CurGameData.killedOnceBoss[ID] == false)
-        {
-            if (Collection.Instance != null)
-                Collection.Instance.Collect(this, true);
-            DataManager.Instance.CurGameData.killedOnceBoss[ID] = true;
-            DataManager.Instance.SaveGameData();
-        }
-
         if (DataManager.Instance.CurGameData.rescuedNPC[npcID] == false)
         {
             DataManager.Instance.CurGameData.rescuedNPC[npcID] = true;
