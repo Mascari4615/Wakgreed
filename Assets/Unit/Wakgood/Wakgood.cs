@@ -35,7 +35,7 @@ public class Wakgood : MonoBehaviour, IHitable
     private WakgoodCollider wakgoodCollider;
     public WakgoodMove WakgoodMove { get; private set; }
 
-    private Vector3 worldMousePoint;
+    public Vector2 worldMousePoint;
     public int CurWeaponNumber { get; private set; } = 0;
     public Weapon[] Weapon { get; } = new Weapon[2];
     [SerializeField] private Weapon hochi, hand;

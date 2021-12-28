@@ -55,8 +55,9 @@ MonoBehaviour:
   criticalChance: {fileID: 0}
   criticalDamagePer: {fileID: 0}
   damage: 5
-  offOnHit: 0
-  ggambbakDelay: 0
+  WeaponID: -1
+  offGoOnHit: 0
+  offCollOnHit: 0
 --- !u!114 &6328839029110153739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,7 +196,7 @@ TrailRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 978103407
   m_SortingLayer: 1
-  m_SortingOrder: 1
+  m_SortingOrder: -1
   m_Time: 0.1
   m_Parameters:
     serializedVersion: 3
