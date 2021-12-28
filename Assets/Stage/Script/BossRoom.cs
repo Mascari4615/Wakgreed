@@ -14,7 +14,7 @@ public class BossRoom : Room
     public void RoomClear()
     {
         ObjectManager.Instance.PopObject("BossChest", transform.Find("ChestPoint"));
-        ObjectManager.Instance.PopObject("HealObject", transform.Find("ChestPoint").position + Vector3.up);
+        ObjectManager.Instance.PopObject("HealObject", transform.Find("ChestPoint").position + Vector3.up * 5);
         foreach (var hider in DoorHiders) hider.SetActive(false);
         foreach (var particle in DoorParticles) particle.SetActive(true);
         StartCoroutine(UIManager.Instance.SpeedWagon_RoomClear());

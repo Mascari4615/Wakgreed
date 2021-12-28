@@ -58,11 +58,18 @@ public class DamagingObject : MonoBehaviour
                     }
                     else
                     {
-                        totalDamage *= (1 + totalPower.RuntimeValue / 100);
+                        totalDamage = (int)Math.Round(totalDamage * (1 + (float)totalPower.RuntimeValue / 100), MidpointRounding.AwayFromZero);
                         textType = TextType.Normal;
                     }
-                    // ObjectManager.Instance.PopObject("AnimatedText", transform.position + Vector3.up).GetComponent<AnimatedText>().SetText(damage.ToString(), textType);
 
+                    if (other.CompareTag("Monster"))
+                    {
+                        totalDamage = (int)Math.Round(totalDamage * (1 + (float)Wakgood.Instance.MobDamage.RuntimeValue / 100), MidpointRounding.AwayFromZero);
+                    }
+                    else if (other.CompareTag("Boss"))
+                    {
+                        totalDamage = (int)Math.Round(totalDamage * (1 + (float)Wakgood.Instance.BossDamage.RuntimeValue / 100), MidpointRounding.AwayFromZero);
+                    }
                     damageable.ReceiveHit(totalDamage);
                 }
             }

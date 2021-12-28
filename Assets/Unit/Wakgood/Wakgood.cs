@@ -22,7 +22,8 @@ public class Wakgood : MonoBehaviour, IHitable
     [SerializeField] private FloatVariable moveSpeed, evasion;
     [SerializeField] private BoolVariable canEvasionOnDash;
     [SerializeField] private GameEvent onDamage, onCollapse, onLevelUp;
-
+    public IntVariable BossDamage;
+    public IntVariable MobDamage;
     private Transform attackPositionParent;
     public Transform AttackPosition { get; private set; }
     public Transform WeaponPosition { get; private set; }

@@ -12,6 +12,16 @@ public class MeleeAttack : Skill
 
     public override void Use(Weapon weapon)
     {
+        if (type.Equals(SkillType.Base))
+        {
+            
+            if (DataManager.Instance.wakgoodItemInventory.Items.Contains(DataManager.Instance.ItemDic[53]))
+            {
+                if (Random.Range(0, 100) < 5 * DataManager.Instance.wakgoodItemInventory.itemCountDic[53])
+                    ObjectManager.Instance.PopObject("Ball",Wakgood.Instance.transform.position).GetComponent<BulletMove>().SetDirection(Wakgood.Instance.AttackPosition.position - Wakgood.Instance.transform.position);
+            }
+        }
+
         ObjectManager.Instance.PopObject(resource.name, Wakgood.Instance.AttackPosition, true);
         
         RaycastHit2D[] hits = Physics2D.CircleCastAll(Wakgood.Instance.AttackPosition.position, radius, Vector2.zero, 0, 1 << 7);
