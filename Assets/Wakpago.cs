@@ -100,7 +100,6 @@ public class Wakpago : BossMonster
                         break;
                     case 1:
                         yield return mobSpawnCO = StartCoroutine(MobSpawn());
-
                         break;
                 }
             }
@@ -134,7 +133,7 @@ public class Wakpago : BossMonster
     {
         while (true)
         {
-            Vector3 randomPos = transform.position + (Vector3)Random.insideUnitCircle * 30f;
+            Vector3 randomPos = Vector3.ClampMagnitude(transform.position + (Vector3)Random.insideUnitCircle * 30f, moveLimit);
             ObjectManager.Instance.PopObject("Bomb", randomPos);
             yield return new WaitForSeconds(Random.Range(1f, 3f));
         }
@@ -226,7 +225,7 @@ public class Wakpago : BossMonster
             bullets[i].enabled = true;
             bullets[i].transform.position = transform.position + (Vector3)Vector2.up;
             bullets[i].gameObject.SetActive(true);
-
+            GameManager.Instance.cinemachineImpulseSource.GenerateImpulse(3);
             yield return ws002;
         }
 
