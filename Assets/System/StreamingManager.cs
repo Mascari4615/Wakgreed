@@ -29,7 +29,7 @@ public class StreamingManager : MonoBehaviour
     private int chatIndex;
     private Coroutine showWakgoodChat;
     private bool isStreaming;
-    private readonly WaitForSeconds ws15 = new(15f), ws05 = new(.5f), ws02 = new(0.2f);
+    private readonly WaitForSeconds ws15 = new(15f), ws1 = new(1f), ws02 = new(0.2f);
     public string Uptime { get; private set; } = "";
 
     private void Awake()
@@ -52,7 +52,7 @@ public class StreamingManager : MonoBehaviour
         Debug.Log("BangOn");
 
         isStreaming = true;
-        viewer.RuntimeValue = 3000;
+        viewer.RuntimeValue = 2000;
 
         // GameEventListener 클래스를 통해 꼼수로 코루틴 실행하기
         if (DataManager.Instance.CurGameData.rescuedNPC[16])
@@ -87,14 +87,14 @@ public class StreamingManager : MonoBehaviour
 
             if (Random.Range(0, 100) < 30)
             {
-                Wakgood.Instance.ReceiveHeal(1);
+                Wakgood.Instance.ReceiveHeal(2);
                 donationUI.SetActive(false);
-                donationText.text = $"비밀소녀의 응원으로 체력 1 회복!";
+                donationText.text = $"비밀소녀의 응원으로 체력 2 회복!";
                 donationImageUI.sprite = donationImages[2];
                 donationUI.SetActive(true);
                 RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
             }
-            yield return new WaitForSeconds(20f);
+            yield return new WaitForSeconds(47f);
         }
     }
 
@@ -110,12 +110,12 @@ public class StreamingManager : MonoBehaviour
             {
                 DataManager.Instance.buffRunTimeSet.Add(buffs[0]);
                 donationUI.SetActive(false);
-                donationText.text = $"15초 동안 공격속도 30% 증가!";
+                donationText.text = $"10초 동안 공격속도 20% 증가!";
                 donationImageUI.sprite = donationImages[0];
                 donationUI.SetActive(true);
                 RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
             }
-            yield return new WaitForSeconds(30f);
+            yield return new WaitForSeconds(64f);
         }
     }
 
@@ -147,9 +147,10 @@ public class StreamingManager : MonoBehaviour
             
             viewer.RuntimeValue += Random.Range(uMin.RuntimeValue, uMax.RuntimeValue + 1);
             viewer.RuntimeValue += Random.Range(-1 * gMax.RuntimeValue, -1 * gMin.RuntimeValue + 1);
-            yield return ws05;
+            yield return ws1;
         }
 
+        Wakgood.Instance.Collapse();
         Debug.Log("!");
     }
 

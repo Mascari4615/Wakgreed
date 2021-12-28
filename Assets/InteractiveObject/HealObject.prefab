@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8184535439970468905}
   - component: {fileID: 3559808020453744924}
   - component: {fileID: 8397281232321660990}
+  - component: {fileID: 6334030778022168115}
   m_Layer: 0
   m_Name: HealObject
   m_TagString: Untagged
@@ -73,9 +74,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 978103407
+  m_SortingLayer: 1
+  m_SortingOrder: 1
   m_Sprite: {fileID: -6678036994730330799, guid: 0447e461264924d48b012aaa6262442a,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -101,8 +102,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healAmount: 10
-  wakgoodCurHP: {fileID: 11400000, guid: 87e24a6bb0485bb43bf414a2be282fe6, type: 2}
-  wakgoodMaxHP: {fileID: 11400000, guid: e862da976520d4847a960ac61d303b50, type: 2}
 --- !u!61 &3559808020453744924
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -150,3 +149,23 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &6334030778022168115
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6556778629885958712}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e3588f88a8ab558499468bd95cd741e2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

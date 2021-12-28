@@ -26,5 +26,5 @@ public class HpBar : MonoBehaviour
 
     public void SetHpBarWidth() =>
         (rectTransform ? rectTransform : rectTransform = GetComponent<RectTransform>()).sizeDelta 
-        = new Vector2(Mathf.Clamp(originX + (hpMax.RuntimeValue - wakdu.baseHp) * 15, originX, 1250), originY);
+        = new Vector2(Mathf.Clamp(originX + (hpMax.RuntimeValue - wakdu.baseHp) * 5, originX, 1250), originY);
 }

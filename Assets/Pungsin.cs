@@ -134,20 +134,19 @@ public class Pungsin : BossMonster
         stun.SetActive(false);
         ultParticle2.SetActive(false);
     }
-
+    private Vector3 spawnedPos = Vector3.zero;
+    [SerializeField] private float moveLimit = 15;
     private IEnumerator Skill0()
     {
         yield return new WaitForSeconds(.2f);
         Animator.SetBool("SKILL1", true);
 
-        // int attackCount = Random.Range(2, 3 + 1);
-
         for (int i = 0; i < 3; i++)
         {
             Vector3 originPos = transform.position;
-            Vector3 targetPos = Wakgood.Instance.transform.position + new Vector3(
-                (-1 + Random.Range(0, 2) * 2) * Random.Range(3f, 5f),
-                (-1 + Random.Range(0, 2) * 2) * Random.Range(3f, 5f));
+            Vector3 targetPos = new(
+Mathf.Clamp(Wakgood.Instance.transform.position.x + (-1 + Random.Range(0, 2) * 2) * Random.Range(3f, 5f), spawnedPos.x - moveLimit, spawnedPos.x + moveLimit),
+Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2) * Random.Range(3f, 5f), spawnedPos.y - moveLimit, spawnedPos.y + moveLimit));
 
             Animator.SetTrigger("SKILL1CHARGE");
 
