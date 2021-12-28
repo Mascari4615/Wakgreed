@@ -34,7 +34,7 @@ public class Drop : MonoBehaviour
                 yield return null;
         }
         drop.transform.localPosition = Vector3.zero;
-        GameManager.Instance.cinemachineImpulseSource.GenerateImpulse(10f);
+        GameManager.Instance.CinemachineImpulseSource.GenerateImpulse(10f);
         ObjectManager.Instance.PopObject("LevelUpEffect", transform);
 
         warningObject.SetActive(false);

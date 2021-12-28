@@ -107,7 +107,7 @@ public class Gorilla : NormalMonster
                 Animator.SetTrigger("ATTACKGO");
                 earthQuakeWarning.SetActive(false);
                 earthQuake.SetActive(true);
-                GameManager.Instance.cinemachineImpulseSource.GenerateImpulse(5);
+                GameManager.Instance.CinemachineImpulseSource.GenerateImpulse(5);
 
                 yield return new WaitForSeconds(5f);
             }

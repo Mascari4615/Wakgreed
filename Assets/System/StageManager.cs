@@ -165,7 +165,7 @@ public class StageManager : MonoBehaviour
         CurrentRoom.Enter();
         InitialzeMap();
 
-        UIManager.Instance.SetStageName($"{currentStage.id}-{1} {currentStage.name}");
+        UIManager.Instance.SetStageName($"{currentStage.name}");
         Wakgood.Instance.transform.position = new Vector3(CurrentRoom.Coordinate.x, CurrentRoom.Coordinate.y, 0) * 100;
 
         for (int i = 0; i < stageIcons.Length; i++)

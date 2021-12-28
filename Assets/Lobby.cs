@@ -7,11 +7,9 @@ public class Lobby : MonoBehaviour
     [SerializeField] private GameObject messiBar;
     [SerializeField] private GameObject convenienceStore;
     [SerializeField] private NPC[] npcs;
-    [SerializeField] CinemachineVirtualCamera virtualCamera;
 
     private void OnEnable()
     {
-        virtualCamera.m_Lens.OrthographicSize = 12;   
         GameData curGameData = DataManager.Instance.CurGameData;
 
         banggalTree.SetActive(curGameData.rescuedNPC[0]);

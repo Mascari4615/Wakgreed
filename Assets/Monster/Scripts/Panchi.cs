@@ -4,8 +4,6 @@ using UnityEngine;
 public class Panchi : NormalMonster
 {
     private IEnumerator idle;
-    private static readonly int ismoving = Animator.StringToHash("ISMOVING");
-    private static readonly int attack = Animator.StringToHash("ATTACK");
 
     protected override void OnEnable()
     {
@@ -22,7 +20,7 @@ public class Panchi : NormalMonster
 
         while (true)
         {
-            Animator.SetBool(ismoving, true);
+            Animator.SetBool("ATTACK", true);
             Vector2 targetPos = spawnPos + Random.insideUnitCircle * 2;
             Vector2 originPos = transform.position;
             SpriteRenderer.flipX = (targetPos.x > originPos.x) ? true : false;
@@ -31,7 +29,7 @@ public class Panchi : NormalMonster
                 Rigidbody2D.position += (targetPos - originPos) * 0.02f;
                 yield return new WaitForSeconds(0.02f);
             }
-            Animator.SetBool(ismoving, false);
+            Animator.SetBool("ATTACK", false);
             yield return new WaitForSeconds(2f);
         }
     }
@@ -54,25 +52,25 @@ public class Panchi : NormalMonster
     private IEnumerator Attack()
     {
         WaitForSeconds ws002 = new(0.02f);
-        Animator.SetBool(ismoving, false);
+        Animator.SetBool("ISMOVING", false);
 
         while (true)
         {
             if (Vector2.Distance(transform.position, Wakgood.Instance.transform.position) > 2)
             {
                 SpriteRenderer.flipX = Rigidbody2D.velocity.x > 0;
-                Animator.SetBool(ismoving, true);
+                Animator.SetBool("ISMOVING", true);
                 Rigidbody2D.velocity = ((Vector2)Wakgood.Instance.transform.position - Rigidbody2D.position).normalized * MoveSpeed;
                 yield return ws002;
             }
             else
             {
-                Animator.SetBool(ismoving, false);
+                Animator.SetBool("ISMOVING", false);
                 Rigidbody2D.velocity = Vector2.zero;
                 Vector3 direction = (Wakgood.Instance.transform.position - transform.position).normalized;
                 Vector3 rot = new(0, 0, Mathf.Atan2(Wakgood.Instance.transform.position.y - (transform.position.y + 0.8f), Wakgood.Instance.transform.position.x - transform.position.x) * Mathf.Rad2Deg - 90);
                 yield return StartCoroutine(Casting(.7f));
-                Animator.SetTrigger(attack);
+                Animator.SetTrigger("ATTACK");
                 ObjectManager.Instance.PopObject("PanchiSlash", transform.position + Vector3.up * 0.8f + direction * 1.5f, rot);
                 yield return new WaitForSeconds(1f);
             }

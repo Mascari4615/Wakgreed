@@ -17,8 +17,8 @@ public class Rusuk : Chef
     {
         cvm1.Priority = 200;
         cvm2.Priority = -100;
-        cinemachineTargetGroup.m_Targets[1].target = transform;
-        cinemachineTargetGroup.m_Targets[1].weight = 5;
+        GameManager.Instance.CinemachineTargetGroup.m_Targets[1].target = transform;
+        GameManager.Instance.CinemachineTargetGroup.m_Targets[1].weight = 5;
         animator.SetBool("SAKING", true);
         yield return new WaitForSeconds(1.5f);
         animator.SetBool("SAKING", false);

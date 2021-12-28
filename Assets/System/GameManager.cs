@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private BoolVariable isGaming;
     [SerializeField] private BoolVariable isFocusOnSomething;
     [SerializeField] private BoolVariable isLoading;
-    [SerializeField] private BoolVariable isChatting;
+    public BoolVariable isBossing;
     [SerializeField] private BoolVariable isShowingSomething;
 
     [SerializeField] private GameEvent onRecall;
@@ -27,7 +27,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject undo;
 
-    public CinemachineImpulseSource cinemachineImpulseSource;
+    public CinemachineImpulseSource CinemachineImpulseSource { get; private set; }
+    public CinemachineVirtualCamera CinemachineVirtualCamera { get; private set; }
+    public CinemachineTargetGroup CinemachineTargetGroup { get; private set; }
 
     [SerializeField] private IntVariable nyang;
     [SerializeField] private IntVariable viewer;
@@ -41,12 +43,16 @@ public class GameManager : MonoBehaviour
     {
         Application.targetFrameRate = 60;
         Instance = this;
+
+        CinemachineVirtualCamera = Camera.main.transform.parent.Find("CM Camera").GetComponent<CinemachineVirtualCamera>();
+        CinemachineTargetGroup = Camera.main.transform.parent.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>();
+        CinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
     }
 
     private void Start()
     {
         StartCoroutine(CheckBuff());
-        UIManager.Instance.SetStageName("0-0 로비");
+        UIManager.Instance.SetStageName("마을");
         AudioManager.Instance.PlayMusic("yeppSun - 고고 다섯쌍둥이");
         UIManager.Instance.SetCurViewerText("뱅온 전!");
     }
@@ -57,12 +63,10 @@ public class GameManager : MonoBehaviour
         {
             foreach (Buff buff in new List<Buff>(buffRunTimeSet.Items))
             {
-                // Debug.Log($"{name} : CheckBuff - {buff.name}");
                 if (buff.hasCondition) continue;
                 else if (buff.removeTime <= Time.time)
                 {
                     buffRunTimeSet.Remove(buff);
-                    Debug.Log($"{name} : CheckBuff, BuffRemove - {buff.name}");
                 }
             }
 
@@ -72,7 +76,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        isFocusOnSomething.RuntimeValue = (isChatting.RuntimeValue || isLoading.RuntimeValue || isShowingSomething.RuntimeValue);
+        isFocusOnSomething.RuntimeValue = (StreamingManager.Instance.IsChatting || isLoading.RuntimeValue || isShowingSomething.RuntimeValue);
 
         if (Input.GetKeyDown(KeyCode.Escape) && !isLoading.RuntimeValue && !gameResultPanel.activeSelf)
             if (!SettingManager.Instance.Temp())
@@ -130,7 +134,8 @@ public class GameManager : MonoBehaviour
 
         fadePanel.SetTrigger("OUT");
         yield return new WaitForSeconds(1f);
-        fadePanel.SetTrigger("IN");
+
+        CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
 
         gamePanel.SetActive(true);
 
@@ -140,9 +145,10 @@ public class GameManager : MonoBehaviour
         onRecall.Raise();
         isGaming.RuntimeValue = false;
         isFighting.RuntimeValue = false;
+        isBossing.RuntimeValue = false;
 
         StageManager.Instance.DestroyStage();
-        UIManager.Instance.SetStageName("0-0 로비");
+        UIManager.Instance.SetStageName("마을");
         AudioManager.Instance.PlayMusic("yeppSun - 고고 다섯쌍둥이");
         StageManager.Instance.currentStageID = -1;
 
@@ -167,6 +173,8 @@ public class GameManager : MonoBehaviour
         Wakgood.Instance.gameObject.SetActive(true);
         undo.SetActive(true);
 
+        yield return new WaitForSeconds(1f);
+        fadePanel.SetTrigger("IN");
         Time.timeScale = 1;
     }
 

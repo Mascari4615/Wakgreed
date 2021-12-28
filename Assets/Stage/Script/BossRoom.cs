@@ -8,11 +8,18 @@ public class BossRoom : Room
     {
         foreach (var hider in DoorHiders) hider.SetActive(true);
         foreach (var particle in DoorParticles) particle.SetActive(false);
+
+        GameManager.Instance.isBossing.RuntimeValue = true;
+        AudioManager.Instance.StopMusic();
+
         Instantiate(boss, transform.Find("BossSpawnPoint"));
     }
     
     public void RoomClear()
     {
+        GameManager.Instance.isBossing.RuntimeValue = false;
+        AudioManager.Instance.StopMusic();
+
         ObjectManager.Instance.PopObject("BossChest", transform.Find("ChestPoint"));
         ObjectManager.Instance.PopObject("HealObject", transform.Find("ChestPoint").position + Vector3.up * 5);
         foreach (var hider in DoorHiders) hider.SetActive(false);

@@ -40,7 +40,7 @@ public class AudioManager : MonoBehaviour
         bgm = RuntimeManager.GetBus("bus:/Master/BGM");
         sfx = RuntimeManager.GetBus("bus:/Master/SFX");
         master = RuntimeManager.GetBus("bus:/Master");
-        sfxVolumeTestEvent = RuntimeManager.CreateInstance("event:/SFX/SFXVolumeTest");
+        sfxVolumeTestEvent = RuntimeManager.CreateInstance("event:/SFX/ETC/SFXVolumeTest");
     }
 
     private void Start()

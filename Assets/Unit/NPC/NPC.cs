@@ -14,7 +14,6 @@ public abstract class NPC : InteractiveObject
     protected CinemachineVirtualCamera cvm1, cvm2; // NPC, UI
     protected GameObject customUI, defaultUI, chat;
     private TextMeshProUGUI chatText;
-    protected CinemachineTargetGroup cinemachineTargetGroup;
     private bool isTalking, inputSkip;
     private readonly WaitForSeconds ws005 = new(0.05f), ws02 = new(0.2f);
     protected Animator animator;
@@ -30,7 +29,6 @@ public abstract class NPC : InteractiveObject
         chat = defaultUI.transform.Find("Chat").gameObject;
         chatText = chat.transform.GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>();
         cvm1.Follow = GameObject.Find("Cameras").transform.GetChild(2);
-        cinemachineTargetGroup = GameObject.Find("Cameras").transform.GetChild(2).GetComponent<CinemachineTargetGroup>();
         animator = GetComponent<Animator>();
     }
 
@@ -58,8 +56,8 @@ public abstract class NPC : InteractiveObject
             return;
         }
         
-        cinemachineTargetGroup.m_Targets[1].target = null;
-        cinemachineTargetGroup.m_Targets[1].weight = 1;
+        GameManager.Instance.CinemachineTargetGroup.m_Targets[1].target = null;
+        GameManager.Instance.CinemachineTargetGroup.m_Targets[1].weight = 1;
         cvm1.Priority = -100;
         cvm2.Priority = -100;
         customUI.SetActive(false);
@@ -73,8 +71,8 @@ public abstract class NPC : InteractiveObject
 
     public virtual void FocusOff()
     {
-        cinemachineTargetGroup.m_Targets[1].target = null;
-        cinemachineTargetGroup.m_Targets[1].weight = 1;
+        GameManager.Instance.CinemachineTargetGroup.m_Targets[1].target = null;
+        GameManager.Instance.CinemachineTargetGroup.m_Targets[1].weight = 1;
         cvm1.Priority = -100;
         cvm2.Priority = -100;
         customUI.SetActive(false);
@@ -88,9 +86,8 @@ public abstract class NPC : InteractiveObject
 
     private IEnumerator OnType()
     {
-        cinemachineTargetGroup.m_Targets[1].target = transform;
-        cinemachineTargetGroup.m_Targets[1].weight = 5;
-        //GameObject.Find("CM Camera").GetComponent<CinemachineVirtualCamera>().m_Lens.OrthographicSize = 9;
+        GameManager.Instance.CinemachineTargetGroup.m_Targets[1].target = transform;
+        GameManager.Instance.CinemachineTargetGroup.m_Targets[1].weight = 5;
         cvm1.Priority = 200;
 
         List<string> tempComment;
@@ -125,7 +122,7 @@ public abstract class NPC : InteractiveObject
                 if (!inputSkip)
                 {
                     chatText.text += item;
-                    RuntimeManager.PlayOneShot($"event:/SFX/ETC/NPC_{ID}", transform.position);
+                    RuntimeManager.PlayOneShot($"event:/SFX/NPC/NPC_{ID}", transform.position);
                     yield return ws005;
                 }
                 else
@@ -143,9 +140,9 @@ public abstract class NPC : InteractiveObject
             while (!Input.GetKeyDown(KeyCode.F));
         }
         chat.SetActive(false);
-            
-        cinemachineTargetGroup.m_Targets[1].target = null;
-        cinemachineTargetGroup.m_Targets[1].weight = 1;
+
+        GameManager.Instance.CinemachineTargetGroup.m_Targets[1].target = null;
+        GameManager.Instance.CinemachineTargetGroup.m_Targets[1].weight = 1;
         cvm1.Priority = -100;
         isTalking = false;
         
