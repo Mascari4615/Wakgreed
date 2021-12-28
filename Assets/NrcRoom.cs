@@ -9,12 +9,27 @@ public class NrcRoom : Room
     protected override void Awake()
     {
         base.Awake();
-        NPC random;
-        do
+        NPC random = null;
+        for (int i = 0; i < nrcs.Count; i++)
         {
-            random = nrcs[Random.Range(0, nrcs.Count)];
-            nrcs.Remove(random);
-        } while (DataManager.Instance.CurGameData.rescuedNPC[random.ID]);
-        random.gameObject.SetActive(true);
+            if (DataManager.Instance.CurGameData.rescuedNPC[nrcs[i].ID] == false)
+            {
+                random = nrcs[i];
+                break;
+            }
+        }
+
+        if (random == null)
+        {
+            Probability<string> probability = new();
+            probability.Add("CommonChest", 70);
+            probability.Add("UncommonChest", 35);
+            probability.Add("LegendaryChest", 5);
+            ObjectManager.Instance.PopObject(probability.Get(), transform.position);        
+        }
+        else
+        {
+            random.gameObject.SetActive(true);
+        }
     }
 }
