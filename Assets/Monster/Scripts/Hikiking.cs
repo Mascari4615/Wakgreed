@@ -11,6 +11,12 @@ public class Hikiking : BossMonster
     private Vector3 spawnedPos = Vector3.zero;
     [SerializeField] private float moveLimit = 15;
 
+    protected override void Awake()
+    {
+        lineRenderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 0.3f));
+        base.Awake();
+    }
+
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -104,6 +110,7 @@ public class Hikiking : BossMonster
             Debug.Log(targetPos[i]);
         }
 
+        lineRenderer.startWidth = 0.1f;
         lineRenderer.positionCount = ultCount + 1;
         lineRenderer.SetPosition(0, originPos);
         for (int i = 1; i < ultCount + 1; i++)
@@ -140,6 +147,7 @@ public class Hikiking : BossMonster
         Vector3 aOriginPos = transform.position;
         Vector3 aTargetPos = Vector3.ClampMagnitude(Wakgood.Instance.transform.position +
                              (Wakgood.Instance.transform.position - transform.position).normalized * 100, moveLimit);
+        lineRenderer.startWidth = 1f;
 
         lineRenderer.SetPosition(0, aOriginPos);
         lineRenderer.SetPosition(1, aTargetPos);
@@ -181,7 +189,7 @@ public class Hikiking : BossMonster
             for (int i = 0; i < 2; i++)
                 StartCoroutine(SpawnMob());
 
-            yield return new WaitForSeconds(Random.Range(2f, 6f));
+            yield return new WaitForSeconds(Random.Range(6f, 10f));
         }
     }
 
@@ -191,7 +199,11 @@ public class Hikiking : BossMonster
 
         ObjectManager.Instance.PopObject("SpawnCircle", pos).GetComponent<Animator>().SetFloat("SPEED", 1 / 0.5f);
         yield return new WaitForSeconds(.5f);
-        ObjectManager.Instance.PopObject("ChidoriPanchi", pos);
+        if (Random.Range(0, 1 + 1) == 0)
+            ObjectManager.Instance.PopObject("ChidoriPanchi", pos);
+        else
+            ObjectManager.Instance.PopObject("SuriswordPanchi", pos);
+
     }
 
     private IEnumerator Skill2()
