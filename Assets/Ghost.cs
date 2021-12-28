@@ -13,17 +13,14 @@ public class Ghost : NormalMonster
         move = StartCoroutine(Move());
     }
 
-    private IEnumerator Move()
+    private IEnumerator Move( )
     {
         Vector2 spawnPos = transform.position;
-        float t = 0;
-
-        while (true)
+        for (float j = 0; j <= 1; j += 0.02f)
         {
-            yield return null;
-            t += Time.deltaTime;
-            transform.position = Vector3.Lerp(spawnPos, transform.position, t);
             SpriteRenderer.flipX = (Wakgood.Instance.transform.position.x > transform.position.x) ? true : false;
+            Rigidbody2D.transform.position = Vector3.Lerp(spawnPos, Wakgood.Instance.transform.position, j);
+            yield return new WaitForSeconds(0.02f);
         }
     }
 

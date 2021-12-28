@@ -5,10 +5,15 @@ using UnityEngine;
 public class GhostTeam : MonoBehaviour
 {
     SpriteRenderer spriteRenderer;
+    Coroutine move;
+    Coroutine idle;
+  
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
+
+ 
     private Transform GetNearestMob()
     {
         Transform target = null;
@@ -29,7 +34,29 @@ public class GhostTeam : MonoBehaviour
 
     private void OnEnable()
     {
-        StartCoroutine(Move());
+        idle = StartCoroutine(Idle());
+        move = StartCoroutine(Move());
+    }
+
+    private IEnumerator Idle()
+    {
+        while (true)
+        {
+            float t = Random.Range(1f, 3f);
+            Vector2 direction = (Vector3)Random.insideUnitCircle.normalized;
+;
+            spriteRenderer.flipX = direction.x < 0;
+
+            while (t > 0)
+            {
+                yield return null;
+
+                transform.position += (Vector3)direction * Time.deltaTime;
+                t -= Time.deltaTime;
+            }
+
+            yield return new WaitForSeconds(.5f);
+        }
     }
 
     private IEnumerator Move()
@@ -44,12 +71,27 @@ public class GhostTeam : MonoBehaviour
             target = GetNearestMob();
         }
 
-        while (true)
+        StopCoroutine(idle);
+
+        for (float j = 0; j <= 1; j += 0.02f)
         {
-            yield return null;
-            t += Time.deltaTime;
-            transform.position = Vector3.Lerp(spawnPos, target.position, t);
+            if (target.gameObject.activeSelf == false || target == null)
+            {
+                asdf();
+                yield break;
+            }
+
             spriteRenderer.flipX = (target.position.x > transform.position.x) ? true : false;
+            transform.position = Vector3.Lerp(spawnPos, target.position, j);
+            yield return new WaitForSeconds(0.02f);
         }
+    }
+
+    private void asdf()
+    {
+        StopCoroutine(move);
+        idle = StartCoroutine(Idle());
+        move = StartCoroutine(Move());
+
     }
 }
