@@ -62,7 +62,6 @@ public class GhostTeam : MonoBehaviour
     private IEnumerator Move()
     {
         Vector2 spawnPos = transform.position;
-        float t = 0;
         Transform target = GetNearestMob();
 
         while (target == null)

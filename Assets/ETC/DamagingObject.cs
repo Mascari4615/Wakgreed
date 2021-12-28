@@ -9,8 +9,7 @@ public interface IHitable
 
 public class DamagingObject : MonoBehaviour
 {
-    [SerializeField] private bool canDamageWakgood;
-    [FormerlySerializedAs("canDamageMonster")] [SerializeField] private bool canDamageMob;
+    [SerializeField] private bool targetWak;
     [SerializeField] private TotalPower totalPower;
     [SerializeField] private IntVariable criticalChance;
     [SerializeField] private IntVariable criticalDamagePer;
@@ -34,7 +33,8 @@ public class DamagingObject : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if ((other.CompareTag("Player") != canDamageWakgood) || ((other.CompareTag("Monster") || other.CompareTag("Boss"))) != canDamageMob) 
+        if ((other.CompareTag("Player") && targetWak == false) ||
+            (other.CompareTag("Monster") || other.CompareTag("Boss")) && targetWak == true) 
             return;
 
         if (other.TryGetComponent(out IHitable damageable))
@@ -42,25 +42,16 @@ public class DamagingObject : MonoBehaviour
             if (other.CompareTag("Monster") || other.CompareTag("Boss"))
             {
                 int totalDamage = WeaponID != -1 ? UnityEngine.Random.Range(minDamage, maxDamage + 1) : damage;
-                TextType textType;
 
                 if (criticalChance == null)
                 {
-                    Debug.Log("DASdsasdsad");
                     damageable.ReceiveHit(totalDamage);
                 }
                 else
                 {
-                    if (UnityEngine.Random.Range(0, 100) < criticalChance.RuntimeValue)
-                    {
-                        totalDamage = (int)Math.Round(totalDamage * totalPower.RuntimeValue * (1 + criticalDamagePer.RuntimeValue * 0.01f), MidpointRounding.AwayFromZero);
-                        textType = TextType.Critical;
-                    }
-                    else
-                    {
-                        totalDamage = (int)Math.Round(totalDamage * (1 + (float)totalPower.RuntimeValue / 100), MidpointRounding.AwayFromZero);
-                        textType = TextType.Normal;
-                    }
+                    totalDamage = UnityEngine.Random.Range(0, 100) < criticalChance.RuntimeValue
+                        ? (int)Math.Round(totalDamage * totalPower.RuntimeValue * (1 + criticalDamagePer.RuntimeValue * 0.01f), MidpointRounding.AwayFromZero)
+                        : (int)Math.Round(totalDamage * (1 + (float)totalPower.RuntimeValue / 100), MidpointRounding.AwayFromZero);
 
                     if (other.CompareTag("Monster"))
                     {
@@ -87,10 +78,5 @@ public class DamagingObject : MonoBehaviour
             gameObject.SetActive(false);
         else if (offCollOnHit)
             collider2D.enabled = false;
-    }
-
-    private void OnDisable()
-    {
-        StopAllCoroutines();
     }
 }

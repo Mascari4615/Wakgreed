@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine(CheckBuff());
         UIManager.Instance.SetStageName("0-0 로비");
-        AudioManager.Instance.PlayMusic("추르르 - Wakgood FC (INST)");
+        AudioManager.Instance.PlayMusic("yeppSun - 고고 다섯쌍둥이");
         UIManager.Instance.SetCurViewerText("뱅온 전!");
     }
 
@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator _GameOverAndRecall()
     {
-        AudioManager.Instance.PlayMusic("위윌왁휴 - 그 디버프 브금");
+        AudioManager.Instance.PlayMusic("위윌왁휴 - 처신 잘 하라고");
 
         Time.timeScale = 1;
         gamePanel.SetActive(false);
@@ -143,7 +143,7 @@ public class GameManager : MonoBehaviour
 
         StageManager.Instance.DestroyStage();
         UIManager.Instance.SetStageName("0-0 로비");
-        AudioManager.Instance.PlayMusic("추르르 - Wakgood FC (INST)");
+        AudioManager.Instance.PlayMusic("yeppSun - 고고 다섯쌍둥이");
         StageManager.Instance.currentStageID = -1;
 
         UIManager.Instance.StopAllSpeedWagons();

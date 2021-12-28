@@ -14,12 +14,16 @@ public class AudioManager : MonoBehaviour
         private set => instance = value;
     }
 
+    [SerializeField] private BoolVariable isLoading;
+    [SerializeField] private BoolVariable isBossing;
+
     private Bus bgm, sfx, master;
     private EventInstance sfxVolumeTestEvent;
     private EventInstance BgmEvent;
     private PLAYBACK_STATE pbState;
-    [SerializeField] private BoolVariable isLoading;
-    private string[] asdf = { "yeppSun - 장난기 기능 MR", "yeppSun - 버거워 MR", "yeppSun - 고고 다섯쌍둥이 MR", "추르르 - Wakgood FC (INST)" };
+    private string[] bgmTitles = { "yeppSun - 버거워", "yeppSun - 세구의 꿈", "yeppSun - 장난기 기능"};
+    private string[] bossBgmTitles = { "Badassgatsby - 왁스라다", "Badassgatsby  - 왁그란 투리스모", "추르르 - Wakgood FC" };
+    private int i = 0;
 
     private void Awake()
     {
@@ -54,22 +58,30 @@ public class AudioManager : MonoBehaviour
         SettingManager.Instance.sfxSlider.onValueChanged.AddListener(SfxVolumeLevel);     
     }
 
-    int i = 0;
-
     private void Update()
     {
         bool wakgoodCollapsed = false;
         if (Wakgood.Instance != null)
             wakgoodCollapsed = Wakgood.Instance.IsCollapsed;
 
-        if (isLoading.RuntimeValue == false && !wakgoodCollapsed)
+        if (isBossing.RuntimeValue)
         {
             BgmEvent.getPlaybackState(out pbState);
             if (pbState == PLAYBACK_STATE.STOPPED)
             {
-                if (UIManager.Instance != null) UIManager.Instance.SetMusicName(asdf[i]);
-                BgmEvent = RuntimeManager.CreateInstance($"event:/BGM/{asdf[i++]}");
-                if (i > asdf.Length) i = 0;
+                UIManager.Instance.SetMusicName(bossBgmTitles[StageManager.Instance.currentStageID]);
+                BgmEvent = RuntimeManager.CreateInstance($"event:/BGM/{bossBgmTitles[StageManager.Instance.currentStageID]}");
+                BgmEvent.start();
+            }
+        }
+        else if (isLoading.RuntimeValue == false && !wakgoodCollapsed)
+        {
+            BgmEvent.getPlaybackState(out pbState);
+            if (pbState == PLAYBACK_STATE.STOPPED)
+            {
+                if (UIManager.Instance != null) UIManager.Instance.SetMusicName(bgmTitles[i]);
+                BgmEvent = RuntimeManager.CreateInstance($"event:/BGM/{bgmTitles[i++]}");
+                if (i > bgmTitles.Length) i = 0;
                 BgmEvent.start();
             }
         }
