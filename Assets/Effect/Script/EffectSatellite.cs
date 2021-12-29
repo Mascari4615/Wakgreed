@@ -9,14 +9,6 @@ public class EffectSatellite : Effect
     public override void _Effect()
     {
         Transform parent = Wakgood.Instance.transform.Find("SatelliteParent");
-        if (parent == null)
-        {
-            parent = new GameObject("SatelliteParent").transform;
-            parent.SetPositionAndRotation(Wakgood.Instance.transform.position, Quaternion.identity);
-            parent.SetParent(Wakgood.Instance.transform);
-            parent.gameObject.AddComponent<BulletRotate>().rotateSpeed = 40f;
-        }
-
         instance = Instantiate(prefab, parent);
         Vector3 localPos = new();
         if (parent.childCount == 1) localPos.Set(0, 1, 0);

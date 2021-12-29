@@ -23,6 +23,8 @@ public abstract class Monster : MonoBehaviour, IHitable
     protected Material originalMaterial;
     private Coroutine flashRoutine;
 
+    protected static WaitForSeconds ws01 = new WaitForSeconds(0.1f);
+
     protected virtual void Awake()
     {
         MaxHp = hp;
