@@ -59,6 +59,14 @@ public class StreamingManager : MonoBehaviour
             DataManager.Instance.wakgoodItemInventory.Add(DataManager.Instance.ItemDic[12]);
 
         // GameEventListener 클래스를 통해 꼼수로 코루틴 실행하기
+        if (DataManager.Instance.CurGameData.rescuedNPC[22] ||
+            DataManager.Instance.CurGameData.rescuedNPC[23] ||
+            DataManager.Instance.CurGameData.rescuedNPC[24] ||
+            DataManager.Instance.CurGameData.rescuedNPC[25] ||
+            DataManager.Instance.CurGameData.rescuedNPC[26] ||
+            DataManager.Instance.CurGameData.rescuedNPC[27])
+            StartCoroutine(Hosting());
+
         if (DataManager.Instance.CurGameData.rescuedNPC[16])
             StartCoroutine(Donation_Dandab());
 
@@ -77,6 +85,42 @@ public class StreamingManager : MonoBehaviour
         // GameEventListener 클래스를 통해 꼼수로 코루틴 종료하기 (StopCoroutine 실행)
         isStreaming = false;
         StopAllCoroutines();
+    }
+
+    private IEnumerator Hosting()
+    {
+        yield return new WaitForSeconds(60f);
+
+        while (true)
+        {
+            while (isLoading.RuntimeValue) yield return null;
+
+            int temp = 0;
+            if (DataManager.Instance.CurGameData.rescuedNPC[22])
+                temp++;
+            if (DataManager.Instance.CurGameData.rescuedNPC[23])
+                temp++;
+            if (DataManager.Instance.CurGameData.rescuedNPC[24])
+                temp++;
+            if (DataManager.Instance.CurGameData.rescuedNPC[25])
+                temp++;
+            if (DataManager.Instance.CurGameData.rescuedNPC[26])
+                temp++;
+            if (DataManager.Instance.CurGameData.rescuedNPC[27])
+                temp++;
+
+            if (Random.Range(0, 100) < temp * 3)
+            {
+                int amount = Random.Range(100, 100 * temp);
+                viewer.RuntimeValue += amount;
+                donationUI.SetActive(false);
+                donationText.text = $"이세계 아이돌이 {amount}명 호스팅!";
+                donationImageUI.sprite = donationImages[3];
+                donationUI.SetActive(true);
+                RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
+            }
+            yield return new WaitForSeconds(142f);
+        }
     }
 
     private IEnumerator Donation_Secret()
