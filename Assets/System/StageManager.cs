@@ -1,7 +1,5 @@
-﻿using FMODUnity;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -87,14 +85,11 @@ public class StageManager : MonoBehaviour
         roomData = new List<Room>(currentStage.roomDatas);
         roomMolds.Add(new RoomMold { Coordinate = Vector2.zero });
 
-        // int _roomCount = currentStageID != 6 ? roomCount : 2;
-        int _roomCount = currentStage.name != "콜로세움" ? roomCount : 1;
-
         /* 스테이지 틀 만들기 */
         {
             Vector2 totalRoomMoldCoordinate;
 
-            while (roomMolds.Count < _roomCount)
+            while (roomMolds.Count < roomCount)
             {
                 RoomMold originalRoomMold = roomMolds[Random.Range(0, roomMolds.Count)];
                 int doorOpenIndex = Random.Range(0, 4);
@@ -134,7 +129,7 @@ public class StageManager : MonoBehaviour
         }
 
         {
-            for (int i = 0; i < _roomCount; i++)
+            for (int i = 0; i < roomCount; i++)
             {
                 int roomMoldIndex = i == 0 ? 0 : Random.Range(0, roomMolds.Count); 
                 int roomDataIndex = i <= 3 ? 0 : Random.Range(0, roomData.Count);
@@ -271,6 +266,19 @@ public class StageManager : MonoBehaviour
         roomUiDic[CurrentRoom.Coordinate].GetChild(2).gameObject.SetActive(true); // Icon
         roomUiDic[CurrentRoom.Coordinate].GetChild(1).GetChild(0).GetComponent<Image>().color = new Color(0f / 255f, 200f / 255f, 255f / 255f); // Property\CurrentRoom
     }
+
+    public void SeeAllMap()
+    {
+        foreach (var item in roomUiDic)
+        {
+            var t = item.Value;
+            t.GetComponent<Image>().enabled = true;
+            t.GetChild(0).gameObject.SetActive(true); // Door
+            t.GetChild(1).gameObject.SetActive(true); // Property
+            t.GetChild(2).gameObject.SetActive(true); // Icon
+        }
+    }
+
 
     public IEnumerator MigrateRoom(Vector2 moveDirection, int spawnDirection)
     {

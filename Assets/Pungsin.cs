@@ -170,7 +170,7 @@ Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2
             lineRenderer.SetPosition(1, transform.position + (Vector3)Vector2.up + attackDirection * 100);
             lineRenderer.gameObject.SetActive(true);
 
-            yield return i == 0 ? new WaitForSeconds(.7f) : new WaitForSeconds(.2f);
+            yield return i == 0 ? new WaitForSeconds(.7f) : new WaitForSeconds(.4f);
 
             Animator.SetTrigger("SKILL1GO");
 

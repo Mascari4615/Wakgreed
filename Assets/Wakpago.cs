@@ -9,7 +9,7 @@ public class Wakpago : BossMonster
     [SerializeField] private GameObject bullet;
     [SerializeField] private GameObject monster1;
     [SerializeField] private GameObject monster2;
-    [SerializeField] private GameObject punchPrefab;
+    [SerializeField] private GameObject punchWarning;
     [SerializeField] private LineRenderer lineRenderer;
     private Vector3 spawnedPos = Vector3.zero;
 
@@ -24,7 +24,7 @@ public class Wakpago : BossMonster
     private readonly Collider2D[] bulletsCOL = new Collider2D[50];
     private bool bAttacking = false;
 
-    private readonly string[] nickNames = { "전투형 로봇", "마크 2", "최종 병기" };
+    private readonly string[] nickNames = { "전투형 로봇", "마크 2" };
 
     protected override void Awake()
     {
@@ -41,9 +41,6 @@ public class Wakpago : BossMonster
             bulletsTR[i] = m.GetComponent<TrailRenderer>();
             m.SetActive(false);
         }
-        punchGo = new BulletMove[6];
-        for (int i = 0; i < punchGo.Length; i++)
-            (punchGo[i] = Instantiate(punchPrefab, transform).GetComponent<BulletMove>()).gameObject.SetActive(false);
         lineRenderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 0.3f));
     }
 
@@ -74,20 +71,6 @@ public class Wakpago : BossMonster
         {
             while (true)
             {
-                int i = Random.Range(0, 0 + 1);
-
-                switch (i)
-                {
-                    case 0:
-                        yield return bulletCO = StartCoroutine(Bullet());
-                        break;
-                }
-            }
-        }
-        else if (phase == 2)
-        {
-            while (true)
-            {
                 int i = Random.Range(0, 1 + 1);
 
                 switch (i)
@@ -101,7 +84,7 @@ public class Wakpago : BossMonster
                 }
             }
         }
-        else if (phase == 3)
+        else if (phase == 2)
         {
             bombCO = StartCoroutine(Bombs());
 
@@ -162,7 +145,7 @@ public class Wakpago : BossMonster
                 {
                     monsterList.Add(ObjectManager.Instance.PopObject(monster1.name, a));
                 }
-                else if (phase == 2 || phase == 3)
+                else if (phase == 2)
                 {
                     if (Random.Range(0, 1 + 1) == 0)
                     {
@@ -230,29 +213,33 @@ public class Wakpago : BossMonster
 
         bAttacking = false;
     }
+    [SerializeField] private GameObject stun;
 
     private IEnumerator Bullet2()
     {
         yield break;
     }
-    private BulletMove[] punchGo;
+
     private IEnumerator Punch()
     {
         yield return new WaitForSeconds(.2f);
-        Animator.SetBool("SKILL1", true);
+        Animator.SetBool("PUNCH", true);
 
         for (int i = 0; i < 3; i++)
         {
+            Animator.SetTrigger("PUNCHREADY");
+
+            if (i == 0)
+                yield return new WaitForSeconds(2f);
+
             Vector3 originPos = transform.position;
             Vector3 targetPos = new(
-Mathf.Clamp(Wakgood.Instance.transform.position.x + (-1 + Random.Range(0, 2) * 2) * Random.Range(3f, 5f), spawnedPos.x - moveLimit, spawnedPos.x + moveLimit),
-Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2) * Random.Range(3f, 5f), spawnedPos.y - moveLimit, spawnedPos.y + moveLimit));
-
-            Animator.SetTrigger("SKILL1CHARGE");
+Mathf.Clamp(Wakgood.Instance.transform.position.x + (-1 + Random.Range(0, 2) * 2), spawnedPos.x - moveLimit, spawnedPos.x + moveLimit),
+Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2), spawnedPos.y - moveLimit, spawnedPos.y + moveLimit));
 
             SpriteRenderer.flipX = targetPos.x > Wakgood.Instance.transform.position.x;
-
-            for (float j = 0; j <= 1; j += Time.deltaTime * 7)
+            bAttacking = true;
+            for (float j = 0; j <= 1; j += Time.deltaTime * 9)
             {
                 Rigidbody2D.transform.position = Vector3.Lerp(originPos, targetPos, j);
                 yield return null;
@@ -260,25 +247,22 @@ Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2
 
             Vector3 attackDirection = (Wakgood.Instance.transform.position - transform.position).normalized;
 
-            lineRenderer.SetPosition(0, transform.position + (Vector3)Vector2.up);
-            lineRenderer.SetPosition(1, transform.position + (Vector3)Vector2.up + attackDirection * 100);
-            lineRenderer.gameObject.SetActive(true);
+            punchWarning.transform.position = transform.position + attackDirection;
+            punchWarning.gameObject.SetActive(true);
 
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(0.3f);
 
-            Animator.SetTrigger("SKILL1GO");
+            Animator.SetTrigger("PUNCHGO");
 
-            punchGo[i].transform.position = transform.position + (Vector3)Vector2.up;
-            punchGo[i].SetDirection(attackDirection);
-            punchGo[i].gameObject.SetActive(true);
-            lineRenderer.gameObject.SetActive(false);
+            ObjectManager.Instance.PopObject("WakPagoBoom", transform.position + attackDirection);
+            punchWarning.gameObject.SetActive(false);
 
-            yield return new WaitForSeconds(.2f);
+            yield return new WaitForSeconds(0.2f);
         }
 
-        Animator.SetBool("SKILL1", false);
-        yield return new WaitForSeconds(2f);
-
+        Animator.SetBool("PUNCH", false);
+        yield return new WaitForSeconds(1f);
+        bAttacking = false;
     }
 
     protected override IEnumerator Collapse()
@@ -313,7 +297,7 @@ Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2
 
         onMonsterCollapse.Raise(transform);
 
-        if (phase != 3)
+        if (phase != 2)
         {
             phase++;
             Initialize();
