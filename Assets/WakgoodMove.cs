@@ -33,6 +33,7 @@ public class WakgoodMove : MonoBehaviour
 
     public void Initialize()
     {
+        MbDashing = false;
         Animator.SetTrigger(wakeUp);
         Animator.SetBool(move, false);
         PlayerRb.bodyType = RigidbodyType2D.Dynamic;

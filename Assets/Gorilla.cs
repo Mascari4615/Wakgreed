@@ -82,7 +82,7 @@ public class Gorilla : NormalMonster
                 Vector2 direction = (Wakgood.Instance.transform.position - transform.position).normalized;
                 SpriteRenderer.flipX = direction.x > 0;
 
-                yield return StartCoroutine(Casting(1f));
+                yield return StartCoroutine(Casting(.7f));
                 Animator.SetBool("ISMOVING", true);
                 damagingObject.SetActive(true);
 
@@ -102,7 +102,7 @@ public class Gorilla : NormalMonster
 
                 Animator.SetTrigger("ATTACKREADY");
                 earthQuakeWarning.SetActive(true);
-                yield return StartCoroutine(Casting(.8f));
+                yield return StartCoroutine(Casting(.5f));
 
                 Animator.SetTrigger("ATTACKGO");
                 earthQuakeWarning.SetActive(false);

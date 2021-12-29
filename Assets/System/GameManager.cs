@@ -137,9 +137,6 @@ public class GameManager : MonoBehaviour
 
         gamePanel.SetActive(true);
 
-        nyang.RuntimeValue = 3000;
-        viewer.RuntimeValue = 10000;
-
         onRecall.Raise();
         isGaming.RuntimeValue = false;
         isFighting.RuntimeValue = false;
@@ -157,10 +154,15 @@ public class GameManager : MonoBehaviour
         enemyRunTimeSet.Clear();
         ObjectManager.Instance.DeactivateAll();
 
+        viewer.RuntimeValue = 10000;
+
         DataManager.Instance.wakgoodMasteryInventory.Clear();
         DataManager.Instance.wakgoodItemInventory.Clear();
         DataManager.Instance.wakgoodFoodInventory.Clear();
         DataManager.Instance.buffRunTimeSet.Clear();
+
+        nyang.RuntimeValue = 3000;
+        viewer.RuntimeValue = 3000;
 
         gameResultPanel.SetActive(false);
         gamePanel.SetActive(true);

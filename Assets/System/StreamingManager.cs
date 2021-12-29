@@ -55,6 +55,9 @@ public class StreamingManager : MonoBehaviour
         isStreaming = true;
         viewer.RuntimeValue = 10000;
 
+        if (DataManager.Instance.CurGameData.rescuedNPC[18])
+            DataManager.Instance.wakgoodItemInventory.Add(DataManager.Instance.ItemDic[12]);
+
         // GameEventListener 클래스를 통해 꼼수로 코루틴 실행하기
         if (DataManager.Instance.CurGameData.rescuedNPC[16])
             StartCoroutine(Donation_Dandab());
@@ -84,11 +87,15 @@ public class StreamingManager : MonoBehaviour
         {
             while (isLoading.RuntimeValue) yield return null;
 
+            int temp = 0;
+            if (DataManager.Instance.wakgoodItemInventory.Items.Contains(DataManager.Instance.ItemDic[48]))
+                temp = DataManager.Instance.wakgoodItemInventory.itemCountDic[48];
+
             if (Random.Range(0, 100) < 30)
             {
-                Wakgood.Instance.ReceiveHeal(2);
+                Wakgood.Instance.ReceiveHeal(1 + temp);
                 donationUI.SetActive(false);
-                donationText.text = $"비밀소녀의 응원으로 체력 2 회복!";
+                donationText.text = $"비밀소녀의 응원으로 체력 {1 + temp} 회복!";
                 donationImageUI.sprite = donationImages[2];
                 donationUI.SetActive(true);
                 RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
@@ -105,7 +112,11 @@ public class StreamingManager : MonoBehaviour
         {
             while (isLoading.RuntimeValue) yield return null;
 
-            if (Random.Range(0, 100) < 70)
+            int temp = 0;
+            if (DataManager.Instance.wakgoodItemInventory.Items.Contains(DataManager.Instance.ItemDic[47]))
+                temp = DataManager.Instance.wakgoodItemInventory.itemCountDic[47];
+
+            if (Random.Range(0, 100) < 50 + temp * 5)
             {
                 DataManager.Instance.buffRunTimeSet.Add(buffs[0]);
                 donationUI.SetActive(false);
