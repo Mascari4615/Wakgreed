@@ -6,6 +6,7 @@ public abstract class NormalMonster : Monster
 {
     private GameObject hpBar, casting;
     private Image red, yellow, blue;
+    private Vector3 SPAWNPOS;
 
     protected override void Awake()
     {
@@ -27,6 +28,8 @@ public abstract class NormalMonster : Monster
         red.fillAmount = 1;
         yellow.fillAmount = 1;
         blue.fillAmount = 0;
+
+        SPAWNPOS = transform.position;
     }
 
     protected override void _ReceiveHit()
@@ -39,6 +42,13 @@ public abstract class NormalMonster : Monster
     {
         red.fillAmount = Mathf.Lerp(red.fillAmount, (float)hp / MaxHp, Time.deltaTime * 20f);
         yellow.fillAmount = Mathf.Lerp(yellow.fillAmount, red.fillAmount, Time.deltaTime * 5f);
+
+        if (Vector3.Distance(transform.position, SPAWNPOS) > 50)
+        {
+            Debug.Log("!");
+            onMonsterCollapse.Raise();
+            gameObject.SetActive(false);
+        }    
     }
 
     protected IEnumerator Casting(float time)

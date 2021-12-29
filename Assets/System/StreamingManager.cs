@@ -9,6 +9,8 @@ using Random = UnityEngine.Random;
 
 public class StreamingManager : MonoBehaviour
 {
+    // [SerializeField] private TwitchConnect twitchConnect;
+   
     public static StreamingManager Instance { get; private set; }
 
     public bool IsChatting => inputField.gameObject.activeSelf;
@@ -20,7 +22,6 @@ public class StreamingManager : MonoBehaviour
     [SerializeField] private Sprite[] donationImages;
     [SerializeField] private IntVariable goldu, viewer;
     [SerializeField] private BoolVariable isLoading;
-    [SerializeField] private TwitchConnect twitchConnect;
     [SerializeField] private IntVariable uMin, uMax;
     [SerializeField] private IntVariable gMin, gMax;
 
@@ -45,7 +46,7 @@ public class StreamingManager : MonoBehaviour
     private IEnumerator Start()
     {
         yield return new WaitForSeconds(1f);
-        twitchConnect.ConnectToTwitch();
+        // twitchConnect.ConnectToTwitch();
     }
 
     public void StartStreaming()
@@ -345,5 +346,5 @@ public class StreamingManager : MonoBehaviour
         else return false;
     }
 
-    private void OnApplicationQuit() => twitchConnect.LeaveChannel();
+    // private void OnApplicationQuit() => twitchConnect.LeaveChannel();
 }

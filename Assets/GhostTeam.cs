@@ -4,16 +4,12 @@ using UnityEngine;
 
 public class GhostTeam : MonoBehaviour
 {
-    SpriteRenderer spriteRenderer;
-    Coroutine move;
-    Coroutine idle;
-  
-    private void Awake()
-    {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-    }
+    private SpriteRenderer SpriteRenderer;
+    private Coroutine move;
+    private Coroutine idle;
 
- 
+    private void Awake() => SpriteRenderer = GetComponent<SpriteRenderer>();
+
     private Transform GetNearestMob()
     {
         Transform target = null;
@@ -45,7 +41,7 @@ public class GhostTeam : MonoBehaviour
             float t = Random.Range(1f, 3f);
             Vector2 direction = (Vector3)Random.insideUnitCircle.normalized;
 ;
-            spriteRenderer.flipX = direction.x < 0;
+            SpriteRenderer.flipX = direction.x < 0;
 
             while (t > 0)
             {
@@ -76,21 +72,26 @@ public class GhostTeam : MonoBehaviour
         {
             if (target.gameObject.activeSelf == false || target == null)
             {
-                asdf();
+                Temp();
                 yield break;
             }
 
-            spriteRenderer.flipX = (target.position.x > transform.position.x) ? true : false;
+            SpriteRenderer.flipX = (target.position.x > transform.position.x) ? true : false;
             transform.position = Vector3.Lerp(spawnPos, target.position, j);
             yield return new WaitForSeconds(0.02f);
         }
     }
 
-    private void asdf()
+    private void Temp()
     {
-        StopCoroutine(move);
+        if (move != null) StopCoroutine(move);
         idle = StartCoroutine(Idle());
         move = StartCoroutine(Move());
+    }
 
+    private void OnDisable()
+    {
+        if (move != null) StopCoroutine(move);
+        if (idle != null) StopCoroutine(idle);
     }
 }
