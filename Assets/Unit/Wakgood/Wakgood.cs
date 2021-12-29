@@ -12,8 +12,8 @@ public class Wakgood : MonoBehaviour, IHitable
     public IntVariable criticalChance;
     public IntVariable criticalDamagePer;
     [SerializeField] private Wakdu wakdu;
-    [SerializeField] private IntVariable exp, level;
-    [SerializeField] private IntVariable hpCur;
+    public IntVariable exp, level;
+    public IntVariable hpCur;
     [SerializeField] private IntVariable defence;
     [SerializeField] private IntVariable staticDefence;
     [SerializeField] private MaxHp hpMax;
@@ -50,6 +50,7 @@ public class Wakgood : MonoBehaviour, IHitable
 
     private GameObject chat;
     private TextMeshProUGUI chatText;
+    private Transform statellite;
 
     private void Awake()
     {
@@ -59,9 +60,9 @@ public class Wakgood : MonoBehaviour, IHitable
         attackPositionParent = transform.Find("AttackPosParent");
         AttackPosition = attackPositionParent.GetChild(0);
         WeaponPosition = transform.Find("WeaponPos");
-
+        statellite = transform.Find("SatelliteParent");
         spriteRenderer = GetComponent<SpriteRenderer>();
-        wakgoodCollider = GetComponent<WakgoodCollider>();
+        wakgoodCollider = transform.GetChild(0).GetComponent<WakgoodCollider>();
         WakgoodMove = GetComponent<WakgoodMove>();
         cinemachineTargetGroup = GameObject.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>();
 
@@ -96,14 +97,9 @@ public class Wakgood : MonoBehaviour, IHitable
         UIManager.Instance.SetWeaponUI(0, Weapon[0] = hochi);
         UIManager.Instance.SetWeaponUI(1, Weapon[1] = hand);
         
-        if (transform.Find("SatelliteParent").childCount > 0)
+        foreach (Transform child in statellite)
         {
-            int a = transform.Find("SatelliteParent").childCount;
-
-            for (int i = 0; i < a; i++)
-            {
-                Destroy(transform.Find("SatelliteParent").GetChild(0));
-            }
+            Destroy(child.gameObject);
         }
 
         if (CurWeaponNumber != 0)
@@ -198,6 +194,21 @@ public class Wakgood : MonoBehaviour, IHitable
 
             UIManager.Instance.SetWeaponUI(targetWeaponNum, targetWeapon);
         }
+    }
+
+    public void SwitchWeaponStatic(int targetWeaponNum, Weapon targetWeapon)
+    {
+        if (CurWeaponNumber != targetWeaponNum)
+            Weapon[targetWeaponNum] = targetWeapon;
+        else
+        {
+            Destroy(WeaponPosition.GetChild(0).gameObject);
+            Weapon[CurWeaponNumber] = targetWeapon;
+            Instantiate(Weapon[CurWeaponNumber].resource, WeaponPosition);
+            Weapon[CurWeaponNumber].OnEquip();
+        }
+
+        UIManager.Instance.SetWeaponUI(targetWeaponNum, targetWeapon);   
     }
 
     public void ReceiveHit(int damage, HitType hitType = HitType.Normal)

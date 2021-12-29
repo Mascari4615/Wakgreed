@@ -14,7 +14,7 @@ public class ExpBar : MonoBehaviour
     public void SetExpBarAndText()
     {
         bar.fillAmount = (float)exp.RuntimeValue / (300 * level.RuntimeValue);
-        expTextField.SetText((Mathf.Floor((float)exp.RuntimeValue / (300 * level.RuntimeValue) * 100) + "%"));
+        expTextField.SetText(Mathf.Floor((float)exp.RuntimeValue / (300 * level.RuntimeValue) * 100) + "%");
         (rectTransform ? rectTransform : rectTransform = GetComponent<RectTransform>()).sizeDelta 
             = new Vector2(Mathf.Clamp(originX + level.RuntimeValue * 10, originX, 1250), originY);
         levelTextField.SetText($"Lv. {level.RuntimeValue}");

@@ -12,6 +12,6 @@ public class EffectGetItem : Effect
     }
     public override void Return()
     {
-        DataManager.Instance.wgItemInven.Remove(DataManager.Instance.ItemDic[id]);
+        // DataManager.Instance.wgItemInven.Remove(DataManager.Instance.ItemDic[id]);
     }
 }

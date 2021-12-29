@@ -4,23 +4,43 @@ using System.Collections;
 public class IceAura : MonoBehaviour, IEffectGameObject
 {
     private bool asdf = false;
-    float time = 0;
-    int stack = 0;
-    WaitForSeconds ws01 = new(0.1f);
-    DamagingObject damagingObject;
+    private float time1 = 0;
+    private float time2 = 0;
+    private int stack = 0;
+    private readonly WaitForSeconds ws01 = new(0.1f);
+    private DamagingObject damagingObject;
+    private GameObject Collider;
 
     private void Awake()
     {
-        damagingObject = GetComponent<DamagingObject>();
+        damagingObject = transform.GetChild(0).GetComponent<DamagingObject>();
+        Collider = transform.GetChild(0).gameObject;
+
+        StartCoroutine(GGamBBak());
+    }
+
+    private IEnumerator GGamBBak()
+    {
+        while (true)
+        {
+            Collider.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            Collider.SetActive(false);
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+    private void Update()
+    {
+        transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(2 + stack, 2 + stack, 1), 0.5f * Time.deltaTime);
     }
 
     private IEnumerator Ang()
     {
         asdf = true;
-        while (time > 0)
+        while (time1 > 0)
         {
-            time -= .1f;
-            transform.localScale = new Vector3(2 + stack, 2 + stack, 1);
+            time1 -= .1f;
             yield return ws01;
         }
         stack = 0;
@@ -29,7 +49,7 @@ public class IceAura : MonoBehaviour, IEffectGameObject
 
     public void KillMonster()
     {
-        time += 3f;
+        time1 += 3f;
         stack++;
 
         if (asdf == false)

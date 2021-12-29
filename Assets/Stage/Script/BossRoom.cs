@@ -25,7 +25,7 @@ public class BossRoom : Room
         }
         else
         {
-            AudioManager.Instance.StopMusic();
+            // AudioManager.Instance.StopMusic();
             int asd = GameManager.Instance.enemyRunTimeSet.Items.Count;
             for (int i = 0; i < asd; i++)
             { GameManager.Instance.enemyRunTimeSet.Items[0].SetActive(false); }

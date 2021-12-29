@@ -10,21 +10,32 @@ public abstract class EffectCreateObject<T> : Effect where T : IEffectGameObject
 {
     [SerializeField] private int id;
     [SerializeField] private GameObject prefab;
+    [SerializeField] private bool onWakgood = false;
     private static GameObject instance;
 
     public override void _Effect()
     {
         if (instance == null)
-            instance = Instantiate(prefab, Wakgood.Instance.transform.position, Quaternion.identity);
+        {
+            instance = onWakgood
+                ? Instantiate(prefab, Wakgood.Instance.transform)
+                : Instantiate(prefab, Wakgood.Instance.transform.position, Quaternion.identity);
+        }
         else
+        {
             instance.GetComponent<T>().Effect();
+        }
     }
 
     public override void Return()
     {
         if (DataManager.Instance.wgItemInven.itemCountDic[id] == 1)
-            Destroy(instance.gameObject);
+        {
+            Destroy(instance);
+        }
         else
+        {
             instance.GetComponent<T>().Return();
+        }
     }
 }

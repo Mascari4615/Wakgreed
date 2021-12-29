@@ -9,7 +9,7 @@ public class StageManager : MonoBehaviour
 
     public int currentStageID = -1;
     [HideInInspector] public Stage currentStage;
-    [SerializeField] private StageDataBuffer stageDataBuffer;
+    public StageDataBuffer stageDataBuffer;
 
     [SerializeField] private int roomCount;
     [SerializeField] private int stageEdgeLength;

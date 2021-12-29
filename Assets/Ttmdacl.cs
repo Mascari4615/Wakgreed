@@ -5,6 +5,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Ttmdacl : InteractiveObject
 {
@@ -16,6 +17,18 @@ public class Ttmdacl : InteractiveObject
     private TextMeshProUGUI chatText;
     private bool isTalking, inputSkip;
     private readonly WaitForSeconds ws005 = new(0.05f), ws02 = new(0.2f);
+    private GameData2 data2;
+
+    [SerializeField] private ItemInventoryUI inventoryUI;
+    [SerializeField] private FoodInventoryUI foodInventoryUI;
+    [SerializeField] private MasteryInventoryUI masteryInventoryUI;
+    [SerializeField] private Image weapon0image;
+    [SerializeField] private Image weapon1image;
+    [SerializeField] private TextMeshProUGUI viewerText;
+    [SerializeField] private TextMeshProUGUI stageText;
+    [SerializeField] private TextMeshProUGUI hpText;
+    [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private TextMeshProUGUI expText;
 
     protected override void Awake()
     {
@@ -27,6 +40,7 @@ public class Ttmdacl : InteractiveObject
         chat = transform.Find("DefaultUI").transform.Find("Chat").gameObject;
         chatText = chat.transform.GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>();
         cvm1.Follow = GameObject.Find("Cameras").transform.GetChild(2);
+        inventoryUI.temp = true;
     }
 
     private void OnEnable()
@@ -35,6 +49,41 @@ public class Ttmdacl : InteractiveObject
         {
             mark.SetActive(true);
             loadButton.SetActive(true);
+
+            BinaryFormatter bf = new();
+            FileStream stream = new(Path.Combine(Application.streamingAssetsPath, "gameSave.wak"), FileMode.Open);
+            data2 = bf.Deserialize(stream) as GameData2;
+            stream.Close();
+
+            DataManager dataManager = DataManager.Instance;
+
+            inventoryUI.NpcInventory.Clear();
+            int temp = data2.items.Count;
+            for (int i = 0; i < temp; i++)
+            {
+                for (int j = 0; j < data2.itemCounts[i]; j++)
+                {
+                    inventoryUI.NpcInventory.Add(dataManager.ItemDic[data2.items[i]]);
+                }
+            }
+
+            foodInventoryUI.NpcInventory.Clear();
+            temp = data2.foods.Count;
+            for (int i = 0; i < temp; i++)
+                foodInventoryUI.NpcInventory.Add(dataManager.FoodDic[data2.foods[i]]);
+
+            masteryInventoryUI.NpcInventory.Clear();
+            temp = data2.masteries.Count;
+            for (int i = 0; i < temp; i++)
+                masteryInventoryUI.NpcInventory.Add(dataManager.MasteryDic[data2.masteries[i]]);
+
+            weapon0image.sprite = dataManager.WeaponDic[data2.weapon0ID].sprite;
+            weapon1image.sprite = dataManager.WeaponDic[data2.weapon1ID].sprite;
+            viewerText.text = $"시청자 : {data2.viewer}";
+            stageText.text = $"스테이지 : {StageManager.Instance.stageDataBuffer.items[data2.lastStageID].name}";
+            hpText.text = $"당시 체력 : {data2.hp}";
+            levelText.text = $"레벨 : {data2.level}";
+            expText.text = $"경험치 : {Mathf.Floor((float)data2.exp / (300 * data2.level) * 100) + "%"}";
         }
         else
         {
@@ -44,12 +93,7 @@ public class Ttmdacl : InteractiveObject
     }
 
     public void LoadGame()
-    {
-        BinaryFormatter bf = new();
-        FileStream stream = new(Path.Combine(Application.streamingAssetsPath, "gameSave.wak"), FileMode.Open);
-        GameData2 data2 = bf.Deserialize(stream) as GameData2;
-        stream.Close();
-
+    { 
         StartCoroutine(GameManager.Instance.EnterPortal(data2));
     }
 

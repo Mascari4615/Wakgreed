@@ -121,8 +121,8 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator SpeedWagon_Stage()
     {
-        stageNumberText.text = $"1-{StageManager.Instance.currentStage.id}";
-        stageNameCommentText.text = $"{StageManager.Instance.currentStage.name} : {StageManager.Instance.currentStage.comment}";
+        stageNumberText.text = $"{StageManager.Instance.currentStage.id} - {StageManager.Instance.currentStage.name}";
+        stageNameCommentText.text = $"{StageManager.Instance.currentStage.comment}";
         stageSpeedWagon.SetActive(true);
         yield return new WaitForSeconds(3f);
         stageSpeedWagon.SetActive(false);

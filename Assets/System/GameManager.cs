@@ -103,11 +103,10 @@ public class GameManager : MonoBehaviour
         isLoading.RuntimeValue = true;
         fadePanel.SetTrigger("OUT");
         yield return new WaitForSeconds(0.2f);
-
         undo.SetActive(false);
 
         if (gameData2 != null)
-        { 
+        {
             DataManager dataManager = DataManager.Instance;
             StageManager.Instance.currentStageID = gameData2.lastStageID - 1;
 
@@ -124,8 +123,13 @@ public class GameManager : MonoBehaviour
                 dataManager.wgMasteryInven.Add(dataManager.MasteryDic[gameData2.masteries[i]]);
 
             viewer.RuntimeValue = gameData2.viewer;
-        }
+            Wakgood.Instance.SwitchWeaponStatic(0, DataManager.Instance.WeaponDic[gameData2.weapon0ID]);
+            Wakgood.Instance.SwitchWeaponStatic(1, DataManager.Instance.WeaponDic[gameData2.weapon1ID]);
 
+            Wakgood.Instance.exp.RuntimeValue = gameData2.exp;
+            Wakgood.Instance.level.RuntimeValue = gameData2.level;
+            Wakgood.Instance.hpCur.RuntimeValue = gameData2.hp;
+        }
         StageManager.Instance.GenerateStage();       
     }
     

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
 
@@ -24,6 +25,13 @@ public class Slot : MonoBehaviour
         if (nameText != null) nameText.text = _specialThing.name;
         if (priceText != null) priceText.text = (_specialThing as Sellable).price.ToString();
         if (descriptionText != null) descriptionText.text = _specialThing.description;
+    }
+
+    public void SetSlot(SpecialThing _specialThing, int count)
+    {
+        SpecialThing = _specialThing;
+        image.sprite = SpecialThing.sprite;
+        countTextField.text = count.ToString();
     }
 
     public void SetSlot(Monster monster)
