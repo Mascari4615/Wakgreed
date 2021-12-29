@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class FirePanchi : NormalMonster
 {
-    private static readonly WaitForSeconds ws01 = new(0.1f);
     private bool bIsAttacking = false;
     private static readonly WaitForSeconds ws6 = new(6);
     [SerializeField] private GameObject circle;

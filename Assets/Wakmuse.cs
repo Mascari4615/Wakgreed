@@ -13,8 +13,6 @@ public class Wakmuse : NormalMonster
     private bool bRecognizeWakgood = false;
     private bool bIsAttacking = false;
 
-    private static readonly WaitForSeconds ws01 = new(0.1f);
-
     protected override void OnEnable()
     {
         bRecognizeWakgood = false;

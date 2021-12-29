@@ -8,15 +8,15 @@ public class ChangeItemToItem : Skill
 
     public override void Use(Weapon weapon)
     {
-        if (DataManager.Instance.wakgoodItemInventory.Items.Find(x => x.id == origin.id))
+        if (DataManager.Instance.wgItemInven.Items.Find(x => x.id == origin.id))
         {
-            if (DataManager.Instance.wakgoodItemInventory.itemCountDic[origin.id] >= originCount)
+            if (DataManager.Instance.wgItemInven.itemCountDic[origin.id] >= originCount)
             {
                 for (int i = 0; i < originCount; i++)
-                    DataManager.Instance.wakgoodItemInventory.Remove(DataManager.Instance.ItemDic[origin.id]);
+                    DataManager.Instance.wgItemInven.Remove(DataManager.Instance.ItemDic[origin.id]);
 
                 int random = Random.Range(0, target.Length);
-                DataManager.Instance.wakgoodItemInventory.Add(DataManager.Instance.ItemDic[target[random].id]);
+                DataManager.Instance.wgItemInven.Add(DataManager.Instance.ItemDic[target[random].id]);
                 ObjectManager.Instance.PopObject("Effect_Hit", Wakgood.Instance.transform);
             }
             else

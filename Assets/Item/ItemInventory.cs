@@ -37,11 +37,18 @@ public abstract class ItemInventory : RunTimeSet<Item>
         int itemsCount = Items.Count;
         for (int i = 0; i < itemsCount; i++)
         {
-            int itemCount = itemCountDic[Items[0].id];
-            for (int j = 0; j < itemCount; j++)
+            if (itemCountDic != null)
             {
-                Remove(Items[0]);
-            }         
+                int itemCount = itemCountDic[Items[0].id];
+                for (int j = 0; j < itemCount; j++)
+                {
+                    Remove(Items[0]);
+                }
+            }
+            else
+            {
+                Debug.LogError("아이템 개수 딕셔너리가 존재하지 않습니다.");
+            }
         }
 
         Items.Clear();

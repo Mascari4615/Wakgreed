@@ -1,14 +1,16 @@
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
-    [SerializeField] Image wakdu;
+    [SerializeField] private Image wakdu;
+    [SerializeField] private GameObject dataLoad;
 
     private void Awake()
     {
         wakdu.alphaHitTestMinimumThreshold = 0.1f;
-        AudioManager.Instance.PlayMusic("Bensound - Memories");     
+        AudioManager.Instance.PlayMusic("Bensound - Memories");
     }
 
     private void Update()

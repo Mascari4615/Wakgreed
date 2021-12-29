@@ -7,15 +7,15 @@ public class PickaxeUpgrade : Skill
 
     public override void Use(Weapon weapon)
     {       
-        if (DataManager.Instance.wakgoodItemInventory.Items.Find(x => x.id == stone.id))
+        if (DataManager.Instance.wgItemInven.Items.Find(x => x.id == stone.id))
         {
-            if (DataManager.Instance.wakgoodItemInventory.itemCountDic[stone.id] >= 5)
+            if (DataManager.Instance.wgItemInven.itemCountDic[stone.id] >= 5)
             {
-                DataManager.Instance.wakgoodItemInventory.Remove(DataManager.Instance.ItemDic[stone.id]);
-                DataManager.Instance.wakgoodItemInventory.Remove(DataManager.Instance.ItemDic[stone.id]);
-                DataManager.Instance.wakgoodItemInventory.Remove(DataManager.Instance.ItemDic[stone.id]);
-                DataManager.Instance.wakgoodItemInventory.Remove(DataManager.Instance.ItemDic[stone.id]);
-                DataManager.Instance.wakgoodItemInventory.Remove(DataManager.Instance.ItemDic[stone.id]);
+                DataManager.Instance.wgItemInven.Remove(DataManager.Instance.ItemDic[stone.id]);
+                DataManager.Instance.wgItemInven.Remove(DataManager.Instance.ItemDic[stone.id]);
+                DataManager.Instance.wgItemInven.Remove(DataManager.Instance.ItemDic[stone.id]);
+                DataManager.Instance.wgItemInven.Remove(DataManager.Instance.ItemDic[stone.id]);
+                DataManager.Instance.wgItemInven.Remove(DataManager.Instance.ItemDic[stone.id]);
                 Wakgood.Instance.SwitchWeapon(Wakgood.Instance.CurWeaponNumber, DataManager.Instance.WeaponDic[Wakgood.Instance.Weapon[Wakgood.Instance.CurWeaponNumber].id + 1]);
                 ObjectManager.Instance.PopObject("AnimatedText", Wakgood.Instance.transform).GetComponent<AnimatedText>().SetText("업그레이드 성공!", Color.blue);
             }

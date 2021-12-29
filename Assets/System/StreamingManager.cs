@@ -54,16 +54,15 @@ public class StreamingManager : MonoBehaviour
         if (isStreaming) return;
 
         isStreaming = true;
-        viewer.RuntimeValue = 10000;
 
         if (DataManager.Instance.CurGameData.rescuedNPC[18])
-            DataManager.Instance.wakgoodItemInventory.Add(DataManager.Instance.ItemDic[12]);
+            DataManager.Instance.wgItemInven.Add(DataManager.Instance.ItemDic[12]);
 
         if (DataManager.Instance.CurGameData.rescuedNPC[13])
-            DataManager.Instance.wakgoodItemInventory.Add(DataManager.Instance.ItemDic[39]);
+            DataManager.Instance.wgItemInven.Add(DataManager.Instance.ItemDic[39]);
 
         if (DataManager.Instance.CurGameData.rescuedNPC[7])
-            DataManager.Instance.wakgoodItemInventory.Add(DataManager.Instance.ItemDic[27]);
+            DataManager.Instance.wgItemInven.Add(DataManager.Instance.ItemDic[27]);
 
         // GameEventListener 클래스를 통해 꼼수로 코루틴 실행하기
         if (DataManager.Instance.CurGameData.rescuedNPC[22] ||
@@ -139,8 +138,8 @@ public class StreamingManager : MonoBehaviour
             while (isLoading.RuntimeValue) yield return null;
 
             int temp = 0;
-            if (DataManager.Instance.wakgoodItemInventory.Items.Contains(DataManager.Instance.ItemDic[48]))
-                temp = DataManager.Instance.wakgoodItemInventory.itemCountDic[48];
+            if (DataManager.Instance.wgItemInven.Items.Contains(DataManager.Instance.ItemDic[48]))
+                temp = DataManager.Instance.wgItemInven.itemCountDic[48];
 
             if (Random.Range(0, 100) < 30)
             {
@@ -164,8 +163,8 @@ public class StreamingManager : MonoBehaviour
             while (isLoading.RuntimeValue) yield return null;
 
             int temp = 0;
-            if (DataManager.Instance.wakgoodItemInventory.Items.Contains(DataManager.Instance.ItemDic[47]))
-                temp = DataManager.Instance.wakgoodItemInventory.itemCountDic[47];
+            if (DataManager.Instance.wgItemInven.Items.Contains(DataManager.Instance.ItemDic[47]))
+                temp = DataManager.Instance.wgItemInven.itemCountDic[47];
 
             if (Random.Range(0, 100) < 50 + temp * 5)
             {
@@ -300,14 +299,14 @@ public class StreamingManager : MonoBehaviour
                     break;
                 case "food":
                 case "음식":
-                    DataManager.Instance.wakgoodFoodInventory.Add(DataManager.Instance.FoodDic[int.Parse(msg.Split(' ')[1])]);
+                    DataManager.Instance.wgFoodInven.Add(DataManager.Instance.FoodDic[int.Parse(msg.Split(' ')[1])]);
                     break;
                 default:
                     if (msg[1..(msg.Length - 1)] == "clear" || msg[1..(msg.Length - 1)] == "초기화")
                     {
-                        DataManager.Instance.wakgoodItemInventory.Clear();
-                        DataManager.Instance.wakgoodFoodInventory.Clear();
-                        DataManager.Instance.wakgoodMasteryInventory.Clear();
+                        DataManager.Instance.wgItemInven.Clear();
+                        DataManager.Instance.wgFoodInven.Clear();
+                        DataManager.Instance.wgMasteryInven.Clear();
                         DataManager.Instance.buffRunTimeSet.Clear();
                     }
                     Debug.Log("Nope");
