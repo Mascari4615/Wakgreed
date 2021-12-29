@@ -46,8 +46,6 @@ public class DopamineBomb : MonoBehaviour
         yield return new WaitForSeconds(2f);
         ObjectManager.Instance.PopObject("Effect_Bomb", transform);
         ObjectManager.Instance.PopObject("Banshee", transform.position + (Vector3)Random.insideUnitCircle * 3);
-        ObjectManager.Instance.PopObject("Banshee", transform.position + (Vector3)Random.insideUnitCircle * 3);
-        ObjectManager.Instance.PopObject("ViewBot", transform.position + (Vector3)Random.insideUnitCircle * 3);
         ObjectManager.Instance.PopObject("ViewBot", transform.position + (Vector3)Random.insideUnitCircle * 3);
         gameObject.SetActive(false);
     }

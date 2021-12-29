@@ -1,18 +1,55 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
+using System;
 
 public class ViewBot : NormalMonster
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void OnEnable()
     {
-        
+        base.OnEnable();
+        SpriteRenderer.color = Color.white;
+        StartCoroutine(Move());
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator Move()
     {
-        
+        while (true)
+        {
+            Rigidbody2D.velocity = (Wakgood.Instance.transform.position - transform.position).normalized * MoveSpeed;
+            yield return new WaitForSeconds(0.1f);
+
+            if (Vector3.Distance(Wakgood.Instance.transform.position, transform.position) < 1f)
+            {
+                StartCoroutine(Boom());
+                yield break;
+            }
+        }
+    }
+
+    private IEnumerator Boom()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            Rigidbody2D.velocity = (Wakgood.Instance.transform.position - transform.position).normalized * MoveSpeed / 1.5f;
+
+            SpriteRenderer.color = Color.red;
+            yield return new WaitForSeconds(0.1f);
+            SpriteRenderer.color = Color.white;
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        SpriteRenderer.material = originalMaterial;
+
+        ObjectManager.Instance.PopObject("ViewBotBoom", transform.position);
+        isCollapsed = true;
+        RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("(", StringComparison.Ordinal), 7) : name)}_Collapse", transform.position);
+
+        collider2D.enabled = false;
+        Rigidbody2D.velocity = Vector2.zero;
+        Rigidbody2D.bodyType = RigidbodyType2D.Static;
+        GameManager.Instance.enemyRunTimeSet.Remove(gameObject);
+
+        gameObject.SetActive(false);
     }
 }

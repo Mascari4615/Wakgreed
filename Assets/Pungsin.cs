@@ -6,7 +6,7 @@ public class Pungsin : BossMonster
     [SerializeField] private GameObject ultAttackPrefab;
     [SerializeField] private GameObject skill0AttackPrefab;
     [SerializeField] private GameObject skill1AttackPrefab;
-    
+
     private BulletMove[] skill0AttackGo;
     private BulletMoveStar[] skill1AttackGo;
     [SerializeField] private GameObject ult;

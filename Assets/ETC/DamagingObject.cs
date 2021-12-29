@@ -15,9 +15,7 @@ public interface IHitable
 public class DamagingObject : MonoBehaviour
 {
     [SerializeField] private bool bTargetWak = true;
-    [SerializeField] private TotalPower totalPower;
-    [SerializeField] private IntVariable criticalChance;
-    [SerializeField] private IntVariable criticalDamagePer;
+
     public int damage = 0;
     [SerializeField] private int WeaponID = -1;
     private int minDamage = -1;
@@ -49,39 +47,46 @@ public class DamagingObject : MonoBehaviour
 
         if (other.TryGetComponent(out IHitable damageable))
         {
-            if (other.CompareTag("Monster") || other.CompareTag("Boss"))
+            if ((other.CompareTag("Monster") || other.CompareTag("Boss")) && bTargetWak == false)
             {
+                if (UnityEngine.Random.Range(0, 100) < Wakgood.Instance.miss.RuntimeValue)
+                {
+                    ObjectManager.Instance.PopObject("AnimatedText", other.transform.position + Vector3.up).GetComponent<AnimatedText>().SetText("ºø³ª°¨!", Color.red);
+
+                    if (offGoOnHit)
+                    {
+                        gameObject.SetActive(false);
+                    }
+                    else if (offCollOnHit)
+                    {
+                        collider2D.enabled = false;
+                    }
+
+                    return;
+                }
+
                 int totalDamage = WeaponID != -1 ? UnityEngine.Random.Range(minDamage, maxDamage + 1) : damage;
 
-                if (criticalChance == null)
+                HitType hitType = HitType.Normal;
+                totalDamage = (int)Math.Round(totalDamage * (1 + (float)Wakgood.Instance.totalPower.RuntimeValue / 100));
+                if (UnityEngine.Random.Range(0, 100) < Wakgood.Instance.criticalChance.RuntimeValue)
                 {
-                    damageable.ReceiveHit(totalDamage);
+                    totalDamage = (int)Math.Round(totalDamage * (1.2f + (float)Wakgood.Instance.criticalDamagePer.RuntimeValue / 100), MidpointRounding.AwayFromZero);
+                    hitType = HitType.Critical;
                 }
-                else
-                {
-                    HitType hitType = HitType.Normal;
-                    if (UnityEngine.Random.Range(0, 100) < criticalChance.RuntimeValue)
-                    {
-                        totalDamage =(int)Math.Round(totalDamage * totalPower.RuntimeValue * (1 + criticalDamagePer.RuntimeValue * 0.01f), MidpointRounding.AwayFromZero);
-                        hitType = HitType.Critical;
-                    }
-                   else
-                    {
-                        totalDamage = (int)Math.Round(totalDamage * (1 + (float)totalPower.RuntimeValue / 100), MidpointRounding.AwayFromZero);
-                    }
 
-                    if (other.CompareTag("Monster"))
-                    {
-                        totalDamage = (int)Math.Round(totalDamage * (1 + (float)Wakgood.Instance.MobDamage.RuntimeValue / 100), MidpointRounding.AwayFromZero);
-                    }
-                    else if (other.CompareTag("Boss"))
-                    {
-                        totalDamage = (int)Math.Round(totalDamage * (1 + (float)Wakgood.Instance.BossDamage.RuntimeValue / 100), MidpointRounding.AwayFromZero);
-                    }
-                    damageable.ReceiveHit(totalDamage, hitType);
+                if (other.CompareTag("Monster"))
+                {
+                    totalDamage = (int)Math.Round(totalDamage * (1 + (float)Wakgood.Instance.MobDamage.RuntimeValue / 100), MidpointRounding.AwayFromZero);
                 }
+                else if (other.CompareTag("Boss"))
+                {
+                    totalDamage = (int)Math.Round(totalDamage * (1 + (float)Wakgood.Instance.BossDamage.RuntimeValue / 100), MidpointRounding.AwayFromZero);
+                }
+                damageable.ReceiveHit(totalDamage, hitType);
+                
             }
-            else
+            else if (other.CompareTag("Player") && bTargetWak == true)
             {
                 damageable.ReceiveHit(damage);
             }

@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
         CinemachineVirtualCamera = Camera.main.transform.parent.Find("CM Camera").GetComponent<CinemachineVirtualCamera>();
         CinemachineTargetGroup = Camera.main.transform.parent.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>();
         CinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
+        CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
     }
 
     private void Start()
@@ -55,6 +56,7 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.SetStageName("마을");
         AudioManager.Instance.PlayMusic("yeppSun - 고고 다섯쌍둥이");
         UIManager.Instance.SetCurViewerText("뱅온 전!");
+        CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
     }
 
     private IEnumerator CheckBuff()
@@ -86,12 +88,7 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame() // 정지 버튼에서 호출
     {
-        Time.timeScale = Time.timeScale switch
-        {
-            1 => 0,
-            0 => 1,
-            _ => Time.timeScale
-        };
+        Time.timeScale = pausePanel.activeSelf ? 1 : 0;
 
         recallButton.SetActive(isGaming.RuntimeValue);
         pausePanel.SetActive(!pausePanel.activeSelf);
@@ -101,7 +98,8 @@ public class GameManager : MonoBehaviour
     {
         AudioManager.Instance.StopMusic();
         ObjectManager.Instance.DeactivateAll();
-        
+
+        CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
         isLoading.RuntimeValue = true;
         fadePanel.SetTrigger("OUT");
         yield return new WaitForSeconds(0.2f);
@@ -187,6 +185,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator Ending()
     {
+
         endingGameObject.SetActive(true);
         endingPanel.SetActive(true);
 
@@ -195,6 +194,74 @@ public class GameManager : MonoBehaviour
         
         endingGameObject.SetActive(false);
         endingPanel.SetActive(false);
+
+        StartCoroutine(Endingg());
+    }
+
+    public IEnumerator Endingg()
+    {
+        AudioManager.Instance.PlayMusic("yeppSun - 왁버거 MR");
+
+        DataManager.Instance.CurGameData.rescuedNPC[29] = true;
+        DataManager.Instance.SaveGameData();
+
+        Time.timeScale = 1;
+        gamePanel.SetActive(false);
+        pausePanel.SetActive(false);
+        UIManager.Instance.SetResult(true);
+        gameResultPanel.SetActive(true);
+
+        yield return new WaitForSeconds(1f);
+
+        Wakgood.Instance.gameObject.SetActive(false);
+
+        while (clickRecall == false) yield return null;
+        clickRecall = false;
+
+        fadePanel.SetTrigger("OUT");
+        yield return new WaitForSeconds(1f);
+
+        CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
+
+        gamePanel.SetActive(true);
+
+        nyang.RuntimeValue = 3000;
+        viewer.RuntimeValue = 10000;
+
+        onRecall.Raise();
+        isGaming.RuntimeValue = false;
+        isFighting.RuntimeValue = false;
+        isBossing.RuntimeValue = false;
+
+        StageManager.Instance.DestroyStage();
+        UIManager.Instance.SetStageName("마을");
+        AudioManager.Instance.PlayMusic("yeppSun - 고고 다섯쌍둥이");
+        StageManager.Instance.currentStageID = -1;
+
+        UIManager.Instance.StopAllSpeedWagons();
+
+        MasteryManager.Instance.selectMasteryPanel.SetActive(false);
+
+        enemyRunTimeSet.Clear();
+        ObjectManager.Instance.DeactivateAll();
+
+        DataManager.Instance.wakgoodMasteryInventory.Clear();
+        DataManager.Instance.wakgoodItemInventory.Clear();
+        DataManager.Instance.wakgoodFoodInventory.Clear();
+        DataManager.Instance.buffRunTimeSet.Clear();
+
+        gameResultPanel.SetActive(false);
+        gamePanel.SetActive(true);
+
+        UIManager.Instance.bossHpBar.HpBarOff();
+
+        Wakgood.Instance.enabled = true;
+        Wakgood.Instance.gameObject.SetActive(true);
+        undo.SetActive(true);
+
+        yield return new WaitForSeconds(1f);
+        fadePanel.SetTrigger("IN");
+        Time.timeScale = 1;
     }
 }
 

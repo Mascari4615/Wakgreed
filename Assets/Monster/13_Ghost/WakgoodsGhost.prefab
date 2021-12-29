@@ -92,9 +92,8 @@ SpriteRenderer:
   m_SortingLayerID: 978103407
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7653975790744851721, guid: bf4fc5d648dc4254da38fb3180d8e7f9,
-    type: 3}
-  m_Color: {r: 0.60621315, g: 1, b: 0.572327, a: 1}
+  m_Sprite: {fileID: 1892080359, guid: 6cc88231fed6f414ca324bf94584027f, type: 3}
+  m_Color: {r: 0.745283, g: 0.56920433, b: 0.48279336, a: 1}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
@@ -114,7 +113,7 @@ Animator:
   m_GameObject: {fileID: 8633538259678075035}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a7ebcb0c5527bed45b34b9b22ff16c59, type: 2}
+  m_Controller: {fileID: 9100000, guid: a5e23fff2e2ded641b705fd1ce244b97, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -152,11 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc5466ebd09324d40bd2cd21e37538e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canDamageWakgood: 0
-  canDamageMob: 1
-  totalPower: {fileID: 0}
-  criticalChance: {fileID: 0}
-  criticalDamagePer: {fileID: 0}
+  bTargetWak: 0
   damage: 5
   WeaponID: -1
   offGoOnHit: 1

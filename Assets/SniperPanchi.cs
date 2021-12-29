@@ -2,65 +2,58 @@ using System.Collections;
 using UnityEngine;
 public class SniperPanchi : NormalMonster
 {
-    [SerializeField] private GameObject bullet;
-    [SerializeField] private LineRenderer lineRenderer;
-    [SerializeField] private float attackCoolTime;
-    private bool isTargeting;
+    [SerializeField] LineRenderer lineRenderer;
 
     protected override void OnEnable()
     {
         base.OnEnable();
-        isTargeting = false;
-
-        bullet.SetActive(false);
-        bullet.transform.localPosition = Vector3.zero;
+        lineRenderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 0.3f));
 
         StartCoroutine(Attack());
-        StartCoroutine(Targeting());
     }
 
     private IEnumerator Attack()
     {
-        WaitForSeconds wsCool = new(attackCoolTime - 0.7f);
-        WaitForSeconds ws02 = new(0.2f);
-
         while (true)
         {
-            while (!isTargeting) yield return ws02;
-            lineRenderer.SetPosition(0, transform.position);
-            lineRenderer.SetPosition(1, Wakgood.Instance.transform.position);
-            lineRenderer.gameObject.SetActive(true);
-            yield return wsCool;
-            yield return StartCoroutine(Casting(0.7f));
-            lineRenderer.gameObject.SetActive(false);
+            yield return new WaitForSeconds(3f);
 
-            Animator.SetTrigger("ATTACK");
-            bullet.transform.localPosition = Vector3.zero;
-            bullet.SetActive(true);
+            yield return StartCoroutine(Skill0());
         }
     }
 
-    private IEnumerator Targeting()
+    private IEnumerator Skill0()
     {
-        WaitForSeconds ws02 = new(0.2f);
+        // Animator.SetBool("SKILL1", true);
+        // Animator.SetTrigger("SKILL1CHARGE");
 
-        while (true)
+        Vector3 diff = Random.insideUnitCircle * 5f;
+        Vector3 _attackDirection = (Wakgood.Instance.transform.position + diff - transform.position).normalized;
+
+        lineRenderer.SetPosition(0, transform.position + (Vector3)Vector2.up);
+        lineRenderer.SetPosition(1, transform.position + (Vector3)Vector2.up + _attackDirection * 100);
+        lineRenderer.gameObject.SetActive(true);
+
+        StartCoroutine(Casting(2f));
+
+        for (float i = 0; i <= 1f; i += Time.deltaTime * 0.5f)
         {
-            RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, Wakgood.Instance.transform.position - transform.position, Vector2.Distance(transform.position, Wakgood.Instance.transform.position), LayerMask.NameToLayer("Everything"));
-
-            foreach (RaycastHit2D t in hit)
-            {
-                if (t.transform.CompareTag("Wall")) { isTargeting = false; break; }
-                else if (t.transform.CompareTag("Player")) isTargeting = true;
-            }
-
-            if (isTargeting)
-            {
-                Debug.DrawRay(transform.position, Wakgood.Instance.transform.position - transform.position, Color.green);
-                SpriteRenderer.flipX = Wakgood.Instance.transform.position.x > transform.position.x;
-            }
-
-            yield return ws02;
+            SpriteRenderer.flipX = transform.position.x > Wakgood.Instance.transform.position.x;
+            diff = Vector3.Lerp(diff, Vector3.zero, i * 0.1f);
+            _attackDirection = (Wakgood.Instance.transform.position + diff - transform.position).normalized;
+            lineRenderer.SetPosition(1, transform.position + (Vector3)Vector2.up + _attackDirection * 100);
+            yield return null;
         }
+
+        // Animator.SetTrigger("SKILL1GO");
+        yield return new WaitForSeconds(1.2f);
+        var a = ObjectManager.Instance.PopObject("Suri", transform.position);
+
+        a.transform.position = transform.position + (Vector3)Vector2.up;
+        a.GetComponent<BulletMove>().SetDirection(_attackDirection);
+        lineRenderer.gameObject.SetActive(false);
+
+        // Animator.SetBool("SKILL1", false);
+        yield return new WaitForSeconds(5f);
     }
 }

@@ -49,6 +49,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private ItemInventoryUI inventoryUI;
 
     [SerializeField] private TextMeshProUGUI ammoText;
+    [SerializeField] private TextMeshProUGUI resultText;
 
     private void Awake()
     {
@@ -58,13 +59,20 @@ public class UIManager : MonoBehaviour
         cinemachineTargetGroup = GameObject.Find("Cameras").transform.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>();
     }
 
-    public void SetResult()
+    public void SetResult(bool Ending = false)
     {
         resultUptimeText.text = StreamingManager.Instance.Uptime;
         finalStageText.text = StageManager.Instance.currentStage.name;
         totalEquipGoldu.text = Goldu.RuntimeValue.ToString();
         inventoryUI.Initialize();
+
+        if (Ending)
+        {
+            resultText.text = "¿À¹ð¾Ë!";
+            resultText.color = new Color(0, 200, 120);
+        }
     }
+
 
     private void Update()
     {

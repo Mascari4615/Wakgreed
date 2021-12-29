@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc5466ebd09324d40bd2cd21e37538e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetWak: 1
+  bTargetWak: 1
   totalPower: {fileID: 0}
   criticalChance: {fileID: 0}
   criticalDamagePer: {fileID: 0}
@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc5466ebd09324d40bd2cd21e37538e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetWak: 1
+  bTargetWak: 1
   totalPower: {fileID: 0}
   criticalChance: {fileID: 0}
   criticalDamagePer: {fileID: 0}
@@ -444,6 +444,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6478125658612513877, guid: 130b3a84bde3190479b257e66ad1aa0a,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6478125658612513877, guid: 130b3a84bde3190479b257e66ad1aa0a,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 6478125658612513877, guid: 130b3a84bde3190479b257e66ad1aa0a,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -597,7 +607,7 @@ PrefabInstance:
     - target: {fileID: 893357815935375099, guid: 3054d4efd9e9f024896d0c6ab829f790,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -0.32
       objectReference: {fileID: 0}
     - target: {fileID: 893357815935375099, guid: 3054d4efd9e9f024896d0c6ab829f790,
         type: 3}
