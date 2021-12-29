@@ -16,6 +16,8 @@ public class Pungsin : BossMonster
     private BulletMove[] ultAttackGos;
     [SerializeField] private GameObject stun;
     [SerializeField] private LineRenderer lineRenderer;
+    private Vector3 spawnedPos = Vector3.zero;
+    [SerializeField] private float moveLimit = 15;
 
     protected override void Awake()
     {
@@ -48,6 +50,21 @@ public class Pungsin : BossMonster
     {
         base.OnEnable();
         spawnedPos = transform.position;
+    }
+
+    protected override IEnumerator Collapse()
+    {
+        foreach (var item in skill0AttackGo)
+        {
+            item.gameObject.SetActive(false);
+        }
+
+        foreach (var item in skill1AttackGo)
+        {
+            item.gameObject.SetActive(false);
+        }
+
+        return base.Collapse();
     }
 
     protected override IEnumerator Attack()
@@ -140,8 +157,7 @@ public class Pungsin : BossMonster
         stun.SetActive(false);
         ultParticle2.SetActive(false);
     }
-    private Vector3 spawnedPos = Vector3.zero;
-    [SerializeField] private float moveLimit = 15;
+   
     private IEnumerator Skill0()
     {
         yield return new WaitForSeconds(.2f);

@@ -5,17 +5,23 @@ using UnityEngine;
 public class MiniWakpago : MonoBehaviour, IEffectGameObject
 {
     [SerializeField] GameObject Bullet;
-    private BulletMove bullet;
+    private BulletMove[] bullet;
     [SerializeField] private float moveSpeed = 1;
     private bool canWakggiddi = true;
-    private const float CoolTime = 3f;
+    private float CoolTime = 3f;
     private int damage = 5;
 
     private void Awake()
     {
-        bullet = Instantiate(Bullet, transform.position, Quaternion.identity).GetComponent<BulletMove>();
-        bullet.gameObject.SetActive(false);
-        bullet.gameObject.GetComponent<DamagingObject>().damage = damage;
+        bullet = new BulletMove[10];
+
+        for (int i = 0; i < 10; i++)
+        {
+            bullet[i] = Instantiate(Bullet, transform.position, Quaternion.identity).GetComponent<BulletMove>();
+            bullet[i].gameObject.SetActive(false);
+            bullet[i].gameObject.GetComponent<DamagingObject>().damage = damage;
+        }
+
     }
 
     private void Start()
@@ -32,14 +38,27 @@ public class MiniWakpago : MonoBehaviour, IEffectGameObject
             {
                 if (GameManager.Instance.enemyRunTimeSet.Items.Count > 0)
                 {
-                    Vector3 originalDistance = transform.position - Wakgood.Instance.transform.position;
                     Transform mob = GetNearestMob();
-
+                    if (mob == null) continue;
                     // RuntimeManager.PlayOneShot($"event:/SFX/Item/Wakgi", transform.position);
 
-                    bullet.transform.position = transform.position;
-                    bullet.SetDirection(mob .position - transform.position);
-                    bullet.gameObject.SetActive(true);
+                    int temp = 1;
+
+                    if (DataManager.Instance.wakgoodItemInventory.Items.Contains(DataManager.Instance.ItemDic[32]))
+                        temp += DataManager.Instance.wakgoodItemInventory.itemCountDic[32];
+
+                    for (int i = 0; i < temp; i++)
+                    {
+                        bullet[i].transform.position = transform.position;
+                        bullet[i].SetDirection(mob.position - transform.position);
+                        bullet[i].gameObject.SetActive(true);
+
+                        if (DataManager.Instance.wakgoodItemInventory.Items.Contains(DataManager.Instance.ItemDic[28]))
+                            CoolTime = 3 * (1 - DataManager.Instance.wakgoodItemInventory.itemCountDic[28] * 20 / 100);
+
+
+                    }
+
 
                     canWakggiddi = false;
                     StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, CoolTime, (value) => canWakggiddi = value));
@@ -87,9 +106,12 @@ public class MiniWakpago : MonoBehaviour, IEffectGameObject
 
     private void SetDamage()
     {
-        if (bullet.gameObject != null)
+        if (bullet != null)
         {
-            bullet.gameObject.GetComponent<DamagingObject>().damage = damage;
+            for (int i = 0; i < 10; i++)
+            {
+                bullet[i].gameObject.GetComponent<DamagingObject>().damage = damage;
+            }
         }
     }
 }

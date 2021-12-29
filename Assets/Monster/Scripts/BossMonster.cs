@@ -64,6 +64,6 @@ public abstract class BossMonster : Monster
         ObjectManager.Instance.PopObject("LevelUpEffect", transform);
 
         (StageManager.Instance.CurrentRoom as BossRoom)?.RoomClear();
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }

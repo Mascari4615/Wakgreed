@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 5168828908313417421}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.5, y: 6, z: 1}
+  m_LocalScale: {x: 2.5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -48,12 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc5466ebd09324d40bd2cd21e37538e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canDamageWakgood: 1
-  canDamageMob: 0
-  totalPower: {fileID: 0}
-  criticalChance: {fileID: 0}
-  criticalDamagePer: {fileID: 0}
-  damage: 5
+  bTargetWak: 1
+  damage: 7
   WeaponID: -1
   offGoOnHit: 0
   offCollOnHit: 0
@@ -166,5 +162,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4, y: 0.5}
+  m_Size: {x: 4.92, y: 0.58}
   m_EdgeRadius: 0
