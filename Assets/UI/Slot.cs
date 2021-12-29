@@ -20,7 +20,7 @@ public class Slot : MonoBehaviour
         if (toolTipTrigger != null)
             toolTipTrigger.SetToolTip(SpecialThing);
    
-        if (countTextField != null) countTextField.text = DataManager.Instance.wakgoodItemInventory.itemCountDic[(SpecialThing as Item).id].ToString();
+        if (countTextField != null) countTextField.text = DataManager.Instance.wgItemInven.itemCountDic[(SpecialThing as Item).id].ToString();
         if (nameText != null) nameText.text = _specialThing.name;
         if (priceText != null) priceText.text = (_specialThing as Sellable).price.ToString();
         if (descriptionText != null) descriptionText.text = _specialThing.description;

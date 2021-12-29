@@ -44,8 +44,8 @@ public class MiniWakpago : MonoBehaviour, IEffectGameObject
 
                     int temp = 1;
 
-                    if (DataManager.Instance.wakgoodItemInventory.Items.Contains(DataManager.Instance.ItemDic[32]))
-                        temp += DataManager.Instance.wakgoodItemInventory.itemCountDic[32];
+                    if (DataManager.Instance.wgItemInven.Items.Contains(DataManager.Instance.ItemDic[32]))
+                        temp += DataManager.Instance.wgItemInven.itemCountDic[32];
 
                     for (int i = 0; i < temp; i++)
                     {
@@ -53,8 +53,8 @@ public class MiniWakpago : MonoBehaviour, IEffectGameObject
                         bullet[i].SetDirection(mob.position - transform.position);
                         bullet[i].gameObject.SetActive(true);
 
-                        if (DataManager.Instance.wakgoodItemInventory.Items.Contains(DataManager.Instance.ItemDic[28]))
-                            CoolTime = 3 * (1 - DataManager.Instance.wakgoodItemInventory.itemCountDic[28] * 20 / 100);
+                        if (DataManager.Instance.wgItemInven.Items.Contains(DataManager.Instance.ItemDic[28]))
+                            CoolTime = 3 * (1 - DataManager.Instance.wgItemInven.itemCountDic[28] * 20 / 100);
 
 
                     }

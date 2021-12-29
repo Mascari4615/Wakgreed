@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     public CinemachineTargetGroup CinemachineTargetGroup { get; private set; }
 
     [SerializeField] private IntVariable nyang;
-    [SerializeField] private IntVariable viewer;
+    public IntVariable viewer;
 
     [SerializeField] private GameObject endingGameObject;
     [SerializeField] private GameObject endingPanel;
@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
     {
         Application.targetFrameRate = 60;
         Instance = this;
-
+        nyang.RuntimeValue = 3000;
         CinemachineVirtualCamera = Camera.main.transform.parent.Find("CM Camera").GetComponent<CinemachineVirtualCamera>();
         CinemachineTargetGroup = Camera.main.transform.parent.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>();
         CinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
         pausePanel.SetActive(!pausePanel.activeSelf);
     }
 
-    public IEnumerator EnterPortal()
+    public IEnumerator EnterPortal(GameData2 gameData2 = null)
     {
         AudioManager.Instance.StopMusic();
         ObjectManager.Instance.DeactivateAll();
@@ -105,7 +105,28 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
 
         undo.SetActive(false);
-        StageManager.Instance.GenerateStage();
+
+        if (gameData2 != null)
+        { 
+            DataManager dataManager = DataManager.Instance;
+            StageManager.Instance.currentStageID = gameData2.lastStageID - 1;
+
+            int temp = gameData2.items.Count;
+            for (int i = 0; i < temp; i++)        
+                dataManager.wgItemInven.Add(dataManager.ItemDic[gameData2.items[i]]);  
+
+            temp = gameData2.foods.Count;
+            for (int i = 0; i < temp; i++)      
+                dataManager.wgFoodInven.Add(dataManager.FoodDic[gameData2.foods[i]]);      
+
+            temp = gameData2.masteries.Count;
+            for (int i = 0; i < temp; i++)
+                dataManager.wgMasteryInven.Add(dataManager.MasteryDic[gameData2.masteries[i]]);
+
+            viewer.RuntimeValue = gameData2.viewer;
+        }
+
+        StageManager.Instance.GenerateStage();       
     }
     
     public void ClickRecall() => clickRecall = true;
@@ -156,9 +177,9 @@ public class GameManager : MonoBehaviour
 
         viewer.RuntimeValue = 10000;
 
-        DataManager.Instance.wakgoodMasteryInventory.Clear();
-        DataManager.Instance.wakgoodItemInventory.Clear();
-        DataManager.Instance.wakgoodFoodInventory.Clear();
+        DataManager.Instance.wgMasteryInven.Clear();
+        DataManager.Instance.wgItemInven.Clear();
+        DataManager.Instance.wgFoodInven.Clear();
         DataManager.Instance.buffRunTimeSet.Clear();
 
         nyang.RuntimeValue = 3000;
@@ -247,9 +268,9 @@ public class GameManager : MonoBehaviour
         enemyRunTimeSet.Clear();
         ObjectManager.Instance.DeactivateAll();
 
-        DataManager.Instance.wakgoodMasteryInventory.Clear();
-        DataManager.Instance.wakgoodItemInventory.Clear();
-        DataManager.Instance.wakgoodFoodInventory.Clear();
+        DataManager.Instance.wgMasteryInven.Clear();
+        DataManager.Instance.wgItemInven.Clear();
+        DataManager.Instance.wgFoodInven.Clear();
         DataManager.Instance.buffRunTimeSet.Clear();
 
         gameResultPanel.SetActive(false);
@@ -265,10 +286,28 @@ public class GameManager : MonoBehaviour
         fadePanel.SetTrigger("IN");
         Time.timeScale = 1;
     }
+
+    public Transform GetNearestMob(Transform originTransform)
+    {
+        Transform target = null;
+        float targetDist = 100;
+        float currentDist;
+
+        foreach (GameObject monster in enemyRunTimeSet.Items)
+        {
+            currentDist = Vector2.Distance(originTransform.position, monster.transform.position);
+            if (currentDist > targetDist) continue;
+
+            target = monster.transform;
+            targetDist = currentDist;
+        }
+
+        return target;
+    }
 }
 
 public class DebugManager
 {
-    public static void GetItem(int id) => DataManager.Instance.wakgoodItemInventory.Add(DataManager.Instance.ItemDic[id]);
+    public static void GetItem(int id) => DataManager.Instance.wgItemInven.Add(DataManager.Instance.ItemDic[id]);
     public static void GetWeapon(int id) => Wakgood.Instance.SwitchWeapon(Wakgood.Instance.CurWeaponNumber, DataManager.Instance.WeaponDic[id]);
 }

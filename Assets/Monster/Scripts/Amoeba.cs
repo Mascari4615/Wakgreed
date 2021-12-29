@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class Amoeba : NormalMonster
 {
-    private static readonly WaitForSeconds ws01 = new (0.1f);
     private static readonly WaitForSeconds ws2 = new (2);
 
     protected override void OnEnable()

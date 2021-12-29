@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 [CreateAssetMenu(fileName = "WakgoodFoodInventory", menuName = "GameSystem/RunTimeSet/WakgoodFoodInventory")]
 public class WakgoodFoodInventory : FoodInventory
 {

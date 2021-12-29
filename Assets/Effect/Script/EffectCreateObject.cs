@@ -22,7 +22,7 @@ public abstract class EffectCreateObject<T> : Effect where T : IEffectGameObject
 
     public override void Return()
     {
-        if (DataManager.Instance.wakgoodItemInventory.itemCountDic[id] == 1)
+        if (DataManager.Instance.wgItemInven.itemCountDic[id] == 1)
             Destroy(instance.gameObject);
         else
             instance.GetComponent<T>().Return();

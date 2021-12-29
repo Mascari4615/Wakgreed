@@ -18,6 +18,6 @@
             DataManager.Instance.SaveGameData();
         }
 
-        DataManager.Instance.wakgoodItemInventory.Add(item);
+        DataManager.Instance.wgItemInven.Add(item);
     }
 }

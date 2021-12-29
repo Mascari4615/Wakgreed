@@ -14,8 +14,18 @@ public class GameData
     public bool[] talkedOnceNPC = Enumerable.Repeat(false, 35 + 1).ToArray();
     public bool[] killedOnceMonster = Enumerable.Repeat(false, 51 + 1).ToArray();
     public bool[] equipedOnceItem = Enumerable.Repeat(false,72+1).ToArray();
-    public float[] Volume = { .8f, 1, 1 };
+    public float[] Volume = { .5f, .5f, .5f };
     public int deathCount = 0;
+}
+
+[Serializable]
+public class GameData2
+{
+    public List<int> foods = new();
+    public List<int> masteries = new();
+    public List<int> items = new();
+    public int viewer = 0;
+    public int lastStageID = 0;
 }
 
 public class DataManager : MonoBehaviour
@@ -34,7 +44,7 @@ public class DataManager : MonoBehaviour
     [SerializeField] private ItemDataBuffer chestSpawnItemDataBuffer;
     public readonly Dictionary<int, Item> ItemDic = new();
     public readonly Dictionary<int, Item> ChestItemDic = new();
-    public WakgoodItemInventory wakgoodItemInventory;
+    public WakgoodItemInventory wgItemInven;
     private readonly Dictionary<int, Item> commonItemDic = new();
     private readonly Dictionary<int, Item> unCommonItemDic = new();
     private readonly Dictionary<int, Item> legendaryItemDic = new();
@@ -49,11 +59,11 @@ public class DataManager : MonoBehaviour
 
     [Header("Food")] [SerializeField] private FoodDataBuffer foodDataBuffer;
     public readonly Dictionary<int, Food> FoodDic = new();
-    public WakgoodFoodInventory wakgoodFoodInventory;
+    public WakgoodFoodInventory wgFoodInven;
 
     [Header("Mastery")] [SerializeField] private WakduMasteryDataBuffer wakduMasteryDataBuffer;
     public readonly Dictionary<int, Mastery> MasteryDic = new();
-    public MasteryInventory wakgoodMasteryInventory;
+    public MasteryInventory wgMasteryInven;
 
     [Header("Monster")][SerializeField] private MonsterDataBuffer monsterDataBuffer;
     [SerializeField] private MonsterDataBuffer bossDataBuffer;
@@ -129,6 +139,42 @@ public class DataManager : MonoBehaviour
         FileStream stream = new(Path.Combine(Application.streamingAssetsPath, "game.wak"), FileMode.Create);
 
         bf.Serialize(stream, gameData ?? CurGameData);
+        stream.Close();
+    }
+
+    public void SaveGameData2()
+    {
+        GameData2 gameData2 = new();
+
+        gameData2.viewer = GameManager.Instance.viewer.RuntimeValue;
+
+        int temp = wgFoodInven.Items.Count;
+        Debug.Log($"FOOD : {temp}");
+        for (int i = 0; i < temp; i++)
+        {
+            gameData2.foods.Add(wgFoodInven.Items[i].id);
+        }
+
+        temp = wgItemInven.Items.Count;
+        Debug.Log($"ITEM : {temp}");
+        for (int i = 0; i < temp; i++)
+        {
+            gameData2.items.Add(wgItemInven.Items[i].id);
+        }
+
+        temp = wgMasteryInven.Items.Count;
+        Debug.Log($"MASTERY : {temp}");
+        for (int i = 0; i < temp; i++)
+        {
+            gameData2.masteries.Add(wgMasteryInven.Items[i].id);
+        }
+
+        gameData2.lastStageID = StageManager.Instance.currentStageID;
+
+        BinaryFormatter bf = new();
+        FileStream stream = new(Path.Combine(Application.streamingAssetsPath, "gameSave.wak"), FileMode.Create);
+
+        bf.Serialize(stream, gameData2);
         stream.Close();
     }
 

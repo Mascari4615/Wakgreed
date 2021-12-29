@@ -16,8 +16,6 @@ public class IcePanchi : NormalMonster
     private bool bIsAttacking = false;
     [SerializeField] private GameObject warning;
 
-    private static readonly WaitForSeconds ws01 = new(0.1f);
-
     protected override void OnEnable()
     {
         bRecognizeWakgood = false;
