@@ -1378,12 +1378,10 @@ GameObject:
   - component: {fileID: 4705426193227314247}
   - component: {fileID: 4705426193227314245}
   - component: {fileID: 1432387438446477281}
-  - component: {fileID: 5395718573743074757}
   - component: {fileID: 4705426193227314246}
   - component: {fileID: 4705426193227314302}
   - component: {fileID: 4705426193227314303}
-  - component: {fileID: 4785461779878913046}
-  - component: {fileID: 5001413555180642543}
+  - component: {fileID: 4742566568770261001}
   m_Layer: 11
   m_Name: Wakgood
   m_TagString: Player
@@ -1403,6 +1401,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 7351018171062088515}
   - {fileID: 4705426194132527055}
   - {fileID: 4705426192296333022}
   - {fileID: 4705426193897506532}
@@ -1410,7 +1409,7 @@ Transform:
   - {fileID: 1506465046}
   - {fileID: 4793426481215252474}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4705426193227314245
 MonoBehaviour:
@@ -1424,6 +1423,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3625209c83f290542914073006bb3c04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  criticalChance: {fileID: 0}
+  criticalDamagePer: {fileID: 0}
   wakdu: {fileID: 11400000, guid: 6fae4d6446cc5a24ba764e3141f9592e, type: 2}
   exp: {fileID: 11400000, guid: 17f006d9f52da1d47bf33575680fcc1b, type: 2}
   level: {fileID: 11400000, guid: 4a71ab267992a93479cfd1a716594562, type: 2}
@@ -1466,27 +1467,6 @@ MonoBehaviour:
   dashCoolTime: {fileID: 11400000, guid: 30cb8f962599816488c3a10bcb178bd8, type: 2}
   dashChargeSpeed: {fileID: 11400000, guid: 40996c6105da2ed4a88a02b1f925fb99, type: 2}
   isFocusOnSomething: {fileID: 11400000, guid: 09c5c35381403234b99f53accc0b3cdc, type: 2}
---- !u!50 &5395718573743074757
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4705426193227314241}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
-  m_Mass: 1.4526726
-  m_LinearDrag: 6.5
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
 --- !u!212 &4705426193227314246
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1587,34 +1567,27 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4785461779878913046
-MonoBehaviour:
+--- !u!50 &4742566568770261001
+Rigidbody2D:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4705426193227314241}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 865038771b775904f8c57eaf4a2b8e00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!58 &5001413555180642543
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4705426193227314241}
-  m_Enabled: 1
-  m_Density: 1
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 1
+  m_Mass: 1.4526726
+  m_LinearDrag: 6.5
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.22}
-  serializedVersion: 2
-  m_Radius: 0.68
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &4705426193897506535
 GameObject:
   m_ObjectHideFlags: 0
@@ -1731,6 +1704,67 @@ Transform:
   m_Father: {fileID: 4705426193227314247}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5746625835066106163
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7351018171062088515}
+  - component: {fileID: 8618319199174758240}
+  - component: {fileID: 109285386047132532}
+  m_Layer: 11
+  m_Name: WakgoodCollider
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7351018171062088515
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5746625835066106163}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4705426193227314247}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8618319199174758240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5746625835066106163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 865038771b775904f8c57eaf4a2b8e00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!58 &109285386047132532
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5746625835066106163}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.22}
+  serializedVersion: 2
+  m_Radius: 0.68
 --- !u!1 &6044928791929133259
 GameObject:
   m_ObjectHideFlags: 0

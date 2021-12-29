@@ -12,13 +12,17 @@ public class WakgoodCollider : MonoBehaviour
         else if (other.CompareTag("LowerDoor")) GameManager.Instance.StartCoroutine(StageManager.Instance.MigrateRoom(Vector2.down, 0));
         else if (other.CompareTag("LeftDoor")) GameManager.Instance.StartCoroutine(StageManager.Instance.MigrateRoom(Vector2.left, 3));
         else if (other.CompareTag("RightDoor")) GameManager.Instance.StartCoroutine(StageManager.Instance.MigrateRoom(Vector2.right, 2));
-
         else if (other.CompareTag("AreaDoor")) AreaTweener.Instance.ChangeArea(other.transform);
-
         else if (other.CompareTag("InteractiveObject"))
         {
-            if (!nearInteractiveObjectDic.ContainsKey(other.GetInstanceID())) nearInteractiveObjectDic.Add(other.GetInstanceID(), other.GetComponent<InteractiveObject>());
-            else Debug.LogError("ㅈ버그");
+            if (!nearInteractiveObjectDic.ContainsKey(other.GetInstanceID()))
+            {
+                nearInteractiveObjectDic.Add(other.GetInstanceID(), other.GetComponent<InteractiveObject>());
+            }
+            else
+            {
+                Debug.Log($"왁굳 트리거 엔터 : {other.gameObject.name}");
+            }
         }
     }
 
@@ -27,8 +31,14 @@ public class WakgoodCollider : MonoBehaviour
         if (!other.CompareTag("InteractiveObject"))
             return;
 
-        if (nearInteractiveObjectDic.ContainsKey(other.GetInstanceID())) nearInteractiveObjectDic.Remove(other.GetInstanceID());
-        else Debug.LogError("ㅈ버그");
+        if (nearInteractiveObjectDic.ContainsKey(other.GetInstanceID()))
+        {
+            nearInteractiveObjectDic.Remove(other.GetInstanceID());
+        }
+        else
+        {
+            Debug.Log($"왁굳 트리거 엑싯 : {other.gameObject.name}");
+        }
     }
 
     public InteractiveObject GetNearestInteractiveObject()

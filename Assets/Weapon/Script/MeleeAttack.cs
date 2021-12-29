@@ -12,8 +12,7 @@ public class MeleeAttack : Skill
     public override void Use(Weapon weapon)
     {
         if (type.Equals(SkillType.Base))
-        {
-            
+        {        
             if (DataManager.Instance.wgItemInven.Items.Contains(DataManager.Instance.ItemDic[53]))
             {
                 int per = 5 * DataManager.Instance.wgItemInven.itemCountDic[53];

@@ -25,9 +25,9 @@ public abstract class ItemInventory : RunTimeSet<Item>
                 itemCountDic.Remove(item.id);
                 Items.Remove(item);
             }
-            else Debug.LogError("RunTimeSet<Item> : Item.count는 음수가 될 수 없음");
+            else Debug.LogWarning($"RunTimeSet<Item> : Item.count는 음수가 될 수 없음, {item.name}");
         }
-        else Debug.LogError("RunTimeSet<Item> : 존재하지 않는 아이템 제거 시도");
+        else Debug.LogWarning($"RunTimeSet<Item> : 존재하지 않는 아이템 제거 시도, {item.name}");
     }
 
     public override void Clear()

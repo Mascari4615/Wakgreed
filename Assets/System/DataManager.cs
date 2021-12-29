@@ -24,8 +24,14 @@ public class GameData2
     public List<int> foods = new();
     public List<int> masteries = new();
     public List<int> items = new();
+    public List<int> itemCounts = new();
     public int viewer = 0;
     public int lastStageID = 0;
+    public int weapon0ID = 0;
+    public int weapon1ID = 0;
+    public int hp = 0;
+    public int level = 0;
+    public int exp = 0;
 }
 
 public class DataManager : MonoBehaviour
@@ -160,6 +166,7 @@ public class DataManager : MonoBehaviour
         for (int i = 0; i < temp; i++)
         {
             gameData2.items.Add(wgItemInven.Items[i].id);
+            gameData2.itemCounts.Add(wgItemInven.itemCountDic[wgItemInven.Items[i].id]);
         }
 
         temp = wgMasteryInven.Items.Count;
@@ -170,6 +177,12 @@ public class DataManager : MonoBehaviour
         }
 
         gameData2.lastStageID = StageManager.Instance.currentStageID;
+        gameData2.weapon0ID = Wakgood.Instance.Weapon[0].id;
+        gameData2.weapon1ID = Wakgood.Instance.Weapon[1].id;
+
+        gameData2.hp = Wakgood.Instance.hpCur.RuntimeValue;
+        gameData2.exp = Wakgood.Instance.exp.RuntimeValue;
+        gameData2.level = Wakgood.Instance.level.RuntimeValue;
 
         BinaryFormatter bf = new();
         FileStream stream = new(Path.Combine(Application.streamingAssetsPath, "gameSave.wak"), FileMode.Create);

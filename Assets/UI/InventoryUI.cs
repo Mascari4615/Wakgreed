@@ -4,8 +4,9 @@ using System.Collections.Generic;
 public abstract class InventoryUI<T> : MonoBehaviour
 {
     [SerializeField] private RunTimeSet<T> Inventory;
-    public List<T> NpcInventory;
-    private List<Slot> slots = new();
+    [HideInInspector] public List<T> NpcInventory;
+    [HideInInspector] public List<Slot> slots = new();
+    [HideInInspector] public bool temp = false;
 
     private void Awake()
     {
@@ -21,27 +22,71 @@ public abstract class InventoryUI<T> : MonoBehaviour
             for (int i = 0; i < transform.childCount; i++)
                 slots.Add(transform.GetChild(i).GetComponent<Slot>());
 
-        if (Inventory != null)
+        Dictionary<Item, int> itemDic = new();
+        if (temp)
+        {
+            foreach (var item in NpcInventory as List<Item>)
+            {
+                if (itemDic.ContainsKey(item))
+                {
+                    itemDic[item]++;
+                }
+                else
+                {
+                    itemDic.Add(item, 1);
+                }
+            }
+
+            int a = 0;
+            foreach (var item in itemDic)
+            {
+                slots[a++].SetSlot(item.Key, item.Value);
+            }
+
             for (int i = 0; i < transform.childCount; i++)
             {
-                if (i < Inventory.Items.Count)
+                if (i < itemDic.Count)
                 {
-                    slots[i].SetSlot(Inventory.Items[i] as SpecialThing);
                     slots[i].gameObject.SetActive(true);
                 }
                 else
+                {
                     slots[i].gameObject.SetActive(false);
+                }
             }
+        }
         else
-            for (int i = 0; i < transform.childCount; i++)
+        {
+            if (Inventory != null)
             {
-                if (i < NpcInventory.Count)
+                for (int i = 0; i < transform.childCount; i++)
                 {
-                    slots[i].SetSlot(NpcInventory[i] as SpecialThing);
-                    slots[i].gameObject.SetActive(true);
+                    if (i < Inventory.Items.Count)
+                    {
+                        slots[i].SetSlot(Inventory.Items[i] as SpecialThing);
+                        slots[i].gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        slots[i].gameObject.SetActive(false);
+                    }
                 }
-                else
-                    slots[i].gameObject.SetActive(false);
             }
+            else
+            {
+                for (int i = 0; i < transform.childCount; i++)
+                {
+                    if (i < NpcInventory.Count)
+                    {
+                        slots[i].SetSlot(NpcInventory[i] as SpecialThing);
+                        slots[i].gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        slots[i].gameObject.SetActive(false);
+                    }
+                }
+            }
+        }
     }
 }

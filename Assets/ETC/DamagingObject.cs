@@ -83,14 +83,17 @@ public class DamagingObject : MonoBehaviour
                 {
                     totalDamage = (int)Math.Round(totalDamage * (1 + (float)Wakgood.Instance.BossDamage.RuntimeValue / 100), MidpointRounding.AwayFromZero);
                 }
-                damageable.ReceiveHit(totalDamage, hitType);
-                
-            }
-            else if (other.CompareTag("Player") && bTargetWak == true)
-            {
-                damageable.ReceiveHit(damage);
+                damageable.ReceiveHit(totalDamage, hitType);              
             }
         }
+        else if (other.transform.parent.TryGetComponent(out IHitable wakgood))
+        {
+            if (other.CompareTag("Player") && bTargetWak == true)
+            {
+                wakgood.ReceiveHit(damage);
+            }
+        }
+
 
         if (offGoOnHit)
         {
