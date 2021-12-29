@@ -9,26 +9,34 @@ public class Ghost : NormalMonster
     protected override void OnEnable()
     {
         base.OnEnable();
-
         move = StartCoroutine(Move());
     }
 
-    private IEnumerator Move( )
+    private IEnumerator Move()
     {
-        Vector2 spawnPos = transform.position;
-        for (float j = 0; j <= 1; j += 0.02f)
+        while (true)
         {
-            SpriteRenderer.flipX = (Wakgood.Instance.transform.position.x > transform.position.x) ? true : false;
-            Rigidbody2D.transform.position = Vector3.Lerp(spawnPos, Wakgood.Instance.transform.position, j);
-            yield return new WaitForSeconds(0.02f);
+            Rigidbody2D.velocity = (Wakgood.Instance.transform.position - transform.position).normalized * MoveSpeed;
+            yield return new WaitForSeconds(0.1f);
+            SpriteRenderer.flipX = Wakgood.Instance.transform.position.x > transform.position.x;
         }
     }
 
     protected override void _ReceiveHit()
     {
         base._ReceiveHit();
-        transform.position = Wakgood.Instance.transform.position + (Vector3) Random.insideUnitCircle * 20f;
-        if (move!=null) StartCoroutine(Move());
+        transform.position = Wakgood.Instance.transform.position + (Vector3)Random.insideUnitCircle * 20f;
+        if (move != null) StartCoroutine(Move());
         move = StartCoroutine(Move());
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            transform.position = Wakgood.Instance.transform.position + (Vector3)Random.insideUnitCircle * 20f;
+            if (move != null) StartCoroutine(Move());
+            move = StartCoroutine(Move());
+        }
     }
 }

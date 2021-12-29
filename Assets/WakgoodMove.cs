@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FMODUnity;
+using System;
 
 public class WakgoodMove : MonoBehaviour
 {
@@ -9,8 +10,8 @@ public class WakgoodMove : MonoBehaviour
     public Animator Animator => animator ??= GetComponent<Animator>();
     public bool MbDashing { get; private set; }
 
-
     [SerializeField] private FloatVariable moveSpeed;
+    [SerializeField] private IntVariable moveSpeedBonus;
     [SerializeField] private IntVariable maxDashStack;
     [SerializeField] private IntVariable curDashStack;
     [SerializeField] private FloatVariable dashCoolTime;
@@ -77,14 +78,13 @@ public class WakgoodMove : MonoBehaviour
         moveDirection = new Vector2(horizontalInput, verticalInput).normalized;
         mbMoving = !moveDirection.Equals(Vector2.zero);
         Animator.SetBool(move, mbMoving);
-        PlayerRb.velocity = moveDirection * moveSpeed.RuntimeValue;
-
+        PlayerRb.velocity = moveDirection * (float)Math.Round(moveSpeed.RuntimeValue * (1 - (float)moveSpeedBonus.RuntimeValue / 100), MidpointRounding.AwayFromZero);
         if (!mbMoving || !mbCanBbolBbol)
             return;
 
         RuntimeManager.PlayOneShot("event:/SFX/Wakgood/BbolBbol");
         ObjectManager.Instance.PopObject("BBolBBol", transform.position);
-        StartCoroutine(TtmdaclExtension.ChangeWithDelay(!(mbCanBbolBbol = false), Random.Range(0.1f, 0.3f), value => mbCanBbolBbol = value));
+        StartCoroutine(TtmdaclExtension.ChangeWithDelay(!(mbCanBbolBbol = false), UnityEngine.Random.Range(0.1f, 0.3f), value => mbCanBbolBbol = value));
     }
 
     private IEnumerator Dash()

@@ -20,7 +20,7 @@ public class Angel : NPC
 
     private void UpdateTree()
     {
-        Debug.Log("Asd");
+        Debug.Log("¿£Á©");
         
         maxhp.RuntimeValue -= bonusHp;
         power.RuntimeValue -= bonusPower;

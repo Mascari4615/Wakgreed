@@ -21,10 +21,9 @@ public class Dopamine : BossMonster
     private bool bCanUseMobSpawn = true;
     private Coroutine monkeyCO;
 
-    [TextArea][SerializeField] private List<string> comment;
+    [TextArea] [SerializeField] private List<string> comment;
     private GameObject chat;
     private TextMeshProUGUI chatText;
-
 
     protected override void Awake()
     {
@@ -218,7 +217,7 @@ public class Dopamine : BossMonster
             foreach (char item in t)
             {
                 chatText.text += item;
-                RuntimeManager.PlayOneShot($"event:/SFX/ETC/NPC_{npcID}", transform.position);
+                RuntimeManager.PlayOneShot($"event:/SFX/NPC/NPC_{npcID}", transform.position);
                 yield return ws005;
             }
 

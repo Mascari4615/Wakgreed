@@ -16,7 +16,10 @@ public class MeleeAttack : Skill
             
             if (DataManager.Instance.wakgoodItemInventory.Items.Contains(DataManager.Instance.ItemDic[53]))
             {
-                if (Random.Range(0, 100) < 5 * DataManager.Instance.wakgoodItemInventory.itemCountDic[53])
+                int per = 5 * DataManager.Instance.wakgoodItemInventory.itemCountDic[53];
+                if (DataManager.Instance.wakgoodItemInventory.Items.Contains(DataManager.Instance.ItemDic[52]))
+                    per += 3 * DataManager.Instance.wakgoodItemInventory.itemCountDic[52];
+                if (Random.Range(0, 100) < per)
                     ObjectManager.Instance.PopObject("Ball", Wakgood.Instance.transform.position).GetComponent<BulletMove>().SetDirection((Vector3)Wakgood.Instance.worldMousePoint - Wakgood.Instance.transform.position);
             }
         }
@@ -30,7 +33,7 @@ public class MeleeAttack : Skill
         RaycastHit2D[] hits = Physics2D.CircleCastAll(Wakgood.Instance.AttackPosition.position, radius, Vector2.zero, 0, 1 << 7);
         foreach (RaycastHit2D hit in hits)
         {
-            if (hit.transform.CompareTag("Monster"))
+            if (hit.transform.CompareTag("Monster") || hit.transform.CompareTag("Boss"))
             {
                 if (hit.transform.TryGetComponent(out IHitable mob))
                 {

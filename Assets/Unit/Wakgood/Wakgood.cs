@@ -9,7 +9,8 @@ using System;
 public class Wakgood : MonoBehaviour, IHitable
 {
     public static Wakgood Instance { get; private set; }
-
+    public IntVariable criticalChance;
+    public IntVariable criticalDamagePer;
     [SerializeField] private Wakdu wakdu;
     [SerializeField] private IntVariable exp, level;
     [SerializeField] private IntVariable hpCur;
@@ -18,6 +19,7 @@ public class Wakgood : MonoBehaviour, IHitable
     [SerializeField] private MaxHp hpMax;
     [SerializeField] private IntVariable powerInt;
     public TotalPower totalPower;
+    public IntVariable miss;
     public FloatVariable attackSpeed;
     [SerializeField] private FloatVariable moveSpeed, evasion;
     [SerializeField] private BoolVariable canEvasionOnDash;
@@ -93,6 +95,16 @@ public class Wakgood : MonoBehaviour, IHitable
 
         UIManager.Instance.SetWeaponUI(0, Weapon[0] = hochi);
         UIManager.Instance.SetWeaponUI(1, Weapon[1] = hand);
+        
+        if (transform.Find("SatelliteParent").childCount > 0)
+        {
+            int a = transform.Find("SatelliteParent").childCount;
+
+            for (int i = 0; i < a; i++)
+            {
+                Destroy(transform.Find("SatelliteParent").GetChild(0));
+            }
+        }
 
         if (CurWeaponNumber != 0)
         {
@@ -264,7 +276,7 @@ public class Wakgood : MonoBehaviour, IHitable
 
     public void CheckCanLevelUp()
     {
-        if (exp.RuntimeValue >= 150 * level.RuntimeValue) LevelUp();
+        if (exp.RuntimeValue >= 300 * level.RuntimeValue) LevelUp();
     }
 
     private void LevelUp()
@@ -273,7 +285,7 @@ public class Wakgood : MonoBehaviour, IHitable
         powerInt.RuntimeValue += wakdu.growthPower;
         attackSpeed.RuntimeValue += wakdu.growthAttackSpeed;
 
-        exp.RuntimeValue -= 150 * level.RuntimeValue;
+        exp.RuntimeValue -= 300 * level.RuntimeValue;
         level.RuntimeValue++;
         onLevelUp.Raise();
 
