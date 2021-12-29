@@ -12,7 +12,7 @@ public abstract class NPC : InteractiveObject
     [SerializeField] protected bool canOpenUI = true;
     [SerializeField] private BoolVariable isShowingSomething;
     protected CinemachineVirtualCamera cvm1, cvm2; // NPC, UI
-    protected GameObject customUI, defaultUI, chat;
+    protected GameObject customUI, defaultUI, chat, stateMark, ASDF;
     private TextMeshProUGUI chatText;
     private bool isTalking, inputSkip;
     private readonly WaitForSeconds ws005 = new(0.05f), ws02 = new(0.2f);
@@ -27,9 +27,19 @@ public abstract class NPC : InteractiveObject
         customUI = transform.Find("CustomUI").gameObject;
         defaultUI = transform.Find("DefaultUI").gameObject;
         chat = defaultUI.transform.Find("Chat").gameObject;
+        stateMark = defaultUI.transform.Find("StateMark").gameObject;
+        ASDF = stateMark.transform.Find("ASDF").gameObject;
         chatText = chat.transform.GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>();
         cvm1.Follow = GameObject.Find("Cameras").transform.GetChild(2);
         animator = GetComponent<Animator>();
+    }
+
+    private void OnEnable()
+    {
+        if (DataManager.Instance.CurGameData.talkedOnceNPC[ID] == false)
+        {
+            ASDF.SetActive(true);
+        }
     }
 
     public override void Interaction()
@@ -100,6 +110,7 @@ public abstract class NPC : InteractiveObject
         {
             DataManager.Instance.CurGameData.talkedOnceNPC[ID] = true;
             DataManager.Instance.SaveGameData();
+            ASDF.SetActive(false);
             tempComment = firstComment;
         }
         else

@@ -85,7 +85,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.10977554
+        value: 0.27845383
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -191,10 +191,11 @@ MonoBehaviour:
   onMonsterCollapse: {fileID: 11400000, guid: 1b477f0305627f54d8b1c54462eafc87, type: 2}
   mobName: "\uC218\uB9AC\uAC80 \uD32C\uCE58"
   ID: 16
-  description: 
+  description: "\uC218\uB9AC\uAC80\uC744 \uB358\uC9C0\uB294 \uD32C\uCE58"
   hp: 50
   MoveSpeed: 7
-  defaultSprite: {fileID: 0}
+  defaultSprite: {fileID: 7653975790744851721, guid: 8f47648f39a32e140a72b75c43bd9e6c,
+    type: 3}
   lineRenderer: {fileID: 8226080160858458518}
 --- !u!114 &6520139255365978244
 MonoBehaviour:
@@ -270,13 +271,13 @@ SpriteRenderer:
   m_SortingLayerID: 978103407
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7653975790744851721, guid: bf4fc5d648dc4254da38fb3180d8e7f9,
+  m_Sprite: {fileID: 7653975790744851721, guid: 8f47648f39a32e140a72b75c43bd9e6c,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 4, y: 4}
+  m_Size: {x: 3, y: 3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -292,7 +293,7 @@ Animator:
   m_GameObject: {fileID: 8633538259678075035}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a7ebcb0c5527bed45b34b9b22ff16c59, type: 2}
+  m_Controller: {fileID: 9100000, guid: 41df948f614ac8d42a8377f7656b555c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

@@ -58,6 +58,12 @@ public class StreamingManager : MonoBehaviour
         if (DataManager.Instance.CurGameData.rescuedNPC[18])
             DataManager.Instance.wakgoodItemInventory.Add(DataManager.Instance.ItemDic[12]);
 
+        if (DataManager.Instance.CurGameData.rescuedNPC[13])
+            DataManager.Instance.wakgoodItemInventory.Add(DataManager.Instance.ItemDic[39]);
+
+        if (DataManager.Instance.CurGameData.rescuedNPC[7])
+            DataManager.Instance.wakgoodItemInventory.Add(DataManager.Instance.ItemDic[27]);
+
         // GameEventListener 클래스를 통해 꼼수로 코루틴 실행하기
         if (DataManager.Instance.CurGameData.rescuedNPC[22] ||
             DataManager.Instance.CurGameData.rescuedNPC[23] ||

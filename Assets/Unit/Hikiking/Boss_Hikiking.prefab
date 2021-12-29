@@ -4981,7 +4981,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3035457898370817608}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.96, y: 3.78, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5011,14 +5011,14 @@ MonoBehaviour:
   mobName: "\uD788\uD0A4\uD0B9"
   ID: 1
   description: "\uC6B0\uCE58\uD558 \uC77C\uC871\uC758 \uB2CC\uC790."
-  hp: 1500
+  hp: 1200
   MoveSpeed: 3
   defaultSprite: {fileID: 421904671, guid: e4f39639acc5bc3499b7c9d3821458eb, type: 3}
   npcID: 5
   nickName: "\uC6B0\uCE58\uD558 \uC77C\uC871\uC758 \uB2CC\uC790"
   lineRenderer: {fileID: 7145819515679802912}
   text: {fileID: 1761901946}
-  moveLimit: 22
+  moveLimit: 24
   stun: {fileID: 1506344162490637674}
 --- !u!50 &3035457898370817615
 Rigidbody2D:

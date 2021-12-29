@@ -1,7 +1,9 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using FMODUnity;
 
 public class Hikiking : BossMonster
 {
@@ -10,6 +12,7 @@ public class Hikiking : BossMonster
     private int ultStack = 0;
     private Vector3 spawnedPos = Vector3.zero;
     [SerializeField] private float moveLimit = 15;
+    private List<GameObject> monsterList = new();
 
     protected override void Awake()
     {
@@ -48,16 +51,15 @@ public class Hikiking : BossMonster
 
     private IEnumerator BaseAttack()
     {
-        int attackCount = Random.Range(2, 3 + 1);
+        int attackCount = Random.Range(3, 4 + 1);
 
         for (int i = 0; i < attackCount; i++)
         {
             Vector3 originPos = Rigidbody2D.transform.position;
-            Vector2 temp = new(
-                (Wakgood.Instance.transform.position.x + (-1 + Random.Range(0, 2) * 2) * Random.Range(3f, 5f)), 
-                (Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2) * Random.Range(3f, 5f)));
-            Vector3 targetPos = Vector3.ClampMagnitude(temp, moveLimit);
-
+            Vector3 targetPos = new(
+           Mathf.Clamp(Wakgood.Instance.transform.position.x + (-1 + Random.Range(0, 2) * 2) * Random.Range(3f, 5f), spawnedPos.x - moveLimit, spawnedPos.x + moveLimit),
+            Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2) * Random.Range(3f, 5f), spawnedPos.y - moveLimit, spawnedPos.y + moveLimit));
+            Animator.SetBool("BASE", true);
             for (float j = 0; j <= 1; j += 0.02f * 10)
             {
                 Rigidbody2D.transform.position = Vector3.Lerp(originPos, targetPos, j);
@@ -71,11 +73,11 @@ public class Hikiking : BossMonster
             {
                 ObjectManager.Instance.PopObject("HikiSlash", Wakgood.Instance.transform.position,
                     new Vector3(0, 0, Random.Range(0f, 180f)));
-
+                RuntimeManager.PlayOneShot($"event:/SFX/Weapon/2");
                 yield return new WaitForSeconds(.1f);
             }
-
-            yield return new WaitForSeconds(0.2f);
+            Animator.SetBool("BASE", false);
+            yield return new WaitForSeconds(0.4f);
         }
     }
 
@@ -85,6 +87,7 @@ public class Hikiking : BossMonster
 
         text.text = "공기가 요동칩니다...";
         text.gameObject.SetActive(true);
+        Animator.SetBool("ULT", true);
         Animator.SetTrigger("READY");
 
         for (float j = 0; j <= 1; j += 3 * Time.fixedDeltaTime)
@@ -120,7 +123,7 @@ public class Hikiking : BossMonster
             lineRenderer.SetPosition(i, targetPos[i - 1]);
         lineRenderer.gameObject.SetActive(true);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.7f);
 
         Animator.SetTrigger("GO");
         text.gameObject.SetActive(false);
@@ -141,6 +144,7 @@ public class Hikiking : BossMonster
             var temp = ObjectManager.Instance.PopObject("HikiSlash", originPos + (targetPos[i] - originPos) / 2,
              new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan2(targetPos[i].y - originPos.y, targetPos[i].x - originPos.x)));
             temp.transform.localScale = new Vector3(Vector3.Distance(originPos, targetPos[i]) * 0.25f, 1, 1);
+            RuntimeManager.PlayOneShot($"event:/SFX/Weapon/2");
         }
         collider2D.enabled = true;
 
@@ -148,8 +152,12 @@ public class Hikiking : BossMonster
         lineRenderer.positionCount = 2;
 
         Vector3 aOriginPos = transform.position;
-        Vector3 aTargetPos = Vector3.ClampMagnitude(Wakgood.Instance.transform.position +
-                             (Wakgood.Instance.transform.position - transform.position).normalized * 100, moveLimit);
+        Vector3 aTempPos = Wakgood.Instance.transform.position + (Wakgood.Instance.transform.position - transform.position).normalized * 50;
+
+        Vector3 aTargetPos = new(
+          Mathf.Clamp(aTempPos.x, spawnedPos.x - moveLimit, spawnedPos.x + moveLimit),
+           Mathf.Clamp(aTempPos.y, spawnedPos.y - moveLimit, spawnedPos.y + moveLimit));
+
         lineRenderer.startWidth = 1f;
 
         lineRenderer.SetPosition(0, aOriginPos);
@@ -168,7 +176,7 @@ public class Hikiking : BossMonster
         for (float j = 0; Vector3.Distance(transform.position, aTargetPos) > .5f; j += Time.fixedDeltaTime * 30)
         {
             if (camera.m_Lens.OrthographicSize < 12) camera.m_Lens.OrthographicSize += 5 * Time.fixedDeltaTime;
-            Rigidbody2D.transform.position = Vector3.Lerp(aOriginPos, aTargetPos, j);
+            Rigidbody2D.transform.position = Vector3.Lerp(aOriginPos, aTargetPos, Mathf.Clamp01(j));
             yield return new WaitForFixedUpdate();
         }
         camera.m_Lens.OrthographicSize = 12;
@@ -177,13 +185,13 @@ public class Hikiking : BossMonster
         var v = ObjectManager.Instance.PopObject("HikiSlash2", aOriginPos + (aTargetPos - aOriginPos) / 2,
     new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan2(aTargetPos.y - aOriginPos.y, aTargetPos.x - aOriginPos.x)));
         v.transform.localScale = new Vector3(Vector3.Distance(aOriginPos, aTargetPos) * 0.25f, 8, 1);
-
+        RuntimeManager.PlayOneShot($"event:/SFX/Weapon/2");
         yield return new WaitForSeconds(0.3f);
         lineRenderer.gameObject.SetActive(false);
-        Animator.SetTrigger("IDLE");
 
         stun.SetActive(true);
-        yield return new WaitForSeconds(7f);
+        yield return new WaitForSeconds(4f);
+        Animator.SetBool("ULT", false);
         stun.SetActive(false);
     }
 
@@ -194,7 +202,25 @@ public class Hikiking : BossMonster
             for (int i = 0; i < 2; i++)
                 StartCoroutine(SpawnMob());
 
-            yield return new WaitForSeconds(Random.Range(6f, 10f));
+            yield return new WaitForSeconds(Random.Range(15f, 30f));
+        }
+    }
+
+    protected override IEnumerator Collapse()
+    {
+        foreach (var monster in monsterList)
+            ObjectManager.Instance.PushObject(monster);
+
+        return base.Collapse();
+    }
+
+
+    private void OnDisable()
+    {
+        int a = monsterList.Count;
+        for (int i = 0; i < a; i++)
+        {
+            monsterList[i].gameObject.SetActive(false);
         }
     }
 
@@ -205,18 +231,9 @@ public class Hikiking : BossMonster
         ObjectManager.Instance.PopObject("SpawnCircle", pos).GetComponent<Animator>().SetFloat("SPEED", 1 / 0.5f);
         yield return new WaitForSeconds(.5f);
         if (Random.Range(0, 1 + 1) == 0)
-            ObjectManager.Instance.PopObject("ChidoriPanchi", pos);
+            monsterList.Add( ObjectManager.Instance.PopObject("ChidoriPanchi", pos));
         else
-            ObjectManager.Instance.PopObject("SuriswordPanchi", pos);
+            monsterList.Add(ObjectManager.Instance.PopObject("SuriswordPanchi", pos));
 
-    }
-
-    private IEnumerator Skill2()
-    {
-        /*int jjabSlayerCount = Random.Range(2, 5 + 1);
-        for (int i = 0; i < jjabSlayerCount; i++)
-            StartCoroutine(SpawnMob());*/
-
-        yield return new WaitForSeconds(0.5f);
     }
 }

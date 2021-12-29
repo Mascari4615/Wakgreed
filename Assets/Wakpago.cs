@@ -265,6 +265,23 @@ Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2
         bAttacking = false;
     }
 
+    private void OnDisable()
+    {
+        if (attackCO != null) StopCoroutine(attackCO);
+        if (flipCO != null) StopCoroutine(flipCO);
+        if (bulletCO != null) StopCoroutine(bulletCO);
+        if (bombCO != null) StopCoroutine(bombCO);
+        if (mobSpawnCO != null) StopCoroutine(mobSpawnCO);
+
+        for (int i = 0; i < bullets.Length; i++)
+        {
+            bulletsTR[i].Clear();
+            bulletsCOL[i].enabled = false;
+            bullets[i].enabled = false;
+            bullets[i].gameObject.SetActive(false);
+        }
+    }
+
     protected override IEnumerator Collapse()
     {
         if (attackCO != null) StopCoroutine(attackCO);
@@ -281,6 +298,9 @@ Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2
             bullets[i].enabled = false;
             bullets[i].gameObject.SetActive(false);
         }
+
+        foreach (var monster in monsterList)
+            ObjectManager.Instance.PushObject(monster);
 
         SpriteRenderer.material = originalMaterial;
 
@@ -324,6 +344,7 @@ Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2
         ObjectManager.Instance.PopObject("LevelUpEffect", transform);
         yield return new WaitForSeconds(3f);
         (StageManager.Instance.CurrentRoom as BossRoom)?.RoomClear();
-        gameObject.SetActive(false);
+
+        Destroy(gameObject);
     }
 }

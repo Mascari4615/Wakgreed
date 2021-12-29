@@ -188,18 +188,18 @@ public class Dopamine : BossMonster
 
         ObjectManager.Instance.PopObject("LevelUpEffect", transform);
 
-        yield return StartCoroutine(UIManager.Instance.SpeedWagon_BossOff(this));
-        yield return StartCoroutine(SpawnWakpago());
-
         foreach (var monster in monsterList)
             ObjectManager.Instance.PushObject(monster);
+
+        yield return StartCoroutine(UIManager.Instance.SpeedWagon_BossOff(this));
+        yield return StartCoroutine(SpawnWakpago());
 
         foreach (var monkey in monkeys)
             monkey.gameObject.SetActive(false);        
 
         Animator.SetTrigger("COLLAPSE");
         yield return new WaitForSeconds(3f);
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 
     private IEnumerator OnType()

@@ -123,12 +123,10 @@ MonoBehaviour:
   mobName: "\uB9DD\uB839"
   ID: 13
   description: "\uC6B0\uC641\uAD73 \uC8FC\uBCC0\uC744 \uB5A0\uB3C4\uB294 \uB9DD\uB839.
-    \uBE44\uB2E8 \uACE0\uBA64 \uBFD0\uB9CC\uC544\uB2C8\uB77C \uBAA8\uB4E0 \uD32C\uCE58\uAC00
-    \uB9DD\uB839\uC774 \uB420 \uC218 \uC788\uB2E4. \uC641\uAD73\uC5D0\uAC8C \uB2E4\uAC00\uAC00
-    \uBD80\uB52A\uCE58\uBA70, \uACF5\uACA9\uBC1B\uC73C\uBA74 \uB79C\uB364\uD55C \uC704\uCE58\uB85C
-    \uC21C\uAC04\uC774\uB3D9\uD55C\uB2E4."
+    \uC641\uAD73\uC5D0\uAC8C \uB2E4\uAC00\uAC00 \uBD80\uB52A\uCE58\uBA70, \uACF5\uACA9\uD558\uAC70\uB098
+    \uACF5\uACA9\uBC1B\uC73C\uBA74 \uB79C\uB364\uD55C \uC704\uCE58\uB85C \uC21C\uAC04\uC774\uB3D9\uD569\uB2C8\uB2E4."
   hp: 10
-  MoveSpeed: 6
+  MoveSpeed: 3
   defaultSprite: {fileID: 1892080359, guid: 6cc88231fed6f414ca324bf94584027f, type: 3}
 --- !u!114 &6520139255365978244
 MonoBehaviour:
@@ -245,7 +243,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 1}
