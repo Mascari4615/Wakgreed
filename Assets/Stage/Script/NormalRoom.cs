@@ -25,6 +25,7 @@ public class NormalRoom : Room
     public override void Enter()
     {
         base.Enter();
+
         if (isCleared == false)
         {
             isFighting.RuntimeValue = true;
@@ -57,7 +58,9 @@ public class NormalRoom : Room
     {
         ObjectManager.Instance.PopObject("SpawnCircle", mobSpawnData.spawnPoint.position).GetComponent<Animator>().SetFloat("SPEED", 1 / mobSpawnData.spawnDuration);
         yield return new WaitForSeconds(mobSpawnData.spawnDuration);
-        ObjectManager.Instance.PopObject(mobSpawnData.monster.name, mobSpawnData.spawnPoint.position);
+        GameObject temp = ObjectManager.Instance.PopObject(mobSpawnData.monster.name, mobSpawnData.spawnPoint.position);
+
+        // sDebug.Log($"Spawn Mob {temp.name} : {temp.GetInstanceID()}");
     }
 
     public void CheckMonsterCount() 

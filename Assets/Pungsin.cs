@@ -200,6 +200,5 @@ Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2
 
         Animator.SetBool("SKILL1", false);
         yield return new WaitForSeconds(2f);
-
     }
 }

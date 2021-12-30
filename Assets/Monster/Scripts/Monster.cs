@@ -121,7 +121,7 @@ public abstract class Monster : MonoBehaviour, IHitable
         gameObject.SetActive(false);
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         GameManager.Instance.enemyRunTimeSet.Remove(gameObject);
         StopAllCoroutines();

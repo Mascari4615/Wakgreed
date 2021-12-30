@@ -314,6 +314,16 @@ public class StreamingManager : MonoBehaviour
 
             return;
         }
+        else if (msg == "스킵")
+        {
+            GameManager.Instance.Skip();
+            return;
+        }
+        else if (msg == "나가뒤지세요 좀 제발")
+        {
+            GameManager.Instance.SkipAll();
+            return;
+        }
 
         if (viewPort.activeSelf == false) viewPort.SetActive(true);
 
