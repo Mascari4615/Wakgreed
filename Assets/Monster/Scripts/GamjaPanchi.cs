@@ -7,6 +7,9 @@ public class GamjaPanchi : NormalMonster
     [SerializeField] private float attackCoolTime;
     private bool isTargeting;
 
+    private Coroutine attack;
+    private Coroutine targeting;
+
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -15,18 +18,17 @@ public class GamjaPanchi : NormalMonster
         bullet.SetActive(false);
         bullet.transform.localPosition = Vector3.zero;
 
-        StartCoroutine(Attack());
-        StartCoroutine(Targeting());
+        attack = StartCoroutine(Attack());
+        targeting = StartCoroutine(Targeting());
     }
 
     private IEnumerator Attack()
     {
         WaitForSeconds wsCool = new(attackCoolTime - 0.7f);
-        WaitForSeconds ws02 = new(0.2f);
 
         while (true)
         {
-            while (!isTargeting) yield return ws02;
+            while (!isTargeting) yield return ws01;
 
             yield return wsCool;
             yield return StartCoroutine(Casting(0.7f));
@@ -42,8 +44,6 @@ public class GamjaPanchi : NormalMonster
 
     private IEnumerator Targeting()
     {
-        WaitForSeconds ws02 = new(0.2f);
-
         while (true)
         {
             RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, Wakgood.Instance.transform.position - transform.position, Vector2.Distance(transform.position, Wakgood.Instance.transform.position), LayerMask.NameToLayer("Everything"));
@@ -56,11 +56,17 @@ public class GamjaPanchi : NormalMonster
 
             if (isTargeting)
             {
-                Debug.DrawRay(transform.position, Wakgood.Instance.transform.position - transform.position, Color.green);
-                SpriteRenderer.flipX = Wakgood.Instance.transform.position.x > transform.position.x;
+                // Debug.DrawRay(transform.position, Wakgood.Instance.transform.position - transform.position, Color.green);
+                SpriteRenderer.flipX = IsWakgoodRight();
             }
 
-            yield return ws02;
+            yield return ws01;
         }
+    }
+
+    private void OnDisable()
+    {
+        if (attack != null) StopCoroutine(attack);
+        if (targeting != null) StopCoroutine(targeting);
     }
 }
