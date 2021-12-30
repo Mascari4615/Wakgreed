@@ -158,7 +158,7 @@ public class StageManager : MonoBehaviour
         CurrentRoom.Enter();
         InitialzeMap();
 
-        UIManager.Instance.SetStageName($"{currentStage.name}");
+        UIManager.Instance.SetStageName(currentStage);
         Wakgood.Instance.transform.position = new Vector3(CurrentRoom.Coordinate.x, CurrentRoom.Coordinate.y, 0) * 100;
 
         for (int i = 0; i < stageIcons.Length; i++)
@@ -293,6 +293,8 @@ public class StageManager : MonoBehaviour
         CurrentRoom.particle.SetActive(false);
         CurrentRoom = roomDic[CurrentRoom.Coordinate + moveDirection];
         CurrentRoom.particle.SetActive(true);
+
+        UIManager.Instance.SetRoomName($"{CurrentRoom.gameObject.name}");
 
         Wakgood.Instance.transform.position = CurrentRoom.Doors[spawnDirection].transform.position + (Vector3)moveDirection * 4;
 
