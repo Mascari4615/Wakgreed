@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private BoolVariable isShowingSomething;
 
     [SerializeField] private GameEvent onRecall;
+    public GameEvent OnRoomClear;
     [SerializeField] private BuffRunTimeSet buffRunTimeSet;
 
     public EnemyRunTimeSet enemyRunTimeSet;
@@ -257,7 +258,6 @@ public class GameManager : MonoBehaviour
     public IEnumerator Endingg()
     {
         AudioManager.Instance.PlayMusic("yeppSun - 왁버거 MR");
-
         DataManager.Instance.CurGameData.rescuedNPC[29] = true;
         DataManager.Instance.SaveGameData();
 
@@ -280,10 +280,7 @@ public class GameManager : MonoBehaviour
         CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
         CinemachineTargetGroup.m_Targets[1].target = null;
 
-        gamePanel.SetActive(true);
-
-        nyang.RuntimeValue = 3000;
-        viewer.RuntimeValue = 10000;
+        gamePanel.SetActive(true);     
 
         onRecall.Raise();
         isGaming.RuntimeValue = false;
@@ -304,10 +301,15 @@ public class GameManager : MonoBehaviour
         enemyRunTimeSet.Clear();
         ObjectManager.Instance.DeactivateAll();
 
+        viewer.RuntimeValue = 10000;
+
         DataManager.Instance.wgMasteryInven.Clear();
         DataManager.Instance.wgItemInven.Clear();
         DataManager.Instance.wgFoodInven.Clear();
         DataManager.Instance.buffRunTimeSet.Clear();
+
+        nyang.RuntimeValue = 3000;
+        viewer.RuntimeValue = 3000;
 
         gameResultPanel.SetActive(false);
         gamePanel.SetActive(true);

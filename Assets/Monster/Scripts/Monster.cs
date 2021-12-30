@@ -54,6 +54,19 @@ public abstract class Monster : MonoBehaviour, IHitable
         hp -= damage;
         Rigidbody2D.velocity = Vector3.zero;
 
+
+        if (DataManager.Instance.wgItemInven.Items.Contains(DataManager.Instance.ItemDic[36]))
+        {
+            if ((float)hp / MaxHp <= 0.05f * DataManager.Instance.wgItemInven.itemCountDic[36])
+            {
+                ObjectManager.Instance.PopObject("AnimatedText", transform.position + Vector3.up).GetComponent<AnimatedText>().SetText("처형", Color.red);
+                RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("(", StringComparison.Ordinal), 7) : name)}_Collapse", transform.position);
+                StopAllCoroutines();
+                Collapse();
+                return;
+            }
+        }
+
         ObjectManager.Instance.PopObject("AnimatedText", transform.position + Vector3.up).GetComponent<AnimatedText>().SetText(damage.ToString(), hitType);
         ObjectManager.Instance.PopObject("Effect_Hit", transform.position + Vector3.Normalize(Wakgood.Instance.transform.position - transform.position) * .5f);
 

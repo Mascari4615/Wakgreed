@@ -15393,12 +15393,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3035457898370817614}
-  - component: {fileID: 613281304650330724}
   - component: {fileID: 3035457898370817615}
   - component: {fileID: 7089862009284845594}
   - component: {fileID: 936163698904388890}
   - component: {fileID: 1194972627027808675}
   - component: {fileID: 1655085910}
+  - component: {fileID: -133497905538631381}
   m_Layer: 7
   m_Name: Boss_Roentgenium
   m_TagString: Boss
@@ -15430,40 +15430,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &613281304650330724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3035457898370817608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cce613281c0846246b03e6c3f4ac0686, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  flashMaterial: {fileID: 2100000, guid: c74166bc298345945a7d9a9e8218b4ec, type: 2}
-  onMonsterCollapse: {fileID: 11400000, guid: 1b477f0305627f54d8b1c54462eafc87, type: 2}
-  ID: 3
-  description: asdfasdf
-  hp: 1500
-  MoveSpeed: 0
-  defaultSprite: {fileID: 113226046409043974, guid: d1490f8b1c4370645a7f73a55e551407,
-    type: 3}
-  isShowingSomething: {fileID: 11400000, guid: 688a405029d824548b8d1494667c0415, type: 2}
-  name: "\uB8B4\uD2B8\uAC8C\uB284"
-  npcID: 4
-  ultAttackPrefab: {fileID: 5168828908313417421, guid: 208c8035abbc1cd4c9108708766ca45c,
-    type: 3}
-  skill0AttackPrefab: {fileID: 5168828908313417421, guid: 3c6ce4c33804c5340921248e0290c1cb,
-    type: 3}
-  skill1AttackPrefab: {fileID: 5168828908313417421, guid: c530686f0220425498019d0893648b24,
-    type: 3}
-  ult: {fileID: 5260412445196722355}
-  ultParticle1: {fileID: 2854005924509853569}
-  ultParticle2: {fileID: 2575083614923894124}
-  stun: {fileID: 3735812989162974035}
-  lineRenderer: {fileID: 8671864595302154070}
 --- !u!50 &3035457898370817615
 Rigidbody2D:
   serializedVersion: 4
@@ -15684,6 +15650,28 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!114 &-133497905538631381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3035457898370817608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ef61a9516aa4fc47a841ddb7154a45e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashMaterial: {fileID: 0}
+  onMonsterCollapse: {fileID: 0}
+  mobName: 
+  ID: 6
+  description: 
+  hp: 0
+  MoveSpeed: 0
+  defaultSprite: {fileID: 0}
+  npcID: 0
+  nickName: 
 --- !u!1 &3063216174480736597
 GameObject:
   m_ObjectHideFlags: 0
@@ -16167,8 +16155,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotateSpeed: 400
   direction: 0
-  gotoZero: 1
-  gotoZeroWeight: 250
 --- !u!1 &5400442468811800373
 GameObject:
   m_ObjectHideFlags: 0
@@ -18012,12 +17998,6 @@ PrefabInstance:
 --- !u!4 &854023975169293923 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2194122112366896108, guid: c2e15f44bc4bf5141a3ff41896be02c3,
-    type: 3}
-  m_PrefabInstance: {fileID: 1560792113826012559}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &3735812989162974035 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2770076844526794460, guid: c2e15f44bc4bf5141a3ff41896be02c3,
     type: 3}
   m_PrefabInstance: {fileID: 1560792113826012559}
   m_PrefabAsset: {fileID: 0}

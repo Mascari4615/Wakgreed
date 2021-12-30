@@ -11,6 +11,8 @@ public abstract class BossMonster : Monster
     protected new CinemachineVirtualCamera camera;
     protected Coroutine attackCO;
 
+    [SerializeField] private bool TESTING = false;
+
     protected override void Awake()
     {
         base.Awake();
@@ -21,6 +23,12 @@ public abstract class BossMonster : Monster
     protected override void OnEnable()
     {
         base.OnEnable();
+        if (TESTING)
+        {
+            StartCoroutine(Ready());
+
+        }
+
         if (StageManager.Instance.CurrentRoom != null)
         {
             if (StageManager.Instance.CurrentRoom is BossRoom)

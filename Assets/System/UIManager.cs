@@ -113,7 +113,7 @@ public class UIManager : MonoBehaviour
         {
             if (ammoText.gameObject.activeSelf == false)
                 ammoText.gameObject.SetActive(true);
-            ammoText.text = $"{Wakgood.Instance.Weapon[Wakgood.Instance.CurWeaponNumber].Ammo} / {Wakgood.Instance.Weapon[Wakgood.Instance.CurWeaponNumber].magazine}";
+            ammoText.text = $"{Wakgood.Instance.Weapon[Wakgood.Instance.CurWeaponNumber].Ammo} / {Wakgood.Instance.Weapon[Wakgood.Instance.CurWeaponNumber].magazine + Wakgood.Instance.bonusAmmo.RuntimeValue}";
         }
         else
         {
