@@ -2,8 +2,8 @@ using System.Collections;
 using Cinemachine;
 using UnityEngine;
 using TMPro;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
+using System;
 
 public class UIManager : MonoBehaviour
 {
@@ -35,6 +35,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI musicName;
     [SerializeField] private TextMeshProUGUI stageName;
+    [SerializeField] private TextMeshProUGUI roomName;
     public GameObject stageSpeedWagon;
     [SerializeField] private TextMeshProUGUI stageNumberText, stageNameCommentText;
     [SerializeField] private GameObject roomClearSpeedWagon;
@@ -72,7 +73,6 @@ public class UIManager : MonoBehaviour
             resultText.color = new Color(0, 200, 120);
         }
     }
-
 
     private void Update()
     {
@@ -121,8 +121,8 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator SpeedWagon_Stage()
     {
-        stageNumberText.text = $"{StageManager.Instance.currentStage.id} - {StageManager.Instance.currentStage.name}";
-        stageNameCommentText.text = $"{StageManager.Instance.currentStage.comment}";
+        stageNumberText.text = $"{StageManager.Instance.currentStage.name}";
+        stageNameCommentText.text = $"{StageManager.Instance.currentStage.id} 스테이지 - {StageManager.Instance.currentStage.comment}";
         stageSpeedWagon.SetActive(true);
         yield return new WaitForSeconds(3f);
         stageSpeedWagon.SetActive(false);
@@ -213,7 +213,10 @@ public class UIManager : MonoBehaviour
 
     public void OpenSetting() => SettingManager.Instance.OpenSetting();
     public void SetMusicName(string name) => musicName.text = $"[음악] {name}";
+    public void SetStageName(Stage stage) => stageName.text = $"{stage.id} - {stage.name}";
     public void SetStageName(string name) => stageName.text = name;
+    public void SetRoomName(Room room) => roomName.text = $"현재 방 이름 : { (room.gameObject.name.Contains("(Clone)") ? room.gameObject.name.Remove(room.gameObject.name.IndexOf("(", StringComparison.Ordinal), 7) : room.gameObject.name)}";
+    public void SetRoomName(string name) => roomName.text = name;
     public void SetCurViewerText(string text) => viewerUI.text = text;
 
     public void StopAllSpeedWagons()

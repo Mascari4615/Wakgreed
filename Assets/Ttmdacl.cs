@@ -19,6 +19,9 @@ public class Ttmdacl : InteractiveObject
     private readonly WaitForSeconds ws005 = new(0.05f), ws02 = new(0.2f);
     private GameData2 data2;
 
+    [SerializeField] private GameObject PANEL_MENU;
+    [SerializeField] private GameObject PANEL_LOAD;
+
     [SerializeField] private ItemInventoryUI inventoryUI;
     [SerializeField] private FoodInventoryUI foodInventoryUI;
     [SerializeField] private MasteryInventoryUI masteryInventoryUI;
@@ -84,11 +87,17 @@ public class Ttmdacl : InteractiveObject
             hpText.text = $"당시 체력 : {data2.hp}";
             levelText.text = $"레벨 : {data2.level}";
             expText.text = $"경험치 : {Mathf.Floor((float)data2.exp / (300 * data2.level) * 100) + "%"}";
+
+            PANEL_MENU.SetActive(false);
+            PANEL_LOAD.SetActive(true);
         }
         else
         {
             mark.SetActive(false);
             loadButton.SetActive(false);
+
+            PANEL_MENU.SetActive(true);
+            PANEL_LOAD.SetActive(false);
         }
     }
 

@@ -112,8 +112,6 @@ public class Hikiking : BossMonster
             targetPos[i] = new(
         Mathf.Clamp(Wakgood.Instance.transform.position.x + ((i + 2) % 2 == 1 ? 1 : -1) * Random.Range(7f, 10f), spawnedPos.x - moveLimit, spawnedPos.x + moveLimit),
          Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2) * Random.Range(7f, 10f), spawnedPos.y - moveLimit, spawnedPos.y + moveLimit));
-
-            Debug.Log(targetPos[i]);
         }
 
         lineRenderer.startWidth = 0.1f;
@@ -123,7 +121,7 @@ public class Hikiking : BossMonster
             lineRenderer.SetPosition(i, targetPos[i - 1]);
         lineRenderer.gameObject.SetActive(true);
 
-        yield return new WaitForSeconds(.7f);
+        yield return new WaitForSeconds(.5f);
 
         Animator.SetTrigger("GO");
         text.gameObject.SetActive(false);
@@ -164,7 +162,7 @@ public class Hikiking : BossMonster
         lineRenderer.SetPosition(1, aTargetPos);
         lineRenderer.gameObject.SetActive(true);
 
-        for (float j = 0; j <= 1f; j += 2 * Time.fixedDeltaTime)
+        for (float j = 0; j <= 1f; j += 2.5f * Time.fixedDeltaTime)
         {
             if (camera.m_Lens.OrthographicSize > 6) camera.m_Lens.OrthographicSize -= 2 * Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
@@ -220,7 +218,7 @@ public class Hikiking : BossMonster
         int a = monsterList.Count;
         for (int i = 0; i < a; i++)
         {
-            monsterList[i].gameObject.SetActive(false);
+            monsterList[i].SetActive(false);
         }
     }
 
@@ -231,7 +229,7 @@ public class Hikiking : BossMonster
         ObjectManager.Instance.PopObject("SpawnCircle", pos).GetComponent<Animator>().SetFloat("SPEED", 1 / 0.5f);
         yield return new WaitForSeconds(.5f);
         if (Random.Range(0, 1 + 1) == 0)
-            monsterList.Add( ObjectManager.Instance.PopObject("ChidoriPanchi", pos));
+            monsterList.Add(ObjectManager.Instance.PopObject("ChidoriPanchi", pos));
         else
             monsterList.Add(ObjectManager.Instance.PopObject("SuriswordPanchi", pos));
 

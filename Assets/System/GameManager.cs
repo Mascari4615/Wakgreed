@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine(CheckBuff());
         UIManager.Instance.SetStageName("마을");
+        UIManager.Instance.SetRoomName("마을");
         AudioManager.Instance.PlayMusic("yeppSun - 고고 다섯쌍둥이");
         UIManager.Instance.SetCurViewerText("뱅온 전!");
         CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
@@ -169,6 +170,8 @@ public class GameManager : MonoBehaviour
 
         StageManager.Instance.DestroyStage();
         UIManager.Instance.SetStageName("마을");
+        UIManager.Instance.SetRoomName("마을");
+        UIManager.Instance.SetCurViewerText("뱅온 전!");
         AudioManager.Instance.PlayMusic("yeppSun - 고고 다섯쌍둥이");
         StageManager.Instance.currentStageID = -1;
 
@@ -262,6 +265,8 @@ public class GameManager : MonoBehaviour
 
         StageManager.Instance.DestroyStage();
         UIManager.Instance.SetStageName("마을");
+        UIManager.Instance.SetRoomName("마을");
+        UIManager.Instance.SetCurViewerText("뱅온 전!");
         AudioManager.Instance.PlayMusic("yeppSun - 고고 다섯쌍둥이");
         StageManager.Instance.currentStageID = -1;
 

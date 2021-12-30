@@ -42,12 +42,13 @@ public class DamagingObject : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if ((other.CompareTag("Player") && bTargetWak == false) ||
-            (other.CompareTag("Monster") || other.CompareTag("Boss")) && bTargetWak == true) 
+            (other.CompareTag("Monster") || other.CompareTag("Boss")) && bTargetWak == true)
             return;
 
-        if (other.TryGetComponent(out IHitable damageable))
+
+        if ((other.CompareTag("Monster") || other.CompareTag("Boss")) && bTargetWak == false)
         {
-            if ((other.CompareTag("Monster") || other.CompareTag("Boss")) && bTargetWak == false)
+            if (other.TryGetComponent(out IHitable damageable))
             {
                 if (UnityEngine.Random.Range(0, 100) < Wakgood.Instance.miss.RuntimeValue)
                 {
@@ -83,12 +84,13 @@ public class DamagingObject : MonoBehaviour
                 {
                     totalDamage = (int)Math.Round(totalDamage * (1 + (float)Wakgood.Instance.BossDamage.RuntimeValue / 100), MidpointRounding.AwayFromZero);
                 }
-                damageable.ReceiveHit(totalDamage, hitType);              
+                damageable.ReceiveHit(totalDamage, hitType);
             }
         }
-        else if (other.transform.parent.TryGetComponent(out IHitable wakgood))
+        else if (other.CompareTag("Player") && bTargetWak == true)
         {
-            if (other.CompareTag("Player") && bTargetWak == true)
+            Debug.Log($"{this.gameObject.name}, => {other.gameObject.name}");
+            if (other.transform.parent.TryGetComponent(out IHitable wakgood))
             {
                 wakgood.ReceiveHit(damage);
             }

@@ -32,6 +32,7 @@ public class MiniWakpago : MonoBehaviour, IEffectGameObject
     private IEnumerator FollowWakgood()
     {
         WaitForSeconds ws01 = new(0.1f);
+
         while (true)
         {
             if (canWakggiddi)
@@ -56,9 +57,8 @@ public class MiniWakpago : MonoBehaviour, IEffectGameObject
                         if (DataManager.Instance.wgItemInven.Items.Contains(DataManager.Instance.ItemDic[28]))
                             CoolTime = 3 * (1 - DataManager.Instance.wgItemInven.itemCountDic[28] * 20 / 100);
 
-
+                        yield return new WaitForSeconds(0.2f);
                     }
-
 
                     canWakggiddi = false;
                     StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, CoolTime, (value) => canWakggiddi = value));
