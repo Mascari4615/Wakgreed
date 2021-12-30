@@ -6,7 +6,7 @@ public abstract class NormalMonster : Monster
 {
     private GameObject hpBar, casting;
     private Image red, yellow, blue;
-    private Vector3 SPAWNPOS;
+    protected Vector3 spawnPos;
 
     protected override void Awake()
     {
@@ -29,7 +29,7 @@ public abstract class NormalMonster : Monster
         yellow.fillAmount = 1;
         blue.fillAmount = 0;
 
-        SPAWNPOS = transform.position;
+        spawnPos = transform.position;
     }
 
     protected override void _ReceiveHit()
@@ -40,12 +40,12 @@ public abstract class NormalMonster : Monster
 
     private void Update()
     {
-        red.fillAmount = Mathf.Lerp(red.fillAmount, (float)hp / MaxHp, Time.deltaTime * 20f);
-        yellow.fillAmount = Mathf.Lerp(yellow.fillAmount, red.fillAmount, Time.deltaTime * 5f);
+        red.fillAmount = Mathf.Lerp(red.fillAmount, (float)hp / MaxHp, Time.deltaTime * 25f);
+        yellow.fillAmount = Mathf.Lerp(yellow.fillAmount, red.fillAmount, Time.deltaTime * 2f);
 
-        if (Vector3.Distance(transform.position, SPAWNPOS) > 50)
+        if (Vector3.Distance(transform.position, spawnPos) > 50)
         {
-            Debug.Log("!");
+            Debug.LogWarning($"비정상적 움직임 : {gameObject.name}이 스폰 위치로부터 50 이상 떨어졌습니다.");
             onMonsterCollapse.Raise();
             gameObject.SetActive(false);
         }    

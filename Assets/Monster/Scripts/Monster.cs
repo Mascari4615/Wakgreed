@@ -23,7 +23,8 @@ public abstract class Monster : MonoBehaviour, IHitable
     protected Material originalMaterial;
     private Coroutine flashRoutine;
 
-    protected static WaitForSeconds ws01 = new WaitForSeconds(0.1f);
+    protected static WaitForSeconds ws01 = new (0.1f);
+    protected static WaitForSeconds ws1 = new (1);
 
     protected virtual void Awake()
     {
@@ -43,6 +44,7 @@ public abstract class Monster : MonoBehaviour, IHitable
         Rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
         GameManager.Instance.enemyRunTimeSet.Add(gameObject);
         SpriteRenderer.sprite = defaultSprite;
+        Animator.SetTrigger("AWAKE");
     }
 
     public virtual void ReceiveHit(int damage, HitType hitType = HitType.Normal)
@@ -138,14 +140,8 @@ public abstract class Monster : MonoBehaviour, IHitable
         flashRoutine = null;
     }
 
-    protected Vector3 GetRot()
-    {
-        return new(0, 0, Mathf.Atan2(Wakgood.Instance.transform.position.y - (transform.position.y + 0.8f),
+    protected Vector3 GetRot() => new(0, 0, Mathf.Atan2(Wakgood.Instance.transform.position.y - (transform.position.y + 0.8f),
             Wakgood.Instance.transform.position.x - transform.position.x) * Mathf.Rad2Deg - 90);
-    }
-
-    protected Vector3 GetDirection()
-    {
-        return (Wakgood.Instance.transform.position - transform.position).normalized;  
-    }
+    protected Vector3 GetDirection() => (Wakgood.Instance.transform.position - transform.position).normalized;
+    protected bool IsWakgoodRight() => Wakgood.Instance.transform.position.x > transform.position.x;
 }
