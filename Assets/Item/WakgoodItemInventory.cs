@@ -18,7 +18,7 @@ public class WakgoodItemInventory : ItemInventory
 
     public override void Remove(Item item)
     {
-        Debug.Log($"Remove : {item.name}");
+        // Debug.Log($"Remove : {item.name}");
         item.OnRemove();
 
         base.Remove(item);

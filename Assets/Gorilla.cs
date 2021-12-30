@@ -54,8 +54,7 @@ public class Gorilla : NormalMonster
         {
             if (Vector2.Distance(transform.position, Wakgood.Instance.transform.position) < 7)
             {
-                StopCoroutine(idle);
-                Animator.SetBool("ISMOVING", false);
+                StopCoroutine(idle);   
                 rush = StartCoroutine(Rush());
                 break;
             }
@@ -65,6 +64,9 @@ public class Gorilla : NormalMonster
 
     private IEnumerator Rush()
     {
+        Animator.SetBool("ISMOVING", false);
+        Rigidbody2D.velocity = Vector2.zero;
+
         yield return new WaitForSeconds(2f);
 
         while (true)
@@ -106,7 +108,7 @@ public class Gorilla : NormalMonster
                 earthQuakeWarning.SetActive(true);
                 yield return StartCoroutine(Casting(.6f));
 
-                GameManager.Instance.CinemachineImpulseSource.GenerateImpulse(5);
+                GameManager.Instance.CinemachineImpulseSource.GenerateImpulse();
                 Animator.SetTrigger("ATTACKGO");
                 earthQuakeWarning.SetActive(false);
                 earthQuake.SetActive(true);
@@ -116,10 +118,12 @@ public class Gorilla : NormalMonster
         }
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
         if (idle != null) StopCoroutine(idle);
         if (rush != null) StopCoroutine(rush);
         if (checkWakgood != null) StopCoroutine(checkWakgood);
+        base.OnDisable();
+
     }
 }

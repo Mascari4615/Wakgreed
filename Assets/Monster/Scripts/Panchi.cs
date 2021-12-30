@@ -49,6 +49,9 @@ public class Panchi : NormalMonster
 
     private IEnumerator Attack()
     {
+        Animator.SetBool("ISMOVING", false);
+        Rigidbody2D.velocity = Vector2.zero;
+
         while (true)
         {
             if (Vector2.Distance(transform.position, Wakgood.Instance.transform.position) > 2)
@@ -71,10 +74,11 @@ public class Panchi : NormalMonster
         }
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
         if (idle != null) StopCoroutine(idle);
         if (checkDistance != null) StopCoroutine(checkDistance);
         if (attack != null) StopCoroutine(attack);
+        base.OnDisable();
     }
 }

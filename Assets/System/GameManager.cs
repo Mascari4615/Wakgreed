@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Animator fadePanel;
 
     [SerializeField] private GameObject undo;
+    [SerializeField] private TextMeshProUGUI enemy;
 
     public CinemachineImpulseSource CinemachineImpulseSource { get; private set; }
     public CinemachineVirtualCamera CinemachineVirtualCamera { get; private set; }
@@ -38,6 +40,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject endingPanel;
     [SerializeField] private Animator endingAnimator;
     private bool clickRecall;
+    [SerializeField] protected GameEvent onMonsterCollapse;
 
     private void Awake()
     {
@@ -50,6 +53,24 @@ public class GameManager : MonoBehaviour
         CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
     }
 
+    public void Skip()
+    {
+        onMonsterCollapse.Raise(Wakgood.Instance.transform);
+    }
+
+    public void SkipAll()
+    {
+        int temp = enemyRunTimeSet.Items.Count;
+        Debug.Log($"Count = {temp}");
+        for (int i = 0; i < temp; i++)
+        {
+            Debug.Log($"i = {i}");
+            ObjectManager.Instance.PushObject(enemyRunTimeSet.Items[0]);
+            enemyRunTimeSet.Remove(enemyRunTimeSet.Items[0]);
+            onMonsterCollapse.Raise(Wakgood.Instance.transform);
+        }
+    }
+
     private void Start()
     {
         StartCoroutine(CheckBuff());
@@ -58,6 +79,7 @@ public class GameManager : MonoBehaviour
         AudioManager.Instance.PlayMusic("yeppSun - 고고 다섯쌍둥이");
         UIManager.Instance.SetCurViewerText("뱅온 전!");
         CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
+        // enemyRunTimeSet.Clear();
     }
 
     private IEnumerator CheckBuff()
@@ -79,6 +101,9 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+
+        enemy.text = enemyRunTimeSet.Items.Count.ToString();
+
         isFocusOnSomething.RuntimeValue = (StreamingManager.Instance.IsChatting || isLoading.RuntimeValue || isShowingSomething.RuntimeValue);
 
         if (Input.GetKeyDown(KeyCode.Escape) && !isLoading.RuntimeValue && !gameResultPanel.activeSelf)
@@ -160,6 +185,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
+        CinemachineTargetGroup.m_Targets[1].target = null;
 
         gamePanel.SetActive(true);
 
@@ -252,6 +278,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
+        CinemachineTargetGroup.m_Targets[1].target = null;
 
         gamePanel.SetActive(true);
 

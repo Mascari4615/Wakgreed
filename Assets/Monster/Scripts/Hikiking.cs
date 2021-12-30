@@ -213,13 +213,14 @@ public class Hikiking : BossMonster
     }
 
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
         int a = monsterList.Count;
         for (int i = 0; i < a; i++)
         {
             monsterList[i].SetActive(false);
         }
+        base.OnDisable();
     }
 
     private IEnumerator SpawnMob()

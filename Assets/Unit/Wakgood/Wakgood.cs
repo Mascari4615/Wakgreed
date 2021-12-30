@@ -128,14 +128,14 @@ public class Wakgood : MonoBehaviour, IHitable
         worldMousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject()) Weapon[CurWeaponNumber].BaseAttack();
-        else if (Input.GetKeyDown(KeyCode.Q)) Weapon[CurWeaponNumber].SkillQ();
-        else if (Input.GetKeyDown(KeyCode.E)) Weapon[CurWeaponNumber].SkillE();
-        else if (Input.GetKeyDown(KeyCode.R)) Weapon[CurWeaponNumber].Reload();
-        else if (Input.GetKeyDown(KeyCode.F)) wakgoodCollider.GetNearestInteractiveObject()?.Interaction();
+        if (Input.GetKeyDown(KeyCode.Q)) Weapon[CurWeaponNumber].SkillQ();
+        if (Input.GetKeyDown(KeyCode.E)) Weapon[CurWeaponNumber].SkillE();
+        if (Input.GetKeyDown(KeyCode.R)) Weapon[CurWeaponNumber].Reload();
+        if (Input.GetKeyDown(KeyCode.F)) wakgoodCollider.GetNearestInteractiveObject()?.Interaction();
 
         if (Input.GetAxisRaw("Mouse ScrollWheel") != 0) SwitchWeapon(CurWeaponNumber == 0 ? 1 : 0);
-        else if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchWeapon(0);
-        else if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchWeapon(1);
+        /*else if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchWeapon(0);
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchWeapon(1);*/
 
         attackPositionParent.transform.rotation = Quaternion.Euler(0, 0,
             Mathf.Atan2(worldMousePoint.y - (transform.position.y + 0.8f), worldMousePoint.x - transform.position.x) *

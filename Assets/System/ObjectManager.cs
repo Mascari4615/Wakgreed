@@ -46,8 +46,24 @@ public class ObjectManager : MonoBehaviour
     public void PushObject(GameObject go)
     {
         string objectName = go.name.Contains("(Clone)") ? go.name.Remove(go.name.IndexOf("(", StringComparison.Ordinal), 7) : go.name;
+
+        foreach (var item in poolDic[objectName].Stack)
+        {
+            if (go.GetInstanceID().Equals(item.GetInstanceID()))
+            {
+                return;
+                Debug.Log($"이미 존재하는 모시깽이 입니다. {go.name}");
+            }
+        }
+
         poolDic[objectName].Stack.Push(go);
         go.SetActive(false);
+    }
+
+    public void SetObjectParent(GameObject go)
+    {
+        string objectName = go.name.Contains("(Clone)") ? go.name.Remove(go.name.IndexOf("(", StringComparison.Ordinal), 7) : go.name;
+        go.transform.SetParent(poolDic[objectName].transform);
     }
 
     public GameObject PopObject(string objectName, Vector3 pos)
@@ -93,13 +109,11 @@ public class ObjectManager : MonoBehaviour
 
     public GameObject PopObject(string objectName, Transform tr, bool setRot = false)
     {
-
         if (!poolDic.ContainsKey(objectName))
         {
-            Debug.Log("No");
+            Debug.Log($"해당 풀이 존재하지 않습니다. : {objectName}");
             return null;
         }
-
 
         GameObject targetObject;
         if (poolDic[objectName].Stack.Count.Equals(0))
@@ -108,10 +122,7 @@ public class ObjectManager : MonoBehaviour
         }
         else
         {
-            Debug.Log(objectName);
-            Debug.Log(poolDic[objectName].Stack.Count);
             targetObject = poolDic[objectName].Stack.Pop();
-            Debug.Log(targetObject);
             targetObject.transform.SetPositionAndRotation(tr.position, setRot ? tr.rotation : Quaternion.identity);
             targetObject.SetActive(true);
         }
