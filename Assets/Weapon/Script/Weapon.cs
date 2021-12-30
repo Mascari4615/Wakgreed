@@ -22,12 +22,12 @@ public class Weapon : Equiptable, ISerializationCallbackReceiver
     public int magazine;
     [System.NonSerialized] public int Ammo;
     public float reloadTime;
-    [System.NonSerialized] [HideInInspector] public float CurReloadTime;
-    [System.NonSerialized] [HideInInspector] public bool IsReloading = false;
+    [System.NonSerialized] public float CurReloadTime;
+    [System.NonSerialized] public float CurSkillECoolTime;
+    [System.NonSerialized] public float CurSkillQCoolTime;
+    [System.NonSerialized] public bool IsReloading = false;
     [System.NonSerialized] private bool canUseSkillE = true;
-    [System.NonSerialized] [HideInInspector] public float CurSkillECoolTime;
     [System.NonSerialized] private bool canUseSkillQ = true;
-    [System.NonSerialized] [HideInInspector] public float CurSkillQCoolTime;
     [System.NonSerialized] private bool canUseBaseAttack = true;
     [System.NonSerialized] private float curBaseAttackCoolTime;
     [System.NonSerialized] private IEnumerator reload;
@@ -57,7 +57,7 @@ public class Weapon : Equiptable, ISerializationCallbackReceiver
 
     public void Reload()
     {
-        if (Ammo == magazine || IsReloading)
+        if (Ammo == magazine + Wakgood.Instance.bonusAmmo.RuntimeValue || IsReloading)
         {
             return;
         }
@@ -69,8 +69,8 @@ public class Weapon : Equiptable, ISerializationCallbackReceiver
     private IEnumerator Reloadd()
     {
         CurReloadTime = 0;
-        while ((CurReloadTime += Time.deltaTime) < reloadTime) yield return null;
-        Ammo = magazine;
+        while ((CurReloadTime += Time.deltaTime) < (reloadTime * (1 - Wakgood.Instance.reloadSpeed.RuntimeValue / 100))) yield return null;
+        Ammo = magazine + Wakgood.Instance.bonusAmmo.RuntimeValue;
         IsReloading = false;
     }
 

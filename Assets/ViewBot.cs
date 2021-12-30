@@ -16,6 +16,7 @@ public class ViewBot : NormalMonster
     {
         while (true)
         {
+            Animator.SetBool("ISMOVING", true);
             Rigidbody2D.velocity = (Wakgood.Instance.transform.position - transform.position).normalized * MoveSpeed;
             yield return new WaitForSeconds(0.1f);
 
@@ -31,8 +32,7 @@ public class ViewBot : NormalMonster
     {
         for (int i = 0; i < 4; i++)
         {
-            Rigidbody2D.velocity = (Wakgood.Instance.transform.position - transform.position).normalized * MoveSpeed / 1.5f;
-
+            Animator.SetBool("ISMOVING", false);
             SpriteRenderer.color = Color.red;
             yield return new WaitForSeconds(0.1f);
             SpriteRenderer.color = Color.white;

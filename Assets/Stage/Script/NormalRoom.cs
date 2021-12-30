@@ -17,7 +17,7 @@ public class NormalRoom : Room
         public float spawnDelay;
     }
     [SerializeField] private Wave[] waves;
-    [HideInInspector] public int curWaveMonsterCount;
+    public int curWaveMonsterCount { get; private set; }
     private bool isCleared = false;
     private bool waveClearFlag = false;
     [SerializeField] private BoolVariable isFighting;
@@ -58,9 +58,7 @@ public class NormalRoom : Room
     {
         ObjectManager.Instance.PopObject("SpawnCircle", mobSpawnData.spawnPoint.position).GetComponent<Animator>().SetFloat("SPEED", 1 / mobSpawnData.spawnDuration);
         yield return new WaitForSeconds(mobSpawnData.spawnDuration);
-        GameObject temp = ObjectManager.Instance.PopObject(mobSpawnData.monster.name, mobSpawnData.spawnPoint.position);
-
-        // sDebug.Log($"Spawn Mob {temp.name} : {temp.GetInstanceID()}");
+        ObjectManager.Instance.PopObject(mobSpawnData.monster.name, mobSpawnData.spawnPoint.position);
     }
 
     public void CheckMonsterCount() 
@@ -80,6 +78,7 @@ public class NormalRoom : Room
         foreach (var hider in DoorHiders) hider.SetActive(false);
         foreach (var particle in DoorParticles) particle.SetActive(true);
         StartCoroutine(UIManager.Instance.SpeedWagon_RoomClear());
+        GameManager.Instance.OnRoomClear.Raise();
 
         if (Random.Range(0, 100) > 30)
         {

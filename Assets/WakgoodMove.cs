@@ -17,6 +17,8 @@ public class WakgoodMove : MonoBehaviour
     [SerializeField] private FloatVariable dashCoolTime;
     [SerializeField] private FloatVariable dashChargeSpeed;
     [SerializeField] private BoolVariable isFocusOnSomething;
+    [SerializeField] private GameObject iceObject;
+    [SerializeField] private GameObject[] keyObject;
     private Rigidbody2D playerRb;
     private Animator animator;
     private readonly List<int> hInputList = new();
@@ -26,6 +28,7 @@ public class WakgoodMove : MonoBehaviour
     private Vector2 moveDirection;
     private bool mbMoving;
     private bool mbCanBbolBbol = true;
+    private bool mbIced = false;
     private static readonly int wakeUp = Animator.StringToHash("WakeUp");
     private static readonly int move = Animator.StringToHash("Move");
     private static readonly int collapse = Animator.StringToHash("Collapse");
@@ -48,7 +51,7 @@ public class WakgoodMove : MonoBehaviour
             return;
         }
 
-        if (Time.timeScale == 0 || isFocusOnSomething.RuntimeValue)
+        if (Time.timeScale == 0 || isFocusOnSomething.RuntimeValue || mbIced)
         {
             mbMoving = false;
             Animator.SetBool(move, mbMoving);
@@ -116,5 +119,57 @@ public class WakgoodMove : MonoBehaviour
 
             yield return null;
         }
+    }
+    public void TryIced()
+    {
+        if (iced != null) StopCoroutine(iced);
+        if (inputKey != null) StopCoroutine(inputKey);
+        keyObject[0].SetActive(false);
+        keyObject[1].SetActive(false);
+        keyObject[2].SetActive(false);
+        keyObject[3].SetActive(false);
+
+        iced = StartCoroutine(Iced());
+    }
+
+    private Coroutine iced;
+    private Coroutine inputKey;
+
+    private IEnumerator Iced()
+    {
+        mbIced = true;
+        iceObject.SetActive(true);
+
+        for (int i = 0; i < 2; i++)
+        {
+            int temp = UnityEngine.Random.Range(0, 3 + 1);
+
+            switch (temp)
+            {
+                case 0:
+                    inputKey = StartCoroutine(InputKey(KeyCode.W, 0));
+                    break;
+                case 1:
+                    yield return inputKey = StartCoroutine(InputKey(KeyCode.A, 1));
+                    break;
+                case 2:
+                    yield return inputKey = StartCoroutine(InputKey(KeyCode.S, 2));
+                    break;
+                case 3:
+                    yield return inputKey = StartCoroutine(InputKey(KeyCode.D, 3));
+                    break;
+            }
+        }
+
+        iceObject.SetActive(false);
+        mbIced = false;
+    }
+
+    private IEnumerator InputKey(KeyCode keyCode, int i)
+    {
+        keyObject[i].SetActive(true);
+        do yield return null;
+        while (!Input.GetKeyDown(keyCode));
+        keyObject[i].SetActive(false);
     }
 }

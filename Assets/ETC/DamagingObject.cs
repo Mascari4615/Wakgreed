@@ -45,11 +45,12 @@ public class DamagingObject : MonoBehaviour
             (other.CompareTag("Monster") || other.CompareTag("Boss")) && bTargetWak == true)
             return;
 
-
         if ((other.CompareTag("Monster") || other.CompareTag("Boss")) && bTargetWak == false)
         {
             if (other.TryGetComponent(out IHitable damageable))
             {
+                Debug.Log(other);
+
                 if (UnityEngine.Random.Range(0, 100) < Wakgood.Instance.miss.RuntimeValue)
                 {
                     ObjectManager.Instance.PopObject("AnimatedText", other.transform.position + Vector3.up).GetComponent<AnimatedText>().SetText("ºø³ª°¨!", Color.red);
@@ -85,6 +86,14 @@ public class DamagingObject : MonoBehaviour
                     totalDamage = (int)Math.Round(totalDamage * (1 + (float)Wakgood.Instance.BossDamage.RuntimeValue / 100), MidpointRounding.AwayFromZero);
                 }
                 damageable.ReceiveHit(totalDamage, hitType);
+                if (offGoOnHit)
+                {
+                    gameObject.SetActive(false);
+                }
+                else if (offCollOnHit)
+                {
+                    collider2D.enabled = false;
+                }
             }
         }
         else if (other.CompareTag("Player") && bTargetWak == true)
@@ -93,17 +102,15 @@ public class DamagingObject : MonoBehaviour
             if (other.transform.parent.TryGetComponent(out IHitable wakgood))
             {
                 wakgood.ReceiveHit(damage);
+                if (offGoOnHit)
+                {
+                    gameObject.SetActive(false);
+                }
+                else if (offCollOnHit)
+                {
+                    collider2D.enabled = false;
+                }
             }
-        }
-
-
-        if (offGoOnHit)
-        {
-            gameObject.SetActive(false);
-        }
-        else if (offCollOnHit)
-        {
-            collider2D.enabled = false;
-        }
+        }  
     }
 }

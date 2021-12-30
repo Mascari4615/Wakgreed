@@ -51,8 +51,8 @@ public class ObjectManager : MonoBehaviour
         {
             if (go.GetInstanceID().Equals(item.GetInstanceID()))
             {
-                return;
                 Debug.Log($"이미 존재하는 모시깽이 입니다. {go.name}");
+                return;
             }
         }
 

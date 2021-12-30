@@ -12,10 +12,11 @@ GameObject:
   - component: {fileID: 8288709936473228919}
   - component: {fileID: 6136854340571195525}
   - component: {fileID: 5588164855678746070}
-  - component: {fileID: 2147134090306501342}
   - component: {fileID: 1474470438670230141}
   - component: {fileID: 4194368913414830662}
   - component: {fileID: 7343316321580220463}
+  - component: {fileID: 3500846092028737077}
+  - component: {fileID: 6168191559759206964}
   m_Layer: 0
   m_Name: PungsinAttack 1
   m_TagString: Untagged
@@ -50,14 +51,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc5466ebd09324d40bd2cd21e37538e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canDamageWakgood: 1
-  canDamageMob: 0
-  totalPower: {fileID: 0}
-  criticalChance: {fileID: 0}
-  criticalDamagePer: {fileID: 0}
+  bTargetWak: 1
   damage: 3
-  offOnHit: 0
-  ggambbakDelay: 0
+  WeaponID: -1
+  offGoOnHit: 0
+  offCollOnHit: 0
 --- !u!114 &6136854340571195525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,22 +121,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &2147134090306501342
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5168828908313417421}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.65
 --- !u!95 &1474470438670230141
 Animator:
   serializedVersion: 4
@@ -291,3 +273,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6cec448e7156684f8a959c36b9c0e4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3500846092028737077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5168828908313417421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 644d5f14ed12ea24d9e3c3623e093adc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &6168191559759206964
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5168828908313417421}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 4, y: 2}
+    newSize: {x: 4, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.62, y: 0.49}
+  m_EdgeRadius: 0

@@ -28,7 +28,6 @@ public class Hikiking : BossMonster
 
     protected override IEnumerator Attack()
     {
-
         StartCoroutine(SpawnMobCo());
         while (true)
         {
@@ -42,7 +41,6 @@ public class Hikiking : BossMonster
                     yield return StartCoroutine(Ult());
                     break;
             }
-
             yield return new WaitForSeconds(2f);
         }
     }

@@ -19,7 +19,7 @@ public class Wakgood : MonoBehaviour, IHitable
     [SerializeField] private MaxHp hpMax;
     [SerializeField] private IntVariable powerInt;
     public TotalPower totalPower;
-    public IntVariable miss;
+    public IntVariable miss, reloadSpeed, bonusAmmo;
     public FloatVariable attackSpeed;
     [SerializeField] private FloatVariable moveSpeed, evasion;
     [SerializeField] private BoolVariable canEvasionOnDash;

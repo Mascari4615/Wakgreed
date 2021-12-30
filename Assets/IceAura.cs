@@ -35,7 +35,7 @@ public class IceAura : MonoBehaviour, IEffectGameObject
 
     private void Update()
     {
-        transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(2 + (float)stack / 1.5f, 2 + (float)stack / 1.5f, 1), 0.5f * Time.deltaTime);
+        transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(2 + (float)stack / 3f, 2 + (float)stack / 3f, 1), 0.5f * Time.deltaTime);
         damagingObject.damage = DEFAULT_DAMAGE + stack;
     }
 

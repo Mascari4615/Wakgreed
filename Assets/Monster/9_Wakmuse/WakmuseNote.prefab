@@ -85,14 +85,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc5466ebd09324d40bd2cd21e37538e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canDamageWakgood: 1
-  canDamageMob: 0
-  totalPower: {fileID: 0}
-  criticalChance: {fileID: 0}
-  criticalDamagePer: {fileID: 0}
-  damage: 3
-  offOnHit: 1
-  ggambbakDelay: 0
+  bTargetWak: 1
+  damage: 5
+  WeaponID: -1
+  offGoOnHit: 0
+  offCollOnHit: 0
 --- !u!114 &70552170976604695
 MonoBehaviour:
   m_ObjectHideFlags: 0
