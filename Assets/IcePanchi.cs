@@ -93,7 +93,7 @@ public class IcePanchi : NormalMonster
         }
     }
 
-    protected override IEnumerator Collapse()
+    protected override void Collapse()
     {
         foreach (var _notes in notes)
         {
@@ -103,6 +103,6 @@ public class IcePanchi : NormalMonster
             }
         }
 
-        return base.Collapse();
+        base.Collapse();
     }
 }

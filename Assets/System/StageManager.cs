@@ -207,7 +207,6 @@ public class StageManager : MonoBehaviour
             {
                 Transform targetRoomUI = mapGridLayoutGroup.transform.GetChild(i);
                 Vector2 targetRoomCoordinate = new(x, y);
-                // Debug.Log(targetRoomCoordinate);
                 targetRoomUI.GetComponent<RoomSlot>().coordinate = targetRoomCoordinate;
                 targetRoomUI.GetComponent<Image>().enabled = false;
                 targetRoomUI.GetChild(0).gameObject.SetActive(false); // Door
@@ -224,7 +223,7 @@ public class StageManager : MonoBehaviour
                     temp.GetChild(2).gameObject.SetActive(targetRoom.IsConnectToNearbyRoom[2]); // Door\Left
                     temp.GetChild(3).gameObject.SetActive(targetRoom.IsConnectToNearbyRoom[3]); // Door\Right
                     temp = targetRoomUI.GetChild(1); // Property
-                    temp.GetChild(0).GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f); // Property\CurrentRoom
+                    temp.GetChild(0).GetComponent<Image>().color = new Color(189 / 255f, 81 / 255f, 90 / 255f); // Property\CurrentRoom
                     temp = targetRoomUI.GetChild(2); // Icon
                     temp.GetChild(0).gameObject.SetActive(targetRoom is SpawnRoom);   // Property\Icon\Spawn
                     temp.GetChild(1).gameObject.SetActive(targetRoom is BossRoom);    // Property\Icon\Boss

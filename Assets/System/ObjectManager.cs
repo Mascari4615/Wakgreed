@@ -108,7 +108,10 @@ public class ObjectManager : MonoBehaviour
         }
         else
         {
+            Debug.Log(objectName);
+            Debug.Log(poolDic[objectName].Stack.Count);
             targetObject = poolDic[objectName].Stack.Pop();
+            Debug.Log(targetObject);
             targetObject.transform.SetPositionAndRotation(tr.position, setRot ? tr.rotation : Quaternion.identity);
             targetObject.SetActive(true);
         }

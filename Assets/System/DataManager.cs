@@ -155,14 +155,12 @@ public class DataManager : MonoBehaviour
         gameData2.viewer = GameManager.Instance.viewer.RuntimeValue;
 
         int temp = wgFoodInven.Items.Count;
-        Debug.Log($"FOOD : {temp}");
         for (int i = 0; i < temp; i++)
         {
             gameData2.foods.Add(wgFoodInven.Items[i].id);
         }
 
         temp = wgItemInven.Items.Count;
-        Debug.Log($"ITEM : {temp}");
         for (int i = 0; i < temp; i++)
         {
             gameData2.items.Add(wgItemInven.Items[i].id);
@@ -170,7 +168,6 @@ public class DataManager : MonoBehaviour
         }
 
         temp = wgMasteryInven.Items.Count;
-        Debug.Log($"MASTERY : {temp}");
         for (int i = 0; i < temp; i++)
         {
             gameData2.masteries.Add(wgMasteryInven.Items[i].id);
@@ -205,10 +202,10 @@ public class DataManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Save file not found in" + Path.Combine(Application.streamingAssetsPath, "game.wak"));
+            Debug.Log("해당 경로 파일이 존재하지 않습니다. " + Path.Combine(Application.streamingAssetsPath, "game.wak"));
+            Debug.Log("해당 경로에 새 파일을 만듭니다. " + Path.Combine(Application.streamingAssetsPath, "game.wak"));
             BinaryFormatter bf = new();
             FileStream stream = new(Path.Combine(Application.streamingAssetsPath, "game.wak"), FileMode.Create);
-
             bf.Serialize(stream, new GameData());
             stream.Close();
             stream = new FileStream(Path.Combine(Application.streamingAssetsPath, "game.wak"), FileMode.Open);

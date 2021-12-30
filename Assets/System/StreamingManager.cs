@@ -274,7 +274,6 @@ public class StreamingManager : MonoBehaviour
             t -= Time.deltaTime;
             if (t <= 0)
             {
-                Debug.Log("a");
                 viewPort.SetActive(false);
             }
         }

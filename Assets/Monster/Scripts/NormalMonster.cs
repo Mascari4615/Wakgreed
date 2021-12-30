@@ -64,11 +64,11 @@ public abstract class NormalMonster : Monster
         casting.SetActive(false);
     }
 
-    protected override IEnumerator Collapse()
+    protected override void Collapse()
     {
         hpBar.SetActive(false);
         casting.SetActive(false);
 
-        yield return base.Collapse();
+        base.Collapse();
     }
 }

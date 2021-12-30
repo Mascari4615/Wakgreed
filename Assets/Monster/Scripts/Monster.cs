@@ -75,14 +75,14 @@ public abstract class Monster : MonoBehaviour, IHitable
             case <= 0:
                 RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("(", StringComparison.Ordinal), 7) : name)}_Collapse", transform.position);
                 StopAllCoroutines();
-                StartCoroutine(Collapse());
+                Collapse();
                 break;
         }
     }
 
     protected virtual void _ReceiveHit() { }
 
-    protected virtual IEnumerator Collapse()
+    protected virtual void Collapse()
     {
         SpriteRenderer.material = originalMaterial;
 
@@ -115,14 +115,9 @@ public abstract class Monster : MonoBehaviour, IHitable
             randCount = Random.Range(0, 9 + 1);
             for (int i = 0; i < randCount; i++) 
                 ObjectManager.Instance.PopObject("Goldu", transform);
-            /*if (Random.Range(0, 100) > 90) 
-                ObjectManager.Instance.PopObject("GreenHeart", transform);*/
         }
 
         ObjectManager.Instance.PopObject("LevelUpEffect", transform);
-
-        // yield return new WaitForSeconds(3f);
-        yield return null;
         gameObject.SetActive(false);
     }
 

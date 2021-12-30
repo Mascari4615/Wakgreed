@@ -21,7 +21,13 @@ public abstract class BossMonster : Monster
     protected override void OnEnable()
     {
         base.OnEnable();
-        StartCoroutine(Ready());
+        if (StageManager.Instance.CurrentRoom != null)
+        {
+            if (StageManager.Instance.CurrentRoom is BossRoom)
+            {
+                StartCoroutine(Ready());
+            }
+        }
     }
 
     private IEnumerator Ready()
@@ -33,7 +39,12 @@ public abstract class BossMonster : Monster
 
     protected abstract IEnumerator Attack();
     
-    protected override IEnumerator Collapse()
+    protected override void Collapse()
+    {
+        StartCoroutine(_Collapse());
+    }
+
+    protected virtual IEnumerator _Collapse()
     {
         isCollapsed = true;
 
@@ -64,6 +75,6 @@ public abstract class BossMonster : Monster
         ObjectManager.Instance.PopObject("LevelUpEffect", transform);
 
         (StageManager.Instance.CurrentRoom as BossRoom)?.RoomClear();
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

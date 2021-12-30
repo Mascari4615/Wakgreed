@@ -204,12 +204,12 @@ public class Hikiking : BossMonster
         }
     }
 
-    protected override IEnumerator Collapse()
+    protected override IEnumerator _Collapse()
     {
         foreach (var monster in monsterList)
             ObjectManager.Instance.PushObject(monster);
 
-        return base.Collapse();
+        return base._Collapse();
     }
 
 

@@ -5,6 +5,8 @@ public class Gorilla : NormalMonster
 {
     private Coroutine idle;
     private Coroutine rush;
+    private Coroutine checkWakgood;
+
     [SerializeField] private GameObject damagingObject;
     [SerializeField] private GameObject earthQuake;
     [SerializeField] private GameObject earthQuakeWarning;
@@ -15,13 +17,14 @@ public class Gorilla : NormalMonster
 
         Animator.SetTrigger("AWAKE");
         Animator.SetBool("ISMOVING", false);
+        Animator.SetBool("ISRUSHING", false);
 
         damagingObject.SetActive(false);
         earthQuake.SetActive(false);
         earthQuakeWarning.SetActive(false);
 
         idle = StartCoroutine(Idle());
-        StartCoroutine(CheckWakgood());
+        checkWakgood = StartCoroutine(CheckWakgood());
     }
 
     private IEnumerator Idle()
@@ -33,10 +36,10 @@ public class Gorilla : NormalMonster
             SpriteRenderer.flipX = direction.x > 0;
 
             Animator.SetBool("ISMOVING", true);
-            for (float i = 0; i <= 1; i += Time.deltaTime)
+            for (int i = 0; i < 10; i++)
             {
-                Rigidbody2D.velocity = direction;
-                yield return null;
+                Rigidbody2D.velocity = direction * MoveSpeed * 0.3f;
+                yield return ws01;
             }
             Rigidbody2D.velocity = Vector2.zero;
             Animator.SetBool("ISMOVING", false);
@@ -52,6 +55,7 @@ public class Gorilla : NormalMonster
             if (Vector2.Distance(transform.position, Wakgood.Instance.transform.position) < 7)
             {
                 StopCoroutine(idle);
+                Animator.SetBool("ISMOVING", false);
                 rush = StartCoroutine(Rush());
                 break;
             }
@@ -61,16 +65,15 @@ public class Gorilla : NormalMonster
 
     private IEnumerator Rush()
     {
-        Animator.SetBool("ISMOVING", false);
         yield return new WaitForSeconds(2f);
 
         while (true)
         {
             if (Vector2.Distance(transform.position, Wakgood.Instance.transform.position) > 10)
             {
-                SpriteRenderer.flipX = Rigidbody2D.velocity.x > 0;
                 Animator.SetBool("ISMOVING", true);
-                Rigidbody2D.velocity = ((Vector2)Wakgood.Instance.transform.position - Rigidbody2D.position).normalized * MoveSpeed;
+                SpriteRenderer.flipX = IsWakgoodRight();
+                Rigidbody2D.velocity = GetDirection() * MoveSpeed;
                 yield return ws01;
             }
             else
@@ -78,11 +81,11 @@ public class Gorilla : NormalMonster
                 Rigidbody2D.velocity = Vector2.zero;
 
                 Animator.SetBool("ISMOVING", false);
-                Vector2 direction = (Wakgood.Instance.transform.position - transform.position).normalized;
-                SpriteRenderer.flipX = direction.x > 0;
+                Vector2 direction = GetDirection();
+                SpriteRenderer.flipX = IsWakgoodRight();
 
                 yield return StartCoroutine(Casting(.7f));
-                Animator.SetBool("ISMOVING", true);
+                Animator.SetBool("ISRUSHING", true);
                 damagingObject.SetActive(true);
 
                 Rigidbody2D.velocity = Vector2.zero;
@@ -94,19 +97,19 @@ public class Gorilla : NormalMonster
                     yield return new WaitForFixedUpdate();
                 }
                 Rigidbody2D.velocity = Vector2.zero;
-                Animator.SetBool("ISMOVING", false);
+                Animator.SetBool("ISRUSHING", false);
                 damagingObject.SetActive(false);
 
-                yield return new WaitForSeconds(.5f);
+                yield return new WaitForSeconds(.4f);
 
                 Animator.SetTrigger("ATTACKREADY");
                 earthQuakeWarning.SetActive(true);
                 yield return StartCoroutine(Casting(.6f));
 
+                GameManager.Instance.CinemachineImpulseSource.GenerateImpulse(5);
                 Animator.SetTrigger("ATTACKGO");
                 earthQuakeWarning.SetActive(false);
                 earthQuake.SetActive(true);
-                GameManager.Instance.CinemachineImpulseSource.GenerateImpulse(5);
 
                 yield return new WaitForSeconds(5f);
             }
@@ -117,5 +120,6 @@ public class Gorilla : NormalMonster
     {
         if (idle != null) StopCoroutine(idle);
         if (rush != null) StopCoroutine(rush);
+        if (checkWakgood != null) StopCoroutine(checkWakgood);
     }
 }

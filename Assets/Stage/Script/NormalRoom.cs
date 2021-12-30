@@ -17,7 +17,7 @@ public class NormalRoom : Room
         public float spawnDelay;
     }
     [SerializeField] private Wave[] waves;
-    private int curWaveMonsterCount;
+    [HideInInspector] public int curWaveMonsterCount;
     private bool isCleared = false;
     private bool waveClearFlag = false;
     [SerializeField] private BoolVariable isFighting;
@@ -40,6 +40,8 @@ public class NormalRoom : Room
         {
             yield return new WaitForSeconds(2f);
             curWaveMonsterCount = wave.mobSpawnDatas.Length;
+            UIManager.Instance.SetCurWaveText(curWaveMonsterCount);
+            UIManager.Instance.SetRemainMobCount(curWaveMonsterCount);
             foreach (var mobSpawnData in wave.mobSpawnDatas)
             {
                 yield return new WaitForSeconds(mobSpawnData.spawnDelay);
@@ -58,7 +60,15 @@ public class NormalRoom : Room
         ObjectManager.Instance.PopObject(mobSpawnData.monster.name, mobSpawnData.spawnPoint.position);
     }
 
-    public void CheckMonsterCount() { if (--curWaveMonsterCount <= 0) waveClearFlag = true; }
+    public void CheckMonsterCount() 
+    {
+        curWaveMonsterCount--;
+
+        UIManager.Instance.SetRemainMobCount(curWaveMonsterCount);
+
+        if (curWaveMonsterCount <= 0)
+            waveClearFlag = true; 
+    }
 
     private void RoomClear()
     {

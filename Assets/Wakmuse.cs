@@ -77,7 +77,7 @@ public class Wakmuse : NormalMonster
         }
     }
 
-    protected override IEnumerator Collapse()
+    protected override void Collapse()
     {
         foreach (var _notes in notes)
         {
@@ -87,6 +87,6 @@ public class Wakmuse : NormalMonster
             }
         }
 
-        return base.Collapse();
+        base.Collapse();
     }
 }
