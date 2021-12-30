@@ -45,6 +45,11 @@ public class ViewBot : NormalMonster
         isCollapsed = true;
         RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("(", StringComparison.Ordinal), 7) : name)}_Collapse", transform.position);
 
+        if (StageManager.Instance.CurrentRoom is NormalRoom)
+        {
+            onMonsterCollapse.Raise(transform);
+        }
+
         collider2D.enabled = false;
         Rigidbody2D.velocity = Vector2.zero;
         Rigidbody2D.bodyType = RigidbodyType2D.Static;

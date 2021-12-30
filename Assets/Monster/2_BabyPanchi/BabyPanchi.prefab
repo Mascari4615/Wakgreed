@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1964547645712429774}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.75, y: 0.62, z: -5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -95,7 +95,7 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 1
   m_Sprite: {fileID: -965123915, guid: df522be4f75e1c0498baa05d1f4cbe29, type: 3}
-  m_Color: {r: 0.6037736, g: 0.4756141, b: 0.4756141, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -118,7 +118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   directionVector: {x: 0, y: 0, z: 0}
-  moveSpeed: 16
+  moveSpeed: 8
   direction: 1
 --- !u!114 &6792982844986648251
 MonoBehaviour:
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0099a0556fcecc4d80572fd4da5c4fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateSpeed: 30
+  rotateSpeed: 45
   direction: 0
 --- !u!1 &8633538259678075035
 GameObject:
@@ -225,7 +225,7 @@ MonoBehaviour:
   MoveSpeed: 5
   defaultSprite: {fileID: -1656540680, guid: e687ae9c2fea0c24fbcfef9ffa663041, type: 3}
   bullet: {fileID: 1964547645712429774}
-  attackCoolTime: 2
+  attackCoolTime: 4
 --- !u!114 &6520139255365978244
 MonoBehaviour:
   m_ObjectHideFlags: 0

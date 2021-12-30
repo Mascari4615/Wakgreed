@@ -11,8 +11,7 @@ public class BossRoom : Room
 
         GameManager.Instance.isBossing.RuntimeValue = true;
         AudioManager.Instance.StopMusic();
-
-        Instantiate(boss, transform.Find("BossSpawnPoint"));
+        ObjectManager.Instance.PopObject(boss.name, transform.Find("BossSpawnPoint"));
     }
     
     public void RoomClear()

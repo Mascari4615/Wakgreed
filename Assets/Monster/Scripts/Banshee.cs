@@ -63,12 +63,11 @@ public class Banshee : NormalMonster
         }
     }
 
-    protected override IEnumerator Collapse()
+    protected override void Collapse()
     {
         foreach (BulletMove t in notes)
             t.gameObject.SetActive(false);
 
-        StartCoroutine(base.Collapse());
-        yield break;
+        base.Collapse();
     }
 }

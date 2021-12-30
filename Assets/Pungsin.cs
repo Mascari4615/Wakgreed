@@ -52,7 +52,7 @@ public class Pungsin : BossMonster
         spawnedPos = transform.position;
     }
 
-    protected override IEnumerator Collapse()
+    protected override IEnumerator _Collapse()
     {
         foreach (var item in skill0AttackGo)
         {
@@ -64,7 +64,7 @@ public class Pungsin : BossMonster
             item.gameObject.SetActive(false);
         }
 
-        return base.Collapse();
+        return base._Collapse();
     }
 
     protected override IEnumerator Attack()

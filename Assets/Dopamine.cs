@@ -164,11 +164,10 @@ public class Dopamine : BossMonster
 
         // ¾Ö´Ï
         yield return StartCoroutine(OnType());
-
-        Instantiate(wakpago, spawnedPos, Quaternion.identity);
+        ObjectManager.Instance.PopObject(wakpago.name, spawnedPos);
     }
 
-    protected override IEnumerator Collapse()
+    protected override IEnumerator _Collapse()
     {
         SpriteRenderer.material = originalMaterial;
 

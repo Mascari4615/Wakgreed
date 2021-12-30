@@ -49,6 +49,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI totalEquipGoldu;
     [SerializeField] private ItemInventoryUI inventoryUI;
 
+    [SerializeField] private TextMeshProUGUI waveTotal;
+    [SerializeField] private TextMeshProUGUI remainMobCount;
+
     [SerializeField] private TextMeshProUGUI ammoText;
     [SerializeField] private TextMeshProUGUI resultText;
 
@@ -218,6 +221,10 @@ public class UIManager : MonoBehaviour
     public void SetRoomName(Room room) => roomName.text = $"현재 방 이름 : { (room.gameObject.name.Contains("(Clone)") ? room.gameObject.name.Remove(room.gameObject.name.IndexOf("(", StringComparison.Ordinal), 7) : room.gameObject.name)}";
     public void SetRoomName(string name) => roomName.text = name;
     public void SetCurViewerText(string text) => viewerUI.text = text;
+
+
+    public void SetRemainMobCount(int count) => remainMobCount.text = $"현재 남은 몬스터 수 : {count}";
+    public void SetCurWaveText(int count) => waveTotal.text = $"웨이브 몬스터 총 : {count}";
 
     public void StopAllSpeedWagons()
     {

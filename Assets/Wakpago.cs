@@ -86,6 +86,7 @@ public class Wakpago : BossMonster
         }
         else if (phase == 2)
         {
+             Debug.Log("Attack 왁파고 Bombs 시작");
             bombCO = StartCoroutine(Bombs());
 
             while (true)
@@ -109,9 +110,14 @@ public class Wakpago : BossMonster
 
     private IEnumerator Bombs()
     {
+        Debug.Log("왁파고 Bombs 시작");
         while (true)
         {
-            Vector3 randomPos = Vector3.ClampMagnitude(transform.position + (Vector3)Random.insideUnitCircle * 30f, moveLimit);
+            Debug.Log("왁파고 Bombs 가동 중");
+            Vector3 pos = (Vector3)Random.insideUnitCircle * 30f;
+            Vector3 randomPos = new(Mathf.Clamp(transform.position.x + pos.x, spawnedPos.x - moveLimit, spawnedPos.x + moveLimit), Mathf.Clamp(transform.position.y + pos.y, spawnedPos.y - moveLimit, spawnedPos.y + moveLimit));
+            Debug.Log($"Bomb : {randomPos}");
+
             ObjectManager.Instance.PopObject("Bomb", randomPos);
             yield return new WaitForSeconds(Random.Range(1f, 3f));
         }
@@ -137,7 +143,7 @@ public class Wakpago : BossMonster
             {
                 Vector3 pos = (Vector3)Random.insideUnitCircle * 10f;
                 Vector3 a = new(Mathf.Clamp(transform.position.x + pos.x, spawnedPos.x - moveLimit, spawnedPos.x + moveLimit), Mathf.Clamp(transform.position.y + pos.y, spawnedPos.y - moveLimit, spawnedPos.y + moveLimit));
-
+                Debug.Log(a);
                 ObjectManager.Instance.PopObject("SpawnCircle", a).GetComponent<Animator>().SetFloat("SPEED", 1 / 0.5f);
                 yield return new WaitForSeconds(.5f);
 
@@ -270,7 +276,15 @@ Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2
         if (attackCO != null) StopCoroutine(attackCO);
         if (flipCO != null) StopCoroutine(flipCO);
         if (bulletCO != null) StopCoroutine(bulletCO);
-        if (bombCO != null) StopCoroutine(bombCO);
+        if (bombCO != null)
+        {
+            Debug.Log("Ondisable : stop 합니다");
+            StopCoroutine(bombCO);
+        }
+        else
+        {
+            Debug.Log("Ondisable : bombCO가 Null 입니다");
+        }
         if (mobSpawnCO != null) StopCoroutine(mobSpawnCO);
 
         for (int i = 0; i < bullets.Length; i++)
@@ -282,13 +296,21 @@ Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2
         }
     }
 
-    protected override IEnumerator Collapse()
+    protected override IEnumerator _Collapse()
     {
         if (attackCO != null) StopCoroutine(attackCO);
         if (flipCO != null) StopCoroutine(flipCO);
         if (bulletCO != null) StopCoroutine(bulletCO);
-        if (bombCO != null) StopCoroutine(bombCO);
-        if (mobSpawnCO!= null) StopCoroutine(mobSpawnCO);
+        if (bombCO != null)
+        {
+            Debug.Log("Ondisable : stop 합니다");
+            StopCoroutine(bombCO);
+        }
+        else
+        {
+            Debug.Log("Ondisable : bombCO가 Null 입니다");
+        }
+        if (mobSpawnCO != null) StopCoroutine(mobSpawnCO);
         lineRenderer.gameObject.SetActive(false);
 
         for (int i = 0; i < bullets.Length; i++)
@@ -344,7 +366,6 @@ Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2
         ObjectManager.Instance.PopObject("LevelUpEffect", transform);
         yield return new WaitForSeconds(3f);
         (StageManager.Instance.CurrentRoom as BossRoom)?.RoomClear();
-
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

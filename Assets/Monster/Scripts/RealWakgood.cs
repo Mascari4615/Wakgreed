@@ -238,9 +238,9 @@ public class RealWakgood : BossMonster
         yield break;
     }
     
-    protected override IEnumerator Collapse()
+    protected override IEnumerator _Collapse()
     {        
         GameManager.Instance.StartCoroutine(GameManager.Instance.Ending());
-        yield return base.Collapse();
+        yield return base._Collapse();
     }
 }

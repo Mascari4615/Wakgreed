@@ -19,13 +19,13 @@ public class Panchi : NormalMonster
     {
         while (true)
         {
-            Vector2 direction = Random.insideUnitCircle * 2;
+            Vector2 direction = Random.insideUnitCircle.normalized;
             SpriteRenderer.flipX = direction.x > 0;
             Animator.SetBool("ISMOVING", true);
-            for (float i = 0; i <= 1; i += Time.fixedDeltaTime)
+            for (int i = 0; i < 10; i ++)
             {
                 Rigidbody2D.velocity = direction * MoveSpeed;
-                yield return new WaitForFixedUpdate();
+                yield return ws01;
             }
             Animator.SetBool("ISMOVING", false);
             yield return ws1;
@@ -54,17 +54,18 @@ public class Panchi : NormalMonster
             if (Vector2.Distance(transform.position, Wakgood.Instance.transform.position) > 2)
             {
                 Animator.SetBool("ISMOVING", true);
-                SpriteRenderer.flipX = Rigidbody2D.velocity.x > 0;
-                Rigidbody2D.velocity = ((Vector2)Wakgood.Instance.transform.position - Rigidbody2D.position).normalized * MoveSpeed;
+                SpriteRenderer.flipX = IsWakgoodRight();
+                Rigidbody2D.velocity = GetDirection() * MoveSpeed;
                 yield return ws01;
             }
             else
             {
                 Animator.SetBool("ISMOVING", false);
                 Rigidbody2D.velocity = Vector2.zero;
+                Vector3 direction = GetDirection();
                 yield return StartCoroutine(Casting(.7f));
                 Animator.SetTrigger("ATTACK");
-                ObjectManager.Instance.PopObject("PanchiSlash", transform.position + Vector3.up * 0.8f + GetDirection() * 1.5f, GetRot());
+                ObjectManager.Instance.PopObject("PanchiSlash", transform.position + Vector3.up + direction * 1.5f, GetRot());
                 yield return ws1;
             }
         }

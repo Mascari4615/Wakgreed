@@ -72,12 +72,12 @@ public class MinsuPanchi : NormalMonster
         }
     }
 
-    protected override IEnumerator Collapse()
+    protected override void Collapse()
     {
         foreach (var _notes in notes)
             foreach (var note in _notes.notes)
                 note.gameObject.SetActive(false);
 
-        return base.Collapse();
+        base.Collapse();
     }
 }
