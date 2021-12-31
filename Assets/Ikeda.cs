@@ -37,7 +37,7 @@ public class Ikeda : NPC
     private void OnEnable()
     {
         List<Food> temp = foodDataBuffer.items.ToList();
-
+        inventoryUI.NpcInventory.Clear();
         for (int i = 0; i < 5; i++)
         {
             int random = Random.Range(0, temp.Count);

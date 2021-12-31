@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 3611355034154096837}
   - component: {fileID: 3611355034154096834}
   - component: {fileID: -7279126326823275707}
-  - component: {fileID: -9216841714981183027}
   - component: {fileID: 9097935575448911321}
   - component: {fileID: 3014385911103300077}
+  - component: {fileID: 4946100005309434431}
   m_Layer: 0
   m_Name: LegendaryChest
   m_TagString: InteractiveObject
@@ -126,32 +126,6 @@ MonoBehaviour:
   uncommonWeight: 0
   legendaryWeight: 100
   sprite: {fileID: -1837302650, guid: 761f3bfa5fc958845977425380550a43, type: 3}
---- !u!61 &-9216841714981183027
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3611355034154096835}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.9375}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 1.75, y: 1.875}
-    newSize: {x: 1.75, y: 1.875}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 5, y: 5}
-  m_EdgeRadius: 0
 --- !u!114 &9097935575448911321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,6 +151,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 5
+--- !u!58 &4946100005309434431
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3611355034154096835}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 1}
+  serializedVersion: 2
+  m_Radius: 3
 --- !u!1001 &3853012363343560547
 PrefabInstance:
   m_ObjectHideFlags: 0

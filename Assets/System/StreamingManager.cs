@@ -62,7 +62,16 @@ public class StreamingManager : MonoBehaviour
             DataManager.Instance.wgItemInven.Add(DataManager.Instance.ItemDic[39]);
 
         if (DataManager.Instance.CurGameData.rescuedNPC[7])
-            DataManager.Instance.wgItemInven.Add(DataManager.Instance.ItemDic[27]);
+        {
+            if (Random.Range(0, 1 + 1) == 1)
+            {
+                DataManager.Instance.wgItemInven.Add(DataManager.Instance.ItemDic[27]);
+            }
+            else
+            {
+                DataManager.Instance.wgItemInven.Add(DataManager.Instance.ItemDic[44]);
+            }
+        }
 
         // GameEventListener 클래스를 통해 꼼수로 코루틴 실행하기
         if (DataManager.Instance.CurGameData.rescuedNPC[22] ||
@@ -314,7 +323,7 @@ public class StreamingManager : MonoBehaviour
 
             return;
         }
-        else if (msg == "스킵")
+        else if (msg == "혐그진짜")
         {
             GameManager.Instance.Skip();
             return;

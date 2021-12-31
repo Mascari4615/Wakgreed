@@ -70,7 +70,7 @@ public class ObjectManager : MonoBehaviour
     {
         if (!poolDic.ContainsKey(objectName))
         {
-            Debug.Log("No");
+            Debug.LogError("존재하지 않는 풀 접근");
             return null;
         }    
 
@@ -80,6 +80,11 @@ public class ObjectManager : MonoBehaviour
         else
         {
             targetObject = poolDic[objectName].Stack.Pop();
+            if (targetObject == null)
+            {
+                Debug.LogError($"풀에서 뽑은 오브젝트가 Null 입니다. {objectName}_{poolDic[objectName].Stack.Count}");
+                return null;
+            }
             targetObject.transform.SetPositionAndRotation(pos, Quaternion.identity);
             targetObject.SetActive(true);
         }

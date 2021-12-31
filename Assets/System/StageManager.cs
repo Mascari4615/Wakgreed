@@ -28,7 +28,7 @@ public class StageManager : MonoBehaviour
     [SerializeField] private GridLayoutGroup mapGridLayoutGroup;
     [SerializeField] private RectTransform scrollRectBackGround;
     private Dictionary<Vector2, Transform> roomUiDic = new();
-    
+
     [SerializeField] private Animator fadePanelAnimator;
 
     [SerializeField] private GameObject shortCut;
@@ -131,7 +131,7 @@ public class StageManager : MonoBehaviour
         {
             for (int i = 0; i < roomCount; i++)
             {
-                int roomMoldIndex = i == 0 ? 0 : Random.Range(0, roomMolds.Count); 
+                int roomMoldIndex = i == 0 ? 0 : Random.Range(0, roomMolds.Count);
                 int roomDataIndex = i <= 3 ? 0 : Random.Range(0, roomData.Count);
 
                 Room room = Instantiate(roomData[roomDataIndex].gameObject, stageGrid.transform).GetComponent<Room>();
@@ -240,7 +240,7 @@ public class StageManager : MonoBehaviour
                 }
 
                 x++;
-                
+
                 if (x <= (stageEdgeLength - 1) / 2)
                     continue;
 
@@ -282,6 +282,24 @@ public class StageManager : MonoBehaviour
     {
         if (isFocusOnSomething.RuntimeValue) yield break;
 
+        if (roomUiDic.ContainsKey(CurrentRoom.Coordinate) == false || roomUiDic.ContainsKey(CurrentRoom.Coordinate + moveDirection) == false)
+        {
+            if (roomUiDic.ContainsKey(CurrentRoom.Coordinate) == false)
+            {
+                Debug.LogWarning("0 _ 현재 방이 존재하지 않는 좌표로 설정되어 있습니다. ");
+            }
+            else
+            {
+                Debug.LogWarning("1 _ 존재하지 않는 좌표의 방으로 포탈 이동을 시도했습니다 ");
+            }
+
+            yield return ws02;
+            fadePanelAnimator.SetTrigger("IN");
+            yield return ws02;
+            isFocusOnSomething.RuntimeValue = false;
+            yield break;
+        }
+
         isFocusOnSomething.RuntimeValue = true;
         fadePanelAnimator.SetTrigger("OUT");
         yield return ws02;
@@ -311,6 +329,24 @@ public class StageManager : MonoBehaviour
     public IEnumerator MigrateRoom(Vector2 coordinate)
     {
         if (isFocusOnSomething.RuntimeValue) yield break;
+
+        if (roomUiDic.ContainsKey(CurrentRoom.Coordinate) == false || roomUiDic.ContainsKey(coordinate) == false)
+        {
+            if (roomUiDic.ContainsKey(CurrentRoom.Coordinate) == false)
+            {
+                Debug.LogWarning("0 _ 현재 방이 존재하지 않는 좌표로 설정되어 있습니다. ");
+            }
+            else
+            {
+                Debug.LogWarning("2 _ 존재하지 않는 좌표의 방으로 맵 순간 이동을 시도했습니다 ");
+            }
+
+            yield return ws02;
+            fadePanelAnimator.SetTrigger("IN");
+            yield return ws02;
+            isFocusOnSomething.RuntimeValue = false;
+            yield break;
+        }
 
         isFocusOnSomething.RuntimeValue = true;
         fadePanelAnimator.SetTrigger("OUT");

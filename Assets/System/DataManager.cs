@@ -12,8 +12,8 @@ public class GameData
     public bool youtubeHi = true;
     public bool[] rescuedNPC = Enumerable.Repeat(false, 30 + 1).ToArray();
     public bool[] talkedOnceNPC = Enumerable.Repeat(false, 35 + 1).ToArray();
-    public bool[] killedOnceMonster = Enumerable.Repeat(false, 51 + 1).ToArray();
-    public bool[] equipedOnceItem = Enumerable.Repeat(false,72+1).ToArray();
+    public bool[] killedOnceMonster = Enumerable.Repeat(false, 100 + 1).ToArray();
+    public bool[] equipedOnceItem = Enumerable.Repeat(false, 100 + 1).ToArray();
     public float[] Volume = { .5f, .5f, .5f };
     public int deathCount = 0;
 }
@@ -46,7 +46,7 @@ public class DataManager : MonoBehaviour
         private set => instance = value;
     }
 
-    [Header("Item")] [SerializeField] private ItemDataBuffer itemDataBuffer;
+    [Header("Item")] public ItemDataBuffer itemDataBuffer;
     [SerializeField] private ItemDataBuffer chestSpawnItemDataBuffer;
     public readonly Dictionary<int, Item> ItemDic = new();
     public readonly Dictionary<int, Item> ChestItemDic = new();
@@ -63,11 +63,11 @@ public class DataManager : MonoBehaviour
     private readonly Dictionary<int, Weapon> unCommonWeaponDic = new();
     private readonly Dictionary<int, Weapon> legendaryWeaponDic = new();
 
-    [Header("Food")] [SerializeField] private FoodDataBuffer foodDataBuffer;
+    [Header("Food")] public FoodDataBuffer foodDataBuffer;
     public readonly Dictionary<int, Food> FoodDic = new();
     public WakgoodFoodInventory wgFoodInven;
 
-    [Header("Mastery")] [SerializeField] private WakduMasteryDataBuffer wakduMasteryDataBuffer;
+    [Header("Mastery")] public WakduMasteryDataBuffer wdMasteryBuffer;
     public readonly Dictionary<int, Mastery> MasteryDic = new();
     public MasteryInventory wgMasteryInven;
 
@@ -131,7 +131,7 @@ public class DataManager : MonoBehaviour
         }
 
         foreach (Food food in foodDataBuffer.items) FoodDic.Add(food.id, food);
-        foreach (Mastery mastery in wakduMasteryDataBuffer.items) MasteryDic.Add(mastery.id, mastery);
+        foreach (Mastery mastery in wdMasteryBuffer.items) MasteryDic.Add(mastery.id, mastery);
         foreach (Monster monster in monsterDataBuffer.items) MonsterDic.Add(monster.ID, monster);
         foreach (Monster boss in bossDataBuffer.items) BossDic.Add(boss.ID, boss);
 

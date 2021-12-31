@@ -11,7 +11,8 @@ public class Angel : NPC
     [SerializeField] private IntVariable power;
     [SerializeField] private MaxHp maxhp;
     [SerializeField] private TextMeshProUGUI curGrowthText;
-    [SerializeField] private Image[] curEffectStamps;
+    [SerializeField] private TextMeshProUGUI powerText;
+    [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private Image treeImage;
     private int bonusPower = 0;
     private int bonusHp = 0;
@@ -29,38 +30,14 @@ public class Angel : NPC
         bonusPower = 0;
         curGrowthText.text = $"<color=#C6FF4C>현재 성장치</color> : {DataManager.Instance.CurGameData.deathCount}";
 
-        curEffectStamps[0].gameObject.SetActive(DataManager.Instance.CurGameData.deathCount >= 2);
-        curEffectStamps[1].gameObject.SetActive(DataManager.Instance.CurGameData.deathCount >= 4);
-        curEffectStamps[2].gameObject.SetActive(DataManager.Instance.CurGameData.deathCount >= 6);
-        curEffectStamps[3].gameObject.SetActive(DataManager.Instance.CurGameData.deathCount >= 8);
-
         treeImage.sprite = treeSprites[Mathf.Clamp((DataManager.Instance.CurGameData.deathCount - 1) / 2, 0, 3)];
         treeSpriteRenderer.sprite = treeSprites[Mathf.Clamp((DataManager.Instance.CurGameData.deathCount - 1) / 2, 0, 3)];
         shadowSpriteRenderer.sprite = shadowSprites[Mathf.Clamp((DataManager.Instance.CurGameData.deathCount - 1) / 2, 0, 3)];
 
-        if (DataManager.Instance.CurGameData.deathCount >= 2)
-        {
-            bonusHp += 10;
-        }
+        powerText.text = $"- 힘, <color=#C6FF4C>성장치</color> X 2 = {DataManager.Instance.CurGameData.deathCount * 2} 추가";
+        hpText.text = $"- 체력, <color=#C6FF4C>성장치</color> X 2 = {DataManager.Instance.CurGameData.deathCount * 2} 추가";
 
-        if (DataManager.Instance.CurGameData.deathCount >= 4)
-        {
-            bonusPower += 10;
-        }
-
-        if (DataManager.Instance.CurGameData.deathCount >= 6)
-        {
-            bonusHp += 5;
-            bonusPower += 5;
-        }
-
-        if (DataManager.Instance.CurGameData.deathCount >= 8)
-        {
-            bonusHp += 10;
-            bonusPower += 10;
-        }
-
-        maxhp.RuntimeValue += bonusHp;
-        power.RuntimeValue += bonusPower;
+        maxhp.RuntimeValue += DataManager.Instance.CurGameData.deathCount * 2;
+        power.RuntimeValue += DataManager.Instance.CurGameData.deathCount * 2;
     }
 }

@@ -5,12 +5,14 @@ using UnityEngine;
 public class WakgiGameObject : MonoBehaviour, IEffectGameObject
 {
     [SerializeField] private float moveSpeed = 1;
+    private SpriteRenderer spriteRenderer;
     private bool canWakggiddi = true;
     private const float CoolTime = 3f;
     private int damage = 1;
 
     private void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         StartCoroutine(FollowWakgood());
     }
 
@@ -26,7 +28,7 @@ public class WakgiGameObject : MonoBehaviour, IEffectGameObject
                     Vector3 originalDistance = transform.position - Wakgood.Instance.transform.position;
                     Transform mob = GetNearestMob();
                     float temp = 0;
-
+                    spriteRenderer.flipX = mob.transform.position.x > transform.position.x;
                     while (Vector3.Distance(transform.position, mob.position) > 0.5f)
                     {
                         temp += Time.deltaTime;
@@ -56,7 +58,7 @@ public class WakgiGameObject : MonoBehaviour, IEffectGameObject
             Vector3 wakgoodPosition = Wakgood.Instance.transform.position;
             position = Vector3.Lerp(position, wakgoodPosition + (position - wakgoodPosition).normalized * 2, Time.deltaTime * moveSpeed);
             transform.position = position;
-
+            spriteRenderer.flipX = Wakgood.Instance.transform.position.x > transform.position.x;
             yield return null;
         }
     }

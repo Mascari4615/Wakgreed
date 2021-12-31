@@ -1,34 +1,33 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
+using System.Collections.Generic;
 using FMODUnity;
 
 public class MasteryManager : MonoBehaviour
 {
-    private static MasteryManager instance;
-    public static MasteryManager Instance { get { return instance; } }
     [SerializeField] private MasteryInventory MasteryInventory;
-    [SerializeField] private WakduMasteryDataBuffer WakduMasteryDataBuffer;
-    public GameObject selectMasteryPanel;
+    [SerializeField] private GameObject selectMasteryPanel;
     [SerializeField] private Image[] buttonImages;
     [SerializeField] private ToolTipTrigger[] toolTipTriggers;
     private int selectMasteryStack = 0;
-    private Mastery[] randomMasteries = new Mastery[3];
+    private readonly Mastery[] randomMasteries = new Mastery[3];
     [SerializeField] private GameEvent MasterySelect;
-
-    private void Awake()
-    {
-        instance = this;
-    }
 
     private void Initialize()
     {
+        List<Mastery> temp = DataManager.Instance.wdMasteryBuffer.items.ToList();
         for (int i = 0; i < 3; i++)
         {
-            randomMasteries[i] = WakduMasteryDataBuffer.items[Random.Range(0, WakduMasteryDataBuffer.items.Length)];
+            int random = Random.Range(0, temp.Count);
+            randomMasteries[i] = temp[random];
             buttonImages[i].sprite = randomMasteries[i].sprite;
             toolTipTriggers[i].SetToolTip(randomMasteries[i]);
+            temp.RemoveAt(random);
         }
     }
+
+    public void SetSelectMasteryPanelOff() => selectMasteryPanel.SetActive(false);
 
     public void LevelUp()
     {
