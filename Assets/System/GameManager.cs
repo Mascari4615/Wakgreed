@@ -123,7 +123,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-
         enemy.text = enemyRunTimeSet.Items.Count.ToString();
 
         isFocusOnSomething.RuntimeValue = (StreamingManager.Instance.IsChatting || isLoading.RuntimeValue || isShowingSomething.RuntimeValue);
@@ -265,6 +264,8 @@ public class GameManager : MonoBehaviour
     {
         endingGameObject.SetActive(true);
         endingPanel.SetActive(true);
+
+        SkipAll();
 
         yield return new WaitForSeconds(.2f);
         yield return new WaitForSeconds(endingAnimator.GetCurrentAnimatorStateInfo(0).length);

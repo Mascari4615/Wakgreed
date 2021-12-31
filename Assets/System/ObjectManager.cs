@@ -51,7 +51,7 @@ public class ObjectManager : MonoBehaviour
         {
             if (go.GetInstanceID().Equals(item.GetInstanceID()))
             {
-                Debug.Log($"이미 존재하는 모시깽이 입니다. {go.name}");
+                Debug.LogWarning($"이미 존재하는 모시깽이 입니다. {go.name}");
                 return;
             }
         }
@@ -70,7 +70,7 @@ public class ObjectManager : MonoBehaviour
     {
         if (!poolDic.ContainsKey(objectName))
         {
-            Debug.LogError("존재하지 않는 풀 접근");
+            Debug.LogWarning("존재하지 않는 풀 접근");
             return null;
         }    
 
@@ -82,7 +82,7 @@ public class ObjectManager : MonoBehaviour
             targetObject = poolDic[objectName].Stack.Pop();
             if (targetObject == null)
             {
-                Debug.LogError($"풀에서 뽑은 오브젝트가 Null 입니다. {objectName}_{poolDic[objectName].Stack.Count}");
+                Debug.LogWarning($"풀에서 뽑은 오브젝트가 Null 입니다. {objectName}_{poolDic[objectName].Stack.Count}");
                 return null;
             }
             targetObject.transform.SetPositionAndRotation(pos, Quaternion.identity);
@@ -91,12 +91,13 @@ public class ObjectManager : MonoBehaviour
         return targetObject;
     }
 
+    public bool CheckPool(string objectName) => poolDic.ContainsKey(objectName);
+
     public GameObject PopObject(string objectName, Vector3 pos, Vector3 rot)
     {
-
         if (!poolDic.ContainsKey(objectName))
         {
-            Debug.Log("No");
+            Debug.LogError("No");
             return null;
         }
 
@@ -116,7 +117,7 @@ public class ObjectManager : MonoBehaviour
     {
         if (!poolDic.ContainsKey(objectName))
         {
-            Debug.Log($"해당 풀이 존재하지 않습니다. : {objectName}");
+            Debug.LogWarning($"해당 풀이 존재하지 않습니다. : {objectName}");
             return null;
         }
 

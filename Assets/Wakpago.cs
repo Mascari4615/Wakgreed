@@ -149,23 +149,42 @@ public class Wakpago : BossMonster
 
                 if (phase == 1)
                 {
-                    monsterList.Add(ObjectManager.Instance.PopObject(monster1.name, a));
+                    GameObject temp = ObjectManager.Instance.PopObject(monster1.name, a);
+
+                    if (!MobListContains(temp.GetInstanceID()))
+                        monsterList.Add(temp);
                 }
                 else if (phase == 2)
                 {
                     if (Random.Range(0, 1 + 1) == 0)
                     {
-                        monsterList.Add(ObjectManager.Instance.PopObject(monster1.name, a));
+                        GameObject temp = ObjectManager.Instance.PopObject(monster1.name, a);
+                        if (!MobListContains(temp.GetInstanceID()))
+                            monsterList.Add(temp);
                     }
                     else
                     {
-                        monsterList.Add(ObjectManager.Instance.PopObject(monster2.name, a));
+                        GameObject temp = ObjectManager.Instance.PopObject(monster2.name, a);
+                        if (!MobListContains(temp.GetInstanceID()))
+                            monsterList.Add(temp);
                     }
                 }
             }       
-
             yield return new WaitForSeconds(Random.Range(6f, 15f));
         }      
+    }
+
+    private bool MobListContains (int mobInstanceID)
+    {
+        foreach (var mob in monsterList)
+        {
+            if (mobInstanceID.Equals(mob.GetInstanceID()))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private IEnumerator Bullet()
@@ -308,7 +327,12 @@ Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2
         }
 
         foreach (var monster in monsterList)
-            ObjectManager.Instance.PushObject(monster);
+        {
+            if (monster.activeSelf)
+            {
+                ObjectManager.Instance.PushObject(monster);
+            }
+        }
 
         SpriteRenderer.material = originalMaterial;
 

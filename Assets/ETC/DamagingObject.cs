@@ -49,8 +49,6 @@ public class DamagingObject : MonoBehaviour
         {
             if (other.TryGetComponent(out IHitable damageable))
             {
-                Debug.Log(other);
-
                 if (UnityEngine.Random.Range(0, 100) < Wakgood.Instance.miss.RuntimeValue)
                 {
                     ObjectManager.Instance.PopObject("AnimatedText", other.transform.position + Vector3.up).GetComponent<AnimatedText>().SetText("ºø³ª°¨!", Color.red);
@@ -86,6 +84,7 @@ public class DamagingObject : MonoBehaviour
                     totalDamage = (int)Math.Round(totalDamage * (1 + (float)Wakgood.Instance.BossDamage.RuntimeValue / 100), MidpointRounding.AwayFromZero);
                 }
                 damageable.ReceiveHit(totalDamage, hitType);
+
                 if (offGoOnHit)
                 {
                     gameObject.SetActive(false);

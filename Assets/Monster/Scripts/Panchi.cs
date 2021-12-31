@@ -49,6 +49,7 @@ public class Panchi : NormalMonster
 
     protected override void _ReceiveHit() 
     {
+        base._ReceiveHit();
         if (attack == null)
         {
             if (idle != null) StopCoroutine(idle);

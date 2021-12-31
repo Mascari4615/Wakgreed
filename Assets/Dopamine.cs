@@ -75,14 +75,14 @@ public class Dopamine : BossMonster
     private IEnumerator Monkey()
     {
         yield return new WaitForSeconds(.2f);
-        Animator.SetBool("SKILL1", true);
+        // Animator.SetBool("SKILL1", true);
 
         Vector3 originPos = transform.position;
         Vector3 targetPos = new(
             Mathf.Clamp(Wakgood.Instance.transform.position.x + (-1 + Random.Range(0, 2) * 2) * 6, spawnedPos.x - moveLimit, spawnedPos.x + moveLimit),
              Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2) * 6, spawnedPos.y - moveLimit, spawnedPos.y + moveLimit));
 
-        Animator.SetTrigger("SKILL1CHARGE");
+        // Animator.SetTrigger("SKILL1CHARGE");
         SpriteRenderer.flipX = targetPos.x > Wakgood.Instance.transform.position.x;
 
         for (float j = 0; j <= 1; j += Time.deltaTime * 7)
@@ -110,7 +110,7 @@ public class Dopamine : BossMonster
 
         yield return new WaitForSeconds(.7f);
 
-        Animator.SetTrigger("SKILL1GO");
+        // Animator.SetTrigger("SKILL1GO");
 
         for (int i = 0; i < 3; i++)
         {
@@ -122,7 +122,7 @@ public class Dopamine : BossMonster
         }
 
         yield return new WaitForSeconds(.2f);
-        Animator.SetBool("SKILL1", false);
+        // Animator.SetBool("SKILL1", false);
         yield return new WaitForSeconds(1f);
     }
 
@@ -149,7 +149,24 @@ public class Dopamine : BossMonster
 
         ObjectManager.Instance.PopObject("SpawnCircle", a).GetComponent<Animator>().SetFloat("SPEED", 1 / 0.5f);
         yield return new WaitForSeconds(.5f);
-        monsterList.Add(ObjectManager.Instance.PopObject(monster.name, a));
+        GameObject temp = ObjectManager.Instance.PopObject(monster.name, a);
+        if (MobListContains(temp.GetInstanceID()))
+        {
+            monsterList.Add(temp);
+        }
+    }
+
+    private bool MobListContains(int mobInstanceID)
+    {
+        foreach (var mob in monsterList)
+        {
+            if (mobInstanceID.Equals(mob.GetInstanceID()))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private IEnumerator SpawnWakpago()
@@ -188,7 +205,12 @@ public class Dopamine : BossMonster
         ObjectManager.Instance.PopObject("LevelUpEffect", transform);
 
         foreach (var monster in monsterList)
-            ObjectManager.Instance.PushObject(monster);
+        {
+            if (monster.activeSelf)
+            {
+                ObjectManager.Instance.PushObject(monster);
+            }
+        }
 
         yield return StartCoroutine(UIManager.Instance.SpeedWagon_BossOff(this));
         yield return StartCoroutine(SpawnWakpago());
@@ -196,7 +218,7 @@ public class Dopamine : BossMonster
         foreach (var monkey in monkeys)
             monkey.gameObject.SetActive(false);        
 
-        Animator.SetTrigger("COLLAPSE");
+        // Animator.SetTrigger("COLLAPSE");
         yield return new WaitForSeconds(3f);
         Destroy(gameObject);
     }

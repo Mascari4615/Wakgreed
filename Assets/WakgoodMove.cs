@@ -82,7 +82,10 @@ public class WakgoodMove : MonoBehaviour
         moveDirection = new Vector2(horizontalInput, verticalInput).normalized;
         mbMoving = !moveDirection.Equals(Vector2.zero);
         Animator.SetBool(move, mbMoving);
-        PlayerRb.velocity = moveDirection * (float)Math.Round(moveSpeed.RuntimeValue * (1 + (float)moveSpeedBonus.RuntimeValue / 100), MidpointRounding.AwayFromZero);
+        if (playerRb.bodyType != RigidbodyType2D.Static)
+        {
+            PlayerRb.velocity = moveDirection * (float)Math.Round(moveSpeed.RuntimeValue * (1 + (float)moveSpeedBonus.RuntimeValue / 100), MidpointRounding.AwayFromZero);
+        }
         if (!mbMoving || !mbCanBbolBbol)
             return;
 
