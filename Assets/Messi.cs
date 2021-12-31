@@ -6,12 +6,14 @@ using UnityEngine;
 public class Messi : MonoBehaviour, IEffectGameObject
 {
     private SpriteRenderer itemSprite;
+    private SpriteRenderer spriteRenderer;
     [SerializeField] private float moveSpeed = 1;
     private int percentage = 5;
     private int percentageBonus = 5;
 
     private void Awake()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         itemSprite = transform.GetChild(0).GetComponent<SpriteRenderer>();
     }
 
@@ -30,6 +32,7 @@ public class Messi : MonoBehaviour, IEffectGameObject
     {
         while (true)
         {
+            spriteRenderer.flipX = Wakgood.Instance.transform.position.x > transform.position.x;
             Vector3 wakgoodPosition = Wakgood.Instance.transform.position;
             transform.position = Vector3.Lerp(transform.position, wakgoodPosition + (transform.position - wakgoodPosition).normalized * 2, Time.deltaTime * moveSpeed);
             yield return null;

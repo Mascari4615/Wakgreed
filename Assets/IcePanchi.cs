@@ -49,8 +49,6 @@ public class IcePanchi : NormalMonster
 
     private IEnumerator Attack()
     {
-        WaitForSeconds ws5 = new(10f);
-
         while (true)
         {
             bIsAttacking = true;
@@ -75,7 +73,8 @@ public class IcePanchi : NormalMonster
             yield return new WaitForSeconds(1f);
             Animator.SetTrigger("OFF");
             bIsAttacking = false;
-            yield return ws5;
+
+            yield return new WaitForSeconds(5f);
         }
     }
 

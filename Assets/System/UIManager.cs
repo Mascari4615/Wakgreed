@@ -73,7 +73,12 @@ public class UIManager : MonoBehaviour
         if (Ending)
         {
             resultText.text = "오뱅알!";
-            resultText.color = new Color(0, 200, 120);
+            resultText.color = new Color(200 / 255f, 255 / 255f, 130 / 255f);
+        }
+        else
+        {
+            resultText.text = "오뱅창!";
+            resultText.color = new Color(255 / 255f, 90 /255f, 90 / 255f);
         }
     }
 
@@ -99,16 +104,16 @@ public class UIManager : MonoBehaviour
 
         if (Wakgood.Instance.Weapon[0].skillQ is not null)
             weaponSkillQCoolTime[0].fillAmount =
-                Wakgood.Instance.Weapon[0].CurSkillQCoolTime / Wakgood.Instance.Weapon[0].skillQ.coolTime;
+                Wakgood.Instance.Weapon[0].CurSkillQCoolTime / (Wakgood.Instance.Weapon[0].skillQ.coolTime * (1 - Wakgood.Instance.skillCollBonus.RuntimeValue / 100));
         if (Wakgood.Instance.Weapon[0].skillE is not null)
             weaponSkillECoolTime[0].fillAmount =
-                Wakgood.Instance.Weapon[0].CurSkillECoolTime / Wakgood.Instance.Weapon[0].skillE.coolTime;
+                Wakgood.Instance.Weapon[0].CurSkillECoolTime / (Wakgood.Instance.Weapon[0].skillE.coolTime * (1 - Wakgood.Instance.skillCollBonus.RuntimeValue / 100));
         if (Wakgood.Instance.Weapon[1].skillQ is not null)
             weaponSkillQCoolTime[1].fillAmount =
-                Wakgood.Instance.Weapon[1].CurSkillQCoolTime / Wakgood.Instance.Weapon[1].skillQ.coolTime;
+                Wakgood.Instance.Weapon[1].CurSkillQCoolTime / (Wakgood.Instance.Weapon[1].skillQ.coolTime * (1 - Wakgood.Instance.skillCollBonus.RuntimeValue / 100));
         if (Wakgood.Instance.Weapon[1].skillE is not null)
             weaponSkillECoolTime[1].fillAmount =
-                Wakgood.Instance.Weapon[1].CurSkillECoolTime / Wakgood.Instance.Weapon[1].skillE.coolTime;
+                Wakgood.Instance.Weapon[1].CurSkillECoolTime / (Wakgood.Instance.Weapon[1].skillE.coolTime * (1 - Wakgood.Instance.skillCollBonus.RuntimeValue / 100));
         if (Wakgood.Instance.Weapon[Wakgood.Instance.CurWeaponNumber].attackType.Equals(AttackType.Ranged))
         {
             if (ammoText.gameObject.activeSelf == false)
@@ -223,8 +228,8 @@ public class UIManager : MonoBehaviour
     public void SetCurViewerText(string text) => viewerUI.text = text;
 
 
-    public void SetRemainMobCount(int count) => remainMobCount.text = $"현재 남은 몬스터 수 : {count}";
-    public void SetCurWaveText(int count) => waveTotal.text = $"웨이브 몬스터 총 : {count}";
+    public void SetRemainMobCount(int count) => remainMobCount.text = $"{count}";
+    public void SetCurWaveText(int count) => waveTotal.text = $"{count}";
 
     public void StopAllSpeedWagons()
     {

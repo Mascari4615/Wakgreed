@@ -46,6 +46,20 @@ public class Weapon : Equiptable, ISerializationCallbackReceiver
         GameManager.Instance.StartCoroutine(BaseAttackCoolTime());
         baseAttack.Use(this);
 
+        Wakgood.Instance.useBaseAttack.Raise();
+
+        if (baseAttack.type.Equals(SkillType.Base))
+        {
+            if (DataManager.Instance.wgItemInven.Items.Contains(DataManager.Instance.ItemDic[53]))
+            {
+                int per = 5 * DataManager.Instance.wgItemInven.itemCountDic[53];
+                if (DataManager.Instance.wgItemInven.Items.Contains(DataManager.Instance.ItemDic[52]))
+                    per += 3 * DataManager.Instance.wgItemInven.itemCountDic[52];
+                if (Random.Range(0, 100) < per)
+                    ObjectManager.Instance.PopObject("Ball", Wakgood.Instance.transform.position).GetComponent<BulletMove>().SetDirection((Vector3)Wakgood.Instance.worldMousePoint - Wakgood.Instance.transform.position);
+            }
+        }
+
         if (magazine == 0 || Ammo != 0)
         {
             return;
@@ -100,7 +114,7 @@ public class Weapon : Equiptable, ISerializationCallbackReceiver
 
     private IEnumerator SkillQCoolTime()
     {
-        CurSkillQCoolTime = skillQ.coolTime;
+        CurSkillQCoolTime = skillQ.coolTime * (1 - Wakgood.Instance.skillCollBonus.RuntimeValue / 100);
         do yield return null;
         while ((CurSkillQCoolTime -= Time.deltaTime) > 0);
         canUseSkillQ = true;
@@ -108,7 +122,7 @@ public class Weapon : Equiptable, ISerializationCallbackReceiver
 
     private IEnumerator SkillECoolTime()
     {
-        CurSkillECoolTime = skillE.coolTime;
+        CurSkillECoolTime = skillE.coolTime * (1 - Wakgood.Instance.skillCollBonus.RuntimeValue / 100);
         do yield return null;
         while ((CurSkillECoolTime -= Time.deltaTime) > 0);
         canUseSkillE = true;

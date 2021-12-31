@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using FMODUnity;
 
@@ -11,8 +12,14 @@ public class ShopKeeper : NPC
     {
         base.Awake();
 
+        List<Item> temp = DataManager.Instance.itemDataBuffer.items.ToList();
+
         for (int i = 0; i < 5; i++)
-            itemInventoryUI_Buy.NpcInventory.Add(DataManager.Instance.ItemDic.ElementAt(Random.Range(0, DataManager.Instance.ItemDic.Count)).Value);
+        {
+            int random = Random.Range(0, temp.Count);
+            itemInventoryUI_Buy.NpcInventory.Add(temp[random]);
+            temp.RemoveAt(random);
+        }
     }
 
     public void BuyItem(Slot slot)

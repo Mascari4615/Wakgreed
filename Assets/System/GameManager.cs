@@ -7,6 +7,7 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    [SerializeField] private MasteryManager MasteryManager;
 
     [SerializeField] private BoolVariable isFighting;
     [SerializeField] private BoolVariable isGaming;
@@ -62,12 +63,9 @@ public class GameManager : MonoBehaviour
     public void SkipAll()
     {
         int temp = enemyRunTimeSet.Items.Count;
-        Debug.Log($"Count = {temp}");
         for (int i = 0; i < temp; i++)
         {
-            Debug.Log($"i = {i}");
             ObjectManager.Instance.PushObject(enemyRunTimeSet.Items[0]);
-            enemyRunTimeSet.Remove(enemyRunTimeSet.Items[0]);
             onMonsterCollapse.Raise(Wakgood.Instance.transform);
         }
     }
@@ -204,7 +202,7 @@ public class GameManager : MonoBehaviour
 
         UIManager.Instance.StopAllSpeedWagons();
 
-        MasteryManager.Instance.selectMasteryPanel.SetActive(false);
+        MasteryManager.SetSelectMasteryPanelOff();
         
         enemyRunTimeSet.Clear();
         ObjectManager.Instance.DeactivateAll();
@@ -242,7 +240,6 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator Ending()
     {
-
         endingGameObject.SetActive(true);
         endingPanel.SetActive(true);
 
@@ -296,7 +293,8 @@ public class GameManager : MonoBehaviour
 
         UIManager.Instance.StopAllSpeedWagons();
 
-        MasteryManager.Instance.selectMasteryPanel.SetActive(false);
+
+        MasteryManager.SetSelectMasteryPanelOff();
 
         enemyRunTimeSet.Clear();
         ObjectManager.Instance.DeactivateAll();

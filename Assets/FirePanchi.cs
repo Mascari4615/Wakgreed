@@ -55,7 +55,6 @@ public class FirePanchi : NormalMonster
             bIsAttacking = false;
 
             yield return ws6;
-            yield return ws6;
         }
     }
 }

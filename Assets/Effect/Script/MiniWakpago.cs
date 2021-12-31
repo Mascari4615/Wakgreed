@@ -8,8 +8,8 @@ public class MiniWakpago : MonoBehaviour, IEffectGameObject
     private BulletMove[] bullet;
     [SerializeField] private float moveSpeed = 1;
     private bool canWakggiddi = true;
-    private float CoolTime = 3f;
-    private int damage = 5;
+    private float CoolTime = 4f;
+    private int damage = 3;
 
     private void Awake()
     {
@@ -21,7 +21,6 @@ public class MiniWakpago : MonoBehaviour, IEffectGameObject
             bullet[i].gameObject.SetActive(false);
             bullet[i].gameObject.GetComponent<DamagingObject>().damage = damage;
         }
-
     }
 
     private void Start()
@@ -94,13 +93,13 @@ public class MiniWakpago : MonoBehaviour, IEffectGameObject
 
     public void Effect()
     {
-        damage += 5;
+        damage += 2;
         SetDamage();
     }
 
     public void Return()
     {
-        damage -= 5;
+        damage -= 2;
         SetDamage();
     }
 
