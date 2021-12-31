@@ -373,7 +373,7 @@ public class StageManager : MonoBehaviour
 
     private void MapDoor(bool bOpen)
     {
-        if (isFighting.RuntimeValue)
+        if (isFighting.RuntimeValue || GameManager.Instance.isBossing.RuntimeValue)
         {
             UIManager.Instance.SpeedWagon_CantOpen();
         }
