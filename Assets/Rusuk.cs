@@ -4,6 +4,7 @@ using System.Collections;
 public class Rusuk : Chef
 {
     private Slot tempSlot;
+
     public override void BuyFood(Slot slot)
     {
         tempSlot = slot;
@@ -24,5 +25,10 @@ public class Rusuk : Chef
         wakgoodFoodInventory.Add(tempSlot.SpecialThing as Food);
         DataManager.Instance.wgItemInven.Add(DataManager.Instance.ItemDic[57]);
         base.FocusOff();
+    }
+
+    public void Test()
+    {
+        Debug.Log("Test");
     }
 }

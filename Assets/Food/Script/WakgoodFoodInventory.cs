@@ -17,7 +17,7 @@ public class WakgoodFoodInventory : FoodInventory
 
     public override void Remove(Food item)
     {
-        base.Remove(item);
         item.OnRemove();
+        base.Remove(item);
     }
 }

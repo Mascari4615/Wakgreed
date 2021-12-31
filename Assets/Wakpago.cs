@@ -276,15 +276,7 @@ Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2
         if (attackCO != null) StopCoroutine(attackCO);
         if (flipCO != null) StopCoroutine(flipCO);
         if (bulletCO != null) StopCoroutine(bulletCO);
-        if (bombCO != null)
-        {
-            Debug.Log("Ondisable : stop 합니다");
-            StopCoroutine(bombCO);
-        }
-        else
-        {
-            Debug.Log("Ondisable : bombCO가 Null 입니다");
-        }
+        if (bombCO != null) StopCoroutine(bombCO);
         if (mobSpawnCO != null) StopCoroutine(mobSpawnCO);
 
         for (int i = 0; i < bullets.Length; i++)
@@ -303,15 +295,7 @@ Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2
         if (attackCO != null) StopCoroutine(attackCO);
         if (flipCO != null) StopCoroutine(flipCO);
         if (bulletCO != null) StopCoroutine(bulletCO);
-        if (bombCO != null)
-        {
-            Debug.Log("Ondisable : stop 합니다");
-            StopCoroutine(bombCO);
-        }
-        else
-        {
-            Debug.Log("Ondisable : bombCO가 Null 입니다");
-        }
+        if (bombCO != null) StopCoroutine(bombCO);
         if (mobSpawnCO != null) StopCoroutine(mobSpawnCO);
         lineRenderer.gameObject.SetActive(false);
 

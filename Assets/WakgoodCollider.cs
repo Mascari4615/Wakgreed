@@ -12,7 +12,7 @@ public class WakgoodCollider : MonoBehaviour
         else if (other.CompareTag("LowerDoor")) GameManager.Instance.StartCoroutine(StageManager.Instance.MigrateRoom(Vector2.down, 0));
         else if (other.CompareTag("LeftDoor")) GameManager.Instance.StartCoroutine(StageManager.Instance.MigrateRoom(Vector2.left, 3));
         else if (other.CompareTag("RightDoor")) GameManager.Instance.StartCoroutine(StageManager.Instance.MigrateRoom(Vector2.right, 2));
-        else if (other.CompareTag("AreaDoor")) AreaTweener.Instance.ChangeArea(other.transform);
+        else if (other.CompareTag("AreaDoor")) GameManager.Instance.ChangeArea(other.transform);
         else if (other.CompareTag("InteractiveObject"))
         {
             if (!nearInteractiveObjectDic.ContainsKey(other.GetInstanceID()))

@@ -22,11 +22,16 @@ public abstract class BossMonster : Monster
 
     protected override void OnEnable()
     {
-        base.OnEnable();
+        isCollapsed = false;
+        hp = MaxHp;
+        collider2D.enabled = true;
+        Rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
+        SpriteRenderer.sprite = defaultSprite;
+        Animator.SetTrigger("AWAKE");
+
         if (TESTING)
         {
             StartCoroutine(Ready());
-
         }
 
         if (StageManager.Instance.CurrentRoom != null)
@@ -36,6 +41,8 @@ public abstract class BossMonster : Monster
                 StartCoroutine(Ready());
             }
         }
+
+        GameManager.Instance.enemyRunTimeSet.Add(gameObject);
     }
 
     private IEnumerator Ready()

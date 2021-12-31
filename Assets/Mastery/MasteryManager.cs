@@ -12,7 +12,6 @@ public class MasteryManager : MonoBehaviour
     [SerializeField] private ToolTipTrigger[] toolTipTriggers;
     private int selectMasteryStack = 0;
     private readonly Mastery[] randomMasteries = new Mastery[3];
-    [SerializeField] private GameEvent MasterySelect;
 
     private void Initialize()
     {
@@ -47,8 +46,6 @@ public class MasteryManager : MonoBehaviour
         selectMasteryStack--;
 
         MasteryInventory.Add(randomMasteries[i]);
-        randomMasteries[i].OnEquip();
-        MasterySelect.Raise();
 
         if (selectMasteryStack > 0)
         {

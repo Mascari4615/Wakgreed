@@ -11,7 +11,7 @@ public class Wakgood : MonoBehaviour, IHitable
     public static Wakgood Instance { get; private set; }
     public IntVariable criticalChance;
     public IntVariable criticalDamagePer;
-    [SerializeField] private Wakdu wakdu;
+    public Wakdu wakdu;
     public IntVariable exp, level;
     public IntVariable hpCur;
     [SerializeField] private IntVariable defence;
@@ -92,7 +92,13 @@ public class Wakgood : MonoBehaviour, IHitable
 
         cinemachineTargetGroup.m_Targets[0].target = transform;
 
-        if (WeaponPosition.childCount > 0) Destroy(WeaponPosition.GetChild(0).gameObject);
+        if (WeaponPosition.childCount > 0)
+        {
+            for (int i = 0; i < WeaponPosition.childCount; i++)
+            {
+                Destroy(WeaponPosition.GetChild(0).gameObject);
+            }
+        }
         if (Weapon[CurWeaponNumber] != null) Weapon[CurWeaponNumber].OnRemove();
 
         UIManager.Instance.SetWeaponUI(0, Weapon[0] = hochi);
@@ -169,8 +175,10 @@ public class Wakgood : MonoBehaviour, IHitable
         if (targetWeapon == null)
         {
             Weapon[CurWeaponNumber].OnRemove();
-            Destroy(WeaponPosition.GetChild(0).gameObject);
-
+            for (int i = 0; i < WeaponPosition.childCount; i++)
+            {
+                Destroy(WeaponPosition.GetChild(0).gameObject);
+            }
             CurWeaponNumber = targetWeaponNum;
 
             Instantiate(Weapon[CurWeaponNumber].resource, WeaponPosition);
@@ -185,8 +193,10 @@ public class Wakgood : MonoBehaviour, IHitable
             else
             {
                 Weapon[CurWeaponNumber].OnRemove();
-                Destroy(WeaponPosition.GetChild(0).gameObject);
-
+                for (int i = 0; i < WeaponPosition.childCount; i++)
+                {
+                    Destroy(WeaponPosition.GetChild(0).gameObject);
+                }
                 Weapon[CurWeaponNumber] = targetWeapon;
 
                 Instantiate(Weapon[CurWeaponNumber].resource, WeaponPosition);
@@ -200,10 +210,15 @@ public class Wakgood : MonoBehaviour, IHitable
     public void SwitchWeaponStatic(int targetWeaponNum, Weapon targetWeapon)
     {
         if (CurWeaponNumber != targetWeaponNum)
+        {
             Weapon[targetWeaponNum] = targetWeapon;
+        }
         else
         {
-            Destroy(WeaponPosition.GetChild(0).gameObject);
+            for (int i = 0; i < WeaponPosition.childCount; i++)
+            {
+                Destroy(WeaponPosition.GetChild(0).gameObject);
+            }
             Weapon[CurWeaponNumber] = targetWeapon;
             Instantiate(Weapon[CurWeaponNumber].resource, WeaponPosition);
             Weapon[CurWeaponNumber].OnEquip();

@@ -6,9 +6,12 @@ public class Bat : MonoBehaviour, IEffectGameObject
     [SerializeField] private float moveSpeed = 1;
     private bool canWakggiddi = true;
     private float CoolTime = 3f;
+    private float curCoolTime = 3f;
+    private int stack = 1;
 
     private void Start()
     {
+        curCoolTime = CoolTime;
         StartCoroutine(FollowWakgood());
     }
 
@@ -28,20 +31,27 @@ public class Bat : MonoBehaviour, IEffectGameObject
         {
             // RuntimeManager.PlayOneShot($"event:/SFX/Item/Wakgi", transform.position);
 
-            ObjectManager.Instance.PopObject("61_Bullet", Wakgood.Instance.transform.position).GetComponent<BulletMove>().SetDirection((Vector3)Wakgood.Instance.worldMousePoint - Wakgood.Instance.transform.position);
+            ObjectManager.Instance.PopObject("61_Bullet", transform.position).GetComponent<BulletMove>().SetDirection((Vector3)Wakgood.Instance.worldMousePoint - transform.position);
 
             canWakggiddi = false;
-            StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, CoolTime, (value) => canWakggiddi = value));
+            StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, curCoolTime, (value) => canWakggiddi = value));
         }
     }
 
     public void Effect()
     {
-        Debug.Log("¹ÚÁã Effect ¹ö±×");
+        stack++;
+        SetCoolTime();
     }
 
     public void Return()
     {
-        Debug.Log("¹ÚÁã Return ¹ö±×");
+        stack--;
+        SetCoolTime();
+    }
+
+    private void SetCoolTime()
+    {
+        curCoolTime = CoolTime * (1 - stack * 10 / 100);
     }
 }

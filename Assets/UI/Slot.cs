@@ -36,7 +36,6 @@ public class Slot : MonoBehaviour
 
     public void SetSlot(Monster monster)
     {
-        Debug.Log(monster.defaultSprite);
         image.sprite = monster.defaultSprite;
 
         toolTipTrigger.SetToolTip(image.sprite, monster.mobName, monster.description);

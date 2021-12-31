@@ -83,9 +83,11 @@ public class NormalRoom : Room
         if (Random.Range(0, 100) > 30)
         {
             Probability<string> probability = new();
+
             probability.Add("CommonChest", 70);
             probability.Add("UncommonChest", 35);
             probability.Add("LegendaryChest", 5);
+
             ObjectManager.Instance.PopObject(probability.Get(), transform.Find("ChestPoint"));
         }
     }

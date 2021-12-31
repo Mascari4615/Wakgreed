@@ -286,16 +286,13 @@ public class StageManager : MonoBehaviour
         {
             if (roomUiDic.ContainsKey(CurrentRoom.Coordinate) == false)
             {
-                Debug.LogWarning("0 _ 현재 방이 존재하지 않는 좌표로 설정되어 있습니다. ");
+                Debug.LogError("0 _ 현재 방이 존재하지 않는 좌표로 설정되어 있습니다. ");
             }
             else
             {
-                Debug.LogWarning("1 _ 존재하지 않는 좌표의 방으로 포탈 이동을 시도했습니다 ");
+                Debug.LogError("1 _ 존재하지 않는 좌표의 방으로 포탈 이동을 시도했습니다 ");
             }
 
-            yield return ws02;
-            fadePanelAnimator.SetTrigger("IN");
-            yield return ws02;
             isFocusOnSomething.RuntimeValue = false;
             yield break;
         }
@@ -334,16 +331,13 @@ public class StageManager : MonoBehaviour
         {
             if (roomUiDic.ContainsKey(CurrentRoom.Coordinate) == false)
             {
-                Debug.LogWarning("0 _ 현재 방이 존재하지 않는 좌표로 설정되어 있습니다. ");
+                Debug.LogError("0 _ 현재 방이 존재하지 않는 좌표로 설정되어 있습니다. ");
             }
             else
             {
-                Debug.LogWarning("2 _ 존재하지 않는 좌표의 방으로 맵 순간 이동을 시도했습니다 ");
+                Debug.LogError("2 _ 존재하지 않는 좌표의 방으로 맵 순간 이동을 시도했습니다 ");
             }
 
-            yield return ws02;
-            fadePanelAnimator.SetTrigger("IN");
-            yield return ws02;
             isFocusOnSomething.RuntimeValue = false;
             yield break;
         }
@@ -353,6 +347,11 @@ public class StageManager : MonoBehaviour
         yield return ws02;
 
         roomUiDic[CurrentRoom.Coordinate].GetChild(1).GetChild(0).GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f); // Property\CurrentRoom
+
+        if (GameManager.Instance.curArea != AreaType.Normal)
+        {
+            GameManager.Instance.SwitchCurAreaToNormal();
+        }
 
         CurrentRoom.particle.SetActive(false);
         CurrentRoom = roomDic[coordinate];
