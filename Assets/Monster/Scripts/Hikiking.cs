@@ -13,6 +13,7 @@ public class Hikiking : BossMonster
     private Vector3 spawnedPos = Vector3.zero;
     [SerializeField] private float moveLimit = 15;
     private List<GameObject> monsterList = new();
+    [SerializeField] private GameObject stun;
 
     protected override void Awake()
     {
@@ -45,7 +46,6 @@ public class Hikiking : BossMonster
         }
     }
 
-    [SerializeField] private GameObject stun;
 
     private IEnumerator BaseAttack()
     {
@@ -205,20 +205,14 @@ public class Hikiking : BossMonster
     protected override IEnumerator _Collapse()
     {
         foreach (var monster in monsterList)
-            ObjectManager.Instance.PushObject(monster);
+        {
+            if (monster.activeSelf)
+            {
+                ObjectManager.Instance.PushObject(monster);
+            }
+        }
 
         return base._Collapse();
-    }
-
-
-    protected override void OnDisable()
-    {
-        int a = monsterList.Count;
-        for (int i = 0; i < a; i++)
-        {
-            monsterList[i].SetActive(false);
-        }
-        base.OnDisable();
     }
 
     private IEnumerator SpawnMob()
@@ -227,10 +221,25 @@ public class Hikiking : BossMonster
 
         ObjectManager.Instance.PopObject("SpawnCircle", pos).GetComponent<Animator>().SetFloat("SPEED", 1 / 0.5f);
         yield return new WaitForSeconds(.5f);
-        if (Random.Range(0, 1 + 1) == 0)
-            monsterList.Add(ObjectManager.Instance.PopObject("ChidoriPanchi", pos));
-        else
-            monsterList.Add(ObjectManager.Instance.PopObject("SuriswordPanchi", pos));
+     
+     GameObject temp =      ObjectManager.Instance.PopObject(Random.Range(0, 1 + 1) == 0 ? "ChidoriPanchi" : "SuriswordPanchi", pos);
+        if (MobListContains(temp.GetInstanceID()))
+        {
+            monsterList.Add(temp);
+        }
 
+    }
+
+    private bool MobListContains(int mobInstanceID)
+    {
+        foreach (var mob in monsterList)
+        {
+            if (mobInstanceID.Equals(mob.GetInstanceID()))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

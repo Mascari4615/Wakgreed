@@ -17,10 +17,8 @@ public class MeleeAttack : Skill
         RuntimeManager.PlayOneShot($"event:/SFX/Weapon/{weapon.id}");
         GameManager.Instance.CinemachineImpulseSource.GenerateImpulse();
 
-        if (ObjectManager.Instance.PopObject(resource.name, Wakgood.Instance.AttackPosition, true) == null)
-        {
+        if (ObjectManager.Instance.CheckPool(resource.name) == false)
             ObjectManager.Instance.AddPool(resource);
-        }
         ObjectManager.Instance.PopObject(resource.name, Wakgood.Instance.AttackPosition, true);
 
         RaycastHit2D[] hits = Physics2D.CircleCastAll(Wakgood.Instance.AttackPosition.position, radius, Vector2.zero, 0, 1 << 7);

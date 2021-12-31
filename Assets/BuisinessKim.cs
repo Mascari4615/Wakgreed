@@ -6,7 +6,7 @@ public class BuisinessKim : BossMonster
 {
     [SerializeField] private GameObject skill0AttackPrefab;
     private BSlash[] skill0AttackGo = new BSlash[2];
-    [SerializeField] private float moveLimit = 15;
+    // [SerializeField] private float moveLimit = 15;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private GameObject panel;
     private Vector3 spawnedPos = Vector3.zero;

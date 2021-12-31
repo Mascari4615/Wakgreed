@@ -251,6 +251,15 @@ public class StreamingManager : MonoBehaviour
 
     private void Update()
     {
+        if (viewPort.activeSelf && !inputField.gameObject.activeSelf && !Input.GetKey(KeyCode.Z))
+        {
+            t -= Time.deltaTime;
+            if (t <= 0)
+            {
+                viewPort.SetActive(false);
+            }
+        }
+
         if (Input.GetKey(KeyCode.Z) && !viewPort.activeSelf) viewPort.SetActive(true);
         else if (Input.GetKeyUp(KeyCode.Z)) t = 2;
 
@@ -282,14 +291,6 @@ public class StreamingManager : MonoBehaviour
             inputField.stringPosition = 10;            
         }
 
-        if (viewPort.activeSelf && !inputField.gameObject.activeSelf && !Input.GetKey(KeyCode.Z))
-        {
-            t -= Time.deltaTime;
-            if (t <= 0)
-            {
-                viewPort.SetActive(false);
-            }
-        }
     }
 
     public void Chat(string msg, string nickName = "우왁굳")
