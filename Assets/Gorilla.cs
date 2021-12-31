@@ -102,18 +102,18 @@ public class Gorilla : NormalMonster
                 Animator.SetBool("ISRUSHING", false);
                 damagingObject.SetActive(false);
 
-                yield return new WaitForSeconds(.4f);
+                yield return new WaitForSeconds(.2f);
 
                 Animator.SetTrigger("ATTACKREADY");
                 earthQuakeWarning.SetActive(true);
-                yield return StartCoroutine(Casting(.6f));
+                yield return StartCoroutine(Casting(.5f));
 
                 GameManager.Instance.CinemachineImpulseSource.GenerateImpulse();
                 Animator.SetTrigger("ATTACKGO");
                 earthQuakeWarning.SetActive(false);
                 earthQuake.SetActive(true);
 
-                yield return new WaitForSeconds(5f);
+                yield return new WaitForSeconds(3f);
             }
         }
     }

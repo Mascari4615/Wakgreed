@@ -85,7 +85,7 @@ public class StreamingManager : MonoBehaviour
         if (DataManager.Instance.CurGameData.rescuedNPC[16])
             StartCoroutine(Donation_Dandab());
 
-        if (DataManager.Instance.CurGameData.rescuedNPC[2])
+        if (DataManager.Instance.CurGameData.rescuedNPC[3])
             StartCoroutine(Donation_R());
 
         if (DataManager.Instance.CurGameData.rescuedNPC[2])
@@ -215,12 +215,16 @@ public class StreamingManager : MonoBehaviour
             while (isLoading.RuntimeValue) yield return null;
             
             viewer.RuntimeValue += Random.Range(uMin.RuntimeValue, uMax.RuntimeValue + 1);
-            viewer.RuntimeValue += Random.Range(-1 * gMax.RuntimeValue, -1 * gMin.RuntimeValue + 1);
+            viewer.RuntimeValue = Mathf.Clamp(viewer.RuntimeValue + Random.Range(-1 * gMax.RuntimeValue, -1 * gMin.RuntimeValue + 1), 0, int.MaxValue);
+
+            if (viewer.RuntimeValue == 0) break;
+
             yield return ws1;
         }
 
+        DataManager.Instance.CurGameData.deathCount++;
+        DataManager.Instance.SaveGameData();
         Wakgood.Instance.Collapse();
-        Debug.Log("!");
     }
 
     private IEnumerator UpdateUptime()

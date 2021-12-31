@@ -37,13 +37,23 @@ public class Panchi : NormalMonster
     {
         while (true)
         {
-            if (Vector2.Distance(transform.position, Wakgood.Instance.transform.position) < 7)
+            if (Vector2.Distance(transform.position, Wakgood.Instance.transform.position) < 10)
             {
                 StopCoroutine(idle);
                 attack = StartCoroutine(Attack());
                 break;
             }
             yield return ws01;
+        }
+    }
+
+    protected override void _ReceiveHit() 
+    {
+        if (attack == null)
+        {
+            if (idle != null) StopCoroutine(idle);
+            if (checkDistance != null) StopCoroutine(checkDistance);
+            attack = StartCoroutine(Attack());
         }
     }
 

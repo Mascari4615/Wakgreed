@@ -3,7 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+public enum AreaType
+{
+    Normal,
+    Restaurant,
+    Shop
+}
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -43,6 +48,24 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Animator endingAnimator;
     private bool clickRecall;
     [SerializeField] protected GameEvent onMonsterCollapse;
+
+    public AreaType curArea = AreaType.Normal;
+    public AreaDoor curAreaDoor = null;
+
+    public void ChangeArea(Transform areaDoor)
+    {
+        curAreaDoor = areaDoor.GetComponent<AreaDoor>();
+        curArea = curAreaDoor.targetAreaType;
+        curAreaDoor.originalAreaObject.SetActive(false);
+        curAreaDoor.targetAreaObject.SetActive(true);
+    }
+
+    public void SwitchCurAreaToNormal()
+    {
+        curArea = AreaType.Normal;
+        curAreaDoor.originalAreaObject.SetActive(true);
+        curAreaDoor.targetAreaObject.SetActive(false);
+    }
 
     private void Awake()
     {

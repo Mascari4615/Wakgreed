@@ -93,13 +93,13 @@ public class MiniWakpago : MonoBehaviour, IEffectGameObject
 
     public void Effect()
     {
-        damage += 2;
+        damage += 3;
         SetDamage();
     }
 
     public void Return()
     {
-        damage -= 2;
+        damage -= 3;
         SetDamage();
     }
 
