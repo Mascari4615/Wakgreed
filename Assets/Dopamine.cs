@@ -15,7 +15,6 @@ public class Dopamine : BossMonster
     private readonly BulletMove[] monkeys = new BulletMove[3];
     private readonly Collider2D[] monkeysCOL = new Collider2D[3];
     private readonly TrailRenderer[] monkeysTR = new TrailRenderer[3];
-    private readonly List<GameObject> monsterList = new();
 
     private Vector3 spawnedPos = Vector3.zero;
     private bool bCanUseMobSpawn = true;
@@ -154,19 +153,6 @@ public class Dopamine : BossMonster
         {
             monsterList.Add(temp);
         }
-    }
-
-    private bool MobListContains(int mobInstanceID)
-    {
-        foreach (var mob in monsterList)
-        {
-            if (mobInstanceID.Equals(mob.GetInstanceID()))
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     private IEnumerator SpawnWakpago()

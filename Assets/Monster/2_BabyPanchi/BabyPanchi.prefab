@@ -119,7 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   directionVector: {x: 0, y: 0, z: 0}
   moveSpeed: 8
-  direction: 1
+  direction: 0
 --- !u!114 &6792982844986648251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0099a0556fcecc4d80572fd4da5c4fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateSpeed: 45
+  rotateSpeed: 60
   direction: 0
 --- !u!1 &8633538259678075035
 GameObject:
@@ -224,7 +224,7 @@ MonoBehaviour:
   hp: 30
   MoveSpeed: 5
   defaultSprite: {fileID: -1656540680, guid: e687ae9c2fea0c24fbcfef9ffa663041, type: 3}
-  bullet: {fileID: 1964547645712429774}
+  bullet: {fileID: 5136242265520270108}
   attackCoolTime: 4
 --- !u!114 &6520139255365978244
 MonoBehaviour:

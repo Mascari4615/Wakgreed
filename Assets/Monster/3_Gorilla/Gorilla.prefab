@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8113022326398716572
 Transform:
   m_ObjectHideFlags: 0
@@ -65,7 +65,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 1.5}
   serializedVersion: 2
-  m_Radius: 1.5
+  m_Radius: 2
 --- !u!1 &2049520697377449679
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,7 +94,7 @@ Transform:
   m_GameObject: {fileID: 2049520697377449679}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 13.8, y: 5.9340005, z: 1}
+  m_LocalScale: {x: 23, y: 9, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8633538259678075036}
@@ -172,8 +172,8 @@ Transform:
   m_GameObject: {fileID: 6698753112036584290}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 13.8, y: 5.9340005, z: 13.8}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 18, y: 8, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8633538259678075036}
   m_RootOrder: -1
@@ -291,7 +291,7 @@ MonoBehaviour:
   ID: 3
   description: "\uC88B\uC740 \uD53C\uC9C0\uCEEC\uC744 \uAC00\uC9C4 \uACE0\uB9B4\uB77C.
     \uBE60\uB974\uAC8C \uB3CC\uC9C4\uD55C \uC774\uD6C4, \uD1A0\uB454\uC744 \uC0AC\uC6A9\uD569\uB2C8\uB2E4."
-  hp: 80
+  hp: 120
   MoveSpeed: 5
   defaultSprite: {fileID: -524439591, guid: 3737711e2ef241e44a3ea7f7c71f7442, type: 3}
   damagingObject: {fileID: 625877238601118578}
@@ -626,7 +626,7 @@ PrefabInstance:
     - target: {fileID: 1435624140752406865, guid: 3054d4efd9e9f024896d0c6ab829f790,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 183.72
+      value: 254.38
       objectReference: {fileID: 0}
     - target: {fileID: 2329070431853527130, guid: 3054d4efd9e9f024896d0c6ab829f790,
         type: 3}
@@ -637,6 +637,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingLayerID
       value: 1420385351
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884333420781743471, guid: 3054d4efd9e9f024896d0c6ab829f790,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 202.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

@@ -12,7 +12,6 @@ public class Hikiking : BossMonster
     private int ultStack = 0;
     private Vector3 spawnedPos = Vector3.zero;
     [SerializeField] private float moveLimit = 15;
-    private List<GameObject> monsterList = new();
     [SerializeField] private GameObject stun;
 
     protected override void Awake()
@@ -139,7 +138,7 @@ public class Hikiking : BossMonster
 
             var temp = ObjectManager.Instance.PopObject("HikiSlash", originPos + (targetPos[i] - originPos) / 2,
              new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan2(targetPos[i].y - originPos.y, targetPos[i].x - originPos.x)));
-            temp.transform.localScale = new Vector3(Vector3.Distance(originPos, targetPos[i]) * 0.25f, 1, 1);
+            temp.transform.localScale = new Vector3(Vector3.Distance(originPos, targetPos[i]) * 0.25f, 1.5f, 1);
             RuntimeManager.PlayOneShot($"event:/SFX/Weapon/2");
         }
         collider2D.enabled = true;
@@ -160,7 +159,7 @@ public class Hikiking : BossMonster
         lineRenderer.SetPosition(1, aTargetPos);
         lineRenderer.gameObject.SetActive(true);
 
-        for (float j = 0; j <= 1f; j += 2.5f * Time.fixedDeltaTime)
+        for (float j = 0; j <= 1f; j += 3.5f * Time.fixedDeltaTime)
         {
             if (camera.m_Lens.OrthographicSize > 6) camera.m_Lens.OrthographicSize -= 2 * Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
@@ -180,7 +179,7 @@ public class Hikiking : BossMonster
 
         var v = ObjectManager.Instance.PopObject("HikiSlash2", aOriginPos + (aTargetPos - aOriginPos) / 2,
     new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan2(aTargetPos.y - aOriginPos.y, aTargetPos.x - aOriginPos.x)));
-        v.transform.localScale = new Vector3(Vector3.Distance(aOriginPos, aTargetPos) * 0.25f, 8, 1);
+        v.transform.localScale = new Vector3(Vector3.Distance(aOriginPos, aTargetPos) * 0.25f, 10, 1);
         RuntimeManager.PlayOneShot($"event:/SFX/Weapon/2");
         yield return new WaitForSeconds(0.3f);
         lineRenderer.gameObject.SetActive(false);
@@ -202,44 +201,17 @@ public class Hikiking : BossMonster
         }
     }
 
-    protected override IEnumerator _Collapse()
-    {
-        foreach (var monster in monsterList)
-        {
-            if (monster.activeSelf)
-            {
-                ObjectManager.Instance.PushObject(monster);
-            }
-        }
-
-        return base._Collapse();
-    }
-
     private IEnumerator SpawnMob()
     {
         Vector3 pos = spawnedPos + (Vector3)Random.insideUnitCircle * 10f;
 
         ObjectManager.Instance.PopObject("SpawnCircle", pos).GetComponent<Animator>().SetFloat("SPEED", 1 / 0.5f);
         yield return new WaitForSeconds(.5f);
-     
-     GameObject temp =      ObjectManager.Instance.PopObject(Random.Range(0, 1 + 1) == 0 ? "ChidoriPanchi" : "SuriswordPanchi", pos);
+
+        GameObject temp = ObjectManager.Instance.PopObject(Random.Range(0, 1 + 1) == 0 ? "ChidoriPanchi" : "SuriswordPanchi", pos);
         if (MobListContains(temp.GetInstanceID()))
         {
             monsterList.Add(temp);
         }
-
-    }
-
-    private bool MobListContains(int mobInstanceID)
-    {
-        foreach (var mob in monsterList)
-        {
-            if (mobInstanceID.Equals(mob.GetInstanceID()))
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

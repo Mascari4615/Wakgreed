@@ -3,64 +3,54 @@ using UnityEngine;
 
 public class BabyPanchi : NormalMonster
 {
-    [SerializeField] private GameObject bullet;
+    [SerializeField] private BulletMove bullet;
     [SerializeField] private float attackCoolTime;
-    private bool isTargeting;
+    private float curAttackCoolTime;
+    private Vector3 direction;
+    private Coroutine attack;
 
     protected override void OnEnable()
     {
         base.OnEnable();
-        isTargeting = false;
 
-        bullet.SetActive(false);
+        bullet.gameObject.SetActive(false);
         bullet.transform.localPosition = Vector3.zero;
 
-        StartCoroutine(Attack());
-        StartCoroutine(Targeting());
+        curAttackCoolTime = attackCoolTime / 2;
+        attack = StartCoroutine(Attack());
     }
 
     private IEnumerator Attack()
     {
-        WaitForSeconds wsCool = new(attackCoolTime - 0.7f);
-        WaitForSeconds ws02 = new(0.2f);
-
         while (true)
         {
-            while (!isTargeting) yield return ws02;
-
-            yield return wsCool;
-            yield return StartCoroutine(Casting(0.7f));
-            Animator.SetTrigger("ATTACK");
+            if (curAttackCoolTime > 0)
+            {
+                SpriteRenderer.flipX = IsWakgoodRight();
+                curAttackCoolTime -= 0.1f;
+                yield return ws01;
+            }
+            else
+            {
+                direction = GetDirection();
+                yield return StartCoroutine(Casting(.7f));
+                Animator.SetTrigger("ATTACK");
+                yield return ws1;
+                curAttackCoolTime = attackCoolTime;
+            }
         }
     }
 
     public void GamjaOn()
     {
         bullet.transform.localPosition = Vector3.zero;
-        bullet.SetActive(true);
+        bullet.SetDirection(direction);
+        bullet.gameObject.SetActive(true);
     }
 
-    private IEnumerator Targeting()
+    protected override void OnDisable()
     {
-        WaitForSeconds ws02 = new(0.2f);
-
-        while (true)
-        {
-            RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, Wakgood.Instance.transform.position - transform.position, Vector2.Distance(transform.position, Wakgood.Instance.transform.position), LayerMask.NameToLayer("Everything"));
-
-            foreach (RaycastHit2D t in hit)
-            {
-                if (t.transform.CompareTag("Wall")) { isTargeting = false; break; }
-                else if (t.transform.CompareTag("Player")) isTargeting = true;
-            }
-
-            if (isTargeting)
-            {
-                Debug.DrawRay(transform.position, Wakgood.Instance.transform.position - transform.position, Color.green);
-                SpriteRenderer.flipX = Wakgood.Instance.transform.position.x > transform.position.x;
-            }
-
-            yield return ws02;
-        }
+        base.OnDisable();
+        if (attack != null) StopCoroutine(attack);
     }
 }
