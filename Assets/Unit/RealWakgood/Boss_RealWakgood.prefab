@@ -166,7 +166,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3035457898370817608}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.94, y: 0.95, z: 0}
+  m_LocalPosition: {x: -1.69, y: 0.95, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -191,14 +191,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flashMaterial: {fileID: 2100000, guid: c74166bc298345945a7d9a9e8218b4ec, type: 2}
   onMonsterCollapse: {fileID: 11400000, guid: 1b477f0305627f54d8b1c54462eafc87, type: 2}
-  mobName: 
+  mobName: "\uC9C4\uC9DC\uC641\uAD73"
   ID: 5
   description: "\uC9C4\uC9DC\uC641\uAD73"
-  hp: 1200
+  hp: 2400
   MoveSpeed: 5
   defaultSprite: {fileID: -2117161893, guid: f92008a43343344468d2eafbb6c2a9ae, type: 3}
   npcID: 0
-  nickName: 
+  nickName: "\uC9C4\uC9DC \uC641\uAD73"
   TESTING: 0
   textMesh: {fileID: 2601903533671099923}
   textMesh2: {fileID: 675068904349055660}
@@ -423,7 +423,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.5170059
+        value: 0.6254425
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -444,8 +444,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0.9064461, b: 0, a: 1}
-      key1: {r: 0, g: 0.9101777, b: 1, a: 0}
+      key0: {r: 1, g: 0, b: 0, a: 1}
+      key1: {r: 0, g: 0, b: 0, a: 0.8117647}
       key2: {r: 0, g: 0, b: 0, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -453,7 +453,7 @@ TrailRenderer:
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 65535
+      ctime1: 42212
       ctime2: 0
       ctime3: 0
       ctime4: 0
@@ -645,7 +645,7 @@ Transform:
   m_GameObject: {fileID: 6622277759911511037}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 2.94, y: -0.95, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3035457898370817614}
@@ -703,8 +703,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.05426746
-        value: 0.7371351
+        time: 0
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0

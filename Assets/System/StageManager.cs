@@ -41,6 +41,7 @@ public class StageManager : MonoBehaviour
     [SerializeField] private BoolVariable isLoading;
 
     [SerializeField] private Animator stageLoading;
+    [SerializeField] private Animator stageLoading2;
     [SerializeField] private Image[] stageIcons;
     [SerializeField] private Image[] stamps;
 
@@ -85,11 +86,13 @@ public class StageManager : MonoBehaviour
         roomData = new List<Room>(currentStage.roomDatas);
         roomMolds.Add(new RoomMold { Coordinate = Vector2.zero });
 
+        int _roomCount = currentStage.id == 666 ? 1 : roomCount;
+
         /* 스테이지 틀 만들기 */
         {
             Vector2 totalRoomMoldCoordinate;
 
-            while (roomMolds.Count < roomCount)
+            while (roomMolds.Count < _roomCount)
             {
                 RoomMold originalRoomMold = roomMolds[Random.Range(0, roomMolds.Count)];
                 int doorOpenIndex = Random.Range(0, 4);
@@ -129,7 +132,7 @@ public class StageManager : MonoBehaviour
         }
 
         {
-            for (int i = 0; i < roomCount; i++)
+            for (int i = 0; i < _roomCount; i++)
             {
                 int roomMoldIndex = i == 0 ? 0 : Random.Range(0, roomMolds.Count);
                 int roomDataIndex = i <= 3 ? 0 : Random.Range(0, roomData.Count);
@@ -161,30 +164,41 @@ public class StageManager : MonoBehaviour
         UIManager.Instance.SetStageName(currentStage);
         Wakgood.Instance.transform.position = new Vector3(CurrentRoom.Coordinate.x, CurrentRoom.Coordinate.y, 0) * 100;
 
-        for (int i = 0; i < stageIcons.Length; i++)
+        if (currentStage.id != 666)
         {
-            if (i < currentStageID)
+            for (int i = 0; i < stageIcons.Length; i++)
             {
-                stageIcons[i].color = new Color(1, 1, 1, 1);
-                stamps[i].enabled = true;
+                if (i < currentStageID)
+                {
+                    stageIcons[i].color = new Color(1, 1, 1, 1);
+                    stamps[i].enabled = true;
+                }
+                else if (i == currentStageID)
+                {
+                    stageIcons[i].color = new Color(1, 1, 1, 1);
+                    stamps[i].enabled = false;
+                }
+                else
+                {
+                    stageIcons[i].color = new Color(0, 0, 0, 1);
+                    stamps[i].enabled = false;
+                }
             }
-            else if (i == currentStageID)
-            {
-                stageIcons[i].color = new Color(1, 1, 1, 1);
-                stamps[i].enabled = false;
-            }
-            else
-            {
-                stageIcons[i].color = new Color(0, 0, 0, 1);
-                stamps[i].enabled = false;
-            }
-        }
 
-        stageLoading.gameObject.SetActive(true);
-        yield return new WaitForSeconds(3f);
-        stageLoading.GetComponent<Animator>().SetTrigger("IN");
-        yield return new WaitForSeconds(.5f);
-        stageLoading.gameObject.SetActive(false);
+            stageLoading.gameObject.SetActive(true);
+            yield return new WaitForSeconds(3f);
+            stageLoading.GetComponent<Animator>().SetTrigger("IN");
+            yield return new WaitForSeconds(.5f);
+            stageLoading.gameObject.SetActive(false);
+        }
+        else
+        {
+            stageLoading2.gameObject.SetActive(true);
+            yield return new WaitForSeconds(3f);
+            stageLoading2.GetComponent<Animator>().SetTrigger("IN");
+            yield return new WaitForSeconds(.5f);
+            stageLoading2.gameObject.SetActive(false);
+        }
 
         isLoading.RuntimeValue = false;
         isGaming.RuntimeValue = true;

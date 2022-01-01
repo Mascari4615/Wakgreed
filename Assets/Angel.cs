@@ -21,8 +21,6 @@ public class Angel : NPC
 
     private void UpdateTree()
     {
-        Debug.Log("엔젤");
-        
         maxhp.RuntimeValue -= bonusHp;
         power.RuntimeValue -= bonusPower;
 
@@ -35,9 +33,9 @@ public class Angel : NPC
         shadowSpriteRenderer.sprite = shadowSprites[Mathf.Clamp((DataManager.Instance.CurGameData.deathCount - 1) / 2, 0, 3)];
 
         powerText.text = $"- 힘, <color=#C6FF4C>성장치</color> X 2 = {DataManager.Instance.CurGameData.deathCount * 2} 추가";
-        hpText.text = $"- 체력, <color=#C6FF4C>성장치</color> X 2 = {DataManager.Instance.CurGameData.deathCount * 2} 추가";
+        hpText.text = $"- 체력, <color=#C6FF4C>성장치</color> X 1 = {DataManager.Instance.CurGameData.deathCount * 1} 추가";
 
         maxhp.RuntimeValue += DataManager.Instance.CurGameData.deathCount * 2;
-        power.RuntimeValue += DataManager.Instance.CurGameData.deathCount * 2;
+        power.RuntimeValue += DataManager.Instance.CurGameData.deathCount * 1;
     }
 }

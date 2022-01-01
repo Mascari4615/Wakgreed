@@ -8,7 +8,7 @@ public class WakgoodMove : MonoBehaviour
 {
     public Rigidbody2D PlayerRb => playerRb ??= GetComponent<Rigidbody2D>();
     public Animator Animator => animator ??= GetComponent<Animator>();
-    public bool MbDashing { get; private set; }
+    public bool MbDashing;
 
     [SerializeField] private FloatVariable moveSpeed;
     [SerializeField] private IntVariable moveSpeedBonus;
@@ -26,7 +26,7 @@ public class WakgoodMove : MonoBehaviour
     private int horizontalInput;
     private int verticalInput;
     private Vector2 moveDirection;
-    private bool mbMoving;
+    public bool mbMoving;
     private bool mbCanBbolBbol = true;
     private bool mbIced = false;
     private static readonly int wakeUp = Animator.StringToHash("WakeUp");

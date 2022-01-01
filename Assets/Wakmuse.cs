@@ -38,7 +38,7 @@ public class Wakmuse : NormalMonster
     private IEnumerator Attack()
     {
         WaitForSeconds ws3 = new(3f);
-
+        yield return ws1;
         while (true)
         {
             bIsAttacking = true;

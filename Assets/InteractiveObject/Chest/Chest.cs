@@ -3,6 +3,8 @@ using FMODUnity;
 
 public class Chest : InteractiveObject
 {
+    [SerializeField] private bool onlyWeapon;
+
     private bool isOpened;
     private bool isItem;
     private int itemID;
@@ -45,7 +47,8 @@ public class Chest : InteractiveObject
 
         isOpened = false;
         isItem = Random.Range(0, 100) > 15;
-        itemID = isItem ? DataManager.Instance.GetRandomItemID(probability.Get()) : DataManager.Instance.GetRandomWeaponID(probability.Get());
+        itemID = onlyWeapon ? DataManager.Instance.GetRandomWeaponID(probability.Get())
+            : isItem ? DataManager.Instance.GetRandomItemID(probability.Get()) : DataManager.Instance.GetRandomWeaponID(probability.Get());
     }
 
     public override void Interaction()

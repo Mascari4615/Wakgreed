@@ -9,6 +9,10 @@ public class BossRoom : Room
         foreach (var hider in DoorHiders) hider.SetActive(true);
         foreach (var particle in DoorParticles) particle.SetActive(false);
 
+        if (StageManager.Instance.currentStage.id == 666)
+        {
+            GameManager.Instance.isRealBossing.RuntimeValue = true;
+        }
         GameManager.Instance.isBossing.RuntimeValue = true;
         AudioManager.Instance.StopMusic();
         ObjectManager.Instance.PopObject(boss.name, transform.Find("BossSpawnPoint"));
@@ -18,7 +22,7 @@ public class BossRoom : Room
     {
         GameManager.Instance.isBossing.RuntimeValue = false;
 
-        if (StageManager.Instance.currentStage.id == 3)
+        if (StageManager.Instance.currentStage.id == 666)
         {
             GameManager.Instance.StartCoroutine(GameManager.Instance.Ending());
         }
