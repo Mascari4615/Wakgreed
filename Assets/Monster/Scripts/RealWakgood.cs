@@ -23,6 +23,7 @@ public class RealWakgood : BossMonster
 
     void Start()
     {
+
         lineRenderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 0.3f));
 
         wordIndexes = new List<int> { 0 };
@@ -123,6 +124,22 @@ public class RealWakgood : BossMonster
         }
     }
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        if (StageManager.Instance.CurrentRoom != null)
+        {
+            if (StageManager.Instance.CurrentRoom is BossRoom)
+            {
+                if (StageManager.Instance.currentStage.id == 666)
+                {
+                    AudioManager.Instance.PlayRealMusic();
+                }
+            }
+        }
+    }
+
     Vector2 Wobble(float time)
     {
         return new Vector2(Mathf.Sin(time * 3.3f * 3), Mathf.Cos(time * 2.5f * 3));
@@ -161,9 +178,9 @@ public class RealWakgood : BossMonster
     {
         while (true)
         {
-            Vector3 randomPos = transform.position + (Vector3)Random.insideUnitCircle * 30f;
+            Vector3 randomPos = Wakgood.Instance.transform.position + (Vector3)Random.insideUnitCircle * Random.Range(0, 20f);
             ObjectManager.Instance.PopObject("Drop", randomPos);
-            yield return new WaitForSeconds(Random.Range(.5f, 3f));
+            yield return new WaitForSeconds(Random.Range(.1f, 1.5f));
         }
     }
 
@@ -180,10 +197,10 @@ public class RealWakgood : BossMonster
         cinemachineTargetGroup.m_Targets[1].target = null;
 
         Animator.SetTrigger("THE");
-        transform.position += (Vector3)Random.insideUnitCircle * 30;
+        transform.position = Wakgood.Instance.transform.position + (Vector3)Random.insideUnitCircle.normalized * 25;
         for (float i = 0; i <= 5; i += Time.deltaTime)
         {
-            Rigidbody2D.velocity = (Wakgood.Instance.transform.position - transform.position).normalized * (MoveSpeed += Time.deltaTime * 3);
+            Rigidbody2D.velocity = (Wakgood.Instance.transform.position - transform.position).normalized * (MoveSpeed += Time.deltaTime * 3f);
             yield return null;
         }
         Animator.SetTrigger("SHIP");
@@ -221,16 +238,16 @@ public class RealWakgood : BossMonster
             lineRenderer.SetPosition(1, pos2);
             lineRenderer.gameObject.SetActive(true);
 
-            yield return new WaitForSeconds(.8f);
+            yield return new WaitForSeconds(i == 0 ? 1f : .3f);
             lineRenderer.gameObject.SetActive(false);
 
             var temp = Instantiate(icecream, pos1 + (pos2 - pos1) / 2, Quaternion.Euler(new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan2(pos2.y - pos1.y, pos2.x - pos1.x))));
-            temp.transform.localScale = new Vector3(Vector3.Distance(pos1, pos2) * 0.25f, 3, 1);
+            temp.transform.localScale = new Vector3(Vector3.Distance(pos1, pos2) * 0.25f, temp.transform.localScale.y, 1);
 
-            yield return new WaitForSeconds(.8f);
+            yield return new WaitForSeconds(.3f);
         }
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
     }
 
     private IEnumerator Waktyhall()

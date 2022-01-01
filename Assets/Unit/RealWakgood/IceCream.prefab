@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5788986604457288895}
   - component: {fileID: 1443865461075346689}
   m_Layer: 0
-  m_Name: HikSlash2 1
+  m_Name: IceCream
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 5168828908313417421}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 89.36, y: 3, z: 1}
+  m_LocalScale: {x: 45, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -48,12 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc5466ebd09324d40bd2cd21e37538e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canDamageWakgood: 1
-  canDamageMob: 0
-  totalPower: {fileID: 0}
-  criticalChance: {fileID: 0}
-  criticalDamagePer: {fileID: 0}
-  damage: 3
+  bTargetWak: 1
+  damage: 6
   WeaponID: -1
   offGoOnHit: 0
   offCollOnHit: 0
@@ -69,7 +65,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83ed4699b865638488b75392fd1eb48a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 1.4
+  duration: 1.2
 --- !u!212 &5588164855678746070
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -146,7 +142,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4, y: 0.5}
+  m_Size: {x: 4, y: 2.09}
   m_EdgeRadius: 0
 --- !u!95 &1443865461075346689
 Animator:

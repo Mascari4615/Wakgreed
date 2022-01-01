@@ -32,9 +32,11 @@ public class Ikeda : NPC
         {
             fakeChest.SetActive(false);
         }
+
+        ResetInven();
     }
 
-    private void OnEnable()
+    public void ResetInven()
     {
         List<Food> temp = foodDataBuffer.items.ToList();
         inventoryUI.NpcInventory.Clear();

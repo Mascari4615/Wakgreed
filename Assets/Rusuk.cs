@@ -1,11 +1,38 @@
-using UnityEngine;
+using System.Linq;
+using System.Collections.Generic;
 using System.Collections;
+using UnityEngine;
 
-public class Rusuk : Chef
+public class Rusuk : NPC
 {
+    [SerializeField] protected FoodInventoryUI inventoryUI;
+    [SerializeField] protected FoodDataBuffer foodDataBuffer;
+    [SerializeField] protected WakgoodFoodInventory wakgoodFoodInventory;
+    [SerializeField] protected IntVariable goldu;
+    [SerializeField] protected int count = 8;
     private Slot tempSlot;
 
-    public override void BuyFood(Slot slot)
+    public void ResetInven()
+    {
+        canOpenUI = true;
+        List<Food> temp = foodDataBuffer.items.ToList();
+
+        inventoryUI.NpcInventory.Clear();
+        for (int i = 0; i < count; i++)
+        {
+            int random = Random.Range(0, temp.Count);
+            inventoryUI.NpcInventory.Add(temp[random]);
+            temp.RemoveAt(random);
+        }
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        ResetInven();
+    }
+
+    public void BuyFood(Slot slot)
     {
         tempSlot = slot;
         canOpenUI = false;
@@ -25,10 +52,5 @@ public class Rusuk : Chef
         wakgoodFoodInventory.Add(tempSlot.SpecialThing as Food);
         DataManager.Instance.wgItemInven.Add(DataManager.Instance.ItemDic[57]);
         base.FocusOff();
-    }
-
-    public void Test()
-    {
-        Debug.Log("Test");
     }
 }

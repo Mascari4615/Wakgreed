@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0237691127b6e9b4d832d51532dc1171, type: 3}
-  m_Name: 06_Colosseum
+  m_Script: {fileID: 11500000, guid: 8372192d4aab11f44b18b8d34438a4da, type: 3}
+  m_Name: IsRealBossing
   m_EditorClassIdentifier: 
-  id: 6
-  name: "\uCF5C\uB85C\uC138\uC6C0"
-  comment: ???
-  nrcID: 
-  roomDatas:
-  - {fileID: 3950161548445016716, guid: f4cf0a28b640ae244b3173dc869b21f3, type: 3}
+  InitialValue: 0
+  GameEventOnTrue: {fileID: 0}
+  GameEventOnFalse: {fileID: 0}

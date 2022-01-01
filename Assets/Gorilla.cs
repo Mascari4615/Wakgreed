@@ -67,7 +67,7 @@ public class Gorilla : NormalMonster
         Animator.SetBool("ISMOVING", false);
         Rigidbody2D.velocity = Vector2.zero;
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.7f);
 
         while (true)
         {
@@ -98,22 +98,22 @@ public class Gorilla : NormalMonster
                     Rigidbody2D.velocity = direction * 20;
                     yield return new WaitForFixedUpdate();
                 }
+                damagingObject.SetActive(false);
                 Rigidbody2D.velocity = Vector2.zero;
                 Animator.SetBool("ISRUSHING", false);
-                damagingObject.SetActive(false);
 
                 yield return new WaitForSeconds(.2f);
 
                 Animator.SetTrigger("ATTACKREADY");
                 earthQuakeWarning.SetActive(true);
-                yield return StartCoroutine(Casting(.5f));
+                yield return StartCoroutine(Casting(.6f));
 
                 GameManager.Instance.CinemachineImpulseSource.GenerateImpulse();
                 Animator.SetTrigger("ATTACKGO");
                 earthQuakeWarning.SetActive(false);
                 earthQuake.SetActive(true);
 
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(1.7f);
             }
         }
     }

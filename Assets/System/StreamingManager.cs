@@ -10,16 +10,18 @@ using Random = UnityEngine.Random;
 public class StreamingManager : MonoBehaviour
 {
     // [SerializeField] private TwitchConnect twitchConnect;
-   
+
     public static StreamingManager Instance { get; private set; }
 
     public bool IsChatting => inputField.gameObject.activeSelf;
 
-    [SerializeField] private TMP_InputField inputField; 
-    [SerializeField] private TextMeshProUGUI donationText, upTimeUI;
-    [SerializeField] private GameObject donationUI, viewPort, chatContent;
-    [SerializeField] private Image donationImageUI;
-    [SerializeField] private Sprite[] donationImages;
+    [SerializeField] private TMP_InputField inputField;
+    public TextMeshProUGUI[] donationText;
+    [SerializeField] private TextMeshProUGUI upTimeUI;
+    public GameObject[] donationUI;
+    [SerializeField] private GameObject viewPort, chatContent;
+    public Image[] donationImageUI;
+    public Sprite[] donationImages;
     [SerializeField] private IntVariable goldu, viewer;
     [SerializeField] private BoolVariable isLoading;
     [SerializeField] private IntVariable uMin, uMax;
@@ -40,7 +42,7 @@ public class StreamingManager : MonoBehaviour
         Instance = this;
 
         for (int i = 0; i < chatContent.transform.childCount; i++)
-            chatPool.Add(chatContent.transform.GetChild(i).GetComponent<TextMeshProUGUI>()); 
+            chatPool.Add(chatContent.transform.GetChild(i).GetComponent<TextMeshProUGUI>());
     }
 
     private IEnumerator Start()
@@ -124,16 +126,36 @@ public class StreamingManager : MonoBehaviour
             if (DataManager.Instance.CurGameData.rescuedNPC[27])
                 temp++;
 
-            if (Random.Range(0, 100) < temp * 3)
+            if (GameManager.Instance.isRealBossing.RuntimeValue)
             {
-                int amount = Random.Range(100, 100 * temp);
-                viewer.RuntimeValue += amount;
-                donationUI.SetActive(false);
-                donationText.text = $"이세계 아이돌이 {amount}명 호스팅!";
-                donationImageUI.sprite = donationImages[3];
-                donationUI.SetActive(true);
-                RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
+                if (GameManager.Instance.isRealBossFirstDeath == false)
+                {
+                    if (Random.Range(0, 100) < temp * 3)
+                    {
+                        int amount = Random.Range(100, 100 * temp);
+                        viewer.RuntimeValue += amount;
+                        donationUI[0].SetActive(false);
+                        donationText[0].text = $"이세계 아이돌이 {amount}명 호스팅!";
+                        donationImageUI[0].sprite = donationImages[3];
+                        donationUI[0].SetActive(true);
+                        RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
+                    }
+                }
             }
+            else
+            {
+                if (Random.Range(0, 100) < temp * 3)
+                {
+                    int amount = Random.Range(100, 100 * temp);
+                    viewer.RuntimeValue += amount;
+                    donationUI[0].SetActive(false);
+                    donationText[0].text = $"이세계 아이돌이 {amount}명 호스팅!";
+                    donationImageUI[0].sprite = donationImages[3];
+                    donationUI[0].SetActive(true);
+                    RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
+                }
+            }
+
             yield return new WaitForSeconds(142f);
         }
     }
@@ -150,15 +172,34 @@ public class StreamingManager : MonoBehaviour
             if (DataManager.Instance.wgItemInven.Items.Contains(DataManager.Instance.ItemDic[48]))
                 temp = DataManager.Instance.wgItemInven.itemCountDic[48];
 
-            if (Random.Range(0, 100) < 30)
+            if (GameManager.Instance.isRealBossing.RuntimeValue)
             {
-                Wakgood.Instance.ReceiveHeal(1 + temp);
-                donationUI.SetActive(false);
-                donationText.text = $"비밀소녀의 응원으로 체력 {1 + temp} 회복!";
-                donationImageUI.sprite = donationImages[2];
-                donationUI.SetActive(true);
-                RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
+                if (GameManager.Instance.isRealBossFirstDeath == false)
+                {
+                    if (Random.Range(0, 100) < 30)
+                    {
+                        Wakgood.Instance.ReceiveHeal(1 + temp);
+                        donationUI[0].SetActive(false);
+                        donationText[0].text = $"비밀소녀의 응원으로 체력 {1 + temp} 회복!";
+                        donationImageUI[0].sprite = donationImages[2];
+                        donationUI[0].SetActive(true);
+                        RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
+                    }
+                }
             }
+            else
+            {
+                if (Random.Range(0, 100) < 30)
+                {
+                    Wakgood.Instance.ReceiveHeal(1 + temp);
+                    donationUI[0].SetActive(false);
+                    donationText[0].text = $"비밀소녀의 응원으로 체력 {1 + temp} 회복!";
+                    donationImageUI[0].sprite = donationImages[2];
+                    donationUI[0].SetActive(true);
+                    RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
+                }
+            }
+
             yield return new WaitForSeconds(47f);
         }
     }
@@ -175,15 +216,35 @@ public class StreamingManager : MonoBehaviour
             if (DataManager.Instance.wgItemInven.Items.Contains(DataManager.Instance.ItemDic[47]))
                 temp = DataManager.Instance.wgItemInven.itemCountDic[47];
 
-            if (Random.Range(0, 100) < 50 + temp * 5)
+            if (GameManager.Instance.isRealBossing.RuntimeValue)
             {
-                DataManager.Instance.buffRunTimeSet.Add(buffs[0]);
-                donationUI.SetActive(false);
-                donationText.text = $"10초 동안 공격속도 20% 증가!";
-                donationImageUI.sprite = donationImages[0];
-                donationUI.SetActive(true);
-                RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
+                if (GameManager.Instance.isRealBossFirstDeath == false)
+                {
+                    if (Random.Range(0, 100) < 50 + temp * 5)
+                    {
+                        DataManager.Instance.buffRunTimeSet.Add(buffs[0]);
+                        donationUI[0].SetActive(false);
+                        donationText[0].text = $"10초 동안 공격속도 20% 증가!";
+                        donationImageUI[0].sprite = donationImages[0];
+                        donationUI[0].SetActive(true);
+                        RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
+                    }
+                }
             }
+            else
+            {
+                if (Random.Range(0, 100) < 50 + temp * 5)
+                {
+                    DataManager.Instance.buffRunTimeSet.Add(buffs[0]);
+                    donationUI[0].SetActive(false);
+                    donationText[0].text = $"10초 동안 공격속도 20% 증가!";
+                    donationImageUI[0].sprite = donationImages[0];
+                    donationUI[0].SetActive(true);
+                    RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
+                }
+            }
+
+
             yield return new WaitForSeconds(64f);
         }
     }
@@ -195,13 +256,29 @@ public class StreamingManager : MonoBehaviour
         {
             while (isLoading.RuntimeValue) yield return null;
 
-            if (Random.Range(0, 100) < 30)
+            if (GameManager.Instance.isRealBossing.RuntimeValue)
+            {
+                if (GameManager.Instance.isRealBossFirstDeath == false)
+                {
+                    if (Random.Range(0, 100) < 30)
+                    {
+                        DataManager.Instance.buffRunTimeSet.Add(buffs[1]);
+                        donationUI[0].SetActive(false);
+                        donationText[0].text = $"10초 동안 회피율 30% 증가!";
+                        donationImageUI[0].sprite = donationImages[1];
+                        donationUI[0].SetActive(true);
+                        RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
+                    }
+                }
+            }
+            else
+                    if (Random.Range(0, 100) < 30)
             {
                 DataManager.Instance.buffRunTimeSet.Add(buffs[1]);
-                donationUI.SetActive(false);
-                donationText.text = $"10초 동안 회피율 30% 증가!";
-                donationImageUI.sprite = donationImages[1];
-                donationUI.SetActive(true);
+                donationUI[0].SetActive(false);
+                donationText[0].text = $"10초 동안 회피율 30% 증가!";
+                donationImageUI[0].sprite = donationImages[1];
+                donationUI[0].SetActive(true);
                 RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
             }
             yield return new WaitForSeconds(17f);
@@ -210,21 +287,52 @@ public class StreamingManager : MonoBehaviour
 
     private IEnumerator CheckViewer()
     {
-        while (viewer.RuntimeValue > 0)
+        while (true)
         {
-            while (isLoading.RuntimeValue) yield return null;
-            
-            viewer.RuntimeValue += Random.Range(uMin.RuntimeValue, uMax.RuntimeValue + 1);
-            viewer.RuntimeValue = Mathf.Clamp(viewer.RuntimeValue + Random.Range(-1 * gMax.RuntimeValue, -1 * gMin.RuntimeValue + 1), 0, int.MaxValue);
+            while (viewer.RuntimeValue > 0)
+            {
+                while (isLoading.RuntimeValue) yield return null;
 
-            if (viewer.RuntimeValue == 0) break;
+                viewer.RuntimeValue += Random.Range(uMin.RuntimeValue, uMax.RuntimeValue + 1);
+                viewer.RuntimeValue = Mathf.Clamp(viewer.RuntimeValue + Random.Range(-1 * gMax.RuntimeValue, -1 * gMin.RuntimeValue + 1), 0, int.MaxValue);
 
-            yield return ws1;
+                if (viewer.RuntimeValue <= 0)
+                {
+                    viewer.RuntimeValue = 0;
+                    break;
+                }
+
+                yield return ws1;
+            }
+
+            if (GameManager.Instance.isRealBossing.RuntimeValue)
+            {
+                if (GameManager.Instance.isRealBossFirstDeath)
+                {
+                    Wakgood.Instance.FakeCollapse();
+                }
+                else
+                {
+                    /*viewer.RuntimeValue += 3000;
+                    ObjectManager.Instance.PopObject("AnimatedText", transform.position + Vector3.up).GetComponent<AnimatedText>().SetText($"시청자 +{3000}", Color.white);
+                    donationUI[1].SetActive(false);
+                    donationText[1].text = $"주르르님의 호스팅!";
+                    donationImageUI[1].sprite = donationImages[1];
+                    donationUI[1].SetActive(true);*/
+
+                    DataManager.Instance.CurGameData.deathCount++;
+                    DataManager.Instance.SaveGameData();
+                    Wakgood.Instance.Collapse();
+                }
+            }
+            else
+            {
+                DataManager.Instance.CurGameData.deathCount++;
+                DataManager.Instance.SaveGameData();
+                Wakgood.Instance.Collapse();
+                break;
+            }
         }
-
-        DataManager.Instance.CurGameData.deathCount++;
-        DataManager.Instance.SaveGameData();
-        Wakgood.Instance.Collapse();
     }
 
     private IEnumerator UpdateUptime()
@@ -234,7 +342,7 @@ public class StreamingManager : MonoBehaviour
         while (true)
         {
             while (isLoading.RuntimeValue) yield return null;
-            
+
             int curTime = (int)(Time.time - startTime);
             int hour = curTime / 3600;
             int minute = (curTime -= hour * 3600) / 60;
@@ -272,7 +380,7 @@ public class StreamingManager : MonoBehaviour
                 inputField.ActivateInputField();
             }
             else if (inputField.text != "")
-            { 
+            {
                 Chat(inputField.text);
                 inputField.text = "";
                 inputField.gameObject.SetActive(false);
@@ -288,7 +396,7 @@ public class StreamingManager : MonoBehaviour
             inputField.gameObject.SetActive(true);
             inputField.ActivateInputField();
             inputField.text = "/";
-            inputField.stringPosition = 10;            
+            inputField.stringPosition = 10;
         }
 
     }

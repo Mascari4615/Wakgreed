@@ -7,11 +7,14 @@ public class Sohpia : NPC
 {
     [SerializeField] private ItemInventoryUI itemInventoryUI_Buy;
     [SerializeField] private IntVariable nyang;
-
-    private void OnEnable()
+    protected override void Awake()
     {
-        Debug.Log("Sohpia ON");
+        base.Awake();
+        ResetInven();
+    }
 
+    public void ResetInven()
+    {
         List<Item> temp = DataManager.Instance.itemDataBuffer.items.ToList();
         itemInventoryUI_Buy.NpcInventory.Clear();
         for (int i = 0; i < 5; i++)

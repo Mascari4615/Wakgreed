@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Drop : MonoBehaviour
 {
-    [SerializeField] private Collider2D damagingObject;
+    [SerializeField] private GameObject damagingObject;
     [SerializeField] private GameObject warningObject;
     [SerializeField] private GameObject drop;
 
@@ -11,7 +11,7 @@ public class Drop : MonoBehaviour
     {
         drop.SetActive(false);
         warningObject.SetActive(false);
-        damagingObject.enabled = false;
+        damagingObject.SetActive(false);
         StartCoroutine("GO");
     }
 
@@ -23,7 +23,7 @@ public class Drop : MonoBehaviour
 
         drop.transform.localPosition = Vector3.up * 15;
         drop.SetActive(true);
-        for (float i = 0; i <= 1; i += Time.deltaTime * 1.3f)  
+        for (float i = 0; i <= 1; i += Time.deltaTime * 1.7f)
         {
             drop.transform.localPosition = Vector3.Lerp(drop.transform.localPosition, Vector3.zero, i);
             if (Vector3.Distance(drop.transform.localPosition, Vector3.zero) < .3f)
@@ -31,7 +31,7 @@ public class Drop : MonoBehaviour
                 break;
             }
 
-                yield return null;
+            yield return null;
         }
         drop.transform.localPosition = Vector3.zero;
         GameManager.Instance.CinemachineImpulseSource.GenerateImpulse(10f);
@@ -39,10 +39,7 @@ public class Drop : MonoBehaviour
 
         warningObject.SetActive(false);
 
-        damagingObject.enabled = true;
-        yield return new WaitForSeconds(.2f);
-        damagingObject.enabled = false;
-
+        damagingObject.SetActive(true);
         yield return new WaitForSeconds(2f);
         gameObject.SetActive(false);
     }

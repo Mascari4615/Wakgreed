@@ -32,10 +32,10 @@ public class Wakgood : MonoBehaviour, IHitable
     public Transform WeaponPosition { get; private set; }
     private CinemachineTargetGroup cinemachineTargetGroup;
 
-    private bool isHealthy;
+    public bool isHealthy;
 
     private SpriteRenderer spriteRenderer;
-    private WakgoodCollider wakgoodCollider;
+    public WakgoodCollider wakgoodCollider;
     public WakgoodMove WakgoodMove { get; private set; }
 
     public Vector2 worldMousePoint;
@@ -45,8 +45,8 @@ public class Wakgood : MonoBehaviour, IHitable
 
     private static readonly int collapse = Animator.StringToHash("Collapse");
 
-    public bool IsSwitching { get; private set; }
-    public bool IsCollapsed { get; private set; }
+    public bool IsSwitching;
+    public bool IsCollapsed;
     [SerializeField] private BoolVariable isFocusOnSomething;
 
     private GameObject chat;
@@ -270,9 +270,31 @@ public class Wakgood : MonoBehaviour, IHitable
             else
             {
                 hpCur.RuntimeValue = 0;
-                DataManager.Instance.CurGameData.deathCount++;
 
-                Collapse();
+                if (GameManager.Instance.isRealBossing.RuntimeValue)
+                {
+                    if (GameManager.Instance.isRealBossFirstDeath)
+                    {
+                        FakeCollapse();
+                    }
+                    else
+                    {
+                        // ReceiveHeal(100);
+                        /*if (GameManager.Instance.isRealBossing.RuntimeValue)
+                        {
+                            StreamingManager.Instance.donationUI[3].SetActive(false);
+                            StreamingManager.Instance.donationText[3].text = $"±Ë∆««¨¿Ã¥‘¿« ¿¿ø¯¿∏∑Œ √º∑¬ 100 »∏∫π!";
+                            StreamingManager.Instance.donationImageUI[3].sprite = StreamingManager.Instance.donationImages[3];
+                            StreamingManager.Instance.donationUI[3].SetActive(true);
+                            RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
+                        }*/
+                        Collapse();
+                    }
+                }
+                else
+                {
+                    Collapse();
+                }
             }
         }
     }
@@ -283,8 +305,22 @@ public class Wakgood : MonoBehaviour, IHitable
         ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>().SetText(amount.ToString(), Color.green);
     }
 
+    public void FakeCollapse()
+    {
+        IsCollapsed = true;
+
+        WakgoodMove.PlayerRb.bodyType = RigidbodyType2D.Static;
+        WakgoodMove.Animator.SetTrigger(collapse);
+        WakgoodMove.enabled = false;
+        wakgoodCollider.enabled = false;
+
+        GameManager.Instance.StartCoroutine(GameManager.Instance.FakeEnding());
+    }
+
     public void Collapse()
     {
+        DataManager.Instance.CurGameData.deathCount++;
+
         StopAllCoroutines();
         WakgoodMove.StopAllCoroutines();
         ObjectManager.Instance.PopObject("Zeolite", transform);

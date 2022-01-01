@@ -16,6 +16,7 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField] private BoolVariable isLoading;
     [SerializeField] private BoolVariable isBossing;
+    [SerializeField] private BoolVariable isRealBossing;
 
     private Bus bgm, sfx, master;
     private EventInstance sfxVolumeTestEvent;
@@ -64,7 +65,11 @@ public class AudioManager : MonoBehaviour
         if (Wakgood.Instance != null)
             wakgoodCollapsed = Wakgood.Instance.IsCollapsed;
 
-        if (isBossing.RuntimeValue)
+        if (isRealBossing.RuntimeValue)
+        {
+
+        }
+        else if (isBossing.RuntimeValue)
         {
             BgmEvent.getPlaybackState(out pbState);
             if (pbState == PLAYBACK_STATE.STOPPED)
@@ -95,7 +100,13 @@ public class AudioManager : MonoBehaviour
         BgmEvent.stop(STOP_MODE.ALLOWFADEOUT);
         BgmEvent = RuntimeManager.CreateInstance($"event:/BGM/{musicName}");
         BgmEvent.start();
-        if (UIManager.Instance != null) UIManager.Instance.SetMusicName(musicName);
+    }
+
+    public void PlayRealMusic()
+    {
+        BgmEvent.stop(STOP_MODE.ALLOWFADEOUT);
+        BgmEvent = RuntimeManager.CreateInstance($"event:/BGM/Badassgatsby - ¿Î½º¶ó´Ù");
+        BgmEvent.start();
     }
 
     public void MasterVolumeLevel(float newVolume) => 

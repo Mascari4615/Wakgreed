@@ -198,6 +198,9 @@ public class Dopamine : BossMonster
             }
         }
 
+        foreach (var lineRenderer in lineRenderer)
+            lineRenderer.gameObject.SetActive(false);
+
         yield return StartCoroutine(UIManager.Instance.SpeedWagon_BossOff(this));
         yield return StartCoroutine(SpawnWakpago());
 
