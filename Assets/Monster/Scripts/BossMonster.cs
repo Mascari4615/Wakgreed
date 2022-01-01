@@ -1,5 +1,6 @@
 using FMODUnity;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
@@ -52,11 +53,26 @@ public abstract class BossMonster : Monster
         attackCO = StartCoroutine(nameof(Attack));
     }
 
+    protected List<GameObject> monsterList = new();
+
     protected abstract IEnumerator Attack();
     
     protected override void Collapse()
     {
         StartCoroutine(_Collapse());
+    }
+
+    protected bool MobListContains(int mobInstanceID)
+    {
+        foreach (var mob in monsterList)
+        {
+            if (mobInstanceID.Equals(mob.GetInstanceID()))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     protected virtual IEnumerator _Collapse()
@@ -84,6 +100,15 @@ public abstract class BossMonster : Monster
         for (int i = 0; i < randCount; i++) ObjectManager.Instance.PopObject("ExpOrb", transform);
 
         ObjectManager.Instance.PopObject("LevelUpEffect", transform);
+
+        foreach (var monster in monsterList)
+        {
+            if (monster.activeSelf)
+            {
+                ObjectManager.Instance.PushObject(monster);
+            }
+        }
+
         yield return StartCoroutine(UIManager.Instance.SpeedWagon_BossOff(this));
         yield return new WaitForSeconds(3f);
 

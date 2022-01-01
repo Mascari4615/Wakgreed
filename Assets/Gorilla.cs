@@ -52,7 +52,7 @@ public class Gorilla : NormalMonster
     {
         while (true)
         {
-            if (Vector2.Distance(transform.position, Wakgood.Instance.transform.position) < 7)
+            if (Vector2.Distance(transform.position, Wakgood.Instance.transform.position) < 20)
             {
                 StopCoroutine(idle);   
                 rush = StartCoroutine(Rush());
@@ -67,11 +67,11 @@ public class Gorilla : NormalMonster
         Animator.SetBool("ISMOVING", false);
         Rigidbody2D.velocity = Vector2.zero;
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
 
         while (true)
         {
-            if (Vector2.Distance(transform.position, Wakgood.Instance.transform.position) > 10)
+            if (Vector2.Distance(transform.position, Wakgood.Instance.transform.position) > 12)
             {
                 Animator.SetBool("ISMOVING", true);
                 SpriteRenderer.flipX = IsWakgoodRight();
@@ -113,7 +113,7 @@ public class Gorilla : NormalMonster
                 earthQuakeWarning.SetActive(false);
                 earthQuake.SetActive(true);
 
-                yield return new WaitForSeconds(3f);
+                yield return new WaitForSeconds(2f);
             }
         }
     }

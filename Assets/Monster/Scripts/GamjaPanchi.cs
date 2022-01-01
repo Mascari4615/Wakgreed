@@ -16,7 +16,7 @@ public class GamjaPanchi : NormalMonster
         bullet.gameObject.SetActive(false);
         bullet.transform.localPosition = Vector3.zero;
 
-        curAttackCoolTime = attackCoolTime;
+        curAttackCoolTime = attackCoolTime / 3;
         attack = StartCoroutine(Attack());
     }
 
@@ -33,7 +33,7 @@ public class GamjaPanchi : NormalMonster
             else
             {
                 direction = GetDirection();
-                yield return StartCoroutine(Casting(0.7f));
+                yield return StartCoroutine(Casting(1f));
                 Animator.SetTrigger("ATTACK");
                 yield return ws1;
                 curAttackCoolTime = attackCoolTime;

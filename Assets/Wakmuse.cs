@@ -10,34 +10,26 @@ public class Wakmuse : NormalMonster
     }
     [SerializeField] private Note[] notes;
 
-    private bool bRecognizeWakgood = false;
     private bool bIsAttacking = false;
+
+    private Coroutine flip;
+    private Coroutine attack;
 
     protected override void OnEnable()
     {
-        bRecognizeWakgood = false;
         bIsAttacking = false;
         base.OnEnable();
-        StartCoroutine(CheckDistance());
+        flip = StartCoroutine(Flip());
+        attack = StartCoroutine(Attack());
     }
 
-    private IEnumerator CheckDistance()
+    private IEnumerator Flip()
     {
         while (true)
         {
-            if (!bRecognizeWakgood)
-            {
-                if (Vector2.Distance(transform.position, Wakgood.Instance.transform.position) < 15)
-                {
-                    bRecognizeWakgood = true;
-                    StartCoroutine(Attack());
-                }
-            }
-            else
-            {
-                if (!bIsAttacking)
-                    SpriteRenderer.flipX = transform.position.x < Wakgood.Instance.transform.position.x;
-            }
+            if (!bIsAttacking)
+                SpriteRenderer.flipX = transform.position.x < Wakgood.Instance.transform.position.x;
+
             yield return ws01;
         }
     }
@@ -45,18 +37,18 @@ public class Wakmuse : NormalMonster
 
     private IEnumerator Attack()
     {
-        WaitForSeconds ws5 = new(5f);
+        WaitForSeconds ws3 = new(3f);
 
         while (true)
         {
             bIsAttacking = true;
             Animator.SetTrigger("READY");
-            yield return StartCoroutine(Casting(1f));
+            yield return StartCoroutine(Casting(.7f));
             Animator.SetTrigger("GO");
             Cry();
             bIsAttacking = false;
 
-            yield return ws5;
+            yield return ws3;
         }
     }
 
@@ -79,10 +71,13 @@ public class Wakmuse : NormalMonster
 
     protected override void Collapse()
     {
+        if (attack != null) StopCoroutine(attack);
+        if (flip != null) StopCoroutine(flip);
+
         foreach (var _notes in notes)
         {
             foreach (var note in _notes.notes)
-            { 
+            {
                 note.gameObject.SetActive(false);
             }
         }
