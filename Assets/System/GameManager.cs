@@ -133,7 +133,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(isRealBossing.RuntimeValue);
         enemy.text = enemyRunTimeSet.Items.Count.ToString();
 
         isFocusOnSomething.RuntimeValue = (StreamingManager.Instance.IsChatting || isLoading.RuntimeValue || isShowingSomething.RuntimeValue);
@@ -227,7 +226,7 @@ public class GameManager : MonoBehaviour
         isBossing.RuntimeValue = false;
         isRealBossing.RuntimeValue = false;
         isRealBossFirstDeath = true;
-
+        StreamingManager.Instance.temp = false;
         StageManager.Instance.DestroyStage();
         UIManager.Instance.SetStageName("마을");
         UIManager.Instance.SetRoomName("마을");
@@ -320,6 +319,7 @@ public class GameManager : MonoBehaviour
         isBossing.RuntimeValue = false;
         isRealBossing.RuntimeValue = false;
         isRealBossFirstDeath = true;
+        StreamingManager.Instance.temp = false;
 
         StageManager.Instance.DestroyStage();
         UIManager.Instance.SetStageName("마을");
@@ -383,7 +383,7 @@ public class GameManager : MonoBehaviour
         viewer.RuntimeValue = 3000;
         ObjectManager.Instance.PopObject("AnimatedText", transform.position + Vector3.up).GetComponent<AnimatedText>().SetText($"시청자 +{3000}", Color.white);
         StreamingManager.Instance. donationUI[1].SetActive(false);
-        StreamingManager.Instance.donationText[1].text = $"고지잠님이 호스팅하였습니다";
+        StreamingManager.Instance.donationText[1].text = $"고니잠님이 호스팅하였습니다";
         StreamingManager.Instance.donationImageUI[1].sprite = StreamingManager.Instance.donationImages[3];
         StreamingManager.Instance.donationUI[1].SetActive(true);
         RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
@@ -396,7 +396,6 @@ public class GameManager : MonoBehaviour
 
         for (float i = 0; i < 1; i += Time.deltaTime / 3)
         {
-            Debug.Log($"{hosting.alpha} _ {i}");
             hosting.alpha = i;
         }
 
@@ -406,12 +405,11 @@ public class GameManager : MonoBehaviour
 
         for (float i = 1; i > 0; i -= Time.deltaTime / 3)
         {
-            Debug.Log($"{hosting.alpha} _ {i}");
             hosting.alpha = i;
         }
 
         text1.gameObject.SetActive(false);
-        viewer.RuntimeValue = 3000;
+        viewer.RuntimeValue += 3000;
         ObjectManager.Instance.PopObject("AnimatedText", transform.position + Vector3.up).GetComponent<AnimatedText>().SetText($"시청자 +{3000}", Color.white);
         StreamingManager.Instance.donationUI[2].SetActive(false);
         StreamingManager.Instance.donationText[2].text = $"놀란님이 호스팅 하였습니다";
@@ -419,7 +417,7 @@ public class GameManager : MonoBehaviour
         StreamingManager.Instance.donationUI[2].SetActive(true);
         RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
         yield return new WaitForSeconds(.4f);
-        viewer.RuntimeValue = 3000;
+        viewer.RuntimeValue += 3000;
         ObjectManager.Instance.PopObject("AnimatedText", transform.position + Vector3.up).GetComponent<AnimatedText>().SetText($"시청자 +{3000}", Color.white);
         StreamingManager.Instance.donationUI[3].SetActive(false);
         StreamingManager.Instance.donationText[3].text = $"김판푼이님이 호스팅 하였습니다";
@@ -427,7 +425,7 @@ public class GameManager : MonoBehaviour
         StreamingManager.Instance.donationUI[3].SetActive(true);
         RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
         yield return new WaitForSeconds(.4f);
-        viewer.RuntimeValue = 3000;
+        viewer.RuntimeValue += 3000;
         ObjectManager.Instance.PopObject("AnimatedText", transform.position + Vector3.up).GetComponent<AnimatedText>().SetText($"시청자 +{3000}", Color.white);
         StreamingManager.Instance.donationUI[4].SetActive(false);
         StreamingManager.Instance.donationText[4].text = $"주르르님이 호스팅 하였습니다";
@@ -437,7 +435,6 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3);
         for (float i = 0; i < 1; i += Time.deltaTime / 3)
         {
-            Debug.Log($"{hosting.alpha} _ {i}");
             hosting.alpha = i;
         }
         yield return new WaitForSeconds(1f);
@@ -445,7 +442,6 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         for (float i = 1; i > 0; i -= Time.deltaTime / 3)
         {
-            Debug.Log($"{hosting.alpha} _ {i}");
             hosting.alpha = i;
         }
         text2.gameObject.SetActive(false);
@@ -454,7 +450,6 @@ public class GameManager : MonoBehaviour
         AudioManager.Instance.PlayRealMusic();
         CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
         CinemachineTargetGroup.m_Targets[1].target = null;
-        viewer.RuntimeValue = 10000;
         
         Wakgood.Instance.IsSwitching = false;
         Wakgood.Instance.isHealthy = true;

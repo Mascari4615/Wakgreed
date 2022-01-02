@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.Rendering.PostProcessing;
 
 public class RealWakgood : BossMonster
 {
@@ -228,8 +227,8 @@ public class RealWakgood : BossMonster
         textMesh2.gameObject.SetActive(false);
 
         lineRenderer.positionCount = 2;
-
-        for (int i = 0; i < 6; i++)
+        int rand = Random.Range(6, 8 + 1);
+        for (int i = 0; i < rand; i++)
         {
             Vector3 pos1 = Wakgood.Instance.transform.position + ((Vector3)Random.insideUnitCircle * 10f).normalized * 100; 
             Vector3 pos2 = Wakgood.Instance.transform.position + (Wakgood.Instance.transform.position - pos1).normalized * 100;
@@ -238,7 +237,7 @@ public class RealWakgood : BossMonster
             lineRenderer.SetPosition(1, pos2);
             lineRenderer.gameObject.SetActive(true);
 
-            yield return new WaitForSeconds(i == 0 ? 1f : .3f);
+            yield return new WaitForSeconds(i == 0 ? 1f : .5f);
             lineRenderer.gameObject.SetActive(false);
 
             var temp = Instantiate(icecream, pos1 + (pos2 - pos1) / 2, Quaternion.Euler(new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan2(pos2.y - pos1.y, pos2.x - pos1.x))));

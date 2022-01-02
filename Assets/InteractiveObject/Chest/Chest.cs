@@ -1,5 +1,6 @@
 using UnityEngine;
 using FMODUnity;
+using System.Collections.Generic;
 
 public class Chest : InteractiveObject
 {
@@ -7,7 +8,7 @@ public class Chest : InteractiveObject
 
     private bool isOpened;
     private bool isItem;
-    private int itemID;
+    private List<int> itemIDs = new();
 
     [SerializeField] private float commonWeight;
     [SerializeField] private float uncommonWeight;
@@ -19,6 +20,8 @@ public class Chest : InteractiveObject
     private ObjectWithDuration objectWithDuration;
     private Animator animator;
     private new Collider2D collider2D;
+
+    protected int itemCount = 1;
     
     private static readonly int open = Animator.StringToHash("OPEN");
 
@@ -45,10 +48,28 @@ public class Chest : InteractiveObject
         probability.Add(ItemGrade.Uncommon,uncommonWeight);
         probability.Add(ItemGrade.Legendary, legendaryWeight);
 
+        itemIDs.Clear();
+
         isOpened = false;
         isItem = Random.Range(0, 100) > 15;
-        itemID = onlyWeapon ? DataManager.Instance.GetRandomWeaponID(probability.Get())
-            : isItem ? DataManager.Instance.GetRandomItemID(probability.Get()) : DataManager.Instance.GetRandomWeaponID(probability.Get());
+        if (onlyWeapon)
+        {
+            itemIDs.Add(DataManager.Instance.GetRandomWeaponID(probability.Get()));
+        }
+        else
+        {
+            if (isItem)
+            {
+                for (int i = 0; i < itemCount; i++)
+                {
+                    itemIDs.Add(DataManager.Instance.GetRandomItemID(probability.Get()));
+                }
+            }
+            else
+            {
+                itemIDs.Add(DataManager.Instance.GetRandomWeaponID(probability.Get()));
+            }
+        }
     }
 
     public override void Interaction()
@@ -66,9 +87,17 @@ public class Chest : InteractiveObject
     protected virtual void OpenChest()
     {
         RuntimeManager.PlayOneShot($"event:/SFX/ETC/Chest", transform.position);
+
         if (isItem)
-            ObjectManager.Instance.PopObject(nameof(ItemGameObject), transform.position).GetComponent<ItemGameObject>().Initialize(itemID);
-        else    
-            ObjectManager.Instance.PopObject(nameof(WeaponGameObject), transform.position).GetComponent<WeaponGameObject>().Initialize(itemID);
+        {
+            for (int i = 0; i < itemCount; i++)
+            {
+                ObjectManager.Instance.PopObject(nameof(ItemGameObject), transform.position).GetComponent<ItemGameObject>().Initialize(itemIDs[i]);
+            }
+        }
+        else
+        {
+            ObjectManager.Instance.PopObject(nameof(WeaponGameObject), transform.position).GetComponent<WeaponGameObject>().Initialize(itemIDs[0]);
+        }
     }
 }

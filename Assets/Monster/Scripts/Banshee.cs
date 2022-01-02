@@ -29,7 +29,7 @@ public class Banshee : NormalMonster
             }
             else
             {
-                SpriteRenderer.flipX = transform.position.x < Wakgood.Instance.transform.position.x;
+                SpriteRenderer.flipX = transform.position.x > Wakgood.Instance.transform.position.x;
             }
             yield return ws01;
         }

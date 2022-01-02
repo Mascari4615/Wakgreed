@@ -285,7 +285,9 @@ public class StreamingManager : MonoBehaviour
         }
     }
 
-    private IEnumerator CheckViewer()
+    public bool temp = false;
+
+    public IEnumerator CheckViewer()
     {
         while (true)
         {
@@ -309,20 +311,19 @@ public class StreamingManager : MonoBehaviour
             {
                 if (GameManager.Instance.isRealBossFirstDeath)
                 {
-                    Wakgood.Instance.FakeCollapse();
+                    if (temp == false)
+                    {
+                        Debug.Log("asd");
+                        Wakgood.Instance.FakeCollapse();
+                        temp = true;
+                    }
                 }
                 else
                 {
-                    /*viewer.RuntimeValue += 3000;
-                    ObjectManager.Instance.PopObject("AnimatedText", transform.position + Vector3.up).GetComponent<AnimatedText>().SetText($"시청자 +{3000}", Color.white);
-                    donationUI[1].SetActive(false);
-                    donationText[1].text = $"주르르님의 호스팅!";
-                    donationImageUI[1].sprite = donationImages[1];
-                    donationUI[1].SetActive(true);*/
-
                     DataManager.Instance.CurGameData.deathCount++;
                     DataManager.Instance.SaveGameData();
                     Wakgood.Instance.Collapse();
+                    break;
                 }
             }
             else
@@ -332,6 +333,9 @@ public class StreamingManager : MonoBehaviour
                 Wakgood.Instance.Collapse();
                 break;
             }
+
+            Debug.Log("??");
+            yield return null;
         }
     }
 

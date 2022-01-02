@@ -18,7 +18,7 @@ public class ViewBot : NormalMonster
         {
             Animator.SetBool("ISMOVING", true);
             Rigidbody2D.velocity = (Wakgood.Instance.transform.position - transform.position).normalized * MoveSpeed;
-            SpriteRenderer.flipX = IsWakgoodRight();
+            SpriteRenderer.flipX = !IsWakgoodRight();
             yield return ws01;
 
             if (Vector3.Distance(Wakgood.Instance.transform.position, transform.position) < 1f)
