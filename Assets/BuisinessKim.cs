@@ -182,7 +182,7 @@ public class BuisinessKim : BossMonster
         {
 /*            if (camera.m_Lens.OrthographicSize > 12) camera.m_Lens.OrthographicSize -= 6 * Time.fixedDeltaTime;
             else if (camera.m_Lens.OrthographicSize > 10) camera.m_Lens.OrthographicSize -= 1 * Time.fixedDeltaTime;*/
-            Wakgood.Instance.WakgoodMove.PlayerRb.AddForce(Vector3.left * 500);
+            // Wakgood.Instance.WakgoodMove.PlayerRb.AddForce(Vector3.left * 500);
             yield return new WaitForFixedUpdate();
             temp += Time.fixedDeltaTime;
         }

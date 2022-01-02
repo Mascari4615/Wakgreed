@@ -97,8 +97,7 @@ public class DamagingObject : MonoBehaviour
         }
         else if (other.CompareTag("Player") && bTargetWak == true)
         {
-            // Debug.Log($"{this.gameObject.name}, => {other.gameObject.name}");
-            if (other.transform.parent.TryGetComponent(out IHitable wakgood))
+            if (other.transform.TryGetComponent(out IHitable wakgood))
             {
                 wakgood.ReceiveHit(damage);
                 if (offGoOnHit)

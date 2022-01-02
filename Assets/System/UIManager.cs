@@ -54,6 +54,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI ammoText;
     [SerializeField] private TextMeshProUGUI resultText;
+    [SerializeField] private GameObject bag;
 
     private void Awake()
     {
@@ -87,11 +88,12 @@ public class UIManager : MonoBehaviour
         if (isFocusOnSomething.RuntimeValue)
         {
             if (state.activeSelf) state.SetActive(false);
+            if (bag.activeSelf) bag.SetActive(false);
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.C)) state.SetActive(true);
-            else if (Input.GetKeyUp(KeyCode.C)) state.SetActive(false);
+            if (Input.GetKeyDown(KeyCode.V)) bag.SetActive(!bag.activeSelf);
+            if (Input.GetKeyDown(KeyCode.C)) state.SetActive(!state.activeSelf);
         }
 
         if (Wakgood.Instance.Weapon[Wakgood.Instance.CurWeaponNumber].IsReloading)

@@ -34,10 +34,10 @@ RectTransform:
   m_Father: {fileID: 6662924725357713278}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 30, y: 30}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6662924724410733270
 CanvasRenderer:
@@ -126,7 +126,7 @@ RectTransform:
   m_Children:
   - {fileID: 6662924724410733275}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -155,8 +155,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   toolTipTrigger: {fileID: 6662924725357713279}
   image: {fileID: 6662924724410733269}
-  specialThing: {fileID: 0}
   countTextField: {fileID: 0}
+  priceText: {fileID: 0}
+  nameText: {fileID: 0}
+  descriptionText: {fileID: 0}
 --- !u!114 &6662924725357713279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,3 +171,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b8aac8f1932cb64d9f052fd6af6ccb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isSpecialThings: 1

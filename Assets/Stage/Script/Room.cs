@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(PolygonCollider2D))]
 public abstract class Room : MonoBehaviour
 {
     public Vector2 Coordinate { get; private set; }
@@ -8,12 +8,14 @@ public abstract class Room : MonoBehaviour
     public bool[] IsConnectToNearbyRoom { get; private set; } = { false, false, false, false };
     public Transform CenterSpawnPoint { get; private set; }
     public GameObject[] Doors { get; private set; } = new GameObject[4];
+    public PolygonCollider2D poly { get; private set; }
     protected List<GameObject> DoorHiders { get; private set; } = new();
     protected List<GameObject> DoorParticles { get; private set; } = new();
     public GameObject particle { get; private set; }
 
     protected virtual void Awake()
     {
+        poly = GetComponent<PolygonCollider2D>();
         particle = transform.Find("Particle System").gameObject;
         CenterSpawnPoint = transform.Find("Center");
     }

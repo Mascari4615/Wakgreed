@@ -320,7 +320,7 @@ public class StageManager : MonoBehaviour
         CurrentRoom.particle.SetActive(false);
         CurrentRoom = roomDic[CurrentRoom.Coordinate + moveDirection];
         CurrentRoom.particle.SetActive(true);
-
+        GameManager.Instance.CinemachineConfiner2D.m_BoundingShape2D = CurrentRoom.poly;
         UIManager.Instance.SetRoomName($"{CurrentRoom.gameObject.name}");
 
         Wakgood.Instance.transform.position = CurrentRoom.Doors[spawnDirection].transform.position + (Vector3)moveDirection * 4;

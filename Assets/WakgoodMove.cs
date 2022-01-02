@@ -1,178 +1,292 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using FMODUnity;
-using System;
 
-public class WakgoodMove : MonoBehaviour
+public class WakgoodMove : RaycastController
 {
-    public Rigidbody2D PlayerRb => playerRb ??= GetComponent<Rigidbody2D>();
-    public Animator Animator => animator ??= GetComponent<Animator>();
-    public bool MbDashing;
+    public float maxSlopeAngle = 80;
+    public CollisionInfo collisions;
+    [HideInInspector]
+    public Vector2 playerInput;
 
-    [SerializeField] private FloatVariable moveSpeed;
-    [SerializeField] private IntVariable moveSpeedBonus;
-    [SerializeField] private IntVariable maxDashStack;
-    [SerializeField] private IntVariable curDashStack;
-    [SerializeField] private FloatVariable dashCoolTime;
-    [SerializeField] private FloatVariable dashChargeSpeed;
-    [SerializeField] private BoolVariable isFocusOnSomething;
-    [SerializeField] private GameObject iceObject;
-    [SerializeField] private GameObject[] keyObject;
-    private Rigidbody2D playerRb;
-    private Animator animator;
-    private readonly List<int> hInputList = new();
-    private readonly List<int> vInputList = new();
-    private int horizontalInput;
-    private int verticalInput;
-    private Vector2 moveDirection;
-    public bool mbMoving;
-    private bool mbCanBbolBbol = true;
-    private bool mbIced = false;
-    private static readonly int wakeUp = Animator.StringToHash("WakeUp");
-    private static readonly int move = Animator.StringToHash("Move");
-    private static readonly int collapse = Animator.StringToHash("Collapse");
-    private const float DashParameter = 4;
-
-    public void Initialize()
+    public override void Start()
     {
-        MbDashing = false;
-        Animator.SetTrigger(wakeUp);
-        Animator.SetBool(move, false);
-        PlayerRb.bodyType = RigidbodyType2D.Dynamic;
-        StartCoroutine(UpdateDashStack());
+        base.Start();
+        collisions.faceDir = 1;
     }
 
-    private void Update()
+    public void Move(Vector2 moveAmount, bool standingOnPlatform)
     {
-        if (Wakgood.Instance.IsCollapsed)
-        {
-            Animator.SetBool(collapse, true);
-            return;
-        }
-
-        if (Time.timeScale == 0 || isFocusOnSomething.RuntimeValue || mbIced)
-        {
-            mbMoving = false;
-            Animator.SetBool(move, mbMoving);
-            return;
-        }
-
-        if (!MbDashing)
-            Move();
-
-        if (Input.GetKeyDown(KeyCode.Space) && mbMoving && !MbDashing && curDashStack.RuntimeValue > 0)
-            StartCoroutine(Dash());
+        Move(moveAmount, Vector2.zero, standingOnPlatform);
     }
 
-    private void Move()
+    public void Move(Vector2 moveAmount, Vector2 input, bool standingOnPlatform = false)
     {
-        if (Input.GetKey(KeyCode.A)) { if (!hInputList.Contains(-1)) hInputList.Add(-1); }
-        else if (hInputList.Contains(-1)) hInputList.Remove(-1);
-        if (Input.GetKey(KeyCode.D)) { if (!hInputList.Contains(1)) hInputList.Add(1); }
-        else if (hInputList.Contains(1)) hInputList.Remove(1);
-        if (Input.GetKey(KeyCode.W)) { if (!vInputList.Contains(1)) vInputList.Add(1); }
-        else if (vInputList.Contains(1)) vInputList.Remove(1);
-        if (Input.GetKey(KeyCode.S)) { if (!vInputList.Contains(-1)) vInputList.Add(-1); }
-        else if (vInputList.Contains(-1)) vInputList.Remove(-1);
+        UpdateRaycastOrigins();
 
-        horizontalInput = hInputList.Count == 0 ? 0 : hInputList[^1];
-        verticalInput = vInputList.Count == 0 ? 0 : vInputList[^1];
+        collisions.Reset();
+        collisions.moveAmountOld = moveAmount;
+        playerInput = input;
 
-        moveDirection = new Vector2(horizontalInput, verticalInput).normalized;
-        mbMoving = !moveDirection.Equals(Vector2.zero);
-        Animator.SetBool(move, mbMoving);
-        if (playerRb.bodyType != RigidbodyType2D.Static)
+        if (moveAmount.y < 0)
         {
-            PlayerRb.velocity = moveDirection * (float)Math.Round(moveSpeed.RuntimeValue * (1 + (float)moveSpeedBonus.RuntimeValue / 100), MidpointRounding.AwayFromZero);
+            DescendSlope(ref moveAmount);
         }
-        if (!mbMoving || !mbCanBbolBbol)
-            return;
 
-        RuntimeManager.PlayOneShot("event:/SFX/Wakgood/BbolBbol");
-        ObjectManager.Instance.PopObject("BBolBBol", transform.position);
-        StartCoroutine(TtmdaclExtension.ChangeWithDelay(!(mbCanBbolBbol = false), UnityEngine.Random.Range(0.1f, 0.3f), value => mbCanBbolBbol = value));
+        if (moveAmount.x != 0)
+        {
+            collisions.faceDir = (int)Mathf.Sign(moveAmount.x);
+        }
+
+        HorizontalCollisions(ref moveAmount);
+        if (moveAmount.y != 0)
+        {
+            VerticalCollisions(ref moveAmount);
+        }
+
+        transform.Translate(moveAmount);
+
+        if (standingOnPlatform)
+        {
+            collisions.below = true;
+        }
     }
 
-    private IEnumerator Dash()
+    void HorizontalCollisions(ref Vector2 moveAmount)
     {
-        MbDashing = true;
-        RuntimeManager.PlayOneShot("event:/SFX/Wakgood/Dash");
-        curDashStack.RuntimeValue--;
-        for (float temptime = 0; temptime <= 0.1f; temptime += Time.deltaTime)
-        {
-            if (Physics2D.BoxCast(transform.position, new Vector2(.5f, .5f), 0f, moveDirection, 0.9f, LayerMask.GetMask("Wall")).collider != null)
-                break;
+        float directionX = collisions.faceDir;
+        float rayLength = Mathf.Abs(moveAmount.x) + skinWidth;
 
-            PlayerRb.velocity = 10 * DashParameter * moveDirection;
-            yield return new WaitForFixedUpdate();
+        if (Mathf.Abs(moveAmount.x) < skinWidth)
+        {
+            rayLength = 2 * skinWidth;
         }
-        MbDashing = false;
-    }
 
-    private IEnumerator UpdateDashStack()
-    {
-        while (true)
+        for (int i = 0; i < horizontalRayCount; i++)
         {
-            if (curDashStack.RuntimeValue < maxDashStack.RuntimeValue)
+            Vector2 rayOrigin = (directionX == -1) ? raycastOrigins.bottomLeft : raycastOrigins.bottomRight;
+            rayOrigin += Vector2.up * (horizontalRaySpacing * i);
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, collisionMask);
+
+            Debug.DrawRay(rayOrigin, Vector2.right * directionX, Color.red);
+
+            if (hit)
             {
-                yield return new WaitForSeconds(dashCoolTime.RuntimeValue * (1 - dashChargeSpeed.RuntimeValue / 100));
-                curDashStack.RuntimeValue++;
-            }
 
-            yield return null;
-        }
-    }
-    public void TryIced()
-    {
-        if (iced != null) StopCoroutine(iced);
-        if (inputKey != null) StopCoroutine(inputKey);
-        keyObject[0].SetActive(false);
-        keyObject[1].SetActive(false);
-        keyObject[2].SetActive(false);
-        keyObject[3].SetActive(false);
+                if (hit.distance == 0)
+                {
+                    continue;
+                }
 
-        iced = StartCoroutine(Iced());
-    }
+                float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
 
-    private Coroutine iced;
-    private Coroutine inputKey;
+                if (i == 0 && slopeAngle <= maxSlopeAngle)
+                {
+                    if (collisions.descendingSlope)
+                    {
+                        collisions.descendingSlope = false;
+                        moveAmount = collisions.moveAmountOld;
+                    }
+                    float distanceToSlopeStart = 0;
+                    if (slopeAngle != collisions.slopeAngleOld)
+                    {
+                        distanceToSlopeStart = hit.distance - skinWidth;
+                        moveAmount.x -= distanceToSlopeStart * directionX;
+                    }
+                    ClimbSlope(ref moveAmount, slopeAngle, hit.normal);
+                    moveAmount.x += distanceToSlopeStart * directionX;
+                }
 
-    private IEnumerator Iced()
-    {
-        mbIced = true;
-        iceObject.SetActive(true);
+                if (!collisions.climbingSlope || slopeAngle > maxSlopeAngle)
+                {
+                    moveAmount.x = (hit.distance - skinWidth) * directionX;
+                    rayLength = hit.distance;
 
-        for (int i = 0; i < 2; i++)
-        {
-            int temp = UnityEngine.Random.Range(0, 3 + 1);
+                    if (collisions.climbingSlope)
+                    {
+                        moveAmount.y = Mathf.Tan(collisions.slopeAngle * Mathf.Deg2Rad) * Mathf.Abs(moveAmount.x);
+                    }
 
-            switch (temp)
-            {
-                case 0:
-                    inputKey = StartCoroutine(InputKey(KeyCode.W, 0));
-                    break;
-                case 1:
-                    yield return inputKey = StartCoroutine(InputKey(KeyCode.A, 1));
-                    break;
-                case 2:
-                    yield return inputKey = StartCoroutine(InputKey(KeyCode.S, 2));
-                    break;
-                case 3:
-                    yield return inputKey = StartCoroutine(InputKey(KeyCode.D, 3));
-                    break;
+                    collisions.left = directionX == -1;
+                    collisions.right = directionX == 1;
+                }
             }
         }
-
-        iceObject.SetActive(false);
-        mbIced = false;
     }
 
-    private IEnumerator InputKey(KeyCode keyCode, int i)
+    void VerticalCollisions(ref Vector2 moveAmount)
     {
-        keyObject[i].SetActive(true);
-        do yield return null;
-        while (!Input.GetKeyDown(keyCode));
-        keyObject[i].SetActive(false);
+        float directionY = Mathf.Sign(moveAmount.y);
+        float rayLength = Mathf.Abs(moveAmount.y) + skinWidth;
+
+        for (int i = 0; i < verticalRayCount; i++)
+        {
+
+            Vector2 rayOrigin = (directionY == -1) ? raycastOrigins.bottomLeft : raycastOrigins.topLeft;
+            rayOrigin += Vector2.right * (verticalRaySpacing * i + moveAmount.x);
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, collisionMask);
+
+            Debug.DrawRay(rayOrigin, Vector2.up * directionY, Color.red);
+
+            if (hit)
+            {
+                if (hit.collider.tag == "Through")
+                {
+                    if (directionY == 1 || hit.distance == 0)
+                    {
+                        continue;
+                    }
+                    if (collisions.fallingThroughPlatform)
+                    {
+                        continue;
+                    }
+                    if (playerInput.y == -1)
+                    {
+                        collisions.fallingThroughPlatform = true;
+                        Invoke("ResetFallingThroughPlatform", .5f);
+                        continue;
+                    }
+                }
+
+                moveAmount.y = (hit.distance - skinWidth) * directionY;
+                rayLength = hit.distance;
+
+                if (collisions.climbingSlope)
+                {
+                    moveAmount.x = moveAmount.y / Mathf.Tan(collisions.slopeAngle * Mathf.Deg2Rad) * Mathf.Sign(moveAmount.x);
+                }
+
+                collisions.below = directionY == -1;
+                collisions.above = directionY == 1;
+            }
+        }
+
+        if (collisions.climbingSlope)
+        {
+            float directionX = Mathf.Sign(moveAmount.x);
+            rayLength = Mathf.Abs(moveAmount.x) + skinWidth;
+            Vector2 rayOrigin = ((directionX == -1) ? raycastOrigins.bottomLeft : raycastOrigins.bottomRight) + Vector2.up * moveAmount.y;
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, collisionMask);
+
+            if (hit)
+            {
+                float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
+                if (slopeAngle != collisions.slopeAngle)
+                {
+                    moveAmount.x = (hit.distance - skinWidth) * directionX;
+                    collisions.slopeAngle = slopeAngle;
+                    collisions.slopeNormal = hit.normal;
+                }
+            }
+        }
     }
+
+    void ClimbSlope(ref Vector2 moveAmount, float slopeAngle, Vector2 slopeNormal)
+    {
+        float moveDistance = Mathf.Abs(moveAmount.x);
+        float climbmoveAmountY = Mathf.Sin(slopeAngle * Mathf.Deg2Rad) * moveDistance;
+
+        if (moveAmount.y <= climbmoveAmountY)
+        {
+            moveAmount.y = climbmoveAmountY;
+            moveAmount.x = Mathf.Cos(slopeAngle * Mathf.Deg2Rad) * moveDistance * Mathf.Sign(moveAmount.x);
+            collisions.below = true;
+            collisions.climbingSlope = true;
+            collisions.slopeAngle = slopeAngle;
+            collisions.slopeNormal = slopeNormal;
+        }
+    }
+
+    void DescendSlope(ref Vector2 moveAmount)
+    {
+
+        RaycastHit2D maxSlopeHitLeft = Physics2D.Raycast(raycastOrigins.bottomLeft, Vector2.down, Mathf.Abs(moveAmount.y) + skinWidth, collisionMask);
+        RaycastHit2D maxSlopeHitRight = Physics2D.Raycast(raycastOrigins.bottomRight, Vector2.down, Mathf.Abs(moveAmount.y) + skinWidth, collisionMask);
+        if (maxSlopeHitLeft ^ maxSlopeHitRight)
+        {
+            SlideDownMaxSlope(maxSlopeHitLeft, ref moveAmount);
+            SlideDownMaxSlope(maxSlopeHitRight, ref moveAmount);
+        }
+
+        if (!collisions.slidingDownMaxSlope)
+        {
+            float directionX = Mathf.Sign(moveAmount.x);
+            Vector2 rayOrigin = (directionX == -1) ? raycastOrigins.bottomRight : raycastOrigins.bottomLeft;
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, -Vector2.up, Mathf.Infinity, collisionMask);
+
+            if (hit)
+            {
+                float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
+                if (slopeAngle != 0 && slopeAngle <= maxSlopeAngle)
+                {
+                    if (Mathf.Sign(hit.normal.x) == directionX)
+                    {
+                        if (hit.distance - skinWidth <= Mathf.Tan(slopeAngle * Mathf.Deg2Rad) * Mathf.Abs(moveAmount.x))
+                        {
+                            float moveDistance = Mathf.Abs(moveAmount.x);
+                            float descendmoveAmountY = Mathf.Sin(slopeAngle * Mathf.Deg2Rad) * moveDistance;
+                            moveAmount.x = Mathf.Cos(slopeAngle * Mathf.Deg2Rad) * moveDistance * Mathf.Sign(moveAmount.x);
+                            moveAmount.y -= descendmoveAmountY;
+
+                            collisions.slopeAngle = slopeAngle;
+                            collisions.descendingSlope = true;
+                            collisions.below = true;
+                            collisions.slopeNormal = hit.normal;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    void SlideDownMaxSlope(RaycastHit2D hit, ref Vector2 moveAmount)
+    {
+
+        if (hit)
+        {
+            float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
+            if (slopeAngle > maxSlopeAngle)
+            {
+                moveAmount.x = Mathf.Sign(hit.normal.x) * (Mathf.Abs(moveAmount.y) - hit.distance) / Mathf.Tan(slopeAngle * Mathf.Deg2Rad);
+
+                collisions.slopeAngle = slopeAngle;
+                collisions.slidingDownMaxSlope = true;
+                collisions.slopeNormal = hit.normal;
+            }
+        }
+
+    }
+
+    void ResetFallingThroughPlatform()
+    {
+        collisions.fallingThroughPlatform = false;
+    }
+
+    public struct CollisionInfo
+    {
+        public bool above, below;
+        public bool left, right;
+
+        public bool climbingSlope;
+        public bool descendingSlope;
+        public bool slidingDownMaxSlope;
+
+        public float slopeAngle, slopeAngleOld;
+        public Vector2 slopeNormal;
+        public Vector2 moveAmountOld;
+        public int faceDir;
+        public bool fallingThroughPlatform;
+
+        public void Reset()
+        {
+            above = below = false;
+            left = right = false;
+            climbingSlope = false;
+            descendingSlope = false;
+            slidingDownMaxSlope = false;
+            slopeNormal = Vector2.zero;
+
+            slopeAngleOld = slopeAngle;
+            slopeAngle = 0;
+        }
+    }
+
 }

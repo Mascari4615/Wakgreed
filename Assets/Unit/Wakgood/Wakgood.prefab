@@ -2157,7 +2157,8 @@ GameObject:
   - component: {fileID: 4705426193227314246}
   - component: {fileID: 4705426193227314302}
   - component: {fileID: 4705426193227314303}
-  - component: {fileID: 4742566568770261001}
+  - component: {fileID: 796331994444043977}
+  - component: {fileID: 4956404098661007754}
   m_Layer: 11
   m_Name: Wakgood
   m_TagString: Player
@@ -2177,7 +2178,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7351018171062088515}
   - {fileID: 4705426194132527055}
   - {fileID: 4705426192296333022}
   - {fileID: 4705426193897506532}
@@ -2190,7 +2190,7 @@ Transform:
   - {fileID: 1094975745}
   - {fileID: 1093442765}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4705426193227314245
 MonoBehaviour:
@@ -2215,9 +2215,11 @@ MonoBehaviour:
   hpMax: {fileID: 11400000, guid: e862da976520d4847a960ac61d303b50, type: 2}
   powerInt: {fileID: 11400000, guid: 78641f81562c8ca419aba38ff53f07ca, type: 2}
   totalPower: {fileID: 11400000, guid: 1a3eef7a703f4d440869b9541a779c7d, type: 2}
+  useBaseAttack: {fileID: 11400000, guid: 11583969e0f2add459a1343defa7e6e7, type: 2}
   miss: {fileID: 11400000, guid: e4f8d4098a5d40e449667a11e5b20fe3, type: 2}
   reloadSpeed: {fileID: 11400000, guid: fddba74e479759a4f8798ea6068c1e61, type: 2}
   bonusAmmo: {fileID: 11400000, guid: 98aca51ae0b4ae34da3c6a9ea9bf634a, type: 2}
+  skillCollBonus: {fileID: 11400000, guid: 8c4d62c9a6effd244aefbf2afeb1bfe9, type: 2}
   attackSpeed: {fileID: 11400000, guid: 320dd9e1a35eb354ba45330eb0aaaa6d, type: 2}
   moveSpeed: {fileID: 11400000, guid: ab222d65ff7ce974fa0c23c97750945f, type: 2}
   evasion: {fileID: 11400000, guid: 94c9fcb6a039eaa45bea8b541fcf3a4a, type: 2}
@@ -2227,10 +2229,30 @@ MonoBehaviour:
   onLevelUp: {fileID: 11400000, guid: 42476068b34aa7c4aa6cb152cd3b3ac9, type: 2}
   BossDamage: {fileID: 11400000, guid: 56575e04dd064cc4a94760dba0406d5e, type: 2}
   MobDamage: {fileID: 11400000, guid: f868b8bbdb7b5624eaf053b95b2024a0, type: 2}
+  isHealthy: 0
+  wakgoodCollider: {fileID: 0}
   worldMousePoint: {x: 0, y: 0}
   hochi: {fileID: 11400000, guid: 6f0c64661c1a3f0478ff1675dac49c9e, type: 2}
   hand: {fileID: 11400000, guid: 6030eff9fbb2ddc4098e06e8ac949622, type: 2}
+  IsSwitching: 0
+  IsCollapsed: 0
   isFocusOnSomething: {fileID: 11400000, guid: 09c5c35381403234b99f53accc0b3cdc, type: 2}
+  jumpHeight: 5
+  timeToJumpApex: 0.4
+  MbDashing: 0
+  moveSpeedBonus: {fileID: 11400000, guid: b2960cffd1c12ad49a4239a950d639dc, type: 2}
+  maxDashStack: {fileID: 11400000, guid: 58948826cb3fe924f88741759c39f172, type: 2}
+  curDashStack: {fileID: 11400000, guid: c20a2f08316b1cd42b58ff3ddb60051d, type: 2}
+  dashCoolTime: {fileID: 11400000, guid: 30cb8f962599816488c3a10bcb178bd8, type: 2}
+  dashChargeSpeed: {fileID: 11400000, guid: 40996c6105da2ed4a88a02b1f925fb99, type: 2}
+  iceObject: {fileID: 1745304066}
+  keyObject:
+  - {fileID: 1437359905}
+  - {fileID: 211928224}
+  - {fileID: 1094975742}
+  - {fileID: 1093442762}
+  mbMoving: 0
+  DashParameter: 25
 --- !u!114 &1432387438446477281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2244,18 +2266,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: {fileID: 11400000, guid: ab222d65ff7ce974fa0c23c97750945f, type: 2}
-  moveSpeedBonus: {fileID: 11400000, guid: b2960cffd1c12ad49a4239a950d639dc, type: 2}
-  maxDashStack: {fileID: 11400000, guid: 58948826cb3fe924f88741759c39f172, type: 2}
-  curDashStack: {fileID: 11400000, guid: c20a2f08316b1cd42b58ff3ddb60051d, type: 2}
-  dashCoolTime: {fileID: 11400000, guid: 30cb8f962599816488c3a10bcb178bd8, type: 2}
-  dashChargeSpeed: {fileID: 11400000, guid: 40996c6105da2ed4a88a02b1f925fb99, type: 2}
-  isFocusOnSomething: {fileID: 11400000, guid: 09c5c35381403234b99f53accc0b3cdc, type: 2}
-  iceObject: {fileID: 1745304066}
-  keyObject:
-  - {fileID: 1437359905}
-  - {fileID: 211928224}
-  - {fileID: 1094975742}
-  - {fileID: 1093442762}
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 512
+  horizontalRayCount: 4
+  verticalRayCount: 4
 --- !u!212 &4705426193227314246
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2356,27 +2371,44 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!50 &4742566568770261001
-Rigidbody2D:
-  serializedVersion: 4
+--- !u!61 &796331994444043977
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4705426193227314241}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
-  m_Mass: 1.4526726
-  m_LinearDrag: 6.5
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_Enabled: 1
+  m_Density: 1
   m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.75}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 2, y: 2}
+    newSize: {x: 2, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.9, y: 1.5}
+  m_EdgeRadius: 0
+--- !u!114 &4956404098661007754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4705426193227314241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 865038771b775904f8c57eaf4a2b8e00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4705426193897506535
 GameObject:
   m_ObjectHideFlags: 0
@@ -2493,67 +2525,6 @@ Transform:
   m_Father: {fileID: 4705426193227314247}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &5746625835066106163
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7351018171062088515}
-  - component: {fileID: 8618319199174758240}
-  - component: {fileID: 109285386047132532}
-  m_Layer: 11
-  m_Name: WakgoodCollider
-  m_TagString: Player
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7351018171062088515
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5746625835066106163}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4705426193227314247}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8618319199174758240
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5746625835066106163}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 865038771b775904f8c57eaf4a2b8e00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!58 &109285386047132532
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5746625835066106163}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.22}
-  serializedVersion: 2
-  m_Radius: 0.68
 --- !u!1 &6044928791929133259
 GameObject:
   m_ObjectHideFlags: 0

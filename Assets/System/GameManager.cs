@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
     public CinemachineImpulseSource CinemachineImpulseSource { get; private set; }
     public CinemachineVirtualCamera CinemachineVirtualCamera { get; private set; }
     public CinemachineTargetGroup CinemachineTargetGroup { get; private set; }
+    public CinemachineConfiner2D CinemachineConfiner2D;
 
     [SerializeField] private IntVariable nyang;
     public IntVariable viewer;
@@ -61,6 +62,8 @@ public class GameManager : MonoBehaviour
 
     public AreaType curArea = AreaType.Normal;
     public AreaDoor curAreaDoor = null;
+
+    private float cameraSize;
 
     public void ChangeArea(Transform areaDoor)
     {
@@ -85,7 +88,9 @@ public class GameManager : MonoBehaviour
         CinemachineVirtualCamera = Camera.main.transform.parent.Find("CM Camera").GetComponent<CinemachineVirtualCamera>();
         CinemachineTargetGroup = Camera.main.transform.parent.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>();
         CinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
-        CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
+
+        cameraSize = CinemachineVirtualCamera.m_Lens.OrthographicSize;
+        CinemachineVirtualCamera.m_Lens.OrthographicSize = cameraSize;
     }
 
     public void Skip()
@@ -110,8 +115,6 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.SetRoomName("마을");
         AudioManager.Instance.PlayMusic("yeppSun - 고고 다섯쌍둥이");
         UIManager.Instance.SetCurViewerText("뱅온 전!");
-        CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
-        // enemyRunTimeSet.Clear();
     }
 
     private IEnumerator CheckBuff()
@@ -156,7 +159,7 @@ public class GameManager : MonoBehaviour
         AudioManager.Instance.StopMusic();
         ObjectManager.Instance.DeactivateAll();
 
-        CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
+        CinemachineVirtualCamera.m_Lens.OrthographicSize = cameraSize;
         isLoading.RuntimeValue = true;
         fadePanel.SetTrigger("OUT");
         yield return new WaitForSeconds(0.2f);
@@ -215,7 +218,7 @@ public class GameManager : MonoBehaviour
         fadePanel.SetTrigger("OUT");
         yield return new WaitForSeconds(1f);
 
-        CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
+        CinemachineVirtualCamera.m_Lens.OrthographicSize = cameraSize;
         CinemachineTargetGroup.m_Targets[1].target = null;
 
         gamePanel.SetActive(true);
@@ -310,7 +313,7 @@ public class GameManager : MonoBehaviour
         fadePanel.SetTrigger("OUT");
         yield return new WaitForSeconds(1f);
 
-        CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
+        CinemachineVirtualCamera.m_Lens.OrthographicSize = cameraSize;
         CinemachineTargetGroup.m_Targets[1].target = null;
 
         onRecall.Raise();
@@ -448,16 +451,16 @@ public class GameManager : MonoBehaviour
         hosting.gameObject.SetActive(false);
         yield return new WaitForSeconds(1f);
         AudioManager.Instance.PlayRealMusic();
-        CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
+        CinemachineVirtualCamera.m_Lens.OrthographicSize = cameraSize;
         CinemachineTargetGroup.m_Targets[1].target = null;
         
         Wakgood.Instance.IsSwitching = false;
         Wakgood.Instance.isHealthy = true;
         Wakgood.Instance.IsCollapsed = false;
-        Wakgood.Instance.WakgoodMove.MbDashing = false;
-        Wakgood.Instance.WakgoodMove.Animator.SetTrigger("WakeUp");
-        Wakgood.Instance.WakgoodMove.Animator.SetBool("Move", false);
-        Wakgood.Instance.WakgoodMove.PlayerRb.bodyType = RigidbodyType2D.Dynamic;
+        Wakgood.Instance.MbDashing = false;
+        Wakgood.Instance.Animator.SetTrigger("WakeUp");
+        Wakgood.Instance.Animator.SetBool("Move", false);
+        // Wakgood.Instance.WakgoodMove.PlayerRb.bodyType = RigidbodyType2D.Dynamic;
         Wakgood.Instance.WakgoodMove.enabled = true;
         Wakgood.Instance.wakgoodCollider.enabled = true;
         Wakgood.Instance.ReceiveHeal(100);

@@ -115,7 +115,7 @@ public class Pungsin : BossMonster
         while (temp < .2f)
         {
             if (camera.m_Lens.OrthographicSize < 17) camera.m_Lens.OrthographicSize += 8 * Time.fixedDeltaTime;
-            Wakgood.Instance.WakgoodMove.PlayerRb.AddForce((transform.position - Wakgood.Instance.transform.position).normalized * 600);
+            // Wakgood.Instance.WakgoodMove.PlayerRb.AddForce((transform.position - Wakgood.Instance.transform.position).normalized * 600);
             yield return null;
             temp += Time.deltaTime;
         }
@@ -128,7 +128,7 @@ public class Pungsin : BossMonster
         {
             if (camera.m_Lens.OrthographicSize > 12) camera.m_Lens.OrthographicSize -= 6 * Time.fixedDeltaTime;
             else if (camera.m_Lens.OrthographicSize > 10) camera.m_Lens.OrthographicSize -= 1 * Time.fixedDeltaTime;
-            Wakgood.Instance.WakgoodMove.PlayerRb.AddForce((transform.position - Wakgood.Instance.transform.position).normalized * 600);
+            // Wakgood.Instance.WakgoodMove.PlayerRb.AddForce((transform.position - Wakgood.Instance.transform.position).normalized * 600);
             yield return new WaitForFixedUpdate();
             temp += Time.fixedDeltaTime;
         }
