@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: -1837302650, guid: 761f3bfa5fc958845977425380550a43, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.5157232, b: 0.5157232, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -147,6 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2e96afbf6365c648a434aa43ace9a15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onlyWeapon: 0
   commonWeight: 20
   uncommonWeight: 65
   legendaryWeight: 15

@@ -104,6 +104,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayRealMusic()
     {
+        UIManager.Instance.SetMusicName("Badassgatsby - ¿Î½º¶ó´Ù");
         BgmEvent.stop(STOP_MODE.ALLOWFADEOUT);
         BgmEvent = RuntimeManager.CreateInstance($"event:/BGM/Badassgatsby - ¿Î½º¶ó´Ù");
         BgmEvent.start();
