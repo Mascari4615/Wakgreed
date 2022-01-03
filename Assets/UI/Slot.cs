@@ -23,7 +23,7 @@ public class Slot : MonoBehaviour
    
         if (countTextField != null) countTextField.text = DataManager.Instance.wgItemInven.itemCountDic[(SpecialThing as Item).id].ToString();
         if (nameText != null) nameText.text = _specialThing.name;
-        if (priceText != null) priceText.text = (_specialThing as Sellable).price.ToString();
+        if (priceText != null) priceText.text = (_specialThing as HasPrice).price.ToString();
         if (descriptionText != null) descriptionText.text = _specialThing.description;
     }
 

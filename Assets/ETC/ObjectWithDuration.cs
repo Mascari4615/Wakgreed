@@ -5,11 +5,12 @@ public class ObjectWithDuration : MonoBehaviour
 {
     [SerializeField] private float duration;
     private WaitForSeconds waitForSeconds;
-    private PoolingObject poolingObject;
+    private bool isPoolingObject;
 
     private void Awake()
     {
         waitForSeconds = new WaitForSeconds(duration);
+        isPoolingObject = GetComponent<PoolingObject>();
     }
 
     private void OnEnable()
@@ -25,10 +26,14 @@ public class ObjectWithDuration : MonoBehaviour
     private IEnumerator CheckDuration()
     {
         yield return waitForSeconds;
-        if (TryGetComponent(out poolingObject))
+
+        if (isPoolingObject)
         {
             ObjectManager.Instance.SetObjectParent(gameObject);
         }
-        gameObject.SetActive(false);     
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

@@ -12,7 +12,8 @@ public class ObjectManager : MonoBehaviour
 {
     public static ObjectManager Instance { get; private set; }
 
-    [Serializable] private class PoolData
+    [Serializable]
+    private class PoolData
     {
         public GameObject gameObject;
         public Stack<GameObject> Stack = new();
@@ -66,73 +67,31 @@ public class ObjectManager : MonoBehaviour
         go.transform.SetParent(poolDic[objectName].transform);
     }
 
-    public GameObject PopObject(string objectName, Vector3 pos)
-    {
-        if (!poolDic.ContainsKey(objectName))
-        {
-            Debug.LogWarning("존재하지 않는 풀 접근");
-            return null;
-        }    
-
-        GameObject targetObject;
-        if (poolDic[objectName].Stack.Count.Equals(0))
-            targetObject = Instantiate(poolDic[objectName].gameObject, pos, Quaternion.identity, poolDic[objectName].transform);
-        else
-        {
-            targetObject = poolDic[objectName].Stack.Pop();
-            if (targetObject == null)
-            {
-                Debug.LogWarning($"풀에서 뽑은 오브젝트가 Null 입니다. {objectName}_{poolDic[objectName].Stack.Count}");
-                return null;
-            }
-            targetObject.transform.SetPositionAndRotation(pos, Quaternion.identity);
-            targetObject.SetActive(true);
-        }
-        return targetObject;
-    }
-
     public bool CheckPool(string objectName) => poolDic.ContainsKey(objectName);
+
+    public GameObject PopObject(string objectName, Transform tr, bool setRot = false) => PopObject(objectName, tr.position, setRot ? tr.rotation.eulerAngles : Vector3.zero);
+
+    public GameObject PopObject(string objectName, Vector3 pos) => PopObject(objectName, pos, Vector3.zero);
 
     public GameObject PopObject(string objectName, Vector3 pos, Vector3 rot)
     {
         if (!poolDic.ContainsKey(objectName))
         {
-            Debug.LogError("No");
+            Debug.LogWarning("존재하지 않는 풀 접근");
             return null;
         }
-
-        GameObject targetObject;
-        if (poolDic[objectName].Stack.Count.Equals(0))
-            targetObject = Instantiate(poolDic[objectName].gameObject, pos, Quaternion.Euler(rot), poolDic[objectName].transform);
+        else if (poolDic[objectName].Stack.Count.Equals(0))
+        {
+            Debug.Log($"풀에 오브젝트가 부족해 새로 생성하였습니다. {objectName}");
+            return Instantiate(poolDic[objectName].gameObject, pos, Quaternion.Euler(rot), poolDic[objectName].transform);
+        }
         else
         {
-            targetObject = poolDic[objectName].Stack.Pop();
+            GameObject targetObject = poolDic[objectName].Stack.Pop();
             targetObject.transform.SetPositionAndRotation(pos, Quaternion.Euler(rot));
             targetObject.SetActive(true);
+            return targetObject;
         }
-        return targetObject;
-    }
-
-    public GameObject PopObject(string objectName, Transform tr, bool setRot = false)
-    {
-        if (!poolDic.ContainsKey(objectName))
-        {
-            Debug.LogWarning($"해당 풀이 존재하지 않습니다. : {objectName}");
-            return null;
-        }
-
-        GameObject targetObject;
-        if (poolDic[objectName].Stack.Count.Equals(0))
-        {
-            targetObject = Instantiate(poolDic[objectName].gameObject, tr.position, setRot ? tr.rotation : Quaternion.identity, poolDic[objectName].transform);
-        }
-        else
-        {
-            targetObject = poolDic[objectName].Stack.Pop();
-            targetObject.transform.SetPositionAndRotation(tr.position, setRot ? tr.rotation : Quaternion.identity);
-            targetObject.SetActive(true);
-        }
-        return targetObject;
     }
 
     public void DeactivateAll()

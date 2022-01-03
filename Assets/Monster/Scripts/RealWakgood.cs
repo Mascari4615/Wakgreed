@@ -22,7 +22,6 @@ public class RealWakgood : BossMonster
 
     void Start()
     {
-
         lineRenderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 0.3f));
 
         wordIndexes = new List<int> { 0 };
@@ -252,11 +251,5 @@ public class RealWakgood : BossMonster
     private IEnumerator Waktyhall()
     {
         yield break;
-    }
-    
-    protected override IEnumerator _Collapse()
-    {        
-        GameManager.Instance.StartCoroutine(GameManager.Instance.Ending());
-        yield return base._Collapse();
     }
 }

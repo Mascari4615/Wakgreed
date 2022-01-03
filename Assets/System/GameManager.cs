@@ -1,9 +1,9 @@
 ﻿using Cinemachine;
+using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
-using FMODUnity;
+using UnityEngine;
 
 public enum AreaType
 {
@@ -39,7 +39,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Animator fadePanel;
 
     [SerializeField] private GameObject undo;
-    [SerializeField] private TextMeshProUGUI enemy;
 
     [SerializeField] private CanvasGroup hosting;
     [SerializeField] private TextMeshProUGUI text1;
@@ -50,7 +49,7 @@ public class GameManager : MonoBehaviour
     public CinemachineVirtualCamera CinemachineVirtualCamera { get; private set; }
     public CinemachineTargetGroup CinemachineTargetGroup { get; private set; }
 
-    [SerializeField] private IntVariable nyang;
+    [SerializeField] private IntVariable Goldu;
     public IntVariable viewer;
 
     [SerializeField] private GameObject endingGameObject;
@@ -61,6 +60,9 @@ public class GameManager : MonoBehaviour
 
     public AreaType curArea = AreaType.Normal;
     public AreaDoor curAreaDoor = null;
+
+    private const float 카메라사이즈 = 12;
+    private const int 최대소지골두 = 5000;
 
     public void ChangeArea(Transform areaDoor)
     {
@@ -81,37 +83,17 @@ public class GameManager : MonoBehaviour
     {
         Application.targetFrameRate = 60;
         Instance = this;
-        nyang.RuntimeValue = 3000;
         CinemachineVirtualCamera = Camera.main.transform.parent.Find("CM Camera").GetComponent<CinemachineVirtualCamera>();
         CinemachineTargetGroup = Camera.main.transform.parent.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>();
         CinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
-        CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
-    }
-
-    public void Skip()
-    {
-        onMonsterCollapse.Raise(Wakgood.Instance.transform);
-    }
-
-    public void SkipAll()
-    {
-        int temp = enemyRunTimeSet.Items.Count;
-        for (int i = 0; i < temp; i++)
-        {
-            ObjectManager.Instance.PushObject(enemyRunTimeSet.Items[0]);
-            onMonsterCollapse.Raise(Wakgood.Instance.transform);
-        }
+        CinemachineVirtualCamera.m_Lens.OrthographicSize = 카메라사이즈;
     }
 
     private void Start()
     {
         StartCoroutine(CheckBuff());
-        UIManager.Instance.SetStageName("마을");
-        UIManager.Instance.SetRoomName("마을");
         AudioManager.Instance.PlayMusic("yeppSun - 고고 다섯쌍둥이");
-        UIManager.Instance.SetCurViewerText("뱅온 전!");
-        CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
-        // enemyRunTimeSet.Clear();
+        CinemachineVirtualCamera.m_Lens.OrthographicSize = 카메라사이즈;
     }
 
     private IEnumerator CheckBuff()
@@ -133,14 +115,12 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        enemy.text = enemyRunTimeSet.Items.Count.ToString();
-
         isFocusOnSomething.RuntimeValue = (StreamingManager.Instance.IsChatting || isLoading.RuntimeValue || isShowingSomething.RuntimeValue);
 
         if (Input.GetKeyDown(KeyCode.Escape) && !isLoading.RuntimeValue && !gameResultPanel.activeSelf)
             if (!SettingManager.Instance.Temp())
                 if (!StreamingManager.Instance.Temp())
-                        PauseGame();                
+                    PauseGame();
     }
 
     public void PauseGame() // 정지 버튼에서 호출
@@ -156,7 +136,7 @@ public class GameManager : MonoBehaviour
         AudioManager.Instance.StopMusic();
         ObjectManager.Instance.DeactivateAll();
 
-        CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
+        CinemachineVirtualCamera.m_Lens.OrthographicSize = 카메라사이즈;
         isLoading.RuntimeValue = true;
         fadePanel.SetTrigger("OUT");
         yield return new WaitForSeconds(0.2f);
@@ -168,12 +148,12 @@ public class GameManager : MonoBehaviour
             StageManager.Instance.currentStageID = gameData2.lastStageID - 1;
 
             int temp = gameData2.items.Count;
-            for (int i = 0; i < temp; i++)        
-                dataManager.wgItemInven.Add(dataManager.ItemDic[gameData2.items[i]]);  
+            for (int i = 0; i < temp; i++)
+                dataManager.wgItemInven.Add(dataManager.ItemDic[gameData2.items[i]]);
 
             temp = gameData2.foods.Count;
-            for (int i = 0; i < temp; i++)      
-                dataManager.wgFoodInven.Add(dataManager.FoodDic[gameData2.foods[i]]);      
+            for (int i = 0; i < temp; i++)
+                dataManager.wgFoodInven.Add(dataManager.FoodDic[gameData2.foods[i]]);
 
             temp = gameData2.masteries.Count;
             for (int i = 0; i < temp; i++)
@@ -187,22 +167,31 @@ public class GameManager : MonoBehaviour
             Wakgood.Instance.level.RuntimeValue = gameData2.level;
             Wakgood.Instance.hpCur.RuntimeValue = gameData2.hp;
         }
-        StageManager.Instance.GenerateStage();       
+        StageManager.Instance.GenerateStage();
     }
-    
+
     public void ClickRecall() => clickRecall = true;
 
     // OnCollapse GameEvent로 호출
     public void GameOverAndRecall() => Wakgood.Instance.Collapse();
 
-    public IEnumerator _GameOverAndRecall()
+    public IEnumerator _GameOverAndRecall(bool isEnding = false)
     {
-        AudioManager.Instance.PlayMusic("위윌왁휴 - 처신 잘 하라고");
+        if (isEnding)
+        {
+            AudioManager.Instance.PlayMusic("yeppSun - 왁버거 MR");
+            DataManager.Instance.CurGameData.rescuedNPC[29] = true;
+            DataManager.Instance.SaveGameData();
+        }
+        else
+        {
+            AudioManager.Instance.PlayMusic("위윌왁휴 - 처신 잘 하라고");
+        }
 
         Time.timeScale = 1;
         gamePanel.SetActive(false);
         pausePanel.SetActive(false);
-        UIManager.Instance.SetResult();
+        UIManager.Instance.SetResult(Goldu.RuntimeValue);
         gameResultPanel.SetActive(true);
 
         yield return new WaitForSeconds(1f);
@@ -215,10 +204,8 @@ public class GameManager : MonoBehaviour
         fadePanel.SetTrigger("OUT");
         yield return new WaitForSeconds(1f);
 
-        CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
+        CinemachineVirtualCamera.m_Lens.OrthographicSize = 카메라사이즈;
         CinemachineTargetGroup.m_Targets[1].target = null;
-
-        gamePanel.SetActive(true);
 
         onRecall.Raise();
         isGaming.RuntimeValue = false;
@@ -227,6 +214,7 @@ public class GameManager : MonoBehaviour
         isRealBossing.RuntimeValue = false;
         isRealBossFirstDeath = true;
         StreamingManager.Instance.temp = false;
+
         StageManager.Instance.DestroyStage();
         UIManager.Instance.SetStageName("마을");
         UIManager.Instance.SetRoomName("마을");
@@ -237,7 +225,7 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.StopAllSpeedWagons();
 
         MasteryManager.SetSelectMasteryPanelOff();
-        
+
         enemyRunTimeSet.Clear();
         ObjectManager.Instance.DeactivateAll();
 
@@ -248,13 +236,13 @@ public class GameManager : MonoBehaviour
         DataManager.Instance.wgFoodInven.Clear();
         DataManager.Instance.buffRunTimeSet.Clear();
 
-        nyang.RuntimeValue = 3000;
+        Goldu.RuntimeValue = 최대소지골두 >= Goldu.RuntimeValue ? 최대소지골두 : Goldu.RuntimeValue;
         viewer.RuntimeValue = 3000;
 
         gameResultPanel.SetActive(false);
         gamePanel.SetActive(true);
 
-        UIManager.Instance.bossHpBar.HpBarOff();
+        UIManager.Instance.BossHpBarOff();
 
         Wakgood.Instance.enabled = true;
         Wakgood.Instance.gameObject.SetActive(true);
@@ -277,96 +265,30 @@ public class GameManager : MonoBehaviour
         endingGameObject.SetActive(true);
         endingPanel.SetActive(true);
 
-        SkipAll();
+        int temp = enemyRunTimeSet.Items.Count;
+        for (int i = 0; i < temp; i++)
+        {
+            ObjectManager.Instance.PushObject(enemyRunTimeSet.Items[0]);
+            onMonsterCollapse.Raise(Wakgood.Instance.transform);
+        }
 
         yield return new WaitForSeconds(.2f);
         yield return new WaitForSeconds(endingAnimator.GetCurrentAnimatorStateInfo(0).length);
-        
+
         endingGameObject.SetActive(false);
         endingPanel.SetActive(false);
 
-        StartCoroutine(Endingg());
-    }
-
-    public IEnumerator Endingg()
-    {
-        AudioManager.Instance.PlayMusic("yeppSun - 왁버거 MR");
-        DataManager.Instance.CurGameData.rescuedNPC[29] = true;
-        DataManager.Instance.SaveGameData();
-
-        Time.timeScale = 1;
-        gamePanel.SetActive(false);
-        pausePanel.SetActive(false);
-        UIManager.Instance.SetResult(true);
-        gameResultPanel.SetActive(true);
-
-        yield return new WaitForSeconds(1f);
-
-        Wakgood.Instance.gameObject.SetActive(false);
-
-        while (clickRecall == false) yield return null;
-        clickRecall = false;
-
-        fadePanel.SetTrigger("OUT");
-        yield return new WaitForSeconds(1f);
-
-        CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
-        CinemachineTargetGroup.m_Targets[1].target = null;
-
-        onRecall.Raise();
-        isGaming.RuntimeValue = false;
-        isFighting.RuntimeValue = false;
-        isBossing.RuntimeValue = false;
-        isRealBossing.RuntimeValue = false;
-        isRealBossFirstDeath = true;
-        StreamingManager.Instance.temp = false;
-
-        StageManager.Instance.DestroyStage();
-        UIManager.Instance.SetStageName("마을");
-        UIManager.Instance.SetRoomName("마을");
-        UIManager.Instance.SetCurViewerText("뱅온 전!");
-        AudioManager.Instance.PlayMusic("yeppSun - 고고 다섯쌍둥이");
-        StageManager.Instance.currentStageID = -1;
-
-        UIManager.Instance.StopAllSpeedWagons();
-
-        MasteryManager.SetSelectMasteryPanelOff();
-
-        enemyRunTimeSet.Clear();
-        ObjectManager.Instance.DeactivateAll();
-
-        viewer.RuntimeValue = 10000;
-
-        DataManager.Instance.wgMasteryInven.Clear();
-        DataManager.Instance.wgItemInven.Clear();
-        DataManager.Instance.wgFoodInven.Clear();
-        DataManager.Instance.buffRunTimeSet.Clear();
-
-        nyang.RuntimeValue = 3000;
-        viewer.RuntimeValue = 3000;
-
-        gameResultPanel.SetActive(false);
-        gamePanel.SetActive(true);
-
-        UIManager.Instance.bossHpBar.HpBarOff();
-
-        Wakgood.Instance.enabled = true;
-        Wakgood.Instance.gameObject.SetActive(true);
-        undo.SetActive(true);
-
-        yield return new WaitForSeconds(1f);
-        fadePanel.SetTrigger("IN");
-        Time.timeScale = 1;
+        StartCoroutine(_GameOverAndRecall(true));
     }
 
     public IEnumerator FakeEnding()
     {
         AudioManager.Instance.PlayMusic("위윌왁휴 - 처신 잘 하라고");
-        
+
         Time.timeScale = 1;
         gamePanel.SetActive(false);
         pausePanel.SetActive(false);
-        UIManager.Instance.SetResult();
+        UIManager.Instance.SetResult(Goldu.RuntimeValue);
         gameResultPanel.SetActive(true);
 
         yield return new WaitForSeconds(1f);
@@ -378,11 +300,11 @@ public class GameManager : MonoBehaviour
         gameResultPanel.SetActive(false);
         gamePanel.SetActive(true);
 
-        yield return new WaitForSeconds(.5f);    
+        yield return new WaitForSeconds(.5f);
 
         viewer.RuntimeValue = 3000;
         ObjectManager.Instance.PopObject("AnimatedText", transform.position + Vector3.up).GetComponent<AnimatedText>().SetText($"시청자 +{3000}", Color.white);
-        StreamingManager.Instance. donationUI[1].SetActive(false);
+        StreamingManager.Instance.donationUI[1].SetActive(false);
         StreamingManager.Instance.donationText[1].text = $"고니잠님이 호스팅하였습니다";
         StreamingManager.Instance.donationImageUI[1].sprite = StreamingManager.Instance.donationImages[3];
         StreamingManager.Instance.donationUI[1].SetActive(true);
@@ -448,9 +370,9 @@ public class GameManager : MonoBehaviour
         hosting.gameObject.SetActive(false);
         yield return new WaitForSeconds(1f);
         AudioManager.Instance.PlayRealMusic();
-        CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
+        CinemachineVirtualCamera.m_Lens.OrthographicSize = 카메라사이즈;
         CinemachineTargetGroup.m_Targets[1].target = null;
-        
+
         Wakgood.Instance.IsSwitching = false;
         Wakgood.Instance.isHealthy = true;
         Wakgood.Instance.IsCollapsed = false;
@@ -487,10 +409,4 @@ public class GameManager : MonoBehaviour
 
         return target;
     }
-}
-
-public class DebugManager
-{
-    public static void GetItem(int id) => DataManager.Instance.wgItemInven.Add(DataManager.Instance.ItemDic[id]);
-    public static void GetWeapon(int id) => Wakgood.Instance.SwitchWeapon(Wakgood.Instance.CurWeaponNumber, DataManager.Instance.WeaponDic[id]);
 }

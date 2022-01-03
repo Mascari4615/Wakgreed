@@ -416,11 +416,11 @@ public class StreamingManager : MonoBehaviour
                 case "item":
                 case "아이템":
                     for (int i = 0; i < (msg.Split(' ').Length == 3 ? int.Parse(msg.Split(' ')[2]) : 1); i++)
-                        DebugManager.GetItem(int.Parse(msg.Split(' ')[1]));
+                    DataManager.Instance.wgItemInven.Add(DataManager.Instance.ItemDic[int.Parse(msg.Split(' ')[1])]);
                     break;
                 case "weapon":
                 case "무기":
-                    DebugManager.GetWeapon(int.Parse(msg.Split(' ')[1]));
+                    Wakgood.Instance.SwitchWeapon(Wakgood.Instance.CurWeaponNumber, DataManager.Instance.WeaponDic[int.Parse(msg.Split(' ')[1])]);
                     break;
                 case "food":
                 case "음식":
@@ -438,16 +438,6 @@ public class StreamingManager : MonoBehaviour
                     break;
             }
 
-            return;
-        }
-        else if (msg == "혐그진짜")
-        {
-            GameManager.Instance.Skip();
-            return;
-        }
-        else if (msg == "나가뒤지세요 좀 제발")
-        {
-            GameManager.Instance.SkipAll();
             return;
         }
 

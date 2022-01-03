@@ -12,11 +12,9 @@ public class Chest : InteractiveObject
 
     [SerializeField] private float commonWeight;
     [SerializeField] private float uncommonWeight;
-    [SerializeField] private float legendaryWeight;
+    [SerializeField] private float rareWeight;
+    [SerializeField] private float legendWeight;
 
-    [SerializeField] private Sprite sprite;
-
-    private SpriteRenderer spriteRenderer;
     private ObjectWithDuration objectWithDuration;
     private Animator animator;
     private new Collider2D collider2D;
@@ -29,7 +27,6 @@ public class Chest : InteractiveObject
     {
         base.Awake();
 
-        spriteRenderer = GetComponent<SpriteRenderer>();
         objectWithDuration = GetComponent<ObjectWithDuration>();
         animator = GetComponent<Animator>();
         collider2D = GetComponent<Collider2D>();
@@ -37,16 +34,16 @@ public class Chest : InteractiveObject
 
     private void OnEnable()
     {
-        // spriteRenderer.sprite = sprite;
         objectWithDuration.enabled = false;
         collider2D.enabled = true;
 
         animator.Play("START", 0);
 
-        Probability<ItemGrade> probability = new();
-        probability.Add(ItemGrade.Common, commonWeight);
-        probability.Add(ItemGrade.Uncommon,uncommonWeight);
-        probability.Add(ItemGrade.Legendary, legendaryWeight);
+        Probability<등급> probability = new();
+        probability.Add(등급.일반, commonWeight);
+        probability.Add(등급.고급, uncommonWeight);
+        probability.Add(등급.희귀, rareWeight);
+        probability.Add(등급.전설, legendWeight);
 
         itemIDs.Clear();
 
@@ -87,6 +84,16 @@ public class Chest : InteractiveObject
     protected virtual void OpenChest()
     {
         RuntimeManager.PlayOneShot($"event:/SFX/ETC/Chest", transform.position);
+
+        int randCount = Random.Range(0, 3 + 1);
+        for (int i = 0; i < randCount; i++)
+            ObjectManager.Instance.PopObject("Goldu100", transform);
+        randCount = Random.Range(0, 9 + 1);
+        for (int i = 0; i < randCount; i++)
+            ObjectManager.Instance.PopObject("Goldu10", transform);
+        randCount = Random.Range(0, 9 + 1);
+        for (int i = 0; i < randCount; i++)
+            ObjectManager.Instance.PopObject("Goldu", transform);
 
         if (isItem)
         {
