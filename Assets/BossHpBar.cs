@@ -16,7 +16,6 @@ public class BossHpBar : MonoBehaviour
 
     public void HpBarOn(BossMonster boss)
     {
-        Debug.Log("On");
         this.boss = boss;
         bossSprite.sprite = boss.GetComponent<SpriteRenderer>().sprite;
         bossSprite.transform.parent.gameObject.SetActive(true);
@@ -28,7 +27,6 @@ public class BossHpBar : MonoBehaviour
 
     public void HpBarOff()
     {
-        Debug.Log("Off");
         asd = false;
         boss = null;
         bossSprite.transform.parent.gameObject.SetActive(false);

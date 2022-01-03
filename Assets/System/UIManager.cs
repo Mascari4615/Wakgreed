@@ -1,9 +1,8 @@
-using System.Collections;
-using Cinemachine;
-using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
 using System;
+using System.Collections;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -12,62 +11,51 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject bossSpeedWagon;
     [SerializeField] private TextMeshProUGUI bossSpeedWagonName;
     [SerializeField] private TextMeshProUGUI bossNickNameSpeedWagonName;
-
-    private new CinemachineVirtualCamera camera;
-    private CinemachineTargetGroup cinemachineTargetGroup;
-
-    public BossHpBar bossHpBar;
-
+    [SerializeField] private BossHpBar bossHpBar;
     [SerializeField] private GameObject state;
-
-    public GameObject reloadUI;
-    public Image reloadImage;
-
+    [SerializeField] private GameObject reloadUI;
+    [SerializeField] private Image reloadImage;
     [SerializeField] private RectTransform[] weaponUI = new RectTransform[2];
-    public Slot[] weaponSprite = new Slot[2];
-    public Slot[] weaponSkillQ = new Slot[2];
-    public Image[] weaponSkillQCoolTime = new Image[2];
-    public Slot[] weaponSkillE = new Slot[2];
-    public Image[] weaponSkillECoolTime = new Image[2];
-
+    [SerializeField] private Slot[] weaponSprite = new Slot[2];
+    [SerializeField] private Slot[] weaponSkillQ = new Slot[2];
+    [SerializeField] private Slot[] weaponSkillE = new Slot[2];
+    [SerializeField] private Image[] weaponSkillQCoolTime = new Image[2];
+    [SerializeField] private Image[] weaponSkillECoolTime = new Image[2];
     [SerializeField] private BoolVariable isFocusOnSomething;
     [SerializeField] private TextMeshProUGUI noticeText;
-
     [SerializeField] private TextMeshProUGUI musicName;
     [SerializeField] private TextMeshProUGUI stageName;
     [SerializeField] private TextMeshProUGUI roomName;
-    public GameObject stageSpeedWagon;
+    [SerializeField] private GameObject stageSpeedWagon;
     [SerializeField] private TextMeshProUGUI stageNumberText, stageNameCommentText;
     [SerializeField] private GameObject roomClearSpeedWagon;
     [SerializeField] private GameObject rescueSpeedWagon;
-
     [SerializeField] private BoolVariable isShowingSomething;
-
-    [SerializeField] private IntVariable Goldu;
     [SerializeField] private TextMeshProUGUI resultUptimeText;
     [SerializeField] private TextMeshProUGUI finalStageText;
     [SerializeField] private TextMeshProUGUI totalEquipGoldu;
     [SerializeField] private ItemInventoryUI inventoryUI;
-
-    [SerializeField] private TextMeshProUGUI waveTotal;
-    [SerializeField] private TextMeshProUGUI remainMobCount;
-
+    [SerializeField] private TextMeshProUGUI viewerUI;
     [SerializeField] private TextMeshProUGUI ammoText;
     [SerializeField] private TextMeshProUGUI resultText;
 
     private void Awake()
     {
         Instance = this;
-
-        camera = GameObject.Find("Cameras").transform.Find("CM Camera").GetComponent<CinemachineVirtualCamera>();
-        cinemachineTargetGroup = GameObject.Find("Cameras").transform.Find("CM TargetGroup").GetComponent<CinemachineTargetGroup>();
     }
 
-    public void SetResult(bool Ending = false)
+    private void Start()
+    {
+        SetStageName("마을");
+        SetRoomName("마을");
+        SetCurViewerText("뱅온 전!");
+    }
+
+    public void SetResult(int goldu, bool Ending = false)
     {
         resultUptimeText.text = StreamingManager.Instance.Uptime;
         finalStageText.text = StageManager.Instance.currentStage.name;
-        totalEquipGoldu.text = Goldu.RuntimeValue.ToString();
+        totalEquipGoldu.text = goldu.ToString();
         inventoryUI.Initialize();
 
         if (Ending)
@@ -78,7 +66,7 @@ public class UIManager : MonoBehaviour
         else
         {
             resultText.text = "오뱅창!";
-            resultText.color = new Color(255 / 255f, 90 /255f, 90 / 255f);
+            resultText.color = new Color(255 / 255f, 90 / 255f, 90 / 255f);
         }
     }
 
@@ -102,18 +90,9 @@ public class UIManager : MonoBehaviour
         }
         else if (reloadUI.activeSelf) reloadUI.SetActive(false);
 
-        if (Wakgood.Instance.Weapon[0].skillQ is not null)
-            weaponSkillQCoolTime[0].fillAmount =
-                Wakgood.Instance.Weapon[0].CurSkillQCoolTime / (Wakgood.Instance.Weapon[0].skillQ.coolTime * (1 - Wakgood.Instance.skillCollBonus.RuntimeValue / 100));
-        if (Wakgood.Instance.Weapon[0].skillE is not null)
-            weaponSkillECoolTime[0].fillAmount =
-                Wakgood.Instance.Weapon[0].CurSkillECoolTime / (Wakgood.Instance.Weapon[0].skillE.coolTime * (1 - Wakgood.Instance.skillCollBonus.RuntimeValue / 100));
-        if (Wakgood.Instance.Weapon[1].skillQ is not null)
-            weaponSkillQCoolTime[1].fillAmount =
-                Wakgood.Instance.Weapon[1].CurSkillQCoolTime / (Wakgood.Instance.Weapon[1].skillQ.coolTime * (1 - Wakgood.Instance.skillCollBonus.RuntimeValue / 100));
-        if (Wakgood.Instance.Weapon[1].skillE is not null)
-            weaponSkillECoolTime[1].fillAmount =
-                Wakgood.Instance.Weapon[1].CurSkillECoolTime / (Wakgood.Instance.Weapon[1].skillE.coolTime * (1 - Wakgood.Instance.skillCollBonus.RuntimeValue / 100));
+        UpdateWeaponSkillCoolUI(0);
+        UpdateWeaponSkillCoolUI(1);
+    
         if (Wakgood.Instance.Weapon[Wakgood.Instance.CurWeaponNumber].attackType.Equals(AttackType.Ranged))
         {
             if (ammoText.gameObject.activeSelf == false)
@@ -127,10 +106,25 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void UpdateWeaponSkillCoolUI(int weaponNum)
+    {
+        Weapon weapon = Wakgood.Instance.Weapon[weaponNum];
+
+        if (weapon.skillQ is not null)
+            weaponSkillQCoolTime[weaponNum].fillAmount =
+                weapon.CurSkillQCoolTime / (weapon.skillQ.coolTime * (1 - Wakgood.Instance.skillCollBonus.RuntimeValue / 100));
+
+        if (weapon.skillE is not null)
+            weaponSkillECoolTime[weaponNum].fillAmount =
+                weapon.CurSkillECoolTime / (weapon.skillE.coolTime * (1 - Wakgood.Instance.skillCollBonus.RuntimeValue / 100));
+    }
+
     public IEnumerator SpeedWagon_Stage()
     {
-        stageNumberText.text = $"{StageManager.Instance.currentStage.name}";
-        stageNameCommentText.text = $"{StageManager.Instance.currentStage.id} 스테이지 - {StageManager.Instance.currentStage.comment}";
+        Stage stage = StageManager.Instance.currentStage;
+
+        stageNumberText.text = $"{stage.name}";
+        stageNameCommentText.text = $"{stage.id} 스테이지 - {stage.comment}";
         stageSpeedWagon.SetActive(true);
         yield return new WaitForSeconds(3f);
         stageSpeedWagon.SetActive(false);
@@ -139,8 +133,8 @@ public class UIManager : MonoBehaviour
     public IEnumerator SpeedWagon_BossOn(BossMonster boss)
     {
         isShowingSomething.RuntimeValue = true;
-        camera.m_Lens.OrthographicSize = 6;
-        cinemachineTargetGroup.m_Targets[0].target = boss.transform;
+        GameManager.Instance.CinemachineVirtualCamera.m_Lens.OrthographicSize = 6;
+        GameManager.Instance.CinemachineTargetGroup.m_Targets[0].target = boss.transform;
         Wakgood.Instance.SetRigidBodyType(RigidbodyType2D.Static);
         bossSpeedWagonName.text = boss.mobName;
         bossNickNameSpeedWagonName.text = boss.nickName;
@@ -152,20 +146,22 @@ public class UIManager : MonoBehaviour
 
         bossSpeedWagon.SetActive(false);
         Wakgood.Instance.SetRigidBodyType(RigidbodyType2D.Dynamic);
-        cinemachineTargetGroup.m_Targets[0].target = Wakgood.Instance.transform;
-        cinemachineTargetGroup.m_Targets[1].target = boss.transform;
-        camera.m_Lens.OrthographicSize = 12;
+        GameManager.Instance.CinemachineTargetGroup.m_Targets[0].target = Wakgood.Instance.transform;
+        GameManager.Instance.CinemachineTargetGroup.m_Targets[1].target = boss.transform;
+        GameManager.Instance.CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
 
         bossHpBar.HpBarOn(boss);
     }
 
+    public void BossHpBarOff() => bossHpBar.HpBarOff();
+
     public IEnumerator SpeedWagon_BossOff(BossMonster boss)
     {
         bossHpBar.HpBarOff();
-        camera.m_Lens.OrthographicSize = 6;
+        GameManager.Instance.CinemachineVirtualCamera.m_Lens.OrthographicSize = 6;
 
-        cinemachineTargetGroup.m_Targets[1].target = null;
-        cinemachineTargetGroup.m_Targets[0].target = boss.transform;
+        GameManager.Instance.CinemachineTargetGroup.m_Targets[1].target = null;
+        GameManager.Instance.CinemachineTargetGroup.m_Targets[0].target = boss.transform;
         Time.timeScale = 0.3f;
 
         Wakgood.Instance.SetRigidBodyType(RigidbodyType2D.Static);
@@ -174,8 +170,8 @@ public class UIManager : MonoBehaviour
 
         Time.timeScale = 1;
         Wakgood.Instance.SetRigidBodyType(RigidbodyType2D.Dynamic);
-        cinemachineTargetGroup.m_Targets[0].target = Wakgood.Instance.transform;
-        camera.m_Lens.OrthographicSize = 12;
+        GameManager.Instance.CinemachineTargetGroup.m_Targets[0].target = Wakgood.Instance.transform;
+        GameManager.Instance.CinemachineVirtualCamera.m_Lens.OrthographicSize = 12;
     }
 
     public IEnumerator SpeedWagon_RoomClear()
@@ -217,8 +213,6 @@ public class UIManager : MonoBehaviour
         if (weapon.skillE) weaponSkillE[weaponNum].SetSlot(weapon.skillE);
     }
 
-    [SerializeField] private TextMeshProUGUI viewerUI;
-
     public void OpenSetting() => SettingManager.Instance.OpenSetting();
     public void SetMusicName(string name) => musicName.text = $"[음악] {name}";
     public void SetStageName(Stage stage) => stageName.text = $"{stage.id} - {stage.name}";
@@ -226,10 +220,6 @@ public class UIManager : MonoBehaviour
     public void SetRoomName(Room room) => roomName.text = $"현재 방 이름 : { (room.gameObject.name.Contains("(Clone)") ? room.gameObject.name.Remove(room.gameObject.name.IndexOf("(", StringComparison.Ordinal), 7) : room.gameObject.name)}";
     public void SetRoomName(string name) => roomName.text = name;
     public void SetCurViewerText(string text) => viewerUI.text = text;
-
-
-    public void SetRemainMobCount(int count) => remainMobCount.text = $"{count}";
-    public void SetCurWaveText(int count) => waveTotal.text = $"{count}";
 
     public void StopAllSpeedWagons()
     {

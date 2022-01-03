@@ -41,8 +41,6 @@ public class NormalRoom : Room
         {
             yield return new WaitForSeconds(2f);
             curWaveMonsterCount = wave.mobSpawnDatas.Length;
-            UIManager.Instance.SetCurWaveText(curWaveMonsterCount);
-            UIManager.Instance.SetRemainMobCount(curWaveMonsterCount);
             foreach (var mobSpawnData in wave.mobSpawnDatas)
             {
                 yield return new WaitForSeconds(mobSpawnData.spawnDelay);
@@ -63,11 +61,7 @@ public class NormalRoom : Room
 
     public void CheckMonsterCount() 
     {
-        curWaveMonsterCount--;
-
-        UIManager.Instance.SetRemainMobCount(curWaveMonsterCount);
-
-        if (curWaveMonsterCount <= 0)
+        if (--curWaveMonsterCount <= 0)
             waveClearFlag = true; 
     }
 
@@ -84,9 +78,10 @@ public class NormalRoom : Room
         {
             Probability<string> probability = new();
 
-            probability.Add("CommonChest", 70);
-            probability.Add("UncommonChest", 35);
-            probability.Add("LegendaryChest", 5);
+            probability.Add("CommonChest", 60);
+            probability.Add("UncommonChest", 30);
+            probability.Add("RareChest", 9);
+            probability.Add("LegendChest", 1);
 
             ObjectManager.Instance.PopObject(probability.Get(), transform.Find("ChestPoint"));
         }

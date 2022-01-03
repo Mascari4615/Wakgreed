@@ -1,21 +1,17 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public abstract class SpecialThing : ScriptableObject
+public enum 등급
+{
+    일반, 고급, 희귀, 전설
+}
+
+public class SpecialThing : ScriptableObject
 {
     [FormerlySerializedAs("ID")] public int id;
     public new string name;
     public Sprite sprite;
     [TextArea] public string description;
-}
-
-public class Sellable : Equiptable
-{
-    public int price;
-}
-
-public abstract class Equiptable : SpecialThing
-{
     [SerializeField] private Effect[] effects;
 
     public virtual void OnEquip()
@@ -31,4 +27,14 @@ public abstract class Equiptable : SpecialThing
         foreach (Effect t in effects)
             t.Return();
     }
+}
+
+public class HasPrice : SpecialThing
+{
+    public int price;
+}
+
+public class HasGrade : HasPrice
+{
+    public 등급 등급;
 }
