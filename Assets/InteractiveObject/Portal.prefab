@@ -89,7 +89,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 978103407
   m_SortingLayer: 1
-  m_SortingOrder: -1
+  m_SortingOrder: 0
   m_Sprite: {fileID: -1291537541, guid: d19ec2dd73baee646b2f74097373195f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.77254903}
   m_FlipX: 0
@@ -100,7 +100,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!70 &8301929147056423193
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -114,7 +114,7 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 2}
   m_Size: {x: 2, y: 4}
   m_Direction: 0
 --- !u!95 &8287529354952627307
@@ -285,7 +285,7 @@ PrefabInstance:
     - target: {fileID: 5583574142001140743, guid: f083512505affb74e8352e2dd905c127,
         type: 3}
       propertyPath: m_SortingOrder
-      value: -2
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 5583574142001140744, guid: f083512505affb74e8352e2dd905c127,
         type: 3}
@@ -310,7 +310,7 @@ PrefabInstance:
     - target: {fileID: 5583574142001140744, guid: f083512505affb74e8352e2dd905c127,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.08
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5583574142001140744, guid: f083512505affb74e8352e2dd905c127,
         type: 3}
