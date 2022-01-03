@@ -31,9 +31,6 @@ public class ObjectWithDuration : MonoBehaviour
         {
             ObjectManager.Instance.SetObjectParent(gameObject);
         }
-        else
-        {
-            gameObject.SetActive(false);
-        }
+        gameObject.SetActive(false);
     }
 }
