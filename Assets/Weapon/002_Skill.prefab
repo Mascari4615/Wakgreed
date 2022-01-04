@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 604129276048715054}
   - component: {fileID: 1589419933740185571}
   - component: {fileID: 6571158188501602971}
+  - component: {fileID: 6044746311583811027}
   m_Layer: 0
   m_Name: 002_Skill
   m_TagString: Untagged
@@ -175,9 +176,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bTargetWak: 0
-  totalPower: {fileID: 11400000, guid: 1a3eef7a703f4d440869b9541a779c7d, type: 2}
-  criticalChance: {fileID: 11400000, guid: 300f8b12c04c18a45a8f73a08c3ab38b, type: 2}
-  criticalDamagePer: {fileID: 11400000, guid: 19d3c26c7e7c0fe4fa0f3b7a64ec8d21, type: 2}
   damage: 7
   WeaponID: -1
   offGoOnHit: 0
@@ -212,3 +210,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotateSpeed: 90
   direction: 0
+--- !u!114 &6044746311583811027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8920868527536870429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6294d3588422ad7489c66d8f217959a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

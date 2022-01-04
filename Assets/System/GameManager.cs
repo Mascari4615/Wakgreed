@@ -236,7 +236,7 @@ public class GameManager : MonoBehaviour
         DataManager.Instance.wgFoodInven.Clear();
         DataManager.Instance.buffRunTimeSet.Clear();
 
-        Goldu.RuntimeValue = 최대소지골두 >= Goldu.RuntimeValue ? 최대소지골두 : Goldu.RuntimeValue;
+        Goldu.RuntimeValue = 최대소지골두 <= Goldu.RuntimeValue ? 최대소지골두 : Goldu.RuntimeValue;
         viewer.RuntimeValue = 3000;
 
         gameResultPanel.SetActive(false);

@@ -426,6 +426,9 @@ public class StreamingManager : MonoBehaviour
                 case "음식":
                     DataManager.Instance.wgFoodInven.Add(DataManager.Instance.FoodDic[int.Parse(msg.Split(' ')[1])]);
                     break;
+                case "골두":
+                    goldu.RuntimeValue += int.Parse(msg.Split(' ')[1]);
+                    break;
                 default:
                     if (msg[1..(msg.Length - 1)] == "clear" || msg[1..(msg.Length - 1)] == "초기화")
                     {

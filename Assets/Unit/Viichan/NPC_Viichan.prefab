@@ -42,17 +42,17 @@ PrefabInstance:
     - target: {fileID: 3193277810173341929, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3193277810173341929, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.39
+      value: -12.6
       objectReference: {fileID: 0}
     - target: {fileID: 3193277810173341929, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -23.2
       objectReference: {fileID: 0}
     - target: {fileID: 3193277810173341929, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
@@ -98,6 +98,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: NPC_Viichan
+      objectReference: {fileID: 0}
+    - target: {fileID: 3193277810173341930, guid: 0a941390648b43b489b97695ee406140,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5046749008975055762, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
@@ -166,8 +171,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 26
   firstComment:
-  - "\uC548\uB155\uD558\uC138\uC694 \uC641\uAD73\uB2D8"
+  - "\uC548\uB155\uD558\uC138\uC5EC \uC641\uAD73\uB2D8~"
   randomComment:
-  - "\uC548\uB155\uD558\uC138\uC694 \uC641\uAD73\uB2D8"
+  - "\uC5D8\uB808\uB808\u3154\u3154\u3154\u3154"
+  - "\uC0C8\uB85C\uC6B4 \uC544\uBC14\uD0C0\uAC00 \uC88B\uC2B5\uB2C8\uB2E4."
   canOpenUI: 0
   isShowingSomething: {fileID: 11400000, guid: 688a405029d824548b8d1494667c0415, type: 2}
