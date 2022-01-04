@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 936163698904388890}
   - component: {fileID: 1194972627027808675}
   - component: {fileID: 1655085910}
+  - component: {fileID: -2644573846585519850}
   m_Layer: 7
   m_Name: Boss_Dop
   m_TagString: Boss
@@ -64,6 +65,7 @@ MonoBehaviour:
   defaultSprite: {fileID: -741215256, guid: 3fd9eaf33be75db45bfea13ac38ad6f3, type: 3}
   npcID: 6
   nickName: "\uAD11\uAE30\uC758 \uACFC\uD559\uC790"
+  TESTING: 0
   moveLimit: 15
   wakpago: {fileID: 3035457898370817608, guid: 1c9ff9efc40b7c148964886b964f9e14, type: 3}
   monkey: {fileID: 5168828908313417421, guid: 409a3cf34efa74e45a2c45e6700e23f2, type: 3}
@@ -227,7 +229,7 @@ TrailRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 978103407
   m_SortingLayer: 1
-  m_SortingOrder: 1
+  m_SortingOrder: -1
   m_Time: 0.3
   m_Parameters:
     serializedVersion: 3
@@ -297,6 +299,18 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!114 &-2644573846585519850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3035457898370817608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adbd2402367b72342a34f86a3488182a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6454617278011823487
 GameObject:
   m_ObjectHideFlags: 0

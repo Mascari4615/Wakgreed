@@ -42,17 +42,17 @@ PrefabInstance:
     - target: {fileID: 3193277810173341929, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3193277810173341929, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 3193277810173341929, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -24.3
       objectReference: {fileID: 0}
     - target: {fileID: 3193277810173341929, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
@@ -98,6 +98,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: NPC_Jingburger
+      objectReference: {fileID: 0}
+    - target: {fileID: 3193277810173341930, guid: 0a941390648b43b489b97695ee406140,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5046749008975055762, guid: 0a941390648b43b489b97695ee406140,
         type: 3}
@@ -167,8 +172,9 @@ MonoBehaviour:
   ID: 23
   firstComment:
   - "\uC548\uB155\uD558\uC138\uC5EC \uC641\uAD73\uB2D8!"
+  - "\uBAA8\uC2DC\uAE7D\uC774\uD55C \uD558\uB8E8 \uBCF4\uB0B4\uC138\uC5EC~"
   randomComment:
-  - "\uCC38 \uBAA8\uC2DC\uAE7D\uC774 \uD558\uAD70\uC694.."
+  - "\u3161\u3154?"
   - "\uC655\uC88B\uC740 \uB0A0\uC528\uC785\uB2C8\uB2E4~"
   canOpenUI: 0
   isShowingSomething: {fileID: 11400000, guid: 688a405029d824548b8d1494667c0415, type: 2}

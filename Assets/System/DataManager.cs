@@ -9,13 +9,16 @@ using Random = UnityEngine.Random;
 [Serializable]
 public class GameData
 {
-    public bool youtubeHi = true;
-    public bool[] rescuedNPC = Enumerable.Repeat(false, 30 + 1).ToArray();
-    public bool[] talkedOnceNPC = Enumerable.Repeat(false, 35 + 1).ToArray();
+    public bool[] rescuedNPC = Enumerable.Repeat(false, 100 + 1).ToArray();
+    public bool[] talkedOnceNPC = Enumerable.Repeat(false, 100 + 1).ToArray();
+    public bool[] buildedBuilding = Enumerable.Repeat(false, 100 + 1).ToArray();
     public bool[] killedOnceMonster = Enumerable.Repeat(false, 100 + 1).ToArray();
-    public bool[] equipedOnceItem = Enumerable.Repeat(false, 100 + 1).ToArray();
-    public float[] Volume = { .5f, .5f, .5f };
+    public bool[] equipedOnceItem = Enumerable.Repeat(false, 300 + 1).ToArray();
+    public bool[] equipedOnceWeapon = Enumerable.Repeat(false, 300 + 1).ToArray();
+    public float[] Volume = { .3f, .3f, .3f };
     public int deathCount = 0;
+    public int level = 0;
+    public int exp = 0;
 }
 
 [Serializable]
@@ -80,6 +83,8 @@ public class DataManager : MonoBehaviour
 
     [Header("Buff")] public BuffRunTimeSet buffRunTimeSet;
 
+    [Header("Building")] public BuildingDataBuffer buildingDataBuffer;
+    public readonly Dictionary<int, Building> BuildingDic = new();
     public GameData CurGameData { get; private set; }
 
     private void Awake()
@@ -142,6 +147,7 @@ public class DataManager : MonoBehaviour
         foreach (Mastery mastery in wdMasteryBuffer.items) MasteryDic.Add(mastery.id, mastery);
         foreach (Monster monster in monsterDataBuffer.items) MonsterDic.Add(monster.ID, monster);
         foreach (Monster boss in bossDataBuffer.items) BossDic.Add(boss.ID, boss);
+        foreach (Building building in buildingDataBuffer.items) BuildingDic.Add(building.id, building);
 
         CurGameData = LoadGameData();
         SaveGameData();
