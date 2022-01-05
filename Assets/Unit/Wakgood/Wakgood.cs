@@ -265,31 +265,15 @@ public class Wakgood : MonoBehaviour, IHitable
             if ((hpCur.RuntimeValue -= damage) > 0)
             {
                 isHealthy = false;
-                StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, .3f, value => isHealthy = value));
+                StartCoroutine(TtmdaclExtension.ChangeWithDelay(true, .2f, value => isHealthy = value));
             }
             else
             {
                 hpCur.RuntimeValue = 0;
 
-                if (GameManager.Instance.isRealBossing.RuntimeValue)
+                if (GameManager.Instance.isRealBossing.RuntimeValue && GameManager.Instance.isRealBossFirstDeath)
                 {
-                    if (GameManager.Instance.isRealBossFirstDeath)
-                    {
-                        FakeCollapse();
-                    }
-                    else
-                    {
-                        // ReceiveHeal(100);
-                        /*if (GameManager.Instance.isRealBossing.RuntimeValue)
-                        {
-                            StreamingManager.Instance.donationUI[3].SetActive(false);
-                            StreamingManager.Instance.donationText[3].text = $"±Ë∆««¨¿Ã¥‘¿« ¿¿ø¯¿∏∑Œ √º∑¬ 100 »∏∫π!";
-                            StreamingManager.Instance.donationImageUI[3].sprite = StreamingManager.Instance.donationImages[3];
-                            StreamingManager.Instance.donationUI[3].SetActive(true);
-                            RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
-                        }*/
-                        Collapse();
-                    }
+                    FakeCollapse();                  
                 }
                 else
                 {

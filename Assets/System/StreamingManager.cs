@@ -126,21 +126,9 @@ public class StreamingManager : MonoBehaviour
             if (DataManager.Instance.CurGameData.rescuedNPC[27])
                 temp++;
 
-            if (GameManager.Instance.isRealBossing.RuntimeValue)
+            if (GameManager.Instance.isRealBossing.RuntimeValue && GameManager.Instance.isRealBossFirstDeath)
             {
-                if (GameManager.Instance.isRealBossFirstDeath == false)
-                {
-                    if (Random.Range(0, 100) < temp * 3)
-                    {
-                        int amount = Random.Range(100, 100 * temp);
-                        viewer.RuntimeValue += amount;
-                        donationUI[0].SetActive(false);
-                        donationText[0].text = $"이세계 아이돌이 {amount}명 호스팅!";
-                        donationImageUI[0].sprite = donationImages[3];
-                        donationUI[0].SetActive(true);
-                        RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
-                    }
-                }
+
             }
             else
             {
@@ -154,12 +142,12 @@ public class StreamingManager : MonoBehaviour
                     donationUI[0].SetActive(true);
                     RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
                 }
-            }
 
-            yield return new WaitForSeconds(142f);
+
+                yield return new WaitForSeconds(142f);
+            }
         }
     }
-
     private IEnumerator Donation_Secret()
     {
         yield return new WaitForSeconds(18f);
@@ -172,33 +160,20 @@ public class StreamingManager : MonoBehaviour
             if (DataManager.Instance.wgItemInven.Items.Contains(DataManager.Instance.ItemDic[48]))
                 temp = DataManager.Instance.wgItemInven.itemCountDic[48];
 
-            if (GameManager.Instance.isRealBossing.RuntimeValue)
+            if (GameManager.Instance.isRealBossing.RuntimeValue && GameManager.Instance.isRealBossFirstDeath)
             {
-                if (GameManager.Instance.isRealBossFirstDeath == false)
-                {
-                    if (Random.Range(0, 100) < 30)
-                    {
-                        Wakgood.Instance.ReceiveHeal(1 + temp);
-                        donationUI[0].SetActive(false);
-                        donationText[0].text = $"비밀소녀의 응원으로 체력 {1 + temp} 회복!";
-                        donationImageUI[0].sprite = donationImages[2];
-                        donationUI[0].SetActive(true);
-                        RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
-                    }
-                }
+
             }
-            else
+            else if (Random.Range(0, 100) < 30)
             {
-                if (Random.Range(0, 100) < 30)
-                {
-                    Wakgood.Instance.ReceiveHeal(1 + temp);
-                    donationUI[0].SetActive(false);
-                    donationText[0].text = $"비밀소녀의 응원으로 체력 {1 + temp} 회복!";
-                    donationImageUI[0].sprite = donationImages[2];
-                    donationUI[0].SetActive(true);
-                    RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
-                }
+                Wakgood.Instance.ReceiveHeal(1 + temp);
+                donationUI[0].SetActive(false);
+                donationText[0].text = $"비밀소녀의 응원으로 체력 {1 + temp} 회복!";
+                donationImageUI[0].sprite = donationImages[2];
+                donationUI[0].SetActive(true);
+                RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
             }
+
 
             yield return new WaitForSeconds(47f);
         }
@@ -216,33 +191,20 @@ public class StreamingManager : MonoBehaviour
             if (DataManager.Instance.wgItemInven.Items.Contains(DataManager.Instance.ItemDic[47]))
                 temp = DataManager.Instance.wgItemInven.itemCountDic[47];
 
-            if (GameManager.Instance.isRealBossing.RuntimeValue)
+            if (GameManager.Instance.isRealBossing.RuntimeValue && GameManager.Instance.isRealBossFirstDeath)
             {
-                if (GameManager.Instance.isRealBossFirstDeath == false)
-                {
-                    if (Random.Range(0, 100) < 50 + temp * 5)
-                    {
-                        DataManager.Instance.buffRunTimeSet.Add(buffs[0]);
-                        donationUI[0].SetActive(false);
-                        donationText[0].text = $"10초 동안 공격속도 20% 증가!";
-                        donationImageUI[0].sprite = donationImages[0];
-                        donationUI[0].SetActive(true);
-                        RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
-                    }
-                }
+
             }
-            else
+            else if (Random.Range(0, 100) < 50 + temp * 5)
             {
-                if (Random.Range(0, 100) < 50 + temp * 5)
-                {
-                    DataManager.Instance.buffRunTimeSet.Add(buffs[0]);
-                    donationUI[0].SetActive(false);
-                    donationText[0].text = $"10초 동안 공격속도 20% 증가!";
-                    donationImageUI[0].sprite = donationImages[0];
-                    donationUI[0].SetActive(true);
-                    RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
-                }
+                DataManager.Instance.buffRunTimeSet.Add(buffs[0]);
+                donationUI[0].SetActive(false);
+                donationText[0].text = $"10초 동안 공격속도 20% 증가!";
+                donationImageUI[0].sprite = donationImages[0];
+                donationUI[0].SetActive(true);
+                RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
             }
+
 
 
             yield return new WaitForSeconds(64f);
@@ -256,23 +218,11 @@ public class StreamingManager : MonoBehaviour
         {
             while (isLoading.RuntimeValue) yield return null;
 
-            if (GameManager.Instance.isRealBossing.RuntimeValue)
+            if (GameManager.Instance.isRealBossing.RuntimeValue && GameManager.Instance.isRealBossFirstDeath)
             {
-                if (GameManager.Instance.isRealBossFirstDeath == false)
-                {
-                    if (Random.Range(0, 100) < 30)
-                    {
-                        DataManager.Instance.buffRunTimeSet.Add(buffs[1]);
-                        donationUI[0].SetActive(false);
-                        donationText[0].text = $"10초 동안 회피율 30% 증가!";
-                        donationImageUI[0].sprite = donationImages[1];
-                        donationUI[0].SetActive(true);
-                        RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");
-                    }
-                }
+
             }
-            else
-                    if (Random.Range(0, 100) < 30)
+            else if (Random.Range(0, 100) < 30)
             {
                 DataManager.Instance.buffRunTimeSet.Add(buffs[1]);
                 donationUI[0].SetActive(false);
@@ -307,23 +257,13 @@ public class StreamingManager : MonoBehaviour
                 yield return ws1;
             }
 
-            if (GameManager.Instance.isRealBossing.RuntimeValue)
+            if (GameManager.Instance.isRealBossing.RuntimeValue && GameManager.Instance.isRealBossFirstDeath)
             {
-                if (GameManager.Instance.isRealBossFirstDeath)
+                if (temp == false)
                 {
-                    if (temp == false)
-                    {
-                        Debug.Log("asd");
-                        Wakgood.Instance.FakeCollapse();
-                        temp = true;
-                    }
-                }
-                else
-                {
-                    DataManager.Instance.CurGameData.deathCount++;
-                    DataManager.Instance.SaveGameData();
-                    Wakgood.Instance.Collapse();
-                    break;
+                    Debug.Log("asd");
+                    Wakgood.Instance.FakeCollapse();
+                    temp = true;
                 }
             }
             else
@@ -416,7 +356,7 @@ public class StreamingManager : MonoBehaviour
                 case "item":
                 case "아이템":
                     for (int i = 0; i < (msg.Split(' ').Length == 3 ? int.Parse(msg.Split(' ')[2]) : 1); i++)
-                    DataManager.Instance.wgItemInven.Add(DataManager.Instance.ItemDic[int.Parse(msg.Split(' ')[1])]);
+                        DataManager.Instance.wgItemInven.Add(DataManager.Instance.ItemDic[int.Parse(msg.Split(' ')[1])]);
                     break;
                 case "weapon":
                 case "무기":

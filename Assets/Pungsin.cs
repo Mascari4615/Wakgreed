@@ -3,22 +3,19 @@ using UnityEngine;
 
 public class Pungsin : BossMonster
 {
-    [SerializeField] private GameObject ultAttackPrefab;
-    [SerializeField] private GameObject skill0AttackPrefab;
-    [SerializeField] private GameObject skill1AttackPrefab;
+    [SerializeField] private BulletMove[] ultGO;
+    [SerializeField] private BulletMove[] skill0BulletGo;
+    [SerializeField] private BulletMoveStar[] skill1BulletGo;
 
-    private BulletMove[] skill0AttackGo;
-    private BulletMoveStar[] skill1AttackGo;
-    [SerializeField] private GameObject ult;
-    [SerializeField] private GameObject ultParticle1;
-    [SerializeField] private GameObject ultParticle2;
-    private GameObject[] ultAttackPos;
-    private BulletMove[] ultAttackGos;
+    [SerializeField] private GameObject ultWarning;
+    [SerializeField] private GameObject ultReadyParticle;
+    [SerializeField] private GameObject ultGoParticle;
+
     [SerializeField] private GameObject stun;
-    [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private LineRenderer skill1Warning;
     private Vector3 spawnedPos = Vector3.zero;
-    [SerializeField] private float moveLimit = 15;
-
+    [SerializeField] private float moveLimit;
+    private int temp = 0;
     private Coroutine skill0Co;
     private Coroutine ultCo;
     private Coroutine skill1Co;
@@ -26,50 +23,53 @@ public class Pungsin : BossMonster
     protected override void Awake()
     {
         base.Awake();
-        // skill1 = transform.Find("Skill1").gameObject;
-        ult = transform.Find("ult").gameObject;
-        ultAttackPos = new GameObject[ult.transform.childCount];
-        ultAttackGos = new BulletMove[ult.transform.childCount];
-        for (int i = 0; i < ult.transform.childCount; i++)
-        {
-            ultAttackPos[i] = ult.transform.GetChild(i).gameObject;
-            (ultAttackGos[i] = Instantiate(ultAttackPrefab, transform).GetComponent<BulletMove>()).gameObject.SetActive(false);
-        }
+        skill1Warning.material.SetColor("_Color", new Color(1f, 1f, 1f, 0.3f));
+    }
+    
+    protected override void OnEnable()
+    {
+        if (skill1Co != null) StopCoroutine(skill1Co);
+        if (ultCo != null) StopCoroutine(ultCo);
+        if (skill0Co != null) StopCoroutine(skill0Co);
 
-        skill0AttackGo = new BulletMove[3];
-        for (int i = 0; i < 3; i++)
-        {
-            (skill0AttackGo[i] = Instantiate(skill0AttackPrefab, transform).GetComponent<BulletMove>()).gameObject.SetActive(false);
-        }
+        foreach (var item in ultGO)
+            item.gameObject.SetActive(false);
+        foreach (var item in skill0BulletGo)
+            item.gameObject.SetActive(false);
+        foreach (var item in skill1BulletGo)
+            item.gameObject.SetActive(false);
 
-        skill1AttackGo = new BulletMoveStar[6];
-        for (int i = 0; i < skill1AttackGo.Length; i++)
-            (skill1AttackGo[i] = Instantiate(skill1AttackPrefab, transform).GetComponent<BulletMoveStar>()).gameObject.SetActive(false);
+        ultWarning.SetActive(false);
+        ultGoParticle.SetActive(false);
+        ultReadyParticle.SetActive(false);
+        stun.gameObject.SetActive(false);
 
-        lineRenderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 0.3f));
+        spawnedPos = transform.position;
+        temp = 0;
 
         Animator.SetBool("ULT", false);
         Animator.SetBool("SKILL1", false);
-    }
-    int temp = 0;
 
-    protected override void OnEnable()
-    {
         base.OnEnable();
-        spawnedPos = transform.position;
     }
 
     protected override IEnumerator _Collapse()
     {
-        foreach (var item in skill0AttackGo)
-        {
-            item.gameObject.SetActive(false);
-        }
+        if (skill1Co != null) StopCoroutine(skill1Co);
+        if (ultCo != null) StopCoroutine(ultCo);
+        if (skill0Co != null) StopCoroutine(skill0Co);
 
-        foreach (var item in skill1AttackGo)
-        {
+        foreach (var item in ultGO)
             item.gameObject.SetActive(false);
-        }
+        foreach (var item in skill0BulletGo)
+            item.gameObject.SetActive(false);
+        foreach (var item in skill1BulletGo)
+            item.gameObject.SetActive(false);
+
+        ultWarning.SetActive(false);
+        ultGoParticle.SetActive(false);
+        ultReadyParticle.SetActive(false);
+        stun.gameObject.SetActive(false);
 
         return base._Collapse();
     }
@@ -80,7 +80,7 @@ public class Pungsin : BossMonster
 
         while (true)
         {
-            int a = temp < skill1AttackGo.Length / 2 ? 1 : 0;
+            int a = temp < skill1BulletGo.Length / 2 ? 1 : 0;
             int i = Random.Range(0, 3 + a);
 
             switch (i)
@@ -103,10 +103,10 @@ public class Pungsin : BossMonster
     {
         Animator.SetBool("ULT", true);
         yield return new WaitForSeconds(1);
-        skill1AttackGo[temp * 2].Set(Random.Range(.2f, .5f), Random.Range(2.5f, 5f));
-        skill1AttackGo[temp * 2].gameObject.SetActive(true);
-        skill1AttackGo[temp * 2 + 1].Set(Random.Range(.2f, .5f), Random.Range(2.5f, 5f));
-        skill1AttackGo[temp * 2 + 1].gameObject.SetActive(true);
+        skill1BulletGo[temp * 2].Set(Random.Range(.2f, .5f), Random.Range(2.5f, 5f));
+        skill1BulletGo[temp * 2].gameObject.SetActive(true);
+        skill1BulletGo[temp * 2 + 1].Set(Random.Range(.2f, .5f), Random.Range(2.5f, 5f));
+        skill1BulletGo[temp * 2 + 1].gameObject.SetActive(true);
         Animator.SetBool("ULT", false);
         temp++;
         yield return new WaitForSeconds(2);
@@ -127,8 +127,8 @@ public class Pungsin : BossMonster
             temp += Time.deltaTime;
         }
 
-        ult.SetActive(true);
-        ultParticle1.SetActive(true);
+        ultWarning.SetActive(true);
+        ultReadyParticle.SetActive(true);
 
         temp = 0;
         while (temp < 4f)
@@ -139,14 +139,14 @@ public class Pungsin : BossMonster
             yield return new WaitForFixedUpdate();
             temp += Time.fixedDeltaTime;
         }
-        ultParticle1.SetActive(false);
+        ultReadyParticle.SetActive(false);
 
-        ultParticle2.SetActive(true);
-        for (int i = 0; i < ultAttackGos.Length; i++)
+        ultGoParticle.SetActive(true);
+        for (int i = 0; i < ultGO.Length; i++)
         {
-            ultAttackGos[i].transform.position = transform.position;
-            ultAttackGos[i].SetDirection((ultAttackPos[i].transform.position - transform.position).normalized);
-            ultAttackGos[i].gameObject.SetActive(true);
+            ultGO[i].transform.position = transform.position;
+            ultGO[i].SetDirection((ultWarning.transform.GetChild(i).position - transform.position).normalized);
+            ultGO[i].gameObject.SetActive(true);
         }
 
         while (camera.m_Lens.OrthographicSize < 12)
@@ -155,14 +155,14 @@ public class Pungsin : BossMonster
             yield return null;
         }
 
-        ult.SetActive(false);
+        ultWarning.SetActive(false);
         Animator.SetBool("ULT", false);
         camera.m_Lens.OrthographicSize = 12;
 
         stun.SetActive(true);
         yield return new WaitForSeconds(6f);
         stun.SetActive(false);
-        ultParticle2.SetActive(false);
+        ultGoParticle.SetActive(false);
     }
 
     private IEnumerator Skill0()
@@ -189,31 +189,23 @@ Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2
 
             Vector3 attackDirection = (Wakgood.Instance.transform.position - transform.position).normalized;
 
-            lineRenderer.SetPosition(0, transform.position + (Vector3)Vector2.up);
-            lineRenderer.SetPosition(1, transform.position + (Vector3)Vector2.up + attackDirection * 100);
-            lineRenderer.gameObject.SetActive(true);
+            skill1Warning.SetPosition(0, transform.position + (Vector3)Vector2.up);
+            skill1Warning.SetPosition(1, transform.position + (Vector3)Vector2.up + attackDirection * 100);
+            skill1Warning.gameObject.SetActive(true);
 
             yield return i == 0 ? new WaitForSeconds(.7f) : new WaitForSeconds(.4f);
 
             Animator.SetTrigger("SKILL1GO");
 
-            skill0AttackGo[i].transform.position = transform.position + (Vector3)Vector2.up;
-            skill0AttackGo[i].SetDirection(attackDirection);
-            skill0AttackGo[i].gameObject.SetActive(true);
-            lineRenderer.gameObject.SetActive(false);
+            skill0BulletGo[i].transform.position = transform.position + (Vector3)Vector2.up;
+            skill0BulletGo[i].SetDirection(attackDirection);
+            skill0BulletGo[i].gameObject.SetActive(true);
+            skill1Warning.gameObject.SetActive(false);
 
             yield return new WaitForSeconds(.2f);
         }
 
         Animator.SetBool("SKILL1", false);
         yield return new WaitForSeconds(2f);
-    }
-
-    protected override void OnDisable()
-    {
-        if (skill1Co != null) StopCoroutine(skill1Co);
-        if (ultCo != null) StopCoroutine(ultCo);
-        if (skill0Co != null) StopCoroutine(skill0Co);
-        base.OnDisable();
     }
 }

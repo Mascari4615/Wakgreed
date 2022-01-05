@@ -48,10 +48,12 @@ public class Dopamine : BossMonster
 
     protected override void OnEnable()
     {
-        base.OnEnable();
-
+        if (monkeyCO != null) StopCoroutine(monkeyCO);
+        if (mobSpawnCO != null) StopCoroutine(mobSpawnCO);
+        if (mobSpawnCOCO != null) StopCoroutine(mobSpawnCOCO);
         spawnedPos = transform.position;
         bCanUseMobSpawn = true;
+        base.OnEnable();
     }
 
     protected override IEnumerator Attack()
@@ -241,13 +243,5 @@ public class Dopamine : BossMonster
 
         cinemachineTargetGroup.m_Targets[0].target = Wakgood.Instance.transform;
         cinemachineTargetGroup.m_Targets[1].target = null;
-    }
-
-    protected override void OnDisable()
-    {
-        if (monkeyCO != null) StopCoroutine(monkeyCO);
-        if (mobSpawnCO != null) StopCoroutine(mobSpawnCO);
-        if (mobSpawnCOCO != null) StopCoroutine(mobSpawnCOCO);
-        base.OnDisable();
     }
 }

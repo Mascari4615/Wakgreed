@@ -128,7 +128,9 @@ public class RealWakgood : BossMonster
 
     protected override void OnEnable()
     {
-        base.OnEnable();
+        if (DropsCO != null) StopCoroutine(DropsCO);
+        if (TheShipCO != null) StopCoroutine(TheShipCO);
+        if (GTACO != null) StopCoroutine(GTACO);
 
         if (StageManager.Instance.CurrentRoom != null)
         {
@@ -140,6 +142,8 @@ public class RealWakgood : BossMonster
                 }
             }
         }
+
+        base.OnEnable();
     }
 
     Vector2 Wobble(float time)
@@ -255,14 +259,5 @@ public class RealWakgood : BossMonster
     private IEnumerator Waktyhall()
     {
         yield break;
-    }
-
-
-    protected override void OnDisable()
-    {
-        if (DropsCO != null) StopCoroutine(DropsCO);
-        if (TheShipCO != null) StopCoroutine(TheShipCO);
-        if (GTACO != null) StopCoroutine(GTACO);
-        base.OnDisable();
     }
 }

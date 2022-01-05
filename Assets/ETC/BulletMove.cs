@@ -33,7 +33,7 @@ public class BulletMove : MonoBehaviour
                 directionVector = (Wakgood.Instance.transform.position - transform.position).normalized;
                 break;
             case Direction.Random:
-                directionVector = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), 0).normalized;
+                directionVector = Random.insideUnitCircle.normalized;
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

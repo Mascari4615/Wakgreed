@@ -16,6 +16,7 @@ public class ObjectManager : MonoBehaviour
     private class PoolData
     {
         public GameObject gameObject;
+        public int gameObjectCount = 10;
         public Stack<GameObject> Stack = new();
         [HideInInspector] public Transform transform;
     }
@@ -30,7 +31,7 @@ public class ObjectManager : MonoBehaviour
         {
             poolDic.Add(pD.gameObject.name, pD);
             (poolDic[pD.gameObject.name].transform = new GameObject(pD.gameObject.name).transform).SetParent(transform);
-            for (int i = 0; i < 10; i++) Instantiate(pD.gameObject, poolDic[pD.gameObject.name].transform).SetActive(false);
+            for (int i = 0; i < pD.gameObjectCount; i++) Instantiate(pD.gameObject, poolDic[pD.gameObject.name].transform).SetActive(false);
         }
     }
 

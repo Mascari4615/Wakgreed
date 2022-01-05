@@ -26,8 +26,14 @@ public class Hikiking : BossMonster
 
     protected override void OnEnable()
     {
-        base.OnEnable();
+        if (baseAttackCo != null) StopCoroutine(baseAttackCo);
+        if (ultCo != null) StopCoroutine(ultCo);
+        if (mobSpawnCo != null) StopCoroutine(mobSpawnCo);
+        if (mobSpawnCoCo != null) StopCoroutine(mobSpawnCoCo);
+        stun.SetActive(false);
         spawnedPos = transform.position;
+
+        base.OnEnable();
     }
 
     protected override IEnumerator Attack()
@@ -219,14 +225,5 @@ public class Hikiking : BossMonster
         {
             monsterList.Add(temp);
         }
-    }
-
-    protected override void OnDisable()
-    {
-        if (baseAttackCo != null) StopCoroutine(baseAttackCo);
-        if (ultCo != null) StopCoroutine(ultCo);
-        if (mobSpawnCo != null) StopCoroutine(mobSpawnCo);
-        if (mobSpawnCoCo != null) StopCoroutine(mobSpawnCoCo);
-        base.OnDisable();
     }
 }
