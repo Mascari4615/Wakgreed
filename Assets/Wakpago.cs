@@ -45,10 +45,25 @@ public class Wakpago : BossMonster
 
     protected override void OnEnable()
     {
-        base.OnEnable();
+        if (attackCO != null) StopCoroutine(attackCO);
+        if (flipCO != null) StopCoroutine(flipCO);
+        if (bulletCO != null) StopCoroutine(bulletCO);
+        if (bombCO != null) StopCoroutine(bombCO);
+        if (mobSpawnCO != null) StopCoroutine(mobSpawnCO);
+
+        for (int i = 0; i < bullets.Length; i++)
+        {
+            bulletsTR[i].Clear();
+            bulletsCOL[i].enabled = false;
+            bullets[i].enabled = false;
+            bullets[i].gameObject.SetActive(false);
+        }
+
         spawnedPos = transform.position;
         phase = 1;
         monsterList = new();
+
+        base.OnEnable();     
     }
 
     private void Initialize()
@@ -269,25 +284,6 @@ Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2
         Animator.SetBool("PUNCH", false);
         yield return new WaitForSeconds(1f);
         bAttacking = false;
-    }
-
-    protected override void OnDisable()
-    {
-        if (attackCO != null) StopCoroutine(attackCO);
-        if (flipCO != null) StopCoroutine(flipCO);
-        if (bulletCO != null) StopCoroutine(bulletCO);
-        if (bombCO != null) StopCoroutine(bombCO);
-        if (mobSpawnCO != null) StopCoroutine(mobSpawnCO);
-
-        for (int i = 0; i < bullets.Length; i++)
-        {
-            bulletsTR[i].Clear();
-            bulletsCOL[i].enabled = false;
-            bullets[i].enabled = false;
-            bullets[i].gameObject.SetActive(false);
-        }
-
-        base.OnDisable();
     }
 
     protected override IEnumerator _Collapse()
