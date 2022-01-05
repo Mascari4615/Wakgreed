@@ -48,7 +48,7 @@ public class Chest : InteractiveObject
         itemIDs.Clear();
 
         isOpened = false;
-        isItem = Random.Range(0, 100) > 15;
+        isItem = Random.Range(0, 100) > 20;
         if (onlyWeapon)
         {
             itemIDs.Add(DataManager.Instance.GetRandomWeaponID(probability.Get()));

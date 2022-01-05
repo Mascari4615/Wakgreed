@@ -44,7 +44,7 @@ public abstract class Room : MonoBehaviour
 
     public virtual void Enter()
     {
-        DataManager.Instance.SaveGameData2();
+        // DataManager.Instance.SaveGameData2();
 
         if (IsVisited == false)
             IsVisited = true;

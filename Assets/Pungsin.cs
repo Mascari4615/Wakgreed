@@ -19,6 +19,10 @@ public class Pungsin : BossMonster
     private Vector3 spawnedPos = Vector3.zero;
     [SerializeField] private float moveLimit = 15;
 
+    private Coroutine skill0Co;
+    private Coroutine ultCo;
+    private Coroutine skill1Co;
+
     protected override void Awake()
     {
         base.Awake();
@@ -43,6 +47,9 @@ public class Pungsin : BossMonster
             (skill1AttackGo[i] = Instantiate(skill1AttackPrefab, transform).GetComponent<BulletMoveStar>()).gameObject.SetActive(false);
 
         lineRenderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 0.3f));
+
+        Animator.SetBool("ULT", false);
+        Animator.SetBool("SKILL1", false);
     }
     int temp = 0;
 
@@ -80,13 +87,13 @@ public class Pungsin : BossMonster
             {
                 case 0:
                 case 1:
-                    yield return StartCoroutine(Skill0());
+                    yield return skill1Co = StartCoroutine(Skill0());
                     break;
                 case 2:
-                    yield return StartCoroutine(Ult());
+                    yield return ultCo = StartCoroutine(Ult());
                     break;
                 case 3:
-                    yield return StartCoroutine(Skill1());
+                    yield return skill1Co = StartCoroutine(Skill1());
                     break;
             }
         }
@@ -157,7 +164,7 @@ public class Pungsin : BossMonster
         stun.SetActive(false);
         ultParticle2.SetActive(false);
     }
-   
+
     private IEnumerator Skill0()
     {
         yield return new WaitForSeconds(.2f);
@@ -200,5 +207,13 @@ Mathf.Clamp(Wakgood.Instance.transform.position.y + (-1 + Random.Range(0, 2) * 2
 
         Animator.SetBool("SKILL1", false);
         yield return new WaitForSeconds(2f);
+    }
+
+    protected override void OnDisable()
+    {
+        if (skill1Co != null) StopCoroutine(skill1Co);
+        if (ultCo != null) StopCoroutine(ultCo);
+        if (skill0Co != null) StopCoroutine(skill0Co);
+        base.OnDisable();
     }
 }

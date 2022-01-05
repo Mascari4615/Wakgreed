@@ -20,6 +20,10 @@ public class RealWakgood : BossMonster
     List<int> wordLengths2;
     public Gradient rainbow2;
 
+    private Coroutine GTACO;
+    private Coroutine TheShipCO;
+    private Coroutine DropsCO;
+
     void Start()
     {
         lineRenderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 0.3f));
@@ -147,7 +151,7 @@ public class RealWakgood : BossMonster
     {
         textMesh.text = "모두 '!드롭스' 를 외쳐주세요!";
         textMesh.gameObject.SetActive(true);
-        StartCoroutine(Drops());
+        DropsCO = StartCoroutine(Drops());
 
         yield return new WaitForSeconds(3f);
         textMesh.gameObject.SetActive(false);
@@ -158,10 +162,10 @@ public class RealWakgood : BossMonster
             switch (i)
             {
                 case 0:
-                    yield return StartCoroutine(TheShip());
+                    yield return TheShipCO = StartCoroutine(TheShip());
                     break;
                 case 1:
-                    yield return StartCoroutine(GTA());
+                    yield return GTACO = StartCoroutine(GTA());
                     break;
                 case 2:
                     yield return StartCoroutine(Waktyhall());
@@ -251,5 +255,14 @@ public class RealWakgood : BossMonster
     private IEnumerator Waktyhall()
     {
         yield break;
+    }
+
+
+    protected override void OnDisable()
+    {
+        if (DropsCO != null) StopCoroutine(DropsCO);
+        if (TheShipCO != null) StopCoroutine(TheShipCO);
+        if (GTACO != null) StopCoroutine(GTACO);
+        base.OnDisable();
     }
 }

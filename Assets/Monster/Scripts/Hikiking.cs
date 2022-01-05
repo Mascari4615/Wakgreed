@@ -13,6 +13,11 @@ public class Hikiking : BossMonster
     [SerializeField] private float moveLimit = 15;
     [SerializeField] private GameObject stun;
 
+    private Coroutine baseAttackCo;
+    private Coroutine ultCo;
+    private Coroutine mobSpawnCoCo;
+    private Coroutine mobSpawnCo;
+
     protected override void Awake()
     {
         lineRenderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 0.3f));
@@ -27,17 +32,17 @@ public class Hikiking : BossMonster
 
     protected override IEnumerator Attack()
     {
-        StartCoroutine(SpawnMobCo());
+        mobSpawnCoCo = StartCoroutine(SpawnMobCo());
         while (true)
         {
             int i = Random.Range(0, 1 + 1);
             switch (i)
             {
                 case 0:
-                    yield return StartCoroutine(BaseAttack());
+                    yield return baseAttackCo = StartCoroutine(BaseAttack());
                     break;
                 case 1:
-                    yield return StartCoroutine(Ult());
+                    yield return ultCo = StartCoroutine(Ult());
                     break;
             }
             yield return new WaitForSeconds(2f);
@@ -194,7 +199,9 @@ public class Hikiking : BossMonster
         while (true)
         {
             for (int i = 0; i < 2; i++)
-                StartCoroutine(SpawnMob());
+            {
+                mobSpawnCo = StartCoroutine(SpawnMob());
+            }
 
             yield return new WaitForSeconds(Random.Range(15f, 30f));
         }
@@ -212,5 +219,14 @@ public class Hikiking : BossMonster
         {
             monsterList.Add(temp);
         }
+    }
+
+    protected override void OnDisable()
+    {
+        if (baseAttackCo != null) StopCoroutine(baseAttackCo);
+        if (ultCo != null) StopCoroutine(ultCo);
+        if (mobSpawnCo != null) StopCoroutine(mobSpawnCo);
+        if (mobSpawnCoCo != null) StopCoroutine(mobSpawnCoCo);
+        base.OnDisable();
     }
 }

@@ -17,7 +17,7 @@ public class Ttmdacl : InteractiveObject
     private TextMeshProUGUI chatText;
     private bool isTalking, inputSkip;
     private readonly WaitForSeconds ws005 = new(0.05f), ws02 = new(0.2f);
-    private GameData2 data2;
+    // private GameData2 data2;
 
     [SerializeField] private GameObject PANEL_MENU;
     [SerializeField] private GameObject PANEL_LOAD;
@@ -46,7 +46,7 @@ public class Ttmdacl : InteractiveObject
         inventoryUI.temp = true;
     }
 
-    private void OnEnable()
+   /* private void OnEnable()
     {
         if (File.Exists(Path.Combine(Application.streamingAssetsPath, "gameSave.wak")))
         {
@@ -99,12 +99,12 @@ public class Ttmdacl : InteractiveObject
             PANEL_MENU.SetActive(true);
             PANEL_LOAD.SetActive(false);
         }
-    }
+    }*/
 
-    public void LoadGame()
+    /*public void LoadGame()
     { 
         StartCoroutine(GameManager.Instance.EnterPortal(data2));
-    }
+    }*/
 
     public override void Interaction()
     {

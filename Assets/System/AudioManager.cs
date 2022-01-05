@@ -98,6 +98,7 @@ public class AudioManager : MonoBehaviour
     public void PlayMusic(string musicName)
     {
         BgmEvent.stop(STOP_MODE.ALLOWFADEOUT);
+        if (UIManager.Instance != null) UIManager.Instance.SetMusicName(musicName);
         BgmEvent = RuntimeManager.CreateInstance($"event:/BGM/{musicName}");
         BgmEvent.start();
     }

@@ -17,11 +17,12 @@ public class GameData
     public bool[] equipedOnceWeapon = Enumerable.Repeat(false, 300 + 1).ToArray();
     public float[] Volume = { .3f, .3f, .3f };
     public int deathCount = 0;
+    public int goldu = 0;
     public int level = 0;
     public int exp = 0;
 }
 
-[Serializable]
+/*[Serializable]
 public class GameData2
 {
     public List<int> foods = new();
@@ -35,7 +36,7 @@ public class GameData2
     public int hp = 0;
     public int level = 0;
     public int exp = 0;
-}
+}*/
 
 public class DataManager : MonoBehaviour
 {
@@ -162,7 +163,7 @@ public class DataManager : MonoBehaviour
         stream.Close();
     }
 
-    public void SaveGameData2()
+/*    public void SaveGameData2()
     {
         GameData2 gameData2 = new();
 
@@ -201,7 +202,7 @@ public class DataManager : MonoBehaviour
         bf.Serialize(stream, gameData2);
         stream.Close();
     }
-
+*/
     private GameData LoadGameData()
     {
         if (File.Exists(Path.Combine(Application.streamingAssetsPath, "game.wak")))

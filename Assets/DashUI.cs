@@ -33,5 +33,7 @@ public class DashUI : MonoBehaviour
         {
             dashStackUIs[i].gameObject.SetActive(i < maxDashStack.RuntimeValue);
         }
+
+        UpdateCurDashStackUI();
     }
 }

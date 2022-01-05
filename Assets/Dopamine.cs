@@ -19,6 +19,8 @@ public class Dopamine : BossMonster
     private Vector3 spawnedPos = Vector3.zero;
     private bool bCanUseMobSpawn = true;
     private Coroutine monkeyCO;
+    private Coroutine mobSpawnCO;
+    private Coroutine mobSpawnCOCO;
 
     [TextArea] [SerializeField] private List<string> comment;
     private GameObject chat;
@@ -65,7 +67,7 @@ public class Dopamine : BossMonster
                     yield return monkeyCO = StartCoroutine(Monkey());
                     break;
                 case 1:
-                    yield return StartCoroutine(MobSpawn());
+                    yield return mobSpawnCOCO = StartCoroutine(MobSpawn());
                     break;
             }
         }
@@ -134,7 +136,7 @@ public class Dopamine : BossMonster
             yield break;
 
         for (int i = 0; i < 3; i++)
-            StartCoroutine(SpawnMob());
+            mobSpawnCO = StartCoroutine(SpawnMob());
 
         yield break;
     }
@@ -239,5 +241,13 @@ public class Dopamine : BossMonster
 
         cinemachineTargetGroup.m_Targets[0].target = Wakgood.Instance.transform;
         cinemachineTargetGroup.m_Targets[1].target = null;
+    }
+
+    protected override void OnDisable()
+    {
+        if (monkeyCO != null) StopCoroutine(monkeyCO);
+        if (mobSpawnCO != null) StopCoroutine(mobSpawnCO);
+        if (mobSpawnCOCO != null) StopCoroutine(mobSpawnCOCO);
+        base.OnDisable();
     }
 }
