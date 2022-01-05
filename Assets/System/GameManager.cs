@@ -94,6 +94,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(CheckBuff());
         AudioManager.Instance.PlayMusic("yeppSun - 고고 다섯쌍둥이");
         CinemachineVirtualCamera.m_Lens.OrthographicSize = 카메라사이즈;
+        Goldu.RuntimeValue = DataManager.Instance.CurGameData.goldu;
     }
 
     private IEnumerator CheckBuff()
@@ -131,7 +132,8 @@ public class GameManager : MonoBehaviour
         pausePanel.SetActive(!pausePanel.activeSelf);
     }
 
-    public IEnumerator EnterPortal(GameData2 gameData2 = null)
+    //public IEnumerator EnterPortal(GameData2 gameData2 = null)
+    public IEnumerator EnterPortal()
     {
         AudioManager.Instance.StopMusic();
         ObjectManager.Instance.DeactivateAll();
@@ -142,7 +144,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         undo.SetActive(false);
 
-        if (gameData2 != null)
+        /*if (gameData2 != null)
         {
             DataManager dataManager = DataManager.Instance;
             StageManager.Instance.currentStageID = gameData2.lastStageID - 1;
@@ -166,7 +168,7 @@ public class GameManager : MonoBehaviour
             Wakgood.Instance.exp.RuntimeValue = gameData2.exp;
             Wakgood.Instance.level.RuntimeValue = gameData2.level;
             Wakgood.Instance.hpCur.RuntimeValue = gameData2.hp;
-        }
+        }*/
         StageManager.Instance.GenerateStage();
     }
 
@@ -191,7 +193,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         gamePanel.SetActive(false);
         pausePanel.SetActive(false);
-        UIManager.Instance.SetResult(Goldu.RuntimeValue);
+        UIManager.Instance.SetResult(Goldu.RuntimeValue, isEnding);
         gameResultPanel.SetActive(true);
 
         yield return new WaitForSeconds(1f);
@@ -202,7 +204,10 @@ public class GameManager : MonoBehaviour
         clickRecall = false;
 
         fadePanel.SetTrigger("OUT");
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.4f);
+
+        gameResultPanel.SetActive(false);
+        gamePanel.SetActive(true);
 
         CinemachineVirtualCamera.m_Lens.OrthographicSize = 카메라사이즈;
         CinemachineTargetGroup.m_Targets[1].target = null;
@@ -214,6 +219,12 @@ public class GameManager : MonoBehaviour
         isRealBossing.RuntimeValue = false;
         isRealBossFirstDeath = true;
         StreamingManager.Instance.temp = false;
+
+        StreamingManager.Instance.donationUI[0].SetActive(false);
+        StreamingManager.Instance.donationUI[1].SetActive(false);
+        StreamingManager.Instance.donationUI[2].SetActive(false);
+        StreamingManager.Instance.donationUI[3].SetActive(false);
+        StreamingManager.Instance.donationUI[4].SetActive(false);
 
         StageManager.Instance.DestroyStage();
         UIManager.Instance.SetStageName("마을");
@@ -229,18 +240,17 @@ public class GameManager : MonoBehaviour
         enemyRunTimeSet.Clear();
         ObjectManager.Instance.DeactivateAll();
 
-        viewer.RuntimeValue = 10000;
+        viewer.RuntimeValue = 100000;
 
         DataManager.Instance.wgMasteryInven.Clear();
         DataManager.Instance.wgItemInven.Clear();
         DataManager.Instance.wgFoodInven.Clear();
         DataManager.Instance.buffRunTimeSet.Clear();
 
-        Goldu.RuntimeValue = 최대소지골두 <= Goldu.RuntimeValue ? 최대소지골두 : Goldu.RuntimeValue;
-        viewer.RuntimeValue = 3000;
-
-        gameResultPanel.SetActive(false);
-        gamePanel.SetActive(true);
+        Goldu.RuntimeValue = 최대소지골두 <= Goldu.RuntimeValue ? 최대소지골두 : 0 >= Goldu.RuntimeValue ? 0 : Goldu.RuntimeValue;
+        DataManager.Instance.CurGameData.goldu = Goldu.RuntimeValue;
+        DataManager.Instance.SaveGameData();
+        viewer.RuntimeValue = 3000;    
 
         UIManager.Instance.BossHpBarOff();
 
@@ -248,7 +258,7 @@ public class GameManager : MonoBehaviour
         Wakgood.Instance.gameObject.SetActive(true);
         undo.SetActive(true);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.4f);
         fadePanel.SetTrigger("IN");
         Time.timeScale = 1;
     }
@@ -342,7 +352,7 @@ public class GameManager : MonoBehaviour
         viewer.RuntimeValue += 3000;
         ObjectManager.Instance.PopObject("AnimatedText", transform.position + Vector3.up).GetComponent<AnimatedText>().SetText($"시청자 +{3000}", Color.white);
         StreamingManager.Instance.donationUI[3].SetActive(false);
-        StreamingManager.Instance.donationText[3].text = $"김판푼이님이 호스팅 하였습니다";
+        StreamingManager.Instance.donationText[3].text = $"김반푼이님이 호스팅 하였습니다";
         StreamingManager.Instance.donationImageUI[3].sprite = StreamingManager.Instance.donationImages[3];
         StreamingManager.Instance.donationUI[3].SetActive(true);
         RuntimeManager.PlayOneShot($"event:/SFX/ETC/Donation");

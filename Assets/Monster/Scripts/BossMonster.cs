@@ -117,4 +117,10 @@ public abstract class BossMonster : Monster
         (StageManager.Instance.CurrentRoom as BossRoom)?.RoomClear();
         gameObject.SetActive(false);
     }
+
+    protected override void OnDisable()
+    {
+        if (attackCO != null) StopCoroutine(attackCO);
+        base.OnDisable();
+    }
 }

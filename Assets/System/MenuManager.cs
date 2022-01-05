@@ -1,11 +1,9 @@
-using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
     [SerializeField] private Image wakdu;
-    [SerializeField] private GameObject dataLoad;
 
     private void Awake()
     {

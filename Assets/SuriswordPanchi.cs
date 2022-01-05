@@ -4,6 +4,8 @@ using UnityEngine;
 public class SuriswordPanchi : NormalMonster
 {
     [SerializeField] LineRenderer lineRenderer;
+    private Coroutine moveCO;
+    private Coroutine attackCO;
 
     protected override void OnEnable()
     {
@@ -63,5 +65,12 @@ public class SuriswordPanchi : NormalMonster
         lineRenderer.gameObject.SetActive(false);
 
         yield return new WaitForSeconds(5f);
+    }
+
+    protected override void OnDisable()
+    {
+        if (attackCO != null) StopCoroutine(attackCO);
+        if (moveCO != null) StopCoroutine(moveCO);
+        base.OnDisable();
     }
 }
