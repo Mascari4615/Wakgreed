@@ -250,8 +250,7 @@ public class Wakgood : MonoBehaviour, IHitable
                 return;
             }
 
-            damage = (int)Math.Round(damage * (1 - (float)defence.RuntimeValue / 100), MidpointRounding.AwayFromZero);
-
+            damage = (int)Math.Round(damage * (100 / (float)(defence.RuntimeValue + 100)), MidpointRounding.AwayFromZero);
             if (damage <= 0)
             {
                 RuntimeManager.PlayOneShot($"event:/SFX/Wakgood/Evasion", transform.position);
