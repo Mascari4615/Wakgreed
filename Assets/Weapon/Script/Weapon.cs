@@ -135,13 +135,21 @@ public class Weapon : HasGrade, ISerializationCallbackReceiver
         CurReloadTime = 0;
     }
 
-    public void OnAfterDeserialize()
+    public void OnAfterDeserialize() =>
+        Initialize();
+
+    public void Initialize()
     {
         Ammo = magazine;
+        CurReloadTime = 0;
+        CurSkillECoolTime = 0;
+        CurSkillQCoolTime = 0;
         IsReloading = false;
-        canUseBaseAttack = true;
         canUseSkillE = true;
         canUseSkillQ = true;
+        canUseBaseAttack = true;
+        curBaseAttackCoolTime = 0;
+        if (reload is not null) GameManager.Instance.StopCoroutine(reload);
     }
 
     public void OnBeforeSerialize() { }

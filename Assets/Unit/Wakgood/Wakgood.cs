@@ -189,7 +189,10 @@ public class Wakgood : MonoBehaviour, IHitable
         else
         {
             if (CurWeaponNumber != targetWeaponNum)
+            {
+                targetWeapon.Initialize();
                 Weapon[targetWeaponNum] = targetWeapon;
+            }
             else
             {
                 Weapon[CurWeaponNumber].OnRemove();

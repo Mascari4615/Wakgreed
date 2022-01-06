@@ -6,12 +6,9 @@ public class MasteryInventory : RunTimeSet<Mastery>
 
     public override void Add(Mastery item)
     {
-        if (!Items.Contains(item))
-        {
-            Items.Add(item);
-            item.OnEquip();
-            MasterySelect.Raise();
-        }
+        Items.Add(item);
+        item.OnEquip();
+        MasterySelect.Raise();
     }
 
     public override void Remove(Mastery item)
@@ -26,12 +23,13 @@ public class MasteryInventory : RunTimeSet<Mastery>
 
     public override void Clear()
     {
-        if (Items == null) return;
+        if (Items == null)
+            return;
+
         int itemsCount = Items.Count;
         for (int i = 0; i < itemsCount; i++)
-        {
             Remove(Items[0]);
-        }
+
         Items.Clear();
     }
 }
