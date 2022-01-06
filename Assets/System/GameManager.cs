@@ -212,7 +212,6 @@ public class GameManager : MonoBehaviour
         CinemachineVirtualCamera.m_Lens.OrthographicSize = 카메라사이즈;
         CinemachineTargetGroup.m_Targets[1].target = null;
 
-        onRecall.Raise();
         isGaming.RuntimeValue = false;
         isFighting.RuntimeValue = false;
         isBossing.RuntimeValue = false;
@@ -241,21 +240,21 @@ public class GameManager : MonoBehaviour
         ObjectManager.Instance.DeactivateAll();
 
         viewer.RuntimeValue = 100000;
-
         DataManager.Instance.wgMasteryInven.Clear();
         DataManager.Instance.wgItemInven.Clear();
         DataManager.Instance.wgFoodInven.Clear();
         DataManager.Instance.buffRunTimeSet.Clear();
 
-        Goldu.RuntimeValue = 최대소지골두 <= Goldu.RuntimeValue ? 최대소지골두 : 0 >= Goldu.RuntimeValue ? 0 : Goldu.RuntimeValue;
+        viewer.RuntimeValue = 3000;
+        Goldu.RuntimeValue = Mathf.Clamp(Goldu.RuntimeValue, 0, 최대소지골두);
         DataManager.Instance.CurGameData.goldu = Goldu.RuntimeValue;
         DataManager.Instance.SaveGameData();
-        viewer.RuntimeValue = 3000;    
 
         UIManager.Instance.BossHpBarOff();
 
         Wakgood.Instance.enabled = true;
         Wakgood.Instance.gameObject.SetActive(true);
+        onRecall.Raise();
         undo.SetActive(true);
 
         yield return new WaitForSeconds(.4f);

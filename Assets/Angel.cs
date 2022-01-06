@@ -21,10 +21,9 @@ public class Angel : NPC
         base.Awake();
         UpdateTree();
     }
+
     public void UpdateTree()
     {
-        maxhp.RuntimeValue -= bonusHp;
-        // power.RuntimeValue -= bonusPower;
         bonusHp = 0;
         // bonusPower = 0;
         curGrowthText.text = $"<color=#C6FF4C>현재 성장치</color> : {DataManager.Instance.CurGameData.deathCount}";
@@ -62,6 +61,8 @@ public class Angel : NPC
         }
 
         maxhp.RuntimeValue += bonusHp;
+        Debug.Log($"{maxhp.RuntimeValue} _ { bonusHp}");
+
         // power.RuntimeValue += bonusPower;
     }
 }
