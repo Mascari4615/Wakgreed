@@ -61,8 +61,6 @@ public class Angel : NPC
         }
 
         maxhp.RuntimeValue += bonusHp;
-        Debug.Log($"{maxhp.RuntimeValue} _ { bonusHp}");
-
         // power.RuntimeValue += bonusPower;
     }
 }

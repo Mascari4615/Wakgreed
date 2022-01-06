@@ -15,11 +15,8 @@ public class HpBar : MonoBehaviour
     private readonly float originX = 450;
     private readonly float originY = 40;
 
-    public void SetHpBar()
-    {
-        Debug.Log($"asd");
+    public void SetHpBar() =>
         textField.SetText($"{hpCur.RuntimeValue}<size=25>/{hpMax.RuntimeValue}");
-    }
 
     private void Update()
     {

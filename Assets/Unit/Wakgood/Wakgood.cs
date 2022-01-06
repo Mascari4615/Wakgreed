@@ -232,7 +232,7 @@ public class Wakgood : MonoBehaviour, IHitable
         if (IsCollapsed || !isHealthy || (WakgoodMove.MbDashing && canEvasionOnDash.RuntimeValue))
             return;
 
-        if (evasion.RuntimeValue >= UnityEngine.Random.Range(1, 100 + 1))
+        if ((100 / (float)(evasion.RuntimeValue + 100) < UnityEngine.Random.Range(0f, 1f)))
         {
             RuntimeManager.PlayOneShot($"event:/SFX/Wakgood/Evasion", transform.position);
             ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>()
@@ -240,24 +240,11 @@ public class Wakgood : MonoBehaviour, IHitable
         }
         else
         {
-            damage -= staticDefence.RuntimeValue;
-
-            if (damage <= 0)
-            {
-                RuntimeManager.PlayOneShot($"event:/SFX/Wakgood/Evasion", transform.position);
-                ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>()
-                    .SetText("무시!", Color.blue);
-                return;
-            }
-
             damage = (int)Math.Round(damage * (100 / (float)(defence.RuntimeValue + 100)), MidpointRounding.AwayFromZero);
+            damage -= staticDefence.RuntimeValue;
             if (damage <= 0)
-            {
-                RuntimeManager.PlayOneShot($"event:/SFX/Wakgood/Evasion", transform.position);
-                ObjectManager.Instance.PopObject("AnimatedText", transform).GetComponent<AnimatedText>()
-                    .SetText("무시!", Color.blue);
-                return;
-            }
+                damage = 1;
+
             RuntimeManager.PlayOneShot($"event:/SFX/Wakgood/Ahya", transform.position);
             onDamage.Raise();
 

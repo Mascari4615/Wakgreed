@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System;
 
 public class StatUI : MonoBehaviour
 {
@@ -37,10 +38,10 @@ public class StatUI : MonoBehaviour
     {
         bonusHpText.text = (maxHp.RuntimeValue - Wakgood.Instance.wakdu.baseHp).ToString();
         powerText.text = totalPower.RuntimeValue.ToString();
-        defText.text = defence.RuntimeValue.ToString();
+        defText.text = $"{MathF.Round((1 - 100 / (float)(defence.RuntimeValue + 100)), 2) * 100}%";
         staticDefText.text = staticDefence.RuntimeValue.ToString();
 
-        evasionText.text = evasion.RuntimeValue.ToString();
+        evasionText.text = $"{MathF.Round((1 - 100 / (float)(evasion.RuntimeValue + 100)), 2) * 100}%";
         ciriticalText.text = ciritical.RuntimeValue.ToString();
         ciriticalDamageText.text= ciriticalDamage.RuntimeValue.ToString();
         bossDamage.text = Wakgood.Instance.BossDamage.RuntimeValue.ToString();
