@@ -22,7 +22,8 @@ public abstract class Monster : MonoBehaviour, IHitable
     protected new Collider2D collider2D;
     protected Material originalMaterial;
     private Coroutine flashRoutine;
-
+    private string collapseSFX;
+    private string hurtSFX;
     protected static WaitForSeconds ws01 = new (0.1f);
     protected static WaitForSeconds ws1 = new (1);
 
@@ -34,6 +35,9 @@ public abstract class Monster : MonoBehaviour, IHitable
         Rigidbody2D = GetComponent<Rigidbody2D>();
         collider2D = GetComponent<Collider2D>();
         originalMaterial = SpriteRenderer.material;
+
+        collapseSFX = this is BossMonster ? $"event:/SFX/Monster/Boss_{ID}_Collapse" : $"event:/SFX/Monster/{ID}_Collapse";
+        hurtSFX = this is BossMonster ? $"event:/SFX/Monster/Boss_{ID}_Hurt" : $"event:/SFX/Monster/{ID}_Hurt";
     }
 
     protected virtual void OnEnable()
@@ -42,6 +46,7 @@ public abstract class Monster : MonoBehaviour, IHitable
         hp = MaxHp;
         collider2D.enabled = true;
         Rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
+        Rigidbody2D.velocity = Vector3.zero;
         GameManager.Instance.enemyRunTimeSet.Add(gameObject);
         SpriteRenderer.sprite = defaultSprite;
         Animator.SetTrigger("AWAKE");
@@ -62,7 +67,7 @@ public abstract class Monster : MonoBehaviour, IHitable
             if ((float)hp / MaxHp <= 0.1f * DataManager.Instance.wgItemInven.itemCountDic[36])
             {
                 ObjectManager.Instance.PopObject("AnimatedText", transform.position + Vector3.up).GetComponent<AnimatedText>().SetText("처형", Color.red);
-                RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("(", StringComparison.Ordinal), 7) : name)}_Collapse", transform.position);
+                RuntimeManager.PlayOneShot(hurtSFX, transform.position);
                 StopAllCoroutines();
                 Collapse();
                 return;
@@ -77,7 +82,7 @@ public abstract class Monster : MonoBehaviour, IHitable
 
         _ReceiveHit();
 
-        RuntimeManager.PlayOneShot($"event:/SFX/Monster/Hurt", transform.position);
+        RuntimeManager.PlayOneShot($"event:/SFX/Monster/Hit", transform.position);
 
         switch (hp)
         {
@@ -85,7 +90,7 @@ public abstract class Monster : MonoBehaviour, IHitable
                 // Animator.SetTrigger("AHYA");
                 break;
             case <= 0:
-                RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("(", StringComparison.Ordinal), 7) : name)}_Collapse", transform.position);
+                RuntimeManager.PlayOneShot(hurtSFX, transform.position);
                 StopAllCoroutines();
                 Collapse();
                 break;
@@ -107,7 +112,7 @@ public abstract class Monster : MonoBehaviour, IHitable
         }
 
         isCollapsed = true;
-        RuntimeManager.PlayOneShot($"event:/SFX/Monster/{(name.Contains("(Clone)") ? name.Remove(name.IndexOf("(", StringComparison.Ordinal), 7) : name)}_Collapse", transform.position);
+        RuntimeManager.PlayOneShot(collapseSFX, transform.position);
 
         collider2D.enabled = false;
         Rigidbody2D.velocity = Vector2.zero;
