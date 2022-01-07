@@ -15,28 +15,14 @@ public class GameData
     public bool[] killedOnceMonster = Enumerable.Repeat(false, 100 + 1).ToArray();
     public bool[] equipedOnceItem = Enumerable.Repeat(false, 300 + 1).ToArray();
     public bool[] equipedOnceWeapon = Enumerable.Repeat(false, 300 + 1).ToArray();
+    public int[] masteryStacks = Enumerable.Repeat(0, 10 + 1).ToArray();
+    public int masteryStack = 1;
     public float[] Volume = { .3f, .3f, .3f };
     public int deathCount = 0;
     public int goldu = 0;
-    public int level = 0;
+    public int level = 1;
     public int exp = 0;
 }
-
-/*[Serializable]
-public class GameData2
-{
-    public List<int> foods = new();
-    public List<int> masteries = new();
-    public List<int> items = new();
-    public List<int> itemCounts = new();
-    public int viewer = 0;
-    public int lastStageID = 0;
-    public int weapon0ID = 0;
-    public int weapon1ID = 0;
-    public int hp = 0;
-    public int level = 0;
-    public int exp = 0;
-}*/
 
 public class DataManager : MonoBehaviour
 {
@@ -163,46 +149,6 @@ public class DataManager : MonoBehaviour
         stream.Close();
     }
 
-/*    public void SaveGameData2()
-    {
-        GameData2 gameData2 = new();
-
-        gameData2.viewer = GameManager.Instance.viewer.RuntimeValue;
-
-        int temp = wgFoodInven.Items.Count;
-        for (int i = 0; i < temp; i++)
-        {
-            gameData2.foods.Add(wgFoodInven.Items[i].id);
-        }
-
-        temp = wgItemInven.Items.Count;
-        for (int i = 0; i < temp; i++)
-        {
-            gameData2.items.Add(wgItemInven.Items[i].id);
-            gameData2.itemCounts.Add(wgItemInven.itemCountDic[wgItemInven.Items[i].id]);
-        }
-
-        temp = wgMasteryInven.Items.Count;
-        for (int i = 0; i < temp; i++)
-        {
-            gameData2.masteries.Add(wgMasteryInven.Items[i].id);
-        }
-
-        gameData2.lastStageID = StageManager.Instance.currentStageID;
-        gameData2.weapon0ID = Wakgood.Instance.Weapon[0].id;
-        gameData2.weapon1ID = Wakgood.Instance.Weapon[1].id;
-
-        gameData2.hp = Wakgood.Instance.hpCur.RuntimeValue;
-        gameData2.exp = Wakgood.Instance.exp.RuntimeValue;
-        gameData2.level = Wakgood.Instance.level.RuntimeValue;
-
-        BinaryFormatter bf = new();
-        FileStream stream = new(Path.Combine(Application.streamingAssetsPath, "gameSave.wak"), FileMode.Create);
-
-        bf.Serialize(stream, gameData2);
-        stream.Close();
-    }
-*/
     private GameData LoadGameData()
     {
         if (File.Exists(Path.Combine(Application.streamingAssetsPath, "game.wak")))
@@ -217,8 +163,7 @@ public class DataManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("해당 경로 파일이 존재하지 않습니다. " + Path.Combine(Application.streamingAssetsPath, "game.wak"));
-            Debug.Log("해당 경로에 새 파일을 만듭니다. " + Path.Combine(Application.streamingAssetsPath, "game.wak"));
+            Debug.Log("해당 경로 파일이 존재하지 않아 새로 만듭니다. " + Path.Combine(Application.streamingAssetsPath, "game.wak"));
             BinaryFormatter bf = new();
             FileStream stream = new(Path.Combine(Application.streamingAssetsPath, "game.wak"), FileMode.Create);
             bf.Serialize(stream, new GameData());

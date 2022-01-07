@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject state;
     [SerializeField] private GameObject reloadUI;
     [SerializeField] private Image reloadImage;
+    [SerializeField] private Image wakduImage;
     [SerializeField] private RectTransform[] weaponUI = new RectTransform[2];
     [SerializeField] private Slot[] weaponSprite = new Slot[2];
     [SerializeField] private Slot[] weaponSkillQ = new Slot[2];
@@ -220,6 +221,7 @@ public class UIManager : MonoBehaviour
     public void SetRoomName(Room room) => roomName.text = $"현재 방 이름 : { (room.gameObject.name.Contains("(Clone)") ? room.gameObject.name.Remove(room.gameObject.name.IndexOf("(", StringComparison.Ordinal), 7) : room.gameObject.name)}";
     public void SetRoomName(string name) => roomName.text = name;
     public void SetCurViewerText(string text) => viewerUI.text = text;
+    public void SetWakduSprite(Sprite sprite) => wakduImage.sprite = sprite;
 
     public void StopAllSpeedWagons()
     {

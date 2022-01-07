@@ -132,7 +132,6 @@ public class GameManager : MonoBehaviour
         pausePanel.SetActive(!pausePanel.activeSelf);
     }
 
-    //public IEnumerator EnterPortal(GameData2 gameData2 = null)
     public IEnumerator EnterPortal()
     {
         AudioManager.Instance.StopMusic();
@@ -144,31 +143,6 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         undo.SetActive(false);
 
-        /*if (gameData2 != null)
-        {
-            DataManager dataManager = DataManager.Instance;
-            StageManager.Instance.currentStageID = gameData2.lastStageID - 1;
-
-            int temp = gameData2.items.Count;
-            for (int i = 0; i < temp; i++)
-                dataManager.wgItemInven.Add(dataManager.ItemDic[gameData2.items[i]]);
-
-            temp = gameData2.foods.Count;
-            for (int i = 0; i < temp; i++)
-                dataManager.wgFoodInven.Add(dataManager.FoodDic[gameData2.foods[i]]);
-
-            temp = gameData2.masteries.Count;
-            for (int i = 0; i < temp; i++)
-                dataManager.wgMasteryInven.Add(dataManager.MasteryDic[gameData2.masteries[i]]);
-
-            viewer.RuntimeValue = gameData2.viewer;
-            Wakgood.Instance.SwitchWeaponStatic(0, DataManager.Instance.WeaponDic[gameData2.weapon0ID]);
-            Wakgood.Instance.SwitchWeaponStatic(1, DataManager.Instance.WeaponDic[gameData2.weapon1ID]);
-
-            Wakgood.Instance.exp.RuntimeValue = gameData2.exp;
-            Wakgood.Instance.level.RuntimeValue = gameData2.level;
-            Wakgood.Instance.hpCur.RuntimeValue = gameData2.hp;
-        }*/
         StageManager.Instance.GenerateStage();
     }
 
@@ -234,17 +208,17 @@ public class GameManager : MonoBehaviour
 
         UIManager.Instance.StopAllSpeedWagons();
 
-        MasteryManager.SetSelectMasteryPanelOff();
-
         enemyRunTimeSet.Clear();
         ObjectManager.Instance.DeactivateAll();
 
         viewer.RuntimeValue = 100000;
-        DataManager.Instance.wgMasteryInven.Clear();
+        // DataManager.Instance.wgMasteryInven.Clear();
         DataManager.Instance.wgItemInven.Clear();
         DataManager.Instance.wgFoodInven.Clear();
         DataManager.Instance.buffRunTimeSet.Clear();
 
+        DataManager.Instance.CurGameData.level = Wakgood.Instance.level.RuntimeValue;
+        DataManager.Instance.CurGameData.exp = Wakgood.Instance.exp.RuntimeValue;
         viewer.RuntimeValue = 3000;
         Goldu.RuntimeValue = Mathf.Clamp(Goldu.RuntimeValue, 0, 최대소지골두);
         DataManager.Instance.CurGameData.goldu = Goldu.RuntimeValue;

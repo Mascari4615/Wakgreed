@@ -12,4 +12,6 @@ public class Wakdu : ScriptableObject
     public float baseAttackSpeed;
     public float growthAttackSpeed;
     public float baseMoveSpeed;
+    public RuntimeAnimatorController controller;
+    public Sprite defaultSprite;
 }
