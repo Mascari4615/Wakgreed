@@ -36,6 +36,8 @@ public class WakgoodMove : MonoBehaviour
 
     public void Initialize()
     {
+        Animator.runtimeAnimatorController = Wakgood.Instance.wakdu.controller;
+
         MbDashing = false;
         Animator.SetTrigger(wakeUp);
         Animator.SetBool(move, false);

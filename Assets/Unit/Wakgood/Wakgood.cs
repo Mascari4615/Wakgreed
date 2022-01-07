@@ -84,8 +84,8 @@ public class Wakgood : MonoBehaviour, IHitable
         powerInt.RuntimeValue = wakdu.basePower;
         attackSpeed.RuntimeValue = wakdu.baseAttackSpeed;
         moveSpeed.RuntimeValue = wakdu.baseMoveSpeed;
-        level.RuntimeValue = 1;
-        exp.RuntimeValue = 0;
+        level.RuntimeValue = DataManager.Instance.CurGameData.level;
+        exp.RuntimeValue = DataManager.Instance.CurGameData.exp;
         isHealthy = true;
         IsSwitching = false;
         IsCollapsed = false;
@@ -122,6 +122,8 @@ public class Wakgood : MonoBehaviour, IHitable
         WakgoodMove.enabled = true;
         WakgoodMove.StopAllCoroutines();
         WakgoodMove.Initialize();
+
+        UIManager.Instance.SetWakduSprite(wakdu.defaultSprite);
     }
 
     private void Update()
@@ -320,7 +322,7 @@ public class Wakgood : MonoBehaviour, IHitable
         hpMax.RuntimeValue += wakdu.growthHp;
         powerInt.RuntimeValue += wakdu.growthPower;
         attackSpeed.RuntimeValue += wakdu.growthAttackSpeed;
-
+        DataManager.Instance.CurGameData.masteryStack++;
         exp.RuntimeValue -= 300 * level.RuntimeValue;
         level.RuntimeValue++;
         onLevelUp.Raise();
