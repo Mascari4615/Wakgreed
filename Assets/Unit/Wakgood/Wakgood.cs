@@ -20,6 +20,7 @@ public class Wakgood : MonoBehaviour, IHitable
     [SerializeField] private IntVariable powerInt;
     public TotalPower totalPower;
     public GameEvent useBaseAttack;
+    public GameEvent equipWeapon;
     public IntVariable miss, reloadSpeed, bonusAmmo, skillCollBonus;
     public FloatVariable attackSpeed;
     [SerializeField] private FloatVariable moveSpeed, evasion;
@@ -214,29 +215,9 @@ public class Wakgood : MonoBehaviour, IHitable
                 Instantiate(Weapon[CurWeaponNumber].resource, WeaponPosition);
                 Weapon[CurWeaponNumber].OnEquip();
             }
-
+            equipWeapon.Raise();
             UIManager.Instance.SetWeaponUI(targetWeaponNum, targetWeapon);
         }
-    }
-
-    public void SwitchWeaponStatic(int targetWeaponNum, Weapon targetWeapon)
-    {
-        if (CurWeaponNumber != targetWeaponNum)
-        {
-            Weapon[targetWeaponNum] = targetWeapon;
-        }
-        else
-        {
-            for (int i = 0; i < WeaponPosition.childCount; i++)
-            {
-                Destroy(WeaponPosition.GetChild(0).gameObject);
-            }
-            Weapon[CurWeaponNumber] = targetWeapon;
-            Instantiate(Weapon[CurWeaponNumber].resource, WeaponPosition);
-            Weapon[CurWeaponNumber].OnEquip();
-        }
-
-        UIManager.Instance.SetWeaponUI(targetWeaponNum, targetWeapon);   
     }
 
     public void ReceiveHit(int damage, HitType hitType = HitType.Normal)
