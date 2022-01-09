@@ -10,6 +10,8 @@ public class RangedAttack : Skill
     public override void Use(Weapon weapon)
     {
         RuntimeManager.PlayOneShot($"event:/SFX/Weapon/{weapon.id}");
+        GameManager.Instance.CinemachineImpulseSource.GenerateImpulse();
+
         if (ObjectManager.Instance.CheckPool(resource.name) == false)
             ObjectManager.Instance.AddPool(resource);
         ObjectManager.Instance.PopObject(resource.name, Wakgood.Instance.AttackPosition, setRot);

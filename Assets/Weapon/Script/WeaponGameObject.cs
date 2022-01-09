@@ -1,4 +1,6 @@
+using FMODUnity;
 using UnityEngine;
+using System.Collections;
 
 public class WeaponGameObject : InteractiveObject
 {
@@ -34,5 +36,25 @@ public class WeaponGameObject : InteractiveObject
 
         weapon = temp;
         spriteRenderer.sprite = weapon.sprite;
+    }
+
+
+    private void OnEnable()
+    { 
+        StartCoroutine(Move());
+    }
+
+    private IEnumerator Move()
+    {
+        const float speed = 2f;
+        Vector3 waitPosition = transform.position + (Vector3)Random.insideUnitCircle * 1.5f;
+        float temp = 0;
+
+        while (temp < 1)
+        {
+            yield return null;
+            temp += Time.deltaTime * speed;
+            transform.position = Vector3.Lerp(transform.position, waitPosition, temp);
+        }
     }
 }
