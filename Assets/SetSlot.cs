@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class SetSlot : MonoBehaviour
 {
-    [SerializeField] private Mastery Mastery;
+    [SerializeField] private SpecialThing specialThing;
 
     private void Awake()
     {
-        GetComponent<Slot>().SetSlot(Mastery);
+        GetComponent<Slot>().SetSlot(specialThing);
     }
 }

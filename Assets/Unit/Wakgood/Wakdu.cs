@@ -2,9 +2,8 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 [CreateAssetMenu]
-public class Wakdu : ScriptableObject
+public class Wakdu : SpecialThing
 {
-    public new string name;
     public int baseHp;
     public int growthHp;
     public int basePower;
@@ -13,5 +12,4 @@ public class Wakdu : ScriptableObject
     public float growthAttackSpeed;
     public float baseMoveSpeed;
     public RuntimeAnimatorController controller;
-    public Sprite defaultSprite;
 }

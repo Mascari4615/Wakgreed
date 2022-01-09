@@ -30,7 +30,39 @@ public class MasteryMaster : InteractiveObject
         chat = transform.Find("DefaultUI").transform.Find("Chat").gameObject;
         chatText = chat.transform.GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>();
         cvm1.Follow = GameObject.Find("Cameras").transform.GetChild(2);
+        ResetUI();
+    }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R) && customUI.activeSelf)
+        {
+            ResetStack();
+        }
+    }
+
+    private void ResetStack()
+    {
+        DataManager.Instance.wgMasteryInven.Clear();
+        for (int i = 0; i < masteryStackTexts.Length; i++)
+        {
+            DataManager.Instance.CurGameData.masteryStacks[i] = 0;
+            stamps[i * 3].SetActive(false);
+            stamps[i * 3 + 1].SetActive(false);
+            stamps[i * 3 + 2].SetActive(false);
+            masteryStackTexts[i].text = "0";
+        }
+        DataManager.Instance.CurGameData.masteryStack = DataManager.Instance.CurGameData.level;
+        remainMasteryStackText.text = DataManager.Instance.CurGameData.masteryStack.ToString();
+    }
+
+    public void ResetUI()
+    {
+        for (int i = 0; i < masteryStackTexts.Length; i++)
+            masteryStackTexts[i].text = DataManager.Instance.CurGameData.masteryStacks[i].ToString();
+        remainMasteryStackText.text = DataManager.Instance.CurGameData.masteryStack.ToString();
+
+        DataManager.Instance.wgMasteryInven.Clear();
         for (int i = 0; i < masteryStackTexts.Length; i++)
         {
             if (DataManager.Instance.CurGameData.masteryStacks[i] >= 5)
@@ -63,43 +95,6 @@ public class MasteryMaster : InteractiveObject
                 stamps[i * 3 + 2].SetActive(false);
             }
         }
-    }
-
-    private void OnEnable()
-    {
-        ResetUI();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ResetStack();
-        }
-    }
-
-    private void ResetStack()
-    {
-        DataManager.Instance.wgMasteryInven.Clear();
-        for (int i = 0; i < masteryStackTexts.Length; i++)
-        {
-            DataManager.Instance.CurGameData.masteryStacks[i] = 0;
-            stamps[i * 3].SetActive(false);
-            stamps[i * 3 + 1].SetActive(false);
-            stamps[i * 3 + 2].SetActive(false);
-            masteryStackTexts[i].text = "0";
-        }
-        DataManager.Instance.CurGameData.masteryStack = DataManager.Instance.CurGameData.level;
-        remainMasteryStackText.text = DataManager.Instance.CurGameData.masteryStack.ToString();
-    }
-
-    public void ResetUI()
-    {
-        for (int i = 0; i < masteryStackTexts.Length; i++)
-        {
-            masteryStackTexts[i].text = DataManager.Instance.CurGameData.masteryStacks[i].ToString();
-        }
-        remainMasteryStackText.text = DataManager.Instance.CurGameData.masteryStack.ToString();
     }
 
     public void AddMasteryStack(int i)

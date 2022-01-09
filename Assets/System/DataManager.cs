@@ -72,6 +72,9 @@ public class DataManager : MonoBehaviour
 
     [Header("Building")] public BuildingDataBuffer buildingDataBuffer;
     public readonly Dictionary<int, Building> BuildingDic = new();
+
+    [Header("Wakdu")] public WakduDataBuffer wakduDataBuffer;
+    public readonly Dictionary<int, Wakdu> wakduDic = new();
     public GameData CurGameData { get; private set; }
 
     private void Awake()
@@ -135,6 +138,7 @@ public class DataManager : MonoBehaviour
         foreach (Monster monster in monsterDataBuffer.items) MonsterDic.Add(monster.ID, monster);
         foreach (Monster boss in bossDataBuffer.items) BossDic.Add(boss.ID, boss);
         foreach (Building building in buildingDataBuffer.items) BuildingDic.Add(building.id, building);
+        foreach (Wakdu wakdu in wakduDataBuffer.items) wakduDic.Add(wakdu.id, wakdu);
 
         CurGameData = LoadGameData();
         SaveGameData();

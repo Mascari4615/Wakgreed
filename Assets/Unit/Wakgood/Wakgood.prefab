@@ -2190,7 +2190,7 @@ Transform:
   - {fileID: 1094975745}
   - {fileID: 1093442765}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4705426193227314245
 MonoBehaviour:
@@ -2215,9 +2215,11 @@ MonoBehaviour:
   hpMax: {fileID: 11400000, guid: e862da976520d4847a960ac61d303b50, type: 2}
   powerInt: {fileID: 11400000, guid: 78641f81562c8ca419aba38ff53f07ca, type: 2}
   totalPower: {fileID: 11400000, guid: 1a3eef7a703f4d440869b9541a779c7d, type: 2}
+  useBaseAttack: {fileID: 0}
   miss: {fileID: 11400000, guid: e4f8d4098a5d40e449667a11e5b20fe3, type: 2}
   reloadSpeed: {fileID: 11400000, guid: fddba74e479759a4f8798ea6068c1e61, type: 2}
   bonusAmmo: {fileID: 11400000, guid: 98aca51ae0b4ae34da3c6a9ea9bf634a, type: 2}
+  skillCollBonus: {fileID: 0}
   attackSpeed: {fileID: 11400000, guid: 320dd9e1a35eb354ba45330eb0aaaa6d, type: 2}
   moveSpeed: {fileID: 11400000, guid: ab222d65ff7ce974fa0c23c97750945f, type: 2}
   evasion: {fileID: 11400000, guid: 94c9fcb6a039eaa45bea8b541fcf3a4a, type: 2}
@@ -2227,9 +2229,13 @@ MonoBehaviour:
   onLevelUp: {fileID: 11400000, guid: 42476068b34aa7c4aa6cb152cd3b3ac9, type: 2}
   BossDamage: {fileID: 11400000, guid: 56575e04dd064cc4a94760dba0406d5e, type: 2}
   MobDamage: {fileID: 11400000, guid: f868b8bbdb7b5624eaf053b95b2024a0, type: 2}
+  isHealthy: 0
+  wakgoodCollider: {fileID: 0}
   worldMousePoint: {x: 0, y: 0}
   hochi: {fileID: 11400000, guid: 6f0c64661c1a3f0478ff1675dac49c9e, type: 2}
   hand: {fileID: 11400000, guid: 6030eff9fbb2ddc4098e06e8ac949622, type: 2}
+  IsSwitching: 0
+  IsCollapsed: 0
   isFocusOnSomething: {fileID: 11400000, guid: 09c5c35381403234b99f53accc0b3cdc, type: 2}
 --- !u!114 &1432387438446477281
 MonoBehaviour:
@@ -2243,6 +2249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4425b178c150d5949af622f35175fbba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MbDashing: 0
   moveSpeed: {fileID: 11400000, guid: ab222d65ff7ce974fa0c23c97750945f, type: 2}
   moveSpeedBonus: {fileID: 11400000, guid: b2960cffd1c12ad49a4239a950d639dc, type: 2}
   maxDashStack: {fileID: 11400000, guid: 58948826cb3fe924f88741759c39f172, type: 2}
@@ -2256,6 +2263,7 @@ MonoBehaviour:
   - {fileID: 211928224}
   - {fileID: 1094975742}
   - {fileID: 1093442762}
+  mbMoving: 0
 --- !u!212 &4705426193227314246
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2346,7 +2354,7 @@ Animator:
   m_GameObject: {fileID: 4705426193227314241}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 94bf6e1aaae84a744acd796100d5a9e7, type: 2}
+  m_Controller: {fileID: 9100000, guid: 10ec3001355b9254d93750e64be0579e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

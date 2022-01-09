@@ -77,8 +77,6 @@ public class Wakgood : MonoBehaviour, IHitable
     {
         StopAllCoroutines();
 
-        transform.position = Vector3.zero;
-
         hpMax.RuntimeValue = wakdu.baseHp;
         hpCur.RuntimeValue = hpMax.RuntimeValue;
         powerInt.RuntimeValue = wakdu.basePower;
@@ -123,7 +121,16 @@ public class Wakgood : MonoBehaviour, IHitable
         WakgoodMove.StopAllCoroutines();
         WakgoodMove.Initialize();
 
-        UIManager.Instance.SetWakduSprite(wakdu.defaultSprite);
+        UIManager.Instance.SetWakduSprite(wakdu.sprite);
+    }
+
+    public void ChangeWakdu(Wakdu _wakdu)
+    {
+        wakdu = _wakdu;
+        UIManager.Instance.SetWakduSprite(wakdu.sprite);
+        WakgoodMove.Animator.runtimeAnimatorController = Wakgood.Instance.wakdu.controller;
+        WakgoodMove.Animator.SetTrigger("WakeUp");
+        WakgoodMove.Animator.SetBool("Move", false);
     }
 
     private void Update()
