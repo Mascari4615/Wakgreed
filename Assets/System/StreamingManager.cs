@@ -374,7 +374,6 @@ public class StreamingManager : MonoBehaviour
                     {
                         DataManager.Instance.wgItemInven.Clear();
                         DataManager.Instance.wgFoodInven.Clear();
-                        DataManager.Instance.wgMasteryInven.Clear();
                         DataManager.Instance.buffRunTimeSet.Clear();
                     }
                     Debug.Log("Nope");

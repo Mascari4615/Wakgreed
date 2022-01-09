@@ -15,7 +15,6 @@ public enum AreaType
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    [SerializeField] private MasteryManager MasteryManager;
 
     [SerializeField] private BoolVariable isFighting;
     [SerializeField] private BoolVariable isGaming;
@@ -212,7 +211,6 @@ public class GameManager : MonoBehaviour
         ObjectManager.Instance.DeactivateAll();
 
         viewer.RuntimeValue = 100000;
-        // DataManager.Instance.wgMasteryInven.Clear();
         DataManager.Instance.wgItemInven.Clear();
         DataManager.Instance.wgFoodInven.Clear();
         DataManager.Instance.buffRunTimeSet.Clear();
@@ -228,6 +226,7 @@ public class GameManager : MonoBehaviour
 
         Wakgood.Instance.enabled = true;
         Wakgood.Instance.gameObject.SetActive(true);
+        Wakgood.Instance.transform.position = Vector3.zero;
         onRecall.Raise();
         undo.SetActive(true);
 
