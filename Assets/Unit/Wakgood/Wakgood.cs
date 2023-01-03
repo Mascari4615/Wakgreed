@@ -145,6 +145,7 @@ public class Wakgood : MonoBehaviour, IHitable
         worldMousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject()) Weapon[CurWeaponNumber].BaseAttack();
+        if (Input.GetMouseButtonDown(1)) Weapon[CurWeaponNumber].SpecialAttack();
         if (Input.GetKeyDown(KeyCode.Q)) Weapon[CurWeaponNumber].SkillQ();
         if (Input.GetKeyDown(KeyCode.E)) Weapon[CurWeaponNumber].SkillE();
         if (Input.GetKeyDown(KeyCode.R)) Weapon[CurWeaponNumber].Reload();

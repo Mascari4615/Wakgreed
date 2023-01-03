@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1249156d1a3a767498320afbc7b1fc23, type: 3}
+  m_Name: 014_RollingVulcan
+  m_EditorClassIdentifier: 
+  id: 14
+  name: "\uB864\uB9C1\uBC1C\uCE78"
+  sprite: {fileID: 21300000, guid: 79dd67e20d92dec4fa70c9e20aaba731, type: 3}
+  description: "\uC644\uACE0\uD55C \uACE0\uC9D1\uC758 \uD798!"
+  effects: []
+  price: 0
+  grade: 3
+  resource: {fileID: 5001691126516465372, guid: ee6e1e87841483d4d950147c8fa0ec95,
+    type: 3}
+  baseAttack: {fileID: 11400000, guid: d983aeaa060e7e44e90edf9a641ee208, type: 2}
+  skillQ: {fileID: 0}
+  skillE: {fileID: 0}
+  minDamage: 1
+  maxDamage: 1
+  attackType: 1
+  attackSpeed: 50
+  magazine: 400
+  reloadTime: 7

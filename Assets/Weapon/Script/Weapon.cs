@@ -10,6 +10,7 @@ public class Weapon : HasGrade, ISerializationCallbackReceiver
     public GameObject resource;
     // public GameObject[] subResources;
     [SerializeField] private Skill baseAttack;
+    [SerializeField] private Skill specialAttack;
     public Skill skillQ;
     public Skill skillE;
     public int minDamage = 5;
@@ -22,13 +23,15 @@ public class Weapon : HasGrade, ISerializationCallbackReceiver
     [System.NonSerialized] public int Ammo;
     public float reloadTime;
     [System.NonSerialized] public float CurReloadTime;
+    [System.NonSerialized] private float curBaseAttackCoolTime;
+    [System.NonSerialized] public float CurSpecialAttackCoolTime;
     [System.NonSerialized] public float CurSkillECoolTime;
     [System.NonSerialized] public float CurSkillQCoolTime;
     [System.NonSerialized] public bool IsReloading = false;
+    [System.NonSerialized] private bool canUseBaseAttack = true;
+    [System.NonSerialized] private bool canUseSpecialAttack = true;
     [System.NonSerialized] private bool canUseSkillE = true;
     [System.NonSerialized] private bool canUseSkillQ = true;
-    [System.NonSerialized] private bool canUseBaseAttack = true;
-    [System.NonSerialized] private float curBaseAttackCoolTime;
     [System.NonSerialized] private IEnumerator reload;
 
     public void BaseAttack()
@@ -87,6 +90,14 @@ public class Weapon : HasGrade, ISerializationCallbackReceiver
         IsReloading = false;
     }
 
+    public void SpecialAttack()
+    {
+        if (!canUseSpecialAttack || !specialAttack) return;
+        canUseSpecialAttack = false;
+        GameManager.Instance.StartCoroutine(SpecialAttackCoolTime());
+        specialAttack?.Use(this);
+    }
+
     public void SkillQ()
     {
         if (!canUseSkillQ || !skillQ) return;
@@ -109,6 +120,14 @@ public class Weapon : HasGrade, ISerializationCallbackReceiver
         do yield return null;
         while ((curBaseAttackCoolTime -= Time.deltaTime) > 0);
         canUseBaseAttack = true;
+    }
+
+    private IEnumerator SpecialAttackCoolTime()
+    {
+        CurSpecialAttackCoolTime = specialAttack.coolTime * (1 - Wakgood.Instance.skillCollBonus.RuntimeValue / 100);
+        do yield return null;
+        while ((CurSpecialAttackCoolTime -= Time.deltaTime) > 0);
+        canUseSpecialAttack = true;
     }
 
     private IEnumerator SkillQCoolTime()
@@ -142,13 +161,15 @@ public class Weapon : HasGrade, ISerializationCallbackReceiver
     {
         Ammo = magazine;
         CurReloadTime = 0;
+        curBaseAttackCoolTime = 0;
+        CurSpecialAttackCoolTime = 0;
         CurSkillECoolTime = 0;
         CurSkillQCoolTime = 0;
         IsReloading = false;
+        canUseBaseAttack = true;
+        canUseSpecialAttack = true;
         canUseSkillE = true;
         canUseSkillQ = true;
-        canUseBaseAttack = true;
-        curBaseAttackCoolTime = 0;
         if (reload is not null) GameManager.Instance.StopCoroutine(reload);
     }
 

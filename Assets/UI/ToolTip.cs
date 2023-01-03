@@ -24,9 +24,9 @@ public class ToolTip : MonoBehaviour
     {
         image.sprite = specialThing.sprite;
         headerField.text = specialThing.name;
-        headerField.color = specialThing is HasGrade ? DataManager.Instance.GetGradeColor((specialThing as HasGrade).등급) : Color.white;
+        headerField.color = specialThing is HasGrade ? DataManager.Instance.GetGradeColor((specialThing as HasGrade).grade) : Color.white;
         descriptionField.text = specialThing.description;
         weaponDamageText.text = specialThing is Weapon ? $"{(specialThing as Weapon).minDamage} ~ {(specialThing as Weapon).maxDamage} 데미지" : "";
-        gradeText.text = specialThing is HasGrade ? $"{(specialThing as HasGrade).등급} 아이템" : "";
+        gradeText.text = specialThing is HasGrade ? $"{(specialThing as HasGrade).grade} 아이템" : "";
     }
 }

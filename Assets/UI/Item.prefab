@@ -126,7 +126,7 @@ RectTransform:
   - {fileID: 6735596465985427975}
   - {fileID: 6735596466528199754}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -155,8 +155,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   toolTipTrigger: {fileID: 6735596466174900275}
   image: {fileID: 6735596465985427968}
-  specialThing: {fileID: 0}
   countTextField: {fileID: 6735596466528199755}
+  priceText: {fileID: 0}
+  nameText: {fileID: 0}
+  descriptionText: {fileID: 0}
 --- !u!114 &6735596466174900275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,6 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b8aac8f1932cb64d9f052fd6af6ccb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isSpecialThings: 1
 --- !u!1 &6735596466528199753
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,8 +240,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3de4e983980730b42b0f91652d632ff3, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 77d24d7dc7b2f6b4fb2e1d917336755c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4074bd15176ed5e449f33661e5d573f2, type: 2}
+  m_sharedMaterial: {fileID: 1350018071870131993, guid: 4074bd15176ed5e449f33661e5d573f2,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1249156d1a3a767498320afbc7b1fc23, type: 3}
+  m_Name: 019_S12K
+  m_EditorClassIdentifier: 
+  id: 19
+  name: "\uC0AC\uC774\uAC00"
+  sprite: {fileID: 21300000, guid: 48a91d13dfe1965438009dce6802c126, type: 3}
+  description: "\uC2A4\uBBF9 \uB204\uAD6C\uC57C??"
+  effects: []
+  price: 0
+  "\uB4F1\uAE09": 1
+  resource: {fileID: 5001691126516465372, guid: babcfd826d43c814eb1bff3e7c54ccf1,
+    type: 3}
+  baseAttack: {fileID: 11400000, guid: 93178d6d9b341ba4cbead4e12436ba24, type: 2}
+  skillQ: {fileID: 0}
+  skillE: {fileID: 0}
+  minDamage: 1
+  maxDamage: 3
+  attackType: 1
+  attackSpeed: 1.8
+  magazine: 5
+  reloadTime: 2

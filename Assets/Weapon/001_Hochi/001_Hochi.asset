@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1249156d1a3a767498320afbc7b1fc23, type: 3}
+  m_Name: 001_Hochi
+  m_EditorClassIdentifier: 
+  id: 1
+  name: "\uC641\uCD08\uB9AC"
+  sprite: {fileID: -1607024483, guid: 80b964ee783f9724e8e18db2ae81e361, type: 3}
+  description: "\uD638\uCE58 \uD638\uCE58 \uC2A4\uCE74\uD53C\uC26C."
+  effects: []
+  price: 0
+  grade: 0
+  resource: {fileID: 254485587223168476, guid: cf8d486b656f535419c8992c687db36a, type: 3}
+  baseAttack: {fileID: 11400000, guid: fac6159e632282549a883c9e8fe02e4e, type: 2}
+  specialAttack: {fileID: 11400000, guid: 5c9f8ed57734bb14f87d062a4d4112b2, type: 2}
+  skillQ: {fileID: 0}
+  skillE: {fileID: 0}
+  minDamage: 4
+  maxDamage: 6
+  attackType: 0
+  attackSpeed: 1.5
+  magazine: 0
+  reloadTime: 0

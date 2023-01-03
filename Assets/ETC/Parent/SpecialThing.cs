@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public enum 등급
+public enum Grade
 {
-    일반, 고급, 희귀, 전설
+    Common, Uncommon, Rare, Legendary
 }
 
 public class SpecialThing : ScriptableObject
@@ -36,5 +36,5 @@ public class HasPrice : SpecialThing
 
 public class HasGrade : HasPrice
 {
-    public 등급 등급;
+    public Grade grade;
 }
