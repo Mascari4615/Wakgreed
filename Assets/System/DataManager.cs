@@ -9,12 +9,12 @@ using Random = UnityEngine.Random;
 [Serializable]
 public class GameData
 {
-    public bool[] rescuedNPC = Enumerable.Repeat(false, 100 + 1).ToArray();
-    public bool[] talkedOnceNPC = Enumerable.Repeat(false, 100 + 1).ToArray();
-    public bool[] buildedBuilding = Enumerable.Repeat(false, 100 + 1).ToArray();
-    public bool[] killedOnceMonster = Enumerable.Repeat(false, 100 + 1).ToArray();
-    public bool[] equipedOnceItem = Enumerable.Repeat(false, 300 + 1).ToArray();
-    public bool[] equipedOnceWeapon = Enumerable.Repeat(false, 300 + 1).ToArray();
+    public bool[] rescuedNPC = Enumerable.Repeat(true, 100 + 1).ToArray();
+    public bool[] talkedOnceNPC = Enumerable.Repeat(true, 100 + 1).ToArray();
+    public bool[] buildedBuilding = Enumerable.Repeat(true, 100 + 1).ToArray();
+    public bool[] killedOnceMonster = Enumerable.Repeat(true, 100 + 1).ToArray();
+    public bool[] equipedOnceItem = Enumerable.Repeat(true, 300 + 1).ToArray();
+    public bool[] equipedOnceWeapon = Enumerable.Repeat(true, 300 + 1).ToArray();
     public int[] masteryStacks = Enumerable.Repeat(0, 10 + 1).ToArray();
     public int masteryStack = 1;
     public float[] Volume = { .3f, .3f, .3f };
@@ -90,22 +90,22 @@ public class DataManager : MonoBehaviour
         foreach (Weapon weapon in weaponDataBuffer.items)
             WeaponDic.Add(weapon.id, weapon);
 
-        foreach (Weapon 무기 in chestSpawnWeaponDataBuffer.items)
+        foreach (Weapon weapon in chestSpawnWeaponDataBuffer.items)
         {
-            ChestWeaponDic.Add(무기.id, 무기);
-            switch (무기.등급)
+            ChestWeaponDic.Add(weapon.id, weapon);
+            switch (weapon.grade)
             {
-                case 등급.일반:
-                    commonWeaponDic.Add(무기.id, 무기);
+                case Grade.Common:
+                    commonWeaponDic.Add(weapon.id, weapon);
                     break;
-                case 등급.고급:
-                    unCommonWeaponDic.Add(무기.id, 무기);
+                case Grade.Uncommon:
+                    unCommonWeaponDic.Add(weapon.id, weapon);
                     break;
-                case 등급.희귀:
-                    rareWeaponDic.Add(무기.id, 무기);
+                case Grade.Rare:
+                    rareWeaponDic.Add(weapon.id, weapon);
                     break;
-                case 등급.전설:
-                    legendWeaponDic.Add(무기.id, 무기);
+                case Grade.Legendary:
+                    legendWeaponDic.Add(weapon.id, weapon);
                     break;
             }
         }
@@ -113,22 +113,22 @@ public class DataManager : MonoBehaviour
         foreach (Item item in itemDataBuffer.items)
             ItemDic.Add(item.id, item);
 
-        foreach (Item 아이템 in chestSpawnItemDataBuffer.items)
+        foreach (Item item in chestSpawnItemDataBuffer.items)
         {
-            ChestItemDic.Add(아이템.id, 아이템);
-            switch (아이템.등급)
+            ChestItemDic.Add(item.id, item);
+            switch (item.grade)
             {
-                case 등급.일반:
-                    commonItemDic.Add(아이템.id, 아이템);
+                case Grade.Common:
+                    commonItemDic.Add(item.id, item);
                     break;
-                case 등급.고급:
-                    unCommonItemDic.Add(아이템.id, 아이템);
+                case Grade.Uncommon:
+                    unCommonItemDic.Add(item.id, item);
                     break;
-                case 등급.희귀:
-                    rareItemDic.Add(아이템.id, 아이템);
+                case Grade.Rare:
+                    rareItemDic.Add(item.id, item);
                     break;
-                case 등급.전설:
-                    legendItemDic.Add(아이템.id, 아이템);
+                case Grade.Legendary:
+                    legendItemDic.Add(item.id, item);
                     break;
             }
         }
@@ -180,36 +180,36 @@ public class DataManager : MonoBehaviour
     }
 
     public int GetRandomItemID() => 
-        GetRandomItemID((등급)Random.Range(0, 4));
+        GetRandomItemID((Grade)Random.Range(0, 4));
 
-    public int GetRandomItemID(등급 등급) => 등급 switch
+    public int GetRandomItemID(Grade grade) => grade switch
     {
-        등급.일반 => commonItemDic.ElementAt(Random.Range(0, commonItemDic.Count)).Value.id,
-        등급.고급 => unCommonItemDic.ElementAt(Random.Range(0, unCommonItemDic.Count)).Value.id,
-        등급.희귀 => rareItemDic.ElementAt(Random.Range(0, rareItemDic.Count)).Value.id,
-        등급.전설 => legendItemDic.ElementAt(Random.Range(0, legendItemDic.Count)).Value.id,
-        _ => throw new ArgumentOutOfRangeException(nameof(등급), 등급, null)
+        Grade.Common => commonItemDic.ElementAt(Random.Range(0, commonItemDic.Count)).Value.id,
+        Grade.Uncommon => unCommonItemDic.ElementAt(Random.Range(0, unCommonItemDic.Count)).Value.id,
+        Grade.Rare => rareItemDic.ElementAt(Random.Range(0, rareItemDic.Count)).Value.id,
+        Grade.Legendary => legendItemDic.ElementAt(Random.Range(0, legendItemDic.Count)).Value.id,
+        _ => throw new ArgumentOutOfRangeException(nameof(grade), grade, null)
     };
 
     public int GetRandomWeaponID() => 
-        GetRandomWeaponID((등급)Random.Range(0, 3));
+        GetRandomWeaponID((Grade)Random.Range(0, 3));
 
-    public int GetRandomWeaponID(등급 등급) => 등급 switch
+    public int GetRandomWeaponID(Grade grade) => grade switch
     {
-        등급.일반 => commonWeaponDic.ElementAt(Random.Range(0, commonWeaponDic.Count)).Value.id,
-        등급.고급 => unCommonWeaponDic.ElementAt(Random.Range(0, unCommonWeaponDic.Count)).Value.id,
-        등급.희귀 => rareWeaponDic.ElementAt(Random.Range(0, rareWeaponDic.Count)).Value.id,
-        등급.전설 => legendWeaponDic.ElementAt(Random.Range(0, legendWeaponDic.Count)).Value.id,
-        _ => throw new ArgumentOutOfRangeException(nameof(등급), 등급, null)
+        Grade.Common => commonWeaponDic.ElementAt(Random.Range(0, commonWeaponDic.Count)).Value.id,
+        Grade.Uncommon => unCommonWeaponDic.ElementAt(Random.Range(0, unCommonWeaponDic.Count)).Value.id,
+        Grade.Rare => rareWeaponDic.ElementAt(Random.Range(0, rareWeaponDic.Count)).Value.id,
+        Grade.Legendary => legendWeaponDic.ElementAt(Random.Range(0, legendWeaponDic.Count)).Value.id,
+        _ => throw new ArgumentOutOfRangeException(nameof(grade), grade, null)
     };
 
-    public Color GetGradeColor(등급 등급) => 등급 switch
+    public Color GetGradeColor(Grade grade) => grade switch
     {
-        등급.일반 => Color.white,
-        등급.고급 => new(43 / 255f, 123 / 255f, 1),
-        등급.희귀 => new(242 / 255f, 210 / 255f, 0),
-        등급.전설 => new (1, 0, 142 / 255f),
-        _ => throw new ArgumentOutOfRangeException(nameof(등급), 등급, null)
+        Grade.Common => Color.white,
+        Grade.Uncommon => new(43 / 255f, 123 / 255f, 1),
+        Grade.Rare => new(242 / 255f, 210 / 255f, 0),
+        Grade.Legendary => new (1, 0, 142 / 255f),
+        _ => throw new ArgumentOutOfRangeException(nameof(grade), grade, null)
     };
 
     private void OnApplicationQuit() => SaveGameData();

@@ -52,7 +52,7 @@ public class EquipToolTip : MonoBehaviour
             else if (item is Item)
             {
                 AMGG.text = "æ∆¿Ã≈€ »πµÊ!";
-                nameField.color = DataManager.Instance.GetGradeColor((item as HasGrade).µÓ±ﬁ);
+                nameField.color = DataManager.Instance.GetGradeColor((item as HasGrade).grade);
             }
 
             nameField.text = item.name;

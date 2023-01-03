@@ -39,11 +39,11 @@ public class Chest : InteractiveObject
 
         animator.Play("START", 0);
 
-        Probability<등급> probability = new();
-        probability.Add(등급.일반, commonWeight);
-        probability.Add(등급.고급, uncommonWeight);
-        probability.Add(등급.희귀, rareWeight);
-        probability.Add(등급.전설, legendWeight);
+        Probability<Grade> probability = new();
+        probability.Add(Grade.Common, commonWeight);
+        probability.Add(Grade.Uncommon, uncommonWeight);
+        probability.Add(Grade.Rare, rareWeight);
+        probability.Add(Grade.Legendary, legendWeight);
 
         itemIDs.Clear();
 
