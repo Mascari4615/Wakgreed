@@ -1193,7 +1193,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7777778, y: 1}
+    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1884,7 +1884,7 @@ MonoBehaviour:
     \uC544\uC790\uCC28\uCE74. \uD14C\uC2A4\uD2B8 \uD14C\uC2A4\uD2B8 \uD14C\uC2A4\uD2B8\uD14C\u3161\u3145\uD14C\uC2A4\uD2B8
     \uD14C\uC2A4\uD14C\uC2A4\uD2D1\uC138\uD2B8\uC2A4\uD165\uC2A4\u3161sdsdssssssssssssssssssssss"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c394464597c6dc54d88e133a0777465f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 037902069a318b24791578a7d96de8a4, type: 2}
   m_sharedMaterial: {fileID: -330446582565491475, guid: c394464597c6dc54d88e133a0777465f,
     type: 2}
   m_fontSharedMaterials: []
@@ -1949,7 +1949,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &4124359005704064555
@@ -2216,6 +2216,7 @@ MonoBehaviour:
   powerInt: {fileID: 11400000, guid: 78641f81562c8ca419aba38ff53f07ca, type: 2}
   totalPower: {fileID: 11400000, guid: 1a3eef7a703f4d440869b9541a779c7d, type: 2}
   useBaseAttack: {fileID: 0}
+  equipWeapon: {fileID: 0}
   miss: {fileID: 11400000, guid: e4f8d4098a5d40e449667a11e5b20fe3, type: 2}
   reloadSpeed: {fileID: 11400000, guid: fddba74e479759a4f8798ea6068c1e61, type: 2}
   bonusAmmo: {fileID: 11400000, guid: 98aca51ae0b4ae34da3c6a9ea9bf634a, type: 2}
@@ -2346,7 +2347,7 @@ MonoBehaviour:
         m_CallState: 2
 --- !u!95 &4705426193227314303
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2363,7 +2364,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!50 &4742566568770261001
 Rigidbody2D:
   serializedVersion: 4
@@ -2381,6 +2382,12 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -2556,6 +2563,25 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -2706,7 +2732,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC6B0\uC641\uAD73"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c394464597c6dc54d88e133a0777465f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 037902069a318b24791578a7d96de8a4, type: 2}
   m_sharedMaterial: {fileID: -330446582565491475, guid: c394464597c6dc54d88e133a0777465f,
     type: 2}
   m_fontSharedMaterials: []
@@ -2771,7 +2797,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &6456969691739682717

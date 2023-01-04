@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class IcePanchi : NormalMonster
@@ -9,22 +10,26 @@ public class IcePanchi : NormalMonster
     private struct Note
     {
         public BulletMove[] notes;
+        public DamagingObject[] noteDamagingObjects;
     }
     [SerializeField] private Note[] notes;
 
     private bool bRecognizeWakgood = false;
     private bool bIsAttacking = false;
-    [SerializeField] private GameObject warning;
 
     protected override void OnEnable()
     {
         bRecognizeWakgood = false;
         bIsAttacking = false;
         base.OnEnable();
-        warning.SetActive(false);
         foreach (var _notes in notes)
-            foreach (var note in _notes.notes)
-                note.gameObject.SetActive(false);   
+        {
+            for (int i = 0; i < _notes.notes.Length; i++)
+            {
+                _notes.notes[i].gameObject.SetActive(false);
+                _notes.noteDamagingObjects[i].enabled = false;
+            }
+        }
         StartCoroutine(CheckDistance());
     }
 
@@ -42,7 +47,7 @@ public class IcePanchi : NormalMonster
             }
             else
                 if (!bIsAttacking)
-                    SpriteRenderer.flipX = transform.position.x < Wakgood.Instance.transform.position.x;
+                SpriteRenderer.flipX = transform.position.x < Wakgood.Instance.transform.position.x;
             yield return ws01;
         }
     }
@@ -53,54 +58,52 @@ public class IcePanchi : NormalMonster
         {
             bIsAttacking = true;
             Animator.SetTrigger("READY");
-            Vector3 randomPos = (Vector3)Random.insideUnitCircle * 10f;
-            warning.transform.position = randomPos;
-            warning.gameObject.SetActive(true);
-            yield return StartCoroutine(Casting(1f));
-            Animator.SetTrigger("GO");      
-            Cry(0, randomPos);
-            randomPos = (Vector3)Random.insideUnitCircle * 10f;
-            warning.transform.position = randomPos;
-            yield return StartCoroutine(Casting(1f));
-            Cry(1, randomPos);
-            randomPos = (Vector3)Random.insideUnitCircle * 10f;
-            warning.transform.position = randomPos;
-            yield return StartCoroutine(Casting(1f));
-            Cry(2, randomPos);
 
-            warning.gameObject.SetActive(false);
+            yield return StartCoroutine(Casting(castingTime));
+            Animator.SetTrigger("GO");
 
-            yield return new WaitForSeconds(1f);
+            for (int i = 0; i < 3; i++)
+            {
+                StartCoroutine(Cry(i, (Vector3)Random.insideUnitCircle * 10f));
+                yield return StartCoroutine(Casting(castingTime));
+            }
+
+            yield return new WaitForSeconds(3f);
             Animator.SetTrigger("OFF");
             bIsAttacking = false;
 
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(4f);
         }
     }
 
-    private void Cry(int ang, Vector3 randomPos)
+    private IEnumerator Cry(int noteIndex, Vector3 randomPos)
     {
-        Vector3 direction = Vector3.zero;
-        float temp = 360f / notes[ang].notes.Length;
+        float theta = 360f / notes[noteIndex].notes.Length;
 
-        for (int i = 0; i < notes[ang].notes.Length; i++)
+        for (int i = 0; i < notes[noteIndex].notes.Length; i++)
         {
-            direction.Set(Mathf.Cos(temp * i * Mathf.Deg2Rad), Mathf.Sin(temp * i * Mathf.Deg2Rad), 0);
-            notes[ang].notes[i].SetDirection(direction);
-            notes[ang].notes[i].transform.localPosition = randomPos;
-            notes[ang].notes[i].gameObject.SetActive(true);
+            notes[noteIndex].notes[i].transform.localPosition = randomPos;
+            notes[noteIndex].notes[i].transform.localRotation = Quaternion.Euler(i * theta * Vector3.forward);
+            notes[noteIndex].notes[i].gameObject.SetActive(true);
+            notes[noteIndex].notes[i].SetDirection(direction: new Vector3(Mathf.Cos((90 + theta * i) * Mathf.Deg2Rad), Mathf.Sin((90 + theta * i) * Mathf.Deg2Rad), 0));
+            notes[noteIndex].notes[i].StopMove();
+            notes[noteIndex].noteDamagingObjects[i].enabled = false;
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        for (int i = 0; i < notes[noteIndex].notes.Length; i++)
+        {
+            notes[noteIndex].notes[i].Move();
+            notes[noteIndex].noteDamagingObjects[i].enabled = true;
         }
     }
 
     protected override void Collapse()
     {
         foreach (var _notes in notes)
-        {
             foreach (var note in _notes.notes)
-            {
                 note.gameObject.SetActive(false);
-            }
-        }
 
         base.Collapse();
     }

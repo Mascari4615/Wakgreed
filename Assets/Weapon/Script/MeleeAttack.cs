@@ -53,7 +53,14 @@ public class MeleeAttack : Skill
                         totalDamage = (int)Math.Round(totalDamage * (1 + (float)Wakgood.Instance.BossDamage.RuntimeValue / 100), MidpointRounding.AwayFromZero);
                     }
                     damageable.ReceiveHit(totalDamage, hitType);
-                }       
+                }
+            }
+            else if (hit.transform.CompareTag("Box"))
+            {
+                if (hit.transform.TryGetComponent(out IHitable damageable))
+                {
+                    damageable.ReceiveHit(0, HitType.Normal);
+                }
             }
         }
     }

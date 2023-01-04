@@ -50,7 +50,7 @@ public class MinsuPanchi : NormalMonster
         {
             bIsAttacking = true;
             Animator.SetTrigger("READY");
-            yield return StartCoroutine(Casting(1f));
+            yield return StartCoroutine(Casting(castingTime));
             Animator.SetTrigger("GO");
             StartCoroutine(Cry());
             bIsAttacking = false;

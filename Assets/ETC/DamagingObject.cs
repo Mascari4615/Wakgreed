@@ -42,7 +42,7 @@ public class DamagingObject : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if ((other.CompareTag("Player") && bTargetWak == false) ||
-            (other.CompareTag("Monster") || other.CompareTag("Boss")) && bTargetWak == true)
+            (other.CompareTag("Monster") || other.CompareTag("Boss") || other.CompareTag("Box")) && bTargetWak == true)
             return;
 
         if ((other.CompareTag("Monster") || other.CompareTag("Boss")) && bTargetWak == false)
@@ -84,6 +84,22 @@ public class DamagingObject : MonoBehaviour
                     totalDamage = (int)Math.Round(totalDamage * (1 + (float)Wakgood.Instance.BossDamage.RuntimeValue / 100), MidpointRounding.AwayFromZero);
                 }
                 damageable.ReceiveHit(totalDamage, hitType);
+
+                if (offGoOnHit)
+                {
+                    gameObject.SetActive(false);
+                }
+                else if (offCollOnHit)
+                {
+                    collider2D.enabled = false;
+                }
+            }
+        }
+        else if (other.CompareTag("Box") && bTargetWak == false)
+        {
+            if (other.TryGetComponent(out IHitable damageable))
+            {
+                damageable.ReceiveHit(0, HitType.Normal);
 
                 if (offGoOnHit)
                 {

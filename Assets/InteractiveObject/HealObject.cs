@@ -19,4 +19,17 @@ public class HealObject : MonoBehaviour
             }
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            if (HpCur.RuntimeValue < HpMax.RuntimeValue)
+            {
+                RuntimeManager.PlayOneShot("event:/SFX/ETC/Heal", Wakgood.Instance.AttackPosition.position);
+                Wakgood.Instance.ReceiveHeal(healAmount);
+                gameObject.SetActive(false);
+            }
+        }
+    }
 }

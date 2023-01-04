@@ -535,6 +535,7 @@ namespace FMODUnity
             if (Settings.Instance == null || Settings.Instance.LoggingLevel >= FMOD.DEBUG_FLAGS.WARNING)
             {
                 Debug.LogWarningFormat(format, args);
+
             }
         }
 

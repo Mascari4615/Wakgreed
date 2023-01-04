@@ -70,7 +70,7 @@ public class ChidoriPanchi : NormalMonster
                 Rigidbody2D.velocity = Vector2.zero;
                 Vector3 direction = (Wakgood.Instance.transform.position - transform.position).normalized;
                 Vector3 rot = new(0, 0, Mathf.Atan2(Wakgood.Instance.transform.position.y - (transform.position.y + 0.8f), Wakgood.Instance.transform.position.x - transform.position.x) * Mathf.Rad2Deg - 90);
-                yield return StartCoroutine(Casting(.3f));
+                yield return StartCoroutine(Casting(castingTime));
                 Animator.SetTrigger("ATTACK");
                 ObjectManager.Instance.PopObject("Chidori", transform.position + Vector3.up * 0.8f + direction * 1.5f, rot);
                 yield return new WaitForSeconds(1f);

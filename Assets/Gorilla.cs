@@ -83,19 +83,20 @@ public class Gorilla : NormalMonster
                 Rigidbody2D.velocity = Vector2.zero;
 
                 Animator.SetBool("ISMOVING", false);
-                Vector2 direction = GetDirection();
                 SpriteRenderer.flipX = IsWakgoodRight();
 
-                yield return StartCoroutine(Casting(.7f));
+                yield return StartCoroutine(Casting(castingTime));
                 Animator.SetBool("ISRUSHING", true);
+                Vector2 direction = GetDirection();
+                SpriteRenderer.flipX = IsWakgoodRight();
                 damagingObject.SetActive(true);
 
                 Rigidbody2D.velocity = Vector2.zero;
-                for (float temptime = 0; temptime <= 1f; temptime += Time.fixedDeltaTime)
+                for (float temptime = 0; temptime <= .8f; temptime += Time.fixedDeltaTime)
                 {
-                    if (Physics2D.BoxCast(transform.position, new Vector2(.5f, .5f), 0f, direction, 0.9f, LayerMask.GetMask("Wall")).collider != null) break;
+                    if (Physics2D.BoxCast(transform.position, new Vector2(.7f, .7f), 0f, direction, 0.9f, LayerMask.GetMask("Wall")).collider != null) break;
 
-                    Rigidbody2D.velocity = direction * 20;
+                    Rigidbody2D.velocity = direction * 25;
                     yield return new WaitForFixedUpdate();
                 }
                 damagingObject.SetActive(false);
@@ -106,7 +107,7 @@ public class Gorilla : NormalMonster
 
                 Animator.SetTrigger("ATTACKREADY");
                 earthQuakeWarning.SetActive(true);
-                yield return StartCoroutine(Casting(.6f));
+                yield return StartCoroutine(Casting(castingTime));
 
                 GameManager.Instance.CinemachineImpulseSource.GenerateImpulse();
                 Animator.SetTrigger("ATTACKGO");

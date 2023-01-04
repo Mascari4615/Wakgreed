@@ -42,7 +42,7 @@ public class FirePanchi : NormalMonster
             warning.transform.position = randomPos;
             Animator.SetTrigger("READY");
             warning.SetActive(true);
-            yield return StartCoroutine(Casting(1.5f));
+            yield return StartCoroutine(Casting(castingTime));
             Animator.SetTrigger("GO");
             yield return new WaitForSeconds(1f);
             warning.SetActive(false);

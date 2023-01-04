@@ -25,7 +25,7 @@ public class Mite : NormalMonster
             {
                 Animator.SetBool("MOVING", false);
                 Rigidbody2D.velocity = Vector2.zero;
-                yield return StartCoroutine(Casting(.7f));
+                yield return StartCoroutine(Casting(castingTime));
                 ObjectManager.Instance.PopObject("MiteAttack", transform.position + Vector3.up * 0.8f + GetDirection() * 1.5f, GetRot());
                 yield return new WaitForSeconds(1f);
             }

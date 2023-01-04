@@ -43,7 +43,7 @@ public class Wakmuse : NormalMonster
         {
             bIsAttacking = true;
             Animator.SetTrigger("READY");
-            yield return StartCoroutine(Casting(.7f));
+            yield return StartCoroutine(Casting(castingTime));
             Animator.SetTrigger("GO");
             Cry();
             bIsAttacking = false;

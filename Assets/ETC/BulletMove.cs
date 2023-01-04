@@ -14,10 +14,21 @@ public class BulletMove : MonoBehaviour
     [SerializeField] private Vector3 directionVector;
     [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private Direction direction;
+    private bool canMove = true;
 
     public void SetDirection(Vector3 direction)
     {
         directionVector = direction.normalized;
+    }
+
+    public void StopMove()
+    {
+        canMove = false;
+    }
+
+    public void Move()
+    {
+        canMove = true;
     }
 
     private void OnEnable()
@@ -38,10 +49,13 @@ public class BulletMove : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException();
         }
+
+        canMove = true;
     }
 
     private void FixedUpdate()
     {
-        transform.position += directionVector * moveSpeed * Time.deltaTime;
+        if (canMove)
+            transform.position += directionVector * moveSpeed * Time.deltaTime;
     }
 }

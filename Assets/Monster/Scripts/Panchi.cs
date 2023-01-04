@@ -77,7 +77,7 @@ public class Panchi : NormalMonster
                 Animator.SetBool("ISMOVING", false);
                 Rigidbody2D.velocity = Vector2.zero;
                 Vector3 direction = GetDirection();
-                yield return StartCoroutine(Casting(.6f));
+                yield return StartCoroutine(Casting(castingTime));
                 Animator.SetTrigger("ATTACK");
                 ObjectManager.Instance.PopObject("PanchiSlash", transform.position + Vector3.up + direction * 1.5f, GetRot());
                 yield return ws1;
