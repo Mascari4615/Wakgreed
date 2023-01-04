@@ -1,6 +1,15 @@
-﻿public class ItemGameObject : LootGameObject
+﻿using UnityEngine;
+
+public class ItemGameObject : InteractiveObject
 {
     private Item item;
+    private SpriteRenderer spriteRenderer;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
 
     public void Initialize(int itemID)
     {
@@ -8,7 +17,7 @@
         spriteRenderer.sprite = item.sprite;
     }
 
-    protected override void OnEquip()
+    public override void Interaction()
     {
         if (DataManager.Instance.CurGameData.equipedOnceItem[item.id] == false)
         {
@@ -19,5 +28,7 @@
         }
 
         DataManager.Instance.wgItemInven.Add(item);
+
+        gameObject.SetActive(false);
     }
 }

@@ -42,7 +42,7 @@ public class Banshee : NormalMonster
         while (true)
         {
             yield return ws2;
-            yield return StartCoroutine(Casting(1f));
+            yield return StartCoroutine(Casting(castingTime));
             Cry();
             Animator.SetTrigger(attack);
             yield return ws5;

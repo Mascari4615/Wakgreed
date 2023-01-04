@@ -33,7 +33,7 @@ public class GamjaPanchi : NormalMonster
             else
             {
                 direction = GetDirection();
-                yield return StartCoroutine(Casting(1f));
+                yield return StartCoroutine(Casting(castingTime));
                 Animator.SetTrigger("ATTACK");
                 yield return ws1;
                 curAttackCoolTime = attackCoolTime;

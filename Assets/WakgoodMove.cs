@@ -99,7 +99,7 @@ public class WakgoodMove : MonoBehaviour
         MbDashing = true;
         RuntimeManager.PlayOneShot("event:/SFX/Wakgood/Dash");
         curDashStack.RuntimeValue--;
-        for (float temptime = 0; temptime <= 0.1f; temptime += Time.deltaTime)
+        for (float temptime = 0; temptime <= 0.08f; temptime += Time.deltaTime)
         {
             if (Physics2D.BoxCast(transform.position, new Vector2(.5f, .5f), 0f, moveDirection, 0.9f, LayerMask.GetMask("Wall")).collider != null)
                 break;

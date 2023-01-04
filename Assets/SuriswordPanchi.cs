@@ -54,7 +54,7 @@ public class SuriswordPanchi : NormalMonster
 
         Animator.SetTrigger("READY");
 
-        yield return StartCoroutine(Casting(0.7f));
+        yield return StartCoroutine(Casting(castingTime));
 
         Animator.SetTrigger("GO");
 

@@ -18,8 +18,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image wakduImage;
     [SerializeField] private RectTransform[] weaponUI = new RectTransform[2];
     [SerializeField] private Slot[] weaponSprite = new Slot[2];
+    [SerializeField] private Slot[] weaponSpecialAttack= new Slot[2];
     [SerializeField] private Slot[] weaponSkillQ = new Slot[2];
     [SerializeField] private Slot[] weaponSkillE = new Slot[2];
+    [SerializeField] private Image[] weaponSpecialAttackCoolTime = new Image[2];
     [SerializeField] private Image[] weaponSkillQCoolTime = new Image[2];
     [SerializeField] private Image[] weaponSkillECoolTime = new Image[2];
     [SerializeField] private BoolVariable isFocusOnSomething;
@@ -110,6 +112,10 @@ public class UIManager : MonoBehaviour
     private void UpdateWeaponSkillCoolUI(int weaponNum)
     {
         Weapon weapon = Wakgood.Instance.Weapon[weaponNum];
+
+        if (weapon.specialAttack is not null)
+            weaponSpecialAttackCoolTime[weaponNum].fillAmount =
+                weapon.CurSpecialAttackCoolTime / (weapon.specialAttack.coolTime * (1 - Wakgood.Instance.skillCollBonus.RuntimeValue / 100));
 
         if (weapon.skillQ is not null)
             weaponSkillQCoolTime[weaponNum].fillAmount =
@@ -208,6 +214,8 @@ public class UIManager : MonoBehaviour
     public void SetWeaponUI(int weaponNum, Weapon weapon)
     {
         weaponSprite[weaponNum].SetSlot(weapon);
+        weaponSpecialAttack[weaponNum].gameObject.SetActive(weapon.specialAttack);
+        if (weapon.specialAttack) weaponSpecialAttack[weaponNum].SetSlot(weapon.specialAttack);
         weaponSkillQ[weaponNum].gameObject.SetActive(weapon.skillQ);
         if (weapon.skillQ) weaponSkillQ[weaponNum].SetSlot(weapon.skillQ);
         weaponSkillE[weaponNum].gameObject.SetActive(weapon.skillE);

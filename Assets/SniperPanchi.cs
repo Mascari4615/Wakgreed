@@ -34,7 +34,7 @@ public class SniperPanchi : NormalMonster
         lineRenderer.SetPosition(1, transform.position + (Vector3)Vector2.up + _attackDirection * 100);
         lineRenderer.gameObject.SetActive(true);
 
-        StartCoroutine(Casting(2f));
+        StartCoroutine(Casting(castingTime));
 
         for (float i = 0; i <= 1f; i += Time.deltaTime * 0.5f)
         {

@@ -71,7 +71,7 @@ public class YourLion : NormalMonster
             {
                 Animator.SetTrigger("ATTACKREADY");
                 earthQuakeWarning.SetActive(true);
-                yield return StartCoroutine(Casting(.8f));
+                yield return StartCoroutine(Casting(castingTime));
 
                 Animator.SetTrigger("ATTACKGO");
                 earthQuakeWarning.SetActive(false);
@@ -83,7 +83,7 @@ public class YourLion : NormalMonster
                 Vector2 direction = (Wakgood.Instance.transform.position - transform.position).normalized;
                 SpriteRenderer.flipX = direction.x > 0;
 
-                yield return StartCoroutine(Casting(.8f));
+                yield return StartCoroutine(Casting(castingTime));
                 Animator.SetBool("ISMOVING", true);
 
                 Rigidbody2D.velocity = Vector2.zero;

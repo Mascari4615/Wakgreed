@@ -10,7 +10,7 @@ public class Weapon : HasGrade, ISerializationCallbackReceiver
     public GameObject resource;
     // public GameObject[] subResources;
     [SerializeField] private Skill baseAttack;
-    [SerializeField] private Skill specialAttack;
+    public Skill specialAttack;
     public Skill skillQ;
     public Skill skillE;
     public int minDamage = 5;

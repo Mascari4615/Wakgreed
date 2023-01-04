@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public abstract class NormalMonster : Monster
 {
+    [SerializeField] protected float castingTime = .5f;
     private GameObject hpBar, casting;
     private Image red, yellow, blue;
     protected Vector3 spawnPos;
