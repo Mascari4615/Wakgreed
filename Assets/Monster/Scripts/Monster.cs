@@ -126,10 +126,7 @@ public abstract class Monster : MonoBehaviour, IHitable
             int randCount = Random.Range(0, 5 + 1);
             for (int i = 0; i < randCount; i++) 
                 ObjectManager.Instance.PopObject("ExpOrb", transform);
-            randCount = Random.Range(1, 5 + 1);
-            for (int i = 0; i < randCount; i++) 
-                ObjectManager.Instance.PopObject("Goldu10", transform);
-            randCount = Random.Range(0, 9 + 1);
+            randCount = Random.Range(0, 5 + 1);
             for (int i = 0; i < randCount; i++) 
                 ObjectManager.Instance.PopObject("Goldu", transform);
         }

@@ -1,33 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class IcePanchi : NormalMonster
 {
+    private const int ICE_MOONGTANGE_COUNT = 3;
+    private const int ICE_PIECE_COUNT = 3;
 
-    [System.Serializable]
-    private struct Note
+    private class IceMoongtange
     {
-        public BulletMove[] notes;
-        public DamagingObject[] noteDamagingObjects;
+        public BulletMove[] ices = new BulletMove[ICE_PIECE_COUNT];
+        public Collider2D[] iceColliders = new Collider2D[ICE_PIECE_COUNT];
     }
-    [SerializeField] private Note[] notes;
+    private IceMoongtange[] IceMoongtanges = new IceMoongtange[ICE_MOONGTANGE_COUNT];
 
     private bool bRecognizeWakgood = false;
     private bool bIsAttacking = false;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        for (int i = 0; i < ICE_MOONGTANGE_COUNT; i++)
+            IceMoongtanges[i] = new IceMoongtange();
+
+        Transform iceMoongtanges = transform.Find("Ices");
+        for (int i = 0; i < iceMoongtanges.childCount; i++)
+        {
+            Transform ice = iceMoongtanges.GetChild(i);
+            IceMoongtanges[i / ICE_PIECE_COUNT].ices[i % ICE_PIECE_COUNT] = ice.GetComponent<BulletMove>();
+            IceMoongtanges[i / ICE_PIECE_COUNT].iceColliders[i % ICE_PIECE_COUNT] = ice.GetComponent<Collider2D>();
+        }
+    }
 
     protected override void OnEnable()
     {
         bRecognizeWakgood = false;
         bIsAttacking = false;
         base.OnEnable();
-        foreach (var _notes in notes)
+        foreach (var iceMoongtange in IceMoongtanges)
         {
-            for (int i = 0; i < _notes.notes.Length; i++)
+            for (int i = 0; i < ICE_PIECE_COUNT; i++)
             {
-                _notes.notes[i].gameObject.SetActive(false);
-                _notes.noteDamagingObjects[i].enabled = false;
+                iceMoongtange.ices[i].gameObject.SetActive(false);
+                iceMoongtange.iceColliders[i].enabled = false;
             }
         }
         StartCoroutine(CheckDistance());
@@ -62,10 +78,12 @@ public class IcePanchi : NormalMonster
             yield return StartCoroutine(Casting(castingTime));
             Animator.SetTrigger("GO");
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < ICE_MOONGTANGE_COUNT; i++)
             {
-                StartCoroutine(Cry(i, (Vector3)Random.insideUnitCircle * 10f));
-                yield return StartCoroutine(Casting(castingTime));
+                StartCoroutine(SpawnIceMoongtange(i, (Vector3)Random.insideUnitCircle * 10f));
+
+                if (i != ICE_MOONGTANGE_COUNT - 1)
+                    yield return StartCoroutine(Casting(castingTime));
             }
 
             yield return new WaitForSeconds(3f);
@@ -76,34 +94,35 @@ public class IcePanchi : NormalMonster
         }
     }
 
-    private IEnumerator Cry(int noteIndex, Vector3 randomPos)
+    private IEnumerator SpawnIceMoongtange(int moongtangeIndex, Vector3 spawnPos)
     {
-        float theta = 360f / notes[noteIndex].notes.Length;
+        float theta = 360f / ICE_PIECE_COUNT;
 
-        for (int i = 0; i < notes[noteIndex].notes.Length; i++)
+        for (int i = 0; i < ICE_PIECE_COUNT; i++)
         {
-            notes[noteIndex].notes[i].transform.localPosition = randomPos;
-            notes[noteIndex].notes[i].transform.localRotation = Quaternion.Euler(i * theta * Vector3.forward);
-            notes[noteIndex].notes[i].gameObject.SetActive(true);
-            notes[noteIndex].notes[i].SetDirection(direction: new Vector3(Mathf.Cos((90 + theta * i) * Mathf.Deg2Rad), Mathf.Sin((90 + theta * i) * Mathf.Deg2Rad), 0));
-            notes[noteIndex].notes[i].StopMove();
-            notes[noteIndex].noteDamagingObjects[i].enabled = false;
+            IceMoongtanges[moongtangeIndex].ices[i].transform.localPosition = spawnPos;
+            IceMoongtanges[moongtangeIndex].ices[i].transform.localRotation = Quaternion.Euler(i * theta * Vector3.forward);
+            IceMoongtanges[moongtangeIndex].ices[i].gameObject.SetActive(true);
+            IceMoongtanges[moongtangeIndex].ices[i].SetDirection
+                (direction: new Vector3(Mathf.Cos((90 + theta * i) * Mathf.Deg2Rad), Mathf.Sin((90 + theta * i) * Mathf.Deg2Rad), 0));
+            IceMoongtanges[moongtangeIndex].ices[i].StopMove();
+            IceMoongtanges[moongtangeIndex].iceColliders[i].enabled = false;
         }
 
         yield return new WaitForSeconds(1f);
 
-        for (int i = 0; i < notes[noteIndex].notes.Length; i++)
+        for (int i = 0; i < ICE_PIECE_COUNT; i++)
         {
-            notes[noteIndex].notes[i].Move();
-            notes[noteIndex].noteDamagingObjects[i].enabled = true;
+            IceMoongtanges[moongtangeIndex].ices[i].Move();
+            IceMoongtanges[moongtangeIndex].iceColliders[i].enabled = true;
         }
     }
 
     protected override void Collapse()
     {
-        foreach (var _notes in notes)
-            foreach (var note in _notes.notes)
-                note.gameObject.SetActive(false);
+        foreach (var iceMoongtange in IceMoongtanges)
+            foreach (var ice in iceMoongtange.ices)
+                ice.gameObject.SetActive(false);
 
         base.Collapse();
     }
