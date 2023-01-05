@@ -12,7 +12,7 @@ public class BossHpBar : MonoBehaviour
     [SerializeField] private TextMeshProUGUI bossName;
 
     private BossMonster boss = null;
-    private bool asd = false;
+    private bool isShowingHpBar = false;
 
     public void HpBarOn(BossMonster boss)
     {
@@ -22,12 +22,12 @@ public class BossHpBar : MonoBehaviour
         red.transform.parent.gameObject.SetActive(true);
         bossName.text = boss.mobName;
         bossName.gameObject.SetActive(true);
-        asd = true;
+        isShowingHpBar = true;
     }
 
     public void HpBarOff()
     {
-        asd = false;
+        isShowingHpBar = false;
         boss = null;
         bossSprite.transform.parent.gameObject.SetActive(false);
         red.transform.parent.gameObject.SetActive(false);
@@ -36,10 +36,8 @@ public class BossHpBar : MonoBehaviour
 
     private void Update()
     {
-        if (asd)
+        if (isShowingHpBar)
         {
-            Debug.Log("ING");
-
             if (boss != null)
             {
                 red.fillAmount = Mathf.Lerp(red.fillAmount, (float)boss.hp / boss.MaxHp, Time.deltaTime * 15f);

@@ -85,15 +85,13 @@ public class Chest : InteractiveObject
     {
         RuntimeManager.PlayOneShot($"event:/SFX/ETC/Chest", transform.position);
 
-        int randCount = Random.Range(0, 9 + 1);
-        for (int i = 0; i < randCount; i++)
-            ObjectManager.Instance.PopObject("Goldu10", transform);
+        int randCount = Random.Range(0, 5 + 1);
         randCount = Random.Range(0, 9 + 1);
         for (int i = 0; i < randCount; i++)
             ObjectManager.Instance.PopObject("Goldu", transform);
 
         if (Random.Range(0, 10) <= 3)
-            ObjectManager.Instance.PopObject("HealOrb15", transform);
+            ObjectManager.Instance.PopObject("HealOrb10", transform);
 
         if (isItem)
         {

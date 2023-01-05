@@ -27,7 +27,7 @@ public class Box : MonoBehaviour, IHitable
 
         if (Random.Range(0, 100) <= 5)
         {
-            ObjectManager.Instance.PopObject("HealOrb15", transform);
+            ObjectManager.Instance.PopObject("HealOrb10", transform);
         }
     }
 }
