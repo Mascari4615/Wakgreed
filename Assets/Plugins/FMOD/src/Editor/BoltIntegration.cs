@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityEditor;
+using UnityEditor.Build;
 
 #if (UNITY_VISUALSCRIPTING_EXIST)
 using Unity.VisualScripting;
@@ -51,11 +52,20 @@ namespace FMODUnity
         {
             BuildTarget target = EditorUserBuildSettings.activeBuildTarget;
             BuildTargetGroup group = BuildPipeline.GetBuildTargetGroup(target);
-
+#if UNITY_2021_2_OR_NEWER
+            NamedBuildTarget namedBuildTarget = NamedBuildTarget.FromBuildTargetGroup(group);
+            string previousSymbols = PlayerSettings.GetScriptingDefineSymbols(namedBuildTarget);
+#else
             string previousSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(group);
+#endif
+
             if (!previousSymbols.Contains("UNITY_BOLT_EXIST"))
             {
+#if UNITY_2021_2_OR_NEWER
+                PlayerSettings.SetScriptingDefineSymbols(namedBuildTarget, previousSymbols + ";UNITY_BOLT_EXIST");
+#else
                 PlayerSettings.SetScriptingDefineSymbolsForGroup(group, previousSymbols + ";UNITY_BOLT_EXIST");
+#endif
             }
             Settings.Instance.BoltUnitOptionsBuildPending = true;
             AssetDatabase.Refresh();
@@ -90,6 +100,8 @@ namespace FMODUnity
 
             List<Type> allTypes = new List<Type>(GetTypesForNamespace(fmodUnityAssembly, "FMOD"));
             allTypes.AddRange(GetTypesForNamespace(fmodUnityAssembly, "FMOD.Studio"));
+            allTypes.AddRange(GetTypesForNamespace(fmodUnityAssembly, "FMODUnity"));
+            allTypes.AddRange(GetTypesForNamespace(fmodUnityResonanceAssembly, "FMODUnityResonance"));
 
             foreach (Type type in allTypes)
             {
@@ -103,6 +115,7 @@ namespace FMODUnity
 #if (UNITY_BOLT_EXIST)
             UnitBase.Build();
 #else
+            BoltCore.Configuration.Save();
             UnitBase.Rebuild();
 #endif
         }

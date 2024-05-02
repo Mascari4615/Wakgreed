@@ -10,27 +10,27 @@ namespace FMODUnity
     [CustomEditor(typeof(StudioGlobalParameterTrigger))]
     public class StudioGlobalParameterTriggerEditor : Editor
     {
-        SerializedProperty param;
-        SerializedProperty trigger;
-        SerializedProperty tag;
-        SerializedProperty value;
+        private SerializedProperty param;
+        private SerializedProperty trigger;
+        private SerializedProperty tag;
+        private SerializedProperty value;
 
-        SerializedProperty data1, data2;
+        private SerializedProperty data1, data2;
+
+        private static GUIContent NotFoundWarning;
+
+        private string currentPath;
 
         [SerializeField]
-        EditorParamRef editorParamRef;
+        private EditorParamRef editorParamRef;
 
-        void OnEnable()
+        private void OnEnable()
         {
-            param = serializedObject.FindProperty("parameter");
+            param = serializedObject.FindProperty("Parameter");
             trigger = serializedObject.FindProperty("TriggerEvent");
             tag = serializedObject.FindProperty("CollisionTag");
-            value = serializedObject.FindProperty("value");
+            value = serializedObject.FindProperty("Value");
         }
-
-        static GUIContent NotFoundWarning;
-
-        string currentPath;
 
         public override void OnInspectorGUI()
         {

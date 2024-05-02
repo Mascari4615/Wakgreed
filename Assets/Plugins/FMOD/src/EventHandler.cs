@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace FMODUnity
 {
-    public abstract class EventHandler : MonoBehaviour
+    public abstract class EventHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
     {
         public string CollisionTag = "";
 
@@ -16,18 +17,18 @@ namespace FMODUnity
             HandleGameEvent(EmitterGameEvent.ObjectDestroy);
         }
 
-        void OnEnable()
+        private void OnEnable()
         {
             HandleGameEvent(EmitterGameEvent.ObjectEnable);
         }
 
-        void OnDisable()
+        private void OnDisable()
         {
             HandleGameEvent(EmitterGameEvent.ObjectDisable);
         }
 
         #if UNITY_PHYSICS_EXIST
-        void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
             if (string.IsNullOrEmpty(CollisionTag) || other.CompareTag(CollisionTag) || (other.attachedRigidbody && other.attachedRigidbody.CompareTag(CollisionTag)))
             {
@@ -35,7 +36,7 @@ namespace FMODUnity
             }
         }
 
-        void OnTriggerExit(Collider other)
+        private void OnTriggerExit(Collider other)
         {
             if (string.IsNullOrEmpty(CollisionTag) || other.CompareTag(CollisionTag) || (other.attachedRigidbody && other.attachedRigidbody.CompareTag(CollisionTag)))
             {
@@ -45,7 +46,7 @@ namespace FMODUnity
         #endif
 
         #if UNITY_PHYSICS2D_EXIST
-        void OnTriggerEnter2D(Collider2D other)
+        private void OnTriggerEnter2D(Collider2D other)
         {
             if (string.IsNullOrEmpty(CollisionTag) || other.CompareTag(CollisionTag))
             {
@@ -53,7 +54,7 @@ namespace FMODUnity
             }
         }
 
-        void OnTriggerExit2D(Collider2D other)
+        private void OnTriggerExit2D(Collider2D other)
         {
             if (string.IsNullOrEmpty(CollisionTag) || other.CompareTag(CollisionTag))
             {
@@ -62,44 +63,63 @@ namespace FMODUnity
         }
         #endif
 
-        void OnCollisionEnter()
+        private void OnCollisionEnter()
         {
             HandleGameEvent(EmitterGameEvent.CollisionEnter);
         }
 
-        void OnCollisionExit()
+        private void OnCollisionExit()
         {
             HandleGameEvent(EmitterGameEvent.CollisionExit);
         }
 
-        void OnCollisionEnter2D()
+        private void OnCollisionEnter2D()
         {
             HandleGameEvent(EmitterGameEvent.CollisionEnter2D);
         }
 
-        void OnCollisionExit2D()
+        private void OnCollisionExit2D()
         {
             HandleGameEvent(EmitterGameEvent.CollisionExit2D);
         }
 
-        void OnMouseEnter()
+        private void OnMouseEnter()
         {
-            HandleGameEvent(EmitterGameEvent.MouseEnter);
+            HandleGameEvent(EmitterGameEvent.ObjectMouseEnter);
         }
 
-        void OnMouseExit()
+        private void OnMouseExit()
         {
-            HandleGameEvent(EmitterGameEvent.MouseExit);
+            HandleGameEvent(EmitterGameEvent.ObjectMouseExit);
         }
 
-        void OnMouseDown()
+        private void OnMouseDown()
         {
-            HandleGameEvent(EmitterGameEvent.MouseDown);
+            HandleGameEvent(EmitterGameEvent.ObjectMouseDown);
         }
 
-        void OnMouseUp()
+        private void OnMouseUp()
         {
-            HandleGameEvent(EmitterGameEvent.MouseUp);
+            HandleGameEvent(EmitterGameEvent.ObjectMouseUp);
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            HandleGameEvent(EmitterGameEvent.UIMouseEnter);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            HandleGameEvent(EmitterGameEvent.UIMouseExit);
+        }
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            HandleGameEvent(EmitterGameEvent.UIMouseDown);
+        }
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            HandleGameEvent(EmitterGameEvent.UIMouseUp);
         }
 
         protected abstract void HandleGameEvent(EmitterGameEvent gameEvent);

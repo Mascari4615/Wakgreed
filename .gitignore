@@ -28,6 +28,9 @@
 
 # Visual Studio cache directory
 .vs/
+.vscode/
+.vsconfig
+.idea/
 
 # Gradle cache directory
 .gradle/
@@ -76,7 +79,8 @@ crashlytics-build.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/unity
 
-/Assets/Plugins
-/Assets/Feel
-/Assets/AssetInventory
-/Assets/SelectionUtility
+/Assets/Feel*
+/Assets/AssetInventory*
+/Assets/SelectionUtility*
+
+.editorconfig

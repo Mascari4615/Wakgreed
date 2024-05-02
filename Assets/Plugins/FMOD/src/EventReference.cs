@@ -11,6 +11,8 @@ namespace FMODUnity
 #if UNITY_EDITOR
         public string Path;
 
+        public static Func<string, FMOD.GUID> GuidLookupDelegate;
+
         public override string ToString()
         {
             return string.Format("{0} ({1})", Guid, Path);
@@ -33,8 +35,6 @@ namespace FMODUnity
 
             return new EventReference { Path = path, Guid = GuidLookupDelegate(path) };
         }
-
-        public static Func<string, FMOD.GUID> GuidLookupDelegate;
 #else
         public override string ToString()
         {

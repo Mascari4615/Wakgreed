@@ -93,6 +93,7 @@ namespace FMODUnity
     {
         public FMOD.GUID Guid;
         public string Path;
+
         public EventNotFoundException(string path)
             : base("[FMOD] Event not found: '" + path + "'")
         {
@@ -119,6 +120,7 @@ namespace FMODUnity
     public class BusNotFoundException : Exception
     {
         public string Path;
+
         public BusNotFoundException(string path)
             : base("[FMOD] Bus not found '" + path + "'")
         {
@@ -129,6 +131,7 @@ namespace FMODUnity
     public class VCANotFoundException : Exception
     {
         public string Path;
+
         public VCANotFoundException(string path)
             : base("[FMOD] VCA not found '" + path + "'")
         {
@@ -188,10 +191,14 @@ namespace FMODUnity
         CollisionExit2D,
         ObjectEnable,
         ObjectDisable,
-        MouseEnter,
-        MouseExit,
-        MouseDown,
-        MouseUp,
+        ObjectMouseEnter,
+        ObjectMouseExit,
+        ObjectMouseDown,
+        ObjectMouseUp,
+        UIMouseEnter,
+        UIMouseExit,
+        UIMouseDown,
+        UIMouseUp,
     }
 
     public enum LoaderGameEvent : int
@@ -248,6 +255,16 @@ namespace FMODUnity
         Core15 = 1 << 15,
     }
 
+    // Using a separate enum to avoid serialization issues if FMOD.SOUND_TYPE changes.
+    public enum CodecType : int
+    {
+        FADPCM,
+        Vorbis,
+        AT9,
+        XMA,
+        Opus
+    }
+
     [Serializable]
     public class ThreadAffinityGroup
     {
@@ -271,8 +288,51 @@ namespace FMODUnity
         }
     }
 
+    [Serializable]
+    public class CodecChannelCount
+    {
+        public CodecType format;
+        public int channels;
+
+        public CodecChannelCount() { }
+
+        public CodecChannelCount(CodecChannelCount other)
+        {
+            format = other.format;
+            channels = other.channels;
+        }
+    }
+
     public static class RuntimeUtils
     {
+#if UNITY_EDITOR
+        private static string pluginBasePath;
+
+        public const string BaseFolderGUID = "06ae579381df01a4a87bb149dec89954";
+        public const string PluginBasePathDefault = "Assets/Plugins/FMOD";
+
+        public static string PluginBasePath
+        {
+            get
+            {
+                if (pluginBasePath == null)
+                {
+                    pluginBasePath = AssetDatabase.GUIDToAssetPath(BaseFolderGUID);
+
+                    if (string.IsNullOrEmpty(pluginBasePath))
+                    {
+                        pluginBasePath = PluginBasePathDefault;
+
+                        DebugLogWarningFormat("FMOD: Couldn't find base folder with GUID {0}; defaulting to {1}",
+                            BaseFolderGUID, pluginBasePath);
+                    }
+                }
+
+                return pluginBasePath;
+            }
+        }
+#endif
+
         public static string GetCommonPlatformPath(string path)
         {
             if (string.IsNullOrEmpty(path))
@@ -309,6 +369,17 @@ namespace FMODUnity
             attributes.forward = transform.forward.ToFMODVector();
             attributes.up = transform.up.ToFMODVector();
             attributes.position = transform.position.ToFMODVector();
+
+            return attributes;
+        }
+
+        public static FMOD.ATTRIBUTES_3D To3DAttributes(this Transform transform, Vector3 velocity)
+        {
+            FMOD.ATTRIBUTES_3D attributes = new FMOD.ATTRIBUTES_3D();
+            attributes.forward = transform.forward.ToFMODVector();
+            attributes.up = transform.up.ToFMODVector();
+            attributes.position = transform.position.ToFMODVector();
+            attributes.velocity = velocity.ToFMODVector();
 
             return attributes;
         }
@@ -470,45 +541,9 @@ namespace FMODUnity
             FMOD.Studio.Util.parseID("", out temp3);
         }
 
-#if UNITY_EDITOR
-        private static string pluginBasePath;
-
-        public static string PluginBasePath
-        {
-            get
-            {
-                if (pluginBasePath == null)
-                {
-                    const string FMODFolderGUID = "06ae579381df01a4a87bb149dec89954";
-
-                    pluginBasePath = AssetDatabase.GUIDToAssetPath(FMODFolderGUID);
-
-                    if (!string.IsNullOrEmpty(pluginBasePath))
-                    {
-                        const string AssetsFolder = "Assets/";
-
-                        if (pluginBasePath.StartsWith(AssetsFolder))
-                        {
-                            pluginBasePath = pluginBasePath.Substring(AssetsFolder.Length);
-                        }
-                    }
-                    else
-                    {
-                        pluginBasePath = "Plugins/FMOD";
-
-                        DebugLogWarningFormat("FMOD: Couldn't find base folder with GUID {0}; defaulting to {1}",
-                            FMODFolderGUID, pluginBasePath);
-                    }
-                }
-
-                return pluginBasePath;
-            }
-        }
-#endif
-
         public static void DebugLog(string message)
         {
-            if (Settings.Instance == null || Settings.Instance.LoggingLevel == FMOD.DEBUG_FLAGS.LOG)
+            if (!Settings.IsInitialized() || Settings.Instance.LoggingLevel == FMOD.DEBUG_FLAGS.LOG)
             {
                 Debug.Log(message);
             }
@@ -516,7 +551,7 @@ namespace FMODUnity
 
         public static void DebugLogFormat(string format, params object[] args)
         {
-            if (Settings.Instance == null || Settings.Instance.LoggingLevel == FMOD.DEBUG_FLAGS.LOG)
+            if (!Settings.IsInitialized() || Settings.Instance.LoggingLevel == FMOD.DEBUG_FLAGS.LOG)
             {
                 Debug.LogFormat(format, args);
             }
@@ -524,7 +559,7 @@ namespace FMODUnity
 
         public static void DebugLogWarning(string message)
         {
-            if (Settings.Instance == null || Settings.Instance.LoggingLevel >= FMOD.DEBUG_FLAGS.WARNING)
+            if (!Settings.IsInitialized() || Settings.Instance.LoggingLevel >= FMOD.DEBUG_FLAGS.WARNING)
             {
                 Debug.LogWarning(message);
             }
@@ -532,16 +567,15 @@ namespace FMODUnity
 
         public static void DebugLogWarningFormat(string format, params object[] args)
         {
-            if (Settings.Instance == null || Settings.Instance.LoggingLevel >= FMOD.DEBUG_FLAGS.WARNING)
+            if (!Settings.IsInitialized() || Settings.Instance.LoggingLevel >= FMOD.DEBUG_FLAGS.WARNING)
             {
                 Debug.LogWarningFormat(format, args);
-
             }
         }
 
         public static void DebugLogError(string message)
         {
-            if (Settings.Instance == null || Settings.Instance.LoggingLevel >= FMOD.DEBUG_FLAGS.ERROR)
+            if (!Settings.IsInitialized() || Settings.Instance.LoggingLevel >= FMOD.DEBUG_FLAGS.ERROR)
             {
                 Debug.LogError(message);
             }
@@ -549,7 +583,7 @@ namespace FMODUnity
 
         public static void DebugLogErrorFormat(string format, params object[] args)
         {
-            if (Settings.Instance == null || Settings.Instance.LoggingLevel >= FMOD.DEBUG_FLAGS.ERROR)
+            if (!Settings.IsInitialized() || Settings.Instance.LoggingLevel >= FMOD.DEBUG_FLAGS.ERROR)
             {
                 Debug.LogErrorFormat(format, args);
             }
@@ -557,10 +591,24 @@ namespace FMODUnity
 
         public static void DebugLogException(Exception e)
         {
-            if (Settings.Instance == null || Settings.Instance.LoggingLevel >= FMOD.DEBUG_FLAGS.ERROR)
+            if (!Settings.IsInitialized() || Settings.Instance.LoggingLevel >= FMOD.DEBUG_FLAGS.ERROR)
             {
                 Debug.LogException(e);
             }
         }
+
+#if UNITY_EDITOR
+        public static string WritableAssetPath(string subPath)
+        {
+            if (RuntimeUtils.PluginBasePath.StartsWith("Assets/"))
+            {
+                return $"{RuntimeUtils.PluginBasePath}/{subPath}.asset";
+            }
+            else
+            {
+                return $"Assets/Plugins/FMOD/{subPath}.asset";
+            }
+        }
+#endif
     }
 }

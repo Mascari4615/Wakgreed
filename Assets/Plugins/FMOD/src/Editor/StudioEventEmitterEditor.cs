@@ -10,7 +10,7 @@ namespace FMODUnity
     [CanEditMultipleObjects]
     public class StudioEventEmitterEditor : Editor
     {
-        ParameterValueView parameterValueView;
+        private ParameterValueView parameterValueView;
 
         public void OnEnable()
         {
@@ -48,6 +48,7 @@ namespace FMODUnity
             var fadeout = serializedObject.FindProperty("AllowFadeout");
             var once = serializedObject.FindProperty("TriggerOnce");
             var preload = serializedObject.FindProperty("Preload");
+            var allowNonRigidbodyDoppler = serializedObject.FindProperty("AllowNonRigidbodyDoppler");
             var overrideAtt = serializedObject.FindProperty("OverrideAttenuation");
             var minDistance = serializedObject.FindProperty("OverrideMinDistance");
             var maxDistance = serializedObject.FindProperty("OverrideMaxDistance");
@@ -74,12 +75,6 @@ namespace FMODUnity
             if (EditorGUI.EndChangeCheck())
             {
                 EditorUtils.UpdateParamsOnEmitter(serializedObject, eventPath.stringValue);
-                if (editorEvent != null)
-                {
-                    overrideAtt.boolValue = false;
-                    minDistance.floatValue = editorEvent.MinDistance;
-                    maxDistance.floatValue = editorEvent.MaxDistance;
-                }
             }
 
             // Attenuation
@@ -91,7 +86,9 @@ namespace FMODUnity
                     EditorGUI.BeginChangeCheck();
                     EditorGUILayout.PropertyField(overrideAtt);
                     if (EditorGUI.EndChangeCheck() ||
-                        (minDistance.floatValue == -1 && maxDistance.floatValue == -1) // never been initialiased
+                        (minDistance.floatValue == -1 && maxDistance.floatValue == -1) || // never been initialiased
+                            !overrideAtt.boolValue &&
+                            (minDistance.floatValue != editorEvent.MinDistance || maxDistance.floatValue != editorEvent.MaxDistance)
                         )
                     {
                         minDistance.floatValue = editorEvent.MinDistance;
@@ -125,6 +122,7 @@ namespace FMODUnity
                     EditorGUILayout.PropertyField(preload, new GUIContent("Preload Sample Data"));
                     EditorGUILayout.PropertyField(fadeout, new GUIContent("Allow Fadeout When Stopping"));
                     EditorGUILayout.PropertyField(once, new GUIContent("Trigger Once"));
+                    EditorGUILayout.PropertyField(allowNonRigidbodyDoppler, new GUIContent("Allow Non-Rigidbody Doppler"));
                 }
             }
 
@@ -140,6 +138,14 @@ namespace FMODUnity
             // This holds one SerializedObject for each object in the current selection.
             private List<SerializedObject> serializedTargets = new List<SerializedObject>();
 
+            // Mappings from EditorParamRef to initial parameter value property for all properties
+            // found in the current selection.
+            private List<PropertyRecord> propertyRecords = new List<PropertyRecord>();
+
+            // Any parameters that are in the current event but are missing from some objects in
+            // the current selection, so we can put them in the "Add" menu.
+            private List<EditorParamRef> missingParameters = new List<EditorParamRef>();
+
             // A mapping from EditorParamRef to the initial parameter value properties in the
             // current selection that have the same name.
             // We need this because some objects may be missing some properties, and properties with
@@ -150,14 +156,6 @@ namespace FMODUnity
                 public EditorParamRef paramRef;
                 public List<SerializedProperty> valueProperties;
             }
-
-            // Mappings from EditorParamRef to initial parameter value property for all properties
-            // found in the current selection.
-            private List<PropertyRecord> propertyRecords = new List<PropertyRecord>();
-
-            // Any parameters that are in the current event but are missing from some objects in
-            // the current selection, so we can put them in the "Add" menu.
-            private List<EditorParamRef> missingParameters = new List<EditorParamRef>();
 
             public ParameterValueView(SerializedObject serializedObject)
             {
